@@ -40,6 +40,8 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
       if (config->echotosslog != NULL) fprintf(f, "tossLog %s\n", config->echotosslog);
 
       writeArea(f, &(config->netMailArea), 1);
+      writeArea(f, &(config->dupeArea), 0);
+      writeArea(f, &(config->badArea), 0);
       
       for (i=0; i<config->echoAreaCount; i++) {
          area = &(config->echoAreas[i]);

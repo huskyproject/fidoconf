@@ -17,12 +17,13 @@ Aka 2:2432/601
 ourAka 2:2432/601.29
 Password xxxxxxx
 EchoMailFlavour crash
+AutoAreaCreate on
 Packer Zip
 
 Link Matthias Tichy
 Aka 2:2433/1245
 OurAka 2:2433/1247
-Password xxxxxx
+Password xxxxx
 autoAreaCreate on
 
 Link edde
@@ -93,3 +94,5 @@ EchoArea owlserver.news   /home/mtt/fido/msgb/owl/snews         -a 2:2432/601.29
 EchoArea Paderborn.Flohmarkt  /home/mtt/fido/msgb/pader/floh    -a 2:2432/601.29  squish 2:2432/601 -p 14
 EchoArea Tolkien.ger      /home/mtt/fido/msgb/tolkien_g         -a 2:2432/601.29  squish 2:2432/601 -dupeCheck move -p 14
 EchoArea Schweden.ger     /home/mtt/fido/msgb/schweden_g        -a 2:2432/601.29  squish 2:2432/601 -tinySB -p 14
+
+localArea carbonArea       /home/mtt/fido/msgb/carbonArea  squish

@@ -123,6 +123,7 @@ area definition:
 * badarea::	        definition of badarea
 * dupearea::            definition of dupearea
 * echoarea::            definition of echoarea
+* localarea::           definition of localarea
 
 rights
 * GroupAutoAreaCreate:: right to autoareaCreate for a group
@@ -137,6 +138,12 @@ routing
 * route::               routing of netmails
 * routeMail::           routing of netmails without file attached
 * routeFile::           routing of netmails with file attached
+
+carbon copy
+* carbonTo::            make carbonCopy using to-field of msg
+* carbonFrom::          make carbonCopy using from-field of msg
+* carbonKludge::        make carbonCopy using kludge lines of msg
+* carbonArea::          specify the area where the carbon copies go into
 @end menu
 
 @node version, name, , Keywords
@@ -803,7 +810,7 @@ to your system the second time, will be put in the dupearea.
 
 This statement cannot be repeated.
 
-@node echoarea, GroupAutoAreaCreate, dupearea, Keywords
+@node echoarea, localarea, dupearea, Keywords
 @subsection echoArea
 @table @asis
 @item Syntax:
@@ -875,7 +882,22 @@ default-uplink for redundant echomail-supply
 
 This statement can be repeated.
 
-@node GroupAutoAreaCreate, AutoCreateDef, echoarea, Keywords
+@node localarea, GroupAutoAreaCreate, echoarea, Keywords
+@subsection localArea
+@table @asis
+@item Syntax:
+@code{localArea <name> <file> [<msgbase>] @{Option@}}
+@item Example:
+@code{localArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11}
+@end table
+
+This statement creates an localArea. The only difference between a localArea
+and a echoArea is that a localArea has no links and is not scanned for new
+mails.
+
+This statement can be repeated.
+
+@node GroupAutoAreaCreate, AutoCreateDef, localarea, Keywords
 @subsection GroupAutoAreaCreate
 @table @asis
 @item Syntax:
@@ -1028,6 +1050,9 @@ Pseudo-code:
   
 @end example
 
+if no route statement found whose pattern matchs witch the aka, then the mail
+is left alone.
+
 @node routeFile, routeMail, route, Keywords
 @subsection routeFile
 @table @asis
@@ -1040,7 +1065,7 @@ Pseudo-code:
 This statement is the same as the route statement, but considers only
 msgs with an file attached.
 
-@node routeMail, , routeFile, Keywords
+@node routeMail, carbonTo, routeFile, Keywords
 @subsection routeMail
 @table @asis
 @item Syntax:
@@ -1052,6 +1077,66 @@ msgs with an file attached.
 This statement is the same as the route statement, but considers only
 msgs without file attached.
 
+@node carbonTo, carbonFrom, routeMail, Keywords
+@subsection carbonTo
+@table @asis
+@item Syntax:
+@code{carbonTo <name>}
+@item Example:
+@code{carbonTo Max Levenkov}
+@end table
+
+If an echomail is tossed whose to-field is the same as <name>, the echomail is
+copied to the area specified by the carbonArea keyword. The names must be
+an exact match.
+
+This statement can be repeated.
+
+@node carbonFrom, carbonKludge, carbonTo, Keywords
+@subsection carbonFrom
+@table @asis
+@item Syntax:
+@code{carbonFrom <name>}
+@item Example:
+@code{carbonFrom Matthias Tichy}
+@end table
+
+If an echomail is tossed whose from-field is the same as <name>, the echomail is
+copied to the area specified by the carbonArea keyword. The names must be
+an exact match.
+
+This statement can be repeated.
+
+@node carbonKludge, carbonArea, carbonFrom, Keywords
+@subsection carbonKludge
+@table @asis
+@item Syntax:
+@code{carbonKludge <kludge-substring>}
+@item Example:
+@code{carbonKludge MSGID: 2:5000/117.}
+@end table
+
+If an echomail is tossed which has a kludge line which includes the <kludge-
+string> as a substring, he echomail is copied to the area specified by the
+arbonArea keyword.
+
+This statement can be repeated.
+
+@node carbonArea, , carbonKludge, Keywords
+@subsection carbonArea
+@table @asis
+@item Syntax:
+@code{carbonArea <localArea-tag>}
+@item Example:
+@code{carbonArea written.from.points}
+@end table
+
+This statement sets the area for the previous carbon@{To|From|Kludge@}
+statement.
+If this statement is ommitted. The carbon Copy goes to the badArea.
+
+This statement can be repeated for each different carbon@{To|From|Kludge@}
+statement.
 
 @node Example, , Keywords, config file
 @section Working sample config
