@@ -41,6 +41,8 @@ FCONF_EXT   s_message* makeMessage (s_addr *origAddr, s_addr *destAddr,
                                     char *subject,
                                     int netmail, int  killreport);
 
+FCONF_EXT   void       freeMsgBuffers(s_message *msg);
+
 FCONF_EXT   XMSG createXMSG        (ps_fidoconfig config, 
                                     s_message *msg, const s_pktHeader *header,
                                     dword forceattr, char* tossDir);
