@@ -124,12 +124,12 @@ void w_log(char key, char *logString, ...)
 	time_t     currentTime;
 	struct tm  *locTime;
 	va_list	   ap;
-	UINT       log=0, screen=0;
+	register char log=0, screen=0;
 
 	if (husky_log) {
 		if (husky_log->isopen && strchr(husky_log->keysAllowed, key)) log=1;
 		if (husky_log->logEcho && strchr(husky_log->keysPrinted, key)) screen=1;
-	}
+	}else screen=1;
 
 	if (log || screen) {
 		currentTime = time(NULL);
@@ -141,17 +141,17 @@ void w_log(char key, char *logString, ...)
 			va_start(ap, logString);
 			vfprintf(husky_log->logFile, logString, ap);
 			va_end(ap);
-			fputc('\n', husky_log->logFile); 
+			putc('\n', husky_log->logFile); 
 			fflush(husky_log->logFile);
 		}
 
 		if (screen) {
-			fprintf(stdout, "%c %02u.%02u.%02u  ",
+			printf("%c %02u.%02u.%02u  ",
 					key, locTime->tm_hour, locTime->tm_min, locTime->tm_sec);
 			va_start(ap, logString);
-			vfprintf(stdout, logString, ap);
+			vprintf(logString, ap);
 			va_end(ap);
-			fputc('\n', stdout);
+			putchar('\n');
 		}
 	}
 }
@@ -163,27 +163,34 @@ void writeLogEntry(s_log *_log, char key, char *logString, ...)
    struct tm  *locTime;
    va_list    ap;
 
+   if (!_log) _log = husky_log;
+   currentTime = time(NULL);
+   locTime = localtime(&currentTime);
    if (_log) {
      if (_log->isopen && strchr(_log->keysAllowed, key)) 
         {
-        currentTime = time(NULL);
-        locTime = localtime(&currentTime);
 
         fprintf(_log->logFile, "%c %02u.%02u.%02u  ", key, locTime->tm_hour, locTime->tm_min, locTime->tm_sec);
  
 	va_start(ap, logString);
 	vfprintf(_log->logFile, logString, ap);
 	va_end(ap);
-	fputc('\n', _log->logFile); 
+	putc('\n', _log->logFile); 
 
         fflush(_log->logFile);
-	if (_log->logEcho) {
-	   fprintf(stdout, "%c %02u.%02u.%02u  ", key, locTime->tm_hour, locTime->tm_min, locTime->tm_sec);
-	   va_start(ap, logString);
-	   vfprintf(stdout, logString, ap);
-	   va_end(ap);
-	   fputc('\n', stdout);
-	};
      }
+     if (_log->logEcho && strchr(_log->keysPrinted, key)) {
+        printf("%c %02u.%02u.%02u  ", key, locTime->tm_hour, locTime->tm_min, locTime->tm_sec);
+        va_start(ap, logString);
+        vprintf(logString, ap);
+        va_end(ap);
+        putchar('\n');
+     };
+   }else{
+        fprintf(stderr, "%c %02u.%02u.%02u  ", key, locTime->tm_hour, locTime->tm_min, locTime->tm_sec);
+        va_start(ap, logString);
+        vfprintf(stderr, logString, ap);
+        va_end(ap);
+        putc('\n', stderr);
    }
 }
