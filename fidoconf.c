@@ -263,7 +263,7 @@ void stripPktPwd(s_fidoconfig *config)
 {
    int i;
    for (i = 0; i < config->linkCount; i++) {
-      if (strlen(config->links[i].pktPwd) > 8) {
+      if (config->links[i].pktPwd && strlen(config->links[i].pktPwd) > 8) {
          if (config->links[i].pktPwd == config->links[i].defaultPwd) {
             config->links[i].pktPwd = (char *)malloc(9);
             memcpy(config->links[i].pktPwd, config->links[i].defaultPwd, 8);
