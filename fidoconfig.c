@@ -187,8 +187,8 @@ void disposeConfig(s_fidoconfig *config)
 
    free(config->addr);
 
-   for (i=0; i < config->publicCount; i++) free(config->public[i]);
-   free(config->public);
+   for (i=0; i < config->publicCount; i++) free(config->publicDir[i]);
+   free(config->publicDir);
 
    for (i = 0; i< config->linkCount; i++) {
            free(config->links[i].hisAka.domain);

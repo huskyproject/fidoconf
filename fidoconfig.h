@@ -153,7 +153,7 @@ struct fidoconfig {
    s_addr   *addr;
 
    unsigned int publicCount;
-   char     **public;
+   char     **publicDir;
 
    unsigned int  linkCount;
    s_link   *links;

@@ -170,7 +170,7 @@ int parsePublic(char *token, s_fidoconfig *config)
       printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
-   config->public = realloc(config->public, sizeof(char *)*(config->publicCount+1));
+   config->publicDir = realloc(config->publicDir, sizeof(char *)*(config->publicCount+1));
 
 #ifdef UNIX
    limiter = '/';
@@ -179,13 +179,13 @@ int parsePublic(char *token, s_fidoconfig *config)
 #endif
 
    if (token[strlen(token)-1] == limiter) {
-      config->public[config->publicCount] = (char *) malloc(strlen(token)+1);
-      strcpy(config->public[config->publicCount], token);
+      config->publicDir[config->publicCount] = (char *) malloc(strlen(token)+1);
+      strcpy(config->publicDir[config->publicCount], token);
    } else {
-      config->public[config->publicCount] = (char *) malloc(strlen(token)+2);
-      strcpy(config->public[config->publicCount], token);
-      (config->public[config->publicCount])[strlen(token)] = limiter;
-      (config->public[config->publicCount])[strlen(token)+1] = '\0';
+      config->publicDir[config->publicCount] = (char *) malloc(strlen(token)+2);
+      strcpy(config->publicDir[config->publicCount], token);
+      (config->publicDir[config->publicCount])[strlen(token)] = limiter;
+      (config->publicDir[config->publicCount])[strlen(token)+1] = '\0';
    }
 
    dirent = opendir(token);

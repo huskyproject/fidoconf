@@ -104,7 +104,7 @@ int main() {
       printf("LocalInbound: %s\n", config->localInbound);
       printf("ListInbound: %s\n", config->listInbound);
       printf("Outbound: %s\n", config->outbound);
-      for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->public[i]);
+      for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->publicDir[i]);
       printf("NodelistDir: %s\n", config->nodelistDir);
       printf("DupeHistoryDir: %s\n", config->dupeHistoryDir);
       printf("LogFileDir: %s\n", config->logFileDir);
