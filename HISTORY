@@ -13,7 +13,7 @@ FIDOCONFIG 0.15 current
 2. CONFIG changes:
    - new tokens for htick: annAdrFrom, annAdrTo, annFrom, annTo, annSubj,
      annExclude, annInclude, announceSpool, annAreatag, annFileRFrom,
-     annFileOrigin, fileAreaCreatePerms;
+     annFileOrigin, fileAreaCreatePerms, filefixFromName;
    - new tokens for hpt: newAreaRefuseFile, redusedSeenBy, areaFixFromName,
      disablePID;
    - pause statement expanded to: Pause ON Pause OFF Pause FAREA Pause EAREA
