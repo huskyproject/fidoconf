@@ -27,6 +27,7 @@
  * See also http://www.gnu.org
  *****************************************************************************
  */
+#include <string.h>
 
 #include <smapi/compiler.h>
 #include "common.h"
@@ -215,7 +216,7 @@ static
 
   if( need_major==FC_VER_MAJOR && need_minor==FC_VER_MINOR ) {
     if(need_branch==BRANCH_CURRENT) {
-      if(need_patch) fprintf(stderr, __FUNCTION__ ": Strange: current patch level can't be non-zero");
+      if(need_patch) fprintf(stderr, "Fidoconfig: strange, current patch level can't be non-zero\n");
       return (FC_VER_BRANCH==BRANCH_CURRENT) && !(cvs && strcmp(cvs,cvs_date));
     }
     else return FC_VER_BRANCH!=BRANCH_CURRENT;
