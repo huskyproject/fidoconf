@@ -157,6 +157,13 @@ struct _log {
 
 typedef struct _log s_log;
 
+FCONF_EXT void initLog(char *fc_logFileDir, int fc_logEchoToScreen, char *fc_logLevels, char *fc_screenLogLevels);
+/*DOC
+  Input: fidoconfig variables
+  Output: none;
+  FZ: copy fidoconfig values into log processing
+*/
+
 FCONF_EXT s_log *openLog(char *fileName, char *appN, s_fidoconfig *config);
 /*DOC
   Input:  fileName is a valid name for a file.

@@ -44,15 +44,11 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <errno.h>
+#include <huskylib/huskylib.h>
 #include "typesize.h"
 #include "xstr.h"
 #include "common.h"
 #include "log.h"
-
-static char *mnames[] = {
-"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
-};
-static char *wdnames[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
 
 static s_log *husky_log=NULL;
 
@@ -61,6 +57,21 @@ static s_log *husky_log=NULL;
 #undef open
 #endif
 #endif
+
+char *logFileDir = NULL;
+int logEchoToScreen;
+char *logLevels = NULL;
+char *screenLogLevels = NULL;
+
+
+void initLog(char *fc_logFileDir, int fc_logEchoToScreen, char *fc_logLevels, char *fc_screenLogLevels)
+{
+    logFileDir = fc_logFileDir;
+    logEchoToScreen = fc_logEchoToScreen;
+    logLevels = fc_logLevels;
+    screenLogLevels = fc_screenLogLevels;
+    return;
+}
 
 s_log *openLog(char *fileName, char *appN, s_fidoconfig *config)
 {
@@ -77,8 +88,8 @@ s_log *openLog(char *fileName, char *appN, s_fidoconfig *config)
      pathname = fileName;
    else
      /* filename without path, construct full pathname  */
-     if ( config->logFileDir && config->logFileDir[0] ) {
-        xstrscat( &pathname, config->logFileDir, fileName, NULL );
+     if ( logFileDir && logFileDir[0] ) {
+        xstrscat( &pathname, logFileDir, fileName, NULL );
      } else {
         fprintf( stderr, "LogFileDir not defined in fidoconfig, log into screen instead\n" );
         return NULL;      
@@ -98,27 +109,27 @@ s_log *openLog(char *fileName, char *appN, s_fidoconfig *config)
    /* copy all informations */
    xstrcat(&husky_log->appName, appN);
 
-   if (config->loglevels != NULL) 
-	   xstrcat(&husky_log->keysAllowed, config->loglevels);
+   if (logLevels != NULL)
+	   xstrcat(&husky_log->keysAllowed, logLevels);
    else
 	   xstrcat(&husky_log->keysAllowed, DefaultLogLevels);
 
-   if( config->logEchoToScreen )
-   { if (config->screenloglevels != NULL) 
-	   xstrcat(&husky_log->keysPrinted, config->screenloglevels);
+   if( logEchoToScreen )
+   { if (screenLogLevels != NULL)
+	   xstrcat(&husky_log->keysPrinted, screenLogLevels);
      else
 	   xstrcat(&husky_log->keysPrinted, DefaultScreenLogLevels);
    } /* else: quiet mode, keysPrinted is empty */
 
-   husky_log->logEcho = config->logEchoToScreen;
+   husky_log->logEcho = logEchoToScreen;
 
    /* make first line of log */
    currentTime = time(NULL);
    locTime = localtime(&currentTime);
    fprintf(husky_log->logFile, "----------  ");
    fprintf( husky_log->logFile, "%3s %02u %3s %02u, %s\n",
-            wdnames[locTime->tm_wday], locTime->tm_mday,
-            mnames[locTime->tm_mon], locTime->tm_year%100, husky_log->appName);
+            weekday_ab[locTime->tm_wday], locTime->tm_mday,
+            months_ab[locTime->tm_mon], locTime->tm_year%100, husky_log->appName);
 
    if( pathname != fileName ) nfree(pathname);
    return husky_log;

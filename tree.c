@@ -21,7 +21,8 @@
 
 
 #include <stdio.h>
-#include "vixie.h"
+#include <huskylib/huskylib.h>
+#include <huskylib/vixie.h>
 #include "tree.h"
 
 #include "common.h"
