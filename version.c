@@ -36,8 +36,6 @@
 
 #include "version.h"
 
-extern char cvs_date[]; /* defined in program/cvs_date.h or program/h/cvs_date.h */
-
 /* Generate version string like
  * programname/platform[-compiler] <major>.<minor>.<patchlevel>-<branch> [<cvs date>]
  *
@@ -47,8 +45,8 @@ extern char cvs_date[]; /* defined in program/cvs_date.h or program/h/cvs_date.h
  * "program/FreeBSD 1.3.0-current 01-10-2002"
  * Return malloc'ed pointer
  */
-FCONF_EXT char *GenVersionStr( const char *name, unsigned major, unsigned minor,
-                               unsigned patchlevel, unsigned branch )
+FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
+   unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate )
 {
   char *_version_str=NULL; /* compose to this var */
   char *platform;
@@ -196,8 +194,8 @@ FCONF_EXT char *GenVersionStr( const char *name, unsigned major, unsigned minor,
   }
 
   xscatprintf( &_version_str, "%s%s %u.%u.%u%s %s",
-                             name, platform, major, minor, patchlevel, cbranch,
-  /* Release date are known always */ branch==BRANCH_RELEASE ? "" : cvs_date );
+                     programname, platform, major, minor, patchlevel, cbranch,
+  /* Release date are known always */ branch==BRANCH_RELEASE ? "" : cvsdate );
 
   return _version_str;
 }
@@ -212,27 +210,27 @@ FCONF_EXT char *GenVersionStr( const char *name, unsigned major, unsigned minor,
 int main(){
   char *versionStr;
 
-  versionStr = GenVersionStr( "fidoconfig", 1, 3, 0, BRANCH_RELEASE);
+  versionStr = GenVersionStr( "fidoconfig", 1, 3, 0, BRANCH_RELEASE, cvs_date);
   printf( "RELEASE: %s\n\n", versionStr );
   nfree(versionStr);
 
-  versionStr = GenVersionStr( "fidoconfig", 1, 2, 1, BRANCH_RELEASE);
+  versionStr = GenVersionStr( "fidoconfig", 1, 2, 1, BRANCH_RELEASE, cvs_date);
   printf( "RELEASE: %s\n\n", versionStr );
   nfree(versionStr);
 
-  versionStr = GenVersionStr( "fidoconfig", 1, 2, 6, BRANCH_CURRENT);
+  versionStr = GenVersionStr( "fidoconfig", 1, 2, 6, BRANCH_CURRENT, cvs_date);
   printf( "CURRENT: %s\n\n", versionStr );
   nfree(versionStr);
 
-  versionStr = GenVersionStr( "fidoconfig", 1, 3, 0, BRANCH_CURRENT);
+  versionStr = GenVersionStr( "fidoconfig", 1, 3, 0, BRANCH_CURRENT, cvs_date);
   printf( "CURRENT: %s\n\n", versionStr );
   nfree(versionStr);
 
-  versionStr = GenVersionStr( "fidoconfig", 1, 3, 4, BRANCH_STABLE);
+  versionStr = GenVersionStr( "fidoconfig", 1, 3, 4, BRANCH_STABLE, cvs_date);
   printf( "STABLE: %s\n\n", versionStr );
   nfree(versionStr);
 
-  versionStr = GenVersionStr( "fidoconfig", 1, 4, 0, BRANCH_STABLE);
+  versionStr = GenVersionStr( "fidoconfig", 1, 4, 0, BRANCH_STABLE, cvs_date);
   printf( "STABLE: %s\n\n", versionStr );
   nfree(versionStr);
 

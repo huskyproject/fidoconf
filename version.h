@@ -1,7 +1,4 @@
 /* $Id$ */
-/* Warning. Don't include this header file into library's *.c!              *
- * Use it in program module only!                                           *
- */
 /******************************************************************************
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
@@ -31,15 +28,6 @@
  *****************************************************************************
  */
 
-/* Warning. Don't include this header file into library's *.c!              *
- * Use it in program module only!                                           *
- */
-
-#ifndef __VERSION__C__
-#include "cvsdate.h"
-#warning "cvsdate.h"
-#endif
-
 #ifndef __FIDOCONF__VERSION_H
 #define __FIDOCONF__VERSION_H
 
@@ -62,9 +50,6 @@
  */
 
 FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
-                    unsigned minor, unsigned patchlevel, unsigned branch );
+   unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate );
 
-/* Warning. Don't include this header file into library's *.c!              *
- * Use it in program module only!                                           *
- */
 #endif
