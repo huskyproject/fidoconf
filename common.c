@@ -781,12 +781,7 @@ int copy_file(const char *from, const char *to)
     fclose(fin);
     nfree(buffer);
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
-    int rc = FALSE;
-#if (_WIN32_WINNT >= 0x0500)
-    rc = CreateHardLink(to, from, NULL);
-    if(rc == FALSE) 
-#   endif
-    rc = CopyFile(from, to, FALSE);
+    int rc = CopyFile(from, to, FALSE);
     if (rc == FALSE) {
       remove(to);
       return -1;
