@@ -69,10 +69,11 @@ HUSKYEXT   XMSG createXMSG        (ps_fidoconfig config,
 /*--- afixcmd.c ---*/
 
 /* find token of "ftoken" position for link "link"
-    IN : token,link
+    IN : ftoken,link
+         fftoken     -- position should be after this token
     OUT: confName,start,end
 */
-HUSKYEXT   int FindTokenPos4Link(char **confName, char* ftoken, s_link *link, long* start, long*end);
+HUSKYEXT   int FindTokenPos4Link(char **confName, char* ftoken, char *fftoken, s_link *link, long* start, long*end);
 
 HUSKYEXT   int InsertCfgLine(char *confName, char* cfgLine, long start, long end);
 

@@ -64,7 +64,7 @@ char* expandCfgLine(char* cfgline)
    return cfgline;
 }
 
-int FindTokenPos4Link(char **confName, char* ftoken, s_link *link, long* start, long*end)
+int FindTokenPos4Link(char **confName, char* ftoken, char *fftoken, s_link *link, long* start, long* end)
 {
    char* cfgline, *line, *token, *linkConfName;
    long   linkstart=0;
@@ -113,6 +113,36 @@ linkliner:
       nfree(cfgline);
       linkstart = get_hcfgPos();
       linkConfName = sstrdup(getCurConfName());
+      /* try to find alternative token
+         ex.: areaFixPwd should be inserted after defaultPwd */
+      if (fftoken) {
+         for (;;) {
+            if ((cfgline = configline()) == NULL) { 
+               *start = *end   = linkstart;
+               *confName = linkConfName;
+               close_conf();
+               return 0;
+            }
+            cfgline = expandCfgLine(cfgline);
+            if (!*cfgline) {
+               nfree(cfgline);
+               continue;
+            }
+            line = cfgline;
+            token = strseparate(&line, " \t");
+            if (token && stricmp(token, "link") == 0)
+            {
+               *start = *end   = linkstart;
+               *confName = linkConfName;
+               return 0;
+            }
+            if (token && stricmp(token, fftoken) == 0) break;
+            nfree(cfgline);
+         }
+         nfree(cfgline);
+         linkstart = get_hcfgPos();
+         linkConfName = sstrdup(getCurConfName());
+      }
       for (;;) {
          if ((cfgline = configline()) == NULL) { 
             *start = *end   = linkstart;
@@ -275,7 +305,7 @@ int Changepause(char *confName, s_link *link, int opt, int type)
     long  strbeg=0;
     long  strend=0; 
     
-    FindTokenPos4Link(&confName, "pause", link, &strbeg, &strend);
+    FindTokenPos4Link(&confName, "pause", NULL, link, &strbeg, &strend);
     
     link->Pause ^= type;
     
