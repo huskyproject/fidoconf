@@ -138,6 +138,7 @@ void *memdup(void *p, size_t size)
 static char *attrStr[] = { "pvt", "crash", "read", "sent", "att",
                        "fwd", "orphan", "k/s", "loc", "hld",
                        "xx2",  "frq", "rrq", "cpt", "arq", "urq" };
+static char *eattr[] = { "KFS", "TFS", "DIR", "IMM", "CFM", "NPD" };
 
 long  str2attr(const char *str)
 {
@@ -146,6 +147,16 @@ long  str2attr(const char *str)
            if (strncasecmp(str, attrStr[i], strlen(attrStr[i]))==0)
                    return 1 << i;
    return -1L;
+}
+
+char *extattr(const char *line)
+{
+    int i;
+
+    for (i=0; i<sizeof(eattr)/sizeof(eattr[0]); i++)
+	if (stricmp(line, eattr[i]) == 0)
+	    return eattr[i];
+    return NULL;
 }
 
 int  addrComp(const hs_addr a1, const hs_addr a2)

@@ -74,6 +74,12 @@ FCONF_EXT long str2attr(const char *str);
   Output: value with corresponding bit set or -1L else
 */
 
+FCONF_EXT char *extattr(const char *line);
+/*DOC
+  Input:  Msg extended flag name
+  Output: Uppercased flag name or NULL if flag unknown
+*/
+
 FCONF_EXT int  addrComp(const hs_addr a1, const hs_addr a2);
 /*DOC
   Input:  two addresses
