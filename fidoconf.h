@@ -124,6 +124,7 @@ typedef struct link {
    char *autoAreaCreateDefaults;// add default string for autocreated area here
    char *autoFileCreateDefaults;
    char *forwardRequestFile;  // list of available areas from this link
+   char *denyFwdFile;
    unsigned int forwardAreaPriority;	// Priority when requests area from uplinks
    char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
    char *forwardFileRequestFile;  // list of available file-areas from this link
@@ -148,8 +149,10 @@ typedef struct link {
    unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
    e_bundleFileNameStyle linkBundleNameStyle; // Style bundle filenames (timeStamp, addrDiff...
 	char *msgBaseDir;
-	char **aacMask; // autoAreaCreateMask groups
-	unsigned int numAacMask;
+	char **frMask; // forwardRequestMask groups
+	unsigned int numFrMask;
+	char **dfMask; // don't forward this
+	unsigned int numDfMask;
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;

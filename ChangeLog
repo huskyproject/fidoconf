@@ -2,7 +2,7 @@
 ----- cvs ci ------
 Sat Jan 27 15:22:41 NOVT 2001
 max:
-* autoAreaCreateMask token
+* forwardRequestMask, denyFwdMask, denyFwdFile tokens
 
 ----- cvs ci ------
 Sat Jan 20 21:56:54 NOVT 2001

@@ -1192,10 +1192,10 @@ int parseLink(char *token, s_fidoconfig *config)
           for ( i=0; i < deflink->numOptGrp; i++)
 			  clink->optGrp[i] = sstrdup (deflink->optGrp[i]);
       }
-      if (deflink->aacMask) {
-          clink->aacMask = smalloc(sizeof(char *) * clink->numAacMask);
-          for ( i=0; i < deflink->numAacMask; i++)
-			  clink->aacMask[i] = sstrdup (deflink->aacMask[i]);
+      if (deflink->frMask) {
+          clink->frMask = smalloc(sizeof(char *) * clink->numFrMask);
+          for ( i=0; i < deflink->numFrMask; i++)
+			  clink->frMask[i] = sstrdup (deflink->frMask[i]);
       }
 
    } else {
@@ -1718,8 +1718,8 @@ int parseGrp(char *token, char **grp[], unsigned int *count) {
 
 int parseGroup(char *token, s_fidoconfig *config, int i)
 {
-	unsigned int j;
-	char *cpos;
+//	unsigned int j;
+//	char *cpos;
 	s_link *link = NULL;
 
 	if (token == NULL)
@@ -1731,45 +1731,53 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 
 	if (i != 2) link = getDescrLink(config);
 
-	switch (i)
-		{
-		case 0:
-			if (link->AccessGrp) freeGroups(link->AccessGrp, link->numAccessGrp);
-            link->AccessGrp = NULL;
-			link->numAccessGrp = 0;
-			break;
+	switch (i) {
+	case 0:
+		if (link->AccessGrp) freeGroups(link->AccessGrp, link->numAccessGrp);
+		link->AccessGrp = NULL;
+		link->numAccessGrp = 0;
+		parseGrp(token, &(link->AccessGrp), &(link->numAccessGrp));
+		break;
 
-		case 1:
-			if (link->LinkGrp) free(link->LinkGrp);
-			link->LinkGrp = NULL;
-			break;
+	case 1:
+		nfree(link->LinkGrp);
+		copyString(token, &link->LinkGrp);
+		break;
 
-		case 2:
-			if (config->numPublicGroup != 0)
-				{
-					fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
-							actualLineNr, actualKeyword);
-					return 1;
-				}
-			break;
-
-		case 3:
-			if (link->optGrp) freeGroups(link->optGrp, link->numOptGrp);
-            link->optGrp = NULL;
-			link->numOptGrp = 0;
-			break;
-
-		case 4:
-			if (link->aacMask) freeGroups(link->aacMask, link->numAacMask);
-            link->aacMask = NULL;
-			link->numAacMask = 0;
-			break;
-
+	case 2:
+		if (config->numPublicGroup != 0) {
+			fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
+					actualLineNr, actualKeyword);
+			return 1;
 		}
+		parseGrp(token, &(config->PublicGroup), &(config->numPublicGroup));
+		break;
 
+	case 3:
+		if (link->optGrp) freeGroups(link->optGrp, link->numOptGrp);
+		link->optGrp = NULL;
+		link->numOptGrp = 0;
+		parseGrp(token, &(link->optGrp), &(link->numOptGrp));
+		break;
+
+	case 4:
+		if (link->frMask) freeGroups(link->frMask, link->numFrMask);
+		link->frMask = NULL;
+		link->numFrMask = 0;
+		parseGrp(token, &(link->frMask), &(link->numFrMask));
+		break;
+
+	case 5:
+		if (link->dfMask) freeGroups(link->dfMask, link->numDfMask);
+		link->dfMask = NULL;
+		link->numDfMask = 0;
+		parseGrp(token, &(link->dfMask), &(link->numDfMask));
+		break;
+	}
+
+/* remove after 27-Feb-01
    switch (i) {
 	case 0:
-/* remove after 27-Feb-01
 		for (link->numAccessGrp = 0; *token != '\0'; link->numAccessGrp++) {
 			link->AccessGrp = srealloc (link->AccessGrp,
 									   (link->numAccessGrp+1)*sizeof(char *));
@@ -1807,16 +1815,14 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				token = cpos;
 			}
 		}
-*/
-		parseGrp(token, &(link->AccessGrp), &(link->numAccessGrp));
-		break;
 
-	case 1:
-		copyString(token, &link->LinkGrp);
-		break;
+ 		break;
 
-	case 2:
-/* remove after 27-Feb-01
+ 	case 1:
+ 		copyString(token, &link->LinkGrp);
+ 		break;
+
+ 	case 2:
 		for (config->numPublicGroup = 0; *token != '\0'; config->numPublicGroup++) {
 			config->PublicGroup = srealloc(config->PublicGroup,
 										  (config->numPublicGroup+1)*sizeof(char *));
@@ -1853,12 +1859,10 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				token = cpos;
 			}
 		}
-*/
-		parseGrp(token, &(config->PublicGroup), &(config->numPublicGroup));
-		break;
 
-	case 3:
-/* remove after 27-Feb-01
+	 	break;
+
+ 	case 3:
 		for (link->numOptGrp = 0; *token != '\0'; link->numOptGrp++) {
 			link->optGrp = srealloc(link->optGrp, (link->numOptGrp+1)*sizeof(char *));
 
@@ -1894,15 +1898,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				token = cpos;
 			}
 		}
-*/
-		parseGrp(token, &(link->optGrp), &(link->numOptGrp));
 		break;
 		
-   case 4:
-	   parseGrp(token, &(link->aacMask), &(link->numAacMask));
-	   break;
-	   
-   }
+		case 4:
+		break;
+		}
+*/
    return 0;
 }
 
@@ -2758,7 +2759,8 @@ int parseLine(char *line, s_fidoconfig *config)
        }
      }
      else if (strcmp(iToken, "optgrp")==0) rc = parseGroup(getRestOfLine(), config, 3);
-     else if (strcmp(iToken, "autoareacreatemask")==0) rc = parseGroup(getRestOfLine(), config, 4);
+     else if (strcmp(iToken, "forwardrequestmask")==0) rc = parseGroup(getRestOfLine(), config, 4);
+     else if (strcmp(iToken, "denyfwdmask")==0) rc = parseGroup(getRestOfLine(), config, 5);
      else if (strcmp(iToken, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->level));
 #ifdef __TURBOC__
      else unrecognised++;
@@ -2795,6 +2797,7 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
      else if (strcmp(iToken, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
      else if (strcmp(iToken, "forwardrequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardRequestFile));
+     else if (strcmp(iToken, "denyfwdfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->denyFwdFile));
      else if (strcmp(iToken, "forwardfilerequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardFileRequestFile));
      else if (strcmp(iToken, "autoareacreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
      else if (strcmp(iToken, "autofilecreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));

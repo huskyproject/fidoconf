@@ -919,8 +919,11 @@ void freeLink (s_link *link)
   nfree(link->LinkGrp);
   freeGroups(link->AccessGrp, link->numAccessGrp);
   freeGroups(link->optGrp, link->numOptGrp);
+  freeGroups(link->frMask, link->numFrMask);
+  freeGroups(link->dfMask, link->numDfMask);
   nfree(link->forwardRequestFile);
   nfree(link->forwardFileRequestFile);
+  nfree(link->denyFwdFile);
   nfree(link->autoAreaCreateDefaults);
   nfree(link->autoAreaCreateFile);
   nfree(link->autoFileCreateDefaults);

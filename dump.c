@@ -337,11 +337,19 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 		  }
 		  printf("\n");
 	  }
-	  if (link.numAacMask > 0) {
-		  printf("AutoAreaCreateMask ");
-		  for (i = 0; i < link.numAacMask; i++) {
+	  if (link.numFrMask > 0) {
+		  printf("ForwardRequestMask ");
+		  for (i = 0; i < link.numFrMask; i++) {
 			  if (i > 0) printf(", ");
-			  printf("%s", link.aacMask[i]);
+			  printf("%s", link.frMask[i]);
+		  }
+		  printf("\n");
+	  }
+	  if (link.numDfMask > 0) {
+		  printf("DenyFwdMask ");
+		  for (i = 0; i < link.numDfMask; i++) {
+			  if (i > 0) printf(", ");
+			  printf("%s", link.dfMask[i]);
 		  }
 		  printf("\n");
 	  }
@@ -351,6 +359,7 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	  dumpString(f, "autoAreaCreateDefaults %s\n", link.autoAreaCreateDefaults);
 	  dumpString(f, "autoFileCreateDefaults %s\n", link.autoFileCreateDefaults);
 	  dumpString(f, "forwardRequestFile  %s\n", link.forwardRequestFile);
+	  dumpString(f, "denyFwdFile  %s\n", link.denyFwdFile);
 	  dumpString(f, "RemoteRobotName     %s\n", link.RemoteRobotName);
       if (link.Pause != 0)
 	fprintf(f, "pause\n");

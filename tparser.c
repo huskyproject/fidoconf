@@ -273,11 +273,19 @@ void printLink(s_link link) {
    }
    printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
    if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
-   if (link.numAacMask > 0) {
-	   printf("AutoAreaCreateMask: ");
-	   for (i = 0; i < link.numAacMask; i++) {
+   if (link.numFrMask > 0) {
+	   printf("ForwardRequestMask: ");
+	   for (i = 0; i < link.numFrMask; i++) {
 		   if (i > 0) printf(",");
-		   printf("%s", link.aacMask[i]);
+		   printf("%s", link.frMask[i]);
+	   }
+	   printf("\n");
+   }
+   if (link.numDfMask > 0) {
+	   printf("DenyFwdMask: ");
+	   for (i = 0; i < link.numDfMask; i++) {
+		   if (i > 0) printf(",");
+		   printf("%s", link.dfMask[i]);
 	   }
 	   printf("\n");
    }
@@ -305,6 +313,7 @@ void printLink(s_link link) {
    if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
    else printf("RemoteRobotName areafix\n");
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
+   if (link.denyFwdFile) printf("DenyFwdFile %s\n",link.denyFwdFile);
    if (link.msgBaseDir) printf("MsgBaseDir %s\n",link.msgBaseDir);
    if (link.packerDef) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");

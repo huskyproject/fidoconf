@@ -132,7 +132,6 @@ a comment and will be ignored.
 * mandatory::                   rules for echoarea access
 * level::                       definition of link access level
 * autoareacreate::              right to auto create areas on your system
-* autoareacreatemask::          masks for areas to creation by downlinks
 * autoareacreatedefaults::      set defaults to autocreated echoareas
 * packer::                      default packer for link
 * packNetmail::                 allow pack outgoing netmail
@@ -145,6 +144,9 @@ a comment and will be ignored.
 * forwardRequests::             allow forward requests to this link
 * frequestfromuplink::          allow forward requests from this link
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
+* denyFwdFile::                 file with area list for denyed requests
+* forwardrequestmask::          mask list for forwardRequests
+* denyfwdmask::                 mask list for denyed requests
 * remoteRobotName::             remote "areafix" name
 * forwardPkts::                 shall we forward inbound packets for this node?
 * pause::                       don't export mail for this link
@@ -1145,7 +1147,7 @@ By default "level 0".
 
 This statement can only be repeated for different links.
 
-@node autoareacreate, autoareacreatemask, level, Keywords
+@node autoareacreate, autoareacreatedefaults, level, Keywords
 @subsection autoareacreate
 @table @asis
 @item Syntax:
@@ -1156,29 +1158,14 @@ This statement can only be repeated for different links.
 
 This statement gives a link the permission to create areas on your system just
 by sending msgs in them.
-The echoarea is created using the AutoCreateDef contents:
+The echoarea is created using the @code{AutoAreaCreateDefaults} contents:
 @example
-   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaka> -b Squish <linkAka> <autoCreateDef>
+   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaka> -b Squish <linkAka> <autoAreaCreateDefaults>
 @end example
 
 This statement can only be repeated for different links.
 
-@node autoareacreatemask, autoareacreatedefaults, autoareacreate, Keywords
-@subsection autoareacreatemask
-@table @asis
-@item Syntax:
-@code{autoareacreatemask mask1,mask2,...}
-@item Example:
-@code{autoareacreatemask nsk.*}
-@end table
-
-If area nsk.* (nsk.test for example) will be requested by downlink and
-forwardrequests to uplink are allowed, then it is created and request
-goes to uplink.
-
-This statement can only be repeated for different links.
-
-@node autoareacreatedefaults, packer, autoareacreatemask, Keywords
+@node autoareacreatedefaults, packer, autoareacreate, Keywords
 @subsection autoareacreatedefaults
 @table @asis
 @item Syntax:
@@ -1326,6 +1313,8 @@ Default is lower case.
 
 By default "forwardRequests off".
 "on" allow forward requests to this link from other links.
+If no @code{forwardRequestFile} or @code{forwardRequestMask} defined,
+then forwardRequests unconditional.
 
 This statement can only be repeated for different links.
 
@@ -1339,11 +1328,11 @@ This statement can only be repeated for different links.
 @end table
 
 By default "frequestfromuplink on".
-"off" don't allow forward requests from this link to your links.
+"off" don't allow forward requests from this link (via areafix) to your links.
 
 This statement can only be repeated for different links.
 
-@node forwardRequestFile, remoteRobotName, frequestfromuplink, Keywords
+@node forwardRequestFile, denyFwdFile, frequestfromuplink, Keywords
 @subsection forwardRequestFile
 @table @asis
 @item Syntax:
@@ -1357,7 +1346,49 @@ if not defined then forward requests unconditional
 
 This statement can only be repeated for different links.
 
-@node remoteRobotName, forwardPkts, forwardRequestFile, Keywords
+@node denyFwdFile, forwardrequestmask, forwardRequestFile, Keywords
+@subsection denyFwdFile
+@table @asis
+@item Syntax:
+@code{denyFwdFile <fileName>}
+@item Example:
+@code{denyFwdFile /etc/fido/denyfwd}
+@end table
+
+Don't forward requests for areas from this file.
+
+This statement can only be repeated for different links.
+
+@node forwardrequestmask, denyfwdmask, denyFwdFile, Keywords
+@subsection forwardrequestmask
+@table @asis
+@item Syntax:
+@code{forwardrequestmask mask1,mask2,...}
+@item Example:
+@code{forwardrequestmask nsk.*}
+@end table
+
+If area nsk.* (nsk.test for example) will be requested by downlink and
+forwardrequests to uplink are allowed, then it is created and request
+goes to uplink. If area doesn't covered by mask list, then checking
+next link for forwardRrequests.
+
+This statement can only be repeated for different links.
+
+@node denyfwdmask, remoteRobotName, forwardrequestmask, Keywords
+@subsection denyfwdmask
+@table @asis
+@item Syntax:
+@code{denyfwdmask mask1,mask2,...}
+@item Example:
+@code{denyfwdmask TYT.*, FLAME*}
+@end table
+
+Don't forward this requests.
+
+This statement can only be repeated for different links.
+
+@node remoteRobotName, forwardPkts, denyfwdmask, Keywords
 @subsection remoteRobotName
 @table @asis
 @item Syntax:
