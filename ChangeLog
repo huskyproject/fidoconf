@@ -1,3 +1,7 @@
+2003-12-11 Thursday 08:04  val_khokhlov
+
+	* Makefile (1.68): fix for incorrect commands while (un)installing
+
 2003-12-10 Wednesday 08:15  val_khokhlov
 
 	* makefile.inc (1.44): small improvement for makefile.inc (.o ->
