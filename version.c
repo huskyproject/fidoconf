@@ -203,7 +203,7 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
 
 
 /* Check version of fidoconfig library
- * return zero if test passed
+ * return zero if test failed; non-zero if passed
  * test cvs need for DLL version only, using #include <fidoconf/cvsdate.h>
  */
 FCONF_EXT int CheckFidoconfigVersion( int need_major, int need_minor,
@@ -216,7 +216,7 @@ static
   if( need_major==FC_VER_MAJOR && need_minor==FC_VER_MINOR ) {
     if(need_branch==BRANCH_CURRENT) {
       if(need_patch) fprintf(stderr, __FUNCTION__ ": Strange: current patch level can't be non-zero");
-      return (FC_VER_BRANCH==BRANCH_CURRENT) && (cvs? strcmp(cvs,cvs_date)==0 : 1);
+      return (FC_VER_BRANCH==BRANCH_CURRENT) && !(cvs && strcmp(cvs,cvs_date));
     }
     else return FC_VER_BRANCH!=BRANCH_CURRENT;
   }
