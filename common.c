@@ -197,8 +197,9 @@ char *fc_stristr(char *str, char *find)
 }
 
 
-void string2addr(char *string, s_addr *addr) {
-	char *endptr, *str = string;
+void string2addr(const char *string, s_addr *addr) {
+	char *endptr;
+	const char *str = string;
 	unsigned long t;
 
 	memset(addr, '\0', sizeof(s_addr));

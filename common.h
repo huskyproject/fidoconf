@@ -96,7 +96,7 @@ FCONF_EXT char *fc_stristr(char *str, char *find);
  */
 
 
-FCONF_EXT void string2addr(char *string, s_addr *addr);
+FCONF_EXT void string2addr(const char *string, s_addr *addr);
 /*DOC
   Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
   Output: ./.
