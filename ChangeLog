@@ -1,3 +1,16 @@
+2002-10-22 Tuesday 11:36  stas_degteff
+
+	* cfg.c (1.50): Fix EMX compilation warning in cmpfnames()
+
+2002-10-22 Tuesday 10:22  sfpavel
+
+	* debian/changelog (1.20), man/fconf2.1 (1.8): New debian packages
+
+2002-10-22 Tuesday 08:55  sfpavel
+
+	* man/: Makefile (1.4), fconf2.1 (1.7): Add fconf2na.pl description
+	into man page
+
 2002-10-21 Monday 09:29  stas_degteff
 
 	* makefile.inc (1.32): fix clean (comonclean) tag: prevent remove
