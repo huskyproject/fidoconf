@@ -3,14 +3,14 @@
 VER = 0.11
 VERH = 0
 
-LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ) dump$(OBJ) xstr$(OBJ) cfg$(OBJ) findtok$(OBJ)
+LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ) xstr$(OBJ) cfg$(OBJ) findtok$(OBJ)
 
-OBJS = $(LOBJS) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) dumpfcfg$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ)
+OBJS = $(LOBJS) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ)
 
 commonlibs: $(LIBFIDOCONFIG)$(LIB) $(SYMBOLIC)
 	$(NULL)
 
-commonprogs: tparser$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) dumpfcfg$(EXE) $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
+commonprogs: tparser$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
 	$(NULL)
 
 $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
@@ -43,9 +43,6 @@ $(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ) fecfg146$(OBJ)
 tparser$(EXE): tparser$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)tparser$(EXE) tparser$(OBJ) $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-dumpfcfg$(EXE): dumpfcfg$(OBJ) $(LIBFIDOCONFIG)$(LIB) dump$(OBJ)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG)dumpfcfg$(EXE) dumpfcfg$(OBJ) dump$(OBJ) $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
-
 commonclean: $(SYMBOLIC)
 	-$(RM) *~
 	-$(RM) *$(OBJ)
@@ -60,5 +57,4 @@ commondistclean: clean $(SYMBOLIC)
 	-$(RM) $(FCONF2FIDOGATE)$(EXE)
 	-$(RM) $(FCONF2SQUISH)$(EXE)
 	-$(RM) $(FECFG2FCONF)$(EXE)
-	-$(RM) dumpfcfg$(EXE)
 	-$(RM) $(LIBFIDOCONFIG)$(LIB)
