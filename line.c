@@ -360,7 +360,7 @@ int parseNumber(char *token, int radix, unsigned *level) {
     return 0;
 }
 
-int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
+int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 {
    char *error;
    char *token;
@@ -415,9 +415,14 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    }
    else if (stricmp(option, "a")==0) {
       token = strtok(NULL, " \t");
-      area->useAka = getAddr(config, token);
+      if (token == NULL)
+	{
+	  printf("Line %d: Adress is missing after -a in areaOptions!\n", actualLineNr);
+	  return 1;
+	}
+      area->useAka = getAddr(*config, token);
       if (area->useAka == NULL) {
-//         printf("!!! %s not found as address.\n", token);
+         printf("Line %d: %s not found as address.\n", actualLineNr,  token);
          return 1;
       }
    }
@@ -544,14 +549,14 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    return 0;
 }
 
-int parseFileAreaOption(s_fidoconfig config, char *option, s_filearea *area)
+int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *area)
 {
    char *token;
    int i;
 
    if (stricmp(option, "a")==0) {
       token = strtok(NULL, " \t");
-      area->useAka = getAddr(config, token);
+      area->useAka = getAddr(*config, token);
       if (area->useAka == NULL) {
 //         printf("!!! %s not found as address.\n", token);
          return 1;
@@ -643,7 +648,7 @@ int parseLinkOption(s_arealink *alink, char *token)
     return 0;
 }
 
-int parseArea(s_fidoconfig config, char *token, s_area *area)
+int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 {
    s_link *link;
    char *tok;
@@ -658,7 +663,7 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
    area->fperm = area->uid = area->gid = -1;
 
    area->msgbType = MSGTYPE_SDM;
-   area->useAka = &(config.addr[0]);
+   area->useAka = &(config->addr[0]);
 
    // set default parameters of dupebase
    area->dupeSize = 10;   /* 2^10=1024 dupes minimum*/
@@ -698,7 +703,7 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = realloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
 	 area->downlinks[area->downlinkCount] = (s_arealink*)calloc(1, sizeof(s_arealink));
-         area->downlinks[area->downlinkCount]->link = getLink(config, tok);
+         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
          if (area->downlinks[area->downlinkCount]->link == NULL) {
             printf("Line %d: Link for this area is not found!\n", actualLineNr);
             rc += 1;
@@ -760,7 +765,7 @@ int parseEchoArea(char *token, s_fidoconfig *config)
    }
 
    config->echoAreas = realloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
-   rc = parseArea(*config, token, &(config->echoAreas[config->echoAreaCount]));
+   rc = parseArea(config, token, &(config->echoAreas[config->echoAreaCount]));
    config->echoAreaCount++;
    return rc;
 }
@@ -775,13 +780,13 @@ int parseNetMailArea(char *token, s_fidoconfig *config)
    }
 
    config->netMailAreas = realloc(config->netMailAreas, sizeof(s_area)*(config->netMailAreaCount+1));
-   rc = parseArea(*config, token, &(config->netMailAreas[config->netMailAreaCount]));
+   rc = parseArea(config, token, &(config->netMailAreas[config->netMailAreaCount]));
    config->netMailAreaCount++;
    return rc;
 }
 
 
-int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
+int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 {
    char *tok;
    s_link *link;
@@ -795,7 +800,7 @@ int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
    memset(area, 0, sizeof(s_filearea));
 
    area->pass = 0;
-   area->useAka = &(config.addr[0]);
+   area->useAka = &(config->addr[0]);
 
    // set default group for reader
    area->group = '\060';
@@ -837,7 +842,7 @@ int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = realloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
          area->downlinks[area->downlinkCount] = (s_arealink*)calloc(1, sizeof(s_arealink));
-         area->downlinks[area->downlinkCount]->link = getLink(config, tok);
+         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
          if (area->downlinks[area->downlinkCount]->link == NULL) {
             printf("Line %d: Link for this area is not found!\n", actualLineNr);
             rc += 1;
@@ -903,13 +908,13 @@ int parseFileAreaStatement(char *token, s_fidoconfig *config)
 
    config->fileAreas = realloc(config->fileAreas,
 sizeof(s_filearea)*(config->fileAreaCount+1));
-   rc = parseFileArea(*config, token,
+   rc = parseFileArea(config, token,
 &(config->fileAreas[config->fileAreaCount]));
    config->fileAreaCount++;
    return rc;
 }
 
-int parseBbsArea(s_fidoconfig config, char *token, s_bbsarea *area)
+int parseBbsArea(const s_fidoconfig *config, char *token, s_bbsarea *area)
 {
    char *tok;
    int rc = 0;
@@ -975,7 +980,7 @@ int parseBbsAreaStatement(char *token, s_fidoconfig *config)
 
    config->bbsAreas = realloc(config->bbsAreas,
 sizeof(s_bbsarea)*(config->bbsAreaCount+1));
-   rc = parseBbsArea(*config, token,
+   rc = parseBbsArea(config, token,
 &(config->bbsAreas[config->bbsAreaCount]));
    config->bbsAreaCount++;
    return rc;
@@ -1495,7 +1500,7 @@ int parseLocalArea(char *token, s_fidoconfig *config)
    }
 
    config->localAreas = realloc(config->localAreas, sizeof(s_area)*(config->localAreaCount+1));
-   rc = parseArea(*config, token, &(config->localAreas[config->localAreaCount]));
+   rc = parseArea(config, token, &(config->localAreas[config->localAreaCount]));
    config->localAreaCount++;
    return rc;
 }
@@ -1660,8 +1665,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if ((stricmp(token, "netMailarea")==0) ||
 	    (stricmp(token, "netarea")==0))
      rc = parseNetMailArea(getRestOfLine(), config);
-   else if (stricmp(token, "dupearea")==0) rc = parseArea(*config, getRestOfLine(), &(config->dupeArea));
-   else if (stricmp(token, "badarea")==0) rc = parseArea(*config, getRestOfLine(), &(config->badArea));
+   else if (stricmp(token, "dupearea")==0) rc = parseArea(config, getRestOfLine(), &(config->dupeArea));
+   else if (stricmp(token, "badarea")==0) rc = parseArea(config, getRestOfLine(), &(config->badArea));
    else if (stricmp(token, "echoarea")==0) rc = parseEchoArea(getRestOfLine(), config);
    else if (stricmp(token, "filearea")==0) rc = parseFileAreaStatement(getRestOfLine(), config);
    else if (stricmp(token, "bbsarea")==0) rc = parseBbsAreaStatement(getRestOfLine(), config);

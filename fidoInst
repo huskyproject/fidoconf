@@ -7,11 +7,11 @@ echo "Installation based on a baseDirectory or FHS style?"
 read -p "[b/F]> " METHOD
 if test ${METHOD} = b; then
    read -p "baseDirectory> " BASEDIR
-   mkdir ${BASEDIR}
    SPOOLDIR=${BASEDIR}
    LOGDIR=${BASEDIR}/log 
    MSGBASEDIR=${BASEDIR}/msgBase
 else
+   BASEDIR=/etc/fido
    SPOOLDIR=/var/spool/fido
    LOGDIR=/var/log/fido
    MSGBASEDIR=${SPOOLDIR}/msgBase
@@ -24,12 +24,12 @@ read -p "Name of Uplink> " UPLINK_NAME
 read -p "Aka of Uplink>  " UPLINK_AKA
 read -p "Password>  " PASSWORD
 
-if test ! -d /etc/fido; then
-   mkdir -p /etc/fido
+if test ! -d ${BASEDIR}; then
+   mkdir -p ${BASEDIR}
 fi
 
-if test -f /etc/fido/config; then
-   mv /etc/fido/config /etc/fido/config.old
+if test -f ${BASEDIR}/config; then
+   mv ${BASEDIR}/config ${BASEDIR}/config.old
    echo "Moved existing config to config.old"
 fi
 
@@ -57,17 +57,19 @@ echo "TempOutbound ${SPOOLDIR}/out.tmp"
 echo "LogFileDir ${LOGDIR}"
 echo "DupeHistoryDir ${SPOOLDIR}/dupes"
 echo "NodeListDir ${SPOOLDIR}/nodelist"
-echo "MsgBaseDir $(MSGBASEDIR)"
+echo "MsgBaseDir ${MSGBASEDIR}"
 echo ""      
 echo "NetMailArea NetMailArea ${MSGBASEDIR}/netmail squish"
 echo "BadArea     Badarea     ${MSGBASEDIR}/bad     squish"
 echo "DupeArea    DupeArea    ${MSGBASEDIR}/dupe    squish"
-     ) > /etc/fido/config
+     ) > ${BASEDIR}/config
 
 echo "Creating necessary directories..."
 mkdir -p ${SPOOLDIR}/in
 mkdir -p ${SPOOLDIR}/in.sec
+mkdir -p ${SPOOLDIR}/in.tmp
 mkdir -p ${SPOOLDIR}/out
+mkdir -p ${SPOOLDIR}/out.tmp
 mkdir -p ${LOGDIR}
 mkdir -p ${SPOOLDIR}/dupes
 mkdir -p ${SPOOLDIR}/nodelist

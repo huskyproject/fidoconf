@@ -2,6 +2,17 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Sun Oct 24 23:25:00 CEST 1999
+mtt:
+* fixed coredump when -a is not followed by a number
+* some changes from config to const *config
+
+----- cvs ci ------
+Sun Oct  3 22:04:23 CEST 1999
+mtt:
+* applied patch by Matthias Duesterhoeft for fidoInst
+
+----- cvs ci ------
 Sun Oct 24 16:58:04 NOVST 1999
 max (patch from Kolya Nesterov):
 - killRead & keepUnread documented and support added to tparse & dumpfcfg
