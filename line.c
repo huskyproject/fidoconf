@@ -460,6 +460,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
       else if (stricmp(option, "host")==0) actualRoute->routeVia = host;
       else if (stricmp(option, "boss")==0) actualRoute->routeVia = boss;
       else if (stricmp(option, "noroute")==0) actualRoute->routeVia = noroute;
+      else if (stricmp(option, "no-route")==0) actualRoute->routeVia = noroute;
       else if (isdigit(option[0]) || (option[0] == '*') || (option[0] == '?')) {
          if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL))
             actualRoute->target = getLink(*config, option);
