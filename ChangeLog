@@ -1,3 +1,9 @@
+2002-11-06 Wednesday 08:25  mche
+
+	* areatree.c (1.9), areatree.h (1.4), common.c (1.132), fidoconf.c
+	(1.93), fidoconf.h (1.149): cheking for duplicate definitions of
+	fileareas
+
 2002-11-05 Tuesday 15:19  stas_degteff
 
 	* afixcmd.c (1.13), afixcmd.h (1.13), afixcmn.c (1.20), areatree.c
