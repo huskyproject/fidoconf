@@ -267,11 +267,11 @@ char *trimLine(char *line);
  * envVar should be set to a string which resembles a environment-variable which should be checked if it includes the fileName.
  * configName is the filename of the config *without* any prefixes.
  * e.g.
- *      getConfigFileFotProgram("FIDOCONFIG", "config");
+ *      getConfigFileNameForProgram("FIDOCONFIG", "config");
  * is the call which is used for fidoconfig
  */
 
-char *getConfigFileForProgram(char *envVar, char *configName);
+char *getConfigFileNameForProgram(char *envVar, char *configName);
 
 int isLinkOfFileArea(s_link *link, s_filearea *area);
 s_filearea *getFileArea(s_fidoconfig *config, char *areaName);
