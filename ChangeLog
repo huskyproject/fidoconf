@@ -1,3 +1,8 @@
+2002-01-05 Saturday 16:01  mche
+
+	* adcase.c (1.7), adcase.h (1.3), common.h (1.36), fidoconf.h
+	(1.88): declare some functions as dllexported (for htick)
+
 2002-01-03 Thursday 14:15  ml
 
 	* TODO (1.58), VERSION (1.3), makefile.inc (1.14): change version
