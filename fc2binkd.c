@@ -161,11 +161,11 @@ int writeBinkdConfig( s_fidoconfig *config, const char *ofname ){
   /* Address, paths & etc. */
     fprintf( ofd, "\n# The name of your system, it's location, and your name\n");
     if( config->name )
-       fprintf( ofd, "sysname   %s\n", config->name );
+       fprintf( ofd, "sysname   \"%s\"\n", config->name );
     if( config->location )
-      fprintf( ofd, "location  %s\n", config->location );
+      fprintf( ofd, "location  \"%s\"\n", config->location );
     if( config->sysop )
-      fprintf( ofd, "sysop     %s\n\n", config->sysop );
+      fprintf( ofd, "sysop     \"%s\"\n\n", config->sysop );
 
     fprintf( ofd, "# Your addresses, 4D or 5D:\naddress" );
     for( ll=config->addrCount ; ll-- ; ){
