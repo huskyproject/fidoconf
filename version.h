@@ -37,15 +37,16 @@ extern "C" {
 
 #include "fidoconf.h"
 
-#define FC_VER_MAJOR 0
-#define FC_VER_MINOR 15
-#define FC_VER_PATCH 0
-#define FC_VER_BRANCH BRANCH_CURRENT
-
 /* values for 5th parameter of GenVersionStr() */
 #define BRANCH_CURRENT 1
 #define BRANCH_STABLE  2
 #define BRANCH_RELEASE 3
+
+/* this is version number of FidoConfig */
+#define FC_VER_MAJOR 0
+#define FC_VER_MINOR 15
+#define FC_VER_PATCH 0
+#define FC_VER_BRANCH BRANCH_CURRENT
 
 /* Generate version string like
  * programname/platform[-compiler] <major>.<minor>.<patchlevel>-<branch> [<cvs date>]
