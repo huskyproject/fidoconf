@@ -147,11 +147,11 @@ int writeFileArea(FILE *f, s_area *area) {
                   break;
    }
 
-   fprintf(f, "DLPath %s\n", area->pathName);
+   fprintf(f, "DLPath %s\n", area->fileName);
    if ( bbsulpath != NULL )
      fprintf(f, "ULPath %s\n", bbsulpath);
 
-   fprintf(f, "FileList %sfiles.bbs\n", area->pathName);
+   fprintf(f, "FileList %sfiles.bbs\n", area->fileName);
    fprintf(f, "FList_Format %s\n", (bbsdeffmt) ? "FilesBBS" : "CD-List");
    if ( !bbsdeffmt ) fprintf(f, "Copy_Local Yes\n");
 
