@@ -1,3 +1,12 @@
+2001-08-08 Wednesday 21:41  joerg.jaspert
+
+	* debian/: rules (1.7), fidoconf-runtime.dirs (1.2): Newest Build.
+
+2001-08-08 Wednesday 21:32  joerg.jaspert
+
+	* debian/: README.Debian (1.3), changelog (1.11), control (1.8),
+	huskymak.cfg (1.9): Newest Build.
+
 2001-08-01 Wednesday 14:24  ml
 
 	* line.c (1.258), syslogp.h (1.4): allow comments after
