@@ -1424,6 +1424,11 @@ int needUseFileBoxForLinkAka(ps_fidoconfig config, s_link *link, hs_addr *aka)
     char *bsyFile = NULL;
     e_bundleFileNameStyle bundleNameStyle = eUndef;
 
+    if (link->linkBundleNameStyle != eUndef)
+	bundleNameStyle = link->linkBundleNameStyle;
+    else if (config->bundleNameStyle != eUndef)
+	bundleNameStyle = config->bundleNameStyle;
+
     /* link->useFileBox means:
      * 0 - unknown, need to check
      * 1 - don't use
