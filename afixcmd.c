@@ -194,9 +194,9 @@ int DelLinkFromString(char *line, s_addr linkAddr)
 {
     int rc = 1;
     char *end = NULL;
-    char *beg;
+    char *beg = NULL;
 
-    w_log(LL_FUNC, "%s::DelLinkFromString() begin");
+    w_log(LL_FUNC, "::DelLinkFromString() begin");
 
     beg = strrchr(line, '"'); /* seek end comment pointer (quote char) */
     if(!beg)  beg = line;     /* if not found then seek from begin */
@@ -204,7 +204,7 @@ int DelLinkFromString(char *line, s_addr linkAddr)
     while(*beg)               /* while not end of string */
     {
         while(*beg && isspace(*beg)) beg++; /* skip spaces */
-        if(*beg && testAddr(beg, linkAddr))
+        if(*beg && isdigit(*beg) && testAddr(beg, linkAddr))
         {
             rc = 0;
             break;
@@ -227,7 +227,7 @@ int DelLinkFromString(char *line, s_addr linkAddr)
         }
     }
 
-    w_log(LL_FUNC, "%s::DelLinkFromString() end");
+    w_log(LL_FUNC, "%::DelLinkFromString() end");
     return rc;
 }
 
