@@ -52,10 +52,6 @@ keyword found is valid. If there are more then one keywords of the
 same type allowed, the first line matching the situation is valid. 
 If no match is found, a default-value will be used.
 
-"\" is used as escape-sequence. "\" has to be written as "\\".
-
-non-printable characters can be expressed as \<hexValue>
-
 "#" at the start of a line or <whiteSpace>#<whiteSpace> within the 
 line starts a comment. The comment ends with the line.
 
@@ -68,6 +64,10 @@ Currently not supported:
 
 "\" at end of line means that "\" and the following new-line-
 character(s) will be ignored. (concatenating lines)
+
+"\" is used as escape-sequence. "\" has to be written as "\\".
+
+non-printable characters can be expressed as \<hexValue>
 
 @node Keywords, Example, Syntax, config file
 @section Keywords
