@@ -1,3 +1,15 @@
+2002-09-24 Tuesday 13:34  pgul
+
+	* afixcmn.c (1.13): createKludges() alwayd add PID, not TID
+
+2002-09-24 Tuesday 06:05  pgul
+
+	* temp.c (1.14): more clean tempfile creating (check errno)
+
+2002-09-24 Tuesday 06:00  pgul
+
+	* temp.c (1.13): fix previous changes
+
 2002-09-23 Monday 08:34  stas_degteff
 
 	* temp.c (1.12): Fix temporary file name generation (prevent bug
