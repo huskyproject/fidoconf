@@ -321,6 +321,11 @@ void freeBbsArea(s_bbsarea area) {
         free(area.description);
 }
 
+void freeSaveTic(s_savetic savetic) {
+        free(savetic.fileAreaNameMask);
+        free(savetic.pathName);
+}
+
 void disposeConfig(s_fidoconfig *config)
 {
   int i;
@@ -477,6 +482,9 @@ void disposeConfig(s_fidoconfig *config)
    free(config->areafixOrigin);
    free(config->fileLocalPwd);
    free(config->fileLDescString);
+
+   for (i = 0; i< config->saveTicCount; i++) freeSaveTic(config->saveTic[i]);
+   free(config->saveTic);
 
    for (i = 0; i < config->execonfileCount; i++) {
 		free(config->execonfile[i].filearea);

@@ -1845,6 +1845,68 @@ int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
   return 0;
 }
 
+int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
+{
+   char *tok;
+   DIR  *dirent;
+
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   memset(savetic, 0, sizeof(s_savetic));
+
+   tok = strtok(token, " \t");
+   if (tok == NULL) {
+      printf("Line %d: There is a areaname mask missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;         // if there is no areaname mask
+   }
+
+   savetic->fileAreaNameMask= (char *) malloc(strlen(tok)+1);
+   strcpy(savetic->fileAreaNameMask, tok);
+
+   tok = strtok(NULL, " \t");
+   if (tok == NULL) {
+      printf("Line %d: There is a pathname missing %s!\n", actualLineNr, actualLine);
+      return 2;         // if there is no filename
+   }
+      if (tok[strlen(tok)-1] == PATH_DELIM) {
+         savetic->pathName = (char *) malloc(strlen(tok)+1);
+         strcpy(savetic->pathName, tok);
+      } else {
+         savetic->pathName = (char *) malloc(strlen(tok)+2);
+         strcpy(savetic->pathName, tok);
+         savetic->pathName[strlen(tok)] = PATH_DELIM;
+         savetic->pathName[strlen(tok)+1] = '\0';
+      }
+
+   dirent = opendir(savetic->pathName);
+   if (dirent == NULL) {
+      printf("Line %d: Path %s not found!\n", actualLineNr, savetic->pathName);
+      return 2;
+   }
+
+   closedir(dirent);
+   return 0;
+
+}
+
+int parseSaveTicStatement(char *token, s_fidoconfig *config)
+{
+   int rc;
+
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   config->saveTic = realloc(config->saveTic,sizeof(s_savetic)*(config->saveTicCount+1));
+   rc = parseSaveTic(config, token,&(config->saveTic[config->saveTicCount]));
+   config->saveTicCount++;
+   return rc;
+}
+
 void printLinkError(void)
 {
   printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
@@ -2201,6 +2263,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
    else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
    else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
+   else if (stricmp(token, "savetic")==0) rc = parseSaveTicStatement(getRestOfLine(), config);
 #ifdef __TURBOC__
    else unrecognised++;
 #else   

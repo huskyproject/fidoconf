@@ -262,6 +262,12 @@ struct nodelist {
 };
 typedef struct nodelist s_nodelist;
 
+struct savetictype {
+   char *fileAreaNameMask;
+   char *pathName;
+};
+typedef struct savetictype s_savetic;
+
 struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop;
@@ -357,6 +363,9 @@ struct fidoconfig {
    unsigned int fileFileUMask, fileDirUMask;
 
    char     *fileLocalPwd, *fileLDescString;
+
+   unsigned int   saveTicCount;
+   s_savetic    *saveTic;
 
    unsigned int nodelistCount;
    s_nodelist *nodelists;
