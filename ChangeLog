@@ -1,3 +1,8 @@
+2004-02-06 Friday 03:11  andr_lukyanov
+
+	* src/: fidoconf.c (1.15), tparser.c (1.18): Set advisoryLock
+	'integer', by default 0 = off
+
 2004-01-25 Sunday 17:45  d_sergienko
 
 	* doc/: proposal.texi (1.155), rus/proposal.texi (1.5): password is
