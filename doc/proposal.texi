@@ -142,9 +142,9 @@ packer
 routing
 * route::                       routing of netmails
 * routeFile::                   routing of netmails with file attached
+* routeMail::                   routing of netmails without file attached
 
 carbon copy
-* routeMail::                   routing of netmails without file attached
 * carbonTo::                    make carbonCopy using to-field of msg
 * carbonFrom::                  make carbonCopy using from-field of msg
 * carbonKludge::                make carbonCopy using kludge lines of msg
@@ -885,6 +885,7 @@ base areas).
 
 This statement specifies the netmailarea.
 @xref{echoarea}, for details on @code{Option}.
+Like all areas Netmailareas are *.msg bases per default. 
 
 This statement cannot be repeated.
 
@@ -900,6 +901,7 @@ This statement cannot be repeated.
 This statement specifies the badarea. Messages which have no area on your
 system go to the badArea.
 @xref{echoarea}, for details on @code{Option}.
+Like all areas Badareas are *.msg bases per default.
 
 This statement cannot be repeated.
 
@@ -915,6 +917,7 @@ This statement cannot be repeated.
 This statement specifies the dupeArea. Messages which area dupes e.g. come
 to your system the second time, will be put in the dupearea.
 @xref{echoarea}, for details on @code{Option}.
+Like all areas Dupeareas are *.msg bases per default.
 
 This statement cannot be repeated.
 
