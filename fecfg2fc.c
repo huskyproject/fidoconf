@@ -155,7 +155,7 @@ void Usage(const char *program)
   printf("%s\n", temp=GenVersionStr( "fecfg2fconf", FC_VER_MAJOR,
 		FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
   nfree(temp);
-  
+
   printf("\nUsage:\n"
          "\t%s [path]fastecho.cfg [output file]\n",
           OS_independed_basename(program));
@@ -403,17 +403,19 @@ void print_areas()
   }
 }
 
+/* Match domain for link's zone */
 char  *check_sys_zone(FEAddress *a)
 {
    int i;
 
    for (i=0; i < config.AkaCnt; i++)
       if (*(char*)&sysaddr[i])
-        if (a->zone == sysaddr[i].main.zone)
+        if (a->zone == sysaddr[i].main.zone && sysaddr[i].domain[0])
           return sysaddr[i].domain;
    return NULL;
 }
 
+/* output all links configuration */
 void  print_links()
 {  int i, c;
    char *tmp;
@@ -421,7 +423,7 @@ void  print_links()
    for (i = 0; i < config.NodeCnt; i++) {
       fprintf(f_hpt, "\nLink                     %s\n", node[i]->name);
 
-      if ( node[i]->addr.zone == sysaddr[node[i]->aka].main.zone )
+      if ( node[i]->addr.zone == sysaddr[node[i]->aka].main.zone && sysaddr[node[i]->aka].domain[0])
         fprintf(f_hpt, "Aka                      %s@%s\n", FEaka2str(node[i]->addr), sysaddr[node[i]->aka].domain);
       else
         fprintf(f_hpt, "Aka                      %s\n", FEaka2str(node[i]->addr));
@@ -433,7 +435,7 @@ void  print_links()
       {
         tmp = check_sys_zone(&node[i]->arcdest);
         fprintf( f_hpt, "if \"[module]\"==\"hpt\"\n");
-        if (tmp)
+        if (tmp && tmp[0])
           fprintf( f_hpt, "  PackAka                %s@%s\n", FEaka2str(node[i]->arcdest), tmp);
         else
           fprintf( f_hpt, "  PackAka                %s\n", FEaka2str(node[i]->arcdest));
@@ -454,7 +456,7 @@ void  print_links()
          fprintf(f_hpt, "LinkGrp                  %d\n", node[i]->newgroup-25);
 
       tmp = grp2str(node[i]->groups);
-      
+
       if (*tmp != 0)
          fprintf(f_hpt, "AccessGrp                %s\n", tmp);
 
@@ -540,7 +542,7 @@ void  print_links()
         if (node[i]->flags.mgr_direct)
               fprintf(f_hpt, ",dir");
         fprintf(f_hpt, "\n");
-      } 
+      }
 
 /* To future */
 /*
