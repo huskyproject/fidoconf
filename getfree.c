@@ -16,30 +16,30 @@
 /*--------------------------------------------------------------------*/
 
 
-#include "log.h"
-#include "common.h"
-
 #ifdef __NT__
 #  ifdef __WATCOMC__
-#  include <direct.h>
+#     include <direct.h>
 #     ifndef MAXPATHLEN
-#     define MAXPATHLEN NAME_MAX
-#  endif
+#       define MAXPATHLEN NAME_MAX
+#     endif
 #  elif defined (_MSC_VER)
 #     include <stdlib.h>
 #     ifndef MAXPATHLEN
-#     define MAXPATHLEN _MAX_PATH
+#       define MAXPATHLEN _MAX_PATH
+#     endif
 #  endif
-#endif
 
-#ifndef MAXPATHLEN
-#define MAXPATHLEN 255
-#endif
+#  ifndef MAXPATHLEN
+#     define MAXPATHLEN 255
+#  endif
 
 #include <windows.h>
 #include <stdio.h>
 #include <limits.h>
 #include <ctype.h>
+
+#include "common.h"
+#include "log.h"
 
 ULONG fc_GetDiskFreeSpace (const char *path)
 {
@@ -133,6 +133,8 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 #include <ctype.h>
 #include <limits.h>
 
+#include "common.h"
+#include "log.h"
 
 ULONG fc_GetDiskFreeSpace (const char *path)
 {
@@ -184,7 +186,6 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 #include <sys/types.h>
 
 
-
 /* TE: test for FreeBSD, NetBSD, OpenBSD or any other BSD 4.4 - derived OS */
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
 #include <sys/param.h>
@@ -219,10 +220,14 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 #include <limits.h>
 #endif /* not BSD-like OS */
 
-//#if !(defined(_SYS_STATFS_H) || defined(_SYS_STATVFS_H))
-//#error no statfs() or statvfs() in your system!
-//#endif
+/*
+#if !(defined(_SYS_STATFS_H) || defined(_SYS_STATVFS_H))
+#error no statfs() or statvfs() in your system!
+#endif
+*/
 
+#include "common.h"
+#include "log.h"
 
 #if defined(_SYS_STATFS_H) || defined(_SYS_STATVFS_H)
 ULONG fc_GetDiskFreeSpace (const char *path)
@@ -260,8 +265,13 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 
 #endif
 
-#elif defined(MSDOS)
+#elif defined(MSDOS) || defined(DOS) || defined(__MSDOS__) || defined(__DOS__)
+
 #include <limits.h>
+
+#include "common.h"
+#include "log.h"
+
 ULONG fc_GetDiskFreeSpace (const char *path)
 {
   w_log (LL_WARN, "warning: free space doesn't checked in %s",path);
