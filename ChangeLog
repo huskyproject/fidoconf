@@ -1,3 +1,11 @@
+2002-11-28 Thursday 14:19  pgul
+
+	* afixcmn.c (1.25): Fix netmail flag
+
+2002-11-28 Thursday 14:04  mche
+
+	* afixcmn.c (1.24): do not set netmail flag on echomail messages
+
 2002-11-27 Wednesday 16:00  stas_degteff
 
 	* fidoconf.h (1.160): Prevent macro redefinition:
