@@ -256,7 +256,8 @@ enum {
     ID_NOTVALIDFILENAMECHARS,
     ID_ARCNETMAIL,
     ID_RULESDIR,
-    ID_NORULES
+    ID_NORULES,
+    ID_AFIXQUEUEREQUESTS
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -289,6 +290,7 @@ token_t parseline_tokens[] =
     { "areafixorigin", ID_AREAFIXORIGIN },
     { "areafixpwd", ID_AREAFIXPWD },
     { "areafixqueryreports", ID_AREAFIXQUERYREPORTS },
+    { "areafixqueryrequests", ID_AFIXQUEUEREQUESTS },
     { "areafixsplitstr", ID_AREAFIXSPLITSTR },
     { "areasfilenamecase", ID_AREASFILENAMECASE },
     { "areasmaxdupeage", ID_AREASMAXDUPEAGE },
