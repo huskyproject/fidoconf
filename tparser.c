@@ -363,15 +363,22 @@ void printLink(s_link link) {
    if (link.afixEchoLimit) printf("AreaFixEchoLimit %u\n", link.afixEchoLimit);
    printf("FileFix %s\n", (link.FileFix) ? "on" : "off");
    printf("Forward Requests to this link is %s\n",(link.forwardRequests)?"on":"off");
+   printf("File Forward Requests to this link is %s\n",(link.forwardFileRequests)?"on":"off");
    if (link.forwardAreaPriority)
 	   printf("ForwardAreaPriority: %u\n", link.forwardAreaPriority);
+   if (link.forwardFilePriority)
+	   printf("ForwardFilePriority: %u\n", link.forwardFilePriority);
    printf("Forward Requests Access: %s\n", (link.denyFRA) ? "off" : "on");
    printf("Unconditional Forward Requests Access: %s\n",(link.denyUFRA)?"off":"on");
    if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
    else printf("RemoteRobotName areafix\n");
+   if (link.RemoteFileRobotName) printf("RemoteFileRobotName %s\n", link.RemoteFileRobotName);
+   else printf("RemoteFileRobotName filefix\n");
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
+   if (link.forwardFileRequestFile) printf("ForwardFileRequestFile %s\n",link.forwardFileRequestFile);
    if (link.denyFwdFile) printf("DenyFwdFile %s\n",link.denyFwdFile);
    if (link.msgBaseDir) printf("MsgBaseDir %s\n",link.msgBaseDir);
+   if (link.fileBaseDir) printf("LinkFileBaseDir %s\n",link.fileBaseDir);
    if (link.packerDef) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
    if (link.fileBox)  {

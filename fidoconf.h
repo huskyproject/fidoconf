@@ -114,81 +114,81 @@ typedef enum pauses        { NOPAUSE, EPAUSE, FPAUSE } e_pauses;
 typedef struct link {
     s_addr hisAka, *ourAka;
     char *name;
-   char *defaultPwd,               // 8 byte passwords
+    char *defaultPwd,               // 8 byte passwords
         *pktPwd,
         *ticPwd,
         *areaFixPwd,
         *fileFixPwd,
         *bbsPwd,
         *sessionPwd;
-   char *handle;              // nickname
-   char *email;
-   char *emailFrom; // sender address for outgoing emails
-   char *emailSubj;
-   e_emailEncoding emailEncoding;
-   unsigned int autoAreaCreate;       // 0 if not allowed for autoareacreate
-   unsigned int autoFileCreate;       // 0 if not allowed for autofilecreate
-   unsigned int AreaFix;              // 0 if not allowed for areafix
-   unsigned int FileFix;              // 0 if not allowed for filefix
-   unsigned int FileFixFSC87Subset; // 1 if only FSC87-commands are allowable in TIC files
-   unsigned int forwardRequests;      // 0 if not allowed forward requests
-   unsigned int forwardFileRequests;      // 0 if not allowed forward requests for file areas
-   unsigned int denyFRA; // denyFwdReqAccess
-   unsigned int denyUFRA; // denyUncondFwdReqAccess
-
-   int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
-                              //   PKT files found in the protected inbound
-   int  allowPktAddrDiffer;   // 1 if you want to allow the originating address
-                              //   in MSG differ from address in PKT
-                              //   (only for areafix requests)
-   e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
-   char *pktFile, *packFile;  // used only internally by hpt
-   char *floFile, *bsyFile;   // dito
-   ps_pack packerDef;
-   e_flavour echoMailFlavour, fileEchoFlavour;
-   char *LinkGrp;	      // link's group for autocreate areas
-   char **AccessGrp;	      // groups for echo access
-   unsigned int numAccessGrp;
-   char *autoAreaCreateFile;  // file where autocreated areas are written to
-   char *autoFileCreateFile;
-   char *autoAreaCreateDefaults;// add default string for autocreated area here
-   char *autoFileCreateDefaults;
-   char *forwardRequestFile;  // list of available areas from this link
-   char *denyFwdFile;
-   unsigned int forwardAreaPriority;	// Priority when requests area from uplinks
-   char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
-   char *forwardFileRequestFile;  // list of available file-areas from this link
-   unsigned int forwardFilePriority;	// Priority when requests file-area from uplinks
-   char *RemoteFileRobotName;     // Name of remote file (tic) robot (need for FileForwardRequest)
-   void *msg;                 // active msg to the link (used in areafix)
-   unsigned int noTIC;        // 0 if TIC files should be generated
-   unsigned int Pause;        // 0 if no pause (default)
-                              // 1 echo pause
-                              // 2 fecho pause
-   unsigned autoPause;        // in days
-   unsigned level;	          // 0-65535
-   unsigned arcmailSize;      // max arcmail size in kb
-   unsigned pktSize;          // max .pkt size in kb
-   unsigned maxUnpackedNetmail; // max size of *.?ut file in kb. If
-                                // more, then put it into
-                                // bundle. Default 100 (used in bsopack)
-   unsigned int packNetmail;    // allows to pack outbound
-								// netmail. Default no (used in bsopack)
-   unsigned int export, import, mandatory; // Default link's options
-   char **optGrp; // groups for this options
-   unsigned int numOptGrp;
-   unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
-   unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
-   e_bundleFileNameStyle linkBundleNameStyle; // Style bundle filenames (timeStamp, addrDiff...
+    char *handle;              // nickname
+    char *email;
+    char *emailFrom; // sender address for outgoing emails
+    char *emailSubj;
+    e_emailEncoding emailEncoding;
+    unsigned int autoAreaCreate;       // 0 if not allowed for autoareacreate
+    unsigned int autoFileCreate;       // 0 if not allowed for autofilecreate
+    unsigned int AreaFix;              // 0 if not allowed for areafix
+    unsigned int FileFix;              // 0 if not allowed for filefix
+    unsigned int FileFixFSC87Subset;   // 1 if only FSC87-commands are allowable in TIC files
+    unsigned int forwardRequests;      // 0 if not allowed forward requests
+    unsigned int forwardFileRequests;  // 0 if not allowed forward requests for file areas
+    unsigned int denyFRA; // denyFwdReqAccess
+    unsigned int denyUFRA; // denyUncondFwdReqAccess
+    
+    int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
+    //   PKT files found in the protected inbound
+    int  allowPktAddrDiffer;   // 1 if you want to allow the originating address
+    //   in MSG differ from address in PKT
+    //   (only for areafix requests)
+    e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
+    char *pktFile, *packFile;  // used only internally by hpt
+    char *floFile, *bsyFile;   // dito
+    ps_pack packerDef;
+    e_flavour echoMailFlavour, fileEchoFlavour;
+    char *LinkGrp;         // link's group for autocreate areas
+    char **AccessGrp;      // groups for echo access
+    unsigned int numAccessGrp;
+    char *autoAreaCreateFile;  // file where autocreated areas are written to
+    char *autoFileCreateFile;
+    char *autoAreaCreateDefaults;// add default string for autocreated area here
+    char *autoFileCreateDefaults;
+    char *forwardRequestFile;  // list of available areas from this link
+    char *denyFwdFile;
+    unsigned int forwardAreaPriority;// Priority when requests area from uplinks
+    char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
+    char *forwardFileRequestFile;  // list of available file-areas from this link
+    unsigned int forwardFilePriority;// Priority when requests file-area from uplinks
+    char *RemoteFileRobotName;     // Name of remote file (tic) robot (need for FileForwardRequest)
+    void *msg;                 // active msg to the link (used in areafix)
+    unsigned int noTIC;        // 0 if TIC files should be generated
+    unsigned int Pause;        // 0 if no pause (default)
+                               // 1 echo pause
+                               // 2 fecho pause
+    unsigned autoPause;        // in days
+    unsigned level;	           // 0-65535
+    unsigned arcmailSize;      // max arcmail size in kb
+    unsigned pktSize;          // max .pkt size in kb
+    unsigned maxUnpackedNetmail; // max size of *.?ut file in kb. If
+                                 // more, then put it into
+                                 // bundle. Default 100 (used in bsopack)
+    unsigned int packNetmail;    // allows to pack outbound
+                                 // netmail. Default no (used in bsopack)
+    unsigned int export, import, mandatory; // Default link's options
+    char **optGrp; // groups for this options
+    unsigned int numOptGrp;
+    unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
+    unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
+    e_bundleFileNameStyle linkBundleNameStyle; // Style bundle filenames (timeStamp, addrDiff...
     char *msgBaseDir;
     char *fileBaseDir;
     char **frMask; // forwardRequestMask groups
     unsigned int numFrMask;
     char **dfMask; // don't forward this
     unsigned int numDfMask;
-
+    
     unsigned int afixEchoLimit;
-
+    
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;
     char  *fileBox;
