@@ -227,7 +227,9 @@ FCONF_EXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
 /* will be moved to huskylib */
 FCONF_EXT void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path);
 /* will be moved to huskylib */
-FCONF_EXT char* changeFileSuffix(char *fileName, char *newSuffix);
+/*  inc = 1 - increment filesufix until new file exist  */
+/*  inc = 0 - do not increment   */
+FCONF_EXT char* changeFileSuffix(char *fileName, char *newSuffix, int inc);
 
 /* will be moved to huskylib */
 FCONF_EXT int move_file(const char *from, const char *to, const int force_rewrite);
