@@ -1,3 +1,15 @@
+2002-12-31 Tuesday 09:24  stas_degteff
+
+	* doc/: keywords.hpt (1.33), keywords.htick (1.10): Include PackAka
+	into hpt & htick tokens lists
+
+2002-12-31 Tuesday 09:21  stas_degteff
+
+	* common.c (1.152), common.h (1.81), fidoconf.h (1.164),
+	fidoconf.pas (1.11), line.c (1.359), tokens.h (1.59), tparser.c
+	(1.223):  New token: PackAka (Patch from Alexander Reznikov
+	2:4600/220)
+
 2002-12-30 Monday 08:57  stas_degteff
 
 	* common.c (1.151): Add empty line into end of file to prevent
