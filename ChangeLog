@@ -1,3 +1,7 @@
+Mon Oct 16 21:44:12 NOVST 2000
+max:
+* -debug echoarea token
+
 Sun Oct 15 15:06:03 NOVST 2000
 max:
 * exit(1) to printLinkError()

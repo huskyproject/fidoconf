@@ -1629,6 +1629,8 @@ toss in dupes, move dupes to dupeArea or delete dupes.
 size of dupecheck history file in days (7 days if not defined)
 @item -nolink
 disables reply-linking for this area
+@item -debug
+write debug info about this area to areaname.dbg (or common.dbg if "-dosfile" is used)
 @end table
 
 LinkOption:

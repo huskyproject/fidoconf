@@ -436,6 +436,7 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
     if (area->noPause != 0) fprintf(f, "-noPause ");
     if (area->mandatory != 0) fprintf(f, "-mandatory ");
     if (area->DOSFile != 0) fprintf(f, "-DOSFile ");
+	if (area->debug) fprintf(f,"-debug ");
 
     if (area->levelread != 0) fprintf(f, "-lr %d ", area->levelread);
     if (area->levelwrite != 0) fprintf(f, "-lw %d ", area->levelwrite);

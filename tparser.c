@@ -94,6 +94,7 @@ void printArea(s_area area) {
    if (area.keepsb) printf("keepsb ");
    if (area.killRead) printf("killRead ");
    if (area.keepUnread) printf("keepUnread ");
+   if (area.debug) printf("debug ");
    printf("\n");
    printf("DupeCheck: ");
    if (area.dupeCheck==dcOff) printf("off");
