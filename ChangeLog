@@ -1,3 +1,7 @@
+2002-11-09 Saturday 14:57  pgul
+
+	* line.c (1.337): Parse options after area subscribers mask fixed
+
 2002-11-06 Wednesday 08:25  mche
 
 	* areatree.c (1.9), areatree.h (1.4), common.c (1.132), fidoconf.c
