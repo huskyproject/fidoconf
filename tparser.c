@@ -36,7 +36,9 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
 #include <unistd.h>
+#endif
 
 #include "fidoconf.h"
 #include "xstr.h"
