@@ -90,6 +90,12 @@ FCONF_EXT char *strrstr(const char *HAYSTACK, const char *NEEDLE);
           (same as strstr but last occurence
 */
 
+FCONF_EXT char *fc_stristr(char *str, char *find);
+/*
+ * Find the first occurrence of find in s ignoring case
+ */
+
+
 FCONF_EXT void string2addr(char *string, s_addr *addr);
 /*DOC
   Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.

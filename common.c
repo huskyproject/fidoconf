@@ -168,6 +168,30 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE)
    return start;
 }
 
+/*
+ * Find the first occurrence of find in s ignoring case
+ */
+char *fc_stristr(char *str, char *find)
+{
+    char ch, sc, *str1 = NULL, *find1 = NULL;
+
+    find++;
+    if ((ch = *(find-1)) != 0) {
+	do {
+	    do {
+		str++;
+		if ((sc = *(str-1)) == 0) return (NULL);
+	    } while (tolower((unsigned char) sc) != tolower((unsigned char) ch));
+			
+	    for(str1=str,find1=find; *find1 && *str1 && tolower(*find1)==tolower(*str1); str1++,find1++);
+			
+	} while (*find1);
+	str--;
+    }
+    return ((char *)str);
+}
+
+
 void string2addr(char *string, s_addr *addr) {
 	char *endptr, *str = string;
 	unsigned long t;
