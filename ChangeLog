@@ -1,3 +1,12 @@
+2002-11-01 Friday 15:28  mche
+
+	* areatree.c (1.6), areatree.h (1.2), fidoconf.c (1.91): check for
+	redefenition of echoareas
+
+2002-11-01 Friday 14:31  stas_degteff
+
+	* common.c (1.128), common.h (1.68): New function: basename()
+
 2002-10-30 Wednesday 14:31  mche
 
 	* line.c (1.335): fix previous patch
