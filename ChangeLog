@@ -1,3 +1,9 @@
+2002-07-23 Tuesday 20:32  d.sergienko
+
+	* common.c (1.88), common.h (1.50), fidoconf.h (1.132), line.c
+	(1.317), tokens.h (1.42), tparser.c (1.189), doc/keywords.htick
+	(1.2): + added new token fileAreaCreatePerms
+
 2002-07-22 Monday 23:13  stas
 
 	* afixcmd.h (1.8): Insert comments
