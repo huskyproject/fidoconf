@@ -74,13 +74,9 @@ void printArea(s_area area) {
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
-       if (area.downlinks[i]->export) printf(" export on,");
-       else printf(" export off,");
-       if (area.downlinks[i]->import) printf(" import on,");
-       else printf(" import off,");
-       if (area.downlinks[i]->mandatory) printf(" mandatory on.");
-       else printf(" mandatory off.");
-       printf("\n");
+       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
+       printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");
+	   printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
    if (area.manual) printf("manual ");
@@ -88,6 +84,7 @@ void printArea(s_area area) {
    if (area.noPause) printf("noPause ");
    if (area.tinySB) printf("tinySB ");
    if (area.mandatory) printf("mandatory ");
+   if (area.ccoff) printf("ccoff ");
    printf("\n");
    printf("DupeCheck: ");
    if (area.dupeCheck==dcOff) printf("off");
@@ -284,6 +281,7 @@ int main() {
         printBbsArea(config->bbsAreas[i]);
       }
       printf("\n=== CarbonCopy ===\n");
+	  printf("CarbonAndQuit %s", (config->carbonAndQuit) ? "on" : "off");
       for (i = 0; i< config->carbonCount; i++) {
 		  if (config->carbons[i].type == to)     printf("CarbonTo:     ");
 		  if (config->carbons[i].type == from)   printf("CarbonFrom:   ");

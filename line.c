@@ -1633,6 +1633,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, to);
    else if (stricmp(token, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, from);
    else if (stricmp(token, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, kludge);
+   else if (stricmp(token, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, subject);
+   else if (stricmp(token, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, msgtext);
    else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config);
    else if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
    else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
@@ -1641,6 +1643,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "publicgroup")==0) rc = copyString(getRestOfLine(), &(config->PublicGroup));
    else if (stricmp(token, "logechotoscreen")==0) config->logEchoToScreen = 1;
    else if (stricmp(token, "separatebundles")==0) config->separateBundles = 1;
+   else if (stricmp(token, "carbonandquit")==0) config->carbonAndQuit = 1;
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
    else if (stricmp(token, "defarcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->defarcmailSize));
 

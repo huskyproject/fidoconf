@@ -160,7 +160,10 @@ carbon copy
 * carbonTo::                    make carbonCopy using to-field of msg
 * carbonFrom::                  make carbonCopy using from-field of msg
 * carbonKludge::                make carbonCopy using kludge lines of msg
+* carbonSubj::                  make carbonCopy using subject-field of msg
+* carbonText::                  make carbonCopy using text-field of msg
 * carbonArea::                  specify the area where the carbon copies go into
+* carbonAndQuit::               carbon message only one time
 
 areafix
 * areafixFromPkt::              process areafix requests on the fly
@@ -1412,7 +1415,7 @@ an exact match.
 
 This statement can be repeated.
 
-@node carbonKludge, carbonArea, carbonFrom, Keywords
+@node carbonKludge, carbonSubj, carbonFrom, Keywords
 @subsection carbonKludge
 @table @asis
 @item Syntax:
@@ -1427,7 +1430,37 @@ arbonArea keyword.
 
 This statement can be repeated.
 
-@node carbonArea,  areafixFromPkt, carbonKludge, Keywords
+@node carbonSubj, carbonText, carbonKludge, Keywords
+@subsection carbonSubj
+@table @asis
+@item Syntax:
+@code{carbonSubj  <subj-substring>}
+@item Example:
+@code{carbonSubj beer}
+@end table
+
+If an echomail is tossed which has a subject line which includes the <subj-
+string> as a substring, this echomail is copied to the area specified by the
+arbonArea keyword.
+
+This statement can be repeated.
+
+@node carbonText, carbonArea, carbonSubj, Keywords
+@subsection carbonText
+@table @asis
+@item Syntax:
+@code{carbonText <text-substring>}
+@item Example:
+@code{carbonText cool beer}
+@end table
+
+If an echomail is tossed which has a kludge line which includes the <text-
+string> as a substring, he echomail is copied to the area specified by the
+arbonArea keyword.
+
+This statement can be repeated.
+
+@node carbonArea,  carbonAndQuit, carbonText, Keywords
 @subsection carbonArea
 @table @asis
 @item Syntax:
@@ -1443,7 +1476,22 @@ If this statement is ommitted. The carbon Copy goes to the badArea.
 This statement can be repeated for each different carbon@{To|From|Kludge@}
 statement.
 
-@node areafixFromPkt, areafixKillReports, carbonArea, Keywords
+@node carbonAndQuit, areafixFromPkt, carbonArea, Keywords
+@subsection carbonAndQuit
+@table @asis
+@item Syntax:
+@code{carbonAndQuit}
+@item Example:
+@code{carbonAndQuit}
+@end table
+
+By default one message can be processed by Carbon Copy several times.
+For example: you set CarbonTo "max" to echoarea MY.MAIL and CarbonSubj
+"beer" to echoarea MY.PLEASURE :-) And message to "max" and with this
+subject line carbons to each echoarea.
+If you turn on <carbonAndQuit> message will copy to MY.MAIL only.
+
+@node areafixFromPkt, areafixKillReports, carbonAndQuit, Keywords
 @subsection areafixFromPkt
 @table @asis
 @item Syntax:

@@ -189,7 +189,7 @@ struct bbsareatype {
 };
 typedef struct bbsareatype s_bbsarea;
 
-enum carbonType {to, from, kludge};
+enum carbonType {to, from, kludge, subject, msgtext};
 typedef enum carbonType e_carbonType;
 
 struct carbon {
@@ -264,6 +264,7 @@ struct fidoconfig {
 
    unsigned int   carbonCount;
    s_carbon *carbons;
+   unsigned int   carbonAndQuit;
 
    char     **includeFiles;
    unsigned int includeCount;
