@@ -43,13 +43,13 @@ Copyright @copyright{} 1998-2002 Husky Development Team
 @menu
 * design goals::  чего мы хотим достичь
 * config file::   как это выглядит
-* tparser::       тестирование вашего конфига
+* tparser::       проверка вашего конфига
 * converting::    конвертирование fidoconfig в конфиги golded и msged
 * contact::       как связаться с автором
 @end menu
 
 @node design goals, config file, Top, Top
-@chapter Design goals
+@chapter Цели создания
 Целью написания fidoconfig было создание единого конфигурационного файла для
 нескольких разных fido программ: редактора, тоссера и т.д.
 Дополнительной целью было создание одной библиотеки (fidoconfig), которая может
@@ -62,12 +62,12 @@ Copyright @copyright{} 1998-2002 Husky Development Team
 должна быть вполне портируемой.
 
 @node config file, converting, design goals, Top
-@chapter Config file
+@chapter Конфигурационный файл
 
 @include proposal.texi
 
 @node converting, tparser, config file, Top
-@chapter Converting fidoconfig to golded, msged and aquaed
+@chapter Конвертирование fidoconfig в конфиги golded, msged и aquaed
 Так как оригинальный GoldEd от Odin Sorensen совсем не поддерживает fidoconfig,
 а msged и aquaed - только в бета версиях, мы разработали три программы, которые
 конвертируют ваш fidoconfig в эти собственные форматы конфигурационных файлов.
@@ -99,7 +99,7 @@ fconf2aquaed ~/aquaed/aquaed.cfg
 @end enumerate
 
 @node tparser, contact, converting, Top
-@chapter Testing the config
+@chapter Проверка конфига
 Вам следует запускать @command{tparser} @sc{каждый раз} после того, как вы
 изменили конфиг. Если tparser нашел ошибку в конфиге, пожалуйста, исправьте его
 и попробуйте снова.
@@ -134,7 +134,7 @@ tparser (как и любая программа fidoconfig) выведет сообщение об ошибке, если вы
 @end table
 
 @node contact, , tparser, Top
-@chapter Contacting the author
+@chapter Как связаться с автором
 Вы можете написать мне на
 
 @example
