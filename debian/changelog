@@ -1,3 +1,10 @@
+fidoconf (0.14-20020801-1) stable; urgency=low
+
+  * New Maintainter
+  * Fix depends
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Wed, 31 Jul 2002 03:37:58 +0600
+
 fidoconf (0.14-20020626-1) stable; urgency=low
 
   * NMU. Joerg, big thanks for Debian packages! But we don't see you now
