@@ -54,7 +54,7 @@ CODE facilitynames[] = {
         { "local5",     LOG_LOCAL5,     },
         { "local6",     LOG_LOCAL6,     },
         { "local7",     LOG_LOCAL7,     }
-}
+};
 #endif
 
 #endif /* HAVE_SYSLOG */

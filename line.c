@@ -2398,7 +2398,7 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
 int parseForwardPkts(char *token, s_link *link)
 {
    if (token && stricmp(token, "secure")==0) link->forwardPkts = fSecure;
-   else return parseBool(token, &(link->forwardPkts));
+   else return parseBool(token, (unsigned *) &(link->forwardPkts));
 
    return 0;
 }
