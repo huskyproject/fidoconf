@@ -1,3 +1,13 @@
+2001-06-11 Monday 20:34  ml
+
+	* fidoconf.h (1.73), line.c (1.254), tokens.h (1.12), tparser.c
+	(1.149), doc/keywords.hpt (1.11): carbonexcludefwdfrom token
+
+2001-06-11 Monday 13:08  ml
+
+	* line.c (1.253), tparser.c (1.148): now it is possoble to make
+	spaces before and after searching strings in carboncopy
+
 2001-06-03 Sunday 07:31  ml
 
 	* fidoconf.h (1.72): fixed adding aka to seen-bys for links from
