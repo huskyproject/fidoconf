@@ -1,3 +1,7 @@
+2002-05-20 Monday 11:36  pavel.gulchouck
+
+	* line.c (1.296), fidoconf.c (1.76): BeOS compilation fix
+
 2002-05-19 Sunday 11:08  pavel.gulchouck
 
 	* adcase.c (1.8): avoid warning
