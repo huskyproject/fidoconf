@@ -439,14 +439,6 @@ add_to_cache:
 
 #include "adcase.h"
 
-void adaptcase (char *str)
-{
-    for (; *str; str++)
-    {
-        *str = (char)tolower(*str);
-    }
-}
-
 #ifndef unused
 #ifdef __GNUC__
 #define unused(x)
@@ -454,6 +446,11 @@ void adaptcase (char *str)
 #define unused(x) (x)
 #endif
 #endif
+
+void adaptcase (char *str)
+{
+    unused(str);
+}
 
 void adaptcase_refresh_dir(char *directory)
 {
