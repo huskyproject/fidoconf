@@ -507,8 +507,7 @@ static int cmpfnames(char *file1, char *file2)
 #else // Unknown OS
 static int cmpfnames(char *file1, char *file2)
 {
-    char path1[128], path2[128];
-    return stricmp(path1, path2);
+    return stricmp(file1, file2);
 }
 #endif
 
