@@ -13,11 +13,7 @@
 # _SRC_DIR  sources dir
 
 # Library name
-ifneq ($(SHORTNAMES), 1)
-    LIBNAME = fidoconf
-else
-    LIBNAME = fconf
-endif
+LIBNAME = fidoconf
 
 # Version
 VERMAJOR= 1
@@ -65,22 +61,19 @@ PACKAGEBASE=$(LIBNAME)$(LIBSUFFIX)-$(VER)
 PACKAGENAME=$(LIBNAME)$(LIBSUFFIX)$(VER)$(_ARC)
 
 LIBS	= -l$(LIBPREFIX)husky$(_LIB) -l$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB)
-DLLS	= -l$(DLLPREFIX)husky$(_DLL) -l$(DLLPREFIX)smapi$(DLLSUFFIX)$(_DLL)
 
 commonlibs: $(TARGETLIB) $(SYMBOLIC)
 	$(NULL)
 
 commonprogs: $(PROGRAMS) $(FC2TOR) $(FECFG2FC) $(SYMBOLIC)
-	ifneq ($(SHORTNAMES), 1)
-	    $(MV) fc2aed$(_EXE) fconf2aquaed$(_EXE)
-	    $(MV) fc2binkd$(_EXE) fconf2binkd$(_EXE)
-	    $(MV) fc2fgate$(_EXE) fconf2fidogate$(_EXE)
-	    $(MV) fc2ged$(_EXE) fconf2golded$(_EXE)
-	    $(MV) fc2msged$(_EXE) fconf2msged$(_EXE)
-	    $(MV) fc2sq$(_EXE) fconf2squish$(_EXE)
-	    $(MV) fc2tor$(_EXE) fconf2tornado$(_EXE)
-	    $(MV) fecfg2fc$(_EXE) fecfg2fconf$(_EXE)
-	endif
+	$(MV) fc2aed$(_EXE) fconf2aquaed$(_EXE)
+	$(MV) fc2binkd$(_EXE) fconf2binkd$(_EXE)
+	$(MV) fc2fgate$(_EXE) fconf2fidogate$(_EXE)
+	$(MV) fc2ged$(_EXE) fconf2golded$(_EXE)
+	$(MV) fc2msged$(_EXE) fconf2msged$(_EXE)
+	$(MV) fc2sq$(_EXE) fconf2squish$(_EXE)
+	$(MV) fc2tor$(_EXE) fconf2tornado$(_EXE)
+	$(MV) fecfg2fc$(_EXE) fecfg2fconf$(_EXE)
 
 
 %$(_OBJ): $(_SRC_DIR)%.c
