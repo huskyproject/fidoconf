@@ -1,3 +1,17 @@
+2001-07-09 Monday 23:20  joerg.jaspert
+
+	* debian/: changelog (1.10), control (1.7): Smapi with the shit
+	licence is only non-free so fidoconf could only be contrib.
+	Bullshit.
+
+2001-07-09 Monday 23:19  joerg.jaspert
+
+	* debian/: fidoconf-runtime.postinst (1.1), fidoconf-runtime.postrm
+	(1.1), fidoconf-runtime.prerm (1.1), libfidoconf0-dev.postinst
+	(1.1), libfidoconf0-dev.postrm (1.1), libfidoconf0-dev.prerm (1.1),
+	libfidoconf0.postinst (1.1), libfidoconf0.postrm (1.1),
+	libfidoconf0.prerm (1.1): Some new Files
+
 2001-07-08 Sunday 20:57  joerg.jaspert
 
 	* debian/: changelog (1.9), libfidoconf0.files (1.2), rules (1.6),
