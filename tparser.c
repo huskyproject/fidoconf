@@ -145,10 +145,10 @@ int main() {
       for (i = 0; i < config->unpackCount; i++) {
          printf("UnPacker:  Call: %s Offset %d Match code ", config->unpack[i].call, config->unpack[i].offset);
          for (j = 0; j < config->unpack[i].codeSize; j++)
-           printf("%x", (int) config->unpack[i].matchCode[j]);
+           printf("%02x", (int) config->unpack[i].matchCode[j]);
          printf(" Mask : ");
          for (j = 0; j < config->unpack[i].codeSize; j++)
-           printf("%x", (int) config->unpack[i].mask[j]);
+           printf("%02x", (int) config->unpack[i].mask[j]);
          printf("\n");
       }
       disposeConfig(config);
