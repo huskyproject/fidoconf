@@ -33,6 +33,7 @@
 #else
 #  include <unistd.h>
 #endif
+#include <sys/stat.h>
 #include <fcntl.h>
 #include <stdlib.h>
 
@@ -71,11 +72,11 @@ int MKSTEMPS( char *tempfilename )
          if( !mktemp(ttt) )
            break;
          *pp = '.';
-         fd = open( ttt, O_EXCL | O_CREAT | O_RDWR );
+         fd = open( ttt, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
      }while( fd==-1 && errno == EEXIST );
    }else{
      while( fd==-1 && mktemp(ttt) ){
-       fd = open( ttt, O_EXCL | O_CREAT | O_RDWR );
+       fd = open( ttt, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
      };
    }
    if(fd!=-1) strcpy(tempfilename,ttt);
