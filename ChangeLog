@@ -2,6 +2,10 @@ fidoconfig 0.9
 --------------
 
 ----- cvs ci ------
+Thu Aug 03 11:38:30 1999
+Georgi:
++ Added "-lw <level>" and "-lr <level>" in filearea options
+
 Mon Aug 02 18:20:50 1999
 Georgi:
 + Added token BbsArea <name> <directory> "<description>"
