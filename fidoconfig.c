@@ -361,7 +361,7 @@ void disposeConfig(s_fidoconfig *config)
 	   free(config->links[i].optGrp);
 	   free(config->links[i].forwardRequestFile);
 	   free(config->links[i].autoAreaCreateDefaults);
-	   free(config->links[i].autoFileCreateFile);
+	   free(config->links[i].autoAreaCreateFile);
 	   free(config->links[i].autoFileCreateDefaults);
 	   free(config->links[i].autoFileCreateFile);
    }
