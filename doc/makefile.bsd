@@ -1,8 +1,0 @@
-# $Id$
-#
-# FreeBSD / NetBSD makefile for building fidoconfig documentation
-# (legacy makefile, no dynlibs, no huskymak support)
-#
-# Use with GNU version of make (gmake, see ports collection)
-
-include makefile.unx

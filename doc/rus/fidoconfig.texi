@@ -1,0 +1,163 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename fidoconfig.info
+@settitle FidoConfig Manual
+@setchapternewpage odd
+@c %**end of header
+
+@ifinfo
+Этот файл документирует fidoconfig.
+
+Copyright 1998-2002 Husky Development Team
+
+@end ifinfo
+
+@titlepage
+@title FidoConfig Manual
+@subtitle a way to make your unix fido-capable
+@author Matthias Tichy
+@author Max Levenkov
+
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 1998-2002 Husky Development Team
+
+@end titlepage
+
+@c @ifinfo
+
+@dircategory Fidonet Software
+@direntry
+* Fidoconfig: (fidoconfig).     The format of the husky common config file.
+@end direntry
+
+@node Top, , , (dir)
+@top fidoconfig
+
+Этот документ описывает использование fidoconfig для того, чтобы fido работало
+на вашей любимой платформе.
+
+Этот документ применим к fidoconfig версии 0.15.
+@c @end ifinfo
+
+@menu
+* design goals::  чего мы хотим достичь
+* config file::   как это выглядит
+* tparser::       проверка вашего конфига
+* converting::    конвертирование fidoconfig в конфиги golded и msged
+* contact::       как связаться с автором
+@end menu
+
+@node design goals, config file, Top, Top
+@chapter Цели создания
+Целью написания fidoconfig было создание единого конфигурационного файла для
+нескольких разных fido программ: редактора, тоссера и т.д.
+Дополнительной целью было создание одной библиотеки (fidoconfig), которая может
+быть использована всеми программами.
+Преимущество в том, что вам придется редактировать один конфигурационный файл,
+так что изменять параметры системы намного проще, чем в обычных программных
+пакетах. Также баги могут прокрасться только в одну библиотеку, а не в тысячи и
+тысячи библиотек.
+Конфиг может быть использован во всех операционных системах. Библиотека также
+должна быть вполне портируемой.
+
+@node config file, converting, design goals, Top
+@chapter Конфигурационный файл
+
+@include proposal.texi
+
+@node converting, tparser, config file, Top
+@chapter Конвертирование fidoconfig в конфиги golded, msged и aquaed
+Так как оригинальный GoldEd от Odinn Sorensen совсем не поддерживает fidoconfig,
+а msged и aquaed - только в бета версиях, мы разработали три программы, которые
+конвертируют ваш fidoconfig в эти собственные форматы конфигурационных файлов.
+
+@enumerate
+@item fconf2golded
+fconf2golded <goldedConfigFileName> [<default.cfg>]
+
+@example
+fconf2golded ~/golded/golded.cfg ~/golded/goldDefaults.cfg
+@end example
+
+@item fconf2msged
+fconf2msged <msgedConfigFileName>
+
+@example
+fconf2msged ~/msged.areas
+@end example
+
+@item fconf2aquaed
+fconf2aquaed <aquaedConfigFileName> [<default.cfg>]
+(если вы указываете default.cfg, в вашем конфигурационном файле будет
+сгенерирован include <default.cfg> - подключение default.cfg)
+
+@example
+fconf2aquaed ~/aquaed/aquaed.cfg
+@end example
+
+@end enumerate
+
+@node tparser, contact, converting, Top
+@chapter Проверка конфига
+Вам следует запускать @command{tparser} @sc{каждый раз} после того, как вы
+изменили конфиг. Если tparser нашел ошибку в конфиге, пожалуйста, исправьте его
+и попробуйте снова.
+
+@table @asis
+@item Синтаксис:
+@command{tparser [-h|@minus{-help}] [-Dvar=value] [-E] [-P] [/path/to/config/file]}
+@item Пример:
+@example
+@command{tparser -Dmodule=hpt | less}
+@end example
+@end table
+
+tparser (как и любая программа fidoconfig) выведет сообщение об ошибке, если вы
+допустили таковую в конфиге. Также он может вывести какие-то предупреждения о
+ваших установках в конфиге. Он будет "ворчать" на любое ключевое слово, которое
+он не знает. Он остановится после первой же ошибки (не предупреждения), чтобы
+дать вам возможность изменить конфиг.
+
+@subsection Options
+
+@table @asis
+@item -Dvar=value
+Установить переменную конфига @code{var} в @code{value}.
+@item -E
+Вывести конфиг на stdout (раскрываются все переменные).
+@item -h
+@itemx @minus{-help}
+Вывести информацию по использованию.
+@item -P
+Попытаться создать еще не существующие директории.
+@end table
+
+@node contact, , tparser, Top
+@chapter Как связаться с автором
+Вы можете написать мне на
+
+@example
+@email{mtt@@tichy.de}
+2:2432/645
+@end example
+
+и в фидошных эхах
+
+@example
+linux.develop.ger
+fidosoft.husky
+@end example
+
+Max Levenkov:
+@example
+@email{sackett@@mail.ru}
+ru.husky (русская)
+ru.echoprocessors (русская)
+fidosoft.husky (английская)
+@end example
+
+Свежая библиотека fidoconfig и другой fido софт будут доступны на
+@url{http://husky.sourceforge.net}.
+
+@bye

@@ -1,4 +1,0 @@
-
-FidoConf.INF: fidoconfig.texi proposal.texi
-	-texi2ipf.exe fidoconfig.texi > FidoConf.Ipf
-	ipfc.exe /CODEPAGE=850 /L=ENG /INF FidoConf.Ipf
