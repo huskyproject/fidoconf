@@ -215,6 +215,7 @@ endif
 * dupearea::                    описание dupearea
 * echoarea::                    описание echoarea
 * netmailarea::                 описание netmailarea
+* robotsarea::                  описание robotsarea
 * localarea::                   описание области сообщений BBS
 * filearea::                    описание filearea
 * bbsarea::                     описание файловой области BBS
@@ -946,7 +947,7 @@ development" 2:2433/1245 -def}
 
 Этот оператор может повторяться.
 
-@node netmailarea, localarea, echoarea, Keywords
+@node netmailarea, robotsarea, echoarea, Keywords
 @subsection netmailarea
 @table @asis
 @item Синтаксис:
@@ -960,7 +961,21 @@ development" 2:2433/1245 -def}
 
 Этот оператор может повторяться.
 
-@node localarea, filearea, netmailarea, Keywords
+@node robotsarea, localarea, netmailarea, Keywords
+@subsection robotsarea
+@table @asis
+@item Syntax:
+@code{robotsArea <string>}
+@item Example:
+@code{robotsArea SecondNetMail}
+@end table
+
+Указывает область, в которой areafix и filefix будут искать запросы. Ответы от
+этих роботов будут храниться тут же. @strong{В целях безопасности RobotsArea должна быть NetmailArea!}
+
+Этот оператор не может повторяться.
+
+@node localarea, filearea, robotsarea, Keywords
 @subsection localarea
 @table @asis
 @item Синтаксис:

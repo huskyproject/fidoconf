@@ -215,6 +215,7 @@ you can find in the programs' individual documentations.
 * dupearea::                    definition of dupearea
 * echoarea::                    definition of echoarea
 * netmailarea::                 definition of netmailarea
+* robotsarea::                  definition of robotsarea
 * localarea::                   definition of the BBS message area
 * filearea::                    definition of filearea
 * bbsarea::                     definition of the BBS file area
@@ -948,7 +949,7 @@ Read HPT documentation for details.
 
 This statement can be repeated.
 
-@node netmailarea, localarea, echoarea, Keywords
+@node netmailarea, robotsarea, echoarea, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:
@@ -962,8 +963,21 @@ Read HPT documentation for details.
 
 This statement can be repeated.
 
+@node robotsarea, localarea, netmailarea, Keywords
+@subsection robotsarea
+@table @asis
+@item Syntax:
+@code{robotsArea <string>}
+@item Example:
+@code{robotsArea SecondNetMail}
+@end table
 
-@node localarea, filearea, netmailarea, Keywords
+Specifies area used for areafix and filefix scanning. Replies from robots will
+also be stored here. @strong{RobotsArea must be NetmailArea for security purposes!}
+
+This statement cannot be repeated.
+
+@node localarea, filearea, robotsarea, Keywords
 @subsection localarea
 @table @asis
 @item Syntax:
