@@ -99,7 +99,7 @@ install: commonlibs ranlib commonprogs instdyn
 	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
-	$(INSTALL) linkedto $(BINDIR)
+	$(INSTALL) $(IBOPT) linkedto $(BINDIR)
 	$(INSTALL) $(IIOPT) $(FIDOCONFIG).h   $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/$(FIDOCONFIG)
