@@ -107,7 +107,8 @@ int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char 
 	return 0;
 }
 
-static int compare_arealistitems(const void *a, const void *b) { return strcmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag); }
+static int compare_arealistitems(const void *a, const void *b)
+{ return stricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag); }
 
 void sortAreaList(ps_arealist al)
 {
