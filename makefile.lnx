@@ -55,7 +55,6 @@ install: commonlibs commonprogs
 	install $(ILOPT) libfidoconfig.so.$(VER) $(LIBDIR)
 	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
-	/sbin/ldconfig
 	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed fconf2fidogate fconf2squish $(BINDIR)
 	install linkedto $(BINDIR)
 	install $(IBOPT) tparser      $(BINDIR)
