@@ -486,7 +486,7 @@ You also can set msgabsedir like:
 # last delimiter is important!
 set msgbdir = /var/spool/fido/msgb/
 msgbasedir = [[]msgbdir[]]
-@end
+@end example
 
 In this way msgbasedir will be [msgbdir] in autocreated areas.
 This is a good way toss mail in different systems (UNIX, OS/2, etc.)
