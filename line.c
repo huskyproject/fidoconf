@@ -352,6 +352,61 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    return 0;
 }
 
+int parseFileAreaOption(s_fidoconfig config, char *option, s_filearea *area)
+{
+   char *token;
+
+   if (stricmp(option, "a")==0) {
+      token = strtok(NULL, " \t");
+      area->useAka = getAddr(config, token);
+      if (area->useAka == NULL) {
+//         printf("!!! %s not found as address.\n", token);
+         return 1;
+      }
+   }
+   else if (stricmp(option, "h")==0) area->hide = 1;
+   else if (stricmp(option, "manual")==0) area->manual = 1;
+   else if (stricmp(option, "nopause")==0) area->noPause = 1;
+   else if (stricmp(option, "g")==0) {
+          token = strtok(NULL, " \t");
+//        printf("group - '%s'\n",token);
+      area->group = token[0];
+      if (token == NULL) {
+                 return 1;
+      }
+   }
+   else if (stricmp(option, "r")==0) {
+          token = strtok(NULL, " \t");
+//        printf("rgrp - '%s'\n",token);
+      copyString(token, &(area->rgrp));
+      if (area->rgrp == NULL) {
+                 return 1;
+      }
+   }
+   else if (stricmp(option, "w")==0) {
+          token = strtok(NULL, " \t");
+//        printf("wgrp - '%s'\n",token);
+      copyString(token, &(area->wgrp));
+      if (area->wgrp == NULL) {
+                 return 1;
+      }
+   }
+   else if (stricmp(option, "l")==0) {
+          token = strtok(NULL, " \t");
+//        printf("rwgrp - '%s'\n",token);
+      copyString(token, &(area->rwgrp));
+      if (area->rwgrp == NULL) {
+                 return 1;
+      }
+   }
+   else {
+      printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
+      return 1;
+   }
+
+   return 0;
+}
+
 int parseArea(s_fidoconfig config, char *token, s_area *area)
 {
    char *tok;
@@ -433,6 +488,77 @@ int parseEchoArea(char *token, s_fidoconfig *config)
    config->echoAreas = realloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
    rc = parseArea(*config, token, &(config->echoAreas[config->echoAreaCount]));
    config->echoAreaCount++;
+   return rc;
+}
+
+int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
+{
+   char *tok;
+   int rc = 0;
+
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   memset(area, 0, sizeof(s_filearea));
+
+   area->useAka = &(config.addr[0]);
+
+   // set default group for reader
+   area->group = '\060';
+
+   tok = strtok(token, " \t");
+   if (tok == NULL) {
+      printf("Line %d: There is a areaname missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;         // if there is no areaname
+   }
+
+   area->areaName= (char *) malloc(strlen(tok)+1);
+   strcpy(area->areaName, tok);
+
+   tok = strtok(NULL, " \t");
+   if (tok == NULL) {
+      printf("Line %d: There is a pathname missing %s!\n", actualLineNr, actualLine);
+      return 2;         // if there is no filename
+   }
+   area->pathName = (char *) malloc(strlen(tok)+1);
+   strcpy(area->pathName, tok);
+
+   while ((tok = strtok(NULL, " \t"))!= NULL) {
+      if(tok[0]=='-') rc += parseFileAreaOption(config, tok+1, area);
+      else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
+         area->downlinks = realloc(area->downlinks, sizeof(s_link*)*(area->downlinkCount+1));
+         area->downlinks[area->downlinkCount] = getLink(config, tok);
+         if (area->downlinks[area->downlinkCount] == NULL) {
+            printf("Line %d: Link for this area is not found!\n", actualLineNr);
+            rc += 1;
+         }
+         area->downlinkCount++;
+      }
+      else {
+         printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
+         rc +=1;
+      }
+   }
+
+   return rc;
+}
+
+int parseFileAreaStatement(char *token, s_fidoconfig *config)
+{
+   int rc;
+
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   config->fileAreas = realloc(config->fileAreas,
+sizeof(s_filearea)*(config->fileAreaCount+1));
+   rc = parseFileArea(*config, token,
+&(config->fileAreas[config->fileAreaCount]));
+   config->fileAreaCount++;
    return rc;
 }
 
@@ -914,6 +1040,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "logFileDir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
    else if (stricmp(token, "dupeHistoryDir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
    else if (stricmp(token, "nodelistDir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
+   else if (stricmp(token, "FileAreaBaseDir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir));
    else if (stricmp(token, "msgbasedir")==0) {
       temp = getRestOfLine();
       if (stricmp(temp, "passthrough")==0)
@@ -926,6 +1053,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "dupeArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->dupeArea));
    else if (stricmp(token, "badArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->badArea));
    else if (stricmp(token, "echoArea")==0) rc = parseEchoArea(getRestOfLine(), config);
+   else if (stricmp(token, "fileArea")==0) rc = parseFileAreaStatement(getRestOfLine(), config);
    else if (stricmp(token, "localArea")==0) rc = parseLocalArea(getRestOfLine(), config);
    else if (stricmp(token, "remap")==0) rc = parseRemap(getRestOfLine(),config);
    else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
@@ -961,6 +1089,7 @@ int parseLine(char *line, s_fidoconfig *config)
       rc = parseForwardPkts(getRestOfLine(), config, &(config->links[config->linkCount-1]));
    }
    else if (stricmp(token, "autoCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoCreateDefaults));
+   else if (stricmp(token, "autofileCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoFileCreateDefaults));
    else if (stricmp(token, "AreaFix")==0) {
           rc = 0;
           if (stricmp(getRestOfLine(), "off")==0) config->links[config->linkCount-1].AreaFix = 0;
@@ -985,6 +1114,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
 
    else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
+   else if (stricmp(token, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
    else if (stricmp(token, "availableareas")==0) rc = parseFileName(getRestOfLine(), &(config->available));
    else if (stricmp(token, "autoCreateFile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateFile));
 
@@ -992,6 +1122,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
    else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
    else if (stricmp(token, "LinkWithImportlog")==0) rc = copyString(getRestOfLine(), &(config->LinkWithImportlog));
+   else if (stricmp(token, "LogLevels")==0) rc = copyString(getRestOfLine(), &(config->loglevels));
    else if (stricmp(token, "include")==0) rc = parseInclude(getRestOfLine(), config);
 
    else if (stricmp(token, "denygrp")==0) rc = parseGroup(getRestOfLine(), config, 0);

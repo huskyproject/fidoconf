@@ -134,6 +134,22 @@ struct area {
 };
 typedef struct area s_area;
 
+struct fileareatype {
+   char *areaName;
+   char *pathName;
+   
+   s_addr *useAka;
+   
+   s_link **downlinks;  // array of pointers to s_link
+   unsigned int downlinkCount;
+
+   char manual, hide, noPause;
+
+   char group;                      // used by reader (and areafix soon)
+   char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
+};
+typedef struct fileareatype s_filearea;
+
 enum carbonType {to, from, kludge};
 typedef enum carbonType e_carbonType;
 
@@ -175,13 +191,17 @@ struct fidoconfig {
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
-   char     *magic, *areafixhelp, *available, *autoCreateDefaults, *tempOutbound;
+   char     *magic, *areafixhelp, *filefixhelp, *available, *autoCreateDefaults, *tempOutbound;
+   char     *fileAreaBaseDir, *autoFileCreateDefaults;
+   char     *loglevels;
 
    s_area   netMailArea, dupeArea, badArea;
    unsigned int   echoAreaCount;
    s_area   *echoAreas;
    unsigned int   localAreaCount;
    s_area   *localAreas;
+   unsigned int   fileAreaCount;
+   s_filearea   *fileAreas;
 
    unsigned int   routeCount;
    s_route  *route;
@@ -246,5 +266,10 @@ char *trimLine(char *line);
  */
 
 char *getConfigFileForProgram(char *envVar, char *configName);
+
+int isLinkOfFileArea(s_link *link, s_filearea *area);
+s_filearea *getFileArea(s_fidoconfig *config, char *areaName);
+
+
 
 #endif

@@ -46,7 +46,7 @@
 char *readLine(FILE *f)
 {
    char *line = NULL, temp[81];
-   size_t size = 81;
+   size_t size = 1024;
 
    line = (char *) malloc(size);
    if (fgets(line, 81, f) == NULL) {
@@ -229,6 +229,15 @@ void freeArea(s_area area) {
         free(area.downlinks);
 }
 
+void freeFileArea(s_filearea area) {
+        free(area.areaName);
+        free(area.pathName);
+        free(area.rwgrp);
+        free(area.wgrp);
+        free(area.rgrp);
+        free(area.downlinks);
+}
+
 void disposeConfig(s_fidoconfig *config)
 {
    int i;
@@ -279,13 +288,19 @@ void disposeConfig(s_fidoconfig *config)
    free(config->areafixhelp);
    free(config->available);
    free(config->autoCreateDefaults);
+   free(config->autoFileCreateDefaults);
    free(config->tempOutbound);
+   free(config->fileAreaBaseDir);
 
    freeArea(config->netMailArea);
    freeArea(config->dupeArea);
    freeArea(config->badArea);
-   for (i = 0; i< config->echoAreaCount; i++) freeArea(config->echoAreas[i]);
+   for (i = 0; i< config->echoAreaCount; i++)
+   freeArea(config->echoAreas[i]);
    free(config->echoAreas);
+   for (i = 0; i< config->fileAreaCount; i++)
+   freeFileArea(config->fileAreas[i]);
+   free(config->fileAreas);
    for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
    free(config->localAreas);
 
@@ -319,6 +334,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->outtab);
    free(config->importlog);
    free(config->LinkWithImportlog);
+   free(config->loglevels);
    free(config->echotosslog);
    free(config->lockfile);
 
@@ -385,6 +401,18 @@ s_area *getArea(s_fidoconfig *config, char *areaName)
    return &(config->badArea); // if all else fails, return badArea :-)
 }
 
+s_filearea *getFileArea(s_fidoconfig *config, char *areaName)
+{
+   UINT i;
+
+   for (i=0; i < config->fileAreaCount; i++) {
+      if (stricmp(config->fileAreas[i].areaName, areaName)==0)
+         return &(config->fileAreas[i]);
+   }
+
+   return (NULL); // if all else fails, return NULL
+}
+
 int isLinkOfArea(s_link *link, s_area *area)
 {
    int i;
@@ -395,3 +423,15 @@ int isLinkOfArea(s_link *link, s_area *area)
    }
    return 0;
 }
+
+int isLinkOfFileArea(s_link *link, s_filearea *area)
+{
+   int i;
+
+   for (i = 0; i < area->downlinkCount; i++)
+   {
+      if (link == area->downlinks[i]) return 1;
+   }
+   return 0;
+}
+
