@@ -1,3 +1,8 @@
+2002-09-18 Wednesday 18:13  pgul
+
+	* temp.c (1.11): remove HAVE_MKSTEMP, its parameters are not
+	compartible
+
 2002-09-17 Tuesday 09:18  sfpavel
 
 	* HISTORY (1.10): Update documentation
