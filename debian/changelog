@@ -1,3 +1,13 @@
+fidoconf (0.14.1-1) stable; urgency=low
+
+  * Fidoconfig 0.14 release
+  * Drop release date from version: this is official release
+  * Drop unnecessary debian/*.dirs
+  * fidoconf-runtime: link binary with libfidoconfig.so, no static
+  * libfidoconf0: drop depends for fidoconf-runtime
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Thu, 10 Oct 2002 18:16:44 +0600
+
 fidoconf (0.14-20020918-1) stable; urgency=low
 
   * New cvs version: 0.14-RC2
