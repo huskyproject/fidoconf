@@ -2,6 +2,11 @@ fidoconfig 0.7
 --------------
 
 ----- cvs ci ------
+Thu Mar  18 22:21
+Max:
++ carbons to echoarea (not only to localarea)
+
+----- cvs ci ------
 Wed Mar  17 20:50
 Max:
 + changed -m <integer> to -$m <integer> in echoarea options

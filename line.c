@@ -1116,17 +1116,24 @@ int parseCarbonArea(char *token, s_fidoconfig *config) {
    int i;
 
    if (token == NULL) {
-           printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
-           return 1;
+	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+	   return 1;
    }
-
+   
    for (i=0; i<config->localAreaCount; i++) {
-           if (stricmp(config->localAreas[i].areaName,token)==0) {
-                   config->carbons[config->carbonCount-1].area = &(config->localAreas[i]);
-                   return 0;
-           }
+	   if (stricmp(config->localAreas[i].areaName,token)==0) {
+		   config->carbons[config->carbonCount-1].area = &(config->localAreas[i]);
+		   return 0;
+	   }
    }
-
+   
+   for (i=0; i<config->echoAreaCount; i++) {
+	   if (stricmp(config->echoAreas[i].areaName,token)==0) {
+		   config->carbons[config->carbonCount-1].area = &(config->echoAreas[i]);
+		   return 0;
+	   }
+   }
+   
    return 0;
 }
 
