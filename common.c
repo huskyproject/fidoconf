@@ -207,12 +207,16 @@ void string2addr(const char *string, s_addr *addr)
    return;
 }
 
+#ifdef __TURBOC__
+#pragma warn -sig
+#endif
+
 UINT16 getUINT16(FILE *in)
 {
    UCHAR dummy;
 
    dummy = (UCHAR) getc(in);
-   return (dummy + (UCHAR ) getc(in) * 256);
+   return (dummy + (UCHAR) getc(in) * 256);
 }
 
 int fputUINT16(FILE *out, UINT16 word)
@@ -225,12 +229,17 @@ int fputUINT16(FILE *out, UINT16 word)
   return fputc(dummy, out);
 }
 
+#ifdef __TURBOC__
+#pragma warn +sig
+#endif
+
+
 INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f)
 {
    size_t i;
 
    for (i=0;i<n-1 ;i++ ) {
-      str[i] = getc(f);
+      str[i] = (UCHAR)getc(f);
 
       if (feof(f)) {
          str[i+1] = 0;
@@ -267,7 +276,7 @@ char *strUpper(char *str)
    char *temp = str;
    
    while(*str != 0) {
-      *str = toupper(*str);
+      *str = (char)toupper(*str);
       str++;
    }
    return temp;
@@ -278,7 +287,7 @@ char *strLower(char *str)
    char *temp = str;
    
    while(*str != 0) {
-      *str = tolower(*str);
+      *str = (char)tolower(*str);
       str++;
    }
    return temp;
@@ -600,7 +609,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    offset36[0] = 0;  /* this is the multiplication by 36! */
    for (i = 1; i <= 6; i++)
    {
-       offset36[i] = tempoffset % 36;
+       offset36[i] = (short)(tempoffset % 36);
        tempoffset = tempoffset / 36;
    }
 
@@ -629,7 +638,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
            tmpt = refTime;
            for (i = 0; i <= 6; i++)
            {
-               reftime36[i] = tmpt % 36;
+               reftime36[i] = (short)(tmpt % 36);
                tmpt         = tmpt / 36;
            }
        }

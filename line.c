@@ -49,7 +49,7 @@
 
 #include "dirlayer.h"
 
-#if !defined(MSDOS) || defined(__DJGPP__)
+#if !defined(SHORTNAMES)
 #include "fidoconfig.h"
 #else
 #include "fidoconf.h"
@@ -1442,7 +1442,7 @@ int parseUnpack(char *line, s_fidoconfig *config) {
        // parse matchcode statement
        // this looks a little curvy, I know. Remember, I programmed this at 23:52 :)
        for (i = 0, error = NULL; c[i] != '\0' && error == NULL; i++) {
-          code = toupper(c[i]);
+          code = (UCHAR) toupper(c[i]);
           // if code equals to '?' set the corresponding bits  of  mask[] to 0
           unpack->mask[i / 2] = i % 2  == 0 ? (code != '?' ? 0xF0 : 0) :
                                 unpack->mask[i / 2] | (code != '?' ? 0xF : 0);
@@ -2217,7 +2217,12 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "localarea")==0) rc = parseLocalArea(getRestOfLine(), config);
    else if (stricmp(token, "remap")==0) rc = parseRemap(getRestOfLine(),config);
    else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
-   else if (stricmp(token, "password")==0) {
+#ifdef __TURBOC__
+   else unrecognised++;
+#else   
+   else
+#endif       
+        if (stricmp(token, "password")==0) {
 	   if( (clink = getDescrLink(config)) != NULL ) {
           rc = parsePWD(getRestOfLine(), &clink->defaultPwd);
           // if another pwd is not known (yet), make it point to the defaultPWD
@@ -2435,8 +2440,12 @@ int parseLine(char *line, s_fidoconfig *config)
    /* -AS- */
    else if (stricmp(token, "carbondelete")==0) rc = parseCarbonDelete(getRestOfLine(), config);
    else if (stricmp(token, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
-   
-   else if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
+#ifdef __TURBOC__
+   else unrecognised++;
+#else   
+   else
+#endif       
+        if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
    else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
    else if (stricmp(token, "areafixfrompkt")==0) config->areafixFromPkt = 1;
    else if (stricmp(token, "areafixkillreports")==0) config->areafixKillReports = 1;
@@ -2537,7 +2546,7 @@ int parseLine(char *line, s_fidoconfig *config)
 
 #ifdef __TURBOC__
    else unrecognised++;
-   if (unrecognised == 3)
+   if (unrecognised == 5)
 #else   
    else 
 #endif

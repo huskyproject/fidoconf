@@ -34,13 +34,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if !defined(MSDOS) || defined(__DJGPP__)
+#if !defined(SHORTNAMES)
 #include "fidoconfig.h"
 #else
 #include "fidoconf.h"
 #endif
 
 #include "common.h"
+#include <smapi/unused.h>
 
 int writeArea(FILE *f, s_area *area, char type) {
    int i;
@@ -110,6 +111,8 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
    FILE *f;
    int  i;
    s_area *area;
+
+   unused(areasOnly);
 
    f = fopen(fileName, "a+");
    if (f!= NULL) {

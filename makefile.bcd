@@ -3,12 +3,12 @@
 
 CC=	bcc
 EXENAMEFLAG=-e
-CFLAGS=	-w -ml -I.. -I../smapi -v
-CDEFS=	-DMSDOS
+CFLAGS=	-w -ml -I.. -I../smapi -v -DMSDOS -DSHORTNAMES
 COPT=	-O2
 LFLAGS=
 # we always enerate debug info with -v; the linker will strip it
 
+TPU=.tpu
 OBJ=.obj
 EXE=.exe
 RM=del

@@ -33,7 +33,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#if !defined(MSDOS) || defined(__DJGPP__)
+#if !defined(SHORTNAMES)
 #include "fidoconfig.h"
 #else
 #include "fidoconf.h"

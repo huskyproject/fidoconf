@@ -35,6 +35,7 @@ ifeq ($(SHORTNAMES), 1)
   FCONF2SQUISH   = fc2sq
   FECFG2FCONF    = fecfg2fc
   LIBFIDOCONFIG  = fidoconf
+  CDEFS = $(CDEFS) -DSHORTNAMES
 else
   FIDOCONFIG = fidoconfig
   FCONF2AQUAED = fconf2aquaed

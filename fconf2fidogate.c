@@ -32,7 +32,7 @@
 #include "common.h"
 #include <smapi/patmat.h>
 
-#if !defined(MSDOS) || defined(__DJGPP__)
+#if !defined(SHORTNAMES)
 #include "fidoconfig.h"
 #else
 #include "fidoconf.h"
@@ -116,7 +116,7 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
             {
             for (j=1;hlp[j]!=0;j++)
                 {
-                hlp[j]=toupper(hlp[j]);
+                hlp[j]=(char)toupper(hlp[j]);
                 if (!(hlp[j]>='A' && hlp[j]<='Z') && hlp[j]!='.' &&
                     hlp[j]!='_' && hlp[j]!='-' && hlp[j]!='*' &&
                     hlp[j]!=0x27 && hlp[j]!=0x60 )

@@ -458,7 +458,7 @@ void adaptcase (char *str)
 {
     for (; *str; str++)
     {
-        *str = tolower(*str);
+        *str = (char)tolower(*str);
     }
 }
 

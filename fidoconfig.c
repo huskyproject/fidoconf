@@ -34,7 +34,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#if !defined(MSDOS) || defined(__DJGPP__)
+#if !defined(SHORTNAMES)
 #include "fidoconfig.h"
 #else
 #include "fidoconf.h"

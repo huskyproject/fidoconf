@@ -1,15 +1,9 @@
-#Settings for Linux 
-
-#installation directires
-INSTDIR = /usr/local/bin
-LIBDIR = /usr/local/lib
-INCDIR = /usr/local/include
-IBOPT = -c -s -m755
-ILOPT = -c -m644
+# Linux legacy makefile
 
 # program settings
-CC = gcc
-AR = ar
+CC   = gcc
+EXENAMEFLAG = -o
+AR   = ar
 AR_R = r
 RM = rm
 LDCONFIG = /sbin/ldconfig
