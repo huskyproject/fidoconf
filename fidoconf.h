@@ -68,13 +68,15 @@ extern char *actualLine, *actualKeyword;
 
 #ifndef _MAKE_DLL_MVC_
 extern    int  actualLineNr;
+extern    char CommentChar;
 #else
 FCONF_EXT int  actualLineNr;
+FCONF_EXT char CommentChar;
 #endif
 
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"
-extern char CommentChar;
+
 
 FCONF_EXT char *striptwhite(char *str);
 
