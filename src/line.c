@@ -630,32 +630,17 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
                 nfree(iOption);
                 return 1;
             }
+            if ( area->msgbType == MSGTYPE_PASSTHROUGH )
+                /*  MsgBase type is already defined */
+                return 0;
             iToken = strLower(sstrdup(token));
             if (strcasecmp(iToken, "squish")==0) {
-                if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-                    prErr("Logical Defect!! You could not make a Squish Area Passthrough!");
-                    nfree(iOption);
-                    nfree(iToken);
-                    return 1;
-                }
                 area->msgbType = MSGTYPE_SQUISH;
             }
             else if (strcasecmp(iToken, "jam")==0) {
-                if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-                    prErr("Logical Defect!! You could not make a Jam Area Passthrough!");
-                    nfree(iOption);
-                    nfree(iToken);
-                    return 1;
-                }
                 area->msgbType = MSGTYPE_JAM;
             }
             else if (strcasecmp(iToken, "msg")==0) {
-                if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-                    prErr("Logical Defect!! You could not make a *.msg Area Passthrough!");
-                    nfree(iOption);
-                    nfree(iToken);
-                    return 1;
-                }
                 area->msgbType = MSGTYPE_SDM;
             }
             else
@@ -665,11 +650,14 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
                 nfree(iToken);
                 return 1;
             }
-        }else{
+        } else {
             prErr("Option '-b' is allowed for echoareas and localareas only!");
             nfree(iOption);
             return 1;     /*  error */
         }
+    }
+    else if (strcasecmp(iOption, "pass")==0) {
+        area->msgbType = MSGTYPE_PASSTHROUGH;
     }
     else if (strcmp(iOption, "p")==0) {
         token = strtok(NULL, " \t");
