@@ -598,6 +598,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
    else if (stricmp(option, "h")==0) area->hide = 1;
    else if (stricmp(option, "manual")==0) area->mandatory = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
+   else if (stricmp(option, "nocrc")==0) area->noCRC = 1;
    else if (stricmp(option, "g")==0) {
           token = strtok(NULL, " \t");
 //        printf("group - '%s'\n",token);
@@ -2051,9 +2052,19 @@ int parseLine(char *line, s_fidoconfig *config)
           if (stricmp(getRestOfLine(), "off")==0) config->links[config->linkCount-1].FileFix = 0;
       else rc = 2;
    }
-   else if (stricmp(token, "pause")==0) {
+   else if (stricmp(token, "pause")==0) { /* what happens with linkCount = 0??? */
      config->links[config->linkCount-1].Pause = 1;
      rc = 0;
+   }
+   else if (stricmp(token, "notic")==0) {
+     if (config->linkCount > 0) {
+       config->links[config->linkCount-1].noTIC = 1;
+       rc = 0;
+     } 
+     else {
+       printLinkError();
+       rc = 1;
+     }
    }
    else if (stricmp(token, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(config->links[config->linkCount-1].autoPause));
    else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].RemoteRobotName));

@@ -108,6 +108,7 @@ struct link {
    char *forwardRequestFile;  // list of available areas from this link
    char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
    void *msg;                 // active msg to the link (used in areafix)
+   int  noTIC;                // 0 if TIC files should be generated
    int  Pause;                // 0 if no pause (default)
    unsigned autoPause;        // in days
    unsigned level;	          // 0-65535
@@ -186,6 +187,7 @@ struct fileareatype {
    char *description;
    
    int pass;           // 1 - Passthrough File Area
+   int noCRC;          // 0 if CRC check should be done on incoming files
    s_addr *useAka;
    
    s_arealink **downlinks;  // array of pointers to s_link
