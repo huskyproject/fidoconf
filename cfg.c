@@ -40,7 +40,7 @@ int init_conf(char *conf_name)
   condition=1;
   sp=0;
   cfgNamesCount=0;
-  hcfg=fopen(conf_name, "r");
+  hcfg=fopen(conf_name, "rb");
   if (hcfg==NULL)
   {
     fprintf(stderr, "Can't open config file %s: %s!\n",
@@ -397,7 +397,7 @@ char *configline(void)
       if (sp==maxsp)
         incstack=srealloc(incstack, (maxsp+=10)*sizeof(*incstack));
       incstack[sp].farr=hcfg;
-      hcfg=fopen(p, "r");
+      hcfg=fopen(p, "rb");
       if (hcfg==NULL)
       { fprintf(stderr, "Can't open include file %s: %s!\n", p, strerror(errno));
         hcfg=incstack[sp].farr;
