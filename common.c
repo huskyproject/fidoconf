@@ -1498,3 +1498,19 @@ unsigned int dec2oct(unsigned int decimal)
     return mode;
 }
 
+
+/*
+ * Return pointer to base ('clean') filename in pathname
+ */
+const char *basename(const char *pathname)
+{
+  char *temp;
+
+  temp = strrchr(pathname, '/');
+  if(temp) temp++; /* skip directory separator */
+  else if( (temp = strrchr(pathname, '\\')) )
+        temp++; /* skip directory separator */
+  else  return pathname;
+
+  return temp;
+}

@@ -333,8 +333,17 @@ FCONF_EXT char *strseparate(register char **stringp, register const char *delim)
 /* Converts decimal value to octal [useful for chmod()] */
 unsigned int dec2oct(unsigned int decimal);
 
+
+/*
+ * Return pointer to base ('clean') filename in pathname
+ */
+FCONF_EXT const char *basename(const char *pathname);
+
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
+
