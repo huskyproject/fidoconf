@@ -14,7 +14,7 @@ int writeArea(FILE *f, s_area *area, char netmail) {
    else fprintf(f, "e");
    fprintf(f, "8u ");
 
-   fprintf(f, "\"%s\" %s %s ", area->areaName, area->fileName, (netmail==1) ? area->areaName : "");
+   fprintf(f, "\"%s\" %s %s ", area->areaName, area->fileName, (netmail!=1) ? area->areaName : "");
 
    fprintf(f, "%u:%u/%u.%u", area->useAka->zone, area->useAka->net, area->useAka->node, area->useAka->point);
    
