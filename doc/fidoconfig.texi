@@ -37,7 +37,7 @@ Copyright @copyright{} 1998-2001 Husky Development Team
 This document describes the use of fidoconfig to make fido work on your unix
 workstation.
 
-This document applies to version 0.10 of fidoconfig.
+This document applies to version 0.15 of fidoconfig.
 @c @end ifinfo
 
 @menu
