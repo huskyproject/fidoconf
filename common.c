@@ -150,8 +150,10 @@ void string2addr(const char *string, s_addr *addr)
   const char *start = string;
   char *buffer;
   int  i = 0;
-	
+
   memset(addr, '\0', sizeof(s_addr));
+
+  if (!string) return;
 
   if (strchr(start,':')==NULL || strchr(start,'/')==NULL) return;
 

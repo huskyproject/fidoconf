@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Fri Dec  8 04:41:07 UTC 2000
+sms:
+* string2addr: check if string is non-NULL first
+
+----- cvs ci ------
 Fri Dec  8 02:39:38 UTC 2000
 sms:
 * fixed typo in tparser.c
