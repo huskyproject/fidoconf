@@ -74,9 +74,15 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
       
       for (i=0; i<config->addrCount; i++)
          fprintf(f, "Address %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
-      fprintf(f, "\n");
       
       if (config->echotosslog != NULL) fprintf(f, "tossLog %s\n", config->echotosslog);
+      if (config->nodelistDir != NULL && config->fidoUserList != NULL)
+      {
+          fprintf(f, "Userlist %s%s\n",
+                  config->nodelistDir, config->fidoUserList);
+      }
+
+      fprintf(f, "\n");
 
       for (i=0; i<config->netMailAreaCount; i++) {
          writeArea(f, &(config->netMailAreas[i]), 1);
