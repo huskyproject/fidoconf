@@ -1,4 +1,10 @@
 ----- cvs ci ------
+Sat Dec  2 01:28:45 UTC 2000
+sms:
+* using strdup for string constants on init, so copyString can free them 
+  safely
+
+----- cvs ci ------
 Thu Nov 30 15:20:17 NOVT 2000
 max:
 * dublicate strings safely overwrites the old ones
