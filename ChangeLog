@@ -1,3 +1,17 @@
+2002-08-18 Sunday 18:25  d_sergienko
+
+	* TODO (1.60), doc/fidoconfig.texi (1.20): purged TODO expired
+	entries and fixed html output by makeinfo --html
+
+2002-08-18 Sunday 15:36  d_sergienko
+
+	* adcase.c (1.10): Patch from Ivan Fedorov (2:5070/275) to include
+	common.h
+
+2002-08-18 Sunday 10:30  mche
+
+	* common.c (1.93): end file with new line
+
 2002-08-17 Saturday 12:26  d_sergienko
 
 	* temp.c (1.5): use mkstemp() instead mktemp() on UNIX
