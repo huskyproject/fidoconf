@@ -22,6 +22,9 @@ Address 530:199/976
 # and will mostly be only useful on dos-systems
  
 Unpack  "unzip  -j -Loqq $a -d $p" 0 504b0304
+Unpack "\path\pkzipc -ext -dir=none -over=all -nozip -silent $a $p $f" 0 504b0304
+#Unpack "pkunzip -njCL $a -d $p $f" 0 504b0304
+#Unpack "pkzip25 -ext -silent -over=all -nofix -nozip $a $p $f" 0 504b0304
 Pack  zip zip -9 -j -q $a $f
 
 Unpack  "arc eno $a $p'*.*'" 0 1a
