@@ -1,3 +1,8 @@
+2002-11-26 Tuesday 07:34  stas_degteff
+
+	* line.c (1.351): Fix EMX compilation warnings (bugreport from Andy
+	U. Luk'yanov)
+
 2002-11-25 Monday 16:01  pgul
 
 	* common.c (1.139): redo previous patch
