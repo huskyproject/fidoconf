@@ -696,7 +696,7 @@ int printLink(ps_link link) {
 
    printf("filefixAutoCreate %s\n", (link->filefix.autoCreate) ? "on" : "off");
    printf("AutoFileCreateSubdirs %s\n", (link->autoFileCreateSubdirs) ? "on" : "off");
-   if (link->filefix.autoCreateFile) printf("filefix.autoCreateFile: %s\n", link->filefix.autoCreateFile);
+   if (link->filefix.autoCreateFile) printf("filefixAutoCreateFile: %s\n", link->filefix.autoCreateFile);
    if (link->filefix.numFrMask > 0) {
 	   printf("filefixFwdMask: ");
 	   for (i = 0; i < link->filefix.numFrMask; i++) {
