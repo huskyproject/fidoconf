@@ -173,7 +173,7 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
 
 
   switch(branch){
-  case BRANCH_CURRENT: cbranch = "-current";
+  case BRANCH_CURRENT: cbranch = "-cur";
                        if( !(minor & 1) ){
                          fprintf(stderr, __FILE__ ":%u: illegal usage of GenVersionStr(): minor value for current branch must be odd!\n", __LINE__);
                        }
