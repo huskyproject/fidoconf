@@ -44,6 +44,9 @@ int writeArea(FILE *f, s_area *area, char netmail) {
       
       case (MSGTYPE_SDM):    fprintf(f, "Fido ");
                              break;
+
+      case (MSGTYPE_JAM):    fprintf(f, "Jam ");
+                             break;
    }
 
    if (netmail == 1) fprintf(f, "mp");

@@ -11,9 +11,9 @@ AR_R = r
 RM = rm -f
 
 ifeq ($(DEBUG), 1)
-  COPT = -fpic -O2 -pipe -Wall -DUNIX -I$(INCDIR) -g
+  COPT = -fpic -O2 -pipe -Wall -DUNIX -I$(INCDIR) -I../smapi -g
 else
-  COPT = -fpic -O2 -pipe -Wall -DUNIX -I$(INCDIR) -s
+  COPT = -fpic -O2 -pipe -Wall -DUNIX -I$(INCDIR) -I../smapi -s
 endif
 
 LOPT = -L. -L$(LIBDIR)
@@ -54,15 +54,15 @@ libfidoconfig.so.$(VERH): $(LOBJS)
 	$(CC) -c $(COPT) $*.c
 
 install: commonlibs commonprogs
-	install $(IBOPT) fconf2golded $(BINDIR)
-	install $(IBOPT) fconf2msged $(BINDIR)
-	install $(IBOPT) fconf2aquaed $(BINDIR)
-	install $(IBOPT) fconf2fidoconfig $(BINDIR)
-	install $(IBOPT) fconf2squish $(BINDIR)
-	install $(IBOPT) tparser $(BINDIR)
-	install $(ILOPT) $(LIBFIDOCONFIG)$(A) $(LIBDIR)
-	install $(ILOPT) libfidoconfig.so.$(VERH) $(LIBDIR)
+	install -c $(IBOPT) fconf2golded $(BINDIR)
+	install -c $(IBOPT) fconf2msged $(BINDIR)
+	install -c $(IBOPT) fconf2aquaed $(BINDIR)
+	install -c $(IBOPT) fconf2fidogate $(BINDIR)
+	install -c $(IBOPT) fconf2squish $(BINDIR)
+	install -c $(IBOPT) tparser $(BINDIR)
+	install -c $(ILOPT) $(LIBFIDOCONFIG)$(A) $(LIBDIR)
+	install -c $(ILOPT) libfidoconfig.so.$(VERH) $(LIBDIR)
 	ln -sf libfidoconfig.so.$(VERH) $(LIBDIR)/libfidoconfig.so
-	install $(IIOPT) fidoconfig.h $(INCDIR)
-	install $(IIOPT) fidoconf.pas $(INCDIR)
+	install -c $(IIOPT) fidoconfig.h $(INCDIR)
+	install -c $(IIOPT) fidoconf.pas $(INCDIR)
 
