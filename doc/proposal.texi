@@ -58,6 +58,20 @@ a comment and will be ignored.
 * dupehistorydir:: path for dupe files
 * nodelistdir::    path for nodelists
 * magic::          path for magic-file requests
+* link::           adding a link to your config
+* aka::            links adress
+* password::       links session and default password 
+* pktpwd::         pktpassword for this link
+* ticpwd::         ticcer password for this link
+* areafixpwd::     areafix password for this link
+* filefixpwd::     filefix password for this link
+* bbspwd::         bbs password for this link (online user)
+* handle::         nickname or handle for link
+* tossgrp::        tosser groups which link belongs to
+* ticgrp::         ticcer groups which link belongs to
+* bbsgrp::         online groups which link belongs to
+* autoareacreate:: right to auto create areas on your system
+* packer::         default packer for link
 @end menu
 
 @node version, name, , Keywords
@@ -344,7 +358,7 @@ This path contains the raw nodelist as well as the compiled ones.
 
 This statement cannot be repeated.
 
-@node magic, , nodelistdir, Keywords
+@node magic, link, nodelistdir, Keywords
 @subsection magic
 @table @asis
 @item Syntax:
@@ -361,6 +375,157 @@ processed as if they were received file requests (recusively).
 Execution of commands may compromize security!  You are warned.
 
 This statement cannot be repeated.
+
+@node link, aka, magic, Keywords
+@subsection link
+@table @asis
+@item Syntax:
+@code{link <name>}
+@item Example:
+@code{link Matthias Tichy}
+@end table
+
+This statement starts a new Link-definition. All the following link-related statements
+change the configuration of this link until a new link statement is found.
+The name is the name of this link.
+
+This statement can be repeated.
+
+@node aka, password, link, Keywords
+[[BBB@subsection aka
+@table @asis
+@item Syntax:
+@code{aka <aka>}
+@item Example:
+@code{aka 2:2433/1245}
+@end table
+
+This statement sets the aka for the current link. 
+
+This statement can only be repeated for different links.
+
+@node password, pktpwd, aka, Keywords
+@subsection password
+@table @asis
+@item Syntax:
+@code{password <string>}
+@item Example:
+@code{password secret}
+@end table
+
+This statement sets the session and the default password for the link.
+If you do not change the other passwords, they are set to this password.
+Only passwords with maximal 8 characters are valid because of limitations of
+other software packages.
+
+This statement can only be repeated for different links.
+
+@node pktpwd, ticpwd, password, Keywords
+@subsection pktpwd
+@table @asis
+@item Syntax:
+@code{pktpwd [<string>]}
+@item Example:
+@code{pktpwd geheim}
+@end table
+
+This statement sets the pktpassword for the actual link.
+Only passwords with maximal 8 characters are valid because of limitations of
+other software packages.
+An empty statement is allowed.
+
+This statement can only be repeated for different links.
+
+@node ticpwd, areafixpwd, pktpwd, Keywords
+@subsection ticpwd
+@table @asis
+@item Syntax:
+@code{ticpwd [<string>]}
+@item Example:
+@code{ticpwd geheim}
+@end table
+
+This statement sets the ticcer password for the actual link.
+Only passwords with maximal 8 characters are valid because of limitations of
+other software packages.
+An empty statement is allowed.
+
+This statement can only be repeated for different links.
+
+@node areafixpwd, filefixpwd, ticpwd, Keywords
+@subsection areafixpwd
+@table @asis
+@item Syntax:
+@code{areafixpwd [<string>]}
+@item Example:
+@code{areafixpwd geheim}
+@end table
+
+This statement sets the areafix password for the actual link.
+Only passwords with maximal 8 characters are valid because of limitations of
+other software packages.
+An empty statement is allowed.
+
+This statement can only be repeated for different links.
+
+@node filefixpwd, bbspwd, areafixpwd, Keywords
+@subsection filefixpwd
+@table @asis
+@item Syntax:
+@code{filefixpwd [<string>]}
+@item Example:
+@code{filefixpwd geheim}
+@end table
+
+This statement sets the filefix password for the actual link.
+Only passwords with maximal 8 characters are valid because of limitations of
+other software packages.
+An empty statement is allowed.
+
+This statement can only be repeated for different links.
+
+@node bbspwd, handle, filefixpwd, Keywords
+@subsection bbspwd
+@table @asis
+@item Syntax:
+@code{bbspwd [<string>]}
+@item Example:
+@code{bbspwd geheim}
+@end table
+
+This statement sets the bbs password for the actual link.
+Only passwords with maximal 8 characters are valid because of limitations of
+other software packages.
+An empty statement is allowed.
+
+This statement can only be repeated for different links.
+
+@node handle, tossgrp, bbspwd, Keywords
+@subsection handle
+@table @asis
+@item Syntax:
+@code{handle <string>}
+@item Example:
+@code{handle eddie}
+@end table
+
+This statement sets the handle or nickname for the link.
+
+This statement can only be repeated for different links.
+
+@node tossgrp, ticgrp, tosspwd, Keywords
+@subsection tossgrp
+@table @asis
+@item Syntax:
+@code{tossgrp {<group>}}
+@item Example:
+@code{tossgrp eddie}
+@end table
+
+This statement sets the handle or nickname for the link.
+
+This statement can only be repeated for different links.
+
 
 @node Example, , Keywords, config file
 @section Working sample config
