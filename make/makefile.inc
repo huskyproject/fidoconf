@@ -88,13 +88,13 @@ $(TARGETLIB): $(LOBJS)
 
 
 $(PROGRAMS): $(TARGETLIB)
-	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
+	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEFLAG)$@ $@$(_OBJ) $(LIBS) $<
 
 $(FC2TOR): $(TOROBJS) $(TARGETLIB)
-	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
+	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEFLAG)$@ $@$(_OBJ) $(LIBS) $<
 
 $(FECFG2FC): $(FEOBJS) $(TARGETLIB)
-	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
+	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEFLAG)$@ $@$(_OBJ) $(LIBS) $<
 
 
 commonclean: $(SYMBOLIC)
