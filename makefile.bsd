@@ -13,8 +13,10 @@ BINDIR= /usr/local/bin/
 LIBDIR= /usr/local/lib/
 INCDIR=/usr/local/include/
 
+# programs
 MKDIR=install
 MKDIROPT=-d -m 755 -p
+INSTALL=install
 
 # install scripts options
 ISOPT = -c -m 555
