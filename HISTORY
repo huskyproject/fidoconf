@@ -1,4 +1,4 @@
-FIDOCONFIG 0.11 release
+FIDOCONFIG 0.12 release
 
 1. MAJOR feature improvements:
 - set, if, else, elseif, ifdef, ifndef, endif
