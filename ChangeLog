@@ -1,3 +1,8 @@
+2002-06-24 Monday 15:19  stas
+
+	* log.h (1.7): New log level LL_LINKPASS ('Y'); add some aliases
+	for other
+
 2002-06-23 Sunday 21:57  stas
 
 	* makefile.bsd (1.14): Add comments.
