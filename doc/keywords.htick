@@ -29,7 +29,7 @@ FileEchoFlavour
 FileLDescString
 FileFixFromName
 FileFixHelp
-FileFixKillReports
+FileFixReportsAttr
 FileFixKillRequests
 FileFixNames
 MaxTicLineLength
