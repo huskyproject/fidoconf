@@ -115,7 +115,7 @@ void printArea(s_area area) {
    printf("Level write - %d\n", area.levelwrite);
    if (area.group) printf("Group       - %s\n", area.group);
    if (area.nopack) {
-      printf("pack never (ignoging: max: %u msgs\tpurge: %u days)\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
+      printf("pack never (ignoring: max: %u msgs\tpurge: %u days)\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    } else {
       printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    }
