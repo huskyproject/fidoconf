@@ -1,3 +1,18 @@
+2003-01-08 Wednesday 11:55  stas_degteff
+
+	* fidoconf.c (1.101), tparser.c (1.226): Warnings about too long
+	passwords
+
+2003-01-08 Wednesday 11:32  stas_degteff
+
+	* common.c (1.155): Comment out messages to stderr about waiting
+	lock file
+
+2003-01-08 Wednesday 08:51  andr_lukyanov
+
+	* makefile.mvc (1.26), makefile.mvcdll (1.26): correct MSVC
+	compilation
+
 2003-01-06 Monday 15:57  quetschke
 
 	* typesize.h (1.30): Re-added __CYGWIN__ to the list of other unix
