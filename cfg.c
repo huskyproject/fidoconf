@@ -447,6 +447,63 @@ char *configline(void)
   }
 }
 
+#if defined (UNIX)
+static int cmpfnames(char *file1, char *file2)
+{
+    struct stat st1, st2;
+    if (stat(file1, &st1) || stat(file2, &st2))
+	return 1;
+    if (st1.st_dev!=st2.st_dev || st1.st_ino!=st2.st_ino)
+	return 1;
+    return 0;
+}
+#elif defined (WINNT)
+#include <windows.h>
+static int cmpfnames(char *file1, char *file2)
+{
+    char buf[256], path1[256], path2[256], *p;
+    if (!GetLongPathName(file1, buf, sizeof(buf))) return 1;
+    if (!GetFullPathName(buf, sizeof(path1), path1, &p)) return 1;
+    if (!GetLongPathName(file2, buf, sizeof(buf))) return 1;
+    if (!GetFullPathName(buf, sizeof(path2), path2, &p)) return 1;
+    return stricmp(path1, path2);
+}
+#elif defined (OS2)
+#define INCL_DOSFILEMGR
+#include <os2.h>
+static int cmpfnames(char *file1, char *file2)
+{
+    char path1[256], path2[256];
+    if (DosQueryPathInfo(file1,FIL_QUERYFULLNAME,path1,sizeof(path1)) return 1;
+    if (DosQueryPathInfo(file2,FUL_QUERYFULLNAME,path2,sizeof(path2)) return 1;
+    return stricmp(path1, path2);
+}
+#elif defined(MSDOS) || defined(__MSDOS__)
+#include <dos.h>
+static int cmpfnames(char *file1, char *file2)
+{
+    union REGS r;
+    char path1[128], path2[128];
+    r.x.ds = FP_SEG(file1);
+    r.x.si = FP_OFF(file1);
+    r.x.es = FP_SEG(path1);
+    r.x.di = FP_OFF(path1);
+    r.h.ah = 0x60;
+    intdos(&r, &r);
+    r.x.ds = FP_SEG(file2);
+    r.x.si = FP_OFF(file2);
+    r.x.es = FP_SEG(path2);
+    r.x.di = FP_OFF(path2);
+    r.h.ah = 0x60;
+    intdos(&r, &r);
+    return stricmp(path1, path2);
+}
+#else // Unknown OS
+static int cmpfnames(char *file1, char *file2)
+{   return stricmp(path1, path2);
+}
+#endif
+
 void checkIncludeLogic(ps_fidoconfig config)
 { 
     int i, j;
@@ -454,11 +511,8 @@ void checkIncludeLogic(ps_fidoconfig config)
     for (j=0; j<config->linkCount; j++) {
 	if (config->links[j].autoAreaCreateFile==NULL) continue;
 	for (i=0; i<cfgNamesCount; i++) {
-#ifdef UNIX
-	    if (strcmp(cfgNames[i],config->links[j].autoAreaCreateFile)==0) break;
-#else
-	    if (stricmp(cfgNames[i],config->links[j].autoAreaCreateFile)==0) break;
-#endif
+	    if (cmpfnames(cfgNames[i],config->links[j].autoAreaCreateFile)==0)
+		break;
 	}
 	// if not found include file - return error
 	if (i==cfgNamesCount) {
@@ -471,11 +525,7 @@ void checkIncludeLogic(ps_fidoconfig config)
     for (j=0; j<config->linkCount; j++) {
 	if (config->links[j].autoFileCreateFile==NULL) continue;
 	for (i=0; i<cfgNamesCount; i++) {
-#ifdef UNIX
-	    if (strcmp(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
-#else
-	    if (stricmp(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
-#endif
+	    if (cmpfnames(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
 	}
 	// if not found include file - return error
 	if (i==cfgNamesCount) {
