@@ -2322,7 +2322,7 @@ don't unpack arcmail bundles
 @code{DisableTID}
 @end table
 
-don't add TID-line to scanned messages
+don't add TID-line to scanned messages and PID-line to generated messages.
 
 @node SetConsoleTitle, addToSeen, DisableTID, Keywords
 @subsection SetConsoleTitle
