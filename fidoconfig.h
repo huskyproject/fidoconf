@@ -16,6 +16,9 @@ struct pack {
 };
 typedef struct pack s_pack;
 
+enum flavour {normal, hold, crash, direct, immediate};
+typedef enum flavour e_flavour;
+
 struct link {
    s_addr hisAka, *ourAka;
    char *name;
@@ -30,11 +33,9 @@ struct link {
    int  AreaFix;              // 0 if not allowed for areafix
    char *pktFile,*packFile;   // used only internally by hpt
    s_pack *packerDef;
+   e_flavour echoMailFlavour;
 };
 typedef struct link s_link;
-
-enum flavour {hold, normal, crash, direct, immediate};
-typedef enum flavour e_flavour;
 
 enum routing {host = 1, hub, boss, noroute};
 typedef enum routing e_routing;

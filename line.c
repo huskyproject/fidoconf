@@ -512,6 +512,25 @@ int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
    return 2;
 }
 
+int parseEchoMailFlavour(char *line, e_flavour *flavour) {
+
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (stricmp(line, "hold")==0) *flavour = hold;
+   else if (stricmp(line, "normal")==0) *flavour = normal;
+   else if (stricmp(line, "direct")==0) *flavour = direct;
+   else if (stricmp(line, "crash")==0) *flavour = crash;
+   else if (stricmp(line, "immediate")==0) *flavour = immediate;
+   else {
+      printf("Line %d: Unknown echomail flavour %s!\n", actualLineNr, line);
+      return 2;
+   }
+   return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -581,6 +600,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filefixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].fileFixPwd));
    else if (stricmp(token, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].bbsPwd));
    else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
+   else if (stricmp(token, "echoMailFlavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(config->links[config->linkCount-1].echoMailFlavour));
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
    else if (stricmp(token, "routeFile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
    else if (stricmp(token, "routeMail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));

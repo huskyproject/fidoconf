@@ -2,7 +2,7 @@ LINUX FIDOSOFT PROJECT
 Definition of commonly used configuration files
 
 
-Version: 0.13pre2 (980907)
+Version: 0.14 (981028)
 Status: proposal
 
 
@@ -188,6 +188,7 @@ _Keyword definitions_
   # "on" means link is allowed to create an area
   Packer (zip|tgz|rar|arj|arc....)
   # packer to use for this Link
+  EchoMailFlavour <flavour>
   }
 
 /etc/fido/msgbase:
@@ -450,7 +451,7 @@ _defined token_
 
 <offset> ::= <hexValue>
 
-<call> ::= <text>"%s"|"%l"[<text>]
+<call> ::= <text>"$a"|"$f"[<text>]
  #           must be a valid command for the used
  #           command processor/shell
 
