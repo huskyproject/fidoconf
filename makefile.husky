@@ -49,10 +49,24 @@ default: all
 
 include makefile.common
 
-ifeq ($(DYNLIBS), 1)
-  all: commonlibs ranlib $(LIBFIDOCONFIG).so.$(VER) commonprogs
+ifeq ($(CC), gcc)
+  $(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(OBJ)
+	$(CC) $(LFLAGS) -fpack-struct $(FECFG2FCONF)$(OBJ) \
+	  -o $(FECFG2FCONF)$(EXE)
+endif
+
+
+
+ifeq ($(CC), gcc)
+  progs: commonprogs $(FECFG2FCONF)$(EXE)
 else
-  all: commonlibs ranlib commonprogs
+  progs: commonprogs
+endif
+
+ifeq ($(DYNLIBS), 1)
+  all: commonlibs ranlib $(LIBFIDOCONFIG).so.$(VER) progs
+else
+  all: commonlibs ranlib progs
 endif
 
 clean: commonclean
@@ -104,6 +118,9 @@ install: commonlibs ranlib commonprogs instdyn
 	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(EXE) $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
+ifeq ($(CC), gcc)
+	$(INSTALL) $(IBOPT) $(FECFG2FCONV)$(EXE)    $(BINDIR)
+endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
 	$(INSTALL) $(IBOPT) linkedto $(BINDIR)
@@ -117,8 +134,3 @@ install: commonlibs ranlib commonprogs instdyn
 ifdef INFODIR
 	(cd doc && $(MAKE) -f makefile.husky install)
 endif
-
-
-
-
-

@@ -4,21 +4,18 @@ VER = 0.9
 VERH = 0
 
 LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconfig$(OBJ) line$(OBJ) adcase$(OBJ) dump$(OBJ)
-OBJS  = $(LOBJS) $(FCONF2MSGED)$(OBJ) $(FCONF2GOLDED)$(OBJ) $(FCONF2AQUAED)$(OBJ) $(FCONF2FIDOGATE)$(OBJ) $(FCONF2SQUISH)$(OBJ) dumpfcfg$(OBJ) 
-ifeq ($(CC), gcc)
-OBJS = $(OBJS) $(FECFG2FCONF)$(OBJ) 
-endif
+
+OBJS = $(LOBJS) $(FCONF2MSGED)$(OBJ) $(FCONF2GOLDED)$(OBJ) $(FCONF2AQUAED)$(OBJ) $(FCONF2FIDOGATE)$(OBJ) $(FCONF2SQUISH)$(OBJ) dumpfcfg$(OBJ) 
 
 commonlibs: $(LIBFIDOCONFIG)$(LIB)
 
 commonprogs:    tparser$(EXE) \
 	        $(FCONF2MSGED)$(EXE) \
-                $(FCONF2AQUAED)$(EXE) \
+		$(FCONF2AQUAED)$(EXE) \
 		$(FCONF2FIDOGATE)$(EXE) \
 	        $(FCONF2GOLDED)$(EXE) \
 		$(FCONF2SQUISH)$(EXE) \
-                $(FECFG2FCONF)$(EXE) \
-                dumpfcfg$(EXE)
+		dumpfcfg$(EXE)
 
 $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
 	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LOBJS)
@@ -46,15 +43,6 @@ $(FCONF2SQUISH)$(EXE): $(FCONF2SQUISH)$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) $(FCONF2SQUISH)$(OBJ) -o $(FCONF2SQUISH)$(EXE) \
 	          $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-ifeq ($(CC), gcc)
-$(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(OBJ)
-	$(CC) $(LFLAGS) -fpack-struct $(FECFG2FCONF)$(OBJ) -o $(FECFG2FCONF)$(EXE)
-else
-$(FECFG2FCONF)$(EXE):
-	echo "not supported on this platform" > $(FECFG2FCONF)$(EXE)
-endif
-
-
 tparser$(EXE): tparser$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) tparser$(OBJ) -o tparser$(EXE) \
 	  $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
@@ -79,4 +67,3 @@ commondistclean: clean
 	-$(RM) $(FECFG2FCONF)$(EXE)
 	-$(RM) dumpfcfg$(EXE)
 	-$(RM) $(LIBFIDOCONFIG)$(LIB)
-
