@@ -304,7 +304,7 @@ int parsePath(char *token, char **var, char **alreadyDefined)
            prErr( "Path %s not found, can't create: %s", *var, strerror(errno));
            return 1;
          }else
-           prErr( "Path %s created succesfully.", *var);
+         { prErr( "Path %s created succesfully.", *var); }
      else{
          prErr( "Path %s not found!", *var);
          return 1;
@@ -344,7 +344,7 @@ int parseAreaPath(char *token, char **var, char **alreadyDefined)
            prErr( "Path %s not found, can't create: %s", *var, strerror(errno));
            return 1;
          }else
-           prErr( "Path %s created succesfully.", *var);
+         { prErr( "Path %s created succesfully.", *var); }
      else{
 	   prErr( "Path %s not found!", *var);
 	   return 1;
@@ -389,7 +389,7 @@ int parseAreaPathExpand(char *token, char **var, char **alreadyDefined)
 	   nfree(p);
            return 1;
          }else
-           prErr( "Path %s created succesfully.", p);
+         { prErr( "Path %s created succesfully.", p); }
      else{
 	   prErr( "Path %s not found!", p);
 	   nfree(p);
@@ -442,7 +442,7 @@ int parsePublic(char *token, s_fidoconfig *config)
            prErr( "Path %s not found, can't create: %s", token, strerror(errno));
            return 1;
          }else
-           prErr( "Path %s created succesfully.", token);
+         { prErr( "Path %s created succesfully.", token); }
      else{
          prErr( "Path %s not found!", token);
          return 1;
