@@ -2242,7 +2242,12 @@ int parseLine(char *line, s_fidoconfig *config)
    int unrecognised = 0;
 #endif   
 
+#if defined(UNIX) || defined(OS2)
    actualLine = temp = unquote(line);
+#else
+   actualLine = temp = (char *) smalloc(strlen(line)+1);
+   strcpy(temp, line);
+#endif
 
    actualKeyword = token = strtok(temp, " \t");
 
