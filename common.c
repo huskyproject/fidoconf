@@ -807,11 +807,11 @@ char *aka2str(s_addr aka) {
 
 int patimat(char *raw,char *pat)
 {
-    char *upraw,*uppat;
+    char *upraw=NULL, *uppat=NULL;
     int i;
 
-    upraw=strUpper(sstrdup(raw));
-    uppat=strUpper(sstrdup(pat));
+    if (raw) upraw=strUpper(sstrdup(raw));
+    if (pat) uppat=strUpper(sstrdup(pat));
     i=patmat(upraw,uppat);
     nfree(upraw);
     nfree(uppat);
