@@ -680,7 +680,9 @@ int parseInclude(char *line, s_fidoconfig *config)
       config->includeFiles[config->includeCount-1] = malloc(strlen(line)+1);
       strcpy(config->includeFiles[config->includeCount-1], line);
 
+      free(actualLine);
       parseConfig(f, config);
+      actualLine = NULL;  //FIXME: static Variable!!!
    } else {
       printf("Line %d: WARNING: recursive include of file %s detected and fixed!\n", actualLineNr, line);
    }
@@ -924,5 +926,6 @@ int parseLine(char *line, s_fidoconfig *config)
       return rc;
    }
 
+   free(actualLine);
    return 0;
 }

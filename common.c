@@ -123,6 +123,7 @@ void string2addr(const char *string, s_addr *addr)
          i++; start++;
       } /* endwhile */
       buffer[i] = '\0';
+      free(addr->domain);
       addr->domain = (CHAR *) malloc(strlen(buffer)+1);
       strcpy(addr->domain, buffer);
       addr->point = 0;
@@ -143,9 +144,11 @@ void string2addr(const char *string, s_addr *addr)
             i++; start++;
          } /* endwhile */
          buffer[i] = '\0';
+         free(addr->domain);
          addr->domain = (CHAR *) malloc(strlen(buffer)+1);
          strcpy(addr->domain, buffer);
       } else {
+         free(addr->domain);
          addr->domain = NULL; //no domain
       } /* endif */
       break;

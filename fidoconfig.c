@@ -147,12 +147,13 @@ s_fidoconfig *readConfig()
    if (f != NULL) {
       config = (s_fidoconfig *) malloc(sizeof(s_fidoconfig));
 
+      initConfig(config);
+
       config->includeCount = 1;
       config->includeFiles = realloc(config->includeFiles, sizeof(char *));
       config->includeFiles[0] = malloc(strlen(fileName)+1);
       strcpy(config->includeFiles[config->includeCount-1], fileName);
 
-      initConfig(config);
       parseConfig(f, config);
 
       if (wasError == 1) {
@@ -173,6 +174,7 @@ void freeArea(s_area area) {
         free(area.rwgrp);
         free(area.wgrp);
         free(area.rgrp);
+        free(area.downlinks);
 }
 
 void disposeConfig(s_fidoconfig *config)
@@ -185,6 +187,7 @@ void disposeConfig(s_fidoconfig *config)
 
    free(config->addr);
 
+   for (i=0; i < config->publicCount; i++) free(config->public[i]);
    free(config->public);
 
    for (i = 0; i< config->linkCount; i++) {
@@ -201,7 +204,8 @@ void disposeConfig(s_fidoconfig *config)
            if (config->links[i].bbsPwd != config->links[i].defaultPwd)
              free(config->links[i].bbsPwd);
            free(config->links[i].defaultPwd);
-           free(config->links[i].handle);
+           if (config->links[i].handle != config->links[i].name)
+              free(config->links[i].handle);
            free(config->links[i].pktFile);
            free(config->links[i].packFile);
            free(config->links[i].TossGrp);
@@ -251,6 +255,9 @@ void disposeConfig(s_fidoconfig *config)
            free(config->unpack[i].call);
    }
    free(config->unpack);
+
+   for (i= 0; i < config->includeCount; i++) free(config->includeFiles[i]);
+   free(config->includeFiles);
 
    free(config->intab);
    free(config->outtab);

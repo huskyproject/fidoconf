@@ -1,6 +1,6 @@
 # common rules for all platforms
 
-VER = 0.5
+VER = 0.6
 
 OBJS    = patmat$(O) line$(O) $(FIDOCONFIG)$(O) $(FCONF2MSGED)$(O) \
 	  $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) dir$(O) common$(O)
