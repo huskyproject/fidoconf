@@ -1,3 +1,8 @@
+2005-03-13 Sunday 19:03  val_khokhlov
+
+	* src/afixcmd.c (1.12): fix a bug with duplicating some config
+	lines when updating a token from areafix (ex: passwords)
+
 2005-03-03 Thursday 11:54  val_khokhlov
 
 	* src/tparser.c (1.31): typo: filefixAutoCreateFile
