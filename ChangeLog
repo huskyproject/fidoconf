@@ -1,3 +1,7 @@
+2002-03-29 Friday 15:32  pavel.gulchouck
+
+	* cfg.c (1.33): Work if GetShortPathName() fails
+
 2002-03-28 Thursday 15:02  mche
 
 	* common.c (1.79): hardlink support for coping files under  WinNT
