@@ -9,7 +9,7 @@ LINK=   link
 
 FCONFL=	fconfmvc.lib
 SMAPIL=	..\smapi\smapimvc.lib
-LINKOPTS = $(SMAPIL) /nologo /dll  /out:"fidoconf.dll" /implib:"fconfmvc.lib"
+LINKOPTS = $(SMAPIL) /nologo /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
 SRC1  =  adcase.c line.c fidoconf.c dirlayer.c common.c findtok.c xstr.c cfg.c
 OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj
