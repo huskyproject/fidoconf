@@ -72,11 +72,14 @@
 #define LL_AUTOCREATE	'8'      /* area auto cleate */
 #define LL_CRIT    	'9'      /* Critical error: exit */
 #define LL_FLAG         '0'      /* Create/remove/test flag */
-#define LL_LINKBUSY  	'0'      /* .BSY exist */
+#define LL_BUSY  	'0'      /* .BSY exist */
+#define LL_LINKBUSY  LL_BUSY
+#define LL_BSY       LL_BUSY
 
 #define LL_ERROR   	'A' /*9*//* Trivial error: continue */
-#define LL_ERR     LL_ERROR
+#define LL_ERR       LL_ERROR
 #define LL_WARN    	'B'      /* Warning */
+#define LL_WARNING   LL_WARN
 #define LL_ALERT   	'B'      /* Alert */
 #define LL_INFO    	'C' /*1*//* Information messages */
 #define LL_STAT    	'D' /*1*//* Statistics */
@@ -103,6 +106,7 @@
 #define LL_FILETEST 	'T'      /* Test files (exist, permittions) */
 #define LL_FILENAME  	'X'      /* Filenames construct */
 #define LL_FUNC         'U'      /* Functions calls */
+#define LL_LINKPASS	'Y'      /* Link messagebase pass (some phase) */
 #define LL_SRCLINE 	'Z'      /* Source lines numbers */
 #define LL_DEBUG        'a'      /* Debug output */
 
