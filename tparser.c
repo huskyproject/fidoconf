@@ -1161,10 +1161,11 @@ int main(int argc, char **argv) {
       }
    }
 
+   printf( "\n=== EMAILPKT CONFIG ===\n" );
    if( config->sendmailcmd ) {
-     printf( "\n=== EMAILPKT CONFIG ===\n" );
      printf( "sendMailCmd: %s\n", config->sendmailcmd );
-   }
+   }else
+     printf( "sendMailCmd:\n" );
 
       disposeConfig(config);
    } /* endif */
