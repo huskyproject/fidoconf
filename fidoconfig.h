@@ -173,8 +173,8 @@ struct fileareatype {
    s_arealink **downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
 
-//   s_link **downlinks;  // array of pointers to s_link
-//   unsigned int downlinkCount;
+   unsigned levelread;	      // 0-65535
+   unsigned levelwrite;	      // 0-65535
 
    char manual, hide, noPause;
 
