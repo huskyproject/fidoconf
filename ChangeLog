@@ -1,3 +1,10 @@
+2002-12-24 Tuesday 13:34  stas_degteff
+
+	* common.c (1.148), common.h (1.77): New functions strnzcpy() and
+	strnzcat(): copy/concantenate strings with prevent bufer overflow,
+	result is zero-ended always (alternate to strncpy() and strncat()
+	from stdc library)
+
 2002-12-23 Monday 11:53  mche
 
 	* common.c (1.147): fix GetDirnameFromPathname() function
