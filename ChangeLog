@@ -1,3 +1,8 @@
+2002-12-27 Friday 12:57  sfpavel
+
+	* debian/changelog (fidoconf-0_14-stable.11): fidoconf 0.14.2
+	release
+
 2002-12-26 Thursday 12:33  stas_degteff
 
 	* Makefile, makefile.aix, makefile.bco, makefile.emo, makefile.emx,
