@@ -347,6 +347,8 @@ void disposeConfig(s_fidoconfig *config)
 
    for (i = 0; i< config->carbonCount; i++) free(config->carbons[i].str);
    free(config->carbons);
+   
+   free(config->ReportTo);
 
    free(config);
    config = NULL;

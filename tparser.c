@@ -242,6 +242,7 @@ int main() {
            printf("%02x", (int) config->unpack[i].mask[j]);
          printf("\n");
       }
+      if (config->ReportTo) printf("ReportTo\t%s\n", config->ReportTo);
       disposeConfig(config);
    } /* endif */
    return 0;

@@ -249,6 +249,8 @@ struct fidoconfig {
 
    unsigned int areafixFromPkt, areafixKillReports;
    char	    *PublicGroup;
+   
+   char     *ReportTo;
 
    unsigned int logEchoToScreen;
 };

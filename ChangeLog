@@ -2,6 +2,11 @@ fidoconfig 0.7
 --------------
 
 ----- cvs ci ------
+Mon Mar  29 16:02
+Fedor:
++ token "ReportTo" added to s_fidoconfig for report to echoarea or netmail
+
+----- cvs ci ------
 Thu Mar  18 22:21
 Max:
 + carbons to echoarea (not only to localarea)
