@@ -1,3 +1,9 @@
+fidoconf (0.11-10) unstable; urgency=low
+
+  * Wrong entry in shlibs File, changed.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Mon,  2 Jul 2001 23:43:26 +0200
+
 fidoconf (0.11-9) unstable; urgency=low
 
   * Newest cvs.
