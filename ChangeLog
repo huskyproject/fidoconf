@@ -1,4 +1,10 @@
 ----- cvs ci ------
+Tue Feb 13 22:38:28 NOVT 2001
+max:
+* doc updates
+* change default path to config (rtfm)
+
+----- cvs ci ------
 Mon Feb 12 23:51:23 MSK 2001
 Nestyurkin Nikolay:
 * fix esc. sequent

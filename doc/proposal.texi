@@ -19,8 +19,8 @@ The fidoconfig library searches the config file on different locations:
 /etc/fido/config
 @item freebsd:
 /usr/local/etc/fido/config
-@item os2/win32/dos:
-c:\fido\config
+@item os2/win32/etc:
+in the current directory
 @end table
 
 Additionally you can set an enviroment variable called @code{FIDOCONFIG} which
@@ -34,7 +34,8 @@ sexport FIDOCONFIG
 @end example
 
 The config file(s) must be readable. If you plan to use the autoareacreate
-feature of HPT or HTick, the config file must be writeable.
+feature of HPT / autofilecreate featute of HTick / etc..., the config
+file must be writeable.
 
 @node Syntax, Keywords, Location, config file
 @section Syntax
@@ -60,6 +61,27 @@ If the first word in a line is an undefined keyword, the line will
 be ignored, and error will be printed.
 
 Each keyword has to start a new line.
+
+Keyword parameters:
+@table @code
+@item <integer>
+string including integer numbers, like: @code{1234567890}
+@item <string>
+text string
+@item <bool>
+may be set to "1", "0", "yes", "no", "on", "off", and also without
+parameters (it means "on").
+@item <addr>
+address string like zone:net/node[.point]
+@item
+example: @code{2:5000/117}
+@item <file>
+full file name with path
+@item <path>
+only path, trailing slash may be included or not
+@end table
+
+Note! @code{[<parameter>]} means, that it can be omitted.
 
 @node Keywords, Example, Syntax, config file
 @section Keywords

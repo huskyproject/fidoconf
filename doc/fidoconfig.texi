@@ -8,7 +8,7 @@
 @ifinfo
 This file documents fidoconfig.
 
-Copyright 1998-2000 Husky Development Team
+Copyright 1998-2001 Husky Development Team
 
 @end ifinfo
 
@@ -16,10 +16,11 @@ Copyright 1998-2000 Husky Development Team
 @title FidoConfig Manual
 @subtitle a way to make your unix fido-capable
 @author Matthias Tichy
+@author Max Levenkov
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2000 Husky Development Team 
+Copyright @copyright{} 1998-2001 Husky Development Team 
 
 @end titlepage
 
@@ -65,9 +66,10 @@ should be quite portable.
 
 @node converting, tparser, config file, Top
 @chapter Converting fidoconfig to golded, msged and aquaed
-Since goldEd does not support fidoconfig at all and msged and aquaed only in 
-beta versions, we have developed three programs that convert your fidoconfig to
-these proprietary config file formats.
+Since original GoldEd by Odin Sorensen does not support fidoconfig at
+all and msged and aquaed only in beta versions, we have developed three
+programs that convert your fidoconfig to these proprietary config file
+formats.
 
 @enumerate
 @item fconf2golded
@@ -126,7 +128,15 @@ linux.develop.ger
 fidosoft.husky
 @end example
 
+Max Levenkov:
+@example
+@email{sackett@@mail.ru}
+ru.husky (russian)
+ru.echoprocessors (russian)
+fidosoft.husky (english)
+@end example
+
 The actual fidoconfig library and other fido software will be on
-@code{www.tichy.de}.
+@url{http://husky.physcip.uni-stuttgart.de}.
 
 @bye
