@@ -234,7 +234,7 @@ typedef          void       VOID;
 
 /*   the uSoft 16bit compiler family for DOS */
 
-#if defined(_MSC_VER) && (_MSC_VER < 1200)
+#if defined(__MSC__) 
 typedef   signed char        CHAR;              /*  1 byte */
 typedef unsigned char       UCHAR;              /*  1 byte */
 typedef   signed int        INT16;              /*  2 byte */
@@ -255,9 +255,9 @@ typedef          void       VOID;
 #if !defined(__OS2_H__) && !defined(__NT__)  /*  os2.h and windows.h defines it already */
 typedef signed   char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
-#endif
 typedef signed   short int  INT16;              /*  2 byte */
 typedef unsigned short int UINT16;              /*  2 byte */
+#endif
 /*#if !defined(__OS2_H__)*/
 typedef signed   int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
@@ -271,7 +271,10 @@ typedef unsigned long       ULONG;              /*  4 byte */
 typedef          void        VOID;
 #endif
 
-typedef unsigned __int64 ULONGLONG;             /*  8 bytes */ /* from wtypes.h */
+#if __WATCOMC__ >1000
+typedef unsigned __int64 ULONGLONG;             /*  8 bytes */
+typedef   signed __int64  LONGLONG;             /*  8 bytes */
+#endif
 
 #endif                                          /*  #if defined(__WATCOMC__) */
 
