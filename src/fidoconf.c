@@ -462,6 +462,10 @@ void setConfigDefaults(s_fidoconfig *config)
       fflush(stdout);
       exit(EX_CONFIG);
    }
+
+   /* defaults for htick */
+   if(config->fileDescription==NULL) xstrcat(&config->fileDescription,"files.bbs");
+
    if (!config->tempDir) {
       char *p=NULL;
       if ((p=getenv("TEMP")) != NULL ||

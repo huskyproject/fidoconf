@@ -1454,11 +1454,7 @@ int main(int argc, char **argv) {
         if (config->filefixhelp) printf("filefixHelp:  %s\n", config->filefixhelp);
 
         printf("\n=== TICKER CONFIG ===\n");
-        if(config->fileDescription) {
-            printf("fileDescription: %s\n", config->fileDescription);
-        } else {
-            printf("fileDescription: files.bbs\n");
-        }
+        printf("fileDescription: %s\n", config->fileDescription);
         /* not used
         if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
         if (config->fileNewAreasLog) printf("FileNewAreasLog: %s\n", config->fileNewAreasLog);
