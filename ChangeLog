@@ -1,5 +1,9 @@
 fidoconfig 0.6
 --------------
+Mon Feb 22 11:09:53 MET 199
+  Tobias Ernst:
++ Added patimat for case insensitive pattern matching	
+
 Sat Feb 20 21:18:51 MET 1999
   Tobias Ernst:
 + Wrote documentation for the packet forwarding feature.	

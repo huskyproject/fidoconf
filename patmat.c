@@ -76,3 +76,29 @@ int patmat(char *raw,char *pat)
     }
    return( 0 ) ;                            /*  no match found        */
 }
+
+int patimat(char *raw,char *pat)
+{  int  i ;
+
+   if ((*pat == '\0') && (*raw == '\0'))    /*  if it is end of both  */
+     return( 1 ) ;                          /*  strings,then match    */
+   if (*pat == '\0')                        /*  if it is end of only  */
+     return( 0 ) ;                          /*  pat tehn mismatch     */
+   if (*pat == '*')                         /* if pattern is a '*'    */
+    { if (*(pat+1) == '\0')                 /*    if it is end of pat */
+         return( 1 ) ;                      /*    then match          */
+      for(i=0;i<=strlen(raw);i++)           /*    else hunt for match */
+        if ((toupper(*(raw+i)) == toupper(*(pat+1))) || /* or wild card */
+            (*(pat+1) == '?'))
+         if (patmat(raw+i+1,pat+2) == 1)    /*      if found,match    */
+              return( 1 ) ;                 /*        rest of pat     */
+    }
+   else
+    { if (*raw == '\0')                     /*  if end of raw then    */
+         return( 0 ) ;                      /*     mismatch           */
+      if ((*pat == '?') || (toupper(*pat) == toupper(*raw)))  /*  if chars match then   */
+        if (patmat(raw+1,pat+1) == 1)       /*  try & match rest of it*/
+           return( 1 ) ;
+    }
+   return( 0 ) ;                            /*  no match found        */
+}
