@@ -1,3 +1,16 @@
+2001-12-24 Monday 14:10  mche
+
+	* common.c (1.67), common.h (1.32): redesign of macro "nfree" for
+	win32
+
+2001-12-24 Monday 10:20  pavel.gulchouck
+
+	* tparser.c (1.155): added echoMailFlavour, fileEchoFlavour
+
+2001-12-24 Monday 10:09  pavel.gulchouck
+
+	* tparser.c (1.154): added arcNetmail
+
 2001-12-23 Sunday 21:26  pavel.gulchouck
 
 	* tokens.h (1.19): bugfix
