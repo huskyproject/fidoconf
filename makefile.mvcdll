@@ -3,7 +3,7 @@
 CC=     cl
 CFLAGS= -nologo -MD -Zp1 -I..
 CDEFS=  -D__NT__ -DNT -DWINNT -D_CONSOLE -DUSE_SYSTEM_COPY -D_MAKE_DLL 
-COPT=   -O2
+COPT=   -Ob2
 TLIB=   lib -nologo
 LINK=   link
 
