@@ -750,22 +750,23 @@ int copy_file(const char *from, const char *to)
     buffer = malloc(MOVE_FILE_BUFFER_SIZE);
     if (buffer == NULL)	return -1;
 
-    if (stat(from, &st)) return -1;
+    memset(&st, 0, sizeof(st));
+    if (stat(from, &st)) return -1; // file does not exist
     fin = fopen(from, "rb");
     if (fin == NULL) { nfree(buffer); return -1; }
 
     fh = open( to, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
-#ifdef UNIX
-    // try to save file ownership if it is possible
-    fchown(fh, st.st_uid, st.st_gid);
-    fchmod(fh, st.st_mode);
-#endif
     if( fh<0 ){
       fh=errno;
       fclose(fin);
       errno=fh;
       return -1;
     }
+#ifdef UNIX
+    // try to save file ownership if it is possible
+    fchown(fh, st.st_uid, st.st_gid);
+    fchmod(fh, st.st_mode);
+#endif
     fout = fdopen(fh, "wb");
     if (fout == NULL) { fh=errno; nfree(buffer); fclose(fin); errno=fh; return -1; }
 
@@ -788,8 +789,6 @@ int copy_file(const char *from, const char *to)
         errno=fh;
 	return -1;
     }
-    memset(&st, 0, sizeof(st));
-    fstat(fileno(fin), &st);
     fclose(fin);
     if (fclose(fout))
     {   fh=errno;
