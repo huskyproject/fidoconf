@@ -101,6 +101,7 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
     }
   dumpString(f, "FileAreaBaseDir     %s\n", config->fileAreaBaseDir);
   dumpString(f, "PassFileAreaDir     %s\n", config->passFileAreaDir);
+  dumpString(f, "BusyFileDir         %s\n", config->busyFileDir);
   
   dumpString(f, "AreaFixHelp         %s\n", config->areafixhelp);
   dumpString(f, "FileFixHelp         %s\n", config->filefixhelp);

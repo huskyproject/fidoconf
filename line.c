@@ -626,6 +626,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
    }
    else if (stricmp(option, "h")==0) area->hide = 1;
    else if (stricmp(option, "manual")==0) area->mandatory = 1;
+   else if (stricmp(option, "sendorig")==0) area->sendorig = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
    else if (stricmp(option, "nocrc")==0) area->noCRC = 1;
    else if (stricmp(option, "g")==0) {
@@ -2146,6 +2147,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "nodelistdir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
    else if (stricmp(token, "fileareabasedir")==0) rc = parseFileareaBaseDirPath(getRestOfLine(), &(config->fileAreaBaseDir));
    else if (stricmp(token, "passfileareadir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir));
+   else if (stricmp(token, "busyfiledir")==0) rc = parsePath(getRestOfLine(), &(config->busyFileDir));
    else if (stricmp(token, "msgbasedir")==0) {
       temp = getRestOfLine();
       if (stricmp(temp, "passthrough")==0)

@@ -131,6 +131,7 @@ void printFileArea(s_filearea area) {
    }
    printf("Options: ");
    if (area.mandatory) printf("mandatory ");
+   if (area.sendorig) printf("sendorig ");
    if (area.hide) printf("hide ");
    if (area.noPause) printf("noPause ");
    printf("\n");
@@ -281,6 +282,7 @@ int main() {
       if (config->msgBaseDir != NULL) printf("MsgBaseDir: %s\n", config->msgBaseDir);
       if (config->fileAreaBaseDir) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
       if (config->passFileAreaDir) printf("passFileAreaDir: %s\n", config->passFileAreaDir);
+      if (config->busyFileDir) printf("busyFileDir: %s\n", config->busyFileDir);
       if (config->magic) printf("Magic: %s\n", config->magic);
       if (config->semaDir) printf("semaDir: %s\n", config->semaDir);
       if (config->badFilesDir) printf("BadFilesDir: %s\n", config->badFilesDir);

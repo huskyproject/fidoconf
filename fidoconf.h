@@ -194,6 +194,7 @@ typedef struct fileareatype {
    char *pathName;
    char *description;
 
+   int sendorig;       // 1 - Send Original
    int pass;           // 1 - Passthrough File Area
    int noCRC;          // 0 if CRC check should be done on incoming files
    ps_addr useAka;
@@ -286,6 +287,7 @@ typedef struct fidoconfig {
    char     *magic, *areafixhelp, *filefixhelp, *tempOutbound, *ticOutbound;
    char     *fileAreaBaseDir;
    char     *passFileAreaDir; //Passthrough File Area
+   char     *busyFileDir;
    char     *semaDir, *badFilesDir;
    char     *loglevels;
 

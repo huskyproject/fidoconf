@@ -388,6 +388,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->tempOutbound);
    free(config->fileAreaBaseDir);
    free(config->passFileAreaDir);
+   free(config->busyFileDir);
    for (j = 0; j < config->numPublicGroup; j++)
      free(config->PublicGroup[j]);
    free(config->PublicGroup);

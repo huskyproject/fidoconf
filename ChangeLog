@@ -2,6 +2,12 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Wed May 17 21:40:28 NOVST 2000
+max (patch from Alex Bronin):
+* added token busyFileDir for htick
+* added -sendorig option to filearea
+
+----- cvs ci ------
 Wed May 15 07:39:00 UTC 2000
 sms:
 * using direxist() from smapi instead of readdir in parsePath()

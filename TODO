@@ -25,3 +25,5 @@
     savetick
     execonfile
     origininannounce
+    busyFileDir
+    -sendorig
