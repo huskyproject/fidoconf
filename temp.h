@@ -46,7 +46,7 @@
  * Return file descriptor or NULL
  */
 
-FILE *createTempFileIn(const char *path, const char *ext, char mode, char **name);
+FCONF_EXT FILE *createTempFileIn(const char *path, const char *ext, char mode, char **name);
 
 
 /* Create new file with random name & default suffix (tmp) in text mode.
@@ -55,7 +55,7 @@ FILE *createTempFileIn(const char *path, const char *ext, char mode, char **name
  * if name is not NULL its free().
  * Return file descriptor or NULL
  */
-FILE *createTempTextFile(const ps_fidoconfig pconfig, char **name);
+FCONF_EXT FILE *createTempTextFile(const ps_fidoconfig pconfig, char **name);
 
 
 /* Create new file with random name & default suffix (tmp) in binary mode.
@@ -64,7 +64,7 @@ FILE *createTempTextFile(const ps_fidoconfig pconfig, char **name);
  * if name is not NULL its free().
  * Return file descriptor or NULL
  */
-FILE *createTempBinFile(const ps_fidoconfig pconfig, char **name);
+FCONF_EXT FILE *createTempBinFile(const ps_fidoconfig pconfig, char **name);
 
 
 /* Create new file with random name & default suffix (binary mode).
