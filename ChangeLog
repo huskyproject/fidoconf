@@ -1,3 +1,7 @@
+2003-01-30 Thursday 08:14  mche
+
+	* common.c (1.164): fix pathing arguments to unpacker
+
 2003-01-29 Wednesday 10:24  stas_degteff
 
 	* tparser.c (1.238): Add a checks for relative path & etc
