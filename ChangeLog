@@ -1,7 +1,11 @@
-2002-01-11 Friday 10:02 yagodkin
+2002-01-14 Monday 20:04  ml
 
-	* fidoconf.h (1.91), line.c (1.274), tokens.h (1.22), tparser.c
-	(1.158): added fileDescName token for htick
+	* line.c (1.275): bugfix: carbonmove not carboncopy after ORed
+	carbonmove rules
+
+2002-01-14 Monday 08:27  yagodkin
+
+	* tparser.c (1.159): Fixed FileDescName token
 
 2002-01-10 Thursday 16:41  mche
 
