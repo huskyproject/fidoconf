@@ -871,28 +871,34 @@ void freeLink (s_link *link)
 
   if (link == NULL) return;
 
-  free (link->hisAka.domain);
+  nfree (link->hisAka.domain);
   if (link->handle != link->name) free(link->handle);
-  free (link->name);
+  nfree (link->name);
   if (link->pktPwd != link->defaultPwd)free(link->pktPwd);
   if (link->ticPwd != link->defaultPwd)free(link->ticPwd);
   if (link->areaFixPwd != link->defaultPwd) free(link->areaFixPwd);
   if (link->fileFixPwd != link->defaultPwd) free(link->fileFixPwd);
   if (link->bbsPwd != link->defaultPwd) free(link->bbsPwd);
-  free(link->defaultPwd);
-  free(link->pktFile);
-  free(link->packFile);
-  free(link->LinkGrp);
+  if (link->sessionPwd != link->sessionPwd) free(link->sessionPwd);
+  nfree(link->email);
+  nfree(link->emailFrom);
+  nfree(link->emailSubj);
+  nfree(link->defaultPwd);
+  nfree(link->pktFile);
+  nfree(link->packFile);
+  nfree(link->floFile);
+  nfree(link->bsyFile);
+  nfree(link->LinkGrp);
   freeGroups(link->AccessGrp, link->numAccessGrp);
   freeGroups(link->optGrp, link->numOptGrp);
-  free(link->forwardRequestFile);
-  free(link->forwardFileRequestFile);
-  free(link->autoAreaCreateDefaults);
-  free(link->autoAreaCreateFile);
-  free(link->autoFileCreateDefaults);
-  free(link->autoFileCreateFile);
-  free(link->RemoteRobotName);
-  free(link->RemoteFileRobotName);
+  nfree(link->forwardRequestFile);
+  nfree(link->forwardFileRequestFile);
+  nfree(link->autoAreaCreateDefaults);
+  nfree(link->autoAreaCreateFile);
+  nfree(link->autoFileCreateDefaults);
+  nfree(link->autoFileCreateFile);
+  nfree(link->RemoteRobotName);
+  nfree(link->RemoteFileRobotName);
   return;
 }
 

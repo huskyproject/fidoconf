@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Thu Dec  7 21:12:01 UTC 2000
+sms:
+* fixed memory hole in freeLink
+
+----- cvs ci ------
 Tue Dec  5 05:54:22 UTC 2000
 sms:
 + dumping fileareas and bbsareas
