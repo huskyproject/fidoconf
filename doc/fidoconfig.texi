@@ -8,7 +8,7 @@
 @ifinfo
 This file documents fidoconfig.
 
-Copyright 1998-2001 Husky Development Team
+Copyright 1998-2002 Husky Development Team
 
 @end ifinfo
 
