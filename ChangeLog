@@ -1,3 +1,16 @@
+2003-10-17 Friday 07:27  andr_lukyanov
+
+	* makefile.cyg (1.15), makefile.emx (1.10): Removed old makefiles
+
+2003-10-17 Friday 07:18  andr_lukyanov
+
+	* make/: makefile.cyg (1.3), makefile.djg (1.4), makefile.inc
+	(1.14): Fix compilation with huskymak.cfg.*
+
+2003-10-17 Friday 07:16  andr_lukyanov
+
+	* make/makefile.emx (1.1): Added
+
 2003-10-16 Thursday 07:16  mche
 
 	* src/fidoconf.c (1.12): add links for all our akas if it is not
