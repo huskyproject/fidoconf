@@ -1,3 +1,16 @@
+2002-06-07 Friday 19:31  mche
+
+	* afixcmd.c (1.6): some code improvement
+
+2002-06-07 Friday 12:18  oliver.grimm
+
+	* fidoconf.c (1.77): Fix a problem with empty lines &
+	stripWhitespaces(), so 1st char is also stripped if needed.
+
+2002-06-07 Friday 11:30  mche
+
+	* afixcmn.c (1.10): msgid generation rolled back
+
 2002-06-06 Thursday 16:29  mche
 
 	* fidoconf.h (1.119), line.c (1.301): filearea option added: -nodiz
