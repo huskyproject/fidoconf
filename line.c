@@ -703,6 +703,8 @@ int parseLink(char *token, s_fidoconfig *config)
    config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
    // set areafix default to on
    config->links[config->linkCount].AreaFix = 1;
+   
+   config->links[config->linkCount].fReqFromUpLink = 1;
 
    strcpy(config->links[config->linkCount].name, token);
 
@@ -1322,6 +1324,21 @@ int parseLine(char *line, s_fidoconfig *config)
 	rc = 1;
       }
    }
+   else if (stricmp(token, "fRequestFromUpLink") == 0) {
+       rc = 0;
+       if (config->linkCount > 0) {
+           token = strtok(NULL, " \t");
+	   if (token == NULL) rc = 1;
+           else {
+	       if (stricmp(token, "on") == 0) config->links[config->linkCount-1].fReqFromUpLink = 1;
+	       else if (stricmp(token, "off") == 0) config->links[config->linkCount-1].fReqFromUpLink = 0;
+	       else rc = 2;
+	   }
+       } else {
+           printLinkError();
+	   rc = 1;
+       }
+   }
    else if (stricmp(token, "forwardPkts")==0) {
      if (config->linkCount > 0) {
       rc = parseForwardPkts(getRestOfLine(), config, &(config->links[config->linkCount-1]));
@@ -1350,6 +1367,7 @@ int parseLine(char *line, s_fidoconfig *config)
      config->links[config->linkCount-1].Pause = 1;
      rc = 0;
    }
+   else if (stricmp(token, "RemoteRobotName")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].RemoteRobotName));
    else if (stricmp(token, "export")==0) rc = parseExport(getRestOfLine(), &(config->links[config->linkCount-1].export));
    else if (stricmp(token, "import")==0) rc = parseImport(getRestOfLine(), &(config->links[config->linkCount-1].import));
    else if (stricmp(token, "mandatory")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));

@@ -84,6 +84,7 @@ struct link {
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
    int  AreaFix;              // 0 if not allowed for areafix
    int  forwardRequests;      // 0 if not allowed forward requests
+   int  fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
    e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
    char *pktFile,*packFile;   // used only internally by hpt   
    char *floFile,*bsyFile;    // see up
@@ -94,6 +95,7 @@ struct link {
    char *autoCreateFile;      // file where autocreated areas are written to
    char *autoCreateDefaults;  // add default string for autocreated area here
    char *forwardRequestFile;  // list of available areas from this link
+   char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
    void *msg;                 // active msg to the link (used in areafix)
    int  Pause;                // 0 if no pause (default)
    unsigned level;	      // 0-65535

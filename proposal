@@ -219,6 +219,10 @@ _Keyword definitions_
   ForwardRequestFile <file>
   # file for forward requests & available areas
   # if not defined then forward requests unconditional
+  RemoteRootName <AreaFix>
+  # Name link's areas robot
+  fRequestFromUpLink (on|off)
+  # allow forward requests from this link to other links
   }
 
 /etc/fido/msgbase:

@@ -179,7 +179,11 @@ void printLink(s_link link) {
    if (link.AccessGrp) printf("AccessGrp %s\n",link.AccessGrp);
    if (link.autoAreaCreate) printf("AutoAreaCreate on\n");
    if (link.AreaFix) printf("AreaFix on\n"); else printf("AreaFix off\n");
-   if (link.forwardRequests) printf("Forward Requests on\n");
+   if (link.forwardRequests) printf("Forward Requests from this link is on\n");
+   if (link.fReqFromUpLink) printf("Forward Request on another links is on\n");
+   else printf("Forward Request on another links is off\n");
+   if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
+   else printf("RemoteRobotName AreaFix\n");
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
    if (link.packerDef != NULL) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");

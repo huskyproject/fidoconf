@@ -54,9 +54,9 @@ int writeArea(FILE *f, s_area *area, char type) {
      case 4: fprintf(f, "BadArea ");
    }
 
-   fprintf(f, "%s ", area->areaName);
+   fprintf(f, "%s", area->areaName);
 
-   fprintf(f, "%s", area->fileName);
+   if (area->msgbType != MSGTYPE_PASSTHROUGH) fprintf(f, " %s", area->fileName);
 
    if (area->msgbType == MSGTYPE_SQUISH) fprintf(f, " -$");
    if (area->msgbType == MSGTYPE_PASSTHROUGH) fprintf(f, " -0");
@@ -70,7 +70,7 @@ int writeArea(FILE *f, s_area *area, char type) {
    if (area->max) fprintf(f, " -$m%u", area->max);
 
    fprintf(f, " -p%u:%u/%u.%u", area->useAka->zone, area->useAka->net, 
-area->useAka->node, area->useAka->point);
+				area->useAka->node, area->useAka->point);
 
    fprintf(f, "\n");
 

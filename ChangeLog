@@ -2,6 +2,12 @@ fidoconfig 0.8
 --------------
 
 ----- cvs ci ------
+Sun May 23  18:50:01
+Fedor:
++ added tokens RemoteRobotName - Areafix (default) or another
+  and fRequestFromUpLink - link's access for Forward Requests.
+
+----- cvs ci ------
 Tue May 18 17:54:01 CEST 1999 
 mtt:
 * added fconf2squish which can be used for squish config based programs
