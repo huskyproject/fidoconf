@@ -2786,7 +2786,7 @@ int parseKludgeAreaNetmailType(char *line, e_kludgeAreaNetmail *value)
   return 0;
 }
 
-int parseSendMailCmd( char *line, char *sendMailCmd )
+int parseSendMailCmd( char *line, char **sendMailCmd )
 {
   if (!line)
   {
@@ -2799,7 +2799,7 @@ int parseSendMailCmd( char *line, char *sendMailCmd )
     return 2;
   }
 
-  sendMailCmd = sstrdup(line);
+  *sendMailCmd = sstrdup(line);
   return 0;
 }
 
