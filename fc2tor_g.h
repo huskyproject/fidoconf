@@ -1,13 +1,13 @@
-/*--------------------------------------------------
+/*---------------------------------------------------
     Victor 'mgl' Anikeev, mgl@pisem.net
-    --------------------------------------------------*/
+---------------------------------------------------*/
 
 #ifndef __MGLGROUPS_H__
 #define __MGLGROUPS_H__
 
 #include "fidoconf.h"
 
-/*--------------------------------------------------
+/*---------------------------------------------------
  Returns number of groups in string. Groups must be
  separated with symbols, defined in delms string. The
  function doesn't check duplicates and skips
@@ -15,7 +15,7 @@
  Expamples: 
  2 == ("windows,;,,,,linux", ",;"))
  3 == ("quake quake quake", " "));
-    --------------------------------------------------*/
+---------------------------------------------------*/
 int getGroupSetSize(char *str, register char *delms);
 
 
@@ -31,7 +31,7 @@ int getGroupSetSize(char *str, register char *delms);
  0 == ("quake doom", "wolf quake"...
  0 == ("quake", "doom"...
  0 == ("quake", ""...
-    --------------------------------------------------*/
+--------------------------------------------------*/
 int isSubSetOfGroups(char *sub, char *groups, register char *delms);
 
 
@@ -44,13 +44,13 @@ int isSubSetOfGroups(char *sub, char *groups, register char *delms);
  0 == ("quake", "")
  1 == ("quake", "quake")
  1 == ("quake doom", "doom wolf")
-    --------------------------------------------------*/
+--------------------------------------------------*/
 int areCrossGroupSets(char *grp1, char *grp2, register char *delms);
 
-/*--------------------------------------------------
+/*----------------------------------------------------
  Returns 1 if two group sets are equal. Groups must be
  separated with symbols, defined in delms string.
-    --------------------------------------------------*/
+----------------------------------------------------*/
 int areEqualGroupSets(char *grp1, char *grp2, register char *delms);
 
 #endif

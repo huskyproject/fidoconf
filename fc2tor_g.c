@@ -1,6 +1,6 @@
 /*--------------------------------------------------
     Victor 'mgl' Anikeev, mgl@pisem.net
-    --------------------------------------------------*/
+--------------------------------------------------*/
 
 /*#define MGLGRPTST*/
 
@@ -90,7 +90,7 @@ int areEqualGroupSets(char *grp1, char *grp2, char *delms) {
 
 /*-----------------25.08.02 00:36-------------------
  for TEST only (MGLGRPTST must be defined)
-    --------------------------------------------------*/
+--------------------------------------------------*/
 #ifdef MGLGRPTST
 int main (int argc, char *argv[]) {
  printf("Groups: %d\n", getGroupSetSize(",, , ,os/2,,,unix,, ,win,,,", ",; "));
