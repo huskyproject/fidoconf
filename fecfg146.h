@@ -1,7 +1,7 @@
 /*
  *  FECFG146.H
  *
- *  'C' Structures of FastEcho 1.46 
+ *  'C' Structures of FastEcho 1.46
  *  Copyright (c) 1995 by Tobias Burchhardt.  Last update: 30 Jun 1995.
  *  Modified by Aleksandar Ivanisevic 30 Oct 1996.
  *  Minor alterations by Andrew Clarke 22 Dec 1996.
@@ -182,6 +182,7 @@ enum ARCmailExt
 #define SCANBEFORE              0x0100
 #define ADDRECEIPTLIST          0x0200
 #define NOTIFYPASSWORDS         0x0400
+#define SENDCONFERENCERULES     0x0800
 
 /********************************************************
  * Area.board (1-200 = Hudson)                          *
@@ -272,7 +273,7 @@ typedef struct CONFIGURATION
     char SemaphorePath[_MAXPATH];
     char BBSConfigPath[_MAXPATH];
     char QueuePath[_MAXPATH];   /* DBQueuePath */
-    char RulesPrefix[32];       
+    char RulesPrefix[32];
     char RetearTo[40];
     char LocalInBound[_MAXPATH];
     char ExtAfter[_MAXPATH - 4];
@@ -400,11 +401,12 @@ typedef struct
         unsigned allowremote      : 1;  /*                                      */
         unsigned allowdelete      : 1;  /* flags for different FSC-57 requests  */
         unsigned allowrename      : 1;  /* all 3 reserved for future use        */
-        unsigned binarylist       : 1;  /* Forward changes                      */
+        unsigned binarylist       : 1;  /* Forward changes (FSC-57)             */
         unsigned addplus          : 1;  /* add '+' when requesting new area     */
         unsigned addtear          : 1;  /* add tearline to the end of requests  */
         unsigned sendto           : 3;  /* name of this systems's AreaFix robot */
-        unsigned resv             : 4;  /* Here: "Send rules" ?? */
+        unsigned nosendrules      : 1;  /* Send rules or not                    */
+        unsigned resv             : 3;  /* Reserved (unused space)              */
       }bits;
       unsigned short afixflags;
     }
@@ -419,10 +421,10 @@ typedef struct
     unsigned short resv4;
     unsigned short maxarcsize;
     char name[36];             /* Name of sysop */
-    unsigned char *areas;      /* 
+    unsigned char *areas;      /*
                                 *  Bit-field with CONFIG.MaxAreas / 8
                                 *  bits, Unsigned Char 0/Bit 7 is conference #0
-                                * 
+                                *
                                 *  Pointer will be alloc'ed by read_fe_node;
                                 *  call free_fe_node to release it!
                                 */
@@ -532,7 +534,7 @@ ExtensionHeader;
 
                                 /* note: original .h file defined this constant
                                    to 0x0001, but this obviously did not work
-                                 */ 
+                                 */
 #define EH_AREAFIX      0x000d          /* CONFIG.FWACnt * <ForwardAreaFix> */
 
 enum AreaFixAreaListFormat
@@ -586,8 +588,8 @@ typedef struct
     unsigned char group;
     unsigned char resv[15];
     Area area;
-    unsigned char *nodes;       /* 
-                                 * variable, c.MaxNodes / 8 bytes 
+    unsigned char *nodes;       /*
+                                 * variable, c.MaxNodes / 8 bytes
                                  *
                                  *  Pointer will be malloc'ed by
                                  *  read_fe_groupdefaults,

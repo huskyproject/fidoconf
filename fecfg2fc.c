@@ -519,6 +519,11 @@ void  print_links()
       fprintf(f_hpt, "# binarylist  %d\n", (int)node[i]->afixflags.bits.binarylist);
       fprintf(f_hpt, "# addplus     %d\n", (int)node[i]->afixflags.bits.addplus);
       fprintf(f_hpt, "# addtear     %d\n", (int)node[i]->afixflags.bits.addtear);
+
+      fprintf(f_hpt, "# sendto      %d\n", (int)node[i]->afixflags.bits.sendto);
+      fprintf(f_hpt, "# forward     %d\n", (int)node[i]->afixflags.bits.forward);
+      fprintf(f_hpt, "# nosendrules %d\n", (int)node[i]->afixflags.bits.nosendrules);
+      fprintf(f_hpt, "# resv        %d\n", (int)node[i]->afixflags.bits.resv);
       fprintf(f_hpt, "### Fastecho's areafix flags for node end ##\n");
 */
       if ( node[i]->afixflags.bits.areafixtype == FSC57AreaFix )
@@ -533,6 +538,9 @@ void  print_links()
               fprintf(f_hpt, "ForwardRequests          off\n");
             fprintf(f_hpt, "ForwardRequestFile       %s\n", strLower(frequest[c].file));
          }
+
+      if (node[i]->afixflags.bits.nosendrules)
+        fprintf(f_hpt, "NoRules                  on\n");
 
       switch (node[i]->afixflags.bits.sendto) {
       case AreaMgr:
@@ -551,6 +559,7 @@ void  print_links()
 */
          break;
       } /* endswitch */
+
 
 /*      fprintf(f_hpt, "AllowPktAddrDiffer       %s\n", ); */
 
@@ -769,7 +778,9 @@ int main(int argc, char **argv)
    if( config.LocalInBound && *config.LocalInBound )
      fprintf(f_hpt, "LocalInBound             %s\n", config.LocalInBound);
    if( config.RulesPrefix && *config.RulesPrefix )
-     fprintf(f_hpt, "RulesDir                 %s\n", config.RulesPrefix);
+     fprintf(f_hpt, "%sRulesDir                 %s\n",
+                    config.AreaFixFlags & SENDCONFERENCERULES? "": "# ",
+                    config.RulesPrefix);
    pp = strrchr(config.LogFile, '\\');
    if(pp){
      *pp=0;
@@ -819,6 +830,8 @@ int main(int argc, char **argv)
             config.AreaFixFlags & KEEPREQUEST ? "on" : "off" );
    fprintf( f_hpt, "AreafixKillReports       %s\n",
             config.AreaFixFlags & KEEPRECEIPT ? "on" : "off" );
+   fprintf( f_hpt, "areafixQueryReports      %s\n",
+            config.AreaFixFlags & ADDRECEIPTLIST ? "on" : "off" );
 
    if( packers_count ){
      fprintf(f_hpt, "\n##################################################################\n");
