@@ -56,8 +56,10 @@ endif
 
 default: all
 
-#include make/makefile.inc
+include make/makefile.inc
 include makefile.in2
+TARGETLIB = $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
+TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
 
 progs: commonprogs
 
@@ -116,7 +118,7 @@ endif
 install: commonlibs progs instdyn
 	-$(MKDIR) $(MKDIROPT) $(BINDIR)
 	-$(MKDIR) $(MKDIROPT) $(INCDIR)/fidoconf
-	$(INSTALL) $(IBOPT) $(LPROGRAMS) $(BINDIR)
+	$(INSTALL) $(IBOPT) $(PROGRAMS) $(BINDIR)
 	$(INSTALL) $(IBOPT) linked$(_EXE) $(BINDIR)
 	$(INSTALL) $(IBOPT) tparser$(_EXE) $(BINDIR)
 ifeq (${OSTYPE}, UNIX)
@@ -136,7 +138,7 @@ install-man:
 
 uninstall:
 	-cd $(BINDIR) ;\
-	-$(RM) $(RMOPT) $(LPROGRAMS) linked$(_EXE) tparser$(_EXE) linkedto \
+	-$(RM) $(RMOPT) $(PROGRAMS) linked$(_EXE) tparser$(_EXE) linkedto \
 	fconf2na.pl fconf2areasbbs.pl
 	-cd $(INCDIR)/fidoconf ;\
 	-$(RM) $(RMOPT) $(HEADERS)
