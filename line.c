@@ -259,6 +259,37 @@ int parsePath(char *token, char **var)
    return 0;
 }
 
+int parseFileareaBaseDirPath(char *token, char **var)
+{
+   DIR  *dirent;
+
+   if (token == NULL) {
+      printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if ( (token[strlen(token)-1] == PATH_DELIM) || (stricmp(token,"Passthrough")==0) ) {
+      *var = (char *) malloc(strlen(token)+1);
+      strcpy(*var, token);
+   } else {
+      *var = (char *) malloc(strlen(token)+2);
+      strcpy(*var, token);
+      (*var)[strlen(token)] = PATH_DELIM;
+      (*var)[strlen(token)+1] = '\0';
+   }
+
+   if (stricmp(token,"Passthrough")) {
+      dirent = opendir(*var);
+      if (dirent == NULL) {
+         printf("Line %d: Path %s not found!\n", actualLineNr, *var);
+         return 1;
+      }
+      closedir(dirent);
+   }
+
+   return 0;
+}
+
 int parsePublic(char *token, s_fidoconfig *config)
 {
    char limiter;
@@ -2024,7 +2055,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "logfiledir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
    else if (stricmp(token, "dupehistorydir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
    else if (stricmp(token, "nodelistdir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
-   else if (stricmp(token, "fileareabasedir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir));
+   else if (stricmp(token, "fileareabasedir")==0) rc = parseFileareaBaseDirPath(getRestOfLine(), &(config->fileAreaBaseDir));
    else if (stricmp(token, "passfileareadir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir));
    else if (stricmp(token, "msgbasedir")==0) {
       temp = getRestOfLine();
