@@ -209,8 +209,8 @@ void printLink(s_link link) {
    }
    printf("AreaFix %s\n", (link.AreaFix) ? "on" : "off");
    printf("FileFix %s\n", (link.FileFix) ? "on" : "off");
-   printf("Forward Requests from this link is %s\n",(link.forwardRequests)?"on":"off");
-   printf("Forward Request to another links is %s\n",(link.fReqFromUpLink)?"on":"off");
+   printf("Forward Requests to this link is %s\n",(link.forwardRequests)?"on":"off");
+   printf("Forward Request from this link is %s\n",(link.fReqFromUpLink)?"on":"off");
    if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
    else printf("RemoteRobotName areafix\n");
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
