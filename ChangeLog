@@ -1,3 +1,11 @@
+2002-11-03 Sunday 03:53  d_sergienko
+
+	* README.TXT (1.2), doc/fidoconfig.texi (1.23): update docs
+
+2002-11-03 Sunday 00:51  d_sergienko
+
+	* common.c (1.129): test version of createLock() function
+
 2002-11-01 Friday 23:35  stas_degteff
 
 	* areatree.c (1.7): Fix buggy '2002-11-01 Friday 15:28	mche'
