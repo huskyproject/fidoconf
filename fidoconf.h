@@ -127,8 +127,8 @@ typedef struct link {
    unsigned int FileFixFSC87Subset; // 1 if only FSC87-commands are allowable in TIC files
    unsigned int forwardRequests;      // 0 if not allowed forward requests
    unsigned int forwardFileRequests;      // 0 if not allowed forward requests for file areas
-	unsigned int denyFRA; // denyFwdReqAccess
-	unsigned int denyUFRA; // denyUncondFwdReqAccess
+   unsigned int denyFRA; // denyFwdReqAccess
+   unsigned int denyUFRA; // denyUncondFwdReqAccess
 
    int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
                               //   PKT files found in the protected inbound
@@ -162,8 +162,8 @@ typedef struct link {
    unsigned arcmailSize;      // max arcmail size in kb
    unsigned pktSize;          // max .pkt size in kb
    unsigned maxUnpackedNetmail; // max size of *.?ut file in kb. If
-								// more, then put it into
-								// bundle. Default 100 (used in bsopack)
+                                // more, then put it into
+                                // bundle. Default 100 (used in bsopack)
    unsigned int packNetmail;    // allows to pack outbound
 								// netmail. Default no (used in bsopack)
    unsigned int export, import, mandatory; // Default link's options
@@ -184,11 +184,12 @@ typedef struct link {
     unsigned int autoFileCreateSubdirs;
     char  *fileBox;
     unsigned int fileBoxAlways;
+    unsigned int tickerPackToBox;
     unsigned int  arcNetmail; // 1 if pack netmail into arcmail bundles
     char useFileBox; // internal
-
     char sb; // internal
     unsigned int noRules;
+
 
 } s_link, *ps_link;
 
@@ -542,6 +543,19 @@ typedef struct fidoconfig {
     
 } s_fidoconfig, *ps_fidoconfig;
 
+typedef struct {
+    int module;
+//  module = 0 - not defined
+//  module = 1 - hpt
+//  module = 2 - htick
+//  module = 3 - all other
+    ps_fidoconfig config; 
+    // for future usage
+} sApp;
+
+sApp theApp;
+
+FCONF_EXT void SetAppModule(int mod); // setup struct sApp
 
 FCONF_EXT ps_fidoconfig readConfig(char *cfgFile);
 

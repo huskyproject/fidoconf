@@ -1149,9 +1149,12 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
 
     // link->useFileBox == 0 -> still don't know
 
-    if (link->fileBox==NULL && config->fileBoxesDir==NULL) {
-	link->useFileBox = 1;
-	return 0;
+    if ( (link->fileBox==NULL && config->fileBoxesDir==NULL) ||
+         (theApp.module == 2  && !link->tickerPackToBox)
+       )
+    {
+        link->useFileBox = 1;
+        return 0;
     }
 
     if (link->fileBoxAlways) {

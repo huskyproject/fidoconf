@@ -263,8 +263,8 @@ enum {
     ID_IDLEPASSTHRUTIMEOUT,
     ID_KILLEDREQUESTTIMEOUT,
     ID_PACKNETMAILONSCAN,
-    ID_QUICKAREASEARCH,
-    ID_UUEECHOGROUP
+    ID_UUEECHOGROUP,
+    ID_TICKERPACKTOBOX
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -478,7 +478,6 @@ token_t parseline_tokens[] =
     { "protinbound", ID_PROTINBOUND },
     { "public", ID_PUBLIC },
     { "publicgroup", ID_PUBLICGROUP },
-    { "quickareasearch", ID_QUICKAREASEARCH },
     { "readonly", ID_READONLY },
     { "remap", ID_REMAP },
     { "remotefilerobotname", ID_REMOTEFILEROBOTNAME },
@@ -503,6 +502,7 @@ token_t parseline_tokens[] =
     { "tearline", ID_TEARLINE },
     { "tempinbound", ID_TEMPINBOUND },
     { "tempoutbound", ID_TEMPOUTBOUND },
+    { "tickerpacktobox", ID_TICKERPACKTOBOX },
     { "ticoutbound", ID_TICOUTBOUND },
     { "ticpwd", ID_TICPWD },
     { "tossingext", ID_TOSSINGEXT },

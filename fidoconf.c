@@ -47,6 +47,8 @@
 
 static int wasCR=0;
 
+sApp theApp = { 0, NULL };
+
 const char *cfgEol()
 {
     return wasCR ? "\r\n" : "\n";
@@ -797,3 +799,5 @@ int grpInArray(char *group, char **strarray, unsigned int len)
 
 	return 0;
 }
+
+void SetAppModule(int mod) { theApp.module = mod; }

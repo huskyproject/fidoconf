@@ -372,7 +372,7 @@ void printLink(s_link link) {
        printf("fileBox %s\n", link.fileBox);
        printf("fileBoxAlways: %s\n", link.fileBoxAlways ? "on": "off");
    }
-
+   printf("TickerPackToBox %s\n", (link.tickerPackToBox) ? "on" : "off");
    if (link.pktSize != 0) printf("pktSize - %u kb\n",link.pktSize);
    if (link.arcmailSize != 0) printf("arcmailSize - %u kb\n",link.arcmailSize);
 
