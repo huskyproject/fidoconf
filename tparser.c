@@ -1032,7 +1032,6 @@ int main(int argc, char **argv) {
   	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
   	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
   	  if (config->areafixFromName) printf("areafixFromName - \"%s\"\n", config->areafixFromName);
-  	  if (config->filefixFromName) printf("filefixFromName - \"%s\"\n", config->filefixFromName);
   	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
   	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
   	  if (config->areafixQueueFile) printf("areafixQueueFile: %s\n",config->areafixQueueFile);
@@ -1045,6 +1044,8 @@ int main(int argc, char **argv) {
         printf("\n=== FILEFIX CONFIG ===\n");
         printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
         printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
+        if (config->filefixFromName) printf("filefixFromName - \"%s\"\n", config->filefixFromName);
+        if (config->filefixNames) printf("filefixNames - \"%s\"\n", config->filefixNames);
 
         printf("\n=== TICKER CONFIG ===\n");
         if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);

@@ -4087,6 +4087,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AREAFIXNAMES:
             rc = copyString(getRestOfLine(), &(config->areafixNames));
             break;
+        case ID_FILEFIXNAMES:
+            rc = copyString(getRestOfLine(), &(config->filefixNames));
+            break;
         case ID_REQIDXDIR:
             rc = parsePath(getRestOfLine(), &(config->reqidxDir), NULL);
             break;
