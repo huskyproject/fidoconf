@@ -1,5 +1,9 @@
 
 fidoconfig 0.6
 --------------
+
+----- cvs ci ------
+Mon Jan 18 17:16:24 CET 1999
+- fixed makefile.lnx to have fconf2aquaed
 Wed Jan 13 20:12:00 CET 1999
 - applied Kolyas memory bug fixes
