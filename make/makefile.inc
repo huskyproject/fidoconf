@@ -64,7 +64,7 @@ TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
 PACKAGEBASE=$(LIBNAME)$(LIBSUFFIX)-$(VER)
 PACKAGENAME=$(LIBNAME)$(LIBSUFFIX)$(VER)$(_ARC)
 
-LIBS	= -L$(LIBDIR) -lhusky -lsmapi -L. -l$(LIBNAME)
+LIBS	= -L$(LIBDIR) -L. -l$(LIBNAME) -lsmapi -lhusky
 
 
 commonlibs: $(TARGETLIB) $(SYMBOLIC)
@@ -90,13 +90,13 @@ $(TARGETLIB): $(LOBJS)
 
 
 $(PROGRAMS): $(OBJS)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@$(_EXE) $(LIBS) $@$(_OBJ)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@$(_EXE) $@$(_OBJ) $(LIBS)
 
 $(FC2TOR): $(TOROBJS)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $(LIBS) $?
+	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $? $(LIBS)
 
 $(FECFG2FC): $(FEOBJS)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $(LIBS) $?
+	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $? $(LIBS)
 
 
 commonclean: $(SYMBOLIC)
