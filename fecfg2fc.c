@@ -337,14 +337,12 @@ void print_areas()
           if (area[i]->desc && *area[i]->desc )
              fprintf(f_hpt, "\t-d \"%s\"\t", area[i]->desc);
 
-          if (area[i]->read_sec>0)
-             fprintf(f_hpt, " -lr %d", area[i]->read_sec);
+          fprintf(f_hpt, " -lr %d", area[i]->read_sec);
 
-          if (area[i]->write_sec>0)
-             fprintf(f_hpt, " -lw %d", area[i]->write_sec);
+          fprintf(f_hpt, " -lw %d", area[i]->write_sec);
 
           if (area[i]->advflags.hide)
-             fprintf(f_hpt, " -h");
+             fprintf(f_hpt, " -hide");
 
           if (area[i]->advflags.mandatory)
              fprintf(f_hpt, " -mandatory");
