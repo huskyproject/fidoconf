@@ -20,7 +20,7 @@ Copyright 1998-2002 Husky Development Team
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2001 Husky Development Team 
+Copyright @copyright{} 1998-2002 Husky Development Team 
 
 @end titlepage
 
