@@ -201,6 +201,10 @@ FCONF_EXT void *srealloc(void *ptr, size_t size);
 FCONF_EXT void *scalloc(size_t nmemb, size_t size);
 FCONF_EXT char *sstrdup(const char *src);
 
+/* strsep.c
+*/
+char *strseparate(register char **stringp, register const char *delim);
+
 #ifdef __cplusplus
 }
 #endif
