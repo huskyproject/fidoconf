@@ -1,3 +1,8 @@
+2004-07-13 Tuesday 06:50  andr_lukyanov
+
+	* doc/: proposal.texi, rus/proposal.texi
+	(fidoconf-1_4-stable.[6,3]): Fix syntax to 'Nodelistformat' token
+
 2004-06-22 Tuesday 12:08  stas_degteff
 
 	* line.c (fidoconf-1_4-stable.11): Fix and expand the error message
