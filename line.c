@@ -2456,7 +2456,7 @@ int parseLine(char *line, s_fidoconfig *config)
    //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
    if (token)
    {
-     iToken = strLower(strdup(token));
+     iToken = strLower(sstrdup(token));
      if (strcmp(iToken, "commentchar")==0) rc = parseComment(getRestOfLine(), config);
      else if (strcmp(iToken, "version")==0) rc = parseVersion(getRestOfLine(), config);
      else if (strcmp(iToken, "name")==0) rc = copyString(getRestOfLine(), &(config->name));
