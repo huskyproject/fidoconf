@@ -1,3 +1,12 @@
+2002-10-11 Friday 17:47  stas_degteff
+
+	* fidoconf.c, fidoconf.h, line.c (fidoconf-0_14-stable.[2,3,1]):
+	Fix default values setting for areafix queue
+
+2002-10-11 Friday 03:23  sfpavel
+
+	* cfg.c (fidoconf-0_14-stable.3): Fix for DJGPP cmpfnames()
+
 2002-10-10 Thursday 12:21  sfpavel
 
 	* debian/: changelog, control, fidoconf-runtime.dirs,
