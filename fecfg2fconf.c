@@ -38,14 +38,16 @@ char *grp2str(dword bitmap)
       tmp = ch|0x7f;
       tmp ^=0xff;
       if (tmp) {
-         *(curr++) = key;
+         *curr = key;
+         curr++;
       } /* endif */
    } /* endfor */
    for (key = '1'; key <= '6'; key++, ch <<=1) {
       tmp = ch|0x7f;
       tmp ^=0xff;
       if (tmp) {
-         *(curr++) = key;
+         *curr = key;
+         curr++;
       } /* endif */
    } /* endfor */
    *curr = 0;

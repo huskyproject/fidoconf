@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Tue Nov 30 22:07:07 CET 1999
+sms:
+* fixed some misuses of ++ in fecfg2fconf.c
+
+----- cvs ci ------
 Mon Nov 29 01:01:03 CET 1999
 sms:
 * another bugfix for string2addr: missing backslash before 0
