@@ -799,15 +799,15 @@ void printRemaps(s_fidoconfig *config)
 void printSeqOutrun(unsigned long seqOutrun)
 {
     if (seqOutrun % (365l*24*60*60) == 0)
-	printf("seqOutrun: %luy\n", seqOutrun % (365l*24*60*60));
+	printf("seqOutrun: %luy\n", seqOutrun / (365l*24*60*60));
     else if (seqOutrun % (31l*24*60*60) == 0)
-	printf("seqOutrun: %lum\n", seqOutrun % (31l*24*60*60));
+	printf("seqOutrun: %lum\n", seqOutrun / (31l*24*60*60));
     else if (seqOutrun % (7l*24*60*60) == 0)
-	printf("seqOutrun: %luw\n", seqOutrun % (7l*24*60*60));
+	printf("seqOutrun: %luw\n", seqOutrun / (7l*24*60*60));
     else if (seqOutrun % (24*60*60) == 0)
-	printf("seqOutrun: %lud\n", seqOutrun % (24*60*60));
+	printf("seqOutrun: %lud\n", seqOutrun / (24*60*60));
     else if (seqOutrun % (60*60) == 0)
-	printf("seqOutrun: %luh\n", seqOutrun % (60*60));
+	printf("seqOutrun: %luh\n", seqOutrun / (60*60));
     else
 	printf("seqOutrun: %lu\n", seqOutrun);
 }
