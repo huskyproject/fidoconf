@@ -123,18 +123,6 @@ char *sysAddress2str(SysAddress sysaddr)
    return aka;
 }
 
-char *strLwr(char *str)
-{
-   char *ptr;
-
-   ptr = str;
-
-   while (*ptr) {
-      *ptr = tolower(*ptr);
-      ptr++;
-   }
-   return str;
-}
 
 void Usage(const char *program)
 {
@@ -562,10 +550,10 @@ int main(int argc, char **argv)
       fprintf( f_hpt, "OurAka                   %s\n", sysAddress2str(sysaddr[node[i]->aka]) );
 
       if ( node[i]->password && node[i]->password[0] )
-         fprintf(f_hpt, "PktPwd                   %s\n", strLwr(node[i]->password));
+         fprintf(f_hpt, "PktPwd                   %s\n", strLower(node[i]->password));
 
       if ( node[i]->areafixpw && node[i]->areafixpw[0] )
-         fprintf(f_hpt, "AreafixPWD               %s\n", strLwr(node[i]->areafixpw));
+         fprintf(f_hpt, "AreafixPWD               %s\n", strLower(node[i]->areafixpw));
 
       fprintf(f_hpt, "Level                    %d\n", node[i]->sec_level);
 
@@ -693,7 +681,7 @@ int main(int argc, char **argv)
          if (i == frequest[c].nodenr) {
             if (!node[i]->afixflags.bits.forward)
               fprintf(f_hpt, "ForwardRequests          off\n");
-            fprintf(f_hpt, "ForwardRequestFile       %s\n", strLwr(frequest[c].file));
+            fprintf(f_hpt, "ForwardRequestFile       %s\n", strLower(frequest[c].file));
          }
 
       switch (node[i]->afixflags.bits.sendto) {
