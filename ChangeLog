@@ -1,3 +1,7 @@
+2004-09-11 Saturday 07:36  pgul
+
+	* src/afixcmd.c (1.9): Check retcode of fseek() on config change
+
 2004-07-31 Saturday 14:53  andrew_ladutsko
 
 	* HISTORY (1.27), fidoconf/fidoconf.h (1.24), fidoconf/tokens.h
