@@ -4,6 +4,11 @@ fidoconfig 0.10
 
 
 ----- cvs ci ------
+Sat Jun  3 21:57:51 NOVST 2000
+max:
+* fixed my yesterday bug in fgetsUntil0
+
+----- cvs ci ------
 Thu Jun  2 12:04:42 NOVST 2000
 max:
 * fixed fgetsUntil0 function (thanx to Gena Makhomed)
