@@ -379,6 +379,21 @@ void setConfigDefaults(s_fidoconfig *config)
    config->idlePassthruTimeout = config->idlePassthruTimeout     <  0 ? 4 : config->idlePassthruTimeout;
    config->killedRequestTimeout = config->killedRequestTimeout   <= 0 ? 3 : config->killedRequestTimeout;
    RebuildEchoAreaTree(config);   
+   if (!config->tempDir) {
+      char *p;
+      if ((p=getenv("TEMP")) != NULL ||
+          (p=getenv("TMP")) != NULL ||
+          (p=getenv("TMPDIR")) != NULL)
+         parsePath(p, &(config->tempDir), NULL);
+      else
+#if defined(UNIX)
+         parsePath("/tmp", &(config->tempDir), NULL);
+#elif defined(WINNT)
+         parsePath("c:\\windiws\\temp", &(config->tempDir), NULL);
+#else
+         parsePath("c:\\", &(config->tempDir), NULL);
+#endif
+   }
 }
 
 s_fidoconfig *readConfig(char *cfgFile)

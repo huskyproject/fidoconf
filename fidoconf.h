@@ -717,6 +717,7 @@ int dumpConfigToFile(ps_fidoconfig config, char *fileName);
 // Only use them if you really know what you do.
 FCONF_EXT char *readLine(FILE *F);
 FCONF_EXT int  parseLine(char *line, ps_fidoconfig config);
+int parsePath(char *token, char **var, char **alreadyDefined);
 FCONF_EXT char *getConfigFileName(void);
 FCONF_EXT char *trimLine(char *line);
 FCONF_EXT void carbonNames2Addr(s_fidoconfig *config);
