@@ -1,3 +1,14 @@
+2002-04-13 Saturday 16:44  mche
+
+	* fidoconf.h (1.109): Some internal features added.  Now we can set
+	application that use fidoconfig
+
+2002-04-13 Saturday 16:26  mche
+
+	* common.c (1.81), fidoconf.c (1.74), fidoconf.h (1.108), line.c
+	(1.289), tokens.h (1.30), tparser.c (1.173): new token
+	"TickerPackToBox" added
+
 2002-04-11 Thursday 09:20  pavel.gulchouck
 
 	* man/Makefile (1.2): Installation manpages bugfix
