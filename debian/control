@@ -2,8 +2,8 @@ Source: fidoconf
 Section: libs
 Priority: extra
 Maintainer: Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>
-Build-Depends: debhelper (>> 3.0.0), smapi (>= 1.6.4b-10), smapi (<< 1.6.5)
-Standards-Version: 3.2.1
+Build-Depends: debhelper (>> 3.0.0), smapi (>= 1.6.4u-1), smapi (<< 1.6.5)
+Standards-Version: 3.5.2
 
 Package: fidoconf
 Architecture: any
