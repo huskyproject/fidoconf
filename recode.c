@@ -130,12 +130,12 @@ void getctab(CHAR *dest, UCHAR *charMapFileName )
 
 		if (p && q)
 		{
-			in = ctoi((signed char *)p);
+			in = ctoi((char *)p);
 			if (in > 255) {
 				fprintf(stderr, "getctab: %s: line %d: char val too big\n", charMapFileName, line);
 				break;
 			}
-			on=ctoi((signed char *)q);
+			on=ctoi((char *)q);
 			if (in && on)
                         {
                                 if( count++ < 256 ) dest[in]=(char)on;

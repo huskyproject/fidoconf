@@ -1,23 +1,25 @@
 # Makefile for EMX GCC on OS/2 with GMAKE using a.out style linkage
 # This will produce dynamic executables requiring EMX.DLL and EMXLIB*DLL
 
-CC=	gcc
+CC	= gcc
 # the space after the o is important!
-EXENAMEFLAG=-o 
-CDEFS=	-DOS2 -I.. -Wall -pedantic -c -Wno-char-subscripts
-COPT=	-O2 
-LFLAGS=-Zcrtdll -s
+CFLAGS	= -I.. -pedantic -Wno-char-subscripts
+COPT	= -O3 -s -c
+LFLAGS	= -Wall -Zcrtdll
+CDEFS	= -D__OS2__
 
-OBJ=.o
-EXE=.exe
-TPU=.tpu
-RM=cmd /c del
-LIB=.a
-AR=ar
-AR_R=r
+AR	= ar
+AR_R	= r
+RM	= cmd /c del
+OBJ	= .o
+LIB	= .a
+EXE	= .exe
+TPU	= .tpu
 
-LINKSMAPI=../smapi/smapiemx.a
-LIBPREFIX=
+EXENAMEFLAG = -o 
+
+LINKSMAPI   = ../smapi/smapiemx.a
+LIBPREFIX   =
 
 FIDOCONFIG = fconfemx
 FCONF2AQUAED = fconf2aquaed
