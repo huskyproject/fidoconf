@@ -163,6 +163,8 @@ typedef struct link {
     unsigned int autoFileCreateSubdirs;
     char  *fileBox;
 
+    char sb; // internal
+
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;
