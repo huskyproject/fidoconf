@@ -114,7 +114,7 @@ char *stripComment(char *line)
   aux=strchr(line,CommentChar);
 
   if (aux!=NULL) {
-    if (*(aux-1)==' ')
+    if (*(aux-1)==' ' || *(aux-1)=='\t')
       aux[0]='\0';
   }
 
