@@ -234,8 +234,6 @@ int parseRemap(char *token, s_fidoconfig *config)
 
 int parsePath(char *token, char **var)
 {
-/*   DIR  *dirent; */
-
    if (*var != NULL) {
       printf("Line %d: Dublicate path!\n", actualLineNr);
       return 1;
@@ -251,24 +249,7 @@ int parsePath(char *token, char **var)
 
    if (*token && token[strlen(token)-1] == PATH_DELIM)
        Strip_Trailing(token, PATH_DELIM);
-//   {
-//      *var = (char *) smalloc(strlen(token)+1);
-//      strcpy(*var, token);
-//   } else {
-//      *var = (char *) smalloc(strlen(token)+2);
-//      strcpy(*var, token);
-//      (*var)[strlen(token)] = PATH_DELIM;
-//      (*var)[strlen(token)+1] = '\0';
-  // }
-    xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
-
-/*
-   dirent = opendir(*var);
-   if (dirent == NULL) {
-      printf("Line %d: Path %s not found!\n", actualLineNr, *var);
-      return 1;
-   }
-*/
+   xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
 
    if (!direxist(*var))
    {
@@ -276,45 +257,26 @@ int parsePath(char *token, char **var)
       return 1;
    }
 
-/*   closedir(dirent); */
    return 0;
 }
 
 int parsePublic(char *token, s_fidoconfig *config)
 {
-   char limiter;
-   DIR  *dirent;
-
    if (token == NULL) {
       printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
    config->publicDir = srealloc(config->publicDir, sizeof(char *)*(config->publicCount+1));
+   config->publicDir[config->publicCount] = NULL;
+   
+   if (*token && token[strlen(token)-1] == PATH_DELIM)
+       Strip_Trailing(token, PATH_DELIM);
+   xscatprintf(&(config->publicDir[config->publicCount]), "%s%c", token, (char) PATH_DELIM);
 
-#ifdef UNIX
-   limiter = '/';
-#else
-   limiter = '\\';
-#endif
-
-   if (token[strlen(token)-1] == limiter) {
-      config->publicDir[config->publicCount] = (char *) smalloc(strlen(token)+1);
-      strcpy(config->publicDir[config->publicCount], token);
-   } else {
-      config->publicDir[config->publicCount] = (char *) smalloc(strlen(token)+2);
-      strcpy(config->publicDir[config->publicCount], token);
-      (config->publicDir[config->publicCount])[strlen(token)] = limiter;
-      (config->publicDir[config->publicCount])[strlen(token)+1] = '\0';
-   }
-
-   dirent = opendir(token);
-
-   if (dirent == NULL) {
+   if (!direxist(config->publicDir[config->publicCount])) {
       printf("Line %d: Path %s not found!\n", actualLineNr, token);
       return 1;
    }
-
-   closedir(dirent);
 
    config->publicCount++;
    return 0;
@@ -687,7 +649,10 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    tok = strtok(NULL, " \t");
    
    while (tok != NULL) {
-      if(tok[0]=='-') rc += parseAreaOption(config, tok+1, area);
+      if(tok[0]=='-') {
+          rc += parseAreaOption(config, tok+1, area);
+	  if (rc) return rc;
+      }
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
 	 area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
@@ -828,7 +793,10 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    tok = strtok(NULL, " \t");
 
    while (tok != NULL) {
-      if(tok[0]=='-') rc += parseFileAreaOption(config, tok+1, area);
+      if(tok[0]=='-') {
+          rc += parseFileAreaOption(config, tok+1, area);
+	  if (rc) return rc;
+      }
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
          area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));

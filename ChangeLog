@@ -3,6 +3,12 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Sat Jul  1 12:44:09 NOVST 2000
+max:
+* fixed core dump when -a <addr> in echoarea not found (Alex Belozuerov)
+* parsePublic code cleanup
+
+----- cvs ci ------
 Fri Jun 30 23:25:08 NOVST 2000
 max (patch from Pavel Gulchouk):
 * `cmd` & [envvar] parsing
