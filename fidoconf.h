@@ -460,6 +460,7 @@ typedef struct fidoconfig {
    e_bundleFileNameStyle bundleNameStyle;
 
    unsigned int keepTrsMail; // Keep Transit Netmail
+   unsigned int keepTrsFiles; // Keep Transit Files
    unsigned int createFwdNonPass;
    unsigned int autoPassive;
    

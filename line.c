@@ -2965,6 +2965,7 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
      else if (strcmp(iToken, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
      else if (strcmp(iToken, "keeptrsmail")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
+     else if (strcmp(iToken, "keeptrsfiles")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsFiles));
      else if (strcmp(iToken, "filelist")==0) rc = parseFilelist(getRestOfLine(), config);
      else if (strcmp(iToken, "createfwdnonpass")==0) rc = parseBool(getRestOfLine(), &(config->createFwdNonPass));
 	 else if (strcmp(iToken, "autopassive")==0) rc = parseBool(getRestOfLine(), &(config->autoPassive));

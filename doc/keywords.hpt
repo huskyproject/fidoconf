@@ -1,6 +1,6 @@
 accessgrp
-addtoseen
 address
+addtoseen
 advancedareafix
 afterunpack
 aka
@@ -56,12 +56,12 @@ echomailflavour
 echotosslog
 excludepassthroughcarbon
 export
-frequestfromuplink
 forwardareapriority
 forwardpkts
 forwardrequestfile
 forwardrequestmask
 forwardrequests
+frequestfromuplink
 ignorecapword
 ignoreseen
 import
@@ -69,6 +69,7 @@ importlog
 inbound
 include
 intab
+keeptrsfiles
 keeptrsmail
 kludgeareanetmail
 level

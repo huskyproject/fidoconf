@@ -29,6 +29,7 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   fprintf(f, "areasFileNameCase %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
   if (config->disableTID != 0) fprintf(f, "DisableTID\n");
   if (config->keepTrsMail != 0) fprintf(f, "KeepTrsMail\n");
+  if (config->keepTrsFiles != 0) fprintf(f, "KeepTrsFiles\n");
   if (config->createFwdNonPass != 0) fprintf(f, "createFwdNonPass\n");
   if (config->autoPassive != 0) printf("autoPassive\n");
   if (config->processPkt != NULL) fprintf(f, "processPkt %s\n", config->processPkt);

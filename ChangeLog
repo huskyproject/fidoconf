@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Sun Feb 18 14:36:51 NOVT 2001
+max:
+* keepTrsFiles token for hpt
+
+----- cvs ci ------
 Sat Feb 17 23:51:48 NOVT 2001
 max (patch from Serguei Revtov):
 * exit on unrecognized line in config

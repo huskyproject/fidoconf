@@ -6,7 +6,6 @@
 - fix "-manual" vs. "-mandatory": 
   manual means: subscription/unsubscription not allowed
   mandatory means: subscription allowed, unsubscription not allowed
-- print name of config file with error
 
 max:
 - add to doc:
