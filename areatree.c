@@ -68,6 +68,7 @@ void     RebuildEchoAreaTree(ps_fidoconfig config)
    unsigned int i = 0;
    if(config->quickAreaSearch)
    {
+      FreeAreaTree(config);
       for (i=0; i < config->echoAreaCount; i++)
          addAreaToTree(&(config->echoAreas[i]));
       for (i=0; i < config->localAreaCount; i++) 
