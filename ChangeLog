@@ -1,3 +1,25 @@
+2002-01-27 Sunday 22:33  stas
+
+	* log.c (1.3): Fix bug in writeLogEntry() (now screenloglevels
+	token work). Change fprintf(stdout,...) calls to printf() in
+	w_log() & writeLogEntry().  Log message display to stderr if log
+	file don't open (writeLogEntry() & w_log()).
+
+2002-01-27 Sunday 21:19  stas
+
+	* Makefile (1.30): Add defines for compile fc2jt.
+
+2002-01-27 Sunday 21:07  stas
+
+	* fc2jt.c (1.1), makefile.cyg (1.2), makefile.inc (1.16),
+	makefile.mvc (1.6), makefile.mvcdll (1.5): New utility: fconf2jt -
+	convert fidoconfig to Just Tosser's config.
+
+2002-01-27 Sunday 17:53  stas
+
+	* common.c (1.73), common.h (1.40): Size of static variable
+	returned by aka2str() defined in common.h.
+
 2002-01-25 Friday 17:22  pavel.gulchouck
 
 	* cfg.c (1.17), fidoconf.c (1.63), fidoconf.h (1.94), line.c
