@@ -307,7 +307,9 @@ enum {
     ID_SENDNOTIFYMESSAGES,
     ID_AUTOAREAPAUSE,
     ID_ALLOWREMOTECONTROL,
-    ID_UNSUBSCRIBEONAREADELETE
+    ID_UNSUBSCRIBEONAREADELETE,
+    ID_DENYRESCAN,
+    ID_RESCANGRP
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -416,6 +418,7 @@ token_t parseline_tokens[] =
     { "denyfwdfile", ID_DENYFWDFILE },
     { "denyfwdmask", ID_DENYFWDMASK },
     { "denyfwdreqaccess", ID_DENYFWDREQACCESS },
+    { "denyrescan", ID_DENYRESCAN },
     { "denyuncondfwdreqaccess", ID_DENYUNCONDFWDREQACCESS },
     { "diffupdate", ID_DIFFUPDATE },
     { "disablepid", ID_DISABLEPID },
@@ -563,6 +566,7 @@ token_t parseline_tokens[] =
     { "remoterobotname", ID_REMOTEROBOTNAME },
     { "reportto", ID_REPORTTO },
     { "reqidxdir", ID_REQIDXDIR },
+    { "rescangrp", ID_RESCANGRP },
     { "robotsarea", ID_ROBOTSAREA },
     { "route", ID_ROUTE },
     { "routefile", ID_ROUTEFILE },

@@ -413,6 +413,8 @@ void printArea(s_area area) {
            printf("/");
        if(area.downlinks[i]->import)
            printf("write");
+       if(area.downlinks[i]->export && area.downlinks[i]->rescan)
+           printf("/rescan");
        if((area.downlinks[i]->export + area.downlinks[i]->import)==1)
            printf(" only");
        printf(",");
@@ -813,6 +815,17 @@ int printLink(ps_link link) {
    printf("sendNotifyMessages %s\n", (link->sendNotifyMessages) ? "on" : "off");
    printf("allowRemoteControl %s\n", (link->allowRemoteControl) ? "on" : "off");
    printf("unsubscribeOnAreaDelete %s\n", (link->unsubscribeOnAreaDelete) ? "on" : "off");
+
+   if (link->numRescanGrp) {
+	   printf("RescanGrp    ");
+	   for (i = 0; i < link->numRescanGrp; i++) {
+		   if (i > 0) printf(",");
+		   printf("%s", link->RescanGrp[i]);
+	   }
+	   printf("\n");
+   }
+   printf("denyRescan %s%s\n", (link->denyRescan) ? "on" : "off",
+          (link->numRescanGrp) ? " (applies to areas on RescanGrp list)" : "");
 
    printf("-------\n");
    return rc;

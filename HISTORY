@@ -12,6 +12,7 @@ Changes after FIDOCONFIG 1.4
    - new token allowRemoteControl for areafix.
    - new token unsubscribeOnAreaDelete for areafix.
    - new token autoAreaPause for areafix.
+   - new tokens denyRescan and rescanGrp for areafix.
 
 3. IMPORTANT bugfixes:
    - if link in area described twice - just warn, don't exit with error.

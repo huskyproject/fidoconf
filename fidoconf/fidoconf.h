@@ -222,6 +222,10 @@ typedef struct link {
     unsigned int allowRemoteControl; /* allow %from command for link */
     unsigned int unsubscribeOnAreaDelete; /* send "-area" request on area delete */
 
+    unsigned int denyRescan;  /* denies or allows link to rescan areas */
+    char **RescanGrp;         /* specifies which area groups allow/deny to rescan */
+    unsigned int numRescanGrp;
+
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;
@@ -252,6 +256,7 @@ typedef struct arealink {
    unsigned int import;		/*  1 - import yes, 0 - import no */
    unsigned int mandatory;	/*  1 - mandatory yes, 0 - mandatory no */
    unsigned int manual;		/*  1 - manual yes, 0 - manual no */
+   unsigned int rescan;         /*  1 - rescan yes, 0 - rescan no */
    unsigned int defLink;	/*  1 - default uplink */
 } s_arealink, *ps_arealink;
 
@@ -816,6 +821,8 @@ HUSKYEXT int grpInArray(char *group, char **strarray, unsigned int len);
 /* delete the area from in-core config */
 HUSKYEXT void fc_freeEchoArea(s_area     *area);
 
+/* returns 1 if link has right to rescan area, else returns 0 */
+HUSKYEXT int getLinkRescanAccess(s_area *area, s_link *link);
 
 HUSKYEXT void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink);
 

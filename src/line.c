@@ -593,6 +593,22 @@ int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 	return 0;
 }
 
+int getLinkRescanAccess(s_area *area, s_link *link)
+{
+    int rescan = 0;
+
+    if (area->msgbType != MSGTYPE_PASSTHROUGH) {
+        if (link->numRescanGrp > 0) {
+            rescan = link->denyRescan;
+            if (grpInArray(area->group,link->RescanGrp,link->numRescanGrp))
+                rescan = (!link->denyRescan);
+        } else
+            rescan = (!link->denyRescan);
+    }
+
+    return rescan;
+}
+
 void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
 {
     s_link *link=arealink->link;
@@ -617,7 +633,9 @@ void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
         arealink->mandatory = link->mandatory;
         arealink->manual = link->manual;
     }
-    
+
+    arealink->rescan = getLinkRescanAccess(area, link);
+
     if (area->mandatory) arealink->mandatory = 1;
     if (area->manual) arealink->manual = 1;
     if ((area->levelread > link->level) || (link->Pause & area->areaType)) arealink->export = 0;
@@ -2550,6 +2568,13 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		cAnnDef->annExclude = NULL;
 		cAnnDef->numbE       = 0;
 		parseGrp(token, &(cAnnDef->annExclude), &(cAnnDef->numbE));
+		break;
+
+    case 8:
+		if (link->RescanGrp) freeGroups(link->RescanGrp, link->numRescanGrp);
+		link->RescanGrp = NULL;
+		link->numRescanGrp = 0;
+		parseGrp(token, &(link->RescanGrp), &(link->numRescanGrp));
 		break;
 	}
 
@@ -4712,6 +4737,12 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_CREATEADDUPLINK:
             rc = parseBool(getRestOfLine(), &(config->createAddUplink));
+            break;
+        case ID_DENYRESCAN:
+            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->denyRescan));
+            break;
+        case ID_RESCANGRP:
+            rc = parseGroup(getRestOfLine(), config, 8);
             break;
 
         default:
