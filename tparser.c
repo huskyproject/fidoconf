@@ -53,11 +53,6 @@
 #include "version.h"
 #include "cvsdate.h"
 
-#define VER_MAJOR 0
-#define VER_MINOR 15
-#define VER_PATCH 0
-#define VER_BRANCH BRANCH_CURRENT
-
 #endif
 
 /* Test for required tokens */
@@ -948,8 +943,8 @@ int main(int argc, char **argv) {
    int k;
    char *cfgFile=NULL, *module;
 
-   printf("%s\n\n", module = GenVersionStr( "tparser", VER_MAJOR, VER_MINOR,
-				VER_PATCH, VER_BRANCH, cvs_date ));
+   printf("%s\n\n", module = GenVersionStr( "tparser", FC_VER_MAJOR, FC_VER_MINOR,
+				FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
    nfree(module); /* used as a temporary variable */
 
    for (k=1; k<argc; k++)
