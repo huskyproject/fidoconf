@@ -210,7 +210,6 @@ endif
 * handle::                      никнейм или указатель линка
 * packer::                      архиватор по умолчанию для линка
 
-* grpdesc::                     описание группы арий
 * badarea::                     описание badarea
 * dupearea::                    описание dupearea
 * echoarea::                    описание echoarea
@@ -868,7 +867,7 @@ htick, смотрите токен FileDescName; возможно, и другими husky программами).
 
 Этот оператор может повторяться только для разных линков.
 
-@node packer, grpdesc, handle, Keywords
+@node packer, badarea, handle, Keywords
 @subsection packer
 @table @asis
 @item Синтаксис:
@@ -884,24 +883,7 @@ htick, смотрите токен FileDescName; возможно, и другими husky программами).
 
 Этот оператор может повторяться только для разных линков.
 
-@node grpdesc, badarea, packer, Keywords
-@subsection grpdesc
-@table @asis
-@item Синтаксис:
-@code{grpDesc <group name> <group description>}
-@item Examples:
-@code{grpDesc A "Echomail areas from 2:5020/52"}
-@code{grpDesc Pvt Private areas}
-@end table
-
-Этот оператор определяет описание группы арий. И имя, и описание группы
-могут быть заключены в двойные кавычки (опционально). Заметьте, что вы можете
-использовать в качестве имени группы строку переменной длины, а не только
-единственный символ.
-
-Этот оператор может повторяться.
-
-@node badarea, dupearea, grpdesc, Keywords
+@node badarea, dupearea, packer, Keywords
 @subsection badarea
 @table @asis
 @item Синтаксис:
@@ -1025,7 +1007,6 @@ development" 2:2433/1245 -def}
 * fullupdate::                  где находятся полные апдейты для нодлиста
 * defaultzone::                 указание номера зоны для нодлиста
 * nodelistformat::              это нодлист или пойнтлист?
-* delapplieddiff::              удалять использованные ноддиффы
 @end menu
 
 @node nodelistdir, fidouserlist, NLTools, NLTools
@@ -1134,7 +1115,7 @@ DiffUpdate /var/spool/filebase/24000/points24
 случае вы можете использовать ключевое слово @code{DefaultZone}, чтобы указать
 номер зоны по умолчанию для всех узлов, указанных в нодлисте.
 
-@node nodelistformat, delapplieddiff, defaultzone, NLTools
+@node nodelistformat, , defaultzone, NLTools
 @subsection nodelistformat
 @table @asis
 @item Синтаксис:
@@ -1148,21 +1129,6 @@ DiffUpdate /var/spool/filebase/24000/points24
 @samp{points24}, что нужно компилятору нодлиста, чтобы распознать пойнтлист
 немецкого формата points24 - чтобы он видел правильные 5D пойнтовые адреса
 вместо фейковых.
-
-@node delapplieddiff, , nodelistformat, NLTools
-@subsection delapplieddiff
-@table @asis
-@item Синтаксис:
-@code{delAppliedDiff <bool>}
-@item Пример:
-@code{delAppliedDiff on} or@code{delAppliedDiff off}
-@end table
-
-NLTools может удалять ноддиффы после их применения, если вы установите значение
-ключевого слова @code{delAppliedDiff} в @code{on}. Значение по умолчанию -
-@code{off}.
-
-Этот токен не может повторяться.
 
 @node EmailPkt, BSOpack, NLTools, config file
 @section Ключевые слова EmailPkt

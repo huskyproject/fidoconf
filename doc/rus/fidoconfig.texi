@@ -37,7 +37,7 @@ Copyright @copyright{} 1998-2002 Husky Development Team
 Этот документ описывает использование fidoconfig для того, чтобы fido работало
 на вашей любимой платформе.
 
-Этот документ применим к fidoconfig версии 0.15.
+Этот документ применим к fidoconfig версии 1.4.
 @c @end ifinfo
 
 @menu
