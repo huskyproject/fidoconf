@@ -285,6 +285,7 @@ void carbonNames2Addr(s_fidoconfig *config)
 
 
        if (!found && (cb->move != 2) && !cb->extspawn) {// move==2 - delete
+	 if(config->badArea.areaName) {
 	   printf("Could not find area \"%s\" for carbon copy. Use BadArea\n",
 		  (cb->areaName) ? cb->areaName : "");
 	   cb->area = &(config->badArea);
@@ -297,6 +298,9 @@ void carbonNames2Addr(s_fidoconfig *config)
 	   if (i) *cb->areaName='*';
 	   strcpy(cb->areaName+i,config->badArea.areaName);
 	   cb->export = 0;
+	 } else printf( "Could not find area \"%s\" for carbon copy and "
+                        "BadArea not defined. Can't use this area for "
+                        "carbon copy\n", cb->areaName);
        }
    }
 }
