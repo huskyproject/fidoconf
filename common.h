@@ -231,6 +231,11 @@ FCONF_EXT int copy_file(const char *from, const char *to);
 // it returns a static array!!!
 FCONF_EXT char *aka2str(s_addr aka);
 
+/* This function returns the string representation of an 5D address.
+ * Return malloc()'ed string!
+ */
+FCONF_EXT char *aka2str5d(s_addr aka);
+
 FCONF_EXT int patimat(char *raw, char *pat); /* case insensitive */
 
 void freeGroups(char **grps, int numGroups);

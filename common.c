@@ -805,6 +805,28 @@ char *aka2str(s_addr aka) {
     return straka;
 }
 
+/* Store 5d-address string into allocalted array (by malloc()).
+ */
+char *aka2str5d(s_addr aka) {
+  char *straka=NULL;
+
+    if (aka.point) {
+      if (aka.domain)
+        xscatprintf( &straka, "%u:%u/%u.%u@%s", aka.zone, aka.net, aka.node,
+                                                aka.point, aka.domain );
+      else
+        xscatprintf( &straka, "%u:%u/%u.%u", aka.zone, aka.net, aka.node,
+                                                aka.point );
+    }else
+      if (aka.domain)
+        xscatprintf( &straka, "%u:%u/%u@%s", aka.zone, aka.net, aka.node,
+                                                aka.domain );
+      else
+        xscatprintf( &straka, "%u:%u/%u", aka.zone, aka.net, aka.node );
+
+    return straka;
+}
+
 int patimat(char *raw,char *pat)
 {
     char *upraw=NULL, *uppat=NULL;
