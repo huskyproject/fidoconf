@@ -3,10 +3,10 @@
 # No support for the Husky build environment.
 
 # Uncomment this for compile info for gdb and display more compiler warnings
-DEBUG	= -g -pedantic
+# DEBUG	= -g -pedantic
 
 # Uncomment this for strip all simbols from binaries to reduce file sizes
-#STRIP	= -s
+STRIP	= -s
 
 
 ## programs ##
@@ -76,7 +76,7 @@ LIBOPT	= -static
 # options for build dll
 DLLOPT  = -shared -L../../smapi/make/ -L../../huskylib/make/
 # option for specify output file name
-NAMEOPT	= -o
+EXENAMEFLAG= -o
 # options for $(AR) program
 ARFLAGS	= rs
 # options for $(RM) program
@@ -136,7 +136,7 @@ default:
 include makefile.inc
 
 # libraries need to build binary file
-LIBS	+=
+LIBS	= ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)  ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
 
 ## other, usualy not modify below ##
 CYGWIN_VERSION	= $(shell uname -r)
