@@ -1,3 +1,17 @@
+2002-07-25 Thursday 15:57  mche
+
+	* afixcmd.c (1.11): some improvement of  function "InsertCfgLine"
+
+2002-07-25 Thursday 10:46  mche
+
+	* afixcmd.c (1.10), afixcmd.h (1.10): usefull function
+	"InsertCfgLine" added
+
+2002-07-25 Thursday 09:40  mche
+
+	* afixcmd.c (1.9), afixcmd.h (1.9): made function FindTokenPos4Link
+	exportable
+
 2002-07-24 Wednesday 16:59  mche
 
 	* arealist.c (1.2), arealist.h (1.2): report about rescanable areas
