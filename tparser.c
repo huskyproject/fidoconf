@@ -375,6 +375,9 @@ void printLink(s_link link) {
       case eTimeStamp:
          printf("linkBundleNameStyle: timeStamp\n");
          break;
+      case eAmiga:
+		 printf("linkBundleNameStyle: Amiga\n");
+		 break;
       default:
          printf("Warning: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
          break;
@@ -642,6 +645,9 @@ int main(int argc, char **argv) {
 	          break;
 	  case eTimeStamp:
 		  printf("BundleNameStyle: timeStamp\n");
+		  break;
+	  case eAmiga:
+		  printf("BundleNameStyle: Amiga\n");
 		  break;
 	  default:
 		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");

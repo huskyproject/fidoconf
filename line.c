@@ -2330,6 +2330,7 @@ int parseBundleNameStyle(char *line, e_bundleFileNameStyle *value)
   if (strcmp(iLine, "addrdiff") == 0) *value = eAddrDiff;
   else if (strcmp(iLine, "addrdiffalways") == 0) *value = eAddrDiffAlways;
   else if (strcmp(iLine, "timestamp") == 0) *value = eTimeStamp;
+  else if (strcmp(iLine, "amiga") == 0) *value = eAmiga;
   else {
     prErr("Unknown bundle name style %s!", line);
     free(iLine);

@@ -39,13 +39,16 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
 	  // Can't print undeclared value
 	  break;
   case eAddrDiff:
-	  fprintf(f,"BundleNameStyle: addrDiff\n");
+	  fprintf(f,"BundleNameStyle addrDiff\n");
 	  break;
   case eAddrDiffAlways:
-	  fprintf(f,"BundleNameStyle: addrDiffAlways\n");
+	  fprintf(f,"BundleNameStyle addrDiffAlways\n");
 	  break;
   case eTimeStamp:
-	  fprintf(f,"BundleNameStyle: timeStamp\n");
+	  fprintf(f,"BundleNameStyle timeStamp\n");
+	  break;
+  case eAmiga:
+	  fprintf(f,"BundleNameStyle Amiga\n");
 	  break;
   default:
 	  printf("Warning: BundleNameStyle is UNKNOWN! Update dump please!\n");
@@ -409,6 +412,9 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	      break;
       case eAddrDiffAlways:
 	      fprintf(f,"linkBundleNameStyle addrDiffAlways\n");
+	      break;
+      case eAmiga:
+	      fprintf(f,"linkBundleNameStyle Amiga\n");
 	      break;
       default:
 	      printf("Warning: linkBundleNameStyle is UNKNOWN! Update dump please!\n");
