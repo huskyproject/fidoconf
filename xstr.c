@@ -1,3 +1,4 @@
+/* $Id$ */
 /*****************************************************************************
  * String utilities for HPT (FTN NetMail/EchoMail Tosser)
  *****************************************************************************
@@ -24,12 +25,18 @@
  * along with HPT; see the file COPYING.  If not, write to the Free
  * Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *****************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include "xstr.h"
 #include "common.h"
+
+#if defined(VSPRINTF_ONLY)
+#undef HAS_VSNPRINTF
+#undef HAS_VASPRINTF
+#endif
 
 #define N_PRINTFBUF	1024
 
