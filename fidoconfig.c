@@ -159,8 +159,9 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
    char *ret;
 
 #ifdef CFGDIR
-   char *osSpecificPrefix = CFGDIR;
+   char *osSpecificPrefix = malloc(strlen(CFGDIR)+2);
 
+   strcpy(osSpecificPrefix, CFGDIR);
    i = strlen(osSpecificPrefix);
    if (i && osSpecificPrefix[i - 1] != '/' && osSpecificPrefix[i - 1] != '\\')
       strcat(osSpecificPrefix, "/");
