@@ -1,6 +1,6 @@
 
 Please read the files (especially README.Makefiles) in the
-husky-common-package FIRST!
+husky-common (huskybse) package FIRST!
 
 Unix:
 -----
@@ -11,20 +11,21 @@ Unix:
    linux reside:
 
    /usr/src/packages/        -> smapi/
-                             -> hpt/
                              -> fidoconfig/
+                             -> hpt/
+                             -> htick/
+                             ...some other
 
-2a. Determine which makefile you need to use and copy it to "makefile".
-
-2b. compile and install fidoconfig:
-	$ make
-	$ make install
+2. Determine which makefile you need to use then compile and install fidoconfig
+   using selected makefile, as this example:
+	$ make -f makefile.lnx
+	$ make -f makefile.lnx install
 
 3. Ensure /usr/local/lib/ is in /etc/ld.so.conf
 
-4. execute ldconfig as root
+4. Execute ldconfig as root
 
-5. write a fido config according to the proposal which is also in this package.
+5. Write a fido config according to the proposal which is also in this package.
    If your are just some normal point, give the shell script fidoInst a
    chance. Always test the config with the tparser tool, which you can place
    in a directory like /usr/local/bin.
