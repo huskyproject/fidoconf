@@ -1,3 +1,8 @@
+2004-07-13 Tuesday 06:41  andr_lukyanov
+
+	* doc/: proposal.texi (1.156), rus/proposal.texi (1.6): Fix syntax
+	to 'Nodelistformat' token
+
 2004-05-12 Wednesday 17:20  andrew_ladutsko
 
 	* src/fidoconf.c (1.17): set default value for 'sysop' token
