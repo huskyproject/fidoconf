@@ -1,3 +1,17 @@
+2002-07-29 Monday 14:40  quetschke
+
+	* typesize.h (1.23): Added __CYGWIN__ to the list of other unix
+	like systems. (2:2411/12.99)
+
+2002-07-29 Monday 14:37  quetschke
+
+	* common.c (1.90): Cygwin (still) needs io.h. (2:2411/12.99)
+
+2002-07-29 Monday 14:34  quetschke
+
+	* syslogp.h (1.6): Cygwin has syslog handling but not
+	facilitynames. (2:2411/12.99)
+
 2002-07-26 Friday 15:50  d.sergienko
 
 	* fidoconf.h (1.133), line.c (1.319), tokens.h (1.43), tparser.c
