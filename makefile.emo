@@ -40,3 +40,14 @@ all: commonlibs commonprogs
 clean: commonclean
 
 distclean: commondistclean
+
+fconf.dll: $(LOBJS)
+	echo LIBRARY fconf > fconf.def
+	echo EXPORTS >> fconf.def
+	emxexp $(LOBJS) >> fconf.def
+	echo   "curconfname" >> fconf.def
+	echo   "hcfg" >> fconf.def
+	echo   "curconfpos" >> fconf.def
+	$(CC) -Zdll -Zomf -Zcrtdll -Zlinker /PM:VIO -o fconf.dll fconf.def $(LOBJS) ../smapi/smapiemo.lib
+	emximp -o fconfemo.lib fconf.def
+#	emximp -o fconfemx.a fconf.def
