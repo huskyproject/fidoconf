@@ -454,6 +454,7 @@ The log levels are following:
 @item N - File delete
 @item O - operations with opened file (read, write, seek, ...)
 @item P - Directory operations (create, delete, rename, ...)
+@item Q - Email message parsing and construct
 @item R - Truncate file
 @item S - File send/sent
 @item T - Test files (exist, permittions, etc.)
@@ -915,7 +916,7 @@ Link definition tokens:
 
 This keyword is used to define send mail command & it's parameters. Macro '$a'
 specify position of the recipient e-mail address; macro '$f' specify position
-for name of file with message body. If '$f' omitted then message body 
+for name of file with message body. If '$f' omitted then message body
 to be directed to stdin.
 
 This statement can't be repeated.
