@@ -32,18 +32,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if !defined(SHORTNAMES)
 #include "fidoconf.h"
-#else
-#include "fidoconf.h"
-#endif
+#include <common.h>
 
 int writeArea(FILE *f, s_area *area, char type) {
 
    if (area->group == NULL) area->group = "0";
 
    fprintf(f, "areadef %s \"%s\" %s ", area->areaName,
-             (area->description!=NULL) ? area->description : area->areaName,              area->group);
+             (area->description!=NULL) ? area->description : area->areaName, strUpper(area->group));
 
    switch (type) {
      case 0: fprintf(f, "echo ");

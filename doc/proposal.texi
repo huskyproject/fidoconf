@@ -140,6 +140,7 @@ a comment and will be ignored.
 * remoteRobotName::             remote "areafix" name
 * forwardPkts::                 shall we forward inbound packets for this node?
 * pause::                       don't export mail for this link
+* autopause::                   stop export mail for this link after xx days
 * arcmailsize::			size of arcmail bundle
 * pktsize::			max size of pkt in arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
@@ -907,7 +908,7 @@ This statement can only be repeated for different links.
 @item Syntax:
 @code{bbsgrp @{<group>@}}
 @item Example:
-@code{bbsgrp pay1}
+@code{bbsgrp pay1,pay2}
 @end table
 
 This statement connects a link to several bbs groups.
@@ -922,7 +923,7 @@ This statement can only be repeated for different links.
 @item Syntax:
 @code{accessgrp @{<group>@}}
 @item Example:
-@code{accessgrp pay1}
+@code{accessgrp A,B,C,pay1,pay2}
 @end table
 
 This statement connects a link to several echomail groups.
@@ -1225,7 +1226,7 @@ cannot process it (each tosser has a different node number, because the
 systems operate on distinct outbound structures and distinct message
 base areas).
 
-@node pause, arcmailsize, forwardPkts, Keywords
+@node pause, autopause, forwardPkts, Keywords
 @subsection pause
 @table @asis
 @item Syntax:
@@ -1236,7 +1237,19 @@ base areas).
 
 Stop export echomail for this link.
 
-@node arcmailsize, pktsize, pause, Keywords
+@node autopause, arcmailsize, pause, Keywords
+@subsection autopause
+@table @asis
+@item Syntax:
+@code{autopause <integer>}
+@item Example:
+@code{autopause 10}
+@end table
+
+Stop export echomail for this link after 10 days
+(write Pause token to link section)
+
+@node arcmailsize, pktsize, autopause, Keywords
 @subsection arcmailsize
 @table @asis
 @item Syntax:
