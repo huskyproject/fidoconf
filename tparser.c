@@ -431,6 +431,7 @@ void printLink(s_link link) {
    printf("arcNetmail %s\n", (link.arcNetmail) ? "on" : "off");
    printf("echoMailFlavour %s\n", cvtFlavour(link.echoMailFlavour));
    printf("fileEchoFlavour %s\n", cvtFlavour(link.fileEchoFlavour));
+   printf("noRules %s\n", (link.noRules) ? "on" : "off");
 
    printf("-------\n");
 }
@@ -766,6 +767,7 @@ int main(int argc, char **argv) {
       if (config->magic) printf("Magic: %s\n", config->magic);
       if (config->semaDir) printf("semaDir:         %s\n", config->semaDir);
       if (config->badFilesDir) printf("BadFilesDir:     %s\n", config->badFilesDir);
+      if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
       if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
       if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
 

@@ -109,6 +109,7 @@ netmailarea
 netmailextern
 netmailflag
 noprocessbundles
+norules
 notvalidfilenamechars
 optgrp
 origin
@@ -132,6 +133,7 @@ robotsarea
 route
 routefile
 routemail
+rulesdir
 screenloglevels
 separatebundles
 setconsoletitle

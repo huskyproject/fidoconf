@@ -3901,6 +3901,12 @@ int parseLine(char *line, s_fidoconfig *config)
                 rc = 1;
             }
             break;
+        case ID_RULESDIR:
+            rc = parsePath(getRestOfLine(), &(config->rulesDir));
+            break;
+	case ID_NORULES:
+	    rc = parseBool(getRestOfLine(), &(getDescrLink(config)->noRules));
+	    break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

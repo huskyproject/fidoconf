@@ -181,6 +181,7 @@ typedef struct link {
     char useFileBox; // internal
 
     char sb; // internal
+    unsigned int noRules;
 
 } s_link, *ps_link;
 
@@ -523,6 +524,7 @@ typedef struct fidoconfig {
    int writeOnlyCount;
    char *fileBoxesDir;
    char *notValidFNChars;
+   char *rulesDir;
     
 } s_fidoconfig, *ps_fidoconfig;
 

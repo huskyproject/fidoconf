@@ -254,7 +254,9 @@ enum {
     ID_WRITEONLY,
     ID_AREAFIXQUERYREPORTS,
     ID_NOTVALIDFILENAMECHARS,
-    ID_ARCNETMAIL
+    ID_ARCNETMAIL,
+    ID_RULESDIR,
+    ID_NORULES
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -441,6 +443,7 @@ token_t parseline_tokens[] =
     { "nodelistdir", ID_NODELISTDIR },
     { "nodelistformat", ID_NODELISTFORMAT },
     { "noprocessbundles", ID_NOPROCESSBUNDLES },
+    { "norules", ID_NORULES },
     { "notic", ID_NOTIC },
     { "notvalidfilenamechars", ID_NOTVALIDFILENAMECHARS },
     { "optgrp", ID_OPTGRP },
@@ -471,6 +474,7 @@ token_t parseline_tokens[] =
     { "route", ID_ROUTE },
     { "routefile", ID_ROUTEFILE },
     { "routemail", ID_ROUTEMAIL },
+    { "rulesdir", ID_RULESDIR },
     { "savetic", ID_SAVETIC },
     { "screenloglevels", ID_SCREENLOGLEVELS },
     { "semadir", ID_SEMADIR },
