@@ -1,3 +1,12 @@
+2002-09-14 Saturday 23:24  stas_degteff
+
+	* common.c (1.99): Fix move_file() and copy_file() for cygwin &
+	watcom: USE_SYSTEM_COPY & copy buffer size
+
+2002-09-14 Saturday 23:22  stas_degteff
+
+	* fc2tor.c (1.6): comment out unused variables
+
 2002-09-14 Saturday 20:14  stas_degteff
 
 	* temp.c (1.10): Fix declaration of mktemp() for Watcom C v.11
