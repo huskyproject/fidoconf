@@ -1,3 +1,14 @@
+2002-01-10 Thursday 16:41  mche
+
+	* fidoconf.h (1.90), line.c (1.273), tokens.h (1.21), tparser.c
+	(1.157): new areafixQueryRequests token for hpt (not fully
+	implemented in yet)
+
+2002-01-10 Thursday 16:36  mche
+
+	* doc/keywords.hpt (1.19): new areafixQueryRequests token for hpt
+	(not fully implemented in yet)
+
 2002-01-06 Sunday 17:48  ml
 
 	* fidoconf.h (1.89), line.c (1.272), tokens.h (1.20), tparser.c
