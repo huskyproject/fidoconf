@@ -12,13 +12,6 @@
 # DLLSUFFIX  dinamic linking library suffix (compiler ID or empty)
 # _SRC_DIR  sources dir
 
-# Library name
-ifeq ($(SHORTNAME), 1)
-  LIBNAME = fidoconf
-else
-  LIBNAME = fidoconfig
-endif
-
 # Version
 VERMAJOR= 1
 VERMINOR= 9
@@ -26,90 +19,67 @@ VERPATCH= 0
 VERH	= $(VERMAJOR).$(VERMINOR)
 VER	= $(VERH).$(VERPATCH)
 
-# Object files: library
-LOBJS1	= afixcmd$(_OBJ) afixcmn$(_OBJ) arealist$(_OBJ) areatree$(_OBJ) stat$(_OBJ)
-LOBJS2	= cfg$(_OBJ) common$(_OBJ) fidoconf$(_OBJ) findtok$(_OBJ) grptree$(_OBJ)
-LOBJS3	= line$(_OBJ) version$(_OBJ) 
-LOBJS	= $(LOBJS1) $(LOBJS2) $(LOBJS3)
+ifeq (~$(SHORTNAMES)~, ~1~)
+# Library name
+  LIBNAME = fconf
 
-# Object files: programs
-OBJS1	= fc2aed$(_OBJ) fc2binkd$(_OBJ) fc2fgate$(_OBJ) fc2ged$(_OBJ)
-OBJS2	= fc2msged$(_OBJ) fc2sq$(_OBJ) linked$(_OBJ) tparser$(_OBJ)
-OBJS	= $(OBJS1) $(OBJS2)
-TOROBJS	= fc2tor$(_OBJ) fc2tor_g$(_OBJ)
-FEOBJS	= fecfg146$(_OBJ) fecfg2fc$(_OBJ) 
+# Programms name
+  TPARSER = tparser$(_EXE)
+  LINKED  = linked$(_EXE)
+  FC2AED  = fc2aed$(_EXE)
+  FC2BINKD= fc2binkd$(_EXE)
+  FC2FGATE= fc2fgate$(_EXE)
+  FC2GED  = fc2ged$(_EXE)
+  FC2MSGED= fc2msged$(_EXE)
+  FC2SQ   = fc2sq$(_EXE)
+  FC2TOR  = fc2tor$(_EXE)
+  FECFG2FC= fecfg2fc$(_EXE)
+else
+# Library name
+  LIBNAME = fidoconfig
+
+# Programms name
+  TPARSER = tparser$(_EXE)
+  LINKED  = linked$(_EXE)
+  FC2AED  = fconf2aquaed$(_EXE)
+  FC2BINKD= fconf2binkd$(_EXE)
+  FC2FGATE= fconf2fidogate$(_EXE)
+  FC2GED  = fconf2golded$(_EXE)
+  FC2MSGED= fconf2msged$(_EXE)
+  FC2SQ   = fconf2squish$(_EXE)
+  FC2TOR  = fconf2tornado$(_EXE)
+  FECFG2FC= fecfg2fconf$(_EXE)
+endif
+
+# Object files: library
+OBJS	= afixcmd$(_OBJ) afixcmn$(_OBJ) arealist$(_OBJ) areatree$(_OBJ) \
+	  stat$(_OBJ) cfg$(_OBJ) common$(_OBJ) fidoconf$(_OBJ) \
+	  findtok$(_OBJ) grptree$(_OBJ) line$(_OBJ) version$(_OBJ) 
 
 # Header files
-HEADERS1= afixcmd.h arealist.h areatree.h stat.h common.h grptree.h fidoconf.h
-HEADERS2= fidoconf.pas findtok.h version.h
-HEADERS	= $(HEADERS1) $(HEADERS2)
+HEADERS = afixcmd.h arealist.h areatree.h stat.h common.h grptree.h fidoconf.h \
+	  fidoconf.pas findtok.h version.h
 
-# Binary files to build from sources
-# 1) $(PROGRAMS) - build one binary from one source
-PROGS1	= fc2aed fc2binkd fc2fgate fc2ged
-PROGS2	= fc2msged fc2sq linked tparser$
-PROGRAMS= $(PROGS1) $(PROGS2)
-# 2) $(FC2TOR) - fc2tor build from two sources
-FC2TOR	= fc2tor$(_EXE)
-# 3) $(FECFG2FC) - fecfg2fc build from two sources
-FECFG2FC= fecfg2fc$(_EXE)
-# 4) programs with long names (for distclean & install rules)
-LPROGS1	= fconf2aquaed$(_EXE) fconf2binkd$(_EXE) fconf2fidogate$(_EXE)
-LPROGS2	= fconf2golded$(_EXE) fconf2msged$(_EXE) fconf2squish$(_EXE)
-LPROGS3	= fconf2tornado$(_EXE) fecfg2fconf$(_EXE)
-LPROGRAMS= $(LPROGS1) $(LPROGS2) $(LPROGS3)
+# Sources directory
+_SRC_DIR= ../src/
 
-# Usually compose from LIBPREFIX, LIBSUFFIX and LIB.
-# Static library name
-TARGETLIB = $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
-# Shared library name
-TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
+# Headers directory
+H_DIR	= ../fidoconf/
 
-# Binary package (archive) name
-PACKAGEBASE=$(LIBNAME)$(LIBSUFFIX)-$(VER)
-PACKAGENAME=$(LIBNAME)$(LIBSUFFIX)$(VER)$(_ARC)
+# Object files: programs
+TPAROBJ = tparser$(_OBJ)
+LINKOBJ = linked$(_OBJ)
+AEDOBJ	= fc2aed$(_OBJ)
+BINKOBJ = fc2binkd$(_OBJ)
+FGATEOBJ= fc2fgate$(_OBJ)
+GEDOBJ  = fc2ged$(_OBJ)
+MSGEDOBJ= fc2msged$(_OBJ)
+SQOBJ	= fc2sq$(_OBJ)
+TOROBJ	= fc2tor$(_OBJ) fc2tor_g$(_OBJ)
+FEOBJ	= fecfg146$(_OBJ) fecfg2fc$(_OBJ) 
 
-LIBS	= -L$(LIBDIR) -L. -l$(LIBNAME) -lsmapi -lhusky
+# Binary files(s) to bild from sources
+PROGRAMS  = $(TPARSER) $(LINKED) $(LINKED) $(FC2AED) $(FC2BINKD) $(FC2FGATE) $(FC2GED) $(FC2MSGED) $(FC2SQ) $(FC2TOR) $(FECFG2FC)
 
-
-commonlibs: $(TARGETLIB) $(SYMBOLIC)
-	$(NULL)
-
-commonprogs: $(PROGRAMS) $(FC2TOR) $(FECFG2FC) $(SYMBOLIC)
-	$(MV) fc2aed$(_EXE) fconf2aquaed$(_EXE)
-	$(MV) fc2binkd$(_EXE) fconf2binkd$(_EXE)
-	$(MV) fc2fgate$(_EXE) fconf2fidogate$(_EXE)
-	$(MV) fc2ged$(_EXE) fconf2golded$(_EXE)
-	$(MV) fc2msged$(_EXE) fconf2msged$(_EXE)
-	$(MV) fc2sq$(_EXE) fconf2squish$(_EXE)
-	$(MV) fc2tor$(_EXE) fconf2tornado$(_EXE)
-	$(MV) fecfg2fc$(_EXE) fecfg2fconf$(_EXE)
-
-
-%$(_OBJ): $(_SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $<
-
-$(TARGETLIB): $(LOBJS)
-	$(AR) $(AR_R) $@ $?
-	$(RANLIB) $@
-
-
-$(PROGRAMS): $(OBJS)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@$(_EXE) $@$(_OBJ) $(LIBS)
-
-$(FC2TOR): $(TOROBJS)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $? $(LIBS)
-
-$(FECFG2FC): $(FEOBJS)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $? $(LIBS)
-
-
-commonclean: $(SYMBOLIC)
-	-$(RM) $(RMOPT) *$(_OBJ)
-
-commondistclean: commonclean $(SYMBOLIC)
-	$(foreach prog,$(PROGRAMS),$(shell $(RM) $(RMOPT) $(prog)))
-	$(foreach prog,$(LPROGRAMS),$(shell $(RM) $(RMOPT) $(prog)))
-	-$(RM) $(RMOPT) $(FC2TOR) $(FECFG2FC)
-	-$(RM) $(RMOPT) $(FECFG2FC)
-	-$(RM) $(RMOPT) $(TARGETLIB)
+# List of libraries required to build binary file(s)
+LIBS	=

@@ -1,104 +1,90 @@
 # $Id$
-# Makefile to build HUSKYLIB with DJGPP
+# Makefile to build FIDOCONFIG/dpmi with gcc 3.x.x from DJGPP v2.03.
 # No support for the Husky build environment.
 
-# Uncomment this for compile info for gdb and display more compiler warnings
-# DEBUG	= -g -pedantic
-
-# Uncomment this for strip all simbols from binaries to reduce file sizes
-STRIP	= -s
-
-
-## programs ##
-
-CC	= gcc
-AR	= ar
-RANLIB	= ranlib
-RM	= del
-
-## file suffixes ##
-
-_C	= .c
-_OBJ	= .o
-_LIB	= .a
-_EXE	= .exe
-_DLL	= .dll
-
-## program options ##
-
-# compiler defines
-CDEFS	=
-# common compiler options
-CFLAGS	= -Wno-long-long -Wall -O3 -fomit-frame-pointer -fstrength-reduce -mcpu=i486
-# includes directories
-CINCL	= -I../../smapi/ -I../../huskylib/
-# options for compile only (link is off)
-OBJOPT	= -c
-# options for build static library
-LIBOPT	= -static
-# options for build dll
-DLLOPT  = 
-# option for specify output file name
-EXENAMEFLAG = -o
-# options for $(AR) program
-ARFLAGS	= rs
-# options for $(RM) program
-RMFLAGS	=
-
-_SRC_DIR=../src/
-H_DIR	=../fidoconf/
-
-## Library filename elements ##
-
-# Prefix to construct static library name
-LIBPREFIX=
-# Prefix to construct dll name
-DLLPREFIX=
-# Suffix to construct library name
-LIBSUFFIX=djg
-# Suffix to construct dll name
-DLLSUFFIX=
-
-## make directives ##
-
-.PHONY:	distclean clean all static programs default
-
-## Default make rule ##
-
-default: all
-
-## include common makefiles part ##
+# include Husky-Makefile-Config,
+# copy this file from ../../huskybse/huskymak.cfg.djg
+include ../../huskymak.cfg
 
 include makefile.inc
 
+# includes directories
+CINCL	= -I$(H_DIR) -I../../smapi/ -I../../huskylib/
+
 # libraries need to build binary file
-LIBNAME=fconf
+LIBS	= $(TARGETLIB) ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) \
+	  ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)
 
-LIBS	= $(LIBNAME)$(LIBSUFFIX)$(_LIB) ../../smapi/make/smapi$(LIBSUFFIX)$(_LIB) ../../huskylib/make/husky$(LIBSUFFIX)$(_LIB)
+READMEFILES= ../ChangeLog ../HISTORY ../README.TXT ../VERSION ../INSTALL \
+	     ../TODO ../COPYING
 
-## Additions (add into end of strings) ##
-CFLAGS	+= -I$(H_DIR) $(DEBUG)
-
-## make rules ##
+default:
+	@echo
+	@echo Run \'make static\' to build static version \($(TARGETLIB), $(PROGRAMS)\)
+	@echo
+	@echo Run \'make programs\' to build static version of programs \($(PROGRAMS)\)
+	@echo
+	@echo Run \'make all\' to build all above
 
 all:	static programs
 
 static:	$(TARGETLIB)
-programs: $(TARGETLIB) $(PROGRAMS) $(FC2TOR) $(FECFG2FC)
-
-%$(_EXE): $(_SRC_DIR)%$(_C) $(TARGETLIB)
-	$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG)$@ $^ $(LIBS)
+programs: $(TARGETLIB) $(PROGRAMS)
 
 %$(_OBJ): $(_SRC_DIR)%$(_C)
-	$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $(OBJOPT) $<
+	@echo Compiling $<
+	@$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $(OPTCFLAGS) $<
 
-$(TARGETLIB):	$(LOBJS)
-	$(AR) $(ARFLAGS) $@ $?
-#	$(RANLIB) $@   # 'ar rs' doing this
+$(TARGETLIB):	$(OBJS)
+	@echo Create $(TARGETLIB)
+	@$(AR) $(AR_R) $@ $?
 
-clean:
-	-$(RM) $(RMOPT) *$(_OBJ)
+$(TPARSER):  $(TPAROBJ)
+	@echo Create $(TPARSER)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+	@strip$(_EXE) $@
 
-distclean: clean
-	-$(RM) $(RMOPT) $(TARGETLIB)
-	-$(RM) $(RMOPT) *$(_EXE)
+$(LINKED):   $(LINKOBJ)
+	@echo Create $(LINKED)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+	@strip$(_EXE) $@
+
+$(FC2AED):   $(AEDOBJ)
+	@echo Create $(FC2AED)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+	@strip$(_EXE) $@
+
+$(FC2BINKD): $(BINKOBJ)
+	@echo Create $(FC2BINKD)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+	@strip$(_EXE) $@
+
+$(FC2FGATE): $(FGATEOBJ)
+	@echo Create $(FC2FGATE)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+	@strip$(_EXE) $@
+
+$(FC2GED):   $(GEDOBJ)
+	@echo Create $(FC2GED)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+	@strip$(_EXE) $@
+
+$(FC2MSGED): $(MSGEDOBJ)
+	@echo Create $(FC2MSGED)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+	@strip$(_EXE) $@
+
+$(FC2SQ):    $(SQOBJ)
+	@echo Create $(FC2SQ)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+	@strip$(_EXE) $@
+
+$(FC2TOR): $(TOROBJ)
+	@echo Create $(FC2TOR)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $^ $(LIBS)
+	@strip$(_EXE) $@
+
+$(FECFG2FC): $(FEOBJ)
+	@echo Create $(FECFG2FC)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $^ $(LIBS)
+	@strip$(_EXE) $@
