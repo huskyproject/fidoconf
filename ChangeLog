@@ -1,3 +1,12 @@
+2003-01-06 Monday 15:57  quetschke
+
+	* typesize.h (1.30): Re-added __CYGWIN__ to the list of other unix
+	like systems. This got lost between rev. 1.23 and 1.24 by the patch
+	of mche.
+	
+	Cygwin uses gcc and *really* needs theese type definitions.
+	(2:2411/12.99)
+
 2003-01-05 Sunday 16:18  mche
 
 	* common.c (1.154): check for NULL pointers in fc_stristr()
