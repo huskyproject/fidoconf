@@ -33,19 +33,16 @@
  *  dirent.h    Defines the types and structures used by the directory routines
  */
 #ifndef DIR_H
-
-#ifndef __IBMC__     /* all other include their own dirent.h */
-#ifndef __WATCOMC__
+/* all other include their own dirent.h */
+#if !defined(__IBMC__) && !defined(__WATCOMC__)
 #ifdef __MINGW32__
 #include <dir.h>
 #endif
 #if defined(__EMX__) || defined(__FreeBSD__)
 #include <sys/types.h>
 #endif
-#include <sys/types.h>
 #if !(defined(_MSC_VER) && (_MSC_VER >= 1200))
 #include <dirent.h>
-#endif
 #endif
 #endif
 
