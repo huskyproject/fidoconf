@@ -952,7 +952,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     // pause
     if (link->Pause && echo->noPause==0) return 3;
 
-    if (strcmp(echo->group,"0")) {
+    if (echo->group) {
 		if (link->numAccessGrp) {
 			if (config->numPublicGroup) {
 				if (!grpInArray(echo->group,link->AccessGrp,link->numAccessGrp) &&
@@ -990,7 +990,7 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     }
     if (i == echo->downlinkCount) return 4;
     
-    if (strcmp(echo->group,"0")) {
+    if (echo->group) {
 		if (link->numAccessGrp) {
 			if (config->numPublicGroup) {
 				if (!grpInArray(echo->group,link->AccessGrp,link->numAccessGrp) &&

@@ -595,7 +595,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        free(iOption);
        return 1;
      }
-     free(area->group);
+     nfree(area->group);
      area->group = sstrdup(token);
    }
    else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
@@ -709,7 +709,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       free(iOption);
       return 1;
     }
-    free(area->group);
+    nfree(area->group);
     area->group = sstrdup(token);
   }
   else if (strcmp(iOption, "d")==0) {
@@ -797,7 +797,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
       return 1;
    }
 
-   memset(area, 0, sizeof(s_area));
+   memset(area, '\0', sizeof(s_area));
    area->fperm = area->uid = area->gid = -1;
 
    area->msgbType = MSGTYPE_SDM;
@@ -806,9 +806,10 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    // set default parameters of dupebase
    area->dupeHistory = 7; /* 7 days */
 
+   // remove after 03-Apr-01
    // set default group for reader
-   area->group = (char*) smalloc(sizeof(char)+1);
-   strcpy(area->group, "0");
+   //area->group = (char*) smalloc(sizeof(char)+1);
+   //strcpy(area->group, "0");
 
    // set defaults for MS-DOS
 #ifdef MSDOS
@@ -931,9 +932,10 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    area->pass = 0;
    area->useAka = config->addr;
 
+   // remove after 03-Apr-01
    // set default group for reader
-   area->group = (char*) smalloc(sizeof(char)+1);
-   strcpy(area->group, "0");
+   //area->group = (char*) smalloc(sizeof(char)+1);
+   //strcpy(area->group, "0");
 
    tok = strtok(token, " \t");
    if (tok == NULL) {
@@ -1732,8 +1734,6 @@ int parseGrp(char *token, char **grp[], unsigned int *count) {
 
 int parseGroup(char *token, s_fidoconfig *config, int i)
 {
-//	unsigned int j;
-//	char *cpos;
 	s_link *link = NULL;
 
 	if (token == NULL)
@@ -1787,135 +1787,6 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		break;
 	}
 
-/* remove after 27-Feb-01
-   switch (i) {
-	case 0:
-		for (link->numAccessGrp = 0; *token != '\0'; link->numAccessGrp++) {
-			link->AccessGrp = srealloc (link->AccessGrp,
-									   (link->numAccessGrp+1)*sizeof(char *));
-
-			// strip leading spaces/tabs
-			while ((*token == ' ') || (*token == '\t')) token++;
-
-			cpos = strchr(token, ',');
-			if (cpos != NULL) {
-				// strip trailing spaces/tabs
-				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-					   (cpos > token)) cpos--;
-
-				link->AccessGrp[link->numAccessGrp]=smalloc((size_t)(cpos-token+1));
-
-				for (j = 0; j < cpos - token; j++)
-					link->AccessGrp[link->numAccessGrp][j] = token[j];
-
-				link->AccessGrp[link->numAccessGrp][(size_t)(cpos - token)] = '\0';
-				token = cpos+1;
-			}
-			else {
-				cpos = token + strlen(token);
-
-				// strip trailing spaces/tabs
-				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-					   (cpos > token)) cpos--;
-
-				link->AccessGrp[link->numAccessGrp] = smalloc((size_t)(cpos - token + 1));
-
-				for (j = 0; j < cpos - token; j++)
-					link->AccessGrp[link->numAccessGrp][j] = token[j];
-
-				link->AccessGrp[link->numAccessGrp][(size_t)(cpos - token)] = '\0';
-				token = cpos;
-			}
-		}
-
- 		break;
-
- 	case 1:
- 		copyString(token, &link->LinkGrp);
- 		break;
-
- 	case 2:
-		for (config->numPublicGroup = 0; *token != '\0'; config->numPublicGroup++) {
-			config->PublicGroup = srealloc(config->PublicGroup,
-										  (config->numPublicGroup+1)*sizeof(char *));
-
-			// strip leading spaces/tabs
-			while ((*token == ' ') || (*token == '\t')) token++;
-
-			cpos = strchr(token, ',');
-			if (cpos != NULL) {
-				// strip trailing spaces/tabs
-				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-					   (cpos > token)) cpos--;
-
-				config->PublicGroup[config->numPublicGroup] = smalloc((size_t)(cpos - token + 1));
-
-				for (j = 0; j < cpos - token; j++)
-					config->PublicGroup[config->numPublicGroup][j] = token[j];
-
-				config->PublicGroup[config->numPublicGroup][(size_t)(cpos - token)] = '\0';
-				token = cpos+1;
-			} else {
-				cpos = token + strlen(token);
-
-				// strip trailing spaces/tabs
-				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-					   (cpos > token)) cpos--;
-
-				config->PublicGroup[config->numPublicGroup] = smalloc((size_t)(cpos - token + 1));
-
-				for (j = 0; j < cpos - token; j++)
-					config->PublicGroup[config->numPublicGroup][j] = token[j];
-
-				config->PublicGroup[config->numPublicGroup][(size_t)(cpos - token)] = '\0';
-				token = cpos;
-			}
-		}
-
-	 	break;
-
- 	case 3:
-		for (link->numOptGrp = 0; *token != '\0'; link->numOptGrp++) {
-			link->optGrp = srealloc(link->optGrp, (link->numOptGrp+1)*sizeof(char *));
-
-			// strip leading spaces/tabs
-			while ((*token == ' ') || (*token == '\t')) token++;
-
-			cpos = strchr(token, ',');
-			if (cpos != NULL) {
-				// strip trailing spaces/tabs
-				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-					   (cpos > token)) cpos--;
-
-				link->optGrp[link->numOptGrp] = smalloc((size_t)(cpos - token + 1));
-
-				for (j = 0; j < cpos - token; j++)
-					link->optGrp[link->numOptGrp][j] = token[j];
-
-				link->optGrp[link->numOptGrp][(size_t)(cpos - token)] = '\0';
-				token = cpos+1;
-			} else {
-				cpos = token + strlen(token);
-
-				// strip trailing spaces/tabs
-				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-					   (cpos > token)) cpos--;
-
-				link->optGrp[link->numOptGrp] = smalloc((size_t)(cpos - token + 1));
-
-				for (j = 0; j < cpos - token; j++)
-					link->optGrp[link->numOptGrp][j] = token[j];
-
-				link->optGrp[link->numOptGrp][(size_t)(cpos - token)] = '\0';
-				token = cpos;
-			}
-		}
-		break;
-		
-		case 4:
-		break;
-		}
-*/
    return 0;
 }
 

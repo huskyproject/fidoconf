@@ -258,7 +258,7 @@ EchoArea Schweden.ger     /home/mtt/fido/msgb/schweden_g        -a 2:2432/645  -
 LocalArea carbonArea       /home/mtt/fido/msgb/carbonArea  -b Squish
 
 CarbonTo Matthias Tichy
-CarbonArea carbonArea
+CarbonCopy carbonArea
 
 EchoArea paderborn.mailbox /home/mtt/fido/msgb/paderborn.mailbox -a 2:2432/645 -b  Squish -dupeCheck move -dupeHistory 11 -p 14 2:2432/600
 EchoArea owl.allfix /home/mtt/fido/msgb/owl.allfix -a 2:2432/645 -b  Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600

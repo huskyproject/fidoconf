@@ -66,7 +66,7 @@ void printArea(s_area area) {
    printf("DOS Style File (8+3) - %s\n", (area.DOSFile) ? "on" : "off");
    printf("Level read  - %d\n", area.levelread);
    printf("Level write - %d\n", area.levelwrite);
-   printf("Group       - %s\n", area.group);
+   if (area.group) printf("Group       - %s\n", area.group);
    if (area.nopack) {
       printf("pack never (ignoging: max: %u msgs\tpurge: %u days)\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    } else {
@@ -131,7 +131,7 @@ void printFileArea(s_filearea area) {
    else
      printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
    printf("\n");
-   printf("Group       - %s\n", area.group);
+   if (area.group) printf("Group       - %s\n", area.group);
    if (area.downlinkCount) printf("Links:");
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) { 

@@ -2,7 +2,6 @@
 - rewrite string2addr()
 - routeMail, route, routeFile must be "the same"
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
-- fix "0" groups (to NULL)
 - fix "-manual" vs. "-mandatory": 
   manual means: subscription/unsubscription not allowed
   mandatory means: subscription allowed, unsubscription not allowed
