@@ -8,30 +8,11 @@
   mandatory means: subscription allowed, unsubscription not allowed
 - print name of config file with error
 
-- add to doc & tparser for hpt
+max:
+- add to doc:
     what is [module]
     set, if, if not, else, elseif, ifdef, ifndef, endif
 
-- for htick developers (add to doc, tparser, dumpcfg?):
-    filefix
-    filefixkillreports
-    filefixkillrequests
-    semadir
-    badfilesdir
-    bbsarea
-    autofilecreate
-    autofilecreatedefaults
-    savetick
-    execonfile
-    origininannounce
-    busyFileDir
-    -sendorig
-    ConvertShortNames
-    ConvertLongNames
-    forwardFileRequestFile
-    ForwardFilePriority
-    forwardFileRequests
-    filefixhelp
-
+sms:
 - fix dumping of: Unpack, netMailArea, dupeArea, badArea, echoArea, origin,
 tearline, remaps
