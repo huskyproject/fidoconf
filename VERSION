@@ -1,2 +1,2 @@
 fidoconfig 1.9-current
-required: smapi 2.5-current
+required: huskylib 0.1-current
