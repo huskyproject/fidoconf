@@ -498,6 +498,8 @@ s_fidoconfig *readConfig(const char *fileName)
         exit(EX_UNAVAILABLE);
    }
 
+   setvar("configdir", GetDirnameFromPathname(fileName));
+
    if (init_conf(fileName))
       return NULL;
 
