@@ -1,3 +1,15 @@
+2003-10-07 Tuesday 11:59  stas_degteff
+
+	* fc2binkd.c (fidoconf-1_4-stable.3): Cosmetics
+
+2003-10-07 Tuesday 11:54  stas_degteff
+
+	* fc2binkd.c (fidoconf-1_4-stable.2): Fix typo errors
+
+2003-10-07 Tuesday 10:17  stas_degteff
+
+	* fc2binkd.c (fidoconf-1_4-stable.1): Fix program version output
+
 2003-09-22 Monday 05:01  andr_lukyanov
 
 	* typesize.h (fidoconf-1_4-stable.1): Fixed OS/2 WatcomC
