@@ -128,6 +128,7 @@ typedef struct arealink s_arealink;
 struct area {
    char *areaName;
    char *fileName;
+   char *description;
    
    int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH or MSGTYPE_PASSTHROUGH
    s_addr *useAka;

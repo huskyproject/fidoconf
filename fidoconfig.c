@@ -224,6 +224,7 @@ void freeArea(s_area area) {
     int i;
         free(area.areaName);
         free(area.fileName);
+        free(area.description);
         free(area.rwgrp);
         free(area.wgrp);
         free(area.rgrp);

@@ -924,7 +924,7 @@ This statement cannot be repeated.
 @item Syntax:
 @code{EchoArea <name> <file> [<msgbase>] @{Option@} @{linkAka@} @{linkOption@}}
 @item Example:
-@code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 2:2433/1245}
+@code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 -d "Linux development" 2:2433/1245}
 @end table
 
 This statement specifies the echoareas.
@@ -972,6 +972,8 @@ keep only seen-by's of links listed in @{link@}
 disallow remote changes (only manual connect/disconnect)
 @item -h           
 hide area
+@item -d <"Description for the area between double quote (like this)">
+describe area
 @item -nopause        
 %PAUSE has no effect to this area
 @item -ccoff
@@ -998,7 +1000,7 @@ This statement can be repeated.
 @item Syntax:
 @code{localArea <name> <file> [<msgbase>] @{Option@}}
 @item Example:
-@code{localArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11}
+@code{localArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 -d "Linux development"}
 @end table
 
 This statement creates an localArea. The only difference between a localArea
@@ -1041,7 +1043,7 @@ Area options defaults for autoCreated Areas.
 @item Syntax:
 @code{GroupDefaults <groups> <path> [<msgbas>] @{<option>@} @{<linkAka> @{linkoption@}@} }
 @item Example:
-@code{GroupDefaults fidonet /var/spool/fido/msgb Squish -m 200 -dupeCheck move -dupeHistory 14}
+@code{GroupDefaults fidonet /var/spool/fido/msgb Squish -m 200 -dupeCheck move -dupeHistory 14 -d "Autocreated Area"}
 @end table
 
 This statement sets the default for auto created Areas according to the group of

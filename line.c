@@ -376,6 +376,33 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
       }
    }
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
+   else if (stricmp(option, "d")==0) {
+          char desc[81];
+          int out=0;
+          int length=0;
+          
+          desc[0]='\0';
+          while ((out==0) && ((token=strtok(NULL," "))!=NULL)) {
+            if ((length+=strlen(token))>80)
+              out=1;
+            else {
+              strcat (desc,token);
+              strcat (desc," ");
+              if (token[strlen(token)-1]=='\"')
+                out=2;
+            }
+          }
+          switch (out) {
+            case 0: printf ("Line %d: Error in area description!\n",actualLineNr);
+                    break;
+            case 1: printf ("Line %d: Area description too large!\n",actualLineNr);
+                    break;
+            case 2: /* '"' out... */
+                    desc[strlen(desc)-2]='\0';
+                    area->description=(char *) malloc (strlen(desc));
+                    strcpy(area->description,desc+1);
+          }
+   }
    else {
       printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
       return 1;
@@ -952,7 +979,15 @@ int parseUnpack(char *line, s_fidoconfig *config) {
 }
 
 int parseFileName(char *line, char **name) {
-   char *token = strtok(line, " \t");
+   char *token;
+
+   if (line[0]=='\"') {
+     token=(char *) malloc (strlen(line)+1);
+     sscanf(line,"\"%[^\"]s",token);
+   }
+   else
+     token = strtok(line, " \t");     
+     
    if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
@@ -962,9 +997,12 @@ int parseFileName(char *line, char **name) {
       strcpy((*name), token);
    } else {
       printf("Line %d: File not found %s!\n", actualLineNr, token);
+      if (line[0]=='\"')
+        free(token);
       return 2;
    }
-
+   if (line[0]=='\"')
+     free(token);
    return 0;
 }
 

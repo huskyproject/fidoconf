@@ -37,14 +37,20 @@
 #include "fidoconf.h"
 #endif
 
-int writeArea(FILE *f, s_area *area, char netmail) {
+int writeArea(FILE *f, s_area *area, char type) {
 
    if (area->group == 0) area->group = '0';
 
-   fprintf(f, "areadef %s \"%s\" %c ", area->areaName, area->areaName, area->group);
+   fprintf(f, "areadef %s \"%s\" %c ", area->areaName, 
+             (area->description!=NULL) ? area->description : area->areaName,              area->group);
 
-   if (netmail==1) fprintf(f, "net ");
-   else fprintf(f, "echo ");
+   switch (type) {
+     case 0: fprintf(f, "echo ");
+             break;
+     case 1: fprintf(f, "net ");
+             break;
+     case 2: fprintf(f, "local ");
+   }
 
    if (area->msgbType == MSGTYPE_SQUISH) fprintf(f, "Squish ");
    else fprintf(f, "Opus ");
@@ -96,13 +102,18 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
       fprintf(f, "\n");
 
       writeArea(f, &(config->netMailArea), 1);
-      writeArea(f, &(config->dupeArea), 1);
-      writeArea(f, &(config->badArea), 1);
+      writeArea(f, &(config->dupeArea), 2);
+      writeArea(f, &(config->badArea), 2);
 
       for (i=0; i<config->echoAreaCount; i++) {
          area = &(config->echoAreas[i]);
          if (area->msgbType != MSGTYPE_PASSTHROUGH)
              writeArea(f, area, 0);
+      }
+      
+      for (i=0; i<config->localAreaCount; i++) {
+         area = &(config->localAreas[i]);
+         writeArea(f, area, 2);
       }
       
       return 0;
