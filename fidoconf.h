@@ -264,6 +264,8 @@ typedef struct area {
    ps_addr       sbign;
    unsigned int  sbignCount;
 
+   HAREA harea;        //  for internal usage;
+
 } s_area, *ps_area;
 
 typedef struct fileareatype {
