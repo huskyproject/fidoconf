@@ -1,3 +1,10 @@
+2002-04-19 Friday 16:17  mche
+
+	* fidoconf.h (1.111), line.c (1.291), Makefile (1.35), makefile.inc
+	(1.20), makefile.mvcdll (1.11), afixcmd.c (1.1), afixcmd.h (1.1):
+	pause statement expanded to: Pause ON Pause OFF Pause FAREA Pause
+	EAREA
+
 2002-04-15 Monday 12:59  mche
 
 	* doc/keywords.hpt (1.24): token perlSupport removed
