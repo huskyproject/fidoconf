@@ -113,6 +113,16 @@ int fc_copyString(char *str, char **pmem)
    return copyString(stripRoundingChars(str, "\""), pmem);
 }
 
+int fc_copyStringWOstrip(char *str, char **pmem)
+{
+   if (str==NULL) {
+      printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+   return copyString(str, pmem);
+}
+
+
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
@@ -3834,7 +3844,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_AUTOAREACREATEDEFAULTS:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = fc_copyString(getRestOfLine(),
+                rc = fc_copyStringWOstrip(getRestOfLine(),
                                 &clink->autoAreaCreateDefaults);
             }
             else {
@@ -3843,7 +3853,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_AUTOFILECREATEDEFAULTS:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = fc_copyString(getRestOfLine(),
+                rc = fc_copyStringWOstrip(getRestOfLine(),
                                 &clink->autoFileCreateDefaults);
             }
             else {
