@@ -37,10 +37,15 @@ extern "C" {
 
 #include "fidoconf.h"
 
+/* Library ID - for CheckLibVersion() */
+typedef enum {
+        LIBSMAPI=0, LIBFIDOCONFIG
+} libID_t;
+
 /* values for 5th parameter of GenVersionStr() */
-#define BRANCH_CURRENT 1
-#define BRANCH_STABLE  2
-#define BRANCH_RELEASE 3
+typedef enum {
+        BRANCH_CURRENT=1, BRANCH_STABLE=2, BRANCH_RELEASE=3
+}branch_t;
 
 /* this is version number of FidoConfig */
 #define FC_VER_MAJOR 1
@@ -63,6 +68,12 @@ extern "C" {
 
 FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
    unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate );
+
+/* Check version of specified library
+ * return not zero if test passed; 0 if test failed
+ */
+FCONF_EXT int CheckLibVersion( libID_t libID, int need_major, int need_minor,
+                               int need_patch, branch_t need_branch );
 
 #ifdef __cplusplus
 }

@@ -35,6 +35,7 @@
 #define __VERSION__C__
 
 #include "version.h"
+#include "smapi/msgapi.h"
 
 /* Generate version string like
  * programname/platform[-compiler] <major>.<minor>.<patchlevel>-<branch> [<cvs date>]
@@ -198,6 +199,30 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
   /* Release date are known always */ branch==BRANCH_RELEASE ? "" : cvsdate );
 
   return _version_str;
+}
+
+
+/* Check version of specified library
+ * return not zero if test passed; 0 if test failed
+ */
+FCONF_EXT int CheckLibVersion( libID_t libID, int need_major, int need_minor,
+                               int need_patch, branch_t need_branch )
+{ /* may don't check pathlevel: see huskybse/develop-docs/ */
+  switch( libID ){
+  case LIBSMAPI:
+         if( need_major==MSGAPI_VERSION &&
+             need_minor==((MSGAPI_SUBVERSION & 0x0F0)>>8) )
+           return 1;  /* SMAPI not contents branch identifier */
+         break;
+  case LIBFIDOCONFIG:
+         if( need_major==FC_VER_MAJOR && need_minor==FC_VER_MINOR ) {
+           if(need_branch==BRANCH_CURRENT)
+             return FC_VER_BRANCH==BRANCH_CURRENT;
+           else return FC_VER_BRANCH!=BRANCH_CURRENT;
+         }
+         break;
+  }
+  return 0;
 }
 
 
