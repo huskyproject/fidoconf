@@ -1,3 +1,11 @@
+fidoconf (0.12-1) unstable; urgency=low
+
+  * Newest cvs.
+  * Enabled Perl Support for Debian-Packages.
+  * Fidoconf is 0.12 so i should use this number for my packages :)
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sun,  8 Jul 2001 20:47:02 +0200
+
 fidoconf (0.11-10) unstable; urgency=low
 
   * Wrong entry in shlibs File, changed.
