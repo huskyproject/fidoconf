@@ -1,3 +1,7 @@
+2002-04-24 Wednesday 18:03  mche
+
+	* common.c (1.82): removed CreateHardLink from copy_file()
+
 2002-04-23 Tuesday 11:04  d.sergienko
 
 	* makefile.inc (1.22): Watcom Make doesn't understand slash at the
