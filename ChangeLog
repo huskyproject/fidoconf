@@ -1,3 +1,45 @@
+2003-02-18 Tuesday 14:44  mche
+
+	* line.c (1.383): fix fileecho path parsing
+
+2003-02-18 Tuesday 12:51  mche
+
+	* common.c (1.167), common.h (1.86): check for our aka in access
+	functions
+
+2003-02-18 Tuesday 12:37  mche
+
+	* line.c (1.382): fix netmail area parsing
+
+2003-02-18 Tuesday 12:25  mche
+
+	* afixcmd.c (1.26), afixcmd.h (1.17), fidoconf.h (1.171), line.c
+	(1.381): set access to area for just added links
+
+2003-02-18 Tuesday 06:26  stas_degteff
+
+	* line.c (1.380): Check options unique for echoareas and fileares
+
+2003-02-18 Tuesday 05:19  stas_degteff
+
+	* fidoconf.h (1.170): merging s_filearea into s_area (after
+	2003-02-17 Monday 12:26): strong define constants ECHOAREA and
+	FILEAREA
+
+2003-02-18 Tuesday 05:15  stas_degteff
+
+	* linked.c (1.8): merging s_filearea into s_area (after 2003-02-17
+	Monday 12:26)
+
+2003-02-18 Tuesday 05:09  stas_degteff
+
+	* makefile.djg (1.13): Remove obsolete defines (DJGPP build)
+
+2003-02-18 Tuesday 04:30  stas_degteff
+
+	* fidoconf.h (1.169): Remove C++ style comments; add some comments
+	(after 2003-02-17 Monday 12:26)
+
 2003-02-17 Monday 12:26  mche
 
 	* afixcmd.c (1.25), afixcmd.h (1.16), areatree.c (1.14), areatree.h
