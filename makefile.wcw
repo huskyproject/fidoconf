@@ -45,6 +45,7 @@ LIBFIDOCONFIG  = $(LIBPREFIX)$(LFCONF)
 
 default : all $(SYMBOLIC)
 
+!include makefile.in1
 !include makefile.inc
 
 fidoconf$(OBJ) : fidoconf.c
