@@ -1,3 +1,8 @@
+2003-12-22 Monday 01:52  andr_lukyanov
+
+	* INSTALL (1.17), VERSION (1.8), INSTALL (1.18): Small Fix for
+	reguire modules
+
 2003-12-16 Tuesday 08:35  val_khokhlov
 
 	* fidoconf/fidoconf.h (1.19), src/afixcmd.c (1.5): fix: use filefix
