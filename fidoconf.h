@@ -667,14 +667,13 @@ typedef struct pktHeader s_pktHeader;
 typedef struct message   s_message;
 
 
-typedef enum { M_NOTDEF=0,M_HPT, M_HTICK, M_OTHER } e_known_moduls;
+typedef enum { M_NOTDEF=0, M_HPT, M_HTICK, M_EMAILPKT, M_HPUCODE, M_BSOPACK,
+               M_NLTOOLS, M_MSGED, M_HPTKILL, M_HPTSQFIX, M_HPTUTIL, M_HUSKMISC,
+               M_MPOST, M_SQPACK,
+               M_OTHER } e_known_moduls;
 
 typedef struct {
-    int module;
-/*   module = 0 - not defined */
-/*   module = 1 - hpt */
-/*   module = 2 - htick */
-/*   module = 3 - all other */
+    e_known_moduls module;
     ps_fidoconfig config;
     /*  for future usage */
 } sApp;
@@ -687,7 +686,7 @@ typedef struct {
 	FCONF_EXT sApp theApp;
 #endif
 
-FCONF_EXT void SetAppModule(int mod); /*  setup struct sApp */
+FCONF_EXT void SetAppModule(e_known_moduls mod); /*  setup struct sApp */
 
 /* Read fidoconfig from file into memory.
  * Parameter: filename or NULL

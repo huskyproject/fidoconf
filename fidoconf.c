@@ -888,4 +888,4 @@ int grpInArray(char *group, char **strarray, unsigned int len)
 	return 0;
 }
 
-void SetAppModule(int mod) { theApp.module = mod; }
+void SetAppModule(e_known_moduls mod) { theApp.module = mod; }
