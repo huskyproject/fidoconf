@@ -1,3 +1,8 @@
+2002-09-19 Thursday 07:31  sfpavel
+
+	* fc2msged.c, makefile.djg (fidoconf-0_14-stable.[1,1]): Fix DJGPP
+	build
+
 2002-09-18 Wednesday 13:36  sfpavel
 
 	* debian/changelog (fidoconf-0_14-stable.9): Correct release date
