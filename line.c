@@ -2073,6 +2073,22 @@ int parseNamesCaseConversion(char *line, e_nameCaseConvertion *value)
    return 0;
 }
 
+int parseBundleNameStyle(char *line, e_bundleFileNameStyle *value)
+{
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (stricmp(line, "addrDiff") == 0) *value = addrDiff;
+   else if (stricmp(line, "timeStamp") == 0) *value = timeStamp;
+   else {
+      printf("Line %d: Unknown bundle name style %s!\n", actualLineNr, line);
+      return 2;
+   }
+   return 0;
+}
+
 int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
 {
 	char buf[6];
@@ -2526,6 +2542,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token,"ignoreseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->ignoreSeen), &(config->ignoreSeenCount));
    else if (stricmp(token, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline));
    else if (stricmp(token, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
+   else if (stricmp(token, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
 
 #ifdef __TURBOC__
    else unrecognised++;

@@ -4,6 +4,11 @@ fidoconfig 0.10
 
 
 ----- cvs ci ------
+Fri Aug 25 12:37:46 NOVST 2000
+max (patch from Serguei Revtov):
+* token BundleNameStyle
+
+----- cvs ci ------
 Mon Aug 14 12:07:14 NOVST 2000
 max (patch from PG):
 * tparser show deflink

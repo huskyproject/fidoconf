@@ -210,6 +210,7 @@ a comment and will be ignored.
 * screenloglevels::	        set level of log output to screen
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
+* bundleNameStyle::             style of filenames of arcmail bundles
 * defarcmailsize::		default size for arcmail bundle
 * ignoreCapWord::		ignore Capability Word in pkt files
 * noProcessBundles::            no unpack arcmail bundles
@@ -2278,7 +2279,7 @@ Set level of log output to screen.
 
 Remap mail to other address.
 
-@node SeparateBundles, defarcmailsize, Remap, Keywords
+@node SeparateBundles, bundleNameStyle, Remap, Keywords
 @subsection SeparateBundles
 @table @asis
 @item Syntax:
@@ -2289,7 +2290,20 @@ Remap mail to other address.
 
 This statament move echomail for all links to his own directory.
 
-@node defarcmailsize, ignoreCapWord, SeparateBundles, Keywords
+@node bundleNameStyle, defarcmailsize, SeparateBundles, Keywords
+@subsection bundleNameStyle
+@table @asis
+@item Syntax:
+@code{bundleNameStyle addrDiff|timeStamp}
+@item Example:
+@code{bundleNameStyle}
+@end table
+
+This statament sets rule for creating names of arcmail bundles.
+addrDiff - create name from difference of source and destination addreses. Always the same filename for every pair of links.
+timeStamp - some kind of random names (current time + some counter)
+
+@node defarcmailsize, ignoreCapWord, bundleNameStyle, Keywords
 @subsection defarcmailsize
 @table @asis
 @item Syntax:
