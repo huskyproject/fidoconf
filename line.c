@@ -73,7 +73,7 @@
 #include "findtok.h"
 #include "tokens.h"
 
-
+int fc_trycreate=0; /* Try to create nonexistant directories (defined in line.c) */
 char *actualKeyword, *actualLine;
 int  actualLineNr;
 char wasError = 0;
@@ -299,8 +299,16 @@ int parsePath(char *token, char **var, char **alreadyDefined)
    if (alreadyDefined) *alreadyDefined=*var;
 
    if (!direxist(*var)) {
+     if (fc_trycreate)
+         if (_createDirectoryTree(*var)) {
+           prErr( "Path %s not found, can't create: %s", *var, strerror(errno));
+           return 1;
+         }else
+           prErr( "Path %s created succesfully.", *var);
+     else{
          prErr( "Path %s not found!", *var);
          return 1;
+     }
    }
    return 0;
 }
@@ -331,8 +339,16 @@ int parseAreaPath(char *token, char **var, char **alreadyDefined)
    if (alreadyDefined) *alreadyDefined=*var;
 
    if (!direxist(*var)) {
+     if (fc_trycreate)
+         if (_createDirectoryTree(*var)) {
+           prErr( "Path %s not found, can't create: %s", *var, strerror(errno));
+           return 1;
+         }else
+           prErr( "Path %s created succesfully.", *var);
+     else{
 	   prErr( "Path %s not found!", *var);
 	   return 1;
+     }
    }
    return 0;
 }
@@ -367,9 +383,18 @@ int parseAreaPathExpand(char *token, char **var, char **alreadyDefined)
    if (alreadyDefined) *alreadyDefined=*var;
 
    if (!direxist(p)) {
+     if (fc_trycreate)
+         if (_createDirectoryTree(p)) {
+           prErr( "Path %s not found, can't create: %s", p, strerror(errno));
+	   nfree(p);
+           return 1;
+         }else
+           prErr( "Path %s created succesfully.", p);
+     else{
 	   prErr( "Path %s not found!", p);
 	   nfree(p);
 	   return 1;
+     }
    }
    nfree(p);
    return 0;
@@ -412,8 +437,16 @@ int parsePublic(char *token, s_fidoconfig *config)
    xscatprintf(&(config->publicDir[config->publicCount]), "%s%c", token, (char) PATH_DELIM);
 
    if (!direxist(config->publicDir[config->publicCount])) {
-      prErr( "Path %s not found!", token);
-      return 1;
+     if (fc_trycreate)
+         if (_createDirectoryTree(token)) {
+           prErr( "Path %s not found, can't create: %s", token, strerror(errno));
+           return 1;
+         }else
+           prErr( "Path %s created succesfully.", token);
+     else{
+         prErr( "Path %s not found!", token);
+         return 1;
+     }
    }
 
    config->publicCount++;
@@ -3287,6 +3320,9 @@ int parseSeqOutrun(char *line, unsigned long *seqoutrun)
     return 0;
 }
 
+/* Parse fidoconfig line
+ * Return 0 if success.
+ */
 int parseLine(char *line, s_fidoconfig *config)
 {
     char *token, *temp;

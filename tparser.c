@@ -46,6 +46,8 @@
 #include "common.h"
 
 
+extern int fc_trycreate; /* Try to create nonexistant directories (defined in line.c) */
+
 /* Test for required tokens */
 int testConfig(s_fidoconfig *config){
   int rc=0;
@@ -845,6 +847,12 @@ static int dumpcfg(char *fileName)
    return 0;
 }
 
+void usage()
+{
+    printf("run: tparser [-Dvar=value] [-E] [-P] [/path/to/config/file]\n");
+    exit(0);
+}
+
 int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
    int i, j, hpt=0, preproc=0, rc=0;
@@ -852,7 +860,12 @@ int main(int argc, char **argv) {
 
    for (i=1; i<argc; i++)
    {
-       if (argv[i][0]=='-' && argv[i][1]=='D') {
+       if (argv[i][0]!='-'){  /* is not option */
+           if(cfgFile)
+             usage();
+           else
+             xstrcat(&cfgFile, argv[i]);
+       }else if (argv[i][1]=='D') {       /* -Dvar=value */
            char *p=strchr(argv[i], '=');
            if (p) {
                *p='\0';
@@ -862,16 +875,18 @@ int main(int argc, char **argv) {
                setvar(argv[i]+2, "");
            }
        }
-       else if (argv[i][0]=='-' && argv[i][1]=='E') {
+       else if (argv[i][1]=='E') {        /* -E */
            preproc = 1;
        }
+       else if (argv[i][1]=='P') {        /* -P */
+           fc_trycreate = 1;
+       }
        else if (stricmp(argv[i], "--help") == 0 ||
-                stricmp(argv[i], "-h") == 0 ||
+                argv[i][1] == 'h' ||
                 cfgFile != NULL) {
-           printf("run: tparser [-Dvar=value] [-E] [/path/to/config/file]\n");
+           usage();
 	   return 0;
-       } else
-           xstrcat(&cfgFile, argv[i]);
+       }
    }
 
    if (preproc)

@@ -71,7 +71,7 @@ static struct {
 static unsigned int cfgNamesCount;
 static char **cfgNames=NULL;
 
-int init_conf(char *conf_name)
+int init_conf(const char *conf_name)
 {
   iflevel=-1;
   condition=1;
@@ -89,11 +89,11 @@ int init_conf(char *conf_name)
   actualLineNr=0;
 #if defined(UNIX)
   setvar("OS", "UNIX");
-#elif defined(OS2)
+#elif defined(OS2) || defined(__OS2__)
   setvar("OS", "OS/2");
 #elif defined(NT) || defined(WINNT) || defined(__NT__)
   setvar("OS", "WIN");
-#elif defined(MSDOS)
+#elif defined(__DOS__) || defined(DOS) || defined(MSDOS)
   setvar("OS", "MSDOS");
 #endif
   setvar("[", "[");
@@ -585,7 +585,7 @@ int cmpfnames(char *file1, char *file2)
 void checkIncludeLogic(ps_fidoconfig config)
 {
     UINT i, j;
-    
+
     for (j=0; j<config->linkCount; j++) {
         if (config->links[j].autoAreaCreateFile==NULL) continue;
         for (i=0; i<cfgNamesCount; i++) {
@@ -599,7 +599,7 @@ void checkIncludeLogic(ps_fidoconfig config)
             exit(EX_CONFIG);
         }
     }
-    
+
     for (j=0; j<config->linkCount; j++) {
         if (config->links[j].autoFileCreateFile==NULL) continue;
         for (i=0; i<cfgNamesCount; i++) {

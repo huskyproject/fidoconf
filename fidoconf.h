@@ -193,7 +193,7 @@ typedef struct link {
     unsigned int numDfMask;
 
     unsigned int afixEchoLimit;
-    unsigned int ffixEchoLimit;    
+    unsigned int ffixEchoLimit;
 
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;
@@ -416,7 +416,7 @@ typedef struct anndef /* announce definition */
   s_addr* annaddrfrom;    /* field ADDRFROM:  in announce message         */
   char *annmessflags;    /* message  flags string                       */
   dword  attributes;
-  unsigned  annforigin;  /* announce address of system who hatched file */ 
+  unsigned  annforigin;  /* announce address of system who hatched file */
   unsigned  annfrfrom;   /* announce address of system which file recived from */
 } s_anndef, *ps_anndef;
 
@@ -672,8 +672,15 @@ typedef struct {
 
 FCONF_EXT void SetAppModule(int mod); /*  setup struct sApp */
 
-FCONF_EXT ps_fidoconfig readConfig(char *cfgFile);
+/* Read fidoconfig from file into memory.
+ * Parameter: filename or NULL
+ * if NULL: try to find FIDOCONFIG enviroment variable, next use hardcoded path
+ * Return NULL and print diagnostic message to stdout if error(s) found.
+ */
+FCONF_EXT ps_fidoconfig readConfig(const char *cfgFile);
 
+/* Dispose fidoconfig structure: free memory.
+ */
 FCONF_EXT void disposeConfig(ps_fidoconfig config);
 
 FCONF_EXT ps_link getLink(s_fidoconfig *config, char *addr);
@@ -732,7 +739,7 @@ int parsePath(char *token, char **var, char **alreadyDefined);
 FCONF_EXT char *getConfigFileName(void);
 FCONF_EXT char *trimLine(char *line);
 FCONF_EXT void carbonNames2Addr(s_fidoconfig *config);
-FCONF_EXT int  init_conf(char *conf_name);
+FCONF_EXT int  init_conf(const char *conf_name);
 FCONF_EXT void close_conf(void);
 FCONF_EXT void setvar(char *name, char *value);
 FCONF_EXT char *getvar(char *name);

@@ -723,7 +723,7 @@ int main(int argc, char **argv)
          fprintf(f_hpt, "AutoPause                %u\n", (unsigned)node[i]->autopassive);
 
       if (node[i]->flags.passive)
-         fprintf(f_hpt, "Pause                    echo\n");
+         fprintf(f_hpt, "Pause                    earea\n");
 
       fprintf(f_hpt, "\n");
    } /* endfor */

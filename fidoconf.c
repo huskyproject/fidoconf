@@ -64,7 +64,7 @@ char *readLine(FILE *f)
 
     if (get_hcfg()) wasCR = 0;
     do {
-	ch = getc (f); 
+	ch = getc (f);
         /*  not fgets() 'cause it concatenates lines without \r on Watcom C / WinDos */
 	if (ch < 0) { /*  EOF */
 	    if (i==0) {
@@ -291,7 +291,7 @@ void carbonNames2Addr(s_fidoconfig *config)
 	   if (cb->areaName!=NULL) {
 	       i = (*cb->areaName=='*') ? 1 : 0;
 	       nfree(cb->areaName);
-	   } 
+	   }
 	   else i = 0;
 	   cb->areaName = (char *) smalloc(strlen(config->badArea.areaName)+i+1);
 	   if (i) *cb->areaName='*';
@@ -405,10 +405,14 @@ void setConfigDefaults(s_fidoconfig *config)
    }
 }
 
-s_fidoconfig *readConfig(char *cfgFile)
+/* Read fidoconfig from file into memory.
+ * Parameter: filename or NULL
+ * if NULL: try to find FIDOCONFIG enviroment variable, next use hardcoded path
+ * Return NULL and print diagnostic message to stdout if error(s) found.
+ */
+s_fidoconfig *readConfig(const char *fileName)
 {
    s_fidoconfig *config;
-   char *fileName = cfgFile;
    char *line;
 
    if (fileName==NULL) fileName = getConfigFileName();
@@ -483,6 +487,8 @@ void freeSaveTic(s_savetic savetic) {
         nfree(savetic.pathName);
 }
 
+/* Dispose fidoconfig structure: free memory.
+ */
 void disposeConfig(s_fidoconfig *config)
 {
   unsigned int i;
@@ -511,6 +517,8 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->localInbound);
    nfree(config->tempInbound);
    nfree(config->logFileDir);
+   nfree(config->tempDir);
+   nfree(config->seqDir);
    nfree(config->dupeHistoryDir);
    nfree(config->nodelistDir);
    nfree(config->msgBaseDir);
@@ -545,10 +553,10 @@ void disposeConfig(s_fidoconfig *config)
    for (i = 0; i< config->bbsAreaCount; i++)
        freeBbsArea(config->bbsAreas[i]);
    nfree(config->bbsAreas);
-   for (i = 0; i< config->localAreaCount; i++) 
+   for (i = 0; i< config->localAreaCount; i++)
        fc_freeEchoArea(&(config->localAreas[i]));
    nfree(config->localAreas);
-   
+
    FreeAreaTree();
 
    fc_freeEchoArea(&(config->EchoAreaDefault));
@@ -659,9 +667,9 @@ void disposeConfig(s_fidoconfig *config)
 
 s_link *getLink(s_fidoconfig *config, char *addr) {
    s_addr aka;
-   
+
    string2addr(addr, &aka);
- 
+
    return getLinkFromAddr(config, aka);
 }
 
@@ -739,7 +747,7 @@ int existAddr(s_fidoconfig *config, s_addr aka) {
    return 0;
 }
 
-s_area *getEchoArea(s_fidoconfig *config, char *areaName) 
+s_area *getEchoArea(s_fidoconfig *config, char *areaName)
 {
     return getArea(config, areaName);
 }

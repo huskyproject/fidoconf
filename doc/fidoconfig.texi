@@ -20,7 +20,7 @@ Copyright 1998-2002 Husky Development Team
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2002 Husky Development Team 
+Copyright @copyright{} 1998-2002 Husky Development Team
 
 @end titlepage
 
@@ -34,7 +34,7 @@ Copyright @copyright{} 1998-2002 Husky Development Team
 @node Top, , , (dir)
 @top fidoconfig
 
-This document describes the use of fidoconfig to make fido work on your 
+This document describes the use of fidoconfig to make fido work on your
 favorite platform.
 
 This document applies to version 0.15 of fidoconfig.
@@ -81,7 +81,7 @@ fconf2golded ~/golded/golded.cfg ~/golded/goldDefaults.cfg
 @end example
 
 @item fconf2msged
-fconf2msged <msgedConfigFileName> 
+fconf2msged <msgedConfigFileName>
 
 @example
 fconf2msged ~/msged.areas
@@ -100,22 +100,42 @@ fconf2aquaed ~/aquaed/aquaed.cfg
 
 @node tparser, contact, converting, Top
 @chapter Testing the config
-You should run tparser everytime you have changed the config. If tparser
-crashes please correct your config file and send your config or the line which
-causes the crash. 
+You should run @command{tparser} @sc{everytime} you have changed the config. If tparser
+found error in config please correct your config file and try again.
 
+@table @asis
+@item Syntax:
+@command{tparser [-h|@minus{-help}] [-Dvar=value] [-E] [-P] [/path/to/config/file]}
+@item Example:
 @example
-./tparser | less
+@command{tparser -Dmodule=hpt | less}
 @end example
+@end table
 
 tparser (like any fidoconfig program) will display error messages if you have
-made an error in the config. It will grumble on every Keyword it does not
-know. It will stop after the first error to give you the ability to change
+made an error in the config. It also may be display some warnings about your
+config settings. It will grumble on every Keyword it does not know. It will
+stop after the first error (not warning) to give you the ability to change
 your config.
+
+@subsection Options
+
+@table @asis
+@item -Dvar=value
+Set the config variable @code{var} to @code{value}.
+@item -E
+Dumps config into stdout (all config variables expanded).
+@item -h
+@itemx @minus{-help}
+Display usage information.
+@item -P
+Try to create non-existing directories.
+@end table
+
 
 @node contact, , tparser, Top
 @chapter Contacting the author
-You can reach me at 
+You can reach me at
 
 @example
 @email{mtt@@tichy.de}
