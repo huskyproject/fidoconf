@@ -4,6 +4,11 @@ fidoconfig 0.10
 
 
 ----- cvs ci ------
+Mon Jun  5 14:27:35 NOVST 2000
+max:
+* fixed carbonExtern parsing
+
+----- cvs ci ------
 Sun Jun  4 14:19:57 NOVST 2000
 max:
 * readConfig(void) changed to readConfig(char *cfgFile)
