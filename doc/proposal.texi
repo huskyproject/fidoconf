@@ -194,8 +194,9 @@ you can find in the documentation of the individual programs.
 * dupearea::                    definition of dupearea
 * echoarea::                    definition of echoarea
 * netmailarea::                 definition of netmailarea
-* localarea::                   definition of BBS area
+* localarea::                   definition of the BBS message area
 * filearea::                    definition of filearea
+* bbsarea::                     definition of the BBS file area
 @end menu
 
 @node version, name, Keywords, Keywords
@@ -759,7 +760,7 @@ This statement specifies the @code{LocalArea}: messages area in BBS.
 Read documentation of HPT for details.
 
 
-@node filearea, , localarea, Keywords
+@node filearea, bbsarea, localarea, Keywords
 @subsection filearea
 @table @asis
 @item Syntax:
@@ -769,6 +770,20 @@ Read documentation of HPT for details.
 @end table
 
 This statement specifies the @code{FileArea}: fileecho definition.
+(Read documentation of HTick for details.)
+
+
+@node bbsarea, , filearea, Keywords
+@subsection bbsarea
+@table @asis
+@item Syntax:
+@code{bbsarea <name> <bbsareapath>}
+@item Example:
+@code{BBSarea Incoming /var/spool/fido/BBS/incoming}
+@end table
+
+This statement specifies the @code{BBSArea}: BBS file area definition.
+It's use for filelist building.
 Read documentation of HTick for details.
 
 
