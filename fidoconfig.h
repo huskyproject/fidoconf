@@ -156,7 +156,7 @@ struct area {
    char keepUnread, killRead;
 
    e_dupeCheck dupeCheck;
-   char tinySB, manual, hide, noPause, mandatory, DOSFile;
+   char tinySB, /*manual,*/ hide, noPause, mandatory, DOSFile;
 
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535
@@ -193,7 +193,7 @@ struct fileareatype {
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535
 
-   char manual, hide, noPause;
+   char /*manual,*/ mandatory, hide, noPause;
 
    char group;                      // used by reader (and areafix soon)
    char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters

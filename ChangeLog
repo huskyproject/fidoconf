@@ -2,6 +2,16 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Mon Jan  3 17:45:54 NOVT 2000                                                   
+max (patch from Kolya Nesterov):
+* added carbonDelete
+
+----- cvs ci ------
+Mon Dec 27 23:03:29 NOVT 1999                                                   
+max:
+* manual means mandatory
+
+----- cvs ci ------
 Sat Dec 25 19:27:26 NOVT 1999
 max (patch from Kolya Nesterov):
 * added memdup()

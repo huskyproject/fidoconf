@@ -463,7 +463,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    else if (stricmp(option, "keepUnread")==0) area->keepUnread = 1; 
    else if (stricmp(option, "killRead")==0) area->killRead = 1; 
    else if (stricmp(option, "h")==0) area->hide = 1;
-   else if (stricmp(option, "manual")==0) area->manual = 1;
+   else if (stricmp(option, "manual")==0) area->mandatory = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
    else if (stricmp(option, "mandatory")==0) area->mandatory = 1;
    else if (stricmp(option, "dosfile")==0) area->DOSFile = 1;
@@ -596,7 +596,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
        area->levelwrite = (unsigned)atoi(token);
    }
    else if (stricmp(option, "h")==0) area->hide = 1;
-   else if (stricmp(option, "manual")==0) area->manual = 1;
+   else if (stricmp(option, "manual")==0) area->mandatory = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
    else if (stricmp(option, "g")==0) {
           token = strtok(NULL, " \t");
@@ -1586,6 +1586,18 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
    return 0;
 }
 
+int parseCarbonDelete(char *token, s_fidoconfig *config) {
+
+   if (token != NULL) {
+	   printf("Line %d: There are extra parameters after %s!\n", actualLineNr, actualKeyword);
+	   return 1;
+   }
+   config->carbons[config->carbonCount-1].areaName = NULL;
+   config->carbons[config->carbonCount-1].move = 1;
+   config->carbons[config->carbonCount-1].extspawn = 0;
+   return 0;
+}
+
 int parseCarbonExtern(char *token, s_fidoconfig *config) {
 
    if (token == NULL) {
@@ -1922,6 +1934,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carboncopy")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
    else if (stricmp(token, "carbonmove")==0) rc = parseCarbonArea(getRestOfLine(), config, 1);
    else if (stricmp(token, "carbonextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
+   else if (stricmp(token, "carbondelete")==0) rc = parseCarbonDelete(getRestOfLine(), config);
    else if (stricmp(token, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
    
    else if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));

@@ -342,7 +342,7 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
     }
 
     if (area->tinySB != 0) fprintf(f, "-tinySB ");
-    if (area->manual != 0) fprintf(f, "-manual ");
+//    if (area->manual != 0) fprintf(f, "-manual ");
     if (area->keepUnread != 0) fprintf(f, "-keepUnread ");
     if (area->killRead != 0) fprintf(f, "-killRead ");
     if (area->hide != 0) fprintf(f, "-hide ");

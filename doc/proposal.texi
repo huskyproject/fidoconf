@@ -175,6 +175,7 @@ a comment and will be ignored.
 * carbonCopy::                  specify the area where the carbon copies go into
 * carbonMove::                  specify the area where the carbon msg get moved into
 * carbonExtern::                specify the external program to pass msg text to
+* carbonDelete::                specify that the carbon msg should be deleted
 * carbonAndQuit::               carbon message only one time
 * carbonKeepSb::                keep seen-by's and path
 * carbonReason::                string of carbon copy reason
@@ -1761,7 +1762,7 @@ This statement can be repeated for each different carbon@{To|From|Kludge@}
 statement.
 Unlike carbonArea and carbonCopy msg gets moved, not copied into this area
 
-@node carbonExtern, carbonAndQuit, carbonMove, Keywords
+@node carbonExtern, carbonDelete, carbonMove, Keywords
 @subsection carbonArea
 @table @asis
 @item Syntax:
@@ -1779,7 +1780,21 @@ statement.
 If program name is prepended with '|' sign, hpt tries to pass data thru the 
 pipe, not temporary file.
 
-@node carbonAndQuit, carbonKeepSb, carbonExtern, Keywords
+@node carbonDelete, carbonAndQuit, carbonExtern, Keywords
+@subsection carbonArea
+@table @asis
+@item Syntax:
+@code{carbonDelete <program name>}
+@item Example:
+@code{carbonDelete douuedecode}
+@end table
+
+This statement specifies that selected by previous 
+carbon@{To|From|Kludge@} statement msg should not be stored into echoarea.
+
+This statement can be repeated for each different carbon@{To|From|Kludge@}
+statement.
+@node carbonAndQuit, carbonKeepSb, carbonDelete, Keywords
 @subsection carbonAndQuit
 @table @asis
 @item Syntax:

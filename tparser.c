@@ -81,7 +81,6 @@ void printArea(s_area area) {
        printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
-   if (area.manual) printf("manual ");
    if (area.hide) printf("hide ");
    if (area.noPause) printf("noPause ");
    if (area.tinySB) printf("tinySB ");
@@ -126,7 +125,7 @@ void printFileArea(s_filearea area) {
        printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
-   if (area.manual) printf("manual ");
+   if (area.mandatory) printf("mandatory ");
    if (area.hide) printf("hide ");
    if (area.noPause) printf("noPause ");
    printf("\n");
