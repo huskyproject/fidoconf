@@ -110,7 +110,10 @@ int main() {
       if (config->sysop != NULL) printf("Sysop: %s\n", config->sysop);
       if (config->location != NULL)printf("Location: %s\n", config->location);
       for (i=0; i<config->addrCount; i++) {
-         printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
+	 if (config->addr[i].domain != NULL)
+            printf("Addr: %u:%u/%u.%u@%s\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point, config->addr[i].domain);
+	 else
+            printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
       }
       if (config->inbound != NULL) printf("Inbound: %s\n", config->inbound);
       if (config->protInbound != NULL) printf("ProtInbound: %s\n", config->protInbound);

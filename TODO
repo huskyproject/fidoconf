@@ -1,3 +1,5 @@
+- getConfigFileName should use a parameter to find the config-file. So this
+  code can be used by several programs.
 - route statements which are defined in the middle of several link statements
-are broken, because there is a realloc of config->links! Maybe there are bugs
-like this in the current sources
+  are broken, because there is a realloc of config->links! Maybe there are bugs
+  like this in the current sources

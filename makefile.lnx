@@ -1,8 +1,10 @@
-#Settings for Digital UNIX
+#Settings for Linux 
 
 #installation directires
 LIBDIR = /usr/local/lib
 INSTDIR = /usr/local/bin
+IBOPT = -c -s -m755
+ILOPT = -c -m644
 
 # program settings
 CC = gcc
@@ -45,10 +47,9 @@ libfidoconfig.so.$(VER): $(LOBJ)
 	$(CC) $(COPT) $*.c
 
 install: 
-	cp -f libfidoconfig.so.$(VER) $(LIBDIR)
+	install $(ILOPT) libfidoconfig.so.$(VER) $(LIBDIR)
 	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
-	cp -f  fconf2msged  $(INSTDIR)/bin
-	cp -f  fconf2golded $(INSTDIR)/bin
-	cp -f  fconf2aquaed $(INSTDIR)/bin
-	cp -f  tparser      $(INSTDIR)/bin
+	ldconfig
+	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed $(INSTDIR)
+	install $(IBOPT) tparser      $(INSTDIR)

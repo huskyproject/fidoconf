@@ -3,6 +3,9 @@ fidoconfig 0.6
 --------------
 
 ----- cvs ci ------
+Wed Jan 27 18:36:53 CET 1999
+- fixed many null pointer seg-faults
+----- cvs ci ------
 Fri Jan 22 00:00:04 CET 1999
 - added LinkWithImportLog added (gerald)
 - tailing spaces will be killed in every line (gerald)

@@ -81,8 +81,8 @@ void string2addr(const char *string, s_addr *addr)
    } /* endwhile */
    buffer[i] = '\0';
    if (!isdigit(buffer[0])) {
-      // Domain name could be in front of the addr, not FTS-compatbible!!!!!
-      // software that such crap is generating should be xxxx
+      // Domain name could be in front of the addr, not FTS-compatible!!!!!
+      // software which is such crap generating should be xxxx
       addr->domain = (char *) malloc(strlen(buffer)+1);
       strcpy(addr->domain, buffer);
    } else addr->zone = atoi(buffer);
@@ -161,6 +161,7 @@ void string2addr(const char *string, s_addr *addr)
         *(addr->domain) = '\0';
       };
    */
+   
    return;
 }
 
