@@ -1171,6 +1171,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
    copyString(token, &(config->carbons[config->carbonCount-1].str));
 
    config->carbons[config->carbonCount-1].area = &(config->badArea);
+   config->carbons[config->carbonCount-1].export = 0;
 
    return 0;
 }
@@ -1185,14 +1186,16 @@ int parseCarbonArea(char *token, s_fidoconfig *config) {
    
    for (i=0; i<config->localAreaCount; i++) {
 	   if (stricmp(config->localAreas[i].areaName,token)==0) {
-		   config->carbons[config->carbonCount-1].area = &(config->localAreas[i]);
-		   return 0;
+	     config->carbons[config->carbonCount-1].area = &(config->localAreas[i]);
+	     config->carbons[config->carbonCount-1].export = 0; 
+	     return 0;
 	   }
    }
    
    for (i=0; i<config->echoAreaCount; i++) {
 	   if (stricmp(config->echoAreas[i].areaName,token)==0) {
 		   config->carbons[config->carbonCount-1].area = &(config->echoAreas[i]);
+	           config->carbons[config->carbonCount-1].export = 1;
 		   return 0;
 	   }
    }

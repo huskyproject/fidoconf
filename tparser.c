@@ -261,6 +261,7 @@ int main() {
 		  if (config->carbons[i].type == kludge) printf("CarbonKludge: ");
 		  printf("%s\n",config->carbons[i].str);
 		  printf("CarbonArea:   %s\n",config->carbons[i].area->areaName);
+		  if (config->carbons[i].export) printf("Copied messages will be exported.\n");
 		  printf("-------\n");
       }
 	  printf("\nWarning! After each Carbon(to|from|kludge) write CarbonArea in config.\n");

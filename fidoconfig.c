@@ -187,6 +187,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
 {
    char *envFidoConfig = getenv(envVar);
    char *osSpecificName;
+   int i;
 
    FILE *f = NULL;
 
@@ -213,8 +214,19 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
       strcat(osSpecificName, configName);
       
       f = fopen(osSpecificName, "r");
-      if (f==NULL) return NULL;
-      else ret =  osSpecificName;
+      if (f==NULL) {
+         if (NULL != (envFidoConfig = getenv("FIDOCONFIG"))) {
+            if (strrchr(envFidoConfig, PATH_DELIM) != NULL) {
+               free (osSpecificName);
+               i = strlen(envFidoConfig) - strlen(strrchr(envFidoConfig,PATH_DELIM)) + strlen(configName)+1;
+               osSpecificName = malloc (i+1);
+               strncpy (osSpecificName,envFidoConfig,i);
+               strcpy (strrchr(osSpecificName,PATH_DELIM)+1,configName);
+               f = fopen (osSpecificName, "r");
+               if (f==NULL) return NULL; else ret = osSpecificName;
+            } else return NULL;
+         } else return NULL;
+      } else ret =  osSpecificName;
    } else ret = envFidoConfig;
 
    fclose(f);
@@ -393,7 +405,7 @@ void disposeConfig(s_fidoconfig *config)
 
    for (i = 0; i< config->carbonCount; i++) free(config->carbons[i].str);
    free(config->carbons);
-   
+
    free(config->ReportTo);
 
    free(config);
