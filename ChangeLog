@@ -1,3 +1,10 @@
+2002-07-10 Wednesday 17:14  mche
+
+	* fidoconf.h (1.129), line.c (1.313), tokens.h (1.40), tparser.c
+	(1.186): new tokens to Report defenitions added "annmessflags" -
+	flags like "k/s", "loc", "hld" .... that will have announce message
+	"annorigin" - origin for definrd announce
+
 2002-07-09 Tuesday 17:11  mche
 
 	* fidoconf.h (1.128), line.c (1.312), tparser.c (1.185), tree.c
