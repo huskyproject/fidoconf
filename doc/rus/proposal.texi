@@ -1,0 +1,1231 @@
+@c this is the proposal info file
+
+Эта глава описывает написание конфигурационного файла fidoconfig, 
+используемые переменные и расположение в системе.
+
+@menu
+* Location:: Размещение файла
+* Syntax::   Синтаксис
+* Keywords:: Переменные
+* HPT::      HPT (Highly Portable Tosser)
+* HTick::    HTick (Husky Ticker)
+* NLTools::  NLTools
+* EmailPkt:: EmailPkt
+* BSOpack::  BSOpack
+* herp::     Husky Внешний Фрек-процессор
+* Example::  Пример конфигурационного файла
+@end menu
+
+@node Location, Syntax, config file, config file
+@section Размещение конфигурационного файла
+Библиотека fidoconfig разыскивает конфигурационный файл в разных местах:
+
+@table @asis
+@item linux:
+/etc/fido/config
+@item freebsd:
+/usr/local/etc/fido/config
+@item os2/win32/etc:
+В текущей директории
+@end table
+
+Если компилируете библиотеку с помощью huskymak.cfg, расположение файла 
+можно задать параметром CFGDIR.
+
+Дополнительно, вы можете установить переменное окружение, вызвав 
+@code{FIDOCONFIG}:
+
+@example
+set FIDOCONFIG=e:\bbs\fidoconfig\config
+
+FIDOCONFIG=~/fidoconfig/config
+export FIDOCONFIG
+@end example
+
+Файл(ы) конфигурации должны быть доступны для чтения. Если вы планируете 
+использовать возможности автосоздания областей в HPT, HTick и т.д, файл(ы) 
+конфигурации должны быть доступны для редактирования.
+
+@node Syntax, Keywords, Location, config file
+@section Синтаксис
+
+Все символы @strong{не} зависят от регистра.
+
+@{<whiteSpace>@} в начале строки указывает на то, что эта строка 
+игнорируется.
+
+Все переменные оцениваются как уместные, первое значение переменной 
+рассматривается как верное. Если указаны несколкьо одинаковых переменных с 
+разными значениями, то только @strong{последнее} значение расматривается 
+как правильное.
+Другими словами: последующие значения перебивают предыдущие.
+Если значение не найдено, используется величина по умолчанию.
+
+"#" в начале строки или <пустое место>#<пустое место> означает начало
+строки-комментария. Комментарий ограничивается одной строкой.
+
+Если первое слово в строке является неизвестным - программа вываливается с 
+сообщением об ошибке.
+
+Каждая переменная начинается с новой строки.
+
+Параметры переменных:
+@table @code
+@item <integer>
+Строка, вмещающая числовые значения, на подобие: @code{1234567890}
+@item <string>
+Текстовая строка.
+@item <bool>
+Можно указывать "1", "0", "yes", "no", "on", "off", и без параметров 
+вообще (по умолчанию - "on").
+@item <addr>
+Адресная строка (zone:net/node[.point][@@domain])
+@item
+Пример: @code{2:5000/117}
+@item <file>
+Имя файла. Путь может быть опущен.
+@item <path>
+Указание только пути. trailing slash may be included or not.
+@end table
+
+ЗАМЕЧАНИЕ! @code{[<parameter>]} указывает на то, что он может быть пропущен.
+
+FIDOCONFIG библиотека можно устанавливать внутренние переменные:
+@example
+set basedir=/home/user/fido/
+@end example
+
+@code{[OS]} переменная автоматически устанавливается для следующих ОС:
+@table @asis
+@item UNIX
+Все unix-подобные ОС: Linux, *BSD, BeOS, ...
+@item OS/2
+@item WIN
+@item MSDOS
+
+@end table
+
+Вы можете устанавливать что-либо подобное:
+@example
+if [OS]==UNIX
+tearline `uptime`
+endif
+@end example
+
+Программы могут быть скомпилированы с @strong{module} переменной. Это 
+может увеличить скорость парсинга конфигурационного файла:
+
+@example
+if [module]==htick
+include /etc/ftn/fileareas
+endif
+@end example
+
+И если @strong{HPT} запустить, файлобласти не будут парситься, потому что [module]==hpt.
+
+Доступны следующие модули:
+@table @asis
+@item hpt (Highly Portable Tosser)
+@item htick (Husky Ticker)
+@item hptutil
+@item hpucode
+@end table
+
+@strong{external} переменную можно пропарсить:
+@example
+autoexec.bat:
+SET VAR=myvar
+
+fidoconfig:
+if [VAR]==myvar
+...
+else
+...
+endif
+
+ifdef UNIX
+MsgBaseDir  [home]/msgbase
+endif
+@end example
+
+Вы так же можете использовать программный вывод через @code{`cmd`}. 
+Доступно только для UNIX и OS/2+EMX:
+@example
+Name Power Station under `uname -mrs`
+@end example
+
+Список допустимых команд:
+@table @asis
+set, if, if not, else, elseif, ifdef, ifndef, endif.
+@end table
+
+Вы можете сравить с образцом используя =~ и !~, вместо == и !=:
+@example
+if [VAR] =~ *substr*
+...
+endif
+if [VAR] !~ bla?bla*
+...
+endif
+@end example
+
+@node Keywords, HPT, Syntax, config file
+@section Переменные для программ HUSKY
+Эти переменные могут быть использованы разными программами. Более 
+специфические переменные вы найдете в документации, поставляемой к 
+определенным программам.
+
+@menu
+* version::                     версия fidoconfig
+* name::                        название вашей системы
+* location::                    ваше месторасположение
+* sysop::                       ваше имя
+* include::                     подключение других файлов
+* address::                     адресс вашей системы
+
+* outbound::                    путь к аутбаунду
+* inbound::                     путь к инбаунду
+* tempDir::                     путь до временных файлов
+* logfiledir::                  путь до лог-файлов
+* syslogfacility::              возможность использования syslogging
+* loglevels::                   установка уровня детализации лога
+* screenloglevels::             установка уровня детализации лога для вывода на экран
+
+* seqdir::                      путь до msgid-последовательности
+* seqoutrun::                   максимальный выпуск msgid-последовательности за текущее времени
+
+* pack::                        установки для архиватора (запаковка)
+* unpack::                      установки для архиватора (распаковка)
+
+* link::                        добавление линка в ваш конфигурационный файл
+* linkdefaults::                начало/конец/уничтожение настроек линка по умолчанию
+* aka::                         адрес линка
+* ouraka::                      ваше aka для линка
+* password::                    пароль по умолчанию
+* pktpwd::                      pktpassword-пароль
+* ticpwd::                      ticker-пароль
+* areafixpwd::                  areafix-пароль
+* filefixpwd::                  filefix-пароль
+* bbspwd::                      bbs-пароль
+* sessionpwd::                  пароль на сессию
+* handle::                      прозвище для линка
+* packer::                      архиватор, установленный для линка
+
+* badarea::                     настройка badarea
+* dupearea::                    настройка dupearea
+* echoarea::                    настройка echoarea
+* netmailarea::                 настройка netmailarea
+* localarea::                   настройка области сообщений BBS
+* filearea::                    настройка filearea
+* bbsarea::                     настройка файлобласти BBS
+@end menu
+
+@node version, name, Keywords, Keywords
+@subsection version
+@table @asis
+@item Синтаксис:
+@code{version <integer>.<integer>}
+@item Пример:
+@code{version 1.4}
+@end table
+
+Здесь вы указываете версию используемого fidoconfig.
+На данный момент эта установка ничего не делает.
+
+Эта установка не может повторяться.
+
+@node name, location, version, Keywords
+@subsection name
+@table @asis
+@item Синтаксис:
+@code{name <string>}
+@item Пример:
+@code{name Leetebrok BBS}
+@end table
+
+Здесь вы указываете название своей системы.
+
+Эта установка не может повторяться.
+
+@node location, sysop, name, Keywords
+@subsection location
+@table @asis
+@item Синтаксис:
+@code{location <string>}
+@item Пример:
+@code{location Dusseldorf}
+@end table
+
+Вы указываете свое месторасположение здесь.
+
+Эта установка не может повторяться.
+
+@node sysop, include, location, Keywords
+@subsection sysop
+@table @asis
+@item Синтаксис:
+@code{sysop <string>}
+@item Пример:
+@code{sysop Matthias Tichy}
+@end table
+
+Вы указываете свое имя с помощью этой переменной.
+
+Эта установка не может повторяться.
+
+@node include, address, sysop, Keywords
+@subsection include
+@table @asis
+@item Синтаксис:
+@code{include <file>}
+@item Пример:
+@code{include /etc/fido/areas}
+@end table
+
+Вы можете подключать другие файлы к вашему конфигурационному файлу. 
+Например, если вы хотите иметь различные части файла, вы можете подключить 
+файл и (через работу cron'а или в ручную) изменять содержимое этого файла 
+без изменения остального конфигурационного файла. Дополнительно, вы можете 
+разрезать свой конфигурационный файл на различные части. Чтобы настройки 
+файлобластей были отдельно от эхообластей.
+
+Эта установка может повторяться. Но не создавайте рекурсивных подключений, 
+т.е подключение файла, который подключен уже другим, который, в свою 
+очередь, подключен раньше. 
+
+@node address, outbound, include, Keywords
+@subsection address
+@table @asis
+@item Синтаксис:
+@code{Address <addr>}
+@item Пример:
+@code{Address 2:2433/1245}
+@end table
+
+Данная команда указывает, какое aka имеет ваша система. Эта установка 
+полностью поддерживает 5d-формат, который позволяет записывать адрес в 
+формате @code{2:2433/1245.1@@fidonet.org}. Первый адрес, 
+установленный в тоссере, является основным и используется в различных 
+случаях. К примеру, если номер зоны не указан в нетмейловом сообщении 
+(кладж @@INTL).
+
+Эта установка не может повторяться.
+@strong{имя домена не поддерживается полностью через fidoconfig}
+
+@node outbound, inbound, address, Keywords
+@subsection outbound
+@table @asis
+@item Синтаксис:
+@code{outbound <path>}
+@item Пример:
+@code{outbound /var/spool/fido/out}
+@end table
+
+Эта переменная устанавливает ваш путь к аутбаунду в формате binkley-stile. 
+Аутбаунд этого формата состоит из основного пути и поддиректорий. Каждая 
+поддиректория содержит файлы только для какой-то одной зоны. Основной путь 
+является местом, где размещаются файлы вашей основной зоны.
+
+Пример:
+
+@example
+@table @asis
+@item /var/spool/fido/out
+Директория содержит файля для вашей основной зоны.
+@item /var/spool/fido/out.003
+Директория содержит файля для 3-й зоны.
+@item /var/spool/fido/out.00A
+Директория содержит файлы для 10-й зоны.
+@end table
+@end example
+
+Директория зоны содержит flow-файл для каждой ноды. Flow-файл имеет имя в 
+формате NNNNFFFF.?lo
+
+@example
+@table @asis
+@item NNNN
+4-значный шестнадцатеричный формат номера сети узла.
+@item FFFF
+4-значный шестнадцатеричный формат номера узла.
+@item ?
+Флавор исходящей почты. @strong{h}-hold, @strong{c}-crash,
+@strong{f}-normal, @strong{d}-direct, @strong{i}-immediate.
+@end table
+@end example
+
+Для поинтов данные поддиректории выглядят так же, но добавляется постфикс 
+'.pnt'. В поддиректории flow-файлы имеют имена в формате PPPPPPPP 
+(восьмизначный номер поинта в шестнадцатеричном коде).
+
+Для более глубокого понимания в binkley-style, смотрите документацию от 
+binkley-term и исходный код.
+
+Эта установка не может повторяться.
+
+@node inbound, tempDir, outbound, Keywords
+@subsection inbound
+@table @asis
+@item Синтаксис:
+@code{inbound <path>}
+@item Пример:
+@code{inbound /var/spool/fido/in}
+@end table
+
+Переменная устанавливает путь до хранения ваших пришедших файлов. Эта 
+директория - основная директория, в которую попадают файлы при непарольном 
+соединении и соединений с системами, не указанными в нод или поинтлистах.
+Из этой директории обрабатывается только нетмейл.
+
+Эта установка не может повторяться.
+
+@node tempDir, logfiledir, inbound, Keywords
+@subsection tempDir
+@table @asis
+@item Синтаксис:
+@code{tempDir <path>}
+@item Пример:
+@code{tempDir /var/tmp}
+@end table
+
+Установка пути до хранения временных файлов фидо-программ. Эта директория 
+очищатся при загрузке системы. Хорошая идея использовать для этого - 
+memory disc.
+
+Значение по умолчанию - переменные окружения TEMP, TMP или TMPDIR (в 
+первую очередь используется TEMP, если она не установлена, то TMP, потом - 
+TMPDIR). Если эти переменные окружения не установлены:
+- версии win32 используют %WINDIR%\TEMP (обычно c:\windows\temp для 
+  Win9x/Me и c:\winnt\temp для Windows NT/2000/XP)
+- версии для unix-подобных ОС - /tmp
+- остальные версии используют c:\
+
+Эта установка не может повторяться.
+
+@node logfiledir, syslogfacility, tempDir, Keywords
+@subsection logfiledir
+@table @asis
+@item Синтаксис:
+@code{logFileDir <path>}
+@item Пример:
+@code{logFileDir /var/spool/log/fido}
+@end table
+
+Установка пути до размещения лог-файлов.
+
+Эта установка не может повторяться.
+
+Некоторые программы используют logFileDir для постоянных временных/рабочих 
+файлов.
+
+@node syslogfacility, loglevels, logfiledir, Keywords
+@subsection syslogfacility
+@table @asis
+@item Синтаксис:
+@code{syslogFacility <facility>}
+@item Пример:
+@code{syslogFacility local0}
+@end table
+
+Некоторые программы Husky использут запись логов через syslogd, вместо 
+лог-файла. Для этих программ, эта переменная устанавливает возможность 
+использования для записи syslog. Требуемые имена, что могут быть 
+использованы подключением @code{mail}, @code{news}, @code{uucp}, @code{local0}. 
+Требуемые величины, что могут использоваться зависимо от вашей операционной 
+системы. Изучите руководство для @file{syslog.conf} или 
+@file{/usr/include/sys/syslog.h} для более подробной информации.
+
+Запись логов через syslogd поддерживается только на UNIX-платформах и в 
+данный момент используется только @file{herp}. Если программы Husky ведут 
+логи посредством лог-файлов или syslog, или оба зависить от программ, а не 
+от вашего файла fidoconfig. Проконсультируйтесь с документаций для каждой 
+программы.
+
+@node loglevels, screenloglevels, syslogfacility, Keywords
+@subsection LogLevels
+@findex LogLevels
+@table @asis
+@item Синтаксис:
+@code{loglevels <string>}
+@item Пример:
+@code{loglevels 1345789,A-F Q}
+@end table
+
+Эта установка задает уровни детализции лога записи сообшений в лог-файл.
+(строка A-F подразумевает собой ABCDEF). Обратываются только буквеноцифренные 
+значение уровня детализации, остальное игнорируется.
+
+В примере мы выводим в лог-файл сообщения с уровнями 3,4,5,7,8,9,A,B,C,D,E,F,Q.
+
+Уровни детализации лог-файла:
+
+@table @asis
+@item 1 - начало программы, конец;
+@item 2 - джуполовка
+@item 3 - линковка сообщений
+@item 4 - сканирование сообщений
+@item 5 - постинг сообщений
+@item 6 - строки запуска
+@item 7 - бандлы, pkt, линки, фреки, файлроутинг, файлаттачи, паковка сообщений
+@item 8 - areafix, перелинковка, автосоздание
+@item 9 - сообщения об ошибках (критические, обычно вываливает на ошибке)
+@item 0 - создание флагов
+@item A - обычные сообщения об ошибках (вывод сообщения и продолжение выполнения процесса)
+@item B - предупреждение и предостережения
+@item C - информационные сообщения
+@item D - статистика
+@item E - суммарная
+@item F - вывод названия программы и версии
+@item G - отправка сообщения
+@item H - операции перекодирования и таблицы перекодировки чтение/запись
+@item I - создание или проверка MSGID
+@item J - Echomail-фаза
+@item K - Filebox-фаза
+@item L - Netmail-фаза
+@item M - создание файла
+@item N - удаление файла
+@item O - операции с открытием файла (чтением, записью, поиском, ...)
+@item P - операции с директориями (создание, удаление, переименование, ...)
+@item Q - Email message parsing and construction
+@item R - Truncate file
+@item S - отправка файлов
+@item T - Тест файлов (отсутствие, права доступа, etc.)
+@item U - Вызов функций 
+@item V - Зарезервировано
+@item W - Зарезервировано
+@item X - Конструирование имен файлов
+@item Y - Линковая базы сообщений 
+@item Z - debug-сообщения: исходные строки (контроль точек функций).
+@item a-z - debug-сообщения
+@end table
+
+Значение по умолчанию: 1234567890ABCDEF
+
+Эта установка не может повторяться.
+
+@node screenloglevels, seqdir, loglevels, Keywords
+@subsection ScreenLogLevels
+@findex ScreenLogLevels
+@table @asis
+@item Синтаксис:
+@code{screenloglevels <string>}
+@item Пример:
+@code{screenloglevels 2345789,A-C}
+@end table
+
+Установка уровня детализации лога для вывода на экран. См. loglevels для 
+подробностей.
+
+Эта переменная не может повторяться.
+
+@node seqdir, seqoutrun, screenloglevels, Keywords
+@subsection seqdir
+@table @asis
+@item Синтаксис:
+@code{seqDir <path>}
+@item Пример:
+@code{seqDir /var/spool/fido/seq}
+@end table
+
+Установка пути для текущей msgid-последовательности.
+
+По умолчанию, используется переменная окружения SEQDIR.
+
+@node seqoutrun, pack, seqdir, Keywords
+@subsection seqoutrun
+@table @asis
+@item Синтаксис:
+@code{seqOutrun <string>}
+@item Пример:
+@code{seqOutrun 1m}
+@end table
+
+Установка максимального выпуска для msgid-последовательности за текущее 
+время.
+
+Используются десятичные цифры с суффиксом.
+
+Суффиксы:
+
+@table @asis
+@item y - год (365 дней)
+@item m - месяц (31 день)
+@item w - неделя (7 дней)
+@item d - день
+@item h - час
+@end table
+
+Установка секунд без суффиксов.
+
+By default environment variable SEQOUT is used, or 3y if it isn't set.
+
+Эта установка не может повторяться.
+
+@node pack, unpack, seqoutrun, Keywords
+@subsection Pack
+@findex Pack
+@table @asis
+@item Синтаксис:
+@code{Pack zip|tgz|rar|arc|arj|..... <call>}
+@item Пример:
+@code{Pack zip zip -9 -g -q $a $f}
+@end table
+
+Эта переменная устанавливает командную строку вызова архиватора.
+Файл будет перемещен в архив и удален с жесткого диска. Он остается только 
+в архиве.
+
+$a указание имени файла архива.
+
+$f указание файла, который следует запаковать в архив.
+
+Эта установка не может повторяться.
+
+Так же смотрите документацию к hpt и htick.
+
+@subsection Note
+На некоторых операционных системах, если вызванная программа не находится
+(не может запуститься), то результатом будет анулирование команды 
+паковки. (Пример: DOS. Причина: command.com не возвращает код ошибки, если 
+исполняющий файл не был найден.)
+Будьте аккуратны при написании полного имени для паковщика.
+
+@node unpack, link, pack, Keywords
+@subsection Unpack
+@findex Unpack
+@table @asis
+@item Синтаксис:
+@code{Unpack "<call>" <offset> <matchcode>}
+@item Пример для DOS:
+@example
+Unpack  "c:\arc\pkunpak /r $a $p $f"                 0 1a
+Unpack  "c:\arc\pak e /wn $a $p"                    -2 fe
+Unpack  "c:\arc\lha e /m $a $p $f"                   2 2d6c68
+Unpack  "c:\arc\zoo e:O $a $p $f"                    0 5a4f4f
+Unpack  "c:\arc\jar e -y $a $p $f"                  14 1a4a61721b
+# *.rar
+Unpack  "c:\arc\unrar e -y -c- -o+ -inul $a $p $f"   0 52617221
+# rar-sfx/DOS
+Unpack  "c:\arc\unrar e -y -c- -o+ -inul $a $p $f"  28 52534658
+
+@end example
+@item Пример для Linux:
+@example
+Unpack  "/usr/bin/zoo e:O $a $p $f"                    0 5a4f4f
+Unpack  "/usr/bin/arc eno $a $p'*.*' $f"               0 1a
+Unpack  "/usr/bin/unzip -joLqq $a -d $p $f"            0 504b0304
+Unpack  "cd $p && /usr/bin/unarj e $a $f>/dev/null"    0 60ea
+Unpack  "/usr/bin/unrar e -y -c- -o+ -inul $a $p $f"   0 52617221
+Unpack  "/usr/bin/unrar e -y -c- -o+ -inul $a $p $f"  28 52534658
+Unpack  "/usr/bin/jar e -y $a $p $f"                  14 1a4a61721b
+Unpack  "cd $p && /usr/bin/ha eyq -e $a $f"            0 4841
+@end example
+@end table
+
+Эти переменные устанавливают вызовы определенныъ распаковшиков, 
+направленных на id файлов-архивов.
+
+@code{call} командная строка вызывает паковщик (помещенный в кавычки!);
+
+@code{offset} позиция опознания строки в запакованном файле;
+
+@code{match code} hexdump строки опознания для запакованного файла, ?? может быть использован как любой байт;
+
+@code{$a} будет заменен архивом для последующей распаковки;
+
+@code{$p} будет заменен путем для распакованных файлов (обычно tempoutbound);
+
+@code{$f} будет заменео описанием файла (используется htick, см. 'FileDescName'; возможно, другими программами husky).
+
+@example
+
+e.g.: unpack "unzip -joLqq $a -d $p $f" 0 504b0304
+
+       файл запакован zip и может быть опознан с помощью
+         504b0304(hex) at offset 0(integer)
+       он может быть распакован с помощью htick используя команды
+       "unzip -joLqq <filename> -d <path> <descrption_filename>"
+
+@end example
+
+Эта установка не может повторяться.
+
+Так же смотрите документацию к hpt и htick.
+
+@subsection Note
+На некоторых операционных системах, если вызванная программа не находится
+(не может запуститься), то результатом будет анулирование команды 
+распаковки. (Пример: DOS. Причина: command.com не возвращает код ошибки, если 
+исполняющий файл не был найден.)
+Будьте аккуратны при написании полного имени для распаковщика.
+
+@node link, linkdefaults, unpack, Keywords
+@subsection link
+@table @asis
+@item Синтаксис:
+@code{link <string>}
+@item Пример:
+@code{link Matthias Tichy}
+@end table
+
+Этой переменной начинаются установки для нового линка. Все последующие 
+переменные будут изменять настройки только текущего линка, пока подобная 
+переменная не укажет на начала нового линка. Указывается имя линка.
+
+Эта переменная может повторяться.
+
+@node linkdefaults, aka, link, Keywords
+@subsection linkdefaults
+@table @asis
+@item Синтаксис:
+@code{linkdefaults [begin | end | destroy]}
+@item Пример:
+@code{linkdefaults}
+@end table
+
+Переменная устанавливает начало секции настроек линков, которы будут 
+одинаковы для всех линков и будут установлены по умолчанию. Все 
+последующие команды будут относится только к этой секции, пока не 
+встретится @code{'link'} или @code{'linkdefaults end'}, или
+@code{'linkdefaults destroy'}.
+@code{'linkdefaults'} без @code{'begin'} или @code{'end'} имеется ввиду
+@code{'linkdefaults begin'}
+@code{'linkdefaults destroy'} уничтожает все значения по умолчанию.
+
+Будьте осторожны с @code{Pause}, @code{Export}, etc. ;-)
+
+Эта установка может повторяться. Новый определитель заменит старый.
+
+@node aka, ouraka, linkdefaults, Keywords
+@subsection aka
+@table @asis
+@item Синтаксис:
+@code{aka <addr>}
+@item Пример:
+@code{aka 2:2433/1245}
+@end table
+
+Переменная устанавливает aka текущего линка.
+
+Эта установка может повторяться только для различных линков.
+
+@node ouraka, password, aka, Keywords
+@subsection ouraka
+@table @asis
+@item Синтаксис:
+@code{ouraka <addr>}
+@item Пример:
+@code{ouraka 2:2433/1247}
+@end table
+
+Переменная устанавливает ваш aka для текущего линка.
+
+Эта установка может повторяться только для различных линков.
+
+@node password, pktpwd, ouraka, Keywords
+@subsection password
+@table @asis
+@item Синтаксис:
+@code{password [<string>]}
+@item Пример:
+@code{password secret}
+@end table
+
+Установка пароля по умолчанию для линка.
+Если у вас остальные пароли не отличаются от этого, то данная переменная 
+будет подставлятся ко всему.
+
+Эта установка может повторяться только для различных линков.
+
+@node pktpwd, ticpwd, password, Keywords
+@subsection pktpwd
+@table @asis
+@item Синтаксис:
+@code{pktpwd [<string>]}
+@item Пример:
+@code{pktpwd geheim}
+@end table
+
+Установка пароля на pkt для данного линка.
+Пароль должен быть не больше 8 символов для совместимости с разным 
+програмным обеспечением.
+Может не содержать ничего.
+
+Эта установка может повторяться только для различных линков.
+
+@node ticpwd, areafixpwd, pktpwd, Keywords
+@subsection ticpwd
+@table @asis
+@item Синтаксис:
+@code{ticpwd [<string>]}
+@item Пример:
+@code{ticpwd geheim}
+@end table
+
+Установка пароля на ticker для данного линка.
+Пароль должен быть не больше 8 символов для совместимости с разным 
+програмным обеспечением.
+Может не содержать ничего.
+
+Эта установка может повторяться только для различных линков.
+
+@node areafixpwd, filefixpwd, ticpwd, Keywords
+@subsection areafixpwd
+@table @asis
+@item Синтаксис:
+@code{areafixpwd [<string>]}
+@item Пример:
+@code{areafixpwd geheim}
+@end table
+
+Установка пароля на areafix для данного линка.
+Может не содержать ничего, но не рекомендуется.
+
+Эта установка может повторяться только для различных линков.
+
+@node filefixpwd, bbspwd, areafixpwd, Keywords
+@subsection filefixpwd
+@table @asis
+@item Синтаксис:
+@code{filefixpwd [<string>]}
+@item Пример:
+@code{filefixpwd geheim}
+@end table
+
+Установка пароля на filefix для данного линка.
+Может не содержать ничего, но не рекомендуется.
+
+Эта установка может повторяться только для различных линков.
+
+@node bbspwd, sessionpwd, filefixpwd, Keywords
+@subsection bbspwd
+@table @asis
+@item Синтаксис:
+@code{bbspwd [<string>]}
+@item Пример:
+@code{bbspwd geheim}
+@end table
+
+Установка пароля на bbs для данного линка.
+Может не содержать ничего.
+
+Эта установка может повторяться только для различных линков.
+
+@node sessionpwd, handle, bbspwd, Keywords
+@subsection sessionpwd
+@table @asis
+@item Синтаксис:
+@code{sessionpwd [<string>]}
+@item Пример:
+@code{sessionpwd geheim}
+@end table
+
+Установка пароля на сессию для данного линка.
+Может не содержать ничего.
+
+Эта установка может повторяться только для различных линков.
+
+@node handle, packer, sessionpwd, Keywords
+@subsection handle
+@table @asis
+@item Синтаксис:
+@code{handle <name>}
+@item Пример:
+@code{handle eddie}
+@end table
+
+Установка никнейма для линка. Предназначена для bbs.
+
+Эта установка может повторяться только для различных линков.
+
+@node packer, badarea, handle, Keywords
+@subsection packer
+@table @asis
+@item Синтаксис:
+@code{packer <packer>}
+@item Пример:
+@code{packer zip}
+@end table
+
+Переменная устанавливает паковщик для линка. Вы можете использовать все 
+доступные паковщики (устанавливаемые 'pack').
+Если вы не укажете этой переменной или установите @code{packer none}, 
+почта не будет паковаться. Pkt будут помещаться в аутбаунд.
+
+Эта установка может повторяться только для различных линков.
+
+@node badarea, dupearea, packer, Keywords
+@subsection badarea
+@table @asis
+@item Синтаксис:
+@code{BadArea <name> <file> [-b <msgbase>] [Options]}
+@item Пример:
+@code{BadArea badarea /var/spool/fido/msgb/bad -b Squish}
+@end table
+
+Установка @code{BadArea}.
+Читайте документацию HPT для подробностей.
+
+Эта остановка не может повторяться.
+
+@node dupearea, echoarea, badarea, Keywords
+@subsection dupearea
+@table @asis
+@item Синтаксис:
+@code{dupeArea <name> <file> [-b <msgbase>] [Options]}
+@item Пример:
+@code{dupeArea dupeArea  /var/spool/fido/msgb/dupes -b Squish}
+@end table
+
+Установка @code{DupeArea}.
+Читайте документацию HPT для подробностей.
+
+Эта установка не может повторяться.
+
+@node echoarea, netmailarea, dupearea, Keywords
+@subsection echoarea
+@table @asis
+@item Синтаксис:
+@code{EchoArea <name> <file> [-b <msgbase>] [Options] [linkAKAs] [linkOptions]}
+@item Пример:
+@code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger
+-b Squish -a 2:2433/1247 -g A -dupeCheck move -dupehistory 11 -d "Linux
+development" 2:2433/1245 -def}
+@end table
+
+Установка эхообласти.
+Читайте документацию HPT для подробностей.
+
+Эта установка не может повторяться.
+
+@node netmailarea, localarea, echoarea, Keywords
+@subsection netmailarea
+@table @asis
+@item Синтаксис:
+@code{NetmailArea <name> <file> [-b <msgbase>] [Options]}
+@item Пример:
+@code{NetmailArea netmail /var/spool/fido/msgb/netmail -b Squish}
+@end table
+
+Установка @code{NetMailArea}.
+Читайте документацию HPT для подробностей.
+
+Эта установка не может повторяться.
+
+@node localarea, filearea, netmailarea, Keywords
+@subsection localarea
+@table @asis
+@item Синтаксис:
+@code{LocalArea <name> <file> [-b <msgbase>] [Options]}
+@item Пример:
+@code{LocalArea MyBBSarea /var/spool/fido/msgb/MyBBS -b Squish}
+@end table
+
+Установка @code{LocalArea}: область сообщений на BBS.
+Читайте документацию HPT для подробностей.
+
+@node filearea, bbsarea, localarea, Keywords
+@subsection filearea
+@table @asis
+@item Синтаксис:
+@code{FileArea <name> <fileareapath> <uplink> [options] [<downlinks>]}
+@item Пример:
+@code{filearea Photoes /var/spool/fido/fileecho/Photoes 2:50/1 -d "Sysop photoes"}
+@end table
+
+Установка @code{FileArea}: настройки файлобласти 
+Читайте документацию HTick для подробности.
+
+@node bbsarea, , filearea, Keywords
+@subsection bbsarea
+@table @asis
+@item Синтаксис:
+@code{bbsarea <name> <bbsareapath>}
+@item Пример:
+@code{BBSarea Incoming /var/spool/fido/BBS/incoming}
+@end table
+
+Установка @code{BBSArea}: установка файлобластей для BBS
+Используется для простроения файллиста.
+Читайте документацию HTick для подробности.
+
+@node HPT, HTick, Keywords, config file
+@section Переменные Highly Portable Tosser
+Эта секция содержит только список переменных. Читайте руководство HPT для 
+более подробной информации.
+
+@example
+@include keywords.hpt
+@end example
+
+
+@node HTick, NLTools, HPT, config file
+@section Переменные HTick (Husky Ticker)
+Эта секция содержит только список переменных. Читайте руководство HTick для 
+более подробной информации.
+
+@example
+@include keywords.htick
+@end example
+
+
+@node NLTools, EmailPkt, HTick, config file
+@section Переменные NLTools
+
+@menu
+* nodelistdir::                 путь до нодлистов
+* fidouserlist::                имя файла списка скомпилированных фидо-пользователей
+* nodelist::                    добаление нодлиста
+* diffupdate::                  где искать нодедиффы для построения нодлиста
+* fullupdate::                  где искать полные обновления для нодлиста
+* defaultzone::                 установка зоны для нодлиста
+* nodelistformat::              указание: nodelist или pointlist?
+@end menu
+
+@node nodelistdir, fidouserlist, NLTools, NLTools
+@subsection nodelistDir
+@table @asis
+@item Синтаксис:
+@code{nodelistDir <path>}
+@item Пример:
+@code{nodelistDir /var/spool/fido/nodelist}
+@end table
+
+Эта переменная указывает путь, где находятся текущие нодлисты или следует 
+их создать. Путь содержит исходный нодлист (@pxref{nodelist}). Так же, там 
+находится и скомпилированный нодлисты, наподобие @file{FIDOUSER.LST}.
+
+Эта установка не может повторяться.
+
+@node fidouserlist, nodelist, nodelistdir, NLTools
+@subsection fidoUserList
+@table @asis
+@item Синтаксис:
+@code{fidoUserList <filename>}
+@item Пример:
+@code{fidoUserList fidouser.lst}
+@end table
+
+Данная переменная задает имя файла, в который скомпилируется список 
+пользователей с помощью (@code{ulc}). Это простой текстовый файл с 
+фиксированной длиной строки, в которых содержатся имена пользователей (нод 
+и поинтов) и их сетевые адреса. Список отсортирован по алфавитному 
+порядку, относительно имен (регистр не имеет значения), так что поиск 
+нужных узловых номеров станет намного быстрей и функциональней. Данный 
+формат списка понимает @code{msged}, например.
+
+@node nodelist, diffupdate, fidouserlist, NLTools
+@subsection nodelist
+@table @asis
+@item Синтаксис:
+@code{Nodelist <name>}
+@item Пример:
+@code{Nodelist nodelist} или @code{Nodelist points24}
+@end table
+
+Установка нового нодлиста. Ве последующие настройки будет относится только 
+к нему, пока не встретится установка нового нодлиста @code{nodelist}.
+
+Имя, которое указывается, должно быть основным (без расширения и пути) 
+именем: исходным, распакованным нодлистом. Утилиты husky @code{ulc} и
+@code{nlupdate} являются регистронезависимыми, но другие утилиты могут 
+потребовать точного написания. Исходный нодлист ожидает своей участи в 
+нодлистовой директории (@pxref{nodelistdir}).
+
+@node diffupdate, fullupdate, nodelist, NLTools
+@subsection diffupdate
+@table @asis
+@item Синтаксис:
+@code{DiffUpdate <path_and_basname>}
+@item Пример:
+@code{DiffUpdate /var/spool/filebase/nodediff/nodediff}
+@end table
+
+Здесь вы можете указать основное имя различных нодлистовых файлов 
+(нодедиффов), которые различны по дате. Аргумент DiffUpdate - полное имя 
+файла с путем до другого файла, без расширения. Например, если у вас есть 
+файловая область как @file{/var/spool/filebase/24000}, где тикер 
+складывает обновления германского поинтлиста, и файлы обновления которого 
+называются @file{points24.a26}, @file{points24.a33}, вам следует прописать
+
+@example
+DiffUpdate /var/spool/filebase/24000/points24
+@end example
+
+Переменная @code{Diffupdate} используется @code{nlupdate}, например. 
+Обновитель нодлиста распаковывает файл (если он заархивирован, конечно, 
+диффы так же поддерживаются), добавляет дифф к соответствующему нодлисту и 
+удаляет временно распакованный файл.
+
+@node fullupdate, defaultzone, diffupdate, NLTools
+@subsection fullupdate
+@table @asis
+@item Синтаксис:
+@code{FullUpdate <path_and_basname>}
+@item Пример:
+@code{FullUpdate /var/spool/filebase/nodelist/nodelist}
+@end table
+
+FullUpdate pаботает так же, как и DiffUpdate. Hо немного отличен 
+синтаксис. Hе надо указывать маску нодедиффа и его pасположение, но 
+указывается pасположение готовых нодлистов. Левонеты не pаспpостpаняют 
+файлы нодедиффов или делают это не pегуляpно, они пpосто посылают в 
+файлэху новый нодлист каждые несколько недель. В подобном случае, вам 
+нужно тоже использовать FullUpdate.
+
+@node defaultzone, nodelistformat, fullupdate, NLTools
+@subsection defaultzone
+@table @asis
+@item Синтаксис:
+@code{DefaultZone <zone>}
+@item Пример:
+@code{DefaultZone 2}
+@end table
+
+Pабота с нодлистами не возможна без указания номеpа Зоны. Это случай с 
+геpманским поинтлистом (points24), напpимеp, но что может быть с 
+левонетом, имеющим одну Зону. В этом случае вы используете DefaultZone 
+для указания номеpа зону по умолчанию для всех узлов, описаных в этом  
+нодлисте.
+ 
+@node nodelistformat, , defaultzone, NLTools
+@subsection nodelistformat
+@table @asis
+@item Синтаксис:
+@code{Nodelistformat <format>}
+@item Пример:
+@code{NodelistFormat standard} или @code{NodelistFormat Points24}
+@end table
+
+Здесь вы можете настpоить фоpмат pаспакованного нодлиста. По умолчанию 
+- @samp{standard}: это ноpмальный стандаpт фидошного нодлиста. Вы можете 
+выбpать "points24", этот фоpмат очень хоpошо подходит для компиляции 
+геpманского поинтлиста и ему подобных. Или вы можете подставить 
+@samp{points24}, котоpый подpазумевает фоpмат - список 4-х значных поинтовых 
+адpесов находится под 3-х значным адpессом, начинающимся с "Boss".
+
+@node EmailPkt, BSOpack, NLTools, config file
+@section Переменные EmailPkt
+
+@menu
+Common tokens:
+* sendMailCmd::                 командная строка для отправки файла по e-mail
+
+Настройки линка:
+* email::                       адрес e-mail для линка
+* emailSubj::                   тема e-mail
+* emailFrom::                   использование адреса отправителя для исходящего email
+* emailEncoding::               раскодировка исходящего e-mail
+@end menu
+
+
+@node sendMailCmd, email, EmailPkt, EmailPkt
+@subsection email
+@table @asis
+@item Синтаксис:
+@code{sendMailCmd string}
+@item Пример:
+@code{sendMailCmd /usr/sbin/sendmail $a <$f}
+@end table
+
+Переменная используется для обозначние команды и ее параметров для 
+отправки e-mail. Макрос '$a' указывает на позицию адреса получателя; 
+макрос '$f' указывает на имя файла с телом сообщения. Если '$f' опущен, 
+тогда тело сообщения будет браться из системного ввода (stdin).
+
+Эта установка не может повторяться.
+
+@node email, emailFrom, sendMailCmd, EmailPkt
+@subsection email
+@table @asis
+@item Синтаксис:
+@code{email <email-address>}
+@item Пример:
+@code{email eddie@@ironmaiden.com}
+@end table
+
+Данная переменная используется для установки e-mail адреса для линка. 
+Может быть использована для отправки pkt по e-mail.
+
+Эта установка может повторяться для различных линков.
+
+@node emailFrom, emailSubj, email, EmailPkt
+@subsection emailFrom
+@table @asis
+@item Синтаксис:
+@code{emailFrom <email-address>}
+@item Пример:
+@code{emailFrom fred@@ironmaiden.com}
+@end table
+
+Используется для установки e-mail адреса, используемого как адрес 
+отправителя для исходящего e-mail для этого линка.
+
+Эта установка может повторяться для различных линков.
+
+@node emailSubj, emailEncoding, emailFrom, EmailPkt
+@subsection emailSubj
+@table @asis
+@item Синтаксис:
+@code{emailSubj <subject>}
+@item Пример:
+@code{emailSubj Fido over EMail message in UUE format}
+@end table
+
+Переменная устанавливает тему для e-mail %to% и %from% для линка.
+Может быть проигнорированв некоторыми перекодировками (напр. SEAT).
+
+Эта установка может повторяться для различных линков.
+
+@node emailEncoding, , emailSubj, EmailPkt
+@subsection email
+@table @asis
+@item Синтаксис:
+@code{emailEncoding (MIME | SEAT | UUE)}
+@item Пример:
+@code{emailEncoding MIME}
+@end table
+
+Переменная используется дла перекодирования исходящего e-mail.
+
+Эта установка может повторяться для различных линков.
+
+@node BSOpack, herp, EmailPkt, config file
+@section Переменные BSOpack
+Этот раздел содержит только список переменных. Для более подробной 
+информации читайте руководство для BsoPack.
+
+@example
+@include keywords.bp
+@end example
+
+@node herp, Example, BSOpack, config file
+@section Переменные herp
+Herp это Husky Внешний Фрек-процессор. Следующие переменные fidoconfig 
+относятся к herp. Некоторые программы herp, в частности @file{herpidx}, 
+так же используют часть конфигурации @file{htick}, например установки 
+файловых областей.
+
+@menu
+* reqidxdir::                   путь до индексных файлов herp
+@end menu
+
+@node reqidxdir,,herp,herp
+@subsection reqidxdir
+@table @asis
+@item Синтаксик:
+@code{reqidxDir <path>}
+@item Пример:
+@code{reqidxDir /var/spool/fido/reqidx}
+@end table
+
+Указывает поддиректорию, которая используется для хранения индексов 
+запроса, созданные @file{herpidx}. Эту поддиректорию следует сделать 
+доступной для редактирования программой @file{herpidx} и для чтения 
+пользователю, под которым работает ваш мейлер и @file{herp}.
+
+@node Example,  , herp, config file
+@section Рабочий пример конфигурационного файла.
+@example
+@include config
+@end example
