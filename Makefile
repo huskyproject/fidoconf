@@ -91,8 +91,10 @@ endif
 
 
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
-	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
-          -o $(LIBFIDOCONFIG).so.$(VER) $(LOBJS) $(LOPT)
+#	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
+#         -o $(LIBFIDOCONFIG).so.$(VER) $(LOBJS) $(LOPT)
+	$(LD) -s -shared -o $(LIBFIDOCONFIG).so.$(VER) \
+	    $(LOBJS) $(LOPT)
 
 %$(OBJ): %.c
 	$(CC) $(CDEFS) $(COPT) $*.c
