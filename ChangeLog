@@ -1,3 +1,13 @@
+2003-01-22 Wednesday 12:03  mche
+
+	* line.c (1.372), tparser.c (1.236): multiply definition for
+	filedescname
+
+2003-01-22 Wednesday 11:45  mche
+
+	* fidoconf.h (1.166), line.c (1.371): multiply definition for
+	filedescname
+
 2003-01-21 Tuesday 09:50  stas_degteff
 
 	* fecfg146.c (1.5), fecfg146.h (1.9), fecfg2fc.c (1.18): Fix
