@@ -45,7 +45,7 @@ FCONF_EXT char *xstrscat(char **s, ...);
  * list is terminated with NULL value
  */
 
-FCONF_EXT *xstrcpy(char **s, char *add);
+FCONF_EXT char *xstrcpy(char **s, char *add);
 /*
  * Copys "add" to variable "s", reallocating it when it needs
  */
