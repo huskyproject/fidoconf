@@ -2823,7 +2823,6 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, ct_kludge);
      else if (strcmp(iToken, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, ct_subject);
      else if (strcmp(iToken, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, ct_msgtext);
-     else if (strcmp(iToken, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
      else if (strcmp(iToken, "carboncopy")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
      else if (strcmp(iToken, "carbonmove")==0) rc = parseCarbonArea(getRestOfLine(), config, 1);
      else if (strcmp(iToken, "carbonextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);

@@ -1,5 +1,10 @@
 
 ----- cvs ci ------
+Fri Feb  9 22:23:17 NOVT 2001
+max:
+* removed CarbonArea keyword, use CarbonCopy.
+
+----- cvs ci ------
 Sun Jan 28 17:15:41 NOVT 2001
 max:
 * netmailFlag, autoAreaCreateFlag, areafixEchoLimit

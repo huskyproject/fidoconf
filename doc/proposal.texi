@@ -86,7 +86,6 @@ a comment and will be ignored.
 * tempoutbound::                temporary outbound path
 * inbound::                     inbound path
 * protinbound::                 protected inbound
-* listinbound::                 listed inbound
 * localinbound::                local inbound
 * tempinbound::                 temporary inbound path
 * msgbasedir::                  base directory of areas
@@ -199,7 +198,6 @@ a comment and will be ignored.
 * carbonKludge::                make carbonCopy using kludge lines of msg
 * carbonSubj::                  make carbonCopy using subject-field of msg
 * carbonText::                  make carbonCopy using text-field of msg
-* carbonArea::                  specify the area where the carbon copies go into
 * carbonCopy::                  specify the area where the carbon copies go into
 * carbonMove::                  specify the area where the carbon msg get moved into
 * carbonExtern::                specify the external program to pass msg text to
@@ -422,7 +420,7 @@ Only netmails are tossed from this inbound.
 
 This statement cannot be repeated.
 
-@node protinbound, listinbound, inbound, Keywords
+@node protinbound, localinbound, inbound, Keywords
 @subsection protinbound
 @table @asis
 @item Syntax:
@@ -438,24 +436,7 @@ before.
 
 This statement cannot be repeated.
 
-@node listinbound, localinbound, protinbound, Keywords
-@subsection listinbound
-@table @asis
-@item Syntax:
-@code{listinbound <path>}
-@item Example:
-@code{listinbound /var/spool/fido/in.lst}
-@end table
-
-This command specifies where the files should be stored which were
-received during a non-password-protected session from a listed system.
-Only netmails are tossed from this path.
-
-This statement cannot be repeated.
-
-@strong{This statement is currently not supported.}
-
-@node localinbound, tempinbound, listinbound, Keywords
+@node localinbound, tempinbound, protinbound, Keywords
 @subsection localinbound
 @table @asis
 @item Syntax:
@@ -2217,7 +2198,7 @@ arbonArea keyword.
 
 This statement can be repeated.
 
-@node carbonText, carbonArea, carbonSubj, Keywords
+@node carbonText, carbonCopy, carbonSubj, Keywords
 @subsection carbonText
 @table @asis
 @item Syntax:
@@ -2232,23 +2213,7 @@ arbonArea keyword.
 
 This statement can be repeated.
 
-@node carbonArea, carbonCopy, carbonText, Keywords
-@subsection carbonArea
-@table @asis
-@item Syntax:
-@code{carbonArea <area-tag>}
-@item Example:
-@code{carbonArea written.from.points}
-@end table
-
-This statement sets the area for the previous carbon@{To|From|Kludge@}
-statement.
-If this statement is ommitted. The carbon Copy goes to the badArea.
-
-This statement can be repeated for each different carbon@{To|From|Kludge@}
-statement.
-
-@node carbonCopy, carbonMove, carbonArea, Keywords
+@node carbonCopy, carbonMove, carbonText, Keywords
 @subsection carbonCopy
 @table @asis
 @item Syntax:
@@ -2263,7 +2228,6 @@ If this statement is ommitted. The carbon Copy goes to the badArea.
 
 This statement can be repeated for each different carbon@{To|From|Kludge@}
 statement.
-It's similiar to carbonArea, which I (KN) propose to remove
 
 @node carbonMove, carbonExtern, carbonCopy, Keywords
 @subsection carbonMove
