@@ -1,3 +1,7 @@
+2002-07-01 Monday 16:03  mche
+
+	* tokens.h (1.39): fix compilation warning
+
 2002-06-29 Saturday 14:29  mche
 
 	* fidoconf.h (1.126), line.c (1.308), log.c (1.6), tokens.h (1.38),
