@@ -1,3 +1,9 @@
+2004-01-07 Wednesday 04:49  d_sergienko
+
+	* common.c, line.c, doc/proposal.texi
+	(fidoconf-1_4-stable.[5,7,3]): strip rounding quotes while copying
+	string
+
 2004-01-05 Monday 02:59  d_sergienko
 
 	* common.c, line.c (fidoconf-1_4-stable.[4,6]): fixed crash on
