@@ -4816,6 +4816,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_RESCANGRP:
             rc = parseGroup(getRestOfLine(), config, 8);
             break;
+        case ID_RESCANLIMIT:
+            rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->rescanLimit));
+            break;
 
         default:
             prErr( "unrecognized: %s", line);

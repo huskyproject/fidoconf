@@ -857,6 +857,7 @@ int printLink(ps_link link) {
    }
    printf("denyRescan %s%s\n", (link->denyRescan) ? "on" : "off",
           (link->numRescanGrp) ? " (applies to areas on RescanGrp list)" : "");
+   if (link->rescanLimit) printf("rescanLimit %d\n", link->rescanLimit);
 
    printf("-------\n");
    return rc;
