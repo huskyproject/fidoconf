@@ -1,3 +1,9 @@
+fidoconf (0.11-6) unstable; urgency=low
+
+  * Newest fix from cvs.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sat, 14 Apr 2001 16:24:28 +0200
+
 fidoconf (0.11-5) unstable; urgency=low
 
   * Changed version-number of Debian Pakets for smapi. So need to recompile
