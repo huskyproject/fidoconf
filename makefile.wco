@@ -1,40 +1,49 @@
-CC = wcl386
-CFLAGS = -DOS2 -zq -wx -i=..
-COPT = -oneatx -5
-LIB = wlib
-LIBS = ..\smapi\smapiwco.lib
+# Makefile for Watcom C (OS/2)
+# no support for huskymak.cfg
+#
 
-OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj dump.obj xstr.obj
+CC=wcl386
+EXENAMEFLAG=-fe=
+CDEFS=-zq -wx -bt=os2 -l=os2 -DOS2 -i=..
+COPT=-oneatx -5 -c
+LFLAGS= 
 
-.c.obj:
-        $(CC) $(CFLAGS) $(COPT) -c $<
-        $(LIB) -b -q fconfwco.lib -+$@
+TPU=.tpu
+OBJ=.obj
+EXE=.exe
+RM=del
+LIB=.lib
+AR=wlib
+AR_R=-b -q
 
-all:    $(OBJS) dumpfcfg.exe tparser.exe fconf2msged.exe fconf2golded.exe fconf2aquaed.exe fconf2squish.exe fecfg2fconf.exe fconf2fidogate.exe
+NULL=%null
+SYMBOLIC=.SYMBOLIC
 
-dumpfcfg.exe:
-        $(CC) $(CFLAGS) $(COPT) dumpfcfg.c dump.c fconfwcw.lib $(LIBS)
+LINKFIDOCONFIG=fconfwco.lib
+LINKSMAPI=..\smapi\smapiwco.lib
+LIBPREFIX=
 
-tparser.exe:
-        $(CC) $(CFLAGS) $(COPT) tparser.c fconfwco.lib $(LIBS)
+FIDOCONFIG = fidoconfig
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+FECFG2FCONF = fecfg2fconf
+LIBFIDOCONFIG = $(LIBPREFIX)fconfwco
 
-fconf2golded.exe:
-        $(CC) $(CFLAGS) $(COPT) -fe=fconf2golded.exe fc2ged.c fconfwco.lib $(LIBS)
+default: all
 
-fconf2msged.exe:
-        $(CC) $(CFLAGS) $(COPT) -fe=fconf2msged.exe fc2msged.c fconfwco.lib $(LIBS)
+!include makefile.inc
 
-fconf2aquaed.exe:
-        $(CC) $(CFLAGS) $(COPT) -fe=fconf2aquaed.exe fc2aed.c fconfwco.lib $(LIBS)
+$(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ) $(LIBFIDOCONFIG)$(LIB)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG)$(FECFG2FCONF)$(EXE) fecfg2fc$(OBJ)
 
-fconf2squish.exe:
-        $(CC) $(CFLAGS) $(COPT) -fe=fconf2squish.exe fc2sq.c fconfwco.lib $(LIBS)
+all: commonlibs commonprogs $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
+	$(NULL)     
 
-fconf2fidogate.exe:
-	$(CC) $(CFLAGS) $(COPT) -fe=fconf2fidogate.exe fc2fgate.c fconfwco.lib $(LIBS)
+clean: commonclean $(SYMBOLIC)
+	$(NULL)
 
-fecfg2fconf.exe:
-	$(CC) $(CFLAGS) $(COPT) -fe=fecfg2fconf.exe fecfg2fc.c
-
-clean:
-        del *.exe *.obj *.bak *.lib
+distclean: commondistclean $(SYMBOLIC)
+	$(NULL)

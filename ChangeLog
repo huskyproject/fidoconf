@@ -3,6 +3,12 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Thu Jun 22 15:40:00 MSK 2000
+Nestyurkin Nikolay:
+* changed Watcom makefiles to use makefile.inc
+* minor changes in makefile.inc
+
+----- cvs ci ------
 Wed Jun 21 17:50:00 MSK 2000
 Nestyurkin Nikolay:
 * removed $(FECFG2FCONF)$(EXE) from makefile.inc
