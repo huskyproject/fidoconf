@@ -3,4 +3,3 @@ Docu Updates:
 
 - Fidoconfig currently does only support groups with ONE character eg Group A!
 This will be changed in the near future.
-- Fidoconfig does not support filenames with one ore more spaces in it...

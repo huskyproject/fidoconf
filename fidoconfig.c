@@ -116,7 +116,13 @@ char *striptwhite(char *str)
     return str;
 }
 
+char *stripComment(char *line)
+{
 
+  // to be written
+
+  return line;
+}
 
 void parseConfig(FILE *f, s_fidoconfig *config)
 {
@@ -125,6 +131,7 @@ void parseConfig(FILE *f, s_fidoconfig *config)
    actualLineNr = 1;
    while ((line = readLine(f)) != NULL) {
       line = trimLine(line);
+      line = stripComment(line);
       if ((line[0] != '#') && (line[0] != 0)) {
          line = shell_expand(line);
          parseLine(line, config);
@@ -180,7 +187,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
 
 char *getConfigFileName(void) {
 
-   return getConfigFileNameForProgram("FIDOCONFIG", "config");;
+   return getConfigFileNameForProgram("FIDOCONFIG", "config");
 }
 
 s_fidoconfig *readConfig()

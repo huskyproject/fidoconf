@@ -324,7 +324,8 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    else if (stricmp(option, "h")==0) area->hide = 1;
    else if (stricmp(option, "manual")==0) area->manual = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
-   else if (stricmp(option, "mandatory")==0) area->mandatory = 1;   
+   else if (stricmp(option, "mandatory")==0) area->mandatory = 1;
+   else if (stricmp(option, "dosfile")==0) area->DOSFile = 1;
    else if (stricmp(option, "dupeCheck")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {

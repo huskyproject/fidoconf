@@ -138,7 +138,7 @@ struct area {
 
    unsigned purge, max, dupeHistory;
    e_dupeCheck dupeCheck;
-   char tinySB, manual, hide, noPause, mandatory;
+   char tinySB, manual, hide, noPause, mandatory, DOSFile;
 
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535

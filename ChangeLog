@@ -2,6 +2,20 @@ fidoconfig 0.7
 --------------
 
 ----- cvs ci ------
+Tue Apr  6 18:23:17 CEST 1999	
+Antonio: (applied by mtt)
++ Fidoconfig and hpt now supports descriptions for areas. See docs for
+  more info and examples. fconf2golded supports too.
++ fconf2golded export localareas too. dupe and bad areas are local type now.
++ fidoconfig supports filenames with one or more spaces on it. Should be
+  between double quotes.
++ fidoconfig and hpt supports create and read filenames of areas in dos
+  style (8+3). Useful when you use Linux and want to store your message base
+  on a DOS partition.
++ Modifications in tparser.
+
+
+----- cvs ci ------
 Mon Mar  29 16:02
 Fedor:
 + token "ReportTo" added to s_fidoconfig for report to echoarea or netmail

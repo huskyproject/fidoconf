@@ -50,6 +50,7 @@ void printArea(s_area area) {
    int i;
    
    printf("%s \n", area.areaName);
+   printf("Description: %s\n",area.description);
    printf("-> %s\t", area.fileName);
    if (area.msgbType == MSGTYPE_SDM) printf("SDM");  
    else if (area.msgbType == MSGTYPE_SQUISH) printf("Squish");
@@ -60,6 +61,7 @@ void printArea(s_area area) {
    else
      printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
    printf("\n");
+   printf("DOS Style File (8+3) - %s\n", (area.DOSFile) ? "on" : "off");
    printf("Level read  - %d\n", area.levelread);
    printf("Level write - %d\n", area.levelwrite);
    printf("Group       - %c\n", area.group);

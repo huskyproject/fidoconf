@@ -970,6 +970,8 @@ keep seen-by's
 keep only seen-by's of links listed in @{link@}
 @item -manual      
 disallow remote changes (only manual connect/disconnect)
+@item -dosfile
+file name of area is in dos style (8+3)
 @item -h           
 hide area
 @item -d <"Description for the area between double quote (like this)">
@@ -1030,7 +1032,7 @@ If no group is given, this is default for all groups.
 @item Syntax:
 @code{AutoCreateDefaults <string> }
 @item Example:
-@code{AutoCreateDefaults -m 200 -dupeCheck move}
+@code{AutoCreateDefaults -m 200 -dupeCheck move -dosfile -d "Autocreated area"}
 @end table
 
 Area options defaults for autoCreated Areas.
