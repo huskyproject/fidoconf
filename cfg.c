@@ -8,6 +8,11 @@
 #include <fcntl.h>
 #include <ctype.h>
 
+#if defined(OS2)
+#define INCL_DOSFILEMGR
+#include <os2.h>
+#endif
+
 #include "fidoconf.h"
 #include "typesize.h"
 #include "common.h"
@@ -485,8 +490,6 @@ int cmpfnames(char *file1, char *file2)
     return stricmp(path1, path2);
 }
 #elif defined (OS2)
-#define INCL_DOSFILEMGR
-#include <os2.h>
 int cmpfnames(char *file1, char *file2)
 {
     char path1[256], path2[256];
