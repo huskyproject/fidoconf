@@ -1,28 +1,21 @@
-- getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
 - route statements which are defined in the middle of several link statements
   are broken, because there is a realloc of config->links! Maybe there are
   more bugs like this in the current sources
-- dump remaps, bbsareas and fileareas
 - unify routes (make route, routeMail & routeFile "the same", so that routing
   depends on their order in the config), add NoPack (ignore mails to this
   address, leave them in the netmail area)
-- document ExecOnFile, filefixkillreports [ to Georgy :-> ]
+- getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
 - fix "0" groups (to NULL)
-- ArcMailAddr (address PKT etc. to <Addr>, but send it to <ArcMailAddr>)
-- add savetic, origininannounce to tparser & doc
 
-  There're a lot of undocumented tokens and maybe area options in
-  fidoconfig. As i quickly could find:
-
-  filefixkillreports
-  filefixkillrequests
-  semadir
-  badfilesdir
-  bbsarea
-  autofilecreate
-  autofilecreatedefaults
-  ...
-
-  Some descriptions are present in htick/FidoConfigKeywords, but no
-  corresponding items were found in fidoconfig/proposal.texi. Maybe
-  some of tokens must be removed from fidoconfig/line.c...
+- dump remaps, bbsareas and fileareas
+- for htick developers (add to doc & tparser):
+    filefixkillreports
+    filefixkillrequests
+    semadir
+    badfilesdir
+    bbsarea
+    autofilecreate
+    autofilecreatedefaults
+    savetick
+    execonfile
+    origininannounce

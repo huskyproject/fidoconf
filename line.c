@@ -69,18 +69,6 @@ char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
 
-int copyString(char *str, char **pmem)
-{
-   if (str==NULL) {
-      printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
-
-   *pmem = (char *) malloc(strlen(str)+1);
-   strcpy(*pmem, str);
-   return 0;
-}
-
 char *getDescription(void) {
   char desc[81];
   char *token;

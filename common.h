@@ -42,6 +42,11 @@ extern "C" {
 
 /* common functions */
 
+int copyString(char *str, char **pmem);
+/*DOC
+ * Copy string from *str to *pmem
+ */
+
 void *memdup(void *p, size_t size);
 /*DOC
  * Input:  a chunk of memory, with size bytes

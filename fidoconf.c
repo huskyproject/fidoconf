@@ -254,7 +254,8 @@ void carbonNames2Addr(s_fidoconfig *config)
 	      if ((cb->move != 2) && !cb->extspawn) // move==2 - delete
 	              printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (config->carbons[i].areaName) ? config->carbons[i].areaName : "");
               config->carbons[i].area = &(config->badArea);
-              config->carbons[i].export = 0;
+              copyString(config->badArea.areaName, &(config->carbons[i].areaName));
+	      config->carbons[i].export = 0;
            }
    }
 }
@@ -443,6 +444,7 @@ void disposeConfig(s_fidoconfig *config)
 
    for (i = 0; i< config->carbonCount; i++) {
 	free(config->carbons[i].str);
+	if (config->carbons[i].areaName) free(config->carbons[i].areaName);
 	if (config->carbons[i].reason) free(config->carbons[i].reason);
    }
    free(config->carbons);
