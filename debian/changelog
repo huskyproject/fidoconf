@@ -1,8 +1,9 @@
 fidoconf (0.14-20020917-1) stable; urgency=low
 
   * New cvs version: 0.14-RC2
+  * Make single html-doc and place it to /usr/share/doc/libfidoconf0
 
- -- Pavel Andreew <pavel@collage.etel.ru>  Tue, 17 Sep 2002 15:27:25 +0600
+ -- Pavel Andreew <pavel@collage.etel.ru>  Wed, 18 Sep 2002 16:07:31 +0600
 
 fidoconf (0.14-20020905-1) stable; urgency=low
 
