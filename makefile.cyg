@@ -1,10 +1,16 @@
-# Makefile for Mingw32 CPD to cross-compile NT executables
+# $Id$
+#
+# Makefile for Cygwin and Mingw32 CPD to cross-compile NT executables
+
+# Uncomment this for compile info for gdb
+#DEBUG= -g
+
 
 CC=gcc
 # the space after the o is important!
 EXENAMEFLAG=-o 
 CDEFS=-c -D__NT__ -I.. -Wall -pedantic -mno-cygwin
-COPT=	-O3
+COPT=	-O3 $(DEBUG)
 LFLAGS=-mno-cygwin
 
 OBJ=.o
