@@ -3930,7 +3930,11 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = copyString(getRestOfLine(), &(config->tearline));
             break;
         case ID_ORIGIN:
-            rc = copyString(getRestOfLine(), &(config->origin));
+            temp = getRestOfLine();
+            if( temp[0] == '"' && temp[strlen(temp)-1] =='"' ) {
+              temp++; temp[strlen(temp)-1]='\0';
+            }
+            rc = copyString(temp, &(config->origin));
             break;
         case ID_BUNDLENAMESTYLE:
             rc = parseBundleNameStyle(getRestOfLine(),
