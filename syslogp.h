@@ -6,7 +6,7 @@
 
 /* ===== part 1: include system syslog header or provide our own prototypes */
 
-#ifdef UNIX
+#if defined (UNIX) && !defined(__BEOS__)
 
 #define SYSLOG_NAMES
 #include <sys/syslog.h>
@@ -20,20 +20,13 @@
                                    future  */
 
 
-
-
-
 /* ===== part 2: write some portability layer code for broken unix systems */
 
 #ifdef HAVE_SYSLOG
 
 /* ----- unix systems that have syslog, but not facilitynames */
 
-#if defined (__BEOS__)
-#undef facilitynames
-#endif
-
-#if defined(sun) || defined(__BEOS__)
+#if defined(sun)
 
 typedef struct _code {
         char    *c_name;
