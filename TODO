@@ -1,3 +1,4 @@
+- if (( a && b ) || c) by Pavel Golchouk
 - fix dublicate tokens parsing
 - rewrite string2addr()
 - routeMail, route, routeFile must be "the same"
@@ -34,8 +35,10 @@
     forwardFileRequestFile
     ForwardFilePriority
     forwardFileRequests
+    filefixhelp
 - add to doc & tparser for hpt
     ForwardAreaPriority
     AdvancedAreaFix
     what is [module]
-    set, if, else, elseif, ifdef, ifndef, endif
+    set, if, if not, else, elseif, ifdef, ifndef, endif
+    araefixhelp
