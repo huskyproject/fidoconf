@@ -1,3 +1,8 @@
+2003-02-14 Friday 15:39  stas_degteff
+
+	* line.c (fidoconf-1_4-stable.2): Bugfix: check pointer for NULL
+	value in parseLoglevels()
+
 2003-02-12 Wednesday 18:14  sfpavel
 
 	* tparser.c (fidoconf-1_4-stable.1): Update tparser for new version
