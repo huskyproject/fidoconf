@@ -642,6 +642,11 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    size_t i;
    long il;
 
+   if (option == NULL) {
+      prErr("There are parameters missing after %s!", actualKeyword);
+      return 1;
+   }
+
    iOption = strLower(sstrdup(option));
    if (strcmp(iOption, "b")==0) {
       token = strtok(NULL, " \t");
@@ -924,6 +929,11 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   size_t i;
   long il;
 
+  if (option == NULL) {
+     prErr("There are parameters missing after %s!", actualKeyword);
+     return 1;
+  }
+
   iOption = strLower(sstrdup(option));
   if (strcmp(iOption, "a")==0) {
       token = strtok(NULL, " \t");
@@ -1060,6 +1070,10 @@ int parseLinkOption(s_arealink *alink, char *token)
 {
   char *iToken;
 
+  if (token == NULL) {
+     prErr("There are parameters missing after %s!", actualKeyword);
+     return 1;
+  }
   iToken = strLower(sstrdup(token));
   if (strcmp(iToken, "r")==0) alink->import = 0;
   else if (strcmp(iToken, "w")==0) alink->export = 0;
@@ -1075,28 +1089,33 @@ int parseLinkOption(s_arealink *alink, char *token)
 }
 
 int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
-	s_arealink *arealink;
-	s_link *link;
-	
-	if ((link = getLinkForArea(config, tok, area)) == NULL) {
-		prErr("no links like \"%s\" in config!", tok);
-		return 1;
-	}
-	if (isLinkOfArea(link, area)) {
-		prErr("link %s subscribed twice!", tok);
-		return 1;
-	}
+  s_arealink *arealink;
+  s_link *link;
 
-	area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
-	area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
-	area->downlinks[area->downlinkCount]->link = link;
-	
-	arealink = area->downlinks[area->downlinkCount];
-	area->downlinkCount++;
+  if (tok == NULL) {
+     prErr("There are parameters missing after %s!", actualKeyword);
+     return 1;
+  }
 
-        setEchoLinkAccess(config, area, arealink);
+  if ((link = getLinkForArea(config, tok, area)) == NULL) {
+    prErr("no links like \"%s\" in config!", tok);
+    return 1;
+  }
+  if (isLinkOfArea(link, area)) {
+    prErr("link %s subscribed twice!", tok);
+    return 1;
+  }
 
-	return 0;
+  area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+  area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
+  area->downlinks[area->downlinkCount]->link = link;
+
+  arealink = area->downlinks[area->downlinkCount];
+  area->downlinkCount++;
+
+  setEchoLinkAccess(config, area, arealink);
+
+  return 0;
 }
 
 
@@ -1959,11 +1978,11 @@ int parseAnnDefAddres(char *token, s_fidoconfig *config, int i)
 {
    ps_anndef  cAnnDef = NULL;
    hs_addr* addr;
-   cAnnDef = getDescrAnnDef(config);
    if (token == NULL) {
       prErr("There is a name missing after %s!", actualKeyword);
       return 1;
    }
+   cAnnDef = getDescrAnnDef(config);
    addr = scalloc(1,sizeof(hs_addr));
    string2addr(token,addr );
 
@@ -2409,6 +2428,11 @@ int parseLoglevels(char *line, char **loglevels) {
   char *p=line;
   int i,k;
 
+  if(!line) {
+    prErr("Parameter missing after %s!", actualKeyword);
+    return 1;
+  }
+
   ll = calloc(256,sizeof(char));
   if( !ll ) {
     prErr( "Low memory!" );
@@ -2543,10 +2567,14 @@ int parseAttr(char *token, char **attrs, long *bitattr) {
 
 int parseUUEechoAreas(char *token, char **grp[], unsigned int *count) {
 
-    *grp = srealloc(*grp, sizeof(char*)*(*count+1));
-    (*grp)[*count] = sstrdup(token);
-    (*count)++;
-    return 0;
+  if (token == NULL) {
+     prErr("There are parameters missing after %s!", actualKeyword);
+     return 1;
+  }
+  *grp = srealloc(*grp, sizeof(char*)*(*count+1));
+  (*grp)[*count] = sstrdup(token);
+  (*count)++;
+  return 0;
 }
 
 int parseGrp(char *token, char **grp[], unsigned int *count) {
@@ -2587,10 +2615,10 @@ int parseGrp(char *token, char **grp[], unsigned int *count) {
 
 int parseGroup(char *token, s_fidoconfig *config, int i)
 {
-	s_link *link = NULL;
+    s_link *link = NULL;
     ps_anndef cAnnDef = NULL;
 
-	if (token == NULL)
+    if (token == NULL)
 		{
 			prErr("Parameter missing after %s!", actualKeyword);
 			return 1;
@@ -3340,6 +3368,11 @@ int parseFilelist(char *line, s_fidoconfig *config)
   char *flType = NULL;
   unsigned int numCopied;
 
+  if (line == NULL) {
+     prErr("There are parameters missing after %s!", actualKeyword);
+     return 1;
+  }
+
   /*  add new template */
   config->filelistCount++;
   config->filelists = realloc(config->filelists, config->filelistCount * sizeof(s_filelist));
@@ -3521,6 +3554,12 @@ int parsePermissions (char *line,  s_permissions **perm, int *permCount)
 int parseSeqOutrun(char *line, unsigned long *seqoutrun)
 {
     char *p;
+
+    if (line == NULL) {
+       prErr("There are parameters missing after %s!", actualKeyword);
+       return 1;
+    }
+
     while (isspace(*line)) line++;
     if (!isdigit(*line)) {
 	prErr("Bad SeqOutrun value %s", line);
