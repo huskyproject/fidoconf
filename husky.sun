@@ -1,0 +1,65 @@
+#Settings for Solaris
+
+# include Husky-Makefile-Config
+include ../huskymak.cfg
+
+# program settings
+CC = gcc
+AR = ar
+AR_R = r
+RM = rm
+
+ifeq ($(DEBUG), 1)
+  COPT = -c -O3 -DUNIX -I$(INCDIR) -g
+else
+  COPT = -c -O3 -DUNIX -I$(INCDIR) -s
+endif
+
+LOPT = -L. -L$(LIBDIR)
+
+# filename settings
+O = .o
+A = .a
+EXE =
+TPU = .ppu
+FIDOCONFIG = fidoconfig
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+LIBFIDOCONFIG = libfidoconfig
+LINKSMAPI = -lsmapisun 
+LINKFIDOCONFIG = -l$(FIDOCONFIG)
+
+default: all
+
+include makefile.common
+
+all: commonlibs commonprogs
+
+clean: commonclean
+	-$(RM) so_locations
+
+distclean: commondistclean
+	-$(RM) libfidoconfig.so.$(VER)
+
+%.o: %.c
+	$(CC) $(COPT) $*.c
+
+install: commonlibs commonprogs
+	install $(ILOPT) libfidoconfig.so.$(VER) $(LIBDIR)
+	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
+	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
+	install $(IBOPT) fconf2msged  $(BINDIR)
+	install $(IBOPT) fconf2golded $(BINDIR)
+	install $(IBOPT) fconf2aquaed $(BINDIR)	install $(IBOPT) fconf2fidogate $(BINDIR)
+	install $(IBOPT) fconf2squish $(BINDIR)
+	install $(IBOPT) tparser      $(BINDIR)
+	install $(IIOPT) fidoconfig.h $(INCDIR)
+	install $(IIOPT) dirlayer.h   $(INCDIR)
+	install $(IIOPT) typesize.h   $(INCDIR)
+	install $(IIOPT) common.h     $(INCDIR)
+	install $(IIOPT) adcase.h     $(INCDIR)
+	install $(IIOPT) fidoconf.pas $(INCDIR)
+

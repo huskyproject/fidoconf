@@ -1,5 +1,5 @@
 CC = wcl386
-CFLAGS = -zq -wx -bt=nt zp=1 -l=nt -i=..\smapi
+CFLAGS = -zq -wx -bt=nt -zp=1 -l=nt -i=..\smapi
 COPT = -oneatx -5
 LIB = wlib
 LIBS = ..\smapi\smapiwcw.lib
