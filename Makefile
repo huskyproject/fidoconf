@@ -122,7 +122,8 @@ endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
 	$(INSTALL) $(ILOPT) linkedto $(BINDIR)
-	$(INSTALL) $(IIOPT) fidoconf.h   $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) common.h       $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)$(DIRSEP)fidoconf
