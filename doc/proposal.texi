@@ -1006,7 +1006,7 @@ This statement can only be repeated for different links.
 @subsection linkgrp
 @table @asis
 @item Syntax:
-@code{linkgrp @{<group>@}}
+@code{linkgrp <group>}
 @item Example:
 @code{linkgrp Fido}
 @end table
