@@ -985,8 +985,15 @@ int main(int argc, char **argv) {
        }
    }
 
+   if (cfgFile==NULL) cfgFile = getConfigFileName();
+
+   if (cfgFile == NULL) {
+        printf("Could not find Config-file\n");
+        exit(EX_UNAVAILABLE);
+   }
+
    module = getvar("module");
-   printf("Test for ");
+   printf("Test %s for ",cfgFile);
    if (module) {
      printf("module: %s\n", module);
      if (stricmp(module,"hpt")==0) hpt=1;
