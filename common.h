@@ -216,16 +216,21 @@ FCONF_EXT void fillCmdStatement(char *cmd, const char *call, const char *archiv,
 FCONF_EXT char* changeFileSuffix(char *fileName, char *newSuffix);
 
 /* will be moved to huskylib */
-FCONF_EXT int move_file(const char *from, const char *to);
+FCONF_EXT int move_file(const char *from, const char *to, const int force_rewrite);
 /* DOC
    Input:  source and destination filename
    Output: 0 if OK, != 0 and errno set on error
-   FZ:     Move a file, works even over file system boundaries, or if
-           the destination file already exists.
+   FZ:     Move a file, works even over file system boundaries, 
+   replace file if the destination file already exists and force_rewrite !=0
 */
 
 /* will be moved to huskylib */
-FCONF_EXT int copy_file(const char *from, const char *to);
+/*
+ * copy file into other location
+ * rewrite existing file if third parameter not zero
+ * return 0 if success; else return -1 and set errno
+ */
+FCONF_EXT int copy_file(const char *from, const char *to, const int force_rewrite);
 
 // this function returns the string representation of an address.
 // it returns a static array!!!

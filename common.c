@@ -44,6 +44,7 @@
 #if ((defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__DJGPP__)) || defined(__MINGW32__) || defined(__CYGWIN__)
 #  include <io.h>
 int cmpfnames(char *file1, char *file2);
+#define COMMON_C_HAVE_CMPFNAMES
 #endif
 
 #include <signal.h>
@@ -693,12 +694,19 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 #define MOVE_FILE_BUFFER_SIZE 128000
 #endif
 
-int move_file(const char *from, const char *to)
+int move_file(const char *from, const char *to, const int force_rewrite)
 {
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
     int rc;
 
-    if(fexist(to)){
+#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
+    if ( cmpfnames((char*)from,(char*)to) == 0 )
+        return 0;
+#endif
+
+    if(force_rewrite)
+      remove(to);
+    else if(fexist(to)){
       errno=EEXIST;
       return -1;
     }
@@ -707,7 +715,15 @@ int move_file(const char *from, const char *to)
     if (!rc) {               /* rename succeeded. fine! */
 #elif defined(__NT__) && defined(USE_SYSTEM_COPY)
     int rc;
-    if(fexist(to)){
+
+#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
+    if ( cmpfnames((char*)from,(char*)to) == 0 )
+        return 0;
+#endif
+
+    if(force_rewrite)
+      remove(to);
+    else if(fexist(to)){
       errno=EEXIST;
       return -1;
     }
@@ -715,7 +731,15 @@ int move_file(const char *from, const char *to)
     if (rc == TRUE) {
 #elif defined(OS2) && defined(USE_SYSTEM_COPY)
     USHORT rc;
-    if(fexist(to)){
+
+#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
+    if ( cmpfnames((char*)from,(char*)to) == 0 )
+        return 0;
+#endif
+
+    if(force_rewrite)
+      remove(to);
+    else if(fexist(to)){
       errno=EEXIST;
       return -1;
     }
@@ -728,13 +752,13 @@ int move_file(const char *from, const char *to)
     /* Rename did not succeed, probably because the move is accross
        file system boundaries. We have to copy the file. */
 
-    if (copy_file(from, to)) return -1;
+    if (copy_file(from, to, force_rewrite)) return -1;
     remove(from);
     return 0;
 }
 
 	
-int copy_file(const char *from, const char *to)
+int copy_file(const char *from, const char *to, const int force_rewrite)
 {
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
     char *buffer;
@@ -744,18 +768,22 @@ int copy_file(const char *from, const char *to)
     struct utimbuf ut;
     int fh=-1;
 
-    /* Rename did not succeed, probably because the move is accross
-       file system boundaries. We have to copy the file. */
+#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
+    if ( cmpfnames((char*)from,(char*)to) == 0 )
+        return 0;
+#endif
 
     buffer = malloc(MOVE_FILE_BUFFER_SIZE);
     if (buffer == NULL)	return -1;
 
     memset(&st, 0, sizeof(st));
-    if (stat(from, &st)) return -1; // file does not exist
-    fin = fopen(from, "rb");
+    if (stat(from, &st)) return -1; /* file does not exist */
+
+    fin = fopen(from, "rb");        /* todo: use open( ..., O_CREAT| ..., ...)
+                                     * to prevent file overwrite */
     if (fin == NULL) { nfree(buffer); return -1; }
 
-    fh = open( to, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
+    fh = open( to, O_EXCL | (force_rewrite ? 0 : O_CREAT) | O_RDWR, S_IREAD | S_IWRITE );
     if( fh<0 ){
       fh=errno;
       fclose(fin);
@@ -806,13 +834,16 @@ int copy_file(const char *from, const char *to)
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
     int rc = 0;
 
-    if(fexist(to)){
+    if ( cmpfnames((char*)from,(char*)to) == 0 )
+        return 0;
+
+    if(force_rewrite)
+      remove(to);            /* if CopyFile can't work file deleted..... */
+    else if(fexist(to)){
       errno=EEXIST;
       return -1;
     }
 
-    if ( cmpfnames((char*)from,(char*)to) == 0 )
-        return 0;
     rc = CopyFile(from, to, FALSE);
     if (rc == FALSE) {
       remove(to);
@@ -821,7 +852,14 @@ int copy_file(const char *from, const char *to)
 #elif defined (OS2) && defined(USE_SYSTEM_COPY)
     USHORT rc;
 
-    if(fexist(to)){
+#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
+    if ( cmpfnames((char*)from,(char*)to) == 0 )
+        return 0;
+#endif
+
+    if(force_rewrite)
+      remove(to);            /* if DosCopy can't work file deleted..... */
+    else if(fexist(to)){
       errno=EEXIST;
       return -1;
     }
