@@ -386,6 +386,10 @@ void disposeConfig(s_fidoconfig *config)
 
    free(config->ReportTo);
 
+   free(config->beforePack);
+   free(config->afterUnpack);
+   free(config->areafixSplitStr);
+
    free(config);
    config = NULL;
 }

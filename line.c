@@ -1672,9 +1672,10 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonkeepsb")==0) config->carbonKeepSb = 1;
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
    else if (stricmp(token, "defarcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->defarcmailSize));
-   else if (stricmp(token, "areafixmsgsize")==0) rc = parseLevel(getRestOfLine(), &(config->areafixmsgSize));
+   else if (stricmp(token, "areafixmsgsize")==0) rc = parseLevel(getRestOfLine(), &(config->areafixMsgSize));
    else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
    else if (stricmp(token, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
+   else if (stricmp(token, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
 
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
 

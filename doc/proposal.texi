@@ -165,12 +165,13 @@ a comment and will be ignored.
 * areafixFromPkt::              process areafix requests on the fly
 * areafixKillReports::          set kill/sent flag to areafix reports
 * ReportTo::                    set area or netmail for areafix reports
+* areafixMsgSize::              maximum areafix report size
+* areafixSplitStr::             set split string for splitted areafix messages
 
 * logEchoToScreen::             set output to screen log information
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
 * defarcmailsize::		default size for arcmail bundle
-* areafixmsgsize::              maximum areafix report size
 
 @end menu
 
@@ -1576,7 +1577,7 @@ Process areafix requests on the fly. Check "areafix", "areamgr" &
 
 Set kill/sent flag to areafix reports.
 
-@node ReportTo, logEchoToScreen, areafixKillReports, Keywords
+@node ReportTo, areafixMsgSize, areafixKillReports, Keywords
 @subsection ReportTo
 @table @asis
 @item Syntax:
@@ -1587,7 +1588,30 @@ Set kill/sent flag to areafix reports.
 
 Set area or netmail for areafix reports.
 
-@node logEchoToScreen, Remap, ReportTo, Keywords
+@node areafixMsgSize, areafixSplitStr, ReportTo, Keywords
+@subsection areafixMsgSize
+@table @asis
+@item Syntax:
+@code{areafixmsgsize <integer>}
+@item Example:
+@code{areafixmsgsize 20}
+@end table
+
+this option set up maximum areafix message size (20 kb)
+if not defined, areafix reports will be not splitted...
+
+@node areafixSplitStr, logEchoToScreen, areafixMsgSize, Keywords
+@subsection areafixSplitStr
+@table @asis
+@item Syntax:
+@code{areafixSplitStr <string>}
+@item Example:
+@code{areafixSplitStr > Message splitted. To be continued...}
+@end table
+
+this string added after splitted araefix message.
+
+@node logEchoToScreen, Remap, areafixSplitStr, Keywords
 @subsection logEchoToScreen
 @table @asis
 @item Syntax:
@@ -1620,7 +1644,7 @@ Remap mail to other address.
 
 This statament move echomail for all links to his own directory.
 
-@node defarcmailsize, areafixmsgsize, SeparateBundles, Keywords
+@node defarcmailsize, , SeparateBundles, Keywords
 @subsection defarcmailsize
 @table @asis
 @item Syntax:
@@ -1631,18 +1655,6 @@ This statament move echomail for all links to his own directory.
 
 default arcmail size in kb for all links.
 500kb if not defined.
-
-@node areafixmsgsize, ,defarcmailsize, Keywords
-@subsection areafixmsgsize
-@table @asis
-@item Syntax:
-@code{areafixmsgsize <integer>}
-@item Example:
-@code{areafixmsgsize 20}
-@end table
-
-this option set up maximum areafix message size (20 kb)
-if not defined, areafix reports will be not splitted...
 
 @node Example,  , Keywords, config file
 @section Working sample config

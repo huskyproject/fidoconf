@@ -279,15 +279,15 @@ struct fidoconfig {
    unsigned int  remapCount;
    s_remap  *remaps;
 
-   unsigned int areafixFromPkt, areafixKillReports;
+   unsigned int areafixFromPkt, areafixKillReports, areafixMsgSize;
+   char *areafixSplitStr;
+
    char	    *PublicGroup;
-   
    char     *ReportTo;
 
    unsigned int logEchoToScreen;
    unsigned int separateBundles;
    unsigned int defarcmailSize;
-   unsigned int areafixmsgSize;
 
    char *afterUnpack, *beforePack;
 };

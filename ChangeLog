@@ -1,6 +1,13 @@
 fidoconfig 0.9
 --------------
 
+
+----- cvs ci ------
+Fri Aug 20 14:42:16 NOVST 1999
+max:
++ added token areafixSplitStr
+* changes in tparser (print all new tokens)
+	
 ----- cvs ci ------
 Mon Aug 16 12:33:46 NOVST 1999
 max:

@@ -85,6 +85,7 @@ void printArea(s_area area) {
    if (area.tinySB) printf("tinySB ");
    if (area.mandatory) printf("mandatory ");
    if (area.ccoff) printf("ccoff ");
+   if (area.keepsb) printf("keepsb ");
    printf("\n");
    printf("DupeCheck: ");
    if (area.dupeCheck==dcOff) printf("off");
@@ -231,13 +232,14 @@ int main() {
       if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir: %s\n", config->dupeHistoryDir);
       if (config->logFileDir != NULL) printf("LogFileDir: %s\n", config->logFileDir);
       if (config->msgBaseDir != NULL) printf("MsgBaseDir: %s\n", config->msgBaseDir);
-      if (config->fileAreaBaseDir != NULL) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
-      if (config->magic != NULL) printf("Magic: %s\n", config->magic);
+      if (config->fileAreaBaseDir) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
+      if (config->passFileAreaDir) printf("passFileAreaDir: %s\n", config->passFileAreaDir);
+      if (config->magic) printf("Magic: %s\n", config->magic);
       printf("\n=== AREAFIX CONFIG ===\n");
-	  printf("areafixFromPkt: ");
-	  if (config->areafixFromPkt) printf("on\n"); else printf("off\n");
-	  printf("areafixKillReports: ");
-	  if (config->areafixKillReports) printf("on\n"); else printf("off\n");
+	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
+	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");
+	  if (config->areafixMsgSize) printf("areafixMsgSize - %u\n", config->areafixMsgSize);
+	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
       printf("\n=== LINKER CONFIG ===\n");
       if (config->LinkWithImportlog != NULL) printf("LinkWithImportlog: %s\n", config->LinkWithImportlog);
       printf("\n=== LINK CONFIG ===\n");
@@ -267,11 +269,15 @@ int main() {
         printBbsArea(config->bbsAreas[i]);
       }
       printf("\n=== CarbonCopy ===\n");
-      printf("CarbonAndQuit %s\n\n", (config->carbonAndQuit) ? "on" : "off");
+      printf("CarbonAndQuit %s\n", (config->carbonAndQuit) ? "on" : "off");
+      printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
+	  printf("\n");
       for (i = 0; i< config->carbonCount; i++) {
-		  if (config->carbons[i].type == to)     printf("CarbonTo:     ");
-		  if (config->carbons[i].type == from)   printf("CarbonFrom:   ");
-		  if (config->carbons[i].type == kludge) printf("CarbonKludge: ");
+		  if (config->carbons[i].type == to)      printf("CarbonTo:     ");
+		  if (config->carbons[i].type == from)    printf("CarbonFrom:   ");
+		  if (config->carbons[i].type == kludge)  printf("CarbonKludge: ");
+		  if (config->carbons[i].type == subject) printf("CarbonSubj:   ");
+		  if (config->carbons[i].type == msgtext) printf("CarbonText:   ");
 		  printf("%s\n",config->carbons[i].str);
 		  printf("CarbonArea:   %s\n",config->carbons[i].area->areaName);
 		  if (config->carbons[i].export) printf("Copied messages will be exported.\n");
@@ -310,6 +316,10 @@ int main() {
            printf("%02x", (int) config->unpack[i].mask[j]);
          printf("\n");
       }
+	  
+	  if (config->beforePack) printf("Before Pack - \"%s\"\n",config->beforePack);
+	  if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
+
       if (config->ReportTo) printf("ReportTo\t%s\n", config->ReportTo);
       disposeConfig(config);
    } /* endif */
