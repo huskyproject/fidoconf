@@ -92,10 +92,8 @@ struct link {
    char *TossGrp, *DenyGrp;   // groups for areafix & echo access
    char *autoCreateFile;      // file where autocreated areas are written to
 
-#ifdef PACKET_FORWARDING
    int    nPktFiles;          // used only internally by hpt
    char **pktFiles;           // ", additional pkt files, from pkt forwarding
-#endif
 };
 typedef struct link s_link;
 
