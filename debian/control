@@ -1,0 +1,23 @@
+Source: fidoconf
+Section: libs
+Priority: extra
+Maintainer: Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>
+Build-Depends: debhelper (>> 3.0.0), smapi (>= 1.6.4b-10), smapi (<< 1.6.5)
+Standards-Version: 3.2.1
+
+Package: fidoconf
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Library to access the fidoconfig (unstable)
+ From the fidoconf-documentation:
+ .
+ The design goal of fidoconfig was to provide one config-file for several
+ different fido software packages like editor, tosser etc.
+ An additional aim was to have one library (fidoconfig) which can be used by
+ all programs.
+ The advantage is you only have to edit one config-file, so changing your
+ system is much easier than with common software packages. Also bugs can only
+ creep in one library and not in thousands over thousands libraries.
+ .
+ This is the UNSTABLE release.
+

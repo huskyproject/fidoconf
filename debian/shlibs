@@ -1,0 +1,1 @@
+libfidoconfig 0 fidoconf (>= 0.11-1), fidoconf (<< 0.12)
