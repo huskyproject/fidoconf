@@ -2,47 +2,190 @@
 #
 # Makefile for Cygwin and Mingw32 CPD to cross-compile NT executables
 
-# Uncomment this for compile info for gdb
-#DEBUG= -g
+# Uncomment this for compile info for gdb and display more compiler warnings
+#DEBUG	= -g -pedantic
 
+# Uncomment this for strip all simbols from binaries to reduce file sizes
+#STRIP	= -s
 
-CC=gcc
-# the space after the o is important!
-EXENAMEFLAG=-o 
-CDEFS=-c -D__NT__ -I.. -Wall -pedantic -mno-cygwin
-COPT=	-O3 $(DEBUG)
-LFLAGS=-mno-cygwin
+LONGNAMES=1
 
-OBJ=.o
-EXE=.exe
-TPU=.tpu
-RM=rm
-LIB=.a
-AR=ar
-AR_R=rs
+## programs ##
 
-LINKSMAPI=../smapi/libsmapicyg.a
+#use this line if you are using MINGW32 on a Windows box
+GCC	= gcc
+AR	= ar
+RANLIB	= ranlib
+
+#use this line if you are using MINGW32 CPD on a Unix box as cross compiler
+#CC	= i386-mingw32-gcc
+#AR	= i386-mingw32-ar
+#RANLIB	= i386-mingw32-ranlib
+RM	= rm
+
+## file suffixes ("extensions") ##
+
+C	= .c
+OBJ	= .o
+LIB	= .a
+EXE	= .exe
+DLL	= .dll
+
+# Prefix to construct static library name
 LIBPREFIX=lib
+# Prefix to construct dll name
+DLLPREFIX=
+# Suffix to construct library name
+LIBSUFFIX=cyg
+# Suffix to construct dll name
+DLLSUFFIX=
 
-FIDOCONFIG = fidoconfigcyg
-FCONF2AQUAED = fconf2aquaed
-FCONF2GOLDED = fconf2golded
-FCONF2MSGED  = fconf2msged
-FCONF2FIDOGATE = fconf2fidogate
-FCONF2SQUISH = fconf2squish
-FCONF2TORNADO = fconf2tornado
-FCONF2BINKD   = fconf2binkd
-FECFG2FCONF = fecfg2fconf
-LIBFIDOCONFIG = $(LIBPREFIX)$(FIDOCONFIG)
-LINKFIDOCONFIG=$(LIBFIDOCONFIG)$(LIB)
+## program options ##
 
-default: all
+# compiler defines
+override CDEFS	+=
+# common compiler options
+override CFLAGS	+= -I../ -Wall -mno-cygwin -O3
+# common linker options
+override LFLAGS	+= -mno-cygwin
+# options for compile only (link is off)
+OBJOPT	= -c
+# options for build static library
+override LIBOPT	+= -static
+# options for build dll
+override DLLOPT	+= -shared
+# option for specify output file name
+NAMEOPT	= -o
+# options for $(AR) program
+override AROPTS	+= rs
 
-include makefile.inc
+## files ##
+FIDOCONFIG	= fidoconfig$(LIBSUFFIX)
+LIBFIDOCONFIG	?= $(LIBPREFIX)$(FIDOCONFIG)
+LINKFIDOCONFIG	?=$(LIBFIDOCONFIG)$(LIB)
+TARGET		= $(LIBPREFIX)$(FIDOCONFIG)$(LIB)
+DLLTARGET	= $(DLLPREFIX)fidoconf$(DLLSUFFIX)$(DLL)
 
-all: commonlibs commonprogs
+ifndef LONGNAMES
+FCONF2AQUAED	:= fc2aed
+FCONF2GOLDED	:= fc2ged
+FCONF2MSGED	:= fc2msged
+FCONF2FIDOGATE	:= fc2fgate
+FCONF2SQUISH	:= fc2sq
+FCONF2TORNADO	:= fc2tor
+FCONF2BINKD	:= fc2binkd
+FECFG2FCONF	:= fecfg2fc
+else
+FCONF2AQUAED	:= fconf2aquaed
+FCONF2GOLDED	:= fconf2golded
+FCONF2MSGED	:= fconf2msged
+FCONF2FIDOGATE	:= fconf2fidogate
+FCONF2SQUISH	:= fconf2squish
+FCONF2TORNADO	:= fconf2tornado
+FCONF2BINKD	:= fconf2binkd
+FECFG2FCONF	:= fecfg2fconf
+endif
 
-clean: commonclean
+# husky libraries:
+# static versions of husky libraries to build this module
+STATICLIBS	=../smapi/$(LIBPREFIX)smapi$(LIBSUFFIX)$(LIB)
+# DLL versions of husky libraries need to build this module
+DLL_LIBS	=../smapi/$(DLLPREFIX)smapi$(DLLSUFFIX)$(DLL)
 
-distclean: commondistclean
+LINKSMAPI	?= $(STATICLIBS)
 
+# libraries need to build binary file
+LIBS	?=
+
+## other ##
+CYGWIN_VERSION	= $(shell uname -r)
+
+ifeq ( , $(findstring "1.3.9", $(CYGWIN_VERSION)) )
+ifeq ( , $(findstring "1.3.10", $(CYGWIN_VERSION)) )
+ifeq ( , $(findstring "1.3.11", $(CYGWIN_VERSION)) )
+ # new cygwin require library mingwex for build with '-mno-cygwin' option
+LIBS	+= -lmingwex
+endif
+endif
+endif
+
+override CFLAGS	+= $(DEBUG)
+
+EXENAMEFLAG	= $(NAMEOPT)
+
+
+.PHONY:	distclean clean all static dll programs default
+
+default:
+	@echo Run 'make dll' to build dll version \($(DLLTARGET)\)
+	@echo Run 'make static' to build static version \($(TARGET)\)
+	@echo Run 'make programs' to build static version of programs
+	@echo Run 'make dllprograms' to build static version of programs
+	@echo Run 'make all' to build all above
+
+include makefile.in1
+
+all:	static dll programs
+
+static:	$(TARGET)
+#	$(MAKE) -f makefile.cyg $(TARGET) LINKSMAPI=$(STATICLIBS) LIBFIDOCONFIG=$(TARGET) CFLAGS=$(LIBOPT)
+#	$(MAKE) -f makefile.cyg $(PROGRAMS) LIBS="$< $(STATICLIBS)"
+
+dll:	$(DLLTARGET)
+#	$(MAKE) -f makefile.cyg $(DLLTARGET) LINKSMAPI=$(DLL_LIBS) LIBFIDOCONFIG=$(DLLTARGET) CFLAGS=$(DLLOPT)
+#	$(MAKE) -f makefile.cyg $(PROGRAMS) LIBS="$< $(DLL_LIBS)"
+
+programs:	$(TARGET)
+	$(MAKE) -f makefile.cyg $(PROGRAMS) LIBS="$< $(STATICLIBS)"
+
+
+dllprograms:	$(DLLTARGET)
+	$(MAKE) -f makefile.cyg $(PROGRAMS) LIBS="$< $(DLL_LIBS)"
+
+
+%.exe:	%.c
+	$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(NAMEOPT)$@ $^ $(LIBS)
+
+#%.exe:	%.o #$(TARGET)
+#	$(CC) $(STRIP) $(LFLAGS) $(NAMEOPT)$@ $^ $(LIBS)
+
+.c.o:
+	$(CC) $(CFLAGS) $(CDEFS) $(OBJOPT) $<
+
+$(TARGET):	$(LOBJS)
+	$(AR) $(AROPTSS) $(TARGET) $? $(LIBS)
+	
+$(DLLTARGET):	$(LOBJS)
+	$(CC) $(DLLOPT) $(LFLAGS) $(NAMEOPT)$@ $^ $(DLL_LIBS) $(LIBS)
+
+ifdef LONGNAMES
+$(FCONF2AQUAED)$(EXE)  :	fc2aed$(EXE)
+	mv fc2aed$(EXE) $(FCONF2AQUAED)$(EXE)
+
+$(FCONF2GOLDED)$(EXE)  :	fc2ged$(EXE)
+	mv fc2ged$(EXE) $(FCONF2GOLDED)$(EXE)
+
+$(FCONF2MSGED)$(EXE)   :	fc2msged$(EXE)
+	mv fc2msged$(EXE) $(FCONF2MSGED)$(EXE)
+
+$(FCONF2FIDOGATE)$(EXE):	fc2fgate$(EXE)
+	mv fc2fgate$(EXE) $(FCONF2FIDOGATE)$(EXE)
+
+$(FCONF2SQUISH)$(EXE) :	fc2sq$(EXE)
+	mv fc2sq$(EXE) $(FCONF2SQUISH)$(EXE)
+
+$(FCONF2BINKD)$(EXE):	fc2binkd$(EXE)
+	mv fc2binkd$(EXE) $(FCONF2BINKD)$(EXE)
+endif
+
+$(FECFG2FCONF)$(EXE):	fecfg2fc$(C) fecfg146$(OBJ)
+	$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(NAMEOPT)$@ $^ $(LIBS)
+
+$(FCONF2TORNADO)$(EXE):	fc2tor_g$(OBJ) fc2tor$(C)
+	$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(NAMEOPT)$@ $^ $(LIBS)
+
+clean:
+	-$(RM) *$(OBJ)
+
+distclean:
+	-$(RM) $(DLLTARGET) $(TARGET) *$(EXE)
