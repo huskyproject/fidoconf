@@ -55,7 +55,7 @@ int isSubSetOfGroups(char *sub, char *groups, char *delms) {
  return 1;
 }
 
-FCONF_EXT int areCrossGroupSets(char *grp1, char *grp2, char *delms) {
+int areCrossGroupSets(char *grp1, char *grp2, char *delms) {
  register char *temp;
  register char *grp;
  int len;
@@ -82,7 +82,7 @@ FCONF_EXT int areCrossGroupSets(char *grp1, char *grp2, char *delms) {
  return 0;
 }
 
-FCONF_EXT int areEqualGroupSets(char *grp1, char *grp2, char *delms) {
+int areEqualGroupSets(char *grp1, char *grp2, char *delms) {
  if (!isSubSetOfGroups(grp1, grp2, delms)) return 0;
  if (!isSubSetOfGroups(grp2, grp1, delms)) return 0;
  return 1;

@@ -56,7 +56,7 @@ fconf2fidogate.exe:
 		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2fgate.c $(FCONFL) $(SMAPIL)
 
 fconf2tornado.exe:
-		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2tor.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2tor.c fc2tor_g.c $(FCONFL) $(SMAPIL)
 
 fconf2binkd.exe:
 		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2binkd.c $(FCONFL) $(SMAPIL)

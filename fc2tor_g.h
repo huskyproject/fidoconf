@@ -16,7 +16,7 @@
  2 == ("windows,;,,,,linux", ",;"))
  3 == ("quake quake quake", " "));
     --------------------------------------------------*/
-FCONF_EXT int getGroupSetSize(char *str, register char *delms);
+int getGroupSetSize(char *str, register char *delms);
 
 
 /*--------------------------------------------------
@@ -32,7 +32,7 @@ FCONF_EXT int getGroupSetSize(char *str, register char *delms);
  0 == ("quake", "doom"...
  0 == ("quake", ""...
     --------------------------------------------------*/
-FCONF_EXT int isSubSetOfGroups(char *sub, char *groups, register char *delms);
+int isSubSetOfGroups(char *sub, char *groups, register char *delms);
 
 
 /*--------------------------------------------------
@@ -45,12 +45,12 @@ FCONF_EXT int isSubSetOfGroups(char *sub, char *groups, register char *delms);
  1 == ("quake", "quake")
  1 == ("quake doom", "doom wolf")
     --------------------------------------------------*/
-FCONF_EXT int areCrossGroupSets(char *grp1, char *grp2, register char *delms);
+int areCrossGroupSets(char *grp1, char *grp2, register char *delms);
 
 /*--------------------------------------------------
  Returns 1 if two group sets are equal. Groups must be
  separated with symbols, defined in delms string.
     --------------------------------------------------*/
-FCONF_EXT int areEqualGroupSets(char *grp1, char *grp2, register char *delms);
+int areEqualGroupSets(char *grp1, char *grp2, register char *delms);
 
 #endif
