@@ -14,8 +14,8 @@ COPT = -c -O3 -DUNIX -I../smapi
 LOPT = -L. 
 
 # filename settings
-OBJ = .o
-LIB = .a
+O = .o
+A = .a
 EXE =
 TPU = .ppu
 FIDOCONFIG = fidoconfig
