@@ -590,7 +590,13 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       }
    }
    else if (strcmp(iOption, "$m")==0) {
-      area->max = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
+      token = strtok(NULL, " \t");
+      if (token == NULL) {
+         prErr("Number is missing after -$m in areaOptions!");
+	 free(iOption);
+         return 1;
+      }
+      area->max = (UINT) strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
 	 free(iOption);
          return 1;     // error
@@ -600,7 +606,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       token = strtok(NULL, " \t");
       if (token == NULL)
 	{
-	  prErr("Adress is missing after -a in areaOptions!");
+	  prErr("Address is missing after -a in areaOptions!");
 	  free(iOption);
 	  return 1;
 	}
@@ -682,7 +688,13 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      }
    }
    else if (strcmp(iOption, "dupehistory")==0) {
-     area->dupeHistory = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
+     token = strtok(NULL, " \t");
+     if (token == NULL) {
+        prErr("Number is missing after -dupehistory in areaOptions!");
+        free(iOption);
+        return 1;
+     }
+     area->dupeHistory = (UINT) strtol(token, &error, 0);
      if ((error != NULL) && (*error != '\0')) return 1;    // error
    }
    else if (strcmp(iOption, "g")==0) {
@@ -752,6 +764,11 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   iOption = strLower(sstrdup(option));
   if (strcmp(iOption, "a")==0) {
     token = strtok(NULL, " \t");
+    if (token == NULL) {
+      prErr("Address is missing after -a in areaOptions!");
+      free(iOption);
+      return 1;
+    }
     area->useAka = getAddr(*config, token);
     if (area->useAka == NULL) {
       prErr("%s not found as address.", token);
