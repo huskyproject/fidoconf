@@ -53,7 +53,7 @@ struct area {
 
    UINT purge, max, dupeHistory;
    e_dupeCheck dupeCheck;
-   char noDC, tinySB, manual, hide, noPause;
+   char tinySB, manual, hide, noPause;
 
    void *dupes;        // use internally for hpt pointer to dupeDataBase
    void *newDupes;     // dito

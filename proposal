@@ -1,0 +1,514 @@
+LINUX FIDOSOFT PROJECT
+Definition of commonly used configuration files
+
+
+Version: 0.13pre (980809)
+Status: proposal
+
+
+_related documents_
+
+project description
+multiuser aspects (to do)
+portability aspects (to do)
+ifcico configuration description
+
+
+_Location of configuration files_
+
+the main configuration file should be searched in:
+
+  1. $FIDOCONFIG
+  2. a default path, depending to the used os.
+     e.g. linux: /etc/fido/config
+          freeBSD: /usr/local/etc/fido/config
+          solaris: ????
+          BeOS: ????
+          OS/2: c:\fido\config
+          WinNT: c:\fido\config
+
+     c/c++ - programs should include a common config.h-file.
+     scripts should evaluate $OSTYPE, $OS or any other environment
+     variable that indicates the os.
+
+All symbols are _not_ case-sensitiv.
+
+The primary config-file may include further files.
+
+{<whiteSpace>} at the start of the line will be ignored.
+
+All keywords are evaluated as occurring, the first matching 
+keyword found is valid. If there are more then one keywords of the 
+same type allowed, the first line matching the situation is valid. 
+If no match is found, a default-value will be used.
+
+
+_Escape-sequences_
+
+"\" is used as escape-sequence. "\" has to be written as "\\".
+
+non-printable characters can be expressed as \<hexValue>
+
+
+_Comments_
+
+"#" at the start of a line or <whiteSpace>#<whiteSpace> within the 
+line starts a comment. The comment ends with the line.
+
+If the first word in a line is an undefined keyword, the line will 
+be ignored.
+
+
+_new lines_
+
+Each keyword has to start a new line.
+
+"\" at end of line means that "\" and the following new-line-
+character(s) will be ignored. (concatenating lines)
+
+
+_Recommended structure of config-files_
+
+/etc/fido/config:
+{<keyword>}
+include /etc/fido/address     # own aka's
+include /etc/fido/path        # directories used
+? include /etc/fido/arealink    # areafix options
+include /etc/fido/msgbase     # list of mail-Areas
+include /etc/fido/filebase    # list of file-Areas
+include /etc/fido/links       # list of users, points,
+                              # up/downlinks
+include /etc/fido/rights      # access-rights for users, 
+                              # points, up/downlinks
+include /etc/fido/packer      # packer definitions
+include /etc/fido/nodelist    # nodelist definitions
+include /etc/fido/routing     # routing rules
+include /etc/fido/mailer      # see ifcico-cm3.0
+
+
+_Keyword definitions_
+
+/etc/fido/config:
+  version <integer>.<integer>
+  Name <text>
+  # system's name
+  Location <text>
+  # location of mailer
+  Sysop <Text>
+  # Sysop name
+  {
+  include <file>
+  }
+  # include <file> here
+
+/etc/fido/address:
+  {
+  Address <aka> [Line [unsignedInteger]1* ]
+  }
+  # your own aka's: 
+  # Show aka for all lines given.
+  # If no line is given, aka will be shown for all lines.
+
+/etc/fido/path:
+  inbound <path>
+  # inbound path
+  outbound <path>
+  # outbound root path, followed by subdirectories in
+  #   binkley-style
+  protinbound <path>
+  #inbound path for protected sessions
+  listinbound <path>
+  #inbound path for listed systems
+  localinbound <path>
+  #inbound path for local generated mails
+  {
+  public <path>
+  }
+  # path for requestable files
+  #   see also -request option for fileEcho 
+  logFileDir <path>
+  # path for logfiles
+  DupeHistoryDir <path>
+  # path for dupe history files
+  nodelistDir
+  # path for nodelists
+  # (will be ignored by ifcico)
+?  #  (see ifcico documentation)
+  magic
+  # path for magic definitions
+?  #  see ifcico documentation
+
+/etc/fido/msgbase:
+  # List of echo mail-Areas
+  NetmailArea <name> <file> [<msgbase>] {Option}
+  BadArea <name> <file> [<msgbase>] {Option}
+  DupeArea <name> <file> [<msgbase>] {Option}
+  {
+  EchoArea <name> <file> [<msgbase>] {<Option>} \
+                       {<linkAKA> {<LinkOption>}}
+  }
+  # name: area-tag 
+  # file: filename(s) for this area without extension; 
+  #   should be the area-tag (as far as possible)
+  #   if file == Passthrough then [<msgBase>] is skipped and msgarea is
+  #   set as an passthrough area
+  # msgbase: *.msg is standard. Write Squish for an Squish-msgbase
+  # LinkAKA:  aka's of up- and down links
+  # options for further development, e.g.:
+  # -l {<group>}
+  # read/write access for group
+  # -r {<group>}
+  # read access for group 
+  # -w {<group>}
+  # write access for group
+  # if a group name is an unsignedInteger, it is
+  #   interpreted as level, access rights are
+  #   granted for links with equal or higher level
+  # -p <integer>
+  # purge after n days, 
+  # -m <integer>
+  # leave max n messages after purge in area
+  # -mandatory {<group>}
+  # area is mandatory for {<group>}
+  # if <group> is an unsignedInteger,  this area is mandatory 
+  #   for levals <= <group>
+  # -a <aka>      
+  #  aka to use
+?  # -keepsb      
+?  # keep seen-by's
+  # -tinysb     
+  # keep only seen-by's of links listed in {link}
+  # -manual      
+  # disallow remote changes (only manual connect/disconnect)
+  # -h           
+  # hide area
+  # -nopause        
+  # %PAUSE has no effect to this area
+  # <LinkOption>:
+  # -imp
+  # import only for redundant echomail-supply
+  # -def
+  # default-uplink for redundant echomail-supply
+  {
+  domain <zone>[:<net>[/<node>[.<point>]]] <domain>
+  }
+  # default-domains for Zone
+  # regular expressions may be used in <zone>
+  DupeCheck off|move|del
+  # toss in dupes, move dupes to dupeArea
+  #   or delete dupes.
+  DupeHisory <unsignedInteger>
+  # size of dupecheck hisory file 
+  #   in days
+
+/etc/fido/arealink:
+  AreaDescription [<file>]1*
+  # search description for area in <file>,
+  #   e.g. backbone.na, myareas.local 
+  # format of the description files has to be: 
+  #   {
+  #   <areatag> [whiteSpace]1* <description>
+  #   }
+  #     <areatag> ::= <text>
+  #     <description> ::= <text>
+
+/etc/fido/filebase:
+  # list of file areas and file echos
+  {
+  FileEcho <name> <path> {Option} {<linkAKA> {LinkOption}}
+  # ftn File-Echo
+  }
+  # -l <group>
+  # access read/write for group,
+  # -r <group>
+  # access read only for group.
+  # -w <group>
+  # Access write for group.
+  # -noCrc 
+  # trun off crc-check
+  # -mandatory {<group>}
+  # area is mandatory for {<group>}
+  # -a <aka>      
+  #  aka to use
+  # -manual      
+  # disallow remote changes (only manual connect/disconnect)
+  # -h           
+  # hide area
+  # -nopause        
+  # %PAUSE has no effect to this area
+  # -o <path>        
+  # move old files to <path>
+  # -Ext {<Ext>}     
+  # when replacing files, also look for files with extension <ext>
+  # -a {<group>}   
+  # announces in groups {<group>}
+?  # -nfh          
+?  # NewFilesHatch
+  # -touch        
+  # touch files
+?  # -ztouch        
+?  # touch files with ZipTouch
+  # -l <date>      
+  # date of last NewFilesHatch
+  # -request      
+  # allow filerequests
+  # -bbs
+  # file-echo is also file-area for bbs
+  {
+  FileArea <path>
+  # bbs file-area
+  }
+
+/etc/fido/links
+  {
+  link <name>
+  # name of down/uplink
+  #   also default for bbs-login, if <handle> is not given
+  Aka [<aka>]1*
+  Password <pwd>
+  #session- and default-Pwd
+  # also default-password, if PktPwd, TicPwd, 
+  #   AreaFixPwd or BBSPwd is not given
+  [PktPwd <pwd>]
+  # Packet- password
+  [TicPwd <pwd>]
+  # Ticker Password
+  [AreaFixPwd <pwd>]
+  # Areafix password
+  [FileFixPwd <pwd>]
+  # Filefix password
+  [BBSPwd <pwd>]
+  # password for Online user.
+  [handle <name>]
+  [TicGrp {<group>}]
+  # group(s) for ticker
+  [TossGrp {<group>}]
+  # group(s) for areaFix
+  [BBSGrp {<group>}]
+  # group(s) 
+  Packer (zip|tgz|rar|arj|arc....)
+  # packer to use for this Link
+  }
+
+/etc/fido/rights:
+  {
+  AutoAreaCreate on|off {<group>}
+  }
+  # allow or deny AutoAreaCreate for links,
+  #   that are member of group
+  # is no group given, this is default for all groups
+  {
+  GroupDefault <group> <path> [<msgbase>] {<option>} \
+                        {<linkAKA> {linkoption}} 
+  }
+  # defaults for auto created Areas according
+  # to the group of the creator
+
+/etc/fido/packer:
+  # Packer definitions
+  PackerDef zip|tgz|rar|arc|arj|..... 
+  #default packer, (if no packer for aka is given)
+  Unpack <Call> [<offset> <matchcode>]1*
+  # definitions for new unpackers
+  # call: see pack
+  # offset: position of recognition string in packed file.
+  #         offset ::= <hexValue>
+  # match code:  recognition string for packed file,
+  #             ?? can be used as don't care
+  # e.g.: unpack "mypack -e %s" 0e ffff????cefe
+  #       files packed by mypack can be recognized by
+  #         ffff(hex) at offset 0e(hex) and
+  #         cefe(hex) at offset 13(hex)
+  #       they can be unpacked by "mypack -e <filename>"
+  pack zip|tgz|rar|arc|arj|..... <call>
+  # Definition for Packer
+  # call: command line call of this packer
+  #       one filename can be passed to the packer as %s,
+  #       a list of files can be passed to the packer as %l
+  #       in <call>
+
+/etc/fido/nodelist:
+  {
+  nodelist <file> (v7|v7plus|ifcico30cm|feddy|...)\
+           [<defaultAddress>] [3D|4D]
+  }
+  # name and format of nidelist(s)
+  #  see 'some remarks about ifcico'
+
+/etc/fido/routing:
+  {
+  route <flavour> [enc|noenc] <target> {<linkWW>}
+  }
+  # <target> ::= <aka>|"host"|"hub"|"boss"|"direct"
+  # enc: ecnodes msg's
+  {
+  routeFile <flavour> [enc|noenc] <target> {<linkWW>}
+  }
+  # only mails witch attachment
+  {
+  routeMail <flavour> [enc|noenc] <target> {<linkWW>}
+  }
+  # only mails without attachment
+
+/etc/fido/mailer:
+  line <unsignedInteger> <device>
+  # managing lines, e.g. for showing some aka's only
+  #   for selected lines
+  # further keywords:
+  #   look at ifmail/misc/config
+
+
+
+_used notation_
+
+follows EBNF, to enhance readability, I skipped the doubleQuotes 
+around strings where possible.
+
+
+Additional to EBNF:
+
+  {
+  "line"
+  } 
+
+means: "line" can be repeated _including the new-line-characters_
+
+
+_list of used Keywords_
+
+Address AreaFixPwd AutoAreaCreate AutoAreaCreateDefault
+BadArea BBSGrp BBSPwd
+DialDelay domain DupeArea DupeCheck DupeHisory DupeHisoryDir
+EchoArea
+FileArea FileEcho FileFixPwd Flags
+GroupDefault
+inbound include
+Link listinbound Location logFileDir
+magic ModemAfterCall ModemConnect ModemDial ModemError ModemHangup 
+ModemOK ModemPort ModemReset
+Name NetmailArea Nodelist nodelistDir
+Options outboand
+pack Packer PackerDef Password Phone PhoneTrans PktPwd protinbound 
+public
+Route RouteFile RouteMail
+Speed Sysop
+Handle
+TicGrp TicPwd TimeoutConnect TimeoutReset TossGrp
+Unpack
+version
+
+
+_defined token_
+
+<file> ::= a valid filename for the used operatin system
+
+<path> ::= a valid pathname for the used operating system
+
+<target> ::= (<aka>|"host"|"hub"|"boss"|"direct")
+
+<defaultAddrerss> ::= <aka>
+
+<linkAka> ::= <aka>
+
+<aka> ::= <zone>:<net>/<node>[.<point>][@<domainName>]
+ #           no wildcards allowed in zone,net,node,point
+
+<linkWW> ::= <akaWithWildcards>
+
+<akaWithWildcards> ::= 
+[<zone>:[<net>/]]<node>[.<point>][@<domainName>] 
+ #  * and ? wildcards allowed
+ #   in zone,net,node,point
+
+<msgbase> ::= squish|jam|rfc|feddi|...
+
+<name> ::= [<letter>|<digit>|"-"|"_"]1*64
+
+<pwd> ::= [<letter>|<digit>|"-"|"_"]1*8
+
+<offset> ::= <hexValue>
+
+<call> ::= <text>"%s"|"%l"[<text>]
+ #           must be a valid command for the used
+ #           command processor/shell
+
+<flavour> ::= normal | crash | hold | direct | immediate
+
+<matchcode> ::= [<hexValue>|"??"]1*
+
+<domainName> ::= [<upperCaseLetter>|<digit>|"_"]1*8
+
+<lowerCaseLetter> ::= "a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|
+                      "j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|
+                      "s"|"t"|"u"|"v"|"w"|"x"|"y"|"z" 
+
+<upperCaseLetter> ::= "A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|
+                      "J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|
+                      "S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z" 
+
+<letter> ::= <upperCaseLetter> | <lowerCaseLetter> 
+
+<digit> ::= "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9" 
+
+<hexDigit> ::= "A"|"B"|"C"|"D"|"E"|"F"|<digit>
+
+<hexValue> ::= <hexDigit> <hexDigit> 
+
+<otherSym> ::= ""|"#"|"$"|"%"|"&"|"'"|"("|")"|"*"|"+"|","|
+               "-"|"."|"/"|":"|";"|"<"|"="|">"|"?"|"@"|"["|
+               "\"|"]"|"^"|"_"|"`"|"{"|"|"|"}"|"~" 
+
+<whiteSpace> ::= " "|<tab>
+
+<text> ::= [<letter>|<digit>|<whiteSpace>|<oherSym>]1*
+
+<unsignedInteger> ::= <digit> {<digit>} 
+
+<integer> ::= ["-"] <unsignedInteger>
+
+<zone> ::= <integer>
+# valid range:  0..32767
+<net> ::= <integer>     
+# valid range: -1..32767
+<node> ::= <integer>  
+# valid range: -1..32767
+<point> ::= <integer>   
+# valid range:  0..32767
+
+
+_EBNF symbols_
+
+<> Enclose term names 
+
+| Separates alternatives (exclusive OR) 
+
+[] Term enclosed is optional (not used or used once) 
+
+{} Term enclosed is used zero or more times 
+
+() Enclose groups of alternative terms 
+
+[]n*m Term enclosed is used n to m times
+
+[]n* Term enclosed is used n or more times
+
+
+
+_todo_
+
+define regular expressions as wildcards in zone,net,nodeNr,point
+check definition of keywords,options
+samples
+sample data structure for C
+sample config-file-parser for C
+
+
+_some remarks about ifcico_
+
+my definition of:
+  nodelistDir
+  nodelist
+  public
+is not identical to ifcico's.
+
+

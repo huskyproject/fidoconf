@@ -176,7 +176,6 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
       area->max = strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) return 1;     // error
    }
-   else if (stricmp(option, "nodc")==0) area->noDC = 1;
    else if (stricmp(option, "a")==0) {
       token = strtok(NULL, " \t");
       rc = testExpression(ADDREXPRESSION, token);

@@ -61,7 +61,20 @@ s_fidoconfig *readConfig()
    FILE *f;
    s_fidoconfig *config;
 
-   f = fopen("/etc/fido/config", "r");
+   // try env-var fidoconfig
+   f = fopen(getenv("FIDOCONFIG"), "r");
+   if (f==NULL) {
+#ifdef __linux__
+      f = fopen("/etc/fido/config", "r");
+#elif __FreeBSD__
+      f = fopen("/usr/local/etc/fido/config", "r");
+#elif OS2
+      f = fopen("c:\fido\config", "r");
+#else
+      f = fopen("fidoconfig", "r");
+#endif
+   }
+
    if (f != NULL) {
       config = (s_fidoconfig *) malloc(sizeof(s_fidoconfig));
       initConfig(config);

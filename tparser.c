@@ -9,7 +9,7 @@ void printArea(s_area area) {
    printf("%s \n", area.areaName);
    printf("-> %s\t", area.fileName);
    if (area.msgbType == MSGTYPE_SDM) printf("SDM");  
-   else if (area.msgbType = MSGTYPE_SQUISH) printf("Squish");
+   else if (area.msgbType == MSGTYPE_SQUISH) printf("Squish");
    else printf("Passthrough");
 
    printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);
@@ -19,7 +19,6 @@ void printArea(s_area area) {
    for (i = 0; i<area.downlinkCount;i++) printf("%u:%u/%u.%u@%s ", area.downlinks[i]->hisAka.zone, area.downlinks[i]->hisAka.net, area.downlinks[i]->hisAka.node, area.downlinks[i]->hisAka.point, area.downlinks[i]->hisAka.domain);
    printf("\n");
    printf("Options: ");
-   if (area.noDC) printf("noDC ");
    if (area.manual) printf("manual ");
    if (area.hide) printf("hide ");
    if (area.noPause) printf("noPause ");

@@ -19,4 +19,6 @@ Unix:
 	ln -s libfidoconfig.so.0.2 libfidoconfig.so.0
 	ln -s libfidoconfig.so.0 libfidoconfig.so
 
+5. write a fido config according to the proposal which is also in this package.
+
 You're ready. Now you can install hpt, and other software which uses fidoconfig. 
