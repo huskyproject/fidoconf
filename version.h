@@ -71,9 +71,16 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
 
 /* Check version of specified library
  * return not zero if test passed; 0 if test failed
+ * test cvs_date for DLL version only, using #include <fidoconf/cvsdate.h> like:
+  const char *fidoconfdate(){
+  static
+  #include <fidoconf/cvsdate.h>
+  return cvs_date;
+  }
+  CheckLobVersion( ..., fidoconfdate());
  */
 FCONF_EXT int CheckLibVersion( libID_t libID, int need_major, int need_minor,
-                               int need_patch, branch_t need_branch );
+                int need_patch, branch_t need_branch, const char *libcvsdate );
 
 #ifdef __cplusplus
 }
