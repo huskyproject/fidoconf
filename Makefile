@@ -133,7 +133,7 @@ ifeq ($(CC), gcc)
 endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
-	$(INSTALL) $(IBOPT) linkedto $(BINDIR)
+	$(INSTALL) $(ILOPT) linkedto $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconf.h   $(INCDIR)/fidoconf
 	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)/fidoconf
 	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/fidoconf
