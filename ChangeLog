@@ -2,6 +2,12 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Thu Jan 27 18:42:50 CET 2000
+mtt (patch from Alex Semyanka)
+* added NetmailExtern (carbonExtern for netmails)
+* added processPkt for calling pktdate etc.
+
+----- cvs ci ------
 Tue Jan 25 13:46:13 NOVT 2000
 max (patch from Serguei Revtov):
 * linkedto: read config file in current directory

@@ -161,6 +161,7 @@ a comment and will be ignored.
 * unpack::                      definition for unpacker
 * afterUnpack::                 execute string after unpack arcmail bundles
 * beforePack::                  execute string before pack pkt files
+* processPkt::                  execute string before tossing pkts
 
 * route::                       routing of netmails
 * routeFile::                   routing of netmails with file attached
@@ -175,6 +176,8 @@ a comment and will be ignored.
 * carbonCopy::                  specify the area where the carbon copies go into
 * carbonMove::                  specify the area where the carbon msg get moved into
 * carbonExtern::                specify the external program to pass msg text to
+* netmailExtern::               specify the external Program to pass netmail msgs to
+
 * carbonDelete::                specify that the carbon msg should be deleted
 * carbonAndQuit::               carbon message only one time
 * carbonKeepSb::                keep seen-by's and path
@@ -1536,7 +1539,7 @@ e.g.: unpack "unzip -joLqq $a -d $p" 0 504b0304
 This <string> executes after unpacking arcmail bundle. You may process
 your pkt files in @code{tempInbound} directory with external utility.
 
-@node beforePack, route, afterUnpack, Keywords
+@node beforePack, processPkt, afterUnpack, Keywords
 @subsection beforePack
 @table @asis
 @item Syntax:
@@ -1549,7 +1552,19 @@ This <string> executes before packing pkt files to arcmail bundles. You
 may process your pkt files in @code{tempOutbound} directory with
 external utility.
 
-@node route, routeFile, beforePack, Keywords
+@node processPkt, route, beforePack, Keywords
+@subsection processPkt
+@table @asis
+@item Syntax:
+@code{processPkt <string>}
+@item Example:
+@code{processPkt pktdate /home/fido/in.tmp/*.pkt}
+@end table
+
+The <string> willl be executed before tossing the pkts. You are able to
+fix your pkts using pktdate or any other tool before tossing them.
+
+@node route, routeFile, processPkt, Keywords
 @subsection route
 @table @asis
 @item Syntax:
@@ -1762,7 +1777,7 @@ This statement can be repeated for each different carbon@{To|From|Kludge@}
 statement.
 Unlike carbonArea and carbonCopy msg gets moved, not copied into this area
 
-@node carbonExtern, carbonDelete, carbonMove, Keywords
+@node carbonExtern, netmailExtern, carbonMove, Keywords
 @subsection carbonArea
 @table @asis
 @item Syntax:
@@ -1780,8 +1795,26 @@ statement.
 If program name is prepended with '|' sign, hpt tries to pass data thru the 
 pipe, not temporary file.
 
-@node carbonDelete, carbonAndQuit, carbonExtern, Keywords
-@subsection carbonArea
+@node netmailExtern, carbonDelete, carbonExtern, Keywords
+@subsection netmailExtern
+@table @asis
+@item Syntax:
+@code{netmailExtern <program name>}
+@item Example:
+@code{netmailExtern douuedecode}
+@end table
+
+This statement specifies external program to run for the previous 
+carbon@{To|From|Kludge@} statement for netmail messages..
+If this statement is ommitted. The carbon msg gets moved to the badArea.
+
+This statement can be repeated for each different carbon@{To|From|Kludge@}
+statement.
+If program name is prepended with '|' sign, hpt tries to pass data thru the 
+pipe, not temporary file.
+
+@node carbonDelete, carbonAndQuit, netmailExtern, Keywords
+@subsection carbonDelete
 @table @asis
 @item Syntax:
 @code{carbonDelete <program name>}

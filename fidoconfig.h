@@ -328,6 +328,9 @@ struct fidoconfig {
    unsigned int ignoreCapWord;
 
    char *afterUnpack, *beforePack;
+   /* +AS+ */
+   char *processPkt;
+   /* -AS- */
 
    unsigned int createDirs;
    unsigned int longDirNames, splitDirs;

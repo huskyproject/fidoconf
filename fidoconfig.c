@@ -466,6 +466,9 @@ void disposeConfig(s_fidoconfig *config)
 
    free(config->beforePack);
    free(config->afterUnpack);
+   /* +AS+ */
+   free(config->processPkt);
+   /* -AS- */
    free(config->areafixSplitStr);
    free(config->fileLocalPwd);
    free(config->fileLDescString);

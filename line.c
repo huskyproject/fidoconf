@@ -1614,6 +1614,12 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
    copyString(token, &(config->carbons[config->carbonCount-1].areaName));
    config->carbons[config->carbonCount-1].extspawn = 1;
    config->carbons[config->carbonCount-1].move = 0;
+   /* +AS+ */
+   if (tolower(*actualKeyword) == 'n')
+     config->carbons[config->carbonCount-1].netMail = 1;
+   else
+     config->carbons[config->carbonCount-1].netMail = 0;
+   /* -AS- */
    return 0;
 }
 
@@ -1942,6 +1948,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carboncopy")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
    else if (stricmp(token, "carbonmove")==0) rc = parseCarbonArea(getRestOfLine(), config, 1);
    else if (stricmp(token, "carbonextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
+   /* +AS+ */
+   else if (stricmp(token, "netmailextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
+   /* -AS- */
    else if (stricmp(token, "carbondelete")==0) rc = parseCarbonDelete(getRestOfLine(), config);
    else if (stricmp(token, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
    
@@ -1969,6 +1978,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
    else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
    else if (stricmp(token, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
+   /* +AS+ */ else if (stricmp(token, "processpkt")==0) rc = copyString(getRestOfLine(), &(config->processPkt)); /* -AS- */
    else if (stricmp(token, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
    else if (stricmp(token, "filedescpos")==0) rc = parseUInt(getRestOfLine(), &(config->fileDescPos));
    else if (stricmp(token, "dlcdigits")==0) rc = parseUInt(getRestOfLine(), &(config->DLCDigits));
