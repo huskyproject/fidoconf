@@ -1,3 +1,8 @@
+2002-10-18 Friday 04:17  stas_degteff
+
+	* common.c (1.118): Bugfix : open() do not support share locking
+	(freebsd, other possible)
+
 2002-10-17 Thursday 18:57  stas_degteff
 
 	* common.c (1.117), common.h (1.61): Fix fc_stristr(): prevent
