@@ -2454,7 +2454,7 @@ int parseLine(char *line, s_fidoconfig *config)
    char *token, *temp;
    char *iToken;
    int rc = 0;
-   s_link   *clink;
+   s_link   *clink = NULL;
 
 #ifdef __TURBOC__
    int unrecognised = 0;
