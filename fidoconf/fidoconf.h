@@ -41,7 +41,7 @@ extern "C" {
 #endif
 
 #include <huskylib/compiler.h>
-#include <smapi/msgapi.h>
+/*#include <smapi/msgapi.h>*/
 
 
 #ifndef MSGTYPE_PASSTHROUGH /* see smapi/msgapi.h */
@@ -284,7 +284,8 @@ typedef struct area {
    ps_addr       sbign;
    unsigned int  sbignCount;
 
-   HAREA harea;        /*   for internal usage; */
+/*   HAREA harea; */       /*   for internal usage; */
+   void *harea;   /* for internal usage: pointer to area handle. Store HAREA type variable (see msgapi.h in smapi) */
    
   /* filecho options */
 

@@ -30,6 +30,16 @@
 #ifndef	_AFIXCMN_FLAG_
 #define	_AFIXCMN_FLAG_
 
+/* huskylib: compiler-specific declarations */
+#include <huskylib/compiler.h>
+
+/* huskylib: HUSKYEXT declaration */
+#include <huskylib/huskyext.h>
+
+/* smapi */
+#include <smapi/msgapi.h>
+
+/* fidoconfig */
 #include "fidoconf.h"
 
 /*--- afixcmn.c ---*/
