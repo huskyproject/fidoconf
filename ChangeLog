@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Fri Mar 16 13:18:46 NOVT 2001
+max:
+* fixed segfault of fconf2golded on areas with no area group
+
+----- cvs ci ------
 Tue Mar 13 00:07:22 NOVT 2001
 max:
 * fixed segfault when parsing unknown echoarea link
