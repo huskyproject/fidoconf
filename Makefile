@@ -1,7 +1,7 @@
 # include Husky-Makefile-Config
 ifeq ($(DEBIAN), 1)
 # Every Debian-Source-Paket has one included.
-include debian/huskymak.cfg
+include /usr/share/husky/huskymak.cfg
 else
 include ../huskymak.cfg
 endif
@@ -104,7 +104,7 @@ $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
 	    $(LOBJS) $(LOPT)
 else
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
-	$(CC) -shared -Wall,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
+	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
          -o $(LIBFIDOCONFIG).so.$(VER) $(LOBJS) $(LOPT)
 endif
 	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so.$(VERH) ;\

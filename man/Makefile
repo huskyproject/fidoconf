@@ -5,7 +5,7 @@
 #
 # include Husky Makefile Config
 ifeq ($(DEBIAN), 1)
-include ../debian/huskymak.cfg
+include /usr/share/husky/huskymak.cfg
 else
 include ../../huskymak.cfg
 endif
