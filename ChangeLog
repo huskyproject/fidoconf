@@ -1,3 +1,12 @@
+2002-11-14 Thursday 08:31  stas_degteff
+
+	* tparser.c (1.207): Print delNotReceivedTIC value
+
+2002-11-14 Thursday 08:21  stas_degteff
+
+	* fidoconf.h (1.152), line.c (1.342), tokens.h (1.55): Fix spell in
+	variable name
+
 2002-11-13 Wednesday 10:56  stas_degteff
 
 	* makefile.cyg (1.11): Add DEBUG define
