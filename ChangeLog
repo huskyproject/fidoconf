@@ -1,3 +1,9 @@
+2002-03-18 Monday 16:23  mche
+
+	* makefile.inc (1.18), makefile.mvc (1.8), makefile.mvcdll (1.9),
+	makeperl.mvcdll (1.4), tree.c (1.1), tree.h (1.1), vixie.h (1.1),
+	makeperl.mvc (1.5): b-tree moved from hpt to fidoconfig
+
 2002-03-16 Saturday 11:23  mche
 
 	* fidoconf.c (1.69), fidoconf.h (1.101), line.c (1.284), tokens.h
