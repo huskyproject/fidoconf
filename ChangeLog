@@ -5,6 +5,7 @@ Thu Feb 25
 * Rewrote patimat, changed priority of include file directories in hpt to
   include the new patimat funktion correctly, included missing include
   files.
++ Added patimat to fconf2fidogate for better config-file interpretation
 
 Mon Feb 22 11:09:53 MET 199
   Tobias Ernst:

@@ -29,6 +29,9 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "common.h"
+#include "patmat.h"
+
 #ifndef MSDOS
 #include "fidoconfig.h"
 #else
@@ -48,31 +51,15 @@ int writeArea(FILE *f, s_area *area, char netmail) {
       return 0;
 
    strcpy(areaupperletter,area->areaName);
-
-   for (i=0;i<100 && areaupperletter[i]!=0;i++)
-       areaupperletter[i]=toupper(areaupperletter[i]);
+   strUpper(areaupperletter);
 
    found=0;
    for (i=0;i<areaconfiganz;i++)
-       {
-       if (strchr(areaconfig+i*60,'*')!=NULL)
+       if (patimat(areaupperletter,areaconfig+i*60+1)==1)
           {          
-          if (strncasecmp(areaconfig+i*60+1,areaupperletter,
-              strlen(areaconfig+i*60+1)-1)==0)
-             {
-             found=1;
-             break;
-             }
+          found=1;
+          break;
           }
-         else
-          {          
-          if (strcasecmp(areaconfig+i*60+1,areaupperletter)==0)
-             {
-             found=1;
-             break;
-             }
-          }
-       }
 
    if (!found)
       fprintf(f, "%-32s fido.%s -x\n", areaupperletter, area->areaName);
