@@ -1189,7 +1189,9 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
        /*             perhaps other settings*/
        /*             allways an useAka     */
    } else { /* netmail - don't copy defaults */
+       e_pauses aType = area->areaType;
        memset(area, 0, sizeof(s_area));
+       area->areaType = aType;
    }
 
    tok = strtok(token, " \t");
