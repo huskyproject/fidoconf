@@ -1,3 +1,7 @@
+2003-08-18 Monday 18:27  d_sergienko
+
+	* src/fidoconf.c (1.10): add var configdir
+
 2003-07-27 Sunday 15:27  d_sergienko
 
 	* src/line.c (1.17): remove debug message about carbonextern
