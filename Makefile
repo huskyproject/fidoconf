@@ -56,7 +56,8 @@ endif
 
 default: all
 
-include make/makefile.inc
+#include make/makefile.inc
+include makefile.in2
 
 progs: commonprogs
 
