@@ -1,4 +1,17 @@
+
+                           FIDOCONFIG LIBRARY
+                           ~~~~~~~~~~~~~~~~~~
+
+WHAT IS IT
+----------
+
+This library is a core part of HUSKY portable fidonet software which
+parsing and manipulating config file.
+For details see docs/fidoconfig.*
+
+
 SUPPORTED COMPILERS
+-------------------
 
 The following makefiles can be used to compile this release of FIDOCONFIG:
 

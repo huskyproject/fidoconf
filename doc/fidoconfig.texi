@@ -20,7 +20,7 @@ Copyright 1998-2002 Husky Development Team
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2001 Husky Development Team 
+Copyright @copyright{} 1998-2002 Husky Development Team 
 
 @end titlepage
 
@@ -34,8 +34,8 @@ Copyright @copyright{} 1998-2001 Husky Development Team
 @node Top, , , (dir)
 @top fidoconfig
 
-This document describes the use of fidoconfig to make fido work on your unix
-workstation.
+This document describes the use of fidoconfig to make fido work on your 
+favorite platform.
 
 This document applies to version 0.15 of fidoconfig.
 @c @end ifinfo
