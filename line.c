@@ -268,7 +268,7 @@ int parsePath(char *token, char **var)
 //   char *p, *q, *osvar;
 
    if (*var != NULL) {
-      prErr("Dublicate path!");
+      prErr("Duplicate path!");
       return 1;
    }
    if (token == NULL) {
@@ -317,7 +317,7 @@ int parsePathNoCheck(char *token, char **var)
 {
 
    if (*var != NULL) {
-      prErr("Dublicate path!");
+      prErr("Duplicate path!");
       return 1;
    }
 
