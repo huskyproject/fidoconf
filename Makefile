@@ -93,9 +93,9 @@ instdyn: $(LIBFIDOCONFIG).so.$(VER)
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.$(VER) \
           $(LIBDIR)/$(LIBFIDOCONFIG).so.0
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.0 $(LIBDIR)/$(LIBFIDOCONFIG).so
-ifneq (~$(LDCONFIG)~, ~~)
-	$(LDCONFIG)
-endif
+#ifneq (~$(LDCONFIG)~, ~~)
+#	$(LDCONFIG)
+#endif
 
 else
 instdyn: commonlibs

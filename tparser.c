@@ -291,6 +291,17 @@ void printLink(s_link link) {
    else printf("PackerDefault none\n");
    if (link.pktSize != 0) printf("pktSize - %u kb\n",link.pktSize);
    if (link.arcmailSize != 0) printf("arcmailSize - %u kb\n",link.arcmailSize);
+
+   if (link.packerDef)
+   {
+       printf("packNetmail: %s\n",(link.packNetmail)?"on":"off");
+       if (link.packNetmail)
+           printf("maxUnpackedNetmail: %d kb\n", link.maxUnpackedNetmail);
+   }
+   else
+       if (link.packNetmail)
+           printf("Packer not defined but packNetmail is on\n");
+
    printf("TIC files %s\n", (link.noTIC == 0) ? "on" : "off");
    printf("forwardPkts ");
    switch (link.forwardPkts){
