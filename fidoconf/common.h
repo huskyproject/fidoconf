@@ -151,6 +151,9 @@ void freeLink (s_link *link);
 /* Select PackAka: link->hisPackAka if PackAka defined, link->hisAka otherwise. */
 HUSKYEXT hs_addr *SelectPackAka(s_link *link);
 
+/* search robot, optionally create it */
+HUSKYEXT s_robot *getRobot(ps_fidoconfig config, char *name, int create);
+
 #ifdef __cplusplus
 }
 #endif

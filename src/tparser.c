@@ -188,8 +188,6 @@ int testPathsAndFiles()
   rc+=testpath(config->nodelistDir,"nodelistDir",NULL,NULL );
   rc+=testpath(config->msgBaseDir,"msgBaseDir",NULL,NULL );
   rc+=testpath(config->magic,"magic",NULL,NULL );
-  rc+=testpath(config->areafixhelp,"areafixhelp",NULL,NULL );
-  rc+=testpath(config->filefixhelp,"filefixhelp",NULL,NULL );
   rc+=testpath(config->tempOutbound,"tempOutbound",NULL,NULL );
   rc+=testpath(config->ticOutbound,"ticOutbound",NULL,NULL );
   rc+=testpath(config->tempDir,"tempDir",NULL,NULL );
@@ -200,7 +198,6 @@ int testPathsAndFiles()
   rc+=testpath(config->badFilesDir,"badFilesDir",NULL,NULL );
   rc+=testpath(config->hptPerlFile,"hptPerlFile",NULL,NULL );
   rc+=testpath(config->advStatisticsFile,"advStatisticsFile",NULL,NULL );
-  rc+=testpath(config->newAreaRefuseFile,"newAreaRefuseFile",NULL,NULL );
   rc+=testpath(config->intab,"intab",NULL,NULL );
   rc+=testpath(config->outtab,"outtab",NULL,NULL );
   rc+=testpath(config->echotosslog,"echotosslog",NULL,NULL );
@@ -214,8 +211,6 @@ int testPathsAndFiles()
   rc+=testpath(config->filePassList,"filePassList",NULL,NULL );
   rc+=testpath(config->fileDupeList,"fileDupeList",NULL,NULL );
   rc+=testpath(config->netmailFlag,"netmailFlag",NULL,NULL );
-  rc+=testpath(config->aacFlag,"aacFlag",NULL,NULL );
-  rc+=testpath(config->afcFlag,"afcFlag",NULL,NULL );
   rc+=testpath(config->reqidxDir,"reqidxDir",NULL,NULL );
   rc+=testpath(config->rulesDir,"rulesDir",NULL,NULL );
   rc+=testpath(config->seqDir,"seqDir",NULL,NULL );
@@ -276,6 +271,14 @@ int testPathsAndFiles()
                   config->filelists[i].destFile, "dirListEntryTpl" );
     rc+=testpath( config->filelists[i].dirListFtrTpl, "Filelist's",
                   config->filelists[i].destFile, "dirListFtrTpl" );
+  }
+
+  /* robots */
+  for (i = 0; i < config->robotCount; i++) {
+    rc+=testpath(config->robot[i]->helpFile,"helpFile",NULL,NULL );
+    rc+=testpath(config->robot[i]->newAreaRefuseFile,"newAreaRefuseFile",NULL,NULL );
+    rc+=testpath(config->robot[i]->autoCreateFlag,"autoCreateFlag",NULL,NULL );
+    rc+=testpath(config->robot[i]->queueFile,"queueFile",NULL,NULL );
   }
 
   /* test links */
@@ -831,6 +834,31 @@ int printLink(ps_link link) {
    return rc;
 }
 
+
+int printRobot(ps_robot robot) {
+   printf("Robot %s\n", robot->name);
+   if (robot->names)
+     printf("  robotNames %s\n", robot->names);
+   if (robot->fromName)
+     printf("  fromName %s\n", robot->fromName);
+   if (robot->helpFile)
+     printf("  helpFile %s\n", robot->helpFile);
+   if (robot->newAreaRefuseFile)
+     printf("  newAreaRefuseFile %s\n", robot->newAreaRefuseFile);
+   if (robot->autoCreateFlag)
+     printf("  autoCreateFlag %s\n", robot->autoCreateFlag);
+   if (robot->queueFile)
+     printf("  queueFile %s\n", robot->queueFile);
+   if (robot->reportsAttr || robot->reportsFlags) {
+     char *attrs = attr2str(robot->reportsAttr);
+     printf("  reportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", robot->reportsFlags ? robot->reportsFlags : "");
+     nfree(attrs);
+   }
+   printf("  killRequests %s\n", robot->killRequests ? "on" : "off");
+   printf("-------\n");
+   return 0;
+}
+
 /*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
 	register unsigned i,j,m;
@@ -1327,10 +1355,7 @@ int main(int argc, char **argv) {
         if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
         if (config->advStatisticsFile) printf("advStatisticsFile:       %s\n", config->advStatisticsFile);
         if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
-        if (config->newAreaRefuseFile) printf("NewAreaRefuseFile:     %s\n", config->newAreaRefuseFile);
         if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
-        if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
-        if (config->afcFlag) printf("AutoFileCreateFlag: %s\n",config->afcFlag);
         if (config->minDiskFreeSpace)
   		  printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
         if (config->syslogFacility)
@@ -1437,22 +1462,13 @@ int main(int argc, char **argv) {
   		 config->notValidFNChars : "\"*/:;<=>?\\|%`'&+");
 
         printf("\n=== AREAFIX CONFIG ===\n");
-  	  if (config->areafixNames) printf("AreafixNames: %s\n", config->areafixNames);
   	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
   	  printf("areafixQueryReports: %s\n",(config->areafixQueryReports)?"on":"off");
-	  { char *attrs = attr2str(config->areafixReportsAttr);
-	    printf("areafixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", config->areafixReportsFlags ? config->areafixReportsFlags : "");
-	    nfree(attrs);
-	  }
-  	  printf("areafixKillRequests: %s\n",(config->areafixKillRequests)?"on":"off");
   	  if (config->areafixMsgSize) printf("areafixMsgSize - %u\n", config->areafixMsgSize);
   	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
   	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
-  	  if (config->areafixFromName) printf("areafixFromName - \"%s\"\n", config->areafixFromName);
   	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
           if (config->ReportTo) printf("ReportTo: %s\n", config->ReportTo);
-  	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
-  	  if (config->areafixQueueFile) printf("areafixQueueFile: %s\n",config->areafixQueueFile);
   	  printf("ForwardRequestTimeout: %d\n",config->forwardRequestTimeout);
   	  printf("IdlePassthruTimeout  : %d\n",config->idlePassthruTimeout);
   	  printf("KilledRequestTimeout : %d\n",config->killedRequestTimeout);
@@ -1460,16 +1476,6 @@ int main(int argc, char **argv) {
 
 
      if (hpt==0) {
-        printf("\n=== FILEFIX CONFIG ===\n");
-	{ char *attrs = attr2str(config->filefixReportsAttr);
-	  printf("filefixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", config->filefixReportsFlags ? config->filefixReportsFlags : "");
-	  nfree(attrs);
-	}
-        printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
-        if (config->filefixFromName) printf("filefixFromName: \"%s\"\n", config->filefixFromName);
-        if (config->filefixNames) printf("filefixNames: \"%s\"\n", config->filefixNames);
-        if (config->filefixhelp) printf("filefixHelp:  %s\n", config->filefixhelp);
-
         printf("\n=== TICKER CONFIG ===\n");
         printf("fileDescription: %s\n", config->fileDescription);
         /* not used
@@ -1588,6 +1594,10 @@ int main(int argc, char **argv) {
      default:
         printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
      }
+
+        printf("\n=== ROBOT PARAMETERS ===\n");
+        printf("%u robots in config\n", config->robotCount);
+        for (i = 0; i < config->robotCount; i++) printRobot(config->robot[i]);
 
         printf("\n=== LINK CONFIG ===\n");
         printf("%u links in config\n", config->linkCount);

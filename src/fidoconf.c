@@ -182,10 +182,6 @@ void initConfig(s_fidoconfig *config) {
    config -> typeDupeBase = hashDupesWmsgid;
    config -> packNetMailOnScan = 1;
    config -> recodeMsgBase = 1;
-   config -> areafixReportsAttr = config->filefixReportsAttr =
-       MSGPRIVATE | MSGKILL | MSGLOCAL;
-   config -> areafixReportsFlags = sstrdup("NPD");
-   config -> filefixReportsFlags = sstrdup("NPD");
 
    config->dupeArea.areaType = ECHOAREA;
    config->badArea.areaType = ECHOAREA;
@@ -452,8 +448,22 @@ void stripPktPwd(s_fidoconfig *config)
 
 void setConfigDefaults(s_fidoconfig *config)
 {
-   if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"AreaFix AreaMgr hpt");
-   if (config->filefixNames==NULL) xstrcat(&config->filefixNames,"FileFix FileMgr AllFix FileScan htick");
+   ps_robot r;
+
+   r = getRobot(config, "areafix", 1);
+   r->areas = &(config->echoAreas);
+   r->areaCount = &(config->echoAreaCount);
+   if (!r->names) xstrcat(&r->names,"AreaFix AreaMgr hpt");
+   if (!r->reportsAttr) r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
+   if (!r->reportsFlags) r->reportsFlags = sstrdup("NPD");
+
+   r = getRobot(config, "filefix", 1);
+   r->areas = &(config->fileAreas);
+   r->areaCount = &(config->fileAreaCount);
+   if (!r->names) xstrcat(&r->names,"FileFix FileMgr AllFix FileScan htick");
+   if (!r->reportsAttr) r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
+   if (!r->reportsFlags) r->reportsFlags = sstrdup("NPD");
+
    if (config->sysop==NULL) xstrcat(&config->sysop,"SysOp");
    if (config->forwardRequestTimeout==0) config->forwardRequestTimeout = 7;
    if (config->idlePassthruTimeout<0)    config->idlePassthruTimeout   = 4;
@@ -637,8 +647,6 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->magic);
    nfree(config->semaDir);
    nfree(config->badFilesDir);
-   nfree(config->areafixhelp);
-   nfree(config->areafixNames);
    nfree(config->tempOutbound);
    nfree(config->fileAreaBaseDir);
    nfree(config->passFileAreaDir);
@@ -674,6 +682,18 @@ void disposeConfig(s_fidoconfig *config)
 
    fc_freeEchoArea(&(config->EchoAreaDefault));
    fc_freeEchoArea(&(config->FileAreaDefault));
+
+   for (i = 0; i < config->robotCount; i++) {
+     nfree(config->robot[i]->name);
+     nfree(config->robot[i]->names);
+     nfree(config->robot[i]->fromName);
+     nfree(config->robot[i]->helpFile);
+     nfree(config->robot[i]->newAreaRefuseFile);
+     nfree(config->robot[i]->autoCreateFlag);
+     nfree(config->robot[i]->queueFile);
+     nfree(config->robot[i]->reportsFlags);
+   }
+   nfree(config->robot);
 
    for (i = 0; i < config->routeCount; i++) nfree(config->route[i].pattern);
    nfree(config->route);
@@ -721,7 +741,6 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->fileArcList);
    nfree(config->filePassList);
    nfree(config->fileDupeList);
-   nfree(config->newAreaRefuseFile);
    nfree(config->advStatisticsFile);
    nfree(config->loglevels);
    nfree(config->screenloglevels);
@@ -792,7 +811,6 @@ void disposeConfig(s_fidoconfig *config)
    }
 
    nfree(config->netmailFlag);
-   nfree(config->aacFlag);
    nfree(config->notValidFNChars);
 
    nfree(config);

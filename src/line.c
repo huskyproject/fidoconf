@@ -102,6 +102,7 @@ char CommentChar = '#';
 int _carbonrule = CC_AND;
 
 static s_link linkDefined;
+static ps_robot curRobot = NULL; /* current robot */
 
 int fc_copyString(char *str, char **pmem)
 {
@@ -204,6 +205,13 @@ int parseVersion(char *token, s_fidoconfig *config)
    config->cfgVersionMinor = atoi(buffer);
 
    return 0;
+}
+
+#define checkRobot() if (!curRobot) printRobotError();
+void printRobotError(void)
+{
+  prErr( "Keyword %s must appear inside robot section!", actualKeyword);
+  exit(EX_CONFIG);
 }
 
 void printLinkError(void)
@@ -1241,6 +1249,7 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
    unsigned int rc = 0, i,j;
    int toklen;
    grp_t *group;
+   e_pauses aType = area->areaType;
 
    if (token == NULL) {
       prErr("There are parameters missing after %s!", actualKeyword);
@@ -1268,10 +1277,9 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
        /*             perhaps other settings*/
        /*             allways an useAka     */
    } else { /* netmail - don't copy defaults */
-       e_pauses aType = area->areaType;
        memset(area, 0, sizeof(s_area));
-       area->areaType = aType;
    }
+   area->areaType = aType;
 
    tok = strtok(token, " \t");
    if (tok == NULL) {
@@ -4127,6 +4135,9 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseFlavour(getRestOfLine(),
                               &(getDescrLink(config)->fileEchoFlavour));
             break;
+        case ID_ROBOT:
+            curRobot = getRobot(config, getRestOfLine(), 1);
+            break;
         case ID_ROUTE:
             rc = parseRoute(getRestOfLine(), config, &(config->route),
                             &(config->routeCount), id_route);
@@ -4158,11 +4169,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_RECODEMSGBASE:
             rc = parseBool (getRestOfLine(), &config->recodeMsgBase);
             break;
-        case ID_AREAFIXHELP:
-            rc = parseFileName(getRestOfLine(), &(config->areafixhelp), NULL);
-            break;
-        case ID_FILEFIXHELP:
-            rc = parseFileName(getRestOfLine(), &(config->filefixhelp), NULL);
+        case ID_HELPFILE:
+            checkRobot();
+            rc = parseFileName(getRestOfLine(), &(curRobot->helpFile), NULL);
             break;
         case ID_FORWARDREQUESTFILE:
             rc = parseFileName(getRestOfLine(),
@@ -4302,27 +4311,26 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AREAFIXFROMPKT:
             rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
             break;
-        case ID_AREAFIXQUEUEFILE:
-            rc = parseFileName(getRestOfLine(), &(config->areafixQueueFile), NULL);
+        case ID_QUEUEFILE:
+            checkRobot();
+            rc = parseFileName(getRestOfLine(), &(curRobot->queueFile), NULL);
             break;
-        case ID_AREAFIXREPORTSATTR:
+        case ID_REPORTSATTR:
             if (config->describeLinkDefaults || config->linkCount) {
                  s_link *link = getDescrLink(config);
                  rc = parseAttr(getRestOfLine(), &(link->areafixReportsFlags), &(link->areafixReportsAttr));
             }
-            else rc = parseAttr(getRestOfLine(), &(config->areafixReportsFlags), &(config->areafixReportsAttr));
+            else {
+              checkRobot();
+              rc = parseAttr(getRestOfLine(), &(curRobot->reportsFlags), &(curRobot->reportsAttr));
+            }
             break;
-        case ID_AREAFIXKILLREQUESTS:
-            rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));
+        case ID_KILLREQUESTS:
+            checkRobot();
+            rc = parseBool(getRestOfLine(), &(curRobot->killRequests));
             break;
         case ID_AREAFIXQUERYREPORTS:
             rc = parseBool(getRestOfLine(), &(config->areafixQueryReports));
-            break;
-        case ID_FILEFIXREPORTSATTR:
-            rc = parseAttr(getRestOfLine(), &(config->filefixReportsFlags), &(config->filefixReportsAttr));
-            break;
-        case ID_FILEFIXKILLREQUESTS:
-            rc = parseBool(getRestOfLine(), &(config->filefixKillRequests));
             break;
         case ID_CREATEDIRS:
             rc = parseBool(getRestOfLine(), &(config->createDirs));
@@ -4585,11 +4593,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_NETMAILFLAG:
             rc = fc_copyString(getRestOfLine(), &(config->netmailFlag));
             break;
-        case ID_AUTOAREACREATEFLAG:
-            rc = fc_copyString(getRestOfLine(), &(config->aacFlag));
-            break;
-        case ID_AUTOFILECREATEFLAG:
-            rc = fc_copyString(getRestOfLine(), &(config->afcFlag));
+        case ID_AUTOCREATEFLAG:
+            checkRobot();
+            rc = fc_copyString(getRestOfLine(), &(curRobot->autoCreateFlag));
             break;
         case ID_MINDISKFREESPACE:
             rc = parseNumber(getRestOfLine(), 10, &(config->minDiskFreeSpace));
@@ -4606,11 +4612,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_ADVISORYLOCK:
             rc = parseUInt(getRestOfLine(), &(config->advisoryLock));
             break;
-        case ID_AREAFIXNAMES:
-            rc = fc_copyString(getRestOfLine(), &(config->areafixNames));
-            break;
-        case ID_FILEFIXNAMES:
-            rc = fc_copyString(getRestOfLine(), &(config->filefixNames));
+        case ID_NAMES:
+            checkRobot();
+            rc = fc_copyString(getRestOfLine(), &(curRobot->names));
             break;
         case ID_REQIDXDIR:
             rc = parsePath(getRestOfLine(), &(config->reqidxDir), NULL);
@@ -4716,13 +4720,12 @@ int parseLine(char *line, s_fidoconfig *config)
             config->fileAreaCreatePerms = dec2oct(config->fileAreaCreatePerms);
             break;
         case ID_NEWAREAREFUSEFILE:
-            rc = fc_copyString(getRestOfLine(), &(config->newAreaRefuseFile));
+            checkRobot();
+            rc = fc_copyString(getRestOfLine(), &(curRobot->newAreaRefuseFile));
             break;
-        case ID_AREAFIXFROMNAME:
-            rc = fc_copyString(getRestOfLine(), &(config->areafixFromName));
-            break;
-        case ID_FILEFIXFROMNAME:
-            rc = fc_copyString(getRestOfLine(), &(config->filefixFromName));
+        case ID_FROMNAME:
+            checkRobot();
+            rc = fc_copyString(getRestOfLine(), &(curRobot->fromName));
             break;
         case ID_SEQDIR:
             rc = parsePath(getRestOfLine(), &(config->seqDir), NULL);

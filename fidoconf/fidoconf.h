@@ -443,6 +443,21 @@ typedef struct anndef /* announce definition */
   unsigned  annfrfrom;   /* announce address of system which file recived from */
 } s_anndef, *ps_anndef;
 
+typedef struct robot {
+   char *name;              /* name of the robot, "*" for default */
+   ps_area        *areas;     /* pointer to pointer to areas list */
+   unsigned int   *areaCount; /* pointer to areas count */
+   char *names;             /* (was: areafixNames) */
+   char *fromName;          /* robot from: name (was: areafixFromName) */
+   char *helpFile;          /* help file (was: areafixhelp ) */
+   char *newAreaRefuseFile; /* refuse to create areas from this list */
+   char *autoCreateFlag;    /* auto-create flag (was: a[af]cFlag) */
+   char *queueFile;         /* queue (was: areafixQueueFile) */
+   long reportsAttr;        /* report's attrs (was: areafixReportsAttr) */
+   char *reportsFlags;      /* report's ext attrs (was: areafixReportsFlags) */
+   unsigned int killRequests; /* (was: areafixKillRequests)*/
+} s_robot, *ps_robot;
+
 typedef struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop, *email;
@@ -458,7 +473,7 @@ typedef struct fidoconfig {
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
-   char     *magic, *areafixhelp, *filefixhelp, *tempOutbound, *ticOutbound;
+   char     *magic, *tempOutbound, *ticOutbound;
    char     *tempDir;         /* Common temporary files directory */
    char     *fileAreaBaseDir;
    char     *passFileAreaDir; /* Passthrough File Area */
@@ -467,7 +482,6 @@ typedef struct fidoconfig {
    char     *loglevels, *screenloglevels;
    char     *hptPerlFile;
    char     *advStatisticsFile;
-   char     *newAreaRefuseFile, *newFileAreaRefuseFile;
    unsigned int fileAreaCreatePerms;
 
    s_area   dupeArea, badArea;
@@ -484,6 +498,9 @@ typedef struct fidoconfig {
 
    s_area  EchoAreaDefault;
    s_area  FileAreaDefault;
+
+   unsigned int   robotCount;
+   ps_robot *robot;
 
    unsigned int   routeCount;
    ps_route route;
@@ -518,17 +535,12 @@ typedef struct fidoconfig {
    unsigned int  remapCount;
    ps_remap remaps;
 
-   unsigned int areafixFromPkt, areafixKillRequests;
+   unsigned int areafixFromPkt;
    unsigned int areafixMsgSize, areafixQueryReports;
-   long areafixReportsAttr;
-   char *areafixReportsFlags;
-   char *areafixFromName;
-   char *filefixFromName;
    unsigned int forwardRequestTimeout;
    unsigned int killedRequestTimeout;
    int idlePassthruTimeout;
    char *areafixSplitStr, *areafixOrigin, *robotsArea;
-   char *areafixQueueFile, *filefixQueueFile;
    unsigned int autoAreaPause;
 
    char     **PublicGroup;
@@ -553,9 +565,6 @@ typedef struct fidoconfig {
    unsigned int longDirNames, splitDirs;
 
    unsigned int addDLC, fileSingleDescLine, fileCheckDest;
-   unsigned int filefixKillRequests;
-   long filefixReportsAttr;
-   char *filefixReportsFlags;
    e_nameCaseConvertion convertLongNames, convertShortNames;
 
    unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
@@ -611,14 +620,10 @@ typedef struct fidoconfig {
    unsigned int filelistCount;
 
    char *netmailFlag;
-   char *aacFlag;
-   char *afcFlag;
 
    unsigned int minDiskFreeSpace;
    unsigned int advisoryLock;
 
-   char *areafixNames;
-   char *filefixNames;
    char *reqidxDir;         /* directory for herp request index files */
 
    int syslogFacility;     /* facility to use when logging via syslog */

@@ -871,3 +871,23 @@ hs_addr *SelectPackAka(s_link *link)
  else
    return &(link->hisAka);
 }
+
+s_robot *getRobot(ps_fidoconfig config, char *name, int create)
+{
+  s_robot *r, *def = NULL;
+  int i;
+
+  if (sstricmp(name, "default") == 0) name = "*";
+  for (i = 0; i < config->robotCount; i++) {
+    if (sstricmp(config->robot[i]->name, "*") == 0) def = config->robot[i];
+    if (sstricmp(config->robot[i]->name, name) == 0) return config->robot[i];
+  }
+  if (create) {
+    r = (s_robot*)smalloc(sizeof(s_robot));
+    if (def) memcpy(r, def, sizeof(*r)); else memset(r, 0, sizeof(*r));
+    r->name = sstrdup(name);
+    config->robot = srealloc(config->robot, sizeof(ps_robot)*(config->robotCount+1));
+    return (config->robot[ config->robotCount++ ] = r);
+  }
+  return NULL;
+}
