@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <regex.h>
+// #include <regex.h>
 
 #include "fidoconfig.h"
 
-//#define USEREGEXP 1
+// #define USEREGEXP 1
 
 #define ADDREXPRESSION "[0-9]{1,5}:[0-9]{1,5]/[0-9]{1,5}(\\.[0-9]{0,5})?(@[a-z\\.])?"
 

@@ -1,12 +1,12 @@
 # sample fido config file
 
 version 0.13
-Name LeeteBrok BBS III
-Location Paderborn, GER
-Sysop Matthias Tichy
+Name armageddon
+Location ekaterinburg, ural, russia
+Sysop john chertihin
 
-Address 2:2433/1247 
-Address 2:2432/601.29
+Address 2:5080/81
+Address 2:5080/5.81
 
 Link Dirk Fischer
 Aka 2:2432/601
@@ -38,7 +38,7 @@ NetmailArea NetmailArea /home/mtt/fido/msgb/netmail
 BadArea     BadArea     /home/mtt/fido/msgb/bad squish
 DupeArea    DupeArea    /home/mtt/fido/msgb/dupe squish
 
-EchoArea 2432.Points      /home/mtt/fido/msgb/2432/points       -a 2:2432/601.29  Squish 2:2432/601 -noDC -p 14
+EchoArea 2432.Points      /home/mtt/fido/msgb/2432/points       -a 2:2432/601.29  Squish 2:2432/601 -p 14
 EchoArea 2432.Talk        /home/mtt/fido/msgb/2432/talk         -a 2:2432/601.29  Squish 2:2432/601 -p 14
 EchoArea C_ECHO.ger       /home/mtt/fido/msgb/c_echo_g          -a 2:2432/601.29  Squish 2:2432/601 -p 14
 EchoArea C_PLUSPLUS.ger   /home/mtt/fido/msgb/c_plpl_g          -a 2:2432/601.29  Squish 2:2432/601 -p 14
