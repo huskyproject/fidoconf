@@ -1,0 +1,83 @@
+# $Id$
+# Makefile to build FIDOCONF/OS2 with gcc 3.x.x from EMX v0.9d.
+# No support for the Husky build environment.
+
+# include Husky-Makefile-Config,
+# copy this file from ../../huskybse/huskymak.cfg.emx
+include ../../huskymak.cfg
+
+include makefile.inc
+
+# includes directories
+CINCL	= -I$(H_DIR) -I../../smapi/ -I../../huskylib/
+
+# libraries need to build binary file
+LIBS	= $(TARGETLIB) ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) \
+	  ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)
+
+READMEFILES= ../ChangeLog ../HISTORY ../README.TXT ../VERSION ../INSTALL \
+	     ../TODO ../COPYING
+
+default:
+	@echo Run 'make static' to build static version ($(TARGETLIB))
+	@echo Run 'make programs' to build static version of programs ($(TARGETLIB), $(PROGRAMS))
+	@echo Run 'make all' to build all above
+
+all:	static dll programs
+
+static:	$(TARGETLIB)
+dll:	$(TARGETLIB) $(TARGETDLL)
+programs: $(TARGETLIB) $(PROGRAMS)
+dllprograms: $(TARGETLIB) $(TARGETDLL) $(PROGRAMS)
+
+%$(_OBJ): $(_SRC_DIR)%$(_C)
+	@echo Compiling $<
+	@$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $(OPTCFLAGS) $<
+
+$(TARGETLIB):	$(OBJS)
+	@echo Create $(TARGETLIB)
+	@$(AR) $(AR_R) $@ $?
+
+$(TPARSER):  $(TPAROBJ)
+	@echo Create $(TPARSER)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+
+$(LINKED):   $(LINKOBJ)
+	@echo Create $(LINKED)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+
+$(FC2AED):   $(AEDOBJ)
+	@echo Create $(FC2AED)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+
+$(FC2BINKD): $(BINKOBJ)
+	@echo Create $(FC2BINKD)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+
+$(FC2FGATE): $(FGATEOBJ)
+	@echo Create $(FC2FGATE)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+
+$(FC2GED):   $(GEDOBJ)
+	@echo Create $(FC2GED)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+
+$(FC2MSGED): $(MSGEDOBJ)
+	@echo Create $(FC2MSGED)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+
+$(FC2SQ):    $(SQOBJ)
+	@echo Create $(FC2SQ)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $< $(LIBS)
+
+$(FC2TOR): $(TOROBJ)
+	@echo Create $(FC2TOR)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $^ $(LIBS)
+
+$(FECFG2FC): $(FEOBJ)
+	@echo Create $(FECFG2FC)
+	@$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(EXENAMEFLAG) $@ $^ $(LIBS)
+
+$(TARGETDLL):	$(OBJS)
+	@echo Create $(TARGETDLL)
+	@$(CC) $(DLLOPT) $(CFLAGS) $(EXENAMEFLAG)$@ $^ $(LIBS)
