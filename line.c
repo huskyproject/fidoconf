@@ -3725,6 +3725,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AUTOFILECREATESUBDIRS:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->autoFileCreateSubdirs));
             break;
+		case ID_ADVISORYLOCK:
+			rc = parseBool(getRestOfLine(), &(config->advisoryLock));
+			break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

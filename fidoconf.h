@@ -161,8 +161,6 @@ typedef struct link {
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;
 
-                                       
-
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;
@@ -376,11 +374,6 @@ typedef struct fidoconfig {
 
    unsigned int   routeCount;
    ps_route route;
-// remove after 03-Apr-01
-//   unsigned int   routeFileCount;
-//   ps_route routeFile;
-//   unsigned int   routeMailCount;
-//   ps_route routeMail;
 
    unsigned int   packCount;
    ps_pack  pack;
@@ -425,9 +418,7 @@ typedef struct fidoconfig {
    unsigned int disableTID;
 
    char *afterUnpack, *beforePack;
-   /* +AS+ */
    char *processPkt;
-   /* -AS- */
 
    unsigned int createDirs;
    unsigned int longDirNames, splitDirs;
@@ -488,7 +479,8 @@ typedef struct fidoconfig {
    char *netmailFlag;
    char *aacFlag;
 
-   unsigned minDiskFreeSpace;
+   unsigned int minDiskFreeSpace;
+   unsigned int advisoryLock;
 
 } s_fidoconfig, *ps_fidoconfig;
 

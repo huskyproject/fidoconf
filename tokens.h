@@ -239,7 +239,8 @@ enum {
     ID_CARBONFROMAREA,
     ID_CARBONGROUPS,
     ID_AUTOAREACREATESUBDIRS,
-    ID_AUTOFILECREATESUBDIRS
+    ID_AUTOFILECREATESUBDIRS,
+	ID_ADVISORYLOCK
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -254,6 +255,7 @@ token_t parseline_tokens[] =
     { "address", ID_ADDRESS },
     { "addtoseen", ID_ADDTOSEEN },
     { "advancedareafix", ID_ADVANCEDAREAFIX },
+	{ "advisorylock", ID_ADVISORYLOCK },
     { "afterunpack", ID_AFTERUNPACK },
     { "aka", ID_AKA },
     { "allowemptypktpwd", ID_ALLOWEMPTYPKTPWD },
