@@ -31,7 +31,7 @@ CDEFS	=
 # common compiler options
 CFLAGS	= -Wno-long-long -Wall -O3 -fomit-frame-pointer -fstrength-reduce -mcpu=i486
 # includes directories
-CINCL	= -I../fidoconf/ -I../../smapi/ -I../../huskylib/
+CINCL	= -I../../smapi/ -I../../huskylib/
 # options for compile only (link is off)
 OBJOPT	= -c
 # options for build static library
@@ -46,7 +46,7 @@ ARFLAGS	= rs
 RMFLAGS	=
 
 _SRC_DIR=../src/
-
+H_DIR	=../fidoconf/
 
 ## Library filename elements ##
 
