@@ -1,3 +1,11 @@
+2003-11-12 Wednesday 15:44  mche
+
+	* src/line.c (1.21): fixed core on empty origin
+
+2003-11-11 Tuesday 20:10  i_zkh
+
+	* doc/config (1.20): Fixed link definations
+
 2003-11-01 Saturday 22:06  i_zkh
 
 	* doc/: fidoconfig.texi (1.25), rus/fidoconfig.texi (1.4): Minor
