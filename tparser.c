@@ -769,6 +769,27 @@ void printCarbons(s_fidoconfig *config) {
     }
 }
 
+/* Output remaps
+ * This code merged from -current
+ */
+void printRemaps(s_fidoconfig *config)
+{
+    unsigned i;
+    char *temp;
+
+    printf("\n=== Remap config ===\n");
+    for( i=0; i<config->remapCount; i++ ){
+      printf( "Remap %s,%s,",
+              sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "",
+              (temp=aka2str5d(config->remaps[i].oldaddr))
+            );
+      nfree(temp);
+      puts( (temp=aka2str5d(config->remaps[i].newaddr)) );
+      nfree(temp);
+    }
+}
+
+
 static int dumpcfg(char *fileName)
 {
    char *line;
@@ -1103,6 +1124,9 @@ int main(int argc, char **argv) {
 
         if(config->carbonCount)
            printCarbons(config);
+
+        if(config->remapCount)
+           printRemaps(config);
 
         printf("\n=== ROUTE CONFIG ===\n");
         for (i = 0; i < config->routeCount; i++) {
