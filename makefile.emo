@@ -1,0 +1,44 @@
+CC=	gcc
+CFLAGS=	-pedantic -Zomf
+CDEFS=	-DOS2
+COPT=	-O2 -I../smapi
+LOPT=    -L../smapi
+
+LIBS=  fidoconfig.lib 
+SMLIB= ../smapi/smapiemo.lib
+
+HDRS=  common.h \
+       dir.h \
+       fidoconfig.h \
+       patmat.h \
+       typesize.h 
+
+OBJS=  patmat.obj \
+       line.obj \
+       fidoconfig.obj \
+       dir.obj \
+       common.obj
+
+all:	fidoconfig.lib fconf2msged.exe fconf2golded.exe tparser.exe
+
+fidoconfig.lib: $(OBJS)
+	emxomfar rcv $(LIBS) $(OBJS)
+
+fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
+
+fconf2golded.exe: $(LIBS) $(HDRS) fconf2golded.c
+
+tparser.exe: $(LIBS) $(HDRS) tparser.c
+
+# Thunderbirds are go!
+
+clean:
+	del $(OBJS)
+	del fidoconf.bak
+	del fconf2golded.obj fconf2msged.obj fconf2golded.exe fconf2msged.exe tparser.obj tparser.exe
+
+%.obj: %.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
+
+%.exe: %.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) $(LOPT) $< -lfidoconfig -lsmapiemo
