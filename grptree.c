@@ -90,7 +90,7 @@ int addPatternListToGrpTree(char *grpname, char *plist)
     pattern = strtok(plist, " \t,");
     if (pattern) {
         addPatternToGrpTree(grpname, pattern);
-        while(pattern = strtok(NULL, " \t,"))
+        while((pattern = strtok(NULL, " \t,")))
             addPatternToGrpTree(grpname, pattern);
     }
     nfree(plist_tmp);

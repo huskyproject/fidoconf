@@ -1533,7 +1533,9 @@ char *makeFileBoxName (ps_fidoconfig config, s_link *link)
 void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path)
 {
     const char *start, *tmp, *add;
+#ifdef __NT__
     char *p;
+#endif
     char fullarch[256];
     char fullpath[256];
 
