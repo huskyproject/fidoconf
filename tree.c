@@ -34,16 +34,7 @@
 
 unsigned long tr_count;
 
-void tree_init(ppr_tree)
-tree	**ppr_tree;
-{
-	ENTER("tree_init")
-	*ppr_tree = NULL;
-	EXITV
-}
-	
-
-char *tree_srch(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_user)
+char *tree_srch_real(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_user)
 {
 	register int	i_comp;
 
@@ -53,13 +44,13 @@ char *tree_srch(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_us
 	{
 		i_comp = (*pfi_compare)(pc_user, (**ppr_tree).tree_p);
 		if (i_comp > 0)
-			EXIT(tree_srch(
+			EXIT(tree_srch_real(
 				&(**ppr_tree).tree_r,
 				pfi_compare,
 				pc_user
 			))
 		if (i_comp < 0)
-			EXIT(tree_srch(
+			EXIT(tree_srch_real(
 				&(**ppr_tree).tree_l,
 				pfi_compare,
 				pc_user
@@ -75,13 +66,19 @@ char *tree_srch(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_us
 	EXIT(NULL)
 }
 
+char *tree_srch(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_user)
+{
+    return (char *)tree_srch_real(&(**ppr_tree).tree_r, pfi_compare, pc_user);
+}
+
 /*  return value = 1 new item added */
 /*  return value = 0 item was replased */
 static int sprout(tree **ppr, char *pc_data, int *pi_balance,
-		   int (*pfi_compare)(char *, char *), int (*pfi_delete)(char *))
+                  int (*pfi_compare)(char *, char *), int (*pfi_delete)(char *),
+                  char need_balance)
 {
 	tree	*p1, *p2;
-	int	cmp;
+        int	cmp;
    int   nRet;
 	ENTER("sprout")
 
@@ -95,7 +92,9 @@ static int sprout(tree **ppr, char *pc_data, int *pi_balance,
 		(*ppr)->tree_r = NULL;
 		(*ppr)->tree_b = 0;
 		(*ppr)->tree_p = pc_data;
-		*pi_balance = TRUE;
+                (*ppr)->need_b = need_balance;
+                if (pi_balance)
+                    *pi_balance = need_balance;
 		EXIT(1)
 	}
 
@@ -108,7 +107,7 @@ static int sprout(tree **ppr, char *pc_data, int *pi_balance,
 	if (cmp < 0) {
 		PRMSG("LESS. sprouting left.")
 		nRet = sprout(&(*ppr)->tree_l, pc_data, pi_balance,
-			pfi_compare, pfi_delete);
+			pfi_compare, pfi_delete, need_balance);
 		if (*pi_balance) {	/* left branch has grown longer */
 			PRMSG("LESS: left branch has grown")
 			switch ((*ppr)->tree_b)
@@ -166,7 +165,7 @@ static int sprout(tree **ppr, char *pc_data, int *pi_balance,
 	if (cmp > 0) {
 		PRMSG("MORE: sprouting to the right")
 		nRet = sprout(&(*ppr)->tree_r, pc_data, pi_balance,
-			pfi_compare, pfi_delete);
+			pfi_compare, pfi_delete, need_balance);
 		if (*pi_balance) {	/* right branch has grown longer */
 			PRMSG("MORE: right branch has grown")
 
@@ -227,19 +226,25 @@ static int sprout(tree **ppr, char *pc_data, int *pi_balance,
 	EXIT(0)
 }
 
-
-int tree_add(tree **ppr_tree, int (*pfi_compare)(char *, char *),
-	      char *pc_user, int (*pfi_delete)(char *))
+int tree_add_real(tree **ppr_tree, int (*pfi_compare)(char *, char *),
+	      char *pc_user, int (*pfi_delete)(char *), char need_balance)
 {
 	/* int	sprout(); */
-	int	i_balance = FALSE;
-   int   nRet = 0;
+    int	i_balance = FALSE;
+    int   nRet = 0;
 
-	ENTER("tree_add")
-	nRet = sprout(ppr_tree, pc_user, &i_balance, pfi_compare, pfi_delete);
-	EXIT(nRet)
+    ENTER("tree_add")
+    nRet = sprout(ppr_tree, pc_user, &i_balance, pfi_compare, pfi_delete,
+                  need_balance);
+    EXIT(nRet)
 }
 
+int tree_add(tree **ppr_tree, int (*pfi_compare)(char *, char *),
+              char *pc_user, int (*pfi_delete)(char *))
+{
+    tree_add_real(&(**ppr_tree).tree_r, pfi_compare, pc_user, pfi_delete,
+                 (**ppr_tree).need_b);
+}
 
 static void balanceR(tree **ppr_p, int *pi_balance)
 {
@@ -442,7 +447,7 @@ static int delete(tree **ppr_p, int (*pfi_compare)(char *, char *), char *pc_use
 }
 
 
-int tree_delete(tree **ppr_p, int (*pfi_compare)(char *, char *), char *pc_user, int (*pfi_uar)(char *))
+int tree_delete_real(tree **ppr_p, int (*pfi_compare)(char *, char *), char *pc_user, int (*pfi_uar)(char *))
 {
 	int	i_balance = FALSE, i_uar_called = FALSE;
 
@@ -451,8 +456,12 @@ int tree_delete(tree **ppr_p, int (*pfi_compare)(char *, char *), char *pc_user,
 				&i_balance, &i_uar_called))
 }
 
+int tree_delete(tree **ppr_p, int (*pfi_compare)(char *, char *), char *pc_user, int (*pfi_uar)(char *))
+{
+    return tree_delete_real(&(**ppr_p).tree_r, pfi_compare, pc_user, pfi_uar);
+}
 
-int tree_trav(tree **ppr_tree, int (*pfi_uar)(char *))
+int tree_trav_real(tree **ppr_tree, int (*pfi_uar)(char *))
 {
 	ENTER("tree_trav")
 
@@ -468,20 +477,29 @@ int tree_trav(tree **ppr_tree, int (*pfi_uar)(char *))
 	EXIT(TRUE)
 }
 
+int tree_trav(tree **ppr_tree, int (*pfi_uar)(char *))
+{
+    return tree_trav_real(&(**ppr_tree).tree_r, pfi_uar);
+}
 
-void tree_mung(tree **ppr_tree, int (*pfi_uar)(char *))
+void tree_mung_real(tree **ppr_tree, int (*pfi_uar)(char *))
 {
 	ENTER("tree_mung")
 	if (*ppr_tree)
 	{
-		tree_mung(&(**ppr_tree).tree_l, pfi_uar);
-		tree_mung(&(**ppr_tree).tree_r, pfi_uar);
+		tree_mung_real(&(**ppr_tree).tree_l, pfi_uar);
+		tree_mung_real(&(**ppr_tree).tree_r, pfi_uar);
 		if (pfi_uar)
 			(*pfi_uar)((**ppr_tree).tree_p);
 		nfree(*ppr_tree);
 /* 		*ppr_tree = NULL; */
 	}
 	EXITV
+}
+
+void tree_mung(tree **ppr_tree, int (*pfi_uar)(char *))
+{
+    tree_mung_real(&(**ppr_tree).tree_r, pfi_uar);
 }
 
 int countEach(char *pc_data)
@@ -491,11 +509,16 @@ int countEach(char *pc_data)
    EXIT(TRUE)
 }
 
-unsigned long tree_count(tree **ppr_tree)
+unsigned long tree_count_real(tree **ppr_tree)
 {
    tr_count = 0;
    tree_trav(ppr_tree, countEach);
    return tr_count;
+}
+
+unsigned long tree_count(tree **ppr_tree)
+{
+    return tree_count_real(&(**ppr_tree).tree_r);
 }
 
 int tree_srchall(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_user)
@@ -507,9 +530,17 @@ int tree_srchall(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_u
 
 	if (!tree_srchall(&(**ppr_tree).tree_l, pfi_compare, pc_user))
 		EXIT(FALSE)
-	if (!(*pfi_compare)((**ppr_tree).tree_p, pc_user))
+	if (!(*pfi_compare)(pc_user, (**ppr_tree).tree_p))
 		EXIT(FALSE)
 	if (!tree_srchall(&(**ppr_tree).tree_r, pfi_compare, pc_user))
 		EXIT(FALSE)
 	EXIT(TRUE)
+}
+
+void tree_init(tree **ppr_tree, char need_balance)
+{
+	ENTER("tree_init")
+        *ppr_tree = NULL;
+        sprout(ppr_tree, NULL, NULL, NULL, NULL, need_balance);
+	EXITV
 }

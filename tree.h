@@ -12,12 +12,13 @@ typedef	struct	tree_s
 	{
 		struct	tree_s	*tree_l, *tree_r;
 		short		tree_b;
-		char		*tree_p;
+                char		*tree_p;
+                char            need_b;
 	}
 	tree;
 
 
-FCONF_EXT void tree_init(tree **ppr_tree);
+FCONF_EXT void tree_init(tree **ppr_tree, char need_balance);
 
 FCONF_EXT char *tree_srch(tree **ppr_tree, int (*pfi_compare)(char *, char *),char * pc_user);
 

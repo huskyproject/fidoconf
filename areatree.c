@@ -102,7 +102,10 @@ int    RebuildEchoAreaTree(ps_fidoconfig config)
 {
     unsigned int i = 0;
 
-    tree_mung(&echoAreaTree, fc_deleteEntry);
+    if (echoAreaTree)
+        tree_mung(&echoAreaTree, fc_deleteEntry);
+    tree_init(&echoAreaTree, 1);
+
     for (i=0; i < config->echoAreaCount; i++)
     {
         if ( addAreaToTree(&(config->echoAreas[i])) == 0 )
@@ -127,7 +130,10 @@ int    RebuildFileAreaTree(ps_fidoconfig config)
 {
     unsigned int i = 0;
 
-    tree_mung(&fileAreaTree, fc_deleteEntry);
+    if (fileAreaTree)
+        tree_mung(&fileAreaTree, fc_deleteEntry);
+    tree_init(&fileAreaTree, 1);
+
     for (i=0; i < config->fileAreaCount; i++)
     {
         if ( addFileAreaToTree(&(config->fileAreas[i])) == 0 )
