@@ -191,7 +191,7 @@ int writeBinkdConfig( s_fidoconfig *config, const char *ofname ){
    */
 
   fprintf( ofd, "\n# Define a link:\n"
-          "# node [[z:]n/]n[.p][@domain] [-nr] [{hosts|-} [{pwd|-} [flavour [{obox|-} [{ibox|-}]]]]]"
+          "# node [[z:]n/]n[.p][@domain] [-nr] [{hosts|-} [{pwd|-} [flavour [{obox|-} [{ibox|-}]]]]]\n"
          );
   for( ll=config->linkCount ; ll-- ; ){
     fprintf( ofd, "Node %s * %s %c %s\n",
