@@ -38,7 +38,9 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
-#include <unistd.h>
+#   include <unistd.h>
+#else 
+#   include <io.h>
 #endif
 
 #include "fidoconf.h"
@@ -110,19 +112,27 @@ int testConfig(s_fidoconfig *config){
   return rc;
 }
 
-void printAddr(hs_addr addr)
+void printAddr(ps_addr addr)
 {
-  if (addr.domain != NULL) {
-    if(addr.point) printf(" %d:%d/%d.%d@%s ", addr.zone, addr.net, addr.node, addr.point, addr.domain);
-    else printf(" %d:%d/%d@%s ", addr.zone, addr.net, addr.node, addr.domain);
-  }else{
-    if(addr.point) printf(" %d:%d/%d.%d ", addr.zone, addr.net, addr.node, addr.point);
-    else printf(" %d:%d/%d ", addr.zone, addr.net, addr.node);
-  }
+    if(addr)
+    {
+        
+        if (addr->domain != NULL) {
+            if(addr->point) printf(" %d:%d/%d.%d@%s ",
+                addr->zone, addr->net, addr->node, addr->point, addr->domain);
+            else printf(" %d:%d/%d@%s ",
+                addr->zone, addr->net, addr->node, addr->domain);
+        }else{
+            if(addr->point) printf(" %d:%d/%d.%d ", 
+                addr->zone, addr->net, addr->node, addr->point);
+            else printf(" %d:%d/%d ", 
+                addr->zone, addr->net, addr->node);
+        }
+    }
 }
 
 void printArea(s_area area) {
-   int i;
+   UINT i;
 
    printf("%s \n", area.areaName);
    printf("Description: ");
@@ -138,7 +148,7 @@ void printArea(s_area area) {
    if (area.useAka == NULL)
      printf ("(not configured)");
    else
-     printAddr(*(area.useAka));
+     printAddr(area.useAka);
    printf("\n");
    printf("DOS Style File (8+3) %s\n", (area.DOSFile) ? "on (-dosfile)" : "off (-nodosfile)");
    printf("Level read  (-lr): %d\n", area.levelread);
@@ -185,7 +195,7 @@ void printArea(s_area area) {
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) {
        printf("\t");
-       printAddr(area.downlinks[i]->link->hisAka);
+       printAddr(&(area.downlinks[i]->link->hisAka));
        printf(" level %d,", area.downlinks[i]->link->level);
 /*       printf(" exp. %s,", (area.downlinks[i]->export) ? "on" : "off");
        printf(" imp. %s,", (area.downlinks[i]->import) ? "on" : "off");*/
@@ -219,7 +229,7 @@ void printArea(s_area area) {
 }
 
 void printFileArea(s_filearea area) {
-   int i;
+   UINT i;
 
    printf("%s \n", area.areaName);
    printf("Description: %s\n",(area.description) ? area.description : "");
@@ -232,7 +242,7 @@ void printFileArea(s_filearea area) {
    if (area.useAka == NULL)
      printf ("(not configured)");
    else
-     printAddr(*(area.useAka));
+     printAddr(area.useAka);
    printf("\n");
    printf("Level read  (-lr): %d\n", area.levelread);
    printf("Level write (-lw): %d\n", area.levelwrite);
@@ -253,7 +263,7 @@ void printFileArea(s_filearea area) {
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) {
        printf("\t");
-       printAddr(area.downlinks[i]->link->hisAka);
+       printAddr(&(area.downlinks[i]->link->hisAka));
        printf(" level %d,", area.downlinks[i]->link->level);
        if(area.downlinks[i]->export || area.downlinks[i]->import)
            printf(" "); else printf(" no access");
@@ -351,12 +361,12 @@ static char *cvtFlavour(e_flavour flavour)
 int printLink(s_link link) {
   unsigned int i, rc=0;
 
-   printf("Link: "); printAddr(link.hisAka);
-   printf(" (ourAka "); printAddr(*(link.ourAka));
+   printf("Link: "); printAddr(&(link.hisAka));
+   printf(" (ourAka "); printAddr(link.ourAka);
    printf(")\n");
    if (link.hisPackAka.zone!=0)
    {
-     printf("PackAka: "); printAddr(link.hisPackAka);
+     printf("PackAka: "); printAddr(&(link.hisPackAka));
      printf("\n");
    }
 
@@ -584,7 +594,7 @@ int printLink(s_link link) {
 
 /*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
-	register int i,j,k;
+	UINT i,j,k;
 	int robotsarea_ok=0;
 	s_link *link;
 	s_area *area;
@@ -598,7 +608,7 @@ void checkLogic(s_fidoconfig *config) {
 						   config->links[j].name)!=0) continue;
 
 				printf("ERROR: duplication of link ");
-				printAddr(config->links[i].hisAka);
+				printAddr(&(config->links[i].hisAka));
 				printf("\n");
 				printf("remove it, or change the name!\n");
 				exit(-1);
@@ -609,7 +619,7 @@ void checkLogic(s_fidoconfig *config) {
 			k = open( config->links[i].autoAreaCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
 				printf( "ERROR: link " );
-				printAddr(config->links[i].hisAka);
+				printAddr(&(config->links[i].hisAka));
 				printf( " AutoAreaCreateFile '%s': %s\n",
 					config->links[i].autoAreaCreateFile,
 					strerror(errno) );
@@ -620,7 +630,7 @@ void checkLogic(s_fidoconfig *config) {
 			k = open( config->links[i].autoFileCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
 				printf( "ERROR: link " );
-				printAddr(config->links[i].hisAka);
+				printAddr((&config->links[i].hisAka));
 				printf( " AutoFileCreateFile '%s': %s\n",
 					config->links[i].autoFileCreateFile,
 					strerror(errno) );
@@ -665,7 +675,7 @@ void checkLogic(s_fidoconfig *config) {
 			for (k=j+1;k<area->downlinkCount; k++) {
 				if (link == area->downlinks[k]->link) {
 					printf("ERROR: duplication of link ");
-					printAddr(link->hisAka);
+					printAddr(&(link->hisAka));
 					printf(" in area %s\n", areaName);
 					exit(-1);
 				}
@@ -709,7 +719,7 @@ void checkLogic(s_fidoconfig *config) {
 			for (k=j+1;k<area->downlinkCount; k++) {
 				if (link == area->downlinks[k]->link) {
 					printf("ERROR: duplication of link ");
-					printAddr(link->hisAka);
+					printAddr(&(link->hisAka));
 					printf(" in area %s\n", areaName);
 					exit(-1);
 				}
@@ -753,7 +763,7 @@ void checkLogic(s_fidoconfig *config) {
 			for (k=j+1;k<area->downlinkCount; k++) {
 				if (link == area->downlinks[k]->link) {
 					printf("ERROR: duplication of link");
-					printAddr(link->hisAka);
+					printAddr(&(link->hisAka));
 					printf("in area %s\n", areaName);
 					exit(-1);
 				}
@@ -768,7 +778,7 @@ void checkLogic(s_fidoconfig *config) {
 
 void printCarbons(s_fidoconfig *config) {
 
-    int i;
+    UINT i;
     s_carbon *cb;
     char *crbKey="", *nspc, *cbaName, *tempc=NULL;
 
@@ -869,9 +879,9 @@ void printRemaps(s_fidoconfig *config)
     for( i=0; i<config->remapCount; i++ ){
       printf( "Remap %s,",
             sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "" );
-      printAddr(config->remaps[i].oldaddr);
+      printAddr(&(config->remaps[i].oldaddr));
       putchar(',');
-      printAddr(config->remaps[i].newaddr);
+      printAddr(&(config->remaps[i].newaddr));
       putchar('\n');
     }
 }
@@ -934,38 +944,39 @@ void usage()
 
 int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
-   int i, j, hpt=0, preproc=0, rc=0;
+   UINT i, j, hpt=0, preproc=0, rc=0;
+   int k;
    char *cfgFile=NULL, *module;
 
    printf("%s\n\n", module = GenVersionStr( "tparser", VER_MAJOR, VER_MINOR,
 				VER_PATCH, VER_BRANCH, cvs_date ));
    nfree(module); /* used as a temporary variable */
 
-   for (i=1; i<argc; i++)
+   for (k=1; k<argc; k++)
    {
-       if (argv[i][0]!='-'){  /* is not option */
+       if (argv[k][0]!='-'){  /* is not option */
            if(cfgFile)
              usage();
            else
-             xstrcat(&cfgFile, argv[i]);
-       }else if (argv[i][1]=='D') {       /* -Dvar=value */
-           char *p=strchr(argv[i], '=');
+             xstrcat(&cfgFile, argv[k]);
+       }else if (argv[k][1]=='D') {       /* -Dvar=value */
+           char *p=strchr(argv[k], '=');
            if (p) {
                *p='\0';
-               setvar(argv[i]+2, p+1);
+               setvar(argv[k]+2, p+1);
                *p='=';
            } else {
-               setvar(argv[i]+2, "");
+               setvar(argv[k]+2, "");
            }
        }
-       else if (argv[i][1]=='E') {        /* -E */
+       else if (argv[k][1]=='E') {        /* -E */
            preproc = 1;
        }
-       else if (argv[i][1]=='P') {        /* -P */
+       else if (argv[k][1]=='P') {        /* -P */
            fc_trycreate = 1;
        }
-       else if (stricmp(argv[i], "--help") == 0 ||
-                argv[i][1] == 'h' ||
+       else if (stricmp(argv[k], "--help") == 0 ||
+                argv[k][1] == 'h' ||
                 cfgFile != NULL) {
            usage();
 	   return 0;
@@ -1229,12 +1240,12 @@ int main(int argc, char **argv) {
                  printf("AnnFrom   : %s\n",config->AnnDefs[i].annfrom);
               if(config->AnnDefs[i].annaddrto) {
                  printf("AnnAddrTo : ");
-                 printAddr(*(config->AnnDefs[i].annaddrto));
+                 printAddr(config->AnnDefs[i].annaddrto);
                  printf("\n");
               }
               if(config->AnnDefs[i].annaddrfrom) {
                  printf("AnnAddrFrom: ");
-                 printAddr(*(config->AnnDefs[i].annaddrfrom));
+                 printAddr(config->AnnDefs[i].annaddrfrom);
                  printf("\n");
               }
               if(config->AnnDefs[i].annsubj)
@@ -1243,7 +1254,7 @@ int main(int argc, char **argv) {
                  printf( "AnnOrigin : %s\n          \" * Origin: %s (",
                          config->AnnDefs[i].annorigin,
                          config->AnnDefs[i].annorigin );
-                 printAddr(*(config->AnnDefs[i].annaddrfrom));
+                 printAddr(config->AnnDefs[i].annaddrfrom);
                  printf(")\"\n");
               }
               if(config->AnnDefs[i].annorigin)
@@ -1335,7 +1346,7 @@ int main(int argc, char **argv) {
         for (i = 0; i < config->routeCount; i++) {
            if (config->route[i].routeVia == 0) {
               printf("Route %s via ", config->route[i].pattern);
-              printAddr( config->route[i].target->hisAka);
+              printAddr( &(config->route[i].target->hisAka));
               printf("\n");
            } else {
   			 printf("Route");
@@ -1407,11 +1418,11 @@ int main(int argc, char **argv) {
         printf("\n=== UNPACK CONFIG ===\n");
         for (i = 0; i < config->unpackCount; i++) {
            printf("UnPacker:  Call: %s Offset %d Match code ", config->unpack[i].call, config->unpack[i].offset);
-           for (j = 0; j < config->unpack[i].codeSize; j++)
-             printf("%02x", (int) config->unpack[i].matchCode[j]);
+           for (k = 0; k < config->unpack[i].codeSize; k++)
+             printf("%02x", (int) config->unpack[i].matchCode[k]);
            printf(" Mask : ");
-           for (j = 0; j < config->unpack[i].codeSize; j++)
-             printf("%02x", (int) config->unpack[i].mask[j]);
+           for (k = 0; k < config->unpack[i].codeSize; k++)
+             printf("%02x", (int) config->unpack[i].mask[k]);
            printf("\n");
         }
 
