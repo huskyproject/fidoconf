@@ -5,8 +5,8 @@
 CC=wcl386
 EXENAMEFLAG=-fe=
 CDEFS=-DOS2
-COPT=-zq -wx -i=.. -oneatx -5 -c
-LFLAGS=-bt=os2 -l=os2
+COPT=-zq -wx -i=.. -oneatx -5 -c -bt=os2v2
+LFLAGS=-bt=os2v2 -l=os2v2
 
 TPU=.tpu
 OBJ=.obj
@@ -40,7 +40,7 @@ $(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)$(FECFG2FCONF)$(EXE) fecfg2fc$(OBJ)
 
 all: commonlibs commonprogs $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
-	$(NULL)     
+	$(NULL)
 
 clean: commonclean $(SYMBOLIC)
 	$(NULL)
