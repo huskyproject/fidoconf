@@ -1,3 +1,8 @@
+2003-12-23 Tuesday 14:42  val_khokhlov
+
+	* src/fidoconf.c (1.13): ensure string is not null when stripping
+	comments (patch by Andrew Ladutsko)
+
 2003-12-22 Monday 01:52  andr_lukyanov
 
 	* INSTALL (1.17), VERSION (1.8), INSTALL (1.18): Small Fix for
