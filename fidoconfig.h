@@ -107,7 +107,7 @@ struct fidoconfig {
 };
 typedef struct fidoconfig s_fidoconfig;
 
-int parseLine(char *line, s_fidoconfig *config);
+int parseLine(char *line, s_fidoconfig *config, int l);
 
 s_fidoconfig *readConfig();
 

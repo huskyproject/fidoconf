@@ -163,13 +163,17 @@ INT   fgetsUntil0(CHAR *str, int n, FILE *f)
 
 char *stripLeadingChars(char *str, const char *chr)
 {
-   char *i = str;
-
-   while (NULL != strchr(chr, *i)) {       // *i is in chr
-      i++;
-   } /* endwhile */                        // i points to the first occurences
-                                           // of a character not in chr
-   strcpy(str, i);
+   if (str != NULL) {
+      
+      char *i = str;
+    
+      while (NULL != strchr(chr, *i)) {       // *i is in chr
+         i++;
+      } /* endwhile */                        // i points to the first occurences
+                                              // of a character not in chr
+      strcpy(str, i);
+   }
+   
    return str;
 }
 

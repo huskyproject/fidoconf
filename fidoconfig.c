@@ -43,13 +43,15 @@ char *trimLine(char *line)
 void parseConfig(FILE *f, s_fidoconfig *config)
 {
    char *line;
+   int i = 1;
    
    while ((line = readLine(f))) {
       line = trimLine(line);
       if ((line[0] != '#') && (line[0] != 0)) {
          line = shell_expand(line);
-         parseLine(line, config);
+         parseLine(line, config, i);
       }
+      i++;
    }
 }
 
@@ -152,3 +154,4 @@ s_area *getArea(s_fidoconfig *config, char *areaName)
 
    return &(config->badArea); // if all else fails, return badArea :-)
 }
+

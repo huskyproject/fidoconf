@@ -372,7 +372,7 @@ int parseUnpack(char *line, s_fidoconfig *config) {
    
 }
 
-int parseLine(char *line, s_fidoconfig *config)
+int parseLine(char *line, s_fidoconfig *config, int l)
 {
    char *token, *temp;
    int rc = 0;
@@ -441,7 +441,7 @@ int parseLine(char *line, s_fidoconfig *config)
 
    else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
    
-   else printf("Unrecognized line: %s\n", line);
+   else printf("Unrecognized line(%d): %s\n", l, line);
                                                           
    if (rc != 0) {
       printf("Error %d in: %s\n", rc, line);
