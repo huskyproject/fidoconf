@@ -47,7 +47,10 @@ void printArea(s_area area) {
    else if (area.msgbType == MSGTYPE_SQUISH) printf("Squish");
    else printf("Passthrough");
 
-   printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);
+   if (area.useAka->domain != NULL)
+     printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);
+   else
+     printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
    printf("\n");
    printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    printf("Links: ");
@@ -68,9 +71,17 @@ void printArea(s_area area) {
 }
 
 void printLink(s_link link) {
-   printf("Link: %d:%d/%d.%d@%s (ourAddres %d:%d/%d.%d@%s)\n",
-          link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point, link.hisAka.domain,
-          link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point, link.ourAka->domain);
+  if ((link.hisAka.domain != NULL) && (link.ourAka->domain != NULL)) {
+    printf("Link: %d:%d/%d.%d@%s (ourAddres %d:%d/%d.%d@%s)\n",
+	   link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point, link.hisAka.domain,
+	   link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point, link.ourAka->domain);
+  }
+    else
+    {
+      printf("Link: %d:%d/%d.%d (ourAddres %d:%d/%d.%d)\n",
+	   link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point,
+	   link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point);
+    }
    printf("Name: %s\n", link.name);
    printf("defaultPwd: %s\n", link.defaultPwd);
    printf("pktPwd:     %s\n", link.pktPwd);
@@ -78,8 +89,10 @@ void printLink(s_link link) {
    printf("areafixPwd: %s\n", link.areaFixPwd);
    printf("filefixPwd: %s\n", link.fileFixPwd);
    printf("bbsPwd:     %s\n", link.bbsPwd);
+   if (link.TossGrp) printf("TossGrp %s\n",link.TossGrp);
+   if (link.DenyGrp) printf("DenyGrp %s\n",link.DenyGrp);
    if (link.autoAreaCreate) printf("AutoAreaCreate on    ");
-   if (link.AreaFix) printf("AreaFix on\n");
+   if (link.AreaFix) printf("AreaFix on\n"); else printf("AreaFix off\n");
    if (link.packerDef != NULL) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
    
@@ -93,26 +106,28 @@ int main() {
    if (config != NULL) {
       printf("=== MAIN CONFIG ===\n");
       printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
-      printf("Name: %s\n", config->name);
-      printf("Sysop: %s\n", config->sysop);
-      printf("Location: %s\n", config->location);
+      if (config->name != NULL)	printf("Name: %s\n", config->name);
+      if (config->sysop != NULL) printf("Sysop: %s\n", config->sysop);
+      if (config->location != NULL)printf("Location: %s\n", config->location);
       for (i=0; i<config->addrCount; i++) {
          printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
       }
-      printf("Inbound: %s\n", config->inbound);
-      printf("ProtInbound: %s\n", config->protInbound);
-      printf("LocalInbound: %s\n", config->localInbound);
-      printf("ListInbound: %s\n", config->listInbound);
-      printf("Outbound: %s\n", config->outbound);
+      if (config->inbound != NULL) printf("Inbound: %s\n", config->inbound);
+      if (config->protInbound != NULL) printf("ProtInbound: %s\n", config->protInbound);
+      if (config->localInbound != NULL) printf("LocalInbound: %s\n", config->localInbound);
+      if (config->listInbound != NULL) printf("ListInbound: %s\n", config->listInbound);
+      if (config->outbound != NULL) printf("Outbound: %s\n", config->outbound);
+      if (config->tempOutbound != NULL) printf("tempOutbound: %s\n", config->tempOutbound);
       for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->publicDir[i]);
-      printf("NodelistDir: %s\n", config->nodelistDir);
-      printf("DupeHistoryDir: %s\n", config->dupeHistoryDir);
-      printf("LogFileDir: %s\n", config->logFileDir);
-      printf("MsgBaseDir: %s\n", config->msgBaseDir);
-      printf("Magic: %s\n", config->magic);
+      if (config->nodelistDir != NULL) printf("NodelistDir: %s\n", config->nodelistDir);
+      if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir: %s\n", config->dupeHistoryDir);
+      if (config->logFileDir != NULL) printf("LogFileDir: %s\n", config->logFileDir);
+      if (config->msgBaseDir != NULL) printf("MsgBaseDir: %s\n", config->msgBaseDir);
+      if (config->magic != NULL) printf("Magic: %s\n", config->magic);
       printf("\n=== LINKER CONFIG ===\n");
-      printf("LinkWithImportlog: %s\n", config->LinkWithImportlog);
+      if (config->LinkWithImportlog != NULL) printf("LinkWithImportlog: %s\n", config->LinkWithImportlog);
       printf("\n=== LINK CONFIG ===\n");
+      printf("%u links in config\n", config->linkCount);
       for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
       
       printf("\n=== AREA CONFIG ===\n");
