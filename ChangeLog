@@ -1,3 +1,15 @@
+2003-01-14 Tuesday 07:31  mche
+
+	* common.c (1.159): change #if for #ifdef
+
+2003-01-14 Tuesday 06:48  mche
+
+	* line.c (1.367): fix MSVC compilation
+
+2003-01-13 Monday 23:11  d_sergienko
+
+	* Makefile (1.56): make fidoconfig compilable on Solaris
+
 2003-01-13 Monday 14:36  stas_degteff
 
 	* makefile.wcx (1.3): Small fix Watcom C build
