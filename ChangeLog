@@ -1,3 +1,26 @@
+2002-10-29 Tuesday 12:35  stas_degteff
+
+	* xstr.c (1.11), xstr.h (1.6): Add 'const' modifier for string
+	parameters
+
+2002-10-28 Monday 23:52  pgul
+
+	* tparser.c (1.204): Fix previous patch
+
+2002-10-28 Monday 23:24  pgul
+
+	* afixcmd.h (1.12), afixcmn.c (1.19): Change createKludges() args,
+	use new msgid generation method
+
+2002-10-28 Monday 23:09  pgul
+
+	* fidoconf.c (1.90): fix compiler warning
+
+2002-10-28 Monday 23:05  pgul
+
+	* tokens.h (1.53), fidoconf.h (1.147), line.c (1.333), tparser.c
+	(1.203), doc/proposal.texi (1.144): add seqDir and seqOutrun tokens
+
 2002-10-27 Sunday 08:50  pgul
 
 	* fidoconf.c (1.89): fix new groups parsing
