@@ -3782,7 +3782,11 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
             break;
         case ID_AREAFIXORIGIN:
-            rc = copyString(getRestOfLine(), &(config->areafixOrigin));
+            temp = getRestOfLine();
+            if( temp[0] == '"' && temp[strlen(temp)-1] =='"' ) {
+              temp++; temp[strlen(temp)-1]='\0';
+            }
+            rc = copyString(temp, &(config->areafixOrigin));
             break;
         case ID_ROBOTSAREA:
             rc = copyString(getRestOfLine(), &(config->robotsArea));
