@@ -82,7 +82,7 @@ a comment and will be ignored.
 * include::                     include other files
 * address::                     your system address
 
-Path and file definition:
+@c Path and file definition:
 * outbound::                    outbound path
 * tempoutbound::                temporary outbound path
 * inbound::                     inbound path
@@ -103,7 +103,7 @@ Path and file definition:
 * magic::                       path for magic-file requests
 * lockfile::                    file which lock hpt session
 
-link definition:
+@c link definition:
 * link::                        adding a link to your config
 * aka::                         links adress
 * ouraka::                      our aka for link
@@ -135,29 +135,29 @@ link definition:
 * arcmailsize::			size of arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
 
-area definition:
+@c area definition:
 * netmailarea::                 definition of netmailarea
 * badarea::                     definition of badarea
 * dupearea::                    definition of dupearea
 * echoarea::                    definition of echoarea
 * localarea::                   definition of localarea
 
-rights
+@c rights
 * PublicGroup::                 this is a list of groups for public echo acess
 * GroupAutoAreaCreate::         right to autoareaCreate for a group
 * AutoCreateDefaults::          default area options for autocreated areas
 * GroupDefaults::               default area options for GroupAutoAreaCreated areas
 
-packer
+@c packer
 * pack::                        definition for packer
 * unpack::                      definition for unpacker
 
-routing
+@c routing
 * route::                       routing of netmails
 * routeFile::                   routing of netmails with file attached
 * routeMail::                   routing of netmails without file attached
  
-carbon copy
+@c carbon copy
 * carbonTo::                    make carbonCopy using to-field of msg
 * carbonFrom::                  make carbonCopy using from-field of msg
 * carbonKludge::                make carbonCopy using kludge lines of msg
@@ -167,16 +167,17 @@ carbon copy
 * carbonAndQuit::               carbon message only one time
 * carbonKeepSb::                keep seen-by's and path
 
-areafix
+@c areafix
 * areafixFromPkt::              process areafix requests on the fly
 * areafixKillReports::          set kill/sent flag to areafix reports
 * ReportTo::                    set area or netmail for areafix reports
 
-misc:
+@c misc:
 * logEchoToScreen::             set output to screen log information
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
 * defarcmailsize::		default size for arcmail bundle
+* areafixmsgsize::              maximum areafix report size
 
 @end menu
 
@@ -1508,7 +1509,7 @@ If this statement is ommitted. The carbon Copy goes to the badArea.
 This statement can be repeated for each different carbon@{To|From|Kludge@}
 statement.
 
-@node carbonAndQuit, CarbonKeepSb, carbonArea, Keywords
+@node carbonAndQuit, carbonKeepSb, carbonArea, Keywords
 @subsection carbonAndQuit
 @table @asis
 @item Syntax:
@@ -1536,7 +1537,7 @@ For each CC message SEEN-BY's and PATH fields are killed. If you set up
 @code{carbonKeepSb} then all kludges will be saved. But you may also
 set up @code{-keepsb} in options of echoarea where you carbon messages.
 
-@node areafixFromPkt, areafixKillReports, carbonAndQuit, Keywords
+@node areafixFromPkt, areafixKillReports, carbonKeepSb, Keywords
 @subsection areafixFromPkt
 @table @asis
 @item Syntax:
@@ -1603,7 +1604,7 @@ Remap mail to other address.
 
 This statament move echomail for all links to his own directory.
 
-@node defarcmailsize, ,SeparateBundles, Keywords
+@node defarcmailsize, areafixmsgsize, SeparateBundles, Keywords
 @subsection defarcmailsize
 @table @asis
 @item Syntax:
@@ -1614,6 +1615,18 @@ This statament move echomail for all links to his own directory.
 
 default arcmail size in kb for all links.
 500kb if not defined.
+
+@node areafixmsgsize, ,defarcmailsize, Keywords
+@subsection areafixmsgsize
+@table @asis
+@item Syntax:
+@code{areafixmsgsize <integer>}
+@item Example:
+@code{areafixmsgsize 20}
+@end table
+
+this option set up maximum areafix message size (20 kb)
+if not defined, areafix reports will be not splitted...
 
 @node Example,  , Keywords, config file
 @section Working sample config
