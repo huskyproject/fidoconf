@@ -8,7 +8,10 @@ void printArea(s_area area) {
    
    printf("%s \n", area.areaName);
    printf("-> %s\t", area.fileName);
-   if (area.msgbType == MSGTYPE_SDM) printf("SDM"); else printf("Squish");
+   if (area.msgbType == MSGTYPE_SDM) printf("SDM");  
+   else if (area.msgbType = MSGTYPE_SQUISH) printf("Squish");
+   else printf("Passthrough");
+
    printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);
    printf("\n");
    printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);

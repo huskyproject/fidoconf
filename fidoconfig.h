@@ -56,6 +56,7 @@ struct area {
    char noDC, tinySB, manual, hide, noPause;
 
    void *dupes;        // use internally for hpt pointer to dupeDataBase
+   void *newDupes;     // dito
 };
 
 typedef struct area s_area;
