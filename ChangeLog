@@ -1,3 +1,11 @@
+2002-09-09 Monday 11:11  pgul
+
+	* temp.c (1.8): Added HAVE_MKSTEMP option
+
+2002-09-09 Monday 05:20  stas_degteff
+
+	* Makefile (1.49): Syncronise with -stable
+
 2002-09-08 Sunday 11:05  georgi
 
 	* Makefile (1.48): fixed install bug (linkedto and fconf2areasbbs)
