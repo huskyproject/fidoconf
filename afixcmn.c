@@ -32,7 +32,7 @@
  * taken from Su.FidoTech.FAQ [2/3]
  */
 
-//#include <time.h>
+#include <string.h>
 #include <stdlib.h>
 #if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
 #include <unistd.h>
