@@ -453,7 +453,7 @@ char *configline(void)
 }
 
 #if defined (UNIX)
-static int cmpfnames(char *file1, char *file2)
+int cmpfnames(char *file1, char *file2)
 {
     struct stat st1, st2;
     if (stat(file1, &st1) || stat(file2, &st2))
@@ -500,7 +500,7 @@ static int cmpfnames(char *file1, char *file2)
 }
 #elif defined (__DJGPP__)
 #include <dos.h>
-static int cmpfnames(char *file1, char *file2)
+int cmpfnames(char *file1, char *file2)
 {
     char *path1 = NULL, *path2 = NULL;
     int result;
@@ -520,7 +520,7 @@ static int cmpfnames(char *file1, char *file2)
 }
 #elif (defined(MSDOS) || defined(__MSDOS__)) && !defined(__DJGPP__)
 #include <dos.h>
-static int cmpfnames(char *file1, char *file2)
+int cmpfnames(char *file1, char *file2)
 {
     struct REGPACK r;
     char path1[128], path2[128];
@@ -539,7 +539,7 @@ static int cmpfnames(char *file1, char *file2)
     return sstricmp(path1, path2);
 }
 #else /* Unknown OS */
-static int cmpfnames(char *file1, char *file2)
+int cmpfnames(char *file1, char *file2)
 {
     return sstricmp(file1, file2);
 }
