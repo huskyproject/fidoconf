@@ -1,3 +1,12 @@
+2003-08-21 Thursday 18:54  d_sergienko
+
+	* doc/rus/.cvsignore (1.1): added doc/rus/.cvsignore
+
+2003-08-21 Thursday 18:51  d_sergienko
+
+	* doc/rus/: fidoconfig.texi (1.1), proposal.texi (1.1): added
+	russian doc translation from vadim s. sabinich (2:5070/264)
+
 2003-08-18 Monday 18:27  d_sergienko
 
 	* src/fidoconf.c (1.10): add var configdir
