@@ -778,6 +778,24 @@ void printCarbons(s_fidoconfig *config) {
     }
 }
 
+void printRemaps(s_fidoconfig *config)
+{
+    unsigned i;
+    char *temp;
+
+    printf("\n=== Remap config ===\n");
+    for( i=0; i<config->remapCount; i++ ){
+      printf( "Remap %s,%s,",
+              sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "",
+              (temp=aka2str5d(config->remaps[i].oldaddr))
+            );
+      nfree(temp);
+      puts( (temp=aka2str5d(config->remaps[i].newaddr)) );
+      nfree(temp);
+    }
+}
+
+
 static int dumpcfg(char *fileName)
 {
    char *line;
@@ -1025,7 +1043,7 @@ int main(int argc, char **argv) {
         printf("\n=== FILEFIX CONFIG ===\n");
         printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
         printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
-        
+
         printf("\n=== TICKER CONFIG ===\n");
         if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
         if (config->fileNewAreasLog) printf("FileNewAreasLog: %s\n", config->fileNewAreasLog);
@@ -1054,7 +1072,7 @@ int main(int argc, char **argv) {
         if (config->announceSpool) printf("AnnounceSpool: %s\n", config->announceSpool);
         if(config->ADCount)
         {
-           for (i = 0; i< config->ADCount; i++) 
+           for (i = 0; i< config->ADCount; i++)
            {
               printf("\n----- announce group -----\n");
               if(config->AnnDefs[i].annAreaTag)
@@ -1090,31 +1108,31 @@ int main(int argc, char **argv) {
                  printf("AnnOrigin : %s\n",config->AnnDefs[i].annorigin);
               if(config->AnnDefs[i].annorigin)
                  printf("AnnMessFlags : %s\n",config->AnnDefs[i].annmessflags);
-              
+
               printf("AnnFileOrigin: %s\n", config->AnnDefs[i].annforigin ? "on" : "off");
               printf("AnnFileRFrom : %s\n", config->AnnDefs[i].annfrfrom ? "on" : "off");
-              
+
            }
         }
      }
      printf("\n=== FILELIST CONFIG ===\n");
      for (i = 0; i < config->filelistCount; i++) printFilelist(&(config->filelists[i]));
-     
+
      printf("\n=== LINKER CONFIG ===\n");
      switch (config->LinkWithImportlog)
      {
      case lwiYes:
         printf("LinkWithImportlog   Yes\n");
         break;
-        
+
      case lwiNo:
         printf("LinkWithImportlog   No\n");
         break;
-        
+
      case lwiKill:
         printf("LinkWithImportlog   Kill\n");
         break;
-        
+
      default:
         printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
      }
@@ -1171,6 +1189,9 @@ int main(int argc, char **argv) {
 
         if(config->carbonCount)
            printCarbons(config);
+
+        if(config->remapCount)
+           printRemaps(config);
 
         printf("\n=== ROUTE CONFIG ===\n");
         for (i = 0; i < config->routeCount; i++) {
