@@ -1675,16 +1675,16 @@ int lockFile(const char *lockfile, int advisoryLock)
         while(advisoryLock > 0)
         {
             if ((fh=open(lockfile,O_CREAT|O_RDWR,S_IREAD|S_IWRITE))<0) {
-                fprintf(stderr,"cannot open/create lock file: %s wait %d seconds\n",lockfile, advisoryLock);
+/*                fprintf(stderr,"cannot open/create lock file: %s wait %d seconds\n",lockfile, advisoryLock);*/
                 advisoryLock--;
             } else {
                 if (write(fh," ", 1)!=1) {
-                    fprintf(stderr,"can't write to lock file! wait %d seconds\n", advisoryLock);
+/*                    fprintf(stderr,"can't write to lock file! wait %d seconds\n", advisoryLock);*/
                     close(fh);
                     fh = -1;
                     advisoryLock--;
                 } else if (lock(fh,0,1)<0) {
-                    fprintf(stderr,"lock file used by another process! %d seconds\n", advisoryLock);
+/*                    fprintf(stderr,"lock file used by another process! %d seconds\n", advisoryLock);*/
                     close(fh);
                     fh = -1;
                     advisoryLock--;
