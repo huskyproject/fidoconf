@@ -1,3 +1,7 @@
+2002-06-18 Tuesday 22:30  tobi
+
+	* tparser.c (1.179): bugfix for os/2
+
 2002-06-17 Monday 19:44  stas
 
 	* fecfg2fc.c (1.5): Extend Fastecho to fidoconfig conversion
