@@ -980,16 +980,21 @@ int parseLinkOption(s_arealink *alink, char *token)
 
 int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
 	s_arealink *arealink;
+	s_link *link;
 	
-	area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
-	area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
-	area->downlinks[area->downlinkCount]->link = getLinkForArea(config,tok,area);
-	
-	if (area->downlinks[area->downlinkCount]->link == NULL) {
+	if ((link = getLinkForArea(config, tok, area)) == NULL) {
 		prErr("no links like \"%s\" in config!", tok);
 		return 1;
 	}
+	if (isLinkOfArea(link, area)) {
+		prErr("link %s subscribed twice!", tok);
+		return 1;
+	}
 
+	area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+	area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
+	area->downlinks[area->downlinkCount]->link = link;
+	
 	arealink = area->downlinks[area->downlinkCount];
 	area->downlinkCount++;
 
@@ -1407,17 +1412,21 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 
       }
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
-         area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
-         area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
-/*          area->downlinks[area->downlinkCount]->link = getLink(*config, tok); */
-         area->downlinks[area->downlinkCount]->link = getLinkForFileArea(config,tok,area);
-
-         if (area->downlinks[area->downlinkCount]->link == NULL) {
+	 if ((link = getLinkForFileArea(config, tok, area)) == NULL) {
             prErr("Link for this area is not found!");
             rc += 1;
             return rc;
          }
-         link = area->downlinks[area->downlinkCount]->link;
+         if (isLinkOfFileArea(link, area)) {
+            prErr("links %s subscribed twice!", tok);
+            return 1;
+         }
+
+         area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+         area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
+/*          area->downlinks[area->downlinkCount]->link = getLink(*config, tok); */
+         area->downlinks[area->downlinkCount]->link = link;
+
 		 arealink = area->downlinks[area->downlinkCount];
 
 		 if (link->numOptGrp > 0) {
