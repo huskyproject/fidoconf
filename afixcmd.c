@@ -188,3 +188,38 @@ int testAddr(char *addr, s_addr hisAka)
     if (addrComp(aka, hisAka)==0) return 1;
     return 0;
 }
+
+int DelLinkFromString(char *line, s_addr linkAddr)
+{
+    int rc = 1;
+    char *end = NULL;
+    char *beg = strrchr(line, '"'); // находим закрывающую строку коментария
+    if(!beg)  beg = line;           // если не найдена, то ищем с начала строки  
+    beg++;                          // переходим к следующему токену
+    while(*beg)                     // пока не конец строки
+    {
+        while(*beg && isspace(*beg)) beg++; // пропускаем пробельные символы
+        if(*beg && testAddr(beg, linkAddr))
+        {
+            rc = 0;
+            break;
+        }
+        while(*beg && !isspace(*beg)) beg++; // пропускаем токен
+    }
+    if(rc == 0) // beg points to begin of unsubscribed addres
+    {
+        end = beg;
+        while(*beg && !isspace(*beg)) beg++; // пропускаем токен
+        while(*beg && !isdigit(*beg)) beg++; // находим судующего линка
+        if(beg && *beg)
+        {
+            strcpy(end,beg);
+        }
+        else
+        {
+            *end--;
+            *end = '\0';
+        }
+    }
+    return rc;
+}

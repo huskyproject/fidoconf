@@ -47,6 +47,8 @@ FCONF_EXT   XMSG createXMSG        (ps_fidoconfig config,
 
 FCONF_EXT   int Changepause(char *confName, s_link *link, int opt, int type);
 
+FCONF_EXT   int DelLinkFromString(char *line, s_addr linkAddr);
+
 FCONF_EXT   int testAddr(char *addr, s_addr hisAka);
 
 
