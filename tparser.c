@@ -1134,7 +1134,7 @@ void usage()
 
 const char *smapi_cvs_date(){
 static
-#include <smapi/cvsdate.h>
+#include "../smapi/cvsdate.h"
 return cvs_date;
 }
 
@@ -1143,12 +1143,13 @@ int main(int argc, char **argv) {
    UINT i, j, hpt=0, preproc=0, rc=0;
    int k;
    char *cfgFile=NULL, *module;
+   #include "cvsdate.h"
 
    printf("%s\n\n", module = GenVersionStr( "tparser", FC_VER_MAJOR, FC_VER_MINOR,
 				FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
    nfree(module); /* used as a temporary variable */
 
-   if( !CheckLibVersion(LIBSMAPI,2,3,0,FC_VER_BRANCH,NULL) ) {
+   if( !CheckFidoconfigVersion(1,3,0,BRANCH_CURRENT,cvs_date) ) {
      printf("Incompatible version of SMAPI: require smapi-2.3.0-current\n");
      exit(255);
    }

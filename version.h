@@ -37,11 +37,6 @@ extern "C" {
 
 #include "fidoconf.h"
 
-/* Library ID - for CheckLibVersion() */
-typedef enum {
-        LIBSMAPI=0, LIBFIDOCONFIG
-} libID_t;
-
 /* values for 5th parameter of GenVersionStr() */
 typedef enum {
         BRANCH_CURRENT=1, BRANCH_STABLE=2, BRANCH_RELEASE=3
@@ -69,18 +64,18 @@ typedef enum {
 FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
    unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate );
 
-/* Check version of specified library
- * return not zero if test passed; 0 if test failed
- * test cvs_date for DLL version only, using #include <fidoconf/cvsdate.h> like:
+/* Check version of fidoconfig library
+ * return zero if test passed
+ * test cvs need for DLL version only, using #include <fidoconf/cvsdate.h>
   const char *fidoconfdate(){
   static
-  #include <fidoconf/cvsdate.h>
+  #include "../fidoconf/cvsdate.h"
   return cvs_date;
   }
-  CheckLobVersion( ..., fidoconfdate());
+  CheckFidoconfigVersion( ..., fidoconfdate());
  */
-FCONF_EXT int CheckLibVersion( libID_t libID, int need_major, int need_minor,
-                int need_patch, branch_t need_branch, const char *libcvsdate );
+FCONF_EXT int CheckFidoconfigVersion( int need_major, int need_minor,
+                      int need_patch, branch_t need_branch, const char *cvs );
 
 #ifdef __cplusplus
 }

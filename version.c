@@ -37,16 +37,6 @@
 #include "version.h"
 #include "smapi/msgapi.h"
 
-static
-#include "cvsdate.h"   /* char cvs_date[]=datestring; */
-
-const char *smapidate(){
-static
-#include <smapi/cvsdate.h>
-return cvs_date;
-}
-
-
 /* Generate version string like
  * programname/platform[-compiler] <major>.<minor>.<patchlevel>-<branch> [<cvs date>]
  *
@@ -212,27 +202,23 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
 }
 
 
-/* Check version of specified library
- * return not zero if test passed; 0 if test failed
- * test cvs for DLL version only, using #include <fidoconf/cvsdate.h>
+/* Check version of fidoconfig library
+ * return zero if test passed
+ * test cvs need for DLL version only, using #include <fidoconf/cvsdate.h>
  */
-FCONF_EXT int CheckLibVersion( libID_t libID, int need_major, int need_minor,
+FCONF_EXT int CheckFidoconfigVersion( int need_major, int need_minor,
                       int need_patch, branch_t need_branch, const char *cvs )
-{ /* may don't check pathlevel: see huskybse/develop-docs/ */
+{ /* We don't need check pathlevel: see huskybse/develop-docs/ */
 
-  switch( libID ){
-  case LIBSMAPI:  /* SMAPI not contains branch identifier */
-         if( need_major==MSGAPI_VERSION &&
-             need_minor==((MSGAPI_SUBVERSION & 0x0F0)>>4) )
-           return  (cvs? strcmp(cvs,smapidate())==0 : 1);
-         break;
-  case LIBFIDOCONFIG:
-         if( need_major==FC_VER_MAJOR && need_minor==FC_VER_MINOR ) {
-           if(need_branch==BRANCH_CURRENT)
-             return (FC_VER_BRANCH==BRANCH_CURRENT) && (cvs? strcmp(cvs,cvs_date)==0 : 1);
-           else return FC_VER_BRANCH!=BRANCH_CURRENT;
-         }
-         break;
+static
+#include "cvsdate.h"   /* char cvs_date[]=datestring; */
+
+  if( need_major==FC_VER_MAJOR && need_minor==FC_VER_MINOR ) {
+    if(need_branch==BRANCH_CURRENT) {
+      if(need_patch) fprintf(stderr, __FUNCTION__ ": Strange: current patch level can't be non-zero");
+      return (FC_VER_BRANCH==BRANCH_CURRENT) && (cvs? strcmp(cvs,cvs_date)==0 : 1);
+    }
+    else return FC_VER_BRANCH!=BRANCH_CURRENT;
   }
   return 0;
 }
