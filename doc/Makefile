@@ -9,7 +9,7 @@ endif
 all: html info dvi
 
 ifdef HTMLDIR
-html: fidoconfig_toc.html
+html: fidoconfig.html
 else
 html:
 	@echo
@@ -29,8 +29,9 @@ info:
 	@echo
 endif
 
-fidoconfig_toc.html: fidoconfig.texi proposal.texi
-	texi2html -split_node -number -menu fidoconfig.texi
+fidoconfig.html: fidoconfig.texi proposal.texi
+	export LC_ALL=C; \
+	makeinfo --html --no-split fidoconfig.texi
 
 fidoconfig.dvi: fidoconfig.texi proposal.texi
 	texi2dvi fidoconfig.texi
@@ -68,16 +69,16 @@ install: info html dvi
 	@echo .
 ifdef INFODIR
 	-$(MKDIR) $(MKDIROPT) $(INFODIR)
-	$(INSTALL)  fidoconfig.info $(INFODIR)
+	$(INSTALL) $(IMOPT) fidoconfig.info $(INFODIR)
 	-install-info --info-dir=$(INFODIR)  $(INFODIR)$(DIRSEP)fidoconfig.info
 endif
 ifdef HTMLDIR
 	-$(MKDIR) $(MKDIROPT) $(HTMLDIR)
-	$(INSTALL)  fidoconfig*html $(HTMLDIR)
+	$(INSTALL) $(IMOPT) fidoconfig*html $(HTMLDIR)
 endif
 ifdef DVIDIR
 	-$(MKDIR) $(MKDIROPT) $(DVIDIR)
-	$(INSTALL)  fidoconfig.dvi $(DVIDIR)
+	$(INSTALL) $(IMOPT) fidoconfig.dvi $(DVIDIR)
 endif
 
 uninstall:

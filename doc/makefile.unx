@@ -11,7 +11,8 @@ ps fidoconfig.ps: fidoconfig.dvi
 	dvips fidoconfig.dvi -o fidoconfig.ps
 
 html fidoconfig_toc.html: fidoconfig.texi proposal.texi config
-	texi2html -number -menu fidoconfig.texi
+	export LC_ALL=C; \
+	makeinfo --html --no-split fidoconfig.texi
 
 clean:
 	-rm *~
@@ -39,4 +40,4 @@ distclean: clean
 	-rm fidoconfig.ps
 
 install:
-	install $(IOPT) fidoconfig.info ${INFODIR}
+	install $(IMOPT) fidoconfig.info ${INFODIR}
