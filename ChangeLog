@@ -1,3 +1,7 @@
+2002-02-02 Saturday 17:19  nestyurkin.nikolay
+
+	* cfg.c (1.25): cmpfnames() fix for Watcom C
+
 2002-01-31 Thursday 22:07  nestyurkin.nikolay
 
 	* cfg.c (1.24): some fix for cmpfnames (WIN32)
