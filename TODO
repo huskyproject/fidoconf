@@ -9,4 +9,3 @@
   (default!) HTick will behave as if only a subset of FSC87 commands were
   implemented (useful for FileScan links) and *ignore* unknown TIC entries
   instead of stopping processing)) to the above HTick section
-- FIX if "AutoAreaCreateFile file" not included
