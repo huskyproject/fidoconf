@@ -73,7 +73,7 @@ typedef struct execonfile {
 } s_execonfile, *ps_execonfile;
 
 typedef enum flavour {normal, hold, crash, direct, immediate} e_flavour;
-typedef enum forward {fOff, fSecure, fOn} e_forward;
+typedef enum _forward {fOff, fSecure, fOn} e_forward;
 typedef enum emptypktpwd {eOff, eSecure, eOn} e_emptypktpwd;
 typedef enum pktheaderdiffer {pdOff, pdOn} e_pktheaderdiffer;
 typedef enum nameCase { eLower, eUpper} e_nameCase;
