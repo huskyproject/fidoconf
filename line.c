@@ -1161,6 +1161,9 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    /*             allways an useAka     */
    area->description=NULL;
 
+   if(area->useAka==NULL)
+      area->useAka = config->addr;
+
    if(config->FileAreaDefault.group!=NULL)
        area->group=sstrdup(config->FileAreaDefault.group);
    if(area->downlinkCount){ /* counter was already copied from default */

@@ -399,7 +399,7 @@ token_t parseline_tokens[] =
     { "magic", ID_MAGIC },
     { "mandatory", ID_MANDATORY },
     { "manual", ID_MANUAL },
-    { "maxticklinelength", ID_MAXTICLINELENGTH },
+    { "maxticlinelength", ID_MAXTICLINELENGTH },
     { "maxunpackednetmail", ID_MAXUNPACKEDNETMAIL },
 	{ "mindiskfreespace", ID_MINDISKFREESPACE },
     { "msgbasedir", ID_MSGBASEDIR },
