@@ -9,6 +9,8 @@
   - dupeArea
   - badArea
   - echoArea
+  - origin
+  - tearline
 - fix "-manual" vs. "-mandatory": 
   manual means: subscription/unsubscription not allowed
   mandatory means: subscription allowed, unsubscription not allowed
