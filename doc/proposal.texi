@@ -2187,7 +2187,7 @@ Set output to screen log messages.
 In example we output to log messages with levels 3,4,5,7,8,9.
 The log levels are following:
 
-1 - start, end
+1 - start, end, statistic
 
 2 - dupecheck, recoding tables
 
