@@ -8,10 +8,14 @@
 # This is the debhelper compatability version to use.
 export DH_COMPAT=3
 export DEBIAN=1
-export PACKAGE=fidoconf
-export VERSION=0.11
+export PACKAGE=libfidoconf0
+
 # Next Line to build debug-versions !
-export DEB_BUILD_OPTIONS=nostrip
+# export DEB_BUILD_OPTIONS=nostrip
+
+# shared library versions, option 1
+version=0.11
+major=0
 
 configure: configure-stamp
 configure-stamp:
@@ -36,15 +40,8 @@ clean:
 	rm -f build-stamp configure-stamp
 
 	# Add here commands to clean up after the build process.
-	-$(MAKE) clean
-	-rm -f configure-stamp
-	-rm -f build-stamp
-	-rm -rf debian/$(PACKAGE)
-	-rm -f debian/postinst.debhelper
-	-rm -f debian/postrm.debhelper
-	-rm -f debian/prerm.debhelper
-	-rm -f debian/substvars
-	-rm -f debian/files
+	-$(MAKE) distclean
+
 	dh_clean
 
 install: build
@@ -52,16 +49,14 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
+	# Hmm, dh_installdirs want make tmp/* directories. I dont now why.
+	-mkdir -p debian/tmp/usr/lib debian/tmp/usr/include
+	-mkdir -p debian/tmp/usr/bin
+	# Add here commands to install the package into debian/tmp
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+	cp doc/config debian/fidoconf-runtime/etc/fido/config
+	chmod 0755 debian/tmp/usr/bin/linkedto
 
-	# Add here commands to install the package into debian/fidoconf.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/fidoconf
-	mkdir -p debian/fidoconf/usr/share/doc/fidoconf/examples
-	cp fconf2areasbbs debian/fidoconf/usr/share/doc/fidoconf/examples/
-	cp fidoInst debian/fidoconf/usr/share/doc/fidoconf/examples/
-	cp linkedto debian/fidoconf/usr/share/doc/fidoconf/examples/
-	cp fconf2fidogate.cfg.sample debian/fidoconf/usr/share/doc/fidoconf/examples/
-	mkdir -p debian/fidoconf/etc/fido
-	cp doc/config debian/fidoconf/etc/fido/config
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -69,22 +64,24 @@ binary-indep: build install
 
 # Build architecture-dependent files here.
 binary-arch: build install
-	dh_testversion 2
 	dh_testdir
 	dh_testroot
+	dh_movefiles
+
 #	dh_installdebconf	
 	dh_installdocs
-	mkdir -p debian/fidoconf/usr/share/man/man1
-	cp debian/*.1 debian/fidoconf/usr/share/man/man1/
-	cd debian/fidoconf/usr/share/man/man1 ;\
+	dh_installexamples
+	dh_installmenu
+	dh_installcron
+	dh_installman
+	# And now a few symlinks :)
+	cd debian/fidoconf-runtime/usr/share/man/man1 ;\
 	ln -s fconf2.1 fconf2aquaed.1 ;\
 	ln -s fconf2.1 fconf2golded.1 ;\
 	ln -s fconf2.1 fconf2msged.1 ;\
 	ln -s fconf2.1 fconf2fidogate.1 ;\
 	ln -s fconf2.1 fconf2squish.1 ;\
 	ln -s fconf2.1 fecfg2fconf.1
-	dh_installexamples
-	dh_installmenu
 	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs ChangeLog
@@ -94,6 +91,7 @@ binary-arch: build install
 	dh_fixperms
 	dh_makeshlibs
 	dh_installdeb
+#	dh_perl
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums

@@ -1,17 +1,8 @@
 fidoconf for Debian
 -------------------
 
-English Readers: Try babelfish.altavista.com or wait until someone translates
-this Text. :)
-
-Die fidoconf basiert zwingend auf der smapi. Solltest Du mit dpkg installiert
-und keine Abhaengigkeiten beachtet haben musst Du dies nun nachholen. :)
-
 Weitere Informationen ueber das Husky-Team und weitere Husky-Software ist auf 
 http://husky.physcip.uni-stuttgart.de/ zu finden.
-
-Ich habe ein einzelnes .deb-Paket erstellt, kein getrenntes lib - und 
-libdev-Paket, weil die Groesse den Aufwand nicht wert ist.
 
 Hmm, was will mir apt-get hierbei wohl sagen:
 

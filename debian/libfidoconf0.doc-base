@@ -1,0 +1,12 @@
+Document: fidoconf
+Title: Fidoconfig Manual
+Author: The Husky-Team
+Abstract: This manual describes what the Fidoconfig is
+ and all of its keywords.
+Section: mail
+
+Format: HTML
+Index: /usr/share/doc/libfidoconf0/html/fidoconfig.html
+Files: /usr/share/doc/libfidoconf0/html/*.html
+
+  

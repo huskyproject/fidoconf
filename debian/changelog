@@ -1,3 +1,12 @@
+fidoconf (0.11-9) unstable; urgency=low
+
+  * Newest cvs.
+  * Changed Package to build a libfidoconf, libfidoconf-dev and 
+    fidoconf-runtime.
+  * Linked with newest libsmapi.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sun,  1 Jul 2001 20:38:57 +0200
+
 fidoconf (0.11-8) unstable; urgency=low
 
   * Newest cvs, there is a new Keyword :)
@@ -47,57 +56,9 @@ fidoconf (0.11-2) unstable; urgency=low
 
 fidoconf (0.11-1) unstable; urgency=low
 
-  * I now build direct from cvs-Source. AND i insert my changes into cvs.
-    So there are no more package.orig.tar.gz and package.diff.gz Source-
-    Packages, just a package.tar.gz for source. Its the same as in cvs !
-  * Kein Paket macht mehr ein Suggest auf ein anderes Paket. Ich lass
-    nur noch die Abhaengigkeiten erfuellen. In den naechsten Tagen werde ich
-    ein task-fido Paket erstellen dass dann alle Suggests beinhaltet.
+  * No more suggests on other Packages.
 
  -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Tue, 10 Apr 2001 17:12:57 +0200
-
-fidoconf (0.10c-6) unstable; urgency=low
-
-  * man-pages fuer die mitgelieferten Binaries geschrieben.
-  * fconf2areasbbs mit als Doku aufgenommen (perl-Skript)
-  * Selbiges gilt fuer fconf2fidogate.cfg.sample
-  * Und auch fuer das Skript fidoInst.
-
- -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Thu,  5 Apr 2001 00:36:14 +0200
-
-fidoconf (0.10c-5) unstable; urgency=low
-
-  * Hmm, im shlibs-File war ein fidoconf zuviel eingetragen, was den
-    Buildprozess aller Pakete vernichtet die auf fidoconf basieren.
-
- -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sat, 31 Mar 2001 00:10:49 +0200
-
-fidoconf (0.10c-4) unstable; urgency=low
-
-  * Das huskymak.cfg wird nun im Paket mitgeliefert. (Liegt bei Husky
-    eigentlich ein Verzeichnis hoeher, wird aber von jedem Paket benoetigt.)
-  * Wieder mal an den Abhaengigkeiten rumgefummelt. Dieses apt-get und
-    dselect machen mich irgendwann nocheinmal fertig :)
-
- -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Fri, 30 Mar 2001 16:48:56 +0200
-
-fidoconf (0.10c-3) unstable; urgency=low
-
-  * Paketabhaengigkeiten modifiziert.
-
- -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Thu, 29 Mar 2001 22:57:01 +0200
-
-fidoconf (0.10c-2) unstable; urgency=low
-
-  * Die ueblichen Symlinkfehler, die ich auch schon bei smapi hatte :)
-
- -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Thu, 29 Mar 2001 17:36:05 +0200
-
-fidoconf (0.10c-1) unstable; urgency=low
-
-  * Initial Release.
-
- -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Thu, 29 Mar 2001 14:18:13 +0200
 
 Local variables:
 mode: debian-changelog

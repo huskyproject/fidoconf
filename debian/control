@@ -2,15 +2,27 @@ Source: fidoconf
 Section: libs
 Priority: optional
 Maintainer: Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>
-Build-Depends: debhelper (>> 3.0.0), smapi (>= 1.6.4-14)
+Build-Depends: debhelper (>> 3.0.0), gcc, binutils, libsmapi2, libsmapi2-dev
 Standards-Version: 3.5.2
 
-Package: fidoconf
+Package: libfidoconf0
 Architecture: any
-Depends: ${shlibs:Depends}
-Description: Library to access the fidoconfig (unstable)
- From the fidoconf-documentation:
- .
+Depends: ${shlibs:Depends}, fidoconf-runtime(=${Source-Version})
+Suggests: libfidoconf0-dev
+Description: Library to access the fidoconfig
+ The design goal of fidoconfig was to provide one config-file for several
+ different fido software packages like editor, tosser etc.
+ An additional aim was to have one library (fidoconfig) which can be used by
+ all programs.
+ The advantage is you only have to edit one config-file, so changing your
+ system is much easier than with common software packages. Also bugs can only
+ creep in one library and not in thousands over thousands libraries.
+
+Package: libfidoconf0-dev
+Section: devel
+Architecture: any
+Depends: libfidoconf0(=${Source-Version}), libsmapi2, libsmapi2-dev, libc6-dev
+Description: Library to access the fidoconfig, development files
  The design goal of fidoconfig was to provide one config-file for several
  different fido software packages like editor, tosser etc.
  An additional aim was to have one library (fidoconfig) which can be used by
@@ -19,5 +31,18 @@ Description: Library to access the fidoconfig (unstable)
  system is much easier than with common software packages. Also bugs can only
  creep in one library and not in thousands over thousands libraries.
  .
- This is the UNSTABLE release.
+ This Package contains the Development Files. Only needed if you want to
+ compile the Husky-Programs yourself
 
+Package: fidoconf-runtime
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, libfidoconf0(=${Source-Version})
+Description: Runtime-Files for the Fidoconf Library
+ This Package contains Runtime Support Files for the Fidoconf Library.
+ The Tools are:
+   fconf2* - Convert between Fidoconf Configfile and some other formats.
+   tparser - Check for errors in Fidoconf Config
+   fecfg2fconf - Convert Fastecho.cfg to Fidoconf Config
+   linkedto - Shows Areas a Address is linked to.
+ 
