@@ -142,14 +142,17 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
     char *line = NULL, *newname = NULL, *p;
     FILE *f_conf, *f_newconf;
     long endpos,curpos,cfglen;
+    int  openro = 0;
 
-    if(strbeg == 0 && strend == 0)
-        return 0;
+    if ((strbeg == 0 && strend == 0) || confName == NULL)
+	return 0;
     
-    f_conf = fopen(confName, "r+b");
-    if (f_conf == NULL) {
-        fprintf(stderr, "cannot open config file %s: %s\n", confName, strerror(errno));
-        return 0;
+    if ((f_conf = fopen(confName, "r+b")) == NULL) {
+	if ((f_conf = fopen(confName, "rb")) == NULL) {
+	    fprintf(stderr, "Cannot open config file %s: %s\n", confName, strerror(errno));
+	    return 0;
+	}
+	openro = 1;
     }
     fseek(f_conf, 0L, SEEK_END);
     endpos = ftell(f_conf);
@@ -166,6 +169,11 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
 	/* we have no write access to this directory? */
 	/* change config "in place" */
 	nfree(newname);
+	if (openro) {
+	    fprintf(stderr, "Cannot open temp file %s: %s\n", newname, strerror(errno));
+	    fclose(f_conf);
+	    return 0;
+	}
 	line = (char*) smalloc((size_t) cfglen);
 	fseek(f_conf, curpos, SEEK_SET);
 	if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
@@ -230,7 +238,7 @@ errwriteconf:
 	unlink(confName);
 #endif
 	if (rename(newname, confName)) {
-            fprintf(stderr, "cannot rename config file %s->%s: %s\n", newname, confName, strerror(errno));
+            fprintf(stderr, "Cannot rename config file %s->%s: %s\n", newname, confName, strerror(errno));
 	    nfree(newname);
 	    return 0;
 	}
