@@ -68,7 +68,7 @@ $(LIBFIDOCONFIG).so.$(VER): line$(OBJ) common$(OBJ) fidoconfig$(OBJ) \
           -o $(LIBFIDOCONFIG).so.$(VER) line$(OBJ) common$(OBJ) \
           $(FIDOCONFIG)$(OBJ) adcase$(OBJ) dirlayer$(OBJ) $(LOPT)
 
-%.o: %.c
+%$(OBJ): %.c
 	$(CC) $(CDEFS) $(COPT) $*.c
 
 ifeq ($(DYNLIBS), 1)
@@ -91,6 +91,7 @@ ifdef RANLIB
 endif
 
 install: commonlibs ranlib commonprogs instdyn
+	-$(MKDIR) $(MKDIROPT) $(BINDIR)
 	-$(MKDIR) $(MKDIROPT) $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(EXE)   $(BINDIR)

@@ -48,7 +48,7 @@ $(FCONF2SQUISH)$(EXE): $(FCONF2SQUISH)$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 
 ifeq ($(CC), gcc)
 $(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(OBJ)
-	$(CC) -fpack-struct $(FECFG2FCONF)$(OBJ) -o $(FECFG2FCONF)$(EXE)
+	$(CC) $(LFLAGS) -fpack-struct $(FECFG2FCONF)$(OBJ) -o $(FECFG2FCONF)$(EXE)
 else
 $(FECFG2FCONF)$(EXE):
 	echo "not supported on this platform" > $(FECFG2FCONF)$(EXE)
