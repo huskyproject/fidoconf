@@ -1825,17 +1825,12 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
       return 1;
    }
 
-   config->carbons = realloc(config->carbons,sizeof(s_carbon)*(config->carbonCount+1));
    config->carbonCount++;
+   config->carbons = realloc(config->carbons,sizeof(s_carbon)*(config->carbonCount));
+   memset(&(config->carbons[config->carbonCount-1]), 0, sizeof(s_carbon));
 
    config->carbons[config->carbonCount-1].type = type;
    copyString(token, &(config->carbons[config->carbonCount-1].str));
-
-   config->carbons[config->carbonCount-1].areaName = NULL;
-   config->carbons[config->carbonCount-1].export = 0;
-   config->carbons[config->carbonCount-1].move   = 0;
-   config->carbons[config->carbonCount-1].reason = NULL;
-   config->carbons[config->carbonCount-1].netMail = 0;
 
    return 0;
 }
@@ -1846,7 +1841,11 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
 	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
 	   return 1;
    }
-   
+
+   if (config->carbonCount == 0) {
+          printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
+          return 1;
+   }   
    copyString(token, &(config->carbons[config->carbonCount-1].areaName));
    config->carbons[config->carbonCount-1].extspawn = 0;
    config->carbons[config->carbonCount-1].move = move;
@@ -1859,6 +1858,10 @@ int parseCarbonDelete(char *token, s_fidoconfig *config) {
 	   printf("Line %d: There are extra parameters after %s!\n", actualLineNr, actualKeyword);
 	   return 1;
    }
+   if (config->carbonCount == 0) {
+          printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
+          return 1;
+   }   
    config->carbons[config->carbonCount-1].areaName = NULL;
    config->carbons[config->carbonCount-1].move = 2;
    config->carbons[config->carbonCount-1].extspawn = 0;
@@ -1871,6 +1874,10 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
 	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
 	   return 1;
    }
+   if (config->carbonCount == 0) {
+          printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
+          return 1;
+   }   
    
    copyString(token, &(config->carbons[config->carbonCount-1].areaName));
    config->carbons[config->carbonCount-1].extspawn = 1;
@@ -1890,6 +1897,10 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
 	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
 	   return 1;
    }
+   if (config->carbonCount == 0) {
+          printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
+          return 1;
+   }   
    
    copyString(token, &(config->carbons[config->carbonCount-1].reason));
    return 0;
