@@ -38,7 +38,7 @@
 
 #include "dir.h"
 
-#ifndef MSDOS
+#if !defined(MSDOS) || defined(__DJGPP__)
 #include "fidoconfig.h"
 #else
 #include "fidoconf.h"

@@ -1,5 +1,17 @@
-fidoconfig 0.6
+fidoconfig 0.7
 --------------
+
+
+
+fidoconfig 0.6 
+(released on Mon Mar  1 19:49:03 CET 1999)
+--------------
+
+Mon Mar  1 19:47:36 CET 1999
+- applied work when i staid in Austria
+- djgpp port
+
+----- cvs ci ------
 Thu Feb 25
   Gabriel Plutzar
 * Rewrote patimat, changed priority of include file directories in hpt to
@@ -7,6 +19,7 @@ Thu Feb 25
   files.
 + Added patimat to fconf2fidogate for better config-file interpretation
 
+----- cvs ci ------
 Mon Feb 22 11:09:53 MET 199
   Tobias Ernst:
 + Added patimat for case insensitive pattern matching	
@@ -23,12 +36,14 @@ Sat Feb 20 19:26:54 MET 1999
   because it can also move across file system boundaries.
 - Some changes to the structures required by the PKT forwarding feature.
 
+----- cvs ci ------
 Wed Feb 17 20:07:00 CET 1999
   Gabriel Plutzar:
 - added a new remap statment. It takes the parameters
   ToName,OldAddr,NewAddr, seperated by commas. ToName or OldAddr may be *.
   If a Netmail meets the ToName and OldAddr Criteria, it is sent to NewAddr.
-	
+
+----- cvs ci ------	
 Mon Feb 15 18:28:21 CET 1999
 - included sergeys patch for a correct readLine()
   Max Levenkov:
