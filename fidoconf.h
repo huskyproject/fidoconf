@@ -289,6 +289,8 @@ typedef struct fileareatype {
    int noreplace;      // 1 - no replace files in this filearea
    int nodiz;          // 1 - do not try to get description from <fileDescName>
    ps_addr useAka;
+   
+   unsigned purge;     // number of days to keep files. if 0 purging is disabled
 
    ps_arealink *downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;

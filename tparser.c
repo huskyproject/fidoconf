@@ -218,6 +218,8 @@ void printFileArea(s_filearea area) {
    if (area.sendorig) printf("sendorig ");
    if (area.hide) printf("hide ");
    if (area.noPause) printf("noPause ");
+   if (area.purge > 0)printf("purge: %u days", area.purge);
+
    printf("\n");
    printf("-------\n");
 }
