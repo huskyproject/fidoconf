@@ -33,6 +33,7 @@
 #define FIDOCONFIG_H
 #include <stdio.h>
 #include <smapi/msgapi.h>
+#include "typesize.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -545,6 +546,24 @@ typedef struct fidoconfig {
    unsigned int numuuEGrp;
     
 } s_fidoconfig, *ps_fidoconfig;
+
+struct message {
+   //Address block 
+   s_addr destAddr, origAddr;
+
+//   UINT16 attributes;
+   dword  attributes;
+   UCHAR  datetime[22];
+   CHAR   netMail;
+   INT32  textLength;
+   INT    recode;
+
+   char   *toUserName, *fromUserName, *subjectLine;
+   char   *text;
+};
+
+typedef struct message   s_message;
+
 
 typedef enum { M_NOTDEF=0,M_HPT, M_HTICK, M_OTHER } e_known_moduls;
 

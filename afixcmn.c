@@ -33,10 +33,12 @@
  */
 
 #include <time.h>
-#include "typesize.h"
+//#include "typesize.h"
 #include "fidoconf.h"
 #include "xstr.h"
+#include "common.h"
 #include "afixcmd.h"
+#include <smapi/progprot.h>
 
 static ULONG DoMakeMSGIDStamp(void)
 {
@@ -84,7 +86,7 @@ static ULONG DoMakeMSGIDStamp(void)
     return lStampPrev = lStamp;
 }
 
-char *createKludges(ps_fidoconfig config, const char *area, const s_addr *ourAka, 
+char *createKludges(int disableTID, const char *area, const s_addr *ourAka, 
                     const s_addr *destAka, const char* versionStr)
 {
    char *buff = NULL;
@@ -108,8 +110,50 @@ char *createKludges(ps_fidoconfig config, const char *area, const s_addr *ourAka
       xscatprintf(&buff, "\001MSGID: %u:%u/%u %08lx\r",
               ourAka->zone,ourAka->net,ourAka->node,msgid);
 
-   if (!config->disableTID) xscatprintf(&buff, "\001PID: %s\r", versionStr);
+   if (!disableTID) xscatprintf(&buff, "\001TID: %s\r", versionStr);
    xstrcat(&buff, "\001FLAGS NPD\r");
 
    return buff;
 }
+
+s_message *makeMessage (s_addr *origAddr, s_addr *destAddr,
+			char *fromName,	char *toName, char *subject, 
+            int netmail, int  killreport)
+{
+    // netmail == 0 - echomail
+    // netmail == 1 - netmail
+    time_t time_cur;
+    s_message *msg;
+
+    if (toName == NULL) toName = "sysop";
+    
+    time_cur = time(NULL);
+    
+    msg = (s_message*) scalloc(1,sizeof(s_message));
+    
+    msg->origAddr.zone = origAddr->zone;
+    msg->origAddr.net = origAddr->net;
+    msg->origAddr.node = origAddr->node;
+    msg->origAddr.point = origAddr->point;
+
+    msg->destAddr.zone = destAddr->zone;
+    msg->destAddr.net = destAddr->net;
+    msg->destAddr.node = destAddr->node;
+    msg->destAddr.point = destAddr->point;
+	
+    xstrcat(&(msg->fromUserName), fromName);
+    xstrcat(&(msg->toUserName), toName);
+    xstrcat(&(msg->subjectLine), subject);
+
+    msg->attributes |= MSGLOCAL;
+    if (netmail) {
+	msg->attributes |= MSGPRIVATE;
+	msg->netMail = 1;
+    }
+    if (killreport) msg->attributes |= MSGKILL;
+
+    fts_time((char*)msg->datetime, localtime(&time_cur));
+
+    return msg;
+}
+
