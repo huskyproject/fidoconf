@@ -1,6 +1,11 @@
 fidoconfig 0.7
 --------------
 
+----- cvs ci ------
+Mon Mar  8 21:42
+Max:
+- fixed a bug when found unknown link in echoarea
+
 Mon, Mar 1 22:00
   Gabriel Plutzar
 + included new keywords & features needed by Husky Tick:
