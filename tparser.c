@@ -61,6 +61,10 @@ int main() {
       for (i = 0; i< config->echoAreaCount; i++) {
          printArea(config->echoAreas[i]);
       }
+      for (i = 0; i < config->routeCount; i++) {
+         printf("Route %s via %u:%u/%u.%u\n", config->route[i].pattern, config->route[i].target->hisAka.zone, config->route[i].target->hisAka.net, config->route[i].target->hisAka.node, config->route[i].target->hisAka.point);
+
+      }
       disposeConfig(config);
    } /* endif */
    return 0;
