@@ -194,6 +194,10 @@ FCONF_EXT int  CreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flav
           0 else
           */
 
+// fileBoxes support
+FCONF_EXT int needUseFileBoxForLink (ps_fidoconfig config, s_link *link);
+FCONF_EXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
+
 
 FCONF_EXT int move_file(const char *from, const char *to);
 /* DOC
