@@ -298,6 +298,9 @@ void dumpRoute(s_route *route, int count, char *prefix, FILE *f)
       {
 	  switch(route[i].routeVia)
 	  {
+	  case route_zero:
+	      fprintf(f, "zero                ");
+              break;
 	  case host:
 	      fprintf(f, "host                ");
               break;

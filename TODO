@@ -25,3 +25,5 @@
     origininannounce
     busyFileDir
     -sendorig
+    ConvertShortNames
+    ConvertLongNames

@@ -421,6 +421,7 @@ int main() {
          else {
             printf("Route %s ", config->route[i].pattern);
             switch (config->route[i].routeVia) {
+               case route_zero: printf("zero\n"); break;
                case noroute:  printf("direct\n"); break;
                case host:     printf("via host\n"); break;
                case hub:      printf("via hub\n"); break;
