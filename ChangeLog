@@ -1,3 +1,12 @@
+2002-10-15 Tuesday 07:50  stas_degteff
+
+	* cfg.c (1.43): Use safety string functions (sstricmp, sstrdup,
+	sstrcpy, ...)
+
+2002-10-15 Tuesday 03:48  sfpavel
+
+	* cfg.c (1.42): Fix typo
+
 2002-10-14 Monday 18:25  d_sergienko
 
 	* common.c (1.115): open file in binary mode when copying it (in
