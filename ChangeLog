@@ -1,3 +1,14 @@
+2001-07-03 Tuesday 15:40  ml
+
+	* fidoconf.c (1.50), fidoconf.h (1.74), line.c (1.256),
+	makefile.inc (1.13), tokens.h (1.13), tparser.c (1.150),
+	doc/keywords.hpt (1.12): hptperlfile [patch by Serge N. Pokhodyaev]
+
+2001-07-02 Monday 23:52  joerg.jaspert
+
+	* debian/: changelog (1.8), shlibs (1.2): Wrong entry in shlibs
+	File.
+
 2001-07-02 Monday 23:25  joerg.jaspert
 
 	* debian/: README.BUILD-DEB (1.2), README.Debian (1.2), changelog
