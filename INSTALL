@@ -20,7 +20,9 @@ Unix:
         ln -s libfidoconfig.so.0.5 libfidoconfig.so.0
         ln -s libfidoconfig.so.0 fidoconfig.so
 
-5. write a fido config according to the proposal which is also in this package.
+5. execute ldconfig as root
+
+6. write a fido config according to the proposal which is also in this package.
    If your are just some normal point, give the shell script fidoInst a
    chance. Always test the config with the tparser tool, which you can place
    in a directory like /usr/local/bin.
