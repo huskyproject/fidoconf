@@ -1,6 +1,0 @@
-# $Id$
-#
-# Linux makefile for building fidoconfig documentation
-# (legacy makefile, no dynlibs, no huskymak support)
-
-include makefile.unx
