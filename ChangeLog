@@ -1,3 +1,8 @@
+2002-02-08 Friday 11:57  ml
+
+	* cfg.c (1.15.2.2): fixed bug with unsubscribing link from echoarea
+	with mixed unix/non-unix strings in config under msvc
+
 2002-01-31 Thursday 17:44  ml
 
 	* fidoconf.h (1.87.2.1), line.c (1.271.2.3): don't destroy
