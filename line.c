@@ -1574,6 +1574,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
    config->carbons[config->carbonCount-1].export = 0;
    config->carbons[config->carbonCount-1].move   = 0;
    config->carbons[config->carbonCount-1].reason = NULL;
+   config->carbons[config->carbonCount-1].netMail = 0;
 
    return 0;
 }
@@ -1598,7 +1599,7 @@ int parseCarbonDelete(char *token, s_fidoconfig *config) {
 	   return 1;
    }
    config->carbons[config->carbonCount-1].areaName = NULL;
-   config->carbons[config->carbonCount-1].move = 1;
+   config->carbons[config->carbonCount-1].move = 2;
    config->carbons[config->carbonCount-1].extspawn = 0;
    return 0;
 }
@@ -1776,8 +1777,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "autoareacreate")==0) {
       rc = 0;
       if (config->linkCount > 0) {
-	if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].autoAreaCreate = 1;
-	else rc = 2;
+        temp = getRestOfLine();
+	if (temp && stricmp(temp, "on")==0) config->links[config->linkCount-1].autoAreaCreate = 1;
+	else if (!temp || stricmp(temp, "off")!=0) rc = 2;
       }
       else {
 	printLinkError();
@@ -1787,8 +1789,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "autofilecreate")==0) {
       rc = 0;
       if (config->linkCount > 0) {
-	if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].autoFileCreate = 1;
-	else rc = 2;
+        temp = getRestOfLine();
+	if (temp && stricmp(temp, "on")==0) config->links[config->linkCount-1].autoFileCreate = 1;
+	else if (!temp || stricmp(temp, "off")!=0) rc = 2;
       }
       else {
 	printLinkError();

@@ -323,12 +323,25 @@ int main() {
 		  if (config->carbons[i].extspawn) {
 			  printf("CarbonExtern: \"%s\"", config->carbons[i].areaName);
 		  } else {
-			  printf("Carbon%s:   \"%s\"",config->carbons[i].move ? "Copy" : "Move", 
-					  config->carbons[i].area->areaName);
+                          switch (config->carbons[i].move) {
+                             case 0: printf("CarbonCopy:   ");
+                             break;
+
+                             case 2: printf("CarbonDelete");
+                             break;
+
+                             case 1:
+                             default: printf("CarbonMove:  ");
+                             break;
+                          }
                 	  if (config->carbons[i].areaName) {
-	                     if(stricmp(config->carbons[i].areaName, config->carbons[i].area->areaName)) printf(" !!! \"%s\" wanted !!!", config->carbons[i].areaName);
+	                     if(stricmp(config->carbons[i].areaName, config->carbons[i].area->areaName)) {
+                                printf(" !!! \"%s\" wanted !!! using \"%s\"", config->carbons[i].areaName, config->carbons[i].area->areaName);
+                             } else {
+                                printf("\"%s\"", config->carbons[i].area->areaName);
+                             }
         	          } else {
-                	     printf(" !!! No area specified !!!");
+                	     if (config->carbons[i].move != 2) printf(" !!! No area specified !!!");
 	                  }
 		  };
                   putchar('\n');

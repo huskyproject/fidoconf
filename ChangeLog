@@ -2,6 +2,14 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Fri Jan 21 19:53:20 NOVT 2000
+max (patch from Serguei Revtov):
+* carbonDelete bugfix
+* normal print carbonDelete in tparser
+* init netMail field in carbons
+* "off" in autoareacreate & autofilecreate tokens
+
+----- cvs ci ------
 Thu Jan 20 15:10:29 NOVT 2000
 max (patch from Serguei Revtov):
 * fecf2fconf: added wthitespace before "-b msgbasetype"
