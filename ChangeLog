@@ -1,3 +1,18 @@
+2002-12-30 Monday 14:47  stas_degteff
+
+	* VERSION (fidoconf-0_14-stable.3): Change version to 0.14.2-stable
+
+2002-12-30 Monday 14:45  stas_degteff
+
+	* VERSION (tags: fidoconf-0_14_2-release) (fidoconf-0_14-stable.2):
+	0,14,2-release
+
+2002-12-30 Monday 10:08  stas_degteff
+
+	* common.c (tags: fidoconf-0_14_2-release)
+	(fidoconf-0_14-stable.7): fix Watcom compilation (utime.h ->
+	sys/utime.h)
+
 2002-12-27 Friday 12:57  sfpavel
 
 	* debian/changelog (tags: fidoconf-0_14_2-release)
@@ -30,8 +45,8 @@
 
 2002-10-25 Friday 13:17  stas_degteff
 
-	* common.c (tags: fidoconf-0_14_2-release, fidoconf-0_14-release)
-	(fidoconf-0_14-stable.6): Fix Watcom C win32 compilation
+	* common.c (tags: fidoconf-0_14-release) (fidoconf-0_14-stable.6):
+	Fix Watcom C win32 compilation
 
 2002-10-24 Thursday 13:13  stas_degteff
 
@@ -346,9 +361,8 @@
 
 	* HISTORY, INSTALL (tags: fidoconf-0_14_2-release,
 	fidoconf-0_14-release), README.TXT, VERSION (tags:
-	fidoconf-0_14_2-release, fidoconf-0_14-release)
-	(fidoconf-0_14-stable.[1,1,1,1]): Start  0.14-stable branch, update
-	documentation.
+	fidoconf-0_14-release) (fidoconf-0_14-stable.[1,1,1,1]): Start 
+	0.14-stable branch, update documentation.
 
 2002-06-25 Tuesday 15:23  stas
 
