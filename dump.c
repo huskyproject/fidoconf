@@ -44,28 +44,28 @@ void dumpAddrs(s_fidoconfig *config, FILE *f)
 
 void dumpPack(s_fidoconfig *config, FILE *f)
 {
-  int max, i, j;
+  int i, j;
 
-  if (config->packCount > config->unpackCount) 
-    max = config->packCount;
-  else
-    max = config->unpackCount;
+  for (i = 0; i < config->packCount; i++)
+  {
+    fprintf(f, "Pack                %s \"%s\"\n", config->pack[i].packer, 
+            config->pack[i].call);
+  }
 
-  for (i = 0; i < max; i++)
+  for (i = 0; i < config->unpackCount; i++)
+  {
+    fprintf(f, "Unpack              \"%s\" %u ", config->unpack[i].call,
+            config->unpack[i].offset);
+    for (j = 0; j < config->unpack[i].codeSize; j++)
     {
-      if (i < config->packCount)
-	fprintf(f, "Pack                %s %s\n", config->pack[i].packer, config->pack[i].call);
-      if (i < config->unpackCount)
-	{
-	  fprintf(f, "Unpack              \"%s\" %u", config->unpack[i].call, config->unpack[i].offset);
-	  for (j = 0; j < config->unpack[i].codeSize; j++)
-	    fprintf(f, "%02x", (int) config->unpack[i].matchCode[j]);
-	  fprintf(f, " ");
-	  for (j = 0; j < config->unpack[i].codeSize; j++)
-	    fprintf(f, "%02x", (int) config->unpack[i].mask[j]);
-	  fprintf(f, "\n");
-	}
+      if ((config->unpack[i].mask[j] & 0xF0) == 0) fprintf(f, "?");
+      else fprintf(f, "%1x", (config->unpack[i].matchCode[j] & 0xF0) >> 4);
+      if ((config->unpack[i].mask[j] & 0x0F) == 0) fprintf(f, "?");
+      else fprintf(f, "%1x", config->unpack[i].matchCode[j] & 0x0F);
     }
+
+    fprintf(f, "\n");
+  }
 
   if (config->separateBundles != 0) fprintf(f, "separateBundles\n");
   if (config->defarcmailSize != 0) fprintf(f, "defarcmailSize      %d\n",
