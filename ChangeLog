@@ -1,3 +1,26 @@
+2002-10-21 Monday 09:31  stas_degteff
+
+	* makefile.inc (fidoconf-0_14-stable.2): MFC: fix commonclean tag:
+	prevent remove files fithout suffixes on DOS-based FS
+
+2002-10-21 Monday 09:20  stas_degteff
+
+	* cfg.c (fidoconf-0_14-stable.7): Fix & fine cmpfnames() for DJGPP
+
+2002-10-21 Monday 08:45  stas_degteff
+
+	* common.c (fidoconf-0_14-stable.5): Use cmpfnames() for prevent
+	trying move & copy file itself
+
+2002-10-21 Monday 08:44  stas_degteff
+
+	* cfg.c (fidoconf-0_14-stable.6): Fix cmpfnames() definitions for
+	all platforms: remove 'statuc' modifier
+
+2002-10-21 Monday 06:37  stas_degteff
+
+	* cfg.c, common.c (fidoconf-0_14-stable.[5,4]): Fix for DJGPP
+
 2002-10-15 Tuesday 03:48  sfpavel
 
 	* cfg.c (fidoconf-0_14-stable.4): Fix typo
