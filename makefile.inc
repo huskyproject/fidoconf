@@ -8,12 +8,12 @@ VERH = 0
 
 LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ)  xstr$(OBJ) cfg$(OBJ) findtok$(OBJ) crc$(OBJ) log$(OBJ) recode$(OBJ) strsep$(OBJ) tree$(OBJ) areatree$(OBJ) afixcmd$(OBJ) afixcmn$(OBJ) arealist$(OBJ) temp$(OBJ) getfree$(OBJ) version$(OBJ)
 
-OBJS = $(LOBJS) fc2binkd$(OBJ) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) fc2tor$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ)
+OBJS = $(LOBJS) fc2binkd$(OBJ) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) fc2tor$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ) linked$(OBJ)
 
 commonlibs: $(LIBFIDOCONFIG)$(LIB) $(SYMBOLIC)
 	$(NULL)
 
-commonprogs: tparser$(EXE) $(FCONF2BINKD)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) $(FCONF2TORNADO)$(EXE) $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
+commonprogs: tparser$(EXE) linked$(EXE) $(FCONF2BINKD)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) $(FCONF2TORNADO)$(EXE) $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
 	$(NULL)
 
 $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
@@ -51,6 +51,9 @@ $(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ) fecfg146$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 
 tparser$(EXE): tparser$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)tparser$(EXE) tparser$(OBJ) $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
+
+linked$(EXE): linked$(OBJ) $(LIBFIDOCONFIG)$(LIB)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG)linked$(EXE) linked$(OBJ) $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
 
 commonclean: $(SYMBOLIC)
 	-$(RM) $(RMOPT) *$(OBJ)
