@@ -242,8 +242,12 @@ int tree_add_real(tree **ppr_tree, int (*pfi_compare)(char *, char *),
 int tree_add(tree **ppr_tree, int (*pfi_compare)(char *, char *),
               char *pc_user, int (*pfi_delete)(char *))
 {
-    tree_add_real(&(**ppr_tree).tree_r, pfi_compare, pc_user, pfi_delete,
-                 (**ppr_tree).need_b);
+    return tree_add_real(&(**ppr_tree).tree_r, 
+                                  pfi_compare,
+                                      pc_user,
+                                   pfi_delete,
+                          (**ppr_tree).need_b
+                        );
 }
 
 static void balanceR(tree **ppr_p, int *pi_balance)
@@ -543,4 +547,12 @@ void tree_init(tree **ppr_tree, char need_balance)
         *ppr_tree = NULL;
         sprout(ppr_tree, NULL, NULL, NULL, NULL, need_balance);
 	EXITV
+}
+
+void tree_deinit(tree **ppr_tree, int (*pfi_uar)(char *))
+{
+    tree_mung_real(&(**ppr_tree).tree_r, pfi_uar);
+    if (pfi_uar)
+        (*pfi_uar)((**ppr_tree).tree_p);
+    nfree(*ppr_tree);
 }
