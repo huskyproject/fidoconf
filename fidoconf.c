@@ -522,8 +522,6 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->busyFileDir);
    nfree(config->hptPerlFile);
    nfree(config->sendmailcmd);
-   for (j = 0; j < config->numPublicGroup; j++)
-     nfree(config->PublicGroup[j]);
    nfree(config->PublicGroup);
 
 
