@@ -244,8 +244,8 @@ int parsePath(char *token, char **var)
       return 0;
    }
 
-   if (*token && token[strlen(token)-1] == PATH_DELIM)
-       Strip_Trailing(token, PATH_DELIM);
+   if (*token && token[strlen(token)-1] != PATH_DELIM)
+       Add_Trailing(token, PATH_DELIM);
 //   {
 //      *var = (char *) smalloc(strlen(token)+1);
 //      strcpy(*var, token);
