@@ -2,7 +2,7 @@
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
  * Copyright (C) 1998-1999
- *  
+ *
  * Matthias Tichy
  *
  * Fido:     2:2433/1245 2:2433/1247 2:2432/605.14
@@ -132,15 +132,15 @@ void *memdup(void *p, size_t size)
 	return newp;
 }
 
-static char *attrStr[] = { "pvt", "crash", "read", "sent", "att", 
-                       "fwd", "orphan", "k/s", "loc", "hld", 
+static char *attrStr[] = { "pvt", "crash", "read", "sent", "att",
+                       "fwd", "orphan", "k/s", "loc", "hld",
                        "xx2",  "frq", "rrq", "cpt", "arq", "urq" };
-                                   
+
 long  str2attr(const char *str)
 {
    int i;
-   for (i = 0; i < sizeof(attrStr) / sizeof(char *); i++) 
-           if (strncasecmp(str, attrStr[i], strlen(attrStr[i]))==0) 
+   for (i = 0; i < sizeof(attrStr) / sizeof(char *); i++)
+           if (strncasecmp(str, attrStr[i], strlen(attrStr[i]))==0)
                    return 1 << i;
    return -1L;
 }
@@ -220,7 +220,7 @@ void string2addr(char *string, s_addr *addr) {
 	addr->node = (UINT16) t;
 
 	// point
-	if (*endptr && !isspace( endptr[0] )) str = endptr+1; 
+	if (*endptr && !isspace( endptr[0] )) str = endptr+1;
 	else return; // end of string
 	t = strtoul(str,&endptr,10);
 	addr->point = (UINT16) t;
@@ -260,7 +260,7 @@ INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter)
    size_t i;
 
    for (i=0;i<n-1 ;i++ ) {
-	   
+	
 	  do {
 		  str[i] = (UCHAR)getc(f);
 	  } while (filter && *filter && str[i] && strchr(filter, str[i]) != NULL);
@@ -286,7 +286,7 @@ char *stripLeadingChars(char *str, const char *chr)
    char *i = str;
 
    if (str != NULL) {
-   
+
       while (NULL != strchr(chr, *i)) {       // *i is in chr
          i++;
       } /* endwhile */                        // i points to the first occurences
@@ -299,7 +299,7 @@ char *stripLeadingChars(char *str, const char *chr)
 char *strUpper(char *str)
 {
    char *temp = str;
-   
+
    while(*str != 0) {
       *str = (char)toupper(*str);
       str++;
@@ -310,7 +310,7 @@ char *strUpper(char *str)
 char *strLower(char *str)
 {
    char *temp = str;
-   
+
    while(*str != 0) {
       *str = (char)tolower(*str);
       str++;
@@ -345,7 +345,7 @@ char *shell_expand(char *str)
     if (str[1] == '\0')
     {
         pfix = getenv("HOME");
-#ifdef UNIX        
+#ifdef UNIX
         if (pfix == NULL)
         {
             pw = getpwuid(getuid());
@@ -380,9 +380,9 @@ char *shell_expand(char *str)
     return ret;
 }
 
-/* ================================================================ 
+/* ================================================================
 
-Function: makeUniqueDosFileName 
+Function: makeUniqueDosFileName
 
 OVERVIEW:
 
@@ -543,12 +543,12 @@ static void atexit_wait_handler_function(void)
         time (&t);
     }
 }
-    
+
 char *makeUniqueDosFileName(const char *dir, const char *ext,
 			    s_fidoconfig *config)
 {
    char                *fileName;
-   
+
    static unsigned      counter  = 0x100, refcounter = 0x100;
    static time_t        refTime  = 0x0;
    static short         reftime36[7];
@@ -568,7 +568,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    {
 #ifdef __BEOS__
        snooze(10);
-#elif defined(UNIX) || defined(EMX)   
+#elif defined(UNIX) || defined(EMX)
        usleep(10);       /* wait to get a fresh number */
 #else
        sleep(1);
@@ -582,7 +582,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
        flag = 0;
        return NULL;
    }
-                           
+
    memcpy(fileName, dir, pathLen + 1);
 
    if (pathLen && fileName[pathLen - 1] != '\\' &&
@@ -623,7 +623,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    net10    = (config->addr[0].net % 100) / 10;
    net1     = config->addr[0].net % 10;
    point100 = (config->addr[0].point % 1000) / 100;
- 
+
 
    tempoffset = (node10   * 10000000UL +
                  node1    * 1000000UL  +
@@ -653,12 +653,12 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
            if (!may_run_ahead)
            {
                time (&tmpt);
-	   
+	
                while (tmpt < refTime)
                {
 #ifdef __BEOS__
-                   snooze(50);               
-#elif defined(UNIX) || defined(EMX)   
+                   snooze(50);
+#elif defined(UNIX) || defined(EMX)
                    usleep(50);       /* wait to get a fresh number */
 #else
                    sleep(1);
@@ -692,15 +692,16 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    return fileName;
 }
 
-#ifdef UNIX
-#define MOVE_FILE_BUFFER_SIZE 128000
-#else
+#if defined(__DOS__) && !defined(__FLAT__) || defined(_WINDOWS)
+/* _WINDOWS : 16-bit windows */
 #define MOVE_FILE_BUFFER_SIZE 16384
+#else
+#define MOVE_FILE_BUFFER_SIZE 128000
 #endif
 
 int move_file(const char *from, const char *to)
 {
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
     int rc;
 
     rc = rename(from, to);
@@ -728,7 +729,7 @@ int move_file(const char *from, const char *to)
 	
 int copy_file(const char *from, const char *to)
 {
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
     char *buffer;
     size_t read;
     FILE *fin, *fout;
@@ -785,13 +786,13 @@ int copy_file(const char *from, const char *to)
     if (rc == FALSE) {
       remove(to);
       return -1;
-    }       
+    }
 #elif defined (OS2) && defined(USE_SYSTEM_COPY)
     USHORT rc = DosCopy((PSZ)from, (PSZ)to, 1);
     if (rc) {
       remove(to);
       return -1;
-    }       
+    }
 #endif
     return 0;
 }
@@ -901,7 +902,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     // rc == '\x0002' no access level
     // rc == '\x0003' no access export
     // rc == '\x0004' not linked
-    
+
     unsigned int i, rc = 0;
 
     for (i=0; i<echo->downlinkCount; i++) {
@@ -931,7 +932,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 	}
 	
     if (echo->levelread > link->level) return 2;
-    
+
     return rc;
 }
 
@@ -949,7 +950,7 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 		if (link == echo->downlinks[i]->link) break;
     }
     if (i == echo->downlinkCount) return 4;
-    
+
     if (echo->group) {
 		if (link->numAccessGrp) {
 			if (config->numPublicGroup) {
@@ -969,7 +970,7 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     }
 	
     if (echo->levelwrite > link->level) return 2;
-    
+
     return rc;
 }
 
@@ -1005,7 +1006,7 @@ void *scalloc(size_t nmemb, size_t size)
 char *sstrdup(const char *src)
 {
     char *ptr;
-    
+
     if (src == NULL) return NULL;
 /*    if (!strlen(src)) return NULL; */
     ptr = strdup (src);
@@ -1062,7 +1063,7 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
 
    if (link->linkBundleNameStyle!=eUndef) bundleNameStyle=link->linkBundleNameStyle;
    else if (config->bundleNameStyle!=eUndef) bundleNameStyle=config->bundleNameStyle;
-   
+
    if (bundleNameStyle != eAmiga) {
 	   if (link->hisAka.point) xscatprintf(&name, "%08x.", link->hisAka.point);
 	   else xscatprintf(&name, "%04x%04x.", link->hisAka.net, link->hisAka.node);
@@ -1107,7 +1108,7 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
    if (link->hisAka.point && bundleNameStyle != eAmiga)
 	   xscatprintf(&link->floFile, "%04x%04x.pnt%c",
 				   link->hisAka.net, link->hisAka.node, limiter);
-   
+
    _createDirectoryTree(link->floFile); // create directoryTree if necessary
    xstrcat(&link->bsyFile, link->floFile);
    xstrcat(&link->floFile, name);
@@ -1117,11 +1118,11 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
    if (config->separateBundles && (bundleNameStyle!=eAmiga || (bundleNameStyle==eAmiga && link->packerDef==NULL))) {
 
        xstrcat(&sepDir, link->bsyFile);
-       if (bundleNameStyle==eAmiga) 
-	   xscatprintf(&sepDir, "%u.%u.%u.%u.sep%c", 
+       if (bundleNameStyle==eAmiga)
+	   xscatprintf(&sepDir, "%u.%u.%u.%u.sep%c",
 		       link->hisAka.zone, link->hisAka.net,
 		       link->hisAka.node ,link->hisAka.point, limiter);
-       else if (link->hisAka.point) xscatprintf(&sepDir, "%08x.sep%c", 
+       else if (link->hisAka.point) xscatprintf(&sepDir, "%08x.sep%c",
 						link->hisAka.point, limiter);
        else xscatprintf(&sepDir, "%04x%04x.sep%c", link->hisAka.net,
 			link->hisAka.node, limiter);
@@ -1137,20 +1138,20 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
 
    // maybe we have session with this link?
    if ( (fd=open(link->bsyFile, O_CREAT | O_RDWR | O_EXCL, S_IREAD | S_IWRITE)) < 0 ) {
-#if !defined(__WATCOMC__)	   
+#if !defined(__WATCOMC__)	
 	   int save_errno = errno;
-	   
+	
 	   if (save_errno != EEXIST) {
 		   w_log('7', "cannot create *.bsy file \"%s\" for %s (errno %d)\n", link->bsyFile, link->name, (int)save_errno);
          nRet = -1;
-		   
+		
 	   } else {
 #endif
 		   w_log('7', "link %s is busy.", aka2str(link->hisAka));
 		   nfree(link->floFile);
 		   nfree(link->bsyFile);
 		   nRet = 1;
-#if !defined(__WATCOMC__)	   
+#if !defined(__WATCOMC__)	
 	   }
 #endif
    } else  {
@@ -1202,12 +1203,12 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
     if (link->hisAka.point && bundleNameStyle != eAmiga)
 	xscatprintf(&bsyFile, "%04x%04x.pnt%c",
 		    link->hisAka.net, link->hisAka.node, limiter);
-   
+
     _createDirectoryTree(bsyFile); // create directoryTree if necessary
 
     if (link->linkBundleNameStyle!=eUndef) bundleNameStyle=link->linkBundleNameStyle;
     else if (config->bundleNameStyle!=eUndef) bundleNameStyle=config->bundleNameStyle;
-   
+
     if (bundleNameStyle != eAmiga) {
 	if (link->hisAka.point) xscatprintf(&bsyFile, "%08x", link->hisAka.point);
 	else xscatprintf(&bsyFile, "%04x%04x", link->hisAka.net, link->hisAka.node);
@@ -1217,7 +1218,7 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
     }
 
     xstrscat(&bsyFile, ".bsy", NULL);
-    
+
     if (fexist(bsyFile)) {
 	link->useFileBox = 2;
     } else {
@@ -1248,7 +1249,7 @@ char *makeFileBoxName (ps_fidoconfig config, s_link *link)
 void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path)
 {
     const char *start, *tmp, *add;
-    
+
     *cmd = '\0';  start = NULL;
     for (tmp = call; (start = strchr(tmp, '$')) != NULL; tmp = start + 2) {
         switch(*(start + 1)) {
