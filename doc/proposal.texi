@@ -1574,16 +1574,16 @@ disallow remote changes (only manual connect/disconnect). same as mandatory.
 file name of area is in dos style (8+3)
 @item -h           
 hide area
-@item -d <"Description for the area between double quote (like this)">
+@item -d "Description for the area between double quote (like this)"
 describe area
 @item -nopause        
 %PAUSE has no effect to this area
 @item -ccoff
 disables carbonCopies for this area
-@item -DupeCheck off|move|del
+@item -DupeCheck off|move|del ("off" if not defined)
 toss in dupes, move dupes to dupeArea or delete dupes.
 @item -DupeHistory <unsignedInteger>
-size of dupecheck history file in days
+size of dupecheck history file in days (7 days if not defined)
 @item -nolink
 disables reply-linking for this area
 @end table
