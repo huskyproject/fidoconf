@@ -1433,7 +1433,7 @@ This statement can be repeated.
 @item Syntax:
 @code{PublicGroup @{<groups>@} }
 @item Example:
-@code{PublicGroup abcde12}
+@code{PublicGroup local,a,b,cde}
 @end table
 
 Tis is a list of groups for public echo acess.

@@ -6,6 +6,10 @@ Tue Feb  1 22:19:01 NOVT 2000
 max:
 * added getEchoArea()
 * getArea() returns echo & local areas
+* added autoAreaCreateDefaults & autoFileCreateDefaults to tparser
+* added PublicGroup to tparser
+* changes in documentation
+* do not transtale groups to lowercase - we have case unsensitive _tokens_
 
 ----- cvs ci ------
 Sun Jan 30 17:06:45 NOVT 2000

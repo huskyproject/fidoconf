@@ -183,8 +183,10 @@ void printLink(s_link link) {
    }
    printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
    if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
+   if (link.autoAreaCreateDefaults) printf("AutoAreaCreateDefaults: %s\n", link.autoAreaCreateDefaults);
    printf("AutoFileCreate %s\n", (link.autoFileCreate) ? "on" : "off");
    if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);
+   if (link.autoFileCreateDefaults) printf("AutoFileCreateDefaults: %s\n", link.autoFileCreateDefaults);
    if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
    if (link.numAccessGrp)
    {
@@ -271,6 +273,13 @@ int main() {
       printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
 
       printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
+      
+      if (config->numPublicGroup > 0) {
+          printf("PublicGroups: ");
+          for (i = 0; i < config->numPublicGroup; i++)
+              printf( (i>0) ? ",%s" : "%s", config->PublicGroup[i]);
+          printf("\n");
+      }
 
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");

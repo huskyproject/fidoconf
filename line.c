@@ -495,7 +495,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       if (token == NULL) {
                  return 1;
       }
-      area->group = strLower(strdup(token));
+      area->group = strdup(token);
    }
 /*   else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
@@ -605,7 +605,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       if (token == NULL) {
                  return 1;
       }
-      area->group = strLower(strdup(token));
+      area->group = strdup(token);
    }
 /*   else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
@@ -1598,7 +1598,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token);
 
 	for (j = 0; j < cpos - token; j++)
-	  link->AccessGrp[link->numAccessGrp][j] = tolower(token[j]);
+	  link->AccessGrp[link->numAccessGrp][j] = token[j];
 
 	link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
 	token = cpos+1;
@@ -1614,7 +1614,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token);
 
 	for (j = 0; j < cpos - token; j++)
-	  link->AccessGrp[link->numAccessGrp][j] = tolower(token[j]);
+	  link->AccessGrp[link->numAccessGrp][j] = token[j];
 
 	link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
 	token = cpos;
@@ -1645,7 +1645,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token);
 
 	for (j = 0; j < cpos - token; j++)
-	  config->PublicGroup[config->numPublicGroup][j] = tolower(token[j]);
+	  config->PublicGroup[config->numPublicGroup][j] = token[j];
 
 	config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
 	token = cpos+1;
@@ -1661,7 +1661,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token);
 
 	for (j = 0; j < cpos - token; j++)
-	  config->PublicGroup[config->numPublicGroup][j] = tolower(token[j]);
+	  config->PublicGroup[config->numPublicGroup][j] = token[j];
 
 	config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
 	token = cpos;
@@ -1688,7 +1688,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	link->optGrp[link->numOptGrp] = malloc(cpos - token);
 
 	for (j = 0; j < cpos - token; j++)
-	  link->optGrp[link->numOptGrp][j] = tolower(token[j]);
+	  link->optGrp[link->numOptGrp][j] = token[j];
 
 	link->optGrp[link->numOptGrp][cpos - token] = '\0';
 	token = cpos+1;
@@ -1704,7 +1704,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	link->optGrp[link->numOptGrp] = malloc(cpos - token);
 
 	for (j = 0; j < cpos - token; j++)
-	  link->optGrp[link->numOptGrp][j] = tolower(token[j]);
+	  link->optGrp[link->numOptGrp][j] = token[j];
 
 	link->optGrp[link->numOptGrp][cpos - token] = '\0';
 	token = cpos;
