@@ -111,11 +111,11 @@ void printFileArea(s_filearea area) {
    printf("\n");
    printf("Group       - %c\n", area.group);
    if (area.downlinkCount) printf("Links:");
-     else printf("No links\n");
+   else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) { 
        printf("\t");
-       printAddr(area.downlinks[i]->hisAka);
-       printf(" level %d,", area.downlinks[i]->level);
+       printAddr(area.downlinks[i]->link->hisAka);
+       printf(" level %d,", area.downlinks[i]->link->level);
        if (area.downlinks[i]->export) printf(" export on,");
        else printf(" export off,");
        if (area.downlinks[i]->import) printf(" import on,");
@@ -175,11 +175,14 @@ void printLink(s_link link) {
    }
    if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
    if (link.optGrp) printf("OptGrp       %s\n", link.optGrp);
-   if (link.autoCreateFile) printf("AutoCreateFile: %s\n", link.autoCreateFile);
+   if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
+   if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);
    if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
    if (link.AccessGrp) printf("AccessGrp %s\n",link.AccessGrp);
    if (link.autoAreaCreate) printf("AutoAreaCreate on\n");
+   if (link.autoFileCreate) printf("AutoFileCreate on\n");
    if (link.AreaFix) printf("AreaFix on\n"); else printf("AreaFix off\n");
+   if (link.FileFix) printf("FileFix on\n"); else printf("FileFix off\n");
    if (link.forwardRequests) printf("Forward Requests from this link is on\n");
    if (link.fReqFromUpLink) printf("Forward Request to another links is on\n");
    else printf("Forward Request to another links is off\n");
@@ -225,6 +228,7 @@ int main() {
       if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir: %s\n", config->dupeHistoryDir);
       if (config->logFileDir != NULL) printf("LogFileDir: %s\n", config->logFileDir);
       if (config->msgBaseDir != NULL) printf("MsgBaseDir: %s\n", config->msgBaseDir);
+      if (config->fileAreaBaseDir != NULL) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
       if (config->magic != NULL) printf("Magic: %s\n", config->magic);
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: ");

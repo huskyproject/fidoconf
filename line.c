@@ -623,6 +623,7 @@ int parseEchoArea(char *token, s_fidoconfig *config)
 int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
 {
    char *tok;
+   s_link *link;
    int rc = 0;
 
    if (token == NULL) {
@@ -654,21 +655,63 @@ int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
    area->pathName = (char *) malloc(strlen(tok)+1);
    strcpy(area->pathName, tok);
 
-   while ((tok = strtok(NULL, " \t"))!= NULL) {
+   tok = strtok(NULL, " \t");
+
+   while (tok != NULL) {
       if(tok[0]=='-') rc += parseFileAreaOption(config, tok+1, area);
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
-         area->downlinks = realloc(area->downlinks, sizeof(s_link*)*(area->downlinkCount+1));
-         area->downlinks[area->downlinkCount] = getLink(config, tok);
-         if (area->downlinks[area->downlinkCount] == NULL) {
+         area->downlinks = realloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+         area->downlinks[area->downlinkCount] = (s_arealink*)calloc(1, sizeof(s_arealink));
+         area->downlinks[area->downlinkCount]->link = getLink(config, tok);
+         if (area->downlinks[area->downlinkCount]->link == NULL) {
             printf("Line %d: Link for this area is not found!\n", actualLineNr);
             rc += 1;
+            return rc;
          }
+         link = area->downlinks[area->downlinkCount]->link;
+         if (link->optGrp) tok = strchr(link->optGrp, area->group);
+
+         // default set export on, import on, mandatory off
+         area->downlinks[area->downlinkCount]->export = 1;
+         area->downlinks[area->downlinkCount]->import = 1;
+         area->downlinks[area->downlinkCount]->mandatory = 0;
+
+         // check export to link
+         if (link->export) if (*link->export == 0) {
+            if (link->optGrp == NULL || (link->optGrp && tok)) {
+               area->downlinks[area->downlinkCount]->export = 0;
+            } /* endif */
+         } /* endif */
+
+         // check import from link
+         if (link->import) if (*link->import == 0) {
+            if (link->optGrp == NULL || (link->optGrp && tok)) {
+               area->downlinks[area->downlinkCount]->import = 0;
+            } /* endif */
+         } /* endif */
+
+         // check mandatory to link
+         if (link->mandatory) if (*link->mandatory == 1) {
+            if (link->optGrp == NULL || (link->optGrp && tok)) {
+               area->downlinks[area->downlinkCount]->mandatory = 1;
+            } /* endif */
+         } /* endif */
          area->downlinkCount++;
+         tok = strtok(NULL, " \t");
+         while (tok) {
+            if (tok[0] == '-') {
+               if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1)) break;
+               tok = strtok(NULL, " \t");
+            } else break;
+         } /* endwhile */
+         continue;
       }
       else {
          printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
          rc +=1;
+         return rc;
       }
+      tok = strtok(NULL, " \t");
    }
 
    return rc;
@@ -703,6 +746,7 @@ int parseLink(char *token, s_fidoconfig *config)
    config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
    // set areafix default to on
    config->links[config->linkCount].AreaFix = 1;
+   config->links[config->linkCount].FileFix = 1;
    
    config->links[config->linkCount].fReqFromUpLink = 1;
 
@@ -1337,6 +1381,17 @@ int parseLine(char *line, s_fidoconfig *config)
 	rc = 1;
       }
    }
+   else if (stricmp(token, "autoFileCreate")==0) {
+      rc = 0;
+      if (config->linkCount > 0) {
+	if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].autoFileCreate = 1;
+	else rc = 2;
+      }
+      else {
+	printLinkError();
+	rc = 1;
+      }
+   }
    else if (stricmp(token, "forwardRequests")==0) {
       rc = 0;
       if (config->linkCount > 0) {
@@ -1372,19 +1427,33 @@ int parseLine(char *line, s_fidoconfig *config)
        rc = 1;
      }
    }
-   else if (stricmp(token, "autoCreateDefaults")==0) {
+   else if (stricmp(token, "autoAreaCreateDefaults")==0) {
      if (config->linkCount > 0){
-       rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateDefaults));
+       rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoAreaCreateDefaults));
      }
      else {
        printLinkError();
        rc = 1;
      }
    }
-   else if (stricmp(token, "autofileCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoFileCreateDefaults));
+   else if (stricmp(token, "autoFileCreateDefaults")==0) {
+     if (config->linkCount > 0){
+       rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoFileCreateDefaults));
+     }
+     else {
+       printLinkError();
+       rc = 1;
+     }
+   }
+//   else if (stricmp(token, "autoFileCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoFileCreateDefaults));
    else if (stricmp(token, "AreaFix")==0) {
           rc = 0;
           if (stricmp(getRestOfLine(), "off")==0) config->links[config->linkCount-1].AreaFix = 0;
+      else rc = 2;
+   }
+   else if (stricmp(token, "FileFix")==0) {
+          rc = 0;
+          if (stricmp(getRestOfLine(), "off")==0) config->links[config->linkCount-1].FileFix = 0;
       else rc = 2;
    }
    else if (stricmp(token, "Pause")==0) { 
@@ -1419,7 +1488,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
    else if (stricmp(token, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
    else if (stricmp(token, "forwardRequestFile")==0) rc = parseFileName(getRestOfLine(), &(config->links[config->linkCount-1].forwardRequestFile));
-   else if (stricmp(token, "autoCreateFile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateFile));
+   else if (stricmp(token, "autoAreaCreateFile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoAreaCreateFile));
+   else if (stricmp(token, "autoFileCreateFile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoFileCreateFile));
 
 
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));

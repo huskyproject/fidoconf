@@ -289,12 +289,14 @@ void freeArea(s_area area) {
 }
 
 void freeFileArea(s_filearea area) {
+    int i;
         free(area.areaName);
         free(area.pathName);
         free(area.description);
         free(area.rwgrp);
         free(area.wgrp);
         free(area.rgrp);
+	for (i=0; i < area.downlinkCount; i++) free(area.downlinks[i]);
         free(area.downlinks);
 }
 
@@ -336,8 +338,10 @@ void disposeConfig(s_fidoconfig *config)
 	   free(config->links[i].mandatory);
 	   free(config->links[i].optGrp);
 	   free(config->links[i].forwardRequestFile);
-	   free(config->links[i].autoCreateDefaults);
-	   free(config->links[i].autoCreateFile);
+	   free(config->links[i].autoAreaCreateDefaults);
+	   free(config->links[i].autoFileCreateFile);
+	   free(config->links[i].autoFileCreateDefaults);
+	   free(config->links[i].autoFileCreateFile);
    }
    free(config->links);
 
@@ -353,7 +357,6 @@ void disposeConfig(s_fidoconfig *config)
    free(config->msgBaseDir);
    free(config->magic);
    free(config->areafixhelp);
-   free(config->autoFileCreateDefaults);
    free(config->tempOutbound);
    free(config->fileAreaBaseDir);
 
@@ -497,7 +500,7 @@ int isLinkOfFileArea(s_link *link, s_filearea *area)
 
    for (i = 0; i < area->downlinkCount; i++)
    {
-      if (link == area->downlinks[i]) return 1;
+      if (link == area->downlinks[i]->link) return 1;
    }
    return 0;
 }

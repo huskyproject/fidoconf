@@ -82,7 +82,9 @@ struct link {
         *bbsPwd;
    char *handle;
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
+   int  autoFileCreate;       // 0 if not allowed for autofilecreate
    int  AreaFix;              // 0 if not allowed for areafix
+   int  FileFix;              // 0 if not allowed for filefix
    int  forwardRequests;      // 0 if not allowed forward requests
    int  fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
    e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
@@ -92,8 +94,10 @@ struct link {
    e_flavour echoMailFlavour;
    char *LinkGrp;	      // link's group for autocreate areas
    char *AccessGrp;	      // groups for echo access
-   char *autoCreateFile;      // file where autocreated areas are written to
-   char *autoCreateDefaults;  // add default string for autocreated area here
+   char *autoAreaCreateFile;  // file where autocreated areas are written to
+   char *autoFileCreateFile;
+   char *autoAreaCreateDefaults;// add default string for autocreated area here
+   char *autoFileCreateDefaults;
    char *forwardRequestFile;  // list of available areas from this link
    char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
    void *msg;                 // active msg to the link (used in areafix)
@@ -164,8 +168,11 @@ struct fileareatype {
    
    s_addr *useAka;
    
-   s_link **downlinks;  // array of pointers to s_link
+   s_arealink **downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
+
+//   s_link **downlinks;  // array of pointers to s_link
+//   unsigned int downlinkCount;
 
    char manual, hide, noPause;
 
@@ -217,7 +224,7 @@ struct fidoconfig {
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
    char     *magic, *areafixhelp, *filefixhelp, *tempOutbound;
-   char     *fileAreaBaseDir, *autoFileCreateDefaults;
+   char     *fileAreaBaseDir;
    char     *loglevels;
 
    s_area   netMailArea, dupeArea, badArea;

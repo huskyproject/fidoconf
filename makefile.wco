@@ -21,11 +21,19 @@ OBJS=  patmat.obj \
 
 LOBJS=  -+patmat.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj
 
-all:    fidoconfig.lib fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe
+all:    fidoconfig.lib fconf2squish.exe fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fe2fconf.exe
+
+fecfg2fconf.obj: fecfg2fconf.c
+	$(CC) fecfg2fconf.c -zp1 -5r
+
+fe2fconf.exe: fecfg2fconf.obj
+	wlink FILE fecfg2fconf.obj NAME fe2fconf.exe
+
 
 fidoconfig.lib: $(OBJS)
         $(LIB) -b -q $(LIBS) $(LOBJS)
 
+fconf2squish.exe: $(LIBS) $(HDRS) fconf2squish.c
 
 fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
 
@@ -39,10 +47,13 @@ clean:
         del $(OBJS)
         del $(OBLS)
         del fidoconfig.bak
-        del fconf2golded.obj fconf2msged.obj fconf2golded.exe fconf2msged.exe tparser.obj tparser.exe
+        del fconf2golded.obj fconf2msged.obj fconf2golded.exe fconf2msged.exe tparser.obj tparser.exe fconf2squish.obj fconf2squish.exe
 
 .c.obj:
         $(CC) $(CFLAGS) $(CDEFS) $(COPT) $<
 
 .c.exe:
         wcl386 -Gd+ $(CFLAGS) $(CDEFS) $(COPT) $< $(ALLIBS)
+
+
+

@@ -1,5 +1,14 @@
 
 ----- cvs ci ------
+Wed Jun  16 18:20:00
+Fedor:
+* change token AutoCreateFile to AutoAreaCreateFile (from link)
++ added token AutoFileCreateFile 
+* change token AutoCreateDefaults to AutoAreaCreateDefaults
+* moved global AutoFileCreateDefaults to link
+  Do it for used htick in future
+
+----- cvs ci ------
 Tue Jun  8 20:53:03
 Fedor:
 + added token AutoPause for links
