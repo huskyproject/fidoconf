@@ -31,7 +31,7 @@
 
 #include <stdlib.h>
 
-#include "fidoconfig.h"
+#include "fidoconf.h"
 
 int writeArea(FILE *f, s_area *area, char type) {
 

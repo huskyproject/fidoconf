@@ -36,8 +36,6 @@
 #include <smapi/msgapi.h>
 #endif
 
-#include "common.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
