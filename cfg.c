@@ -279,27 +279,28 @@ char *configline(void)
   char *p, *p1, *p2, *str, *line=NULL;
 
   for (;;) {
-      nfree(line);
-      line=str=_configline();
-      if (str==NULL) {
-	  // save parsed config name
-	  cfgNames = srealloc(cfgNames, sizeof(char*)*(cfgNamesCount+1));
-	  cfgNames[cfgNamesCount] = NULL;
-	  xstrcat(&cfgNames[cfgNamesCount], curconfname);
-	  cfgNamesCount++;
-	  if (sp) {
-	      fclose(hcfg);
-	      nfree(curconfname);
-	      hcfg=incstack[--sp].farr;
-	      actualLineNr=incstack[sp].curline;
-	      curconfname=incstack[sp].confname;
-	      continue;
-	  }
-	  return NULL;
-      }
-      while (*str && isspace(*str)) str++;
+    nfree(line);
+    line=str=_configline();
+    if (str==NULL) {
+       // save parsed config name
+       cfgNames = srealloc(cfgNames, sizeof(char*)*(cfgNamesCount+1));
+       cfgNames[cfgNamesCount] = NULL;
+       xstrcat(&cfgNames[cfgNamesCount], curconfname);
+       cfgNamesCount++;
+       if (sp) {
+          fclose(hcfg);
+          nfree(curconfname);
+          hcfg=incstack[--sp].farr;
+          actualLineNr=incstack[sp].curline;
+          curconfname=incstack[sp].confname;
+          continue;
+       }
+       return NULL;
+    }
+    while (*str && isspace(*str)) str++;
     if (strncasecmp(str, "if ", 3)==0)
     {
+      p=vars_expand(line); str+=(p-line); line=p;
       iflevel++;
       if (iflevel==maxif)
         ifstack=srealloc(ifstack, (maxif+=10)*sizeof(*ifstack));
@@ -311,6 +312,7 @@ char *configline(void)
     if ((strncasecmp(str, "ifdef ",  6)==0) ||
         (strncasecmp(str, "ifndef ", 7)==0))
     {
+      p=vars_expand(line); str+=(p-line); line=p;
       for (p1=str+strlen(str)-1; isspace(*p1); *p1--='\0');
       for (p=str+6; isspace(*p); p++);
       if (*p=='\0')
@@ -351,6 +353,7 @@ char *configline(void)
         wasError = 1;
         continue;
       }
+      p=vars_expand(line); str+=(p-line); line=p;
       if (ifstack[iflevel].wastrue)
         ifstack[iflevel].state=0;
       else
@@ -374,6 +377,7 @@ char *configline(void)
       continue;
     if (strncasecmp(str, "set ", 4)==0)
     {
+      p=vars_expand(line); str+=(p-line); line=p;
       p=strchr(str, '\n');
       if (p) *p=0;
       p1=strchr(str+4, '=');
@@ -400,6 +404,7 @@ char *configline(void)
     }
     if (strncasecmp(str, "include", 7)==0)
     {
+      p=vars_expand(line); str+=(p-line); line=p;
       for (p=str+7; (*p==' ') || (*p=='\t'); p++);
       for (p1=p+strlen(p)-1; isspace(*p1); *p1--=0);
       for (i=0; i<sp; i++)

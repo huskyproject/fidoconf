@@ -707,6 +707,7 @@ static int dumpcfg(char *fileName)
       line = stripComment(line);
       if (line[0] != 0) {
          line = shell_expand(line);
+         line = vars_expand(line);
          puts(line);
       } else
          puts(line);
