@@ -79,7 +79,7 @@ void string2addr(const char *string, s_addr *addr)
 
   addr->domain = NULL;
 
-  if (strchr(start,':')==0 || strchr(start,'/')==0) return;
+  if (strchr(start,':')==NULL || strchr(start,'/')==NULL) return;
 
   while ((*start != ':')&&(*start != ' ')&&(i < 31)) {    // copy zone info or preceding domain
       buffer[i] = *(start++);
@@ -91,7 +91,10 @@ void string2addr(const char *string, s_addr *addr)
       // software which is such crap generating should be xxxx
 //      addr->domain = (char *) malloc(strlen(buffer)+1);
 //      strcpy(addr->domain, buffer);
-   } else addr->zone = atoi(buffer);
+   } else {
+	if (strchr(start,' ')) return;
+	addr->zone = atoi(buffer);
+   }
 
    i = 0;
    start++;
