@@ -30,6 +30,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
+#include <smapi/compiler.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -39,10 +40,10 @@
 #include <stdarg.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <process.h>
+#ifndef __GNUC__
+#  include <process.h>
+#endif
 #include <limits.h>
-
-#include <smapi/compiler.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
@@ -74,7 +75,6 @@
 #include <smapi/progprot.h>
 #include <smapi/patmat.h>
 #include <smapi/unused.h>
-#include <smapi/compiler.h>
 #include <smapi/stamp.h>
 
 #include "syslogp.h"

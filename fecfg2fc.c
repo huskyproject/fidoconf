@@ -19,8 +19,8 @@ char Revision[] = "$Revision$";
 #include <ctype.h>
 #include <assert.h>
 
-#include <smapi/typedefs.h>
 #include <smapi/compiler.h>
+#include <smapi/typedefs.h>
 #include <smapi/stamp.h>
 #include <smapi/progprot.h>
 

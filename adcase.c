@@ -25,7 +25,7 @@
 #endif
 
 #ifdef HAS_DIRENT_H
-#include <dirent.h>
+#  include <dirent.h>
 #endif
 
 #include "common.h"
