@@ -35,7 +35,7 @@ fconf2squish.exe:
         $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
 
 fecfg2fconf.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c $(FCONFL) $(SMAPIL)
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c  fecfg146.c $(FCONFL) $(SMAPIL)
 
 clean:
         -del *.obj *.lib
