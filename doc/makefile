@@ -6,6 +6,9 @@ info fidoconfig.info: fidoconfig.texi proposal.texi config
 dvi fidoconfig.dvi:  fidoconfig.texi proposal.texi config
 	texi2dvi fidoconfig.texi
 
+ps fidoconfig.ps: fidoconfig.dvi
+	dvips fidoconfig.dvi -o fidoconfig.ps
+
 html fidoconfig_toc.html: fidoconfig.texi proposal.texi config
 	texi2html -split_node -number -menu fidoconfig.texi
 

@@ -84,10 +84,12 @@ a comment and will be ignored.
 
 Path and file definition:
 * outbound::            outbound path
+* tempoutbound::        temporary outbound path
 * inbound::             inbound path
 * protinbound::         protected inbound
 * listinbound::         listed inbound
 * localinbound::        local inbound
+* tempinbound::         temporary inbound path
 * msgbasedir::          base directory of areas
 * intab::               file for recoding incoming msgs
 * outtab::              file for recoding outgoing msgs
@@ -241,7 +243,7 @@ This statement can be repeated.
 @strong{The Line option is not supported}
 @strong{The domain name is not full supported throughout fidoconfig}
 
-@node outbound, inbound, address, Keywords
+@node outbound, tempoutbound, address, Keywords
 @subsection outbound
 @table @asis
 @item Syntax:
@@ -290,7 +292,22 @@ in hex).
 For a deeper background on a binkley-style outbound see the binkley-term
 documentation and source code.
 
-@node inbound, protinbound, outbound, Keywords
+This statement cannot be repeated.
+
+@node tempoutbound, inbound, outbound, Keywords
+@subsection tempoutbound
+@table @asis
+@item Syntax:
+@code{tempoutbound <path>}
+@item Example:
+@code{outbound /var/spool/fido/out.tmp}
+@end table
+
+This command specifies your temporaryoutbound path. It is used for outgoing packets.
+
+This statement cannot be repeated.
+
+@node inbound, protinbound, tempoutbound, Keywords
 @subsection inbound
 @table @asis
 @item Syntax:
@@ -337,7 +354,7 @@ Only netmails are tossed from this path.
 
 This statement cannot be repeated.
 
-@node localinbound, msgbasedir, listinbound, Keywords
+@node localinbound, tempinbound, listinbound, Keywords
 @subsection localinbound
 @table @asis
 @item Syntax:
@@ -353,7 +370,20 @@ your own system.
 
 This statement cannot be repeated.
 
-@node msgbasedir, intab, localinbound, Keywords
+@node tempinbound, msgbasedir, localinbound, Keywords
+@subsection tempinbound
+@table @asis
+@item Syntax:
+@code{tempinbound <path>}
+@item Example:
+@code{tempinbound /var/spool/fido/in.tmp}
+@end table
+
+This command specifies a patch which is used while tossing.
+
+This statement cannot be repeated.
+
+@node msgbasedir, intab, tempinbound, Keywords
 @subsection msgBaseDir
 @table @asis
 @item Syntax:
@@ -993,8 +1023,6 @@ e.g.: unpack "mypack -e %s" 0e ffff????cefe
 
 @end example
 
-@strong{This statement is currently not supported.}
-       
 @node route, routeFile, unpack, Keywords
 @subsection route
 @table @asis
