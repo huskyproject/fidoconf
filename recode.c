@@ -130,20 +130,12 @@ void getctab(CHAR *dest, UCHAR *charMapFileName )
 
 		if (p && q)
 		{
-#if defined(__WATCOMC__) && defined(__DOS4G__)
 			in = ctoi((signed char *)p);
-#else
-			in = ctoi((char *)p);
-#endif
 			if (in > 255) {
 				fprintf(stderr, "getctab: %s: line %d: char val too big\n", charMapFileName, line);
 				break;
 			}
-#if defined(__WATCOMC__) && defined(__DOS4G__)
 			on=ctoi((signed char *)q);
-#else
-			on=ctoi((char *)q);
-#endif
 			if (in && on)
                         {
                                 if( count++ < 256 ) dest[in]=(char)on;
