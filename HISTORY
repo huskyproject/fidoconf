@@ -16,3 +16,4 @@ FIDOCONFIG 0.14.3 release
    - fix *nix versions (compile without semaphores)
    - fix unpacker call string parsing
    - fix several memory faults
+   - don't crash when link statement after described echoArea/fileArea found
