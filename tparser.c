@@ -137,7 +137,9 @@ void printFileArea(s_filearea area) {
    else
       printf("Passthrough filearea");
 
-   if (area.useAka->domain != NULL)
+   if (area.useAka == NULL)
+     printf ("\t Use ??? (not configured)");
+   else if (area.useAka->domain != NULL)
      printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);
    else
      printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
