@@ -1,3 +1,25 @@
+2002-07-17 Wednesday 22:53  tobi
+
+	* typesize.h (1.22): Updates for MacOS X
+
+2002-07-17 Wednesday 21:58  stas
+
+	* crc.c (1.4), crc.h (1.6): change type of crc32 functions to
+	portable UINT32
+
+2002-07-17 Wednesday 21:51  stas
+
+	* crc.c (1.3), crc.h (1.5): Implement crc16 calculation
+
+2002-07-17 Wednesday 17:16  stas
+
+	* log.c (1.8): openLog() changes: if fileName without path, create
+	log into LogFileDir
+
+2002-07-17 Wednesday 16:53  stas
+
+	* log.c (1.7): change message if log file name is empty
+
 2002-07-15 Monday 22:42  stas
 
 	* tokens.h (1.41): fix C syntax (remove comma)
