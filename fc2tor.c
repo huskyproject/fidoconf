@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "fidoconf.h"
 #include "common.h"
@@ -260,8 +261,6 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
 }
 
 void parseOptions(char *line) {
-   int options=0;
-   char chr=0;
 
    if ( strnicmp(line, "-m", 2) == 0 ) {
     export_mailareas = 1;
