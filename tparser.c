@@ -1102,8 +1102,9 @@ int main(int argc, char **argv) {
 	  nfree(attrs);
 	}
         printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
-        if (config->filefixFromName) printf("filefixFromName - \"%s\"\n", config->filefixFromName);
-        if (config->filefixNames) printf("filefixNames - \"%s\"\n", config->filefixNames);
+        if (config->filefixFromName) printf("filefixFromName: \"%s\"\n", config->filefixFromName);
+        if (config->filefixNames) printf("filefixNames: \"%s\"\n", config->filefixNames);
+        if (config->filefixhelp) printf("filefixHelp:  %s\n", config->filefixhelp);
 
         printf("\n=== TICKER CONFIG ===\n");
         if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
