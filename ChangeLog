@@ -1,5 +1,7 @@
-Tue May 22 14:16:02 MSD 2001
-	* token fileBox
+2001-05-24 Thursday 15:25  ml
+
+	* fidoconf.h (1.71), line.c (1.252), tokens.h (1.11), tparser.c
+	(1.147), doc/keywords.hpt (1.10): token fileBox
 
 2001-05-16 Wednesday 12:08  ml
 
