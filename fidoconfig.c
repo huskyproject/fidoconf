@@ -324,6 +324,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->areafixhelp);
    free(config->tempOutbound);
    free(config->fileAreaBaseDir);
+   free(config->passFileAreaDir);
 
    freeArea(config->netMailArea);
    freeArea(config->dupeArea);
