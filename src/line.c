@@ -3993,13 +3993,16 @@ int parseLine(char *line, s_fidoconfig *config)
                            &(getDescrLink(config)->forwardAreaPriority));
             break;
         case ID_FORWARDREQUESTTIMEOUT:
-            rc = parseUInt(getRestOfLine(), &(config->forwardRequestTimeout));
+            checkRobot();
+            rc = parseUInt(getRestOfLine(), &(curRobot->forwardRequestTimeout));
             break;
         case ID_IDLEPASSTHRUTIMEOUT:
-            rc = parseUInt(getRestOfLine(), (unsigned int*)&(config->idlePassthruTimeout));
+            checkRobot();
+            rc = parseUInt(getRestOfLine(), &(curRobot->idlePassthruTimeout));
             break;
         case ID_KILLEDREQUESTTIMEOUT:
-            rc = parseUInt(getRestOfLine(), &(config->killedRequestTimeout));
+            checkRobot();
+            rc = parseUInt(getRestOfLine(), &(curRobot->killedRequestTimeout));
             break;
 
         case ID_FORWARDFILEPRIORITY:
@@ -4306,7 +4309,8 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parsePath(getRestOfLine(), &(config->tempOutbound), NULL);
             break;
         case ID_AUTOAREAPAUSE:
-            rc = parseBool(getRestOfLine(), &(config->autoAreaPause));
+            checkRobot();
+            rc = parseBool(getRestOfLine(), &(curRobot->autoAreaPause));
             break;
         case ID_AREAFIXFROMPKT:
             rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
@@ -4329,8 +4333,9 @@ int parseLine(char *line, s_fidoconfig *config)
             checkRobot();
             rc = parseBool(getRestOfLine(), &(curRobot->killRequests));
             break;
-        case ID_AREAFIXQUERYREPORTS:
-            rc = parseBool(getRestOfLine(), &(config->areafixQueryReports));
+        case ID_QUERYREPORTS:
+            checkRobot();
+            rc = parseBool(getRestOfLine(), &(curRobot->queryReports));
             break;
         case ID_CREATEDIRS:
             rc = parseBool(getRestOfLine(), &(config->createDirs));
@@ -4386,8 +4391,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_DEFARCMAILSIZE:
             rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
             break;
-        case ID_AREAFIXMSGSIZE:
-            rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
+        case ID_MSGSIZE:
+            checkRobot();
+            rc = parseNumber(getRestOfLine(), 10, &(curRobot->msgSize));
             break;
         case ID_AFTERUNPACK:
             rc = fc_copyString(getRestOfLine(), &(config->afterUnpack));
@@ -4398,15 +4404,17 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_PROCESSPKT:
             rc = fc_copyString(getRestOfLine(), &(config->processPkt));
             break;
-        case ID_AREAFIXSPLITSTR:
-            rc = fc_copyString(getRestOfLine(), &(config->areafixSplitStr));
+        case ID_SPLITSTR:
+            checkRobot();
+            rc = fc_copyString(getRestOfLine(), &(curRobot->splitStr));
             break;
-        case ID_AREAFIXORIGIN:
+        case ID_ROBOTORIGIN:
+            checkRobot();
             temp = getRestOfLine();
             if( temp[0] == '"' && temp[strlen(temp)-1] =='"' ) {
               temp++; temp[strlen(temp)-1]='\0';
             }
-            rc = fc_copyString(temp, &(config->areafixOrigin));
+            rc = fc_copyString(temp, &(curRobot->origin));
             break;
         case ID_ROBOTSAREA:
             rc = fc_copyString(getRestOfLine(), &(config->robotsArea));

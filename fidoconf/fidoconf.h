@@ -451,13 +451,21 @@ typedef struct robot {
    unsigned int   *areaCount; /* pointer to areas count */
    char *names;             /* (was: areafixNames) */
    char *fromName;          /* robot from: name (was: areafixFromName) */
+   char *origin;            /* origin line, NULL to disable (was: areafixOrigin) */
    char *helpFile;          /* help file (was: areafixhelp ) */
    char *newAreaRefuseFile; /* refuse to create areas from this list */
    char *autoCreateFlag;    /* auto-create flag (was: a[af]cFlag) */
    char *queueFile;         /* queue (was: areafixQueueFile) */
    long reportsAttr;        /* report's attrs (was: areafixReportsAttr) */
    char *reportsFlags;      /* report's ext attrs (was: areafixReportsFlags) */
-   unsigned int killRequests; /* (was: areafixKillRequests)*/
+   unsigned int killRequests; /* (was: areafixKillRequests) */
+   unsigned int queryReports; /* (was: areafixQueryReports) */
+   unsigned int msgSize;    /* robot's msg max size (was: areafixMsgSize) */
+   char *splitStr;          /* string to split big msgs (was: areafixSplitStr) */
+   unsigned int autoAreaPause;
+   unsigned int forwardRequestTimeout;
+   unsigned int killedRequestTimeout;
+   unsigned int idlePassthruTimeout;
 } s_robot, *ps_robot;
 
 typedef struct fidoconfig {
@@ -538,12 +546,7 @@ typedef struct fidoconfig {
    ps_remap remaps;
 
    unsigned int areafixFromPkt;
-   unsigned int areafixMsgSize, areafixQueryReports;
-   unsigned int forwardRequestTimeout;
-   unsigned int killedRequestTimeout;
-   int idlePassthruTimeout;
-   char *areafixSplitStr, *areafixOrigin, *robotsArea;
-   unsigned int autoAreaPause;
+   char *robotsArea;
 
    char     **PublicGroup;
    unsigned int numPublicGroup;

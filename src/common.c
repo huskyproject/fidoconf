@@ -884,19 +884,25 @@ s_robot *getRobot(ps_fidoconfig config, char *name, int create)
   }
   if (create > 0) {
     r = (s_robot*)smalloc(sizeof(s_robot));
-    memset(r, 0, sizeof(*r));
-    r->name = sstrdup(name);
-    if (def) {
+    if (!def) {
+      memset(r, 0, sizeof(*r));
+      r->forwardRequestTimeout = 7;
+      r->idlePassthruTimeout   = 4;
+      r->killedRequestTimeout  = 3;
+    }
+    else {
+      memcpy(r, def, sizeof(*r)); /* this will copy all numeric fields */
       if (def->names) r->names = sstrdup(def->names);
       if (def->fromName) r->fromName = sstrdup(def->fromName);
+      if (def->origin) r->origin = sstrdup(def->origin);
       if (def->helpFile) r->helpFile = sstrdup(def->helpFile);
       if (def->newAreaRefuseFile) r->newAreaRefuseFile = sstrdup(def->newAreaRefuseFile);
       if (def->autoCreateFlag) r->autoCreateFlag = sstrdup(def->autoCreateFlag);
       if (def->queueFile) r->queueFile = sstrdup(def->queueFile);
-      r->reportsAttr = def->reportsAttr;
       if (def->reportsFlags) r->reportsFlags = sstrdup(def->reportsFlags);
-      r->killRequests = def->killRequests;
+      if (def->splitStr) r->splitStr = sstrdup(def->splitStr);
     }
+    r->name = sstrdup(name);
     config->robot = srealloc(config->robot, sizeof(ps_robot)*(config->robotCount+1));
     return (config->robot[ config->robotCount++ ] = r);
   }

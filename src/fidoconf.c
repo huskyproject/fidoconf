@@ -469,9 +469,6 @@ void setConfigDefaults(s_fidoconfig *config)
    if (!r->reportsFlags) r->reportsFlags = sstrdup("NPD");
 
    if (config->sysop==NULL) xstrcat(&config->sysop,"SysOp");
-   if (config->forwardRequestTimeout==0) config->forwardRequestTimeout = 7;
-   if (config->idlePassthruTimeout<0)    config->idlePassthruTimeout   = 4;
-   if (config->killedRequestTimeout==0)  config->killedRequestTimeout  = 3;
    if (config->advisoryLock==0)  config->advisoryLock  = 0;
    if ( RebuildEchoAreaTree(config) == 0 || RebuildFileAreaTree(config) == 0 ) {
       printf("Please correct above error(s) first!\n");
@@ -693,11 +690,13 @@ void disposeConfig(s_fidoconfig *config)
      nfree(config->robot[i]->strC);
      nfree(config->robot[i]->names);
      nfree(config->robot[i]->fromName);
+     nfree(config->robot[i]->origin);
      nfree(config->robot[i]->helpFile);
      nfree(config->robot[i]->newAreaRefuseFile);
      nfree(config->robot[i]->autoCreateFlag);
      nfree(config->robot[i]->queueFile);
      nfree(config->robot[i]->reportsFlags);
+     nfree(config->robot[i]->splitStr);
    }
    nfree(config->robot);
 
@@ -779,8 +778,6 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->beforePack);
    nfree(config->afterUnpack);
    nfree(config->processPkt);
-   nfree(config->areafixSplitStr);
-   nfree(config->areafixOrigin);
    nfree(config->fileLocalPwd);
    nfree(config->fileLDescString);
 

@@ -841,6 +841,8 @@ int printRobot(ps_robot robot) {
      printf("  robotNames %s\n", robot->names);
    if (robot->fromName)
      printf("  fromName %s\n", robot->fromName);
+   if (robot->origin)
+     printf("  robotOrigin %s\n", robot->origin);
    if (robot->helpFile)
      printf("  helpFile %s\n", robot->helpFile);
    if (robot->newAreaRefuseFile)
@@ -851,10 +853,19 @@ int printRobot(ps_robot robot) {
      printf("  queueFile %s\n", robot->queueFile);
    if (robot->reportsAttr || robot->reportsFlags) {
      char *attrs = attr2str(robot->reportsAttr);
-     printf("  reportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", robot->reportsFlags ? robot->reportsFlags : "");
+     printf("  reportsAttr %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", robot->reportsFlags ? robot->reportsFlags : "");
      nfree(attrs);
    }
    printf("  killRequests %s\n", robot->killRequests ? "on" : "off");
+   printf("  queryReports %s\n", robot->queryReports ? "on" : "off");
+   if (robot->msgSize)
+     printf(" msgSize %u\n", robot->msgSize);
+   if (robot->splitStr)
+     printf(" splitStr \"%s\"\n", robot->splitStr);
+   printf("  autoAreaPause %s\n", robot->autoAreaPause ? "on" : "off");
+   printf("  forwardRequestTimeout %u\n", robot->forwardRequestTimeout);
+   printf("  idlePassthruTimeout   %u\n", robot->idlePassthruTimeout);
+   printf("  killedRequestTimeout  %u\n", robot->killedRequestTimeout);
    printf("-------\n");
    return 0;
 }
@@ -1463,16 +1474,8 @@ int main(int argc, char **argv) {
 
         printf("\n=== AREAFIX CONFIG ===\n");
   	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
-  	  printf("areafixQueryReports: %s\n",(config->areafixQueryReports)?"on":"off");
-  	  if (config->areafixMsgSize) printf("areafixMsgSize - %u\n", config->areafixMsgSize);
-  	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
-  	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
   	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
           if (config->ReportTo) printf("ReportTo: %s\n", config->ReportTo);
-  	  printf("ForwardRequestTimeout: %d\n",config->forwardRequestTimeout);
-  	  printf("IdlePassthruTimeout  : %d\n",config->idlePassthruTimeout);
-  	  printf("KilledRequestTimeout : %d\n",config->killedRequestTimeout);
-  	  printf("autoAreaPause: %s\n",(config->autoAreaPause) ? "on": "off");
 
 
      if (hpt==0) {
