@@ -1,3 +1,7 @@
+2002-09-26 Thursday 08:26  stas_degteff
+
+	* HISTORY (1.13): Update changes tracking file.
+
 2002-09-25 Wednesday 10:30  stas_degteff
 
 	* makefile.cyg (1.8): Remove unused defines (__CYG__ & WINNT)
