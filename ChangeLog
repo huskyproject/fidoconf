@@ -1,3 +1,9 @@
+2002-10-24 Thursday 13:13  stas_degteff
+
+	* Makefile, makefile.in2, makefile.sun, xstr.c
+	(fidoconf-0_14-stable.[5,1,1,2]): Define for old SunOs:
+	VSPRINTF_ONLY
+
 2002-10-23 Wednesday 12:18  stas_degteff
 
 	* makefile.emx (fidoconf-0_14-stable.3): restore -Zcrtdll EMX
