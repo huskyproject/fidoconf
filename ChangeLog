@@ -1,3 +1,11 @@
+2003-02-10 Monday 16:47  mche
+
+	* line.c (1.376): fix areaname parsing
+
+2003-02-10 Monday 16:42  mche
+
+	* makefile.mvc (1.27), makefile.mvcdll (1.27): fix compilation
+
 2003-02-09 Sunday 16:17  d_sergienko
 
 	* grptree.c (1.8), line.c (1.375): use AreaGroup when parsing area
