@@ -1,5 +1,11 @@
 ----- cvs ci ------
+Sat Dec  2 02:13:10 UTC 2000
+sms:
+* temporarily deactivated commentChar support in dump.c
+
+----- cvs ci ------
 Sat Dec  2 01:59:28 UTC 2000
+sms:
 * fixed error message for commentChar
 * fixed commentChar output in dump.c
 
