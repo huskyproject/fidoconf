@@ -1,7 +1,7 @@
 #Settings for Linux 
 
 #installation directires
-include ../huskymak.cfg
+LIBDIR = /usr/local/lib
 INSTDIR = /usr/local/bin
 IBOPT = -c -s -m755
 ILOPT = -c -m644
@@ -12,12 +12,13 @@ AR = ar
 AR_R = r
 RM = rm
 
-COPT = -O2 -c -fPIC -Wall -ggdb -DUNIX -I../smapi
+COPT = -O3 -c -fPIC -Wall -ggdb -DUNIX -I../smapi
 LOPT = -L. -L$(LIBDIR)
 # LOPT = 
 
 # filename settings
 O = .o
+OBJ = .o
 A = .a
 EXE =
 TPU = .ppu
@@ -54,14 +55,7 @@ install:
 	install $(ILOPT) libfidoconfig.so.$(VER) $(LIBDIR)
 	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
-	/sbin/ldconfig
 	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed fconf2fidogate fconf2squish $(INSTDIR)
 	install linkedto $(INSTDIR)
 	install $(IBOPT) tparser      $(INSTDIR)
 	install $(IBOPT) dumpfcfg     $(INSTDIR)
-	install $(IIOPT) fidoconfig.h $(INCDIR)
-	install $(IIOPT) typesize.h   $(INCDIR)
-	install $(IIOPT) common.h     $(INCDIR)
-	install $(IIOPT) dirlayer.h   $(INCDIR)
-	install $(IIOPT) adcase.h     $(INCDIR)
-	install $(IIOPT) fidoconf.pas $(INCDIR)
