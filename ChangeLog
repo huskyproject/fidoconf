@@ -1,4 +1,10 @@
 ----- cvs ci ------
+Sat Feb 17 23:51:48 NOVT 2001
+max (patch from Serguei Revtov):
+* exit on unrecognized line in config
+* unifying of error messages printing in line.c
+
+----- cvs ci ------
 Tue Feb 13 22:38:28 NOVT 2001
 max:
 * doc updates

@@ -48,7 +48,7 @@ extern "C" {
 
 #define strend(str) ((str) + strlen(str) - 1)
 
-extern char *actualLine, *actualKeyword;
+extern char *actualLine, *actualKeyword, *curconfname;
 extern int  actualLineNr;
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"

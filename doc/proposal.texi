@@ -35,7 +35,7 @@ points to the file:
 set FIDOCONFIG=e:\bbs\fidoconfig\config
 
 FIDOCONFIG=~/fidoconfig/config
-sexport FIDOCONFIG
+export FIDOCONFIG
 @end example
 
 The config file(s) must be readable. If you plan to use the autoareacreate
@@ -44,10 +44,6 @@ file must be writeable.
 
 @node Syntax, Keywords, Location, config file
 @section Syntax
-
-The configfile must be readable to fidoconfig. If you plan to use
-the autoareacreate feature the writing process must have write-access
-to the configfile.
 
 All symbols are @strong{not} case-sensitive.
 
@@ -62,8 +58,8 @@ If no match is found, a default-value will be used.
 "#" at the start of a line or <whiteSpace>#<whiteSpace> within the 
 line starts a comment. The comment ends with the line.
 
-If the first word in a line is an undefined keyword, the line will 
-be ignored, and error will be printed.
+If the first word in a line is an undefined keyword, program exits
+with error message.
 
 Each keyword has to start a new line.
 
@@ -81,12 +77,12 @@ address string like zone:net/node[.point]
 @item
 example: @code{2:5000/117}
 @item <file>
-full file name with path
+file name. path can be omitted.
 @item <path>
-only path, trailing slash may be included or not
+only path. trailing slash may be included or not.
 @end table
 
-Note! @code{[<parameter>]} means, that it can be omitted.
+Note! @code{[<parameter>]} means that it can be omitted.
 
 @node Keywords, HPT, Syntax, config file
 @section Common keywords for HUSKY-programs
