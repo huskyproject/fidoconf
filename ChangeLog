@@ -1,3 +1,8 @@
+2002-01-19 Saturday 08:48  ml
+
+	* cfg.c (1.15.2.1): checkIncludeLogic case sencitive for unix
+	systems
+
 2002-01-14 Monday 20:03  ml
 
 	* line.c (1.271.2.1): bugfix: carbonmove not carboncopy after ORed
