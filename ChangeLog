@@ -1,3 +1,11 @@
+2003-03-12 Wednesday 07:25  stas_degteff
+
+	* afixcmn.c (1.28): Prevent memory fault
+
+2003-03-12 Wednesday 05:06  stas_degteff
+
+	* VERSION (1.7): Add huskylib into 'require' list
+
 2003-03-11 Tuesday 21:20  d_sergienko
 
 	* Makefile (1.61): fix linking with huskylib
