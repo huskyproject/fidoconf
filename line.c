@@ -1353,7 +1353,8 @@ int parseHandle(char *token, s_fidoconfig *config) {
    return 0;
 }
 
-int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) {
+int parseRoute(char *token, s_fidoconfig *config, s_route **route,
+			   UINT *count, e_id id) {
   char *option;
   char *iOption;
   int  rc = 0;
@@ -1366,7 +1367,9 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
 
   *route = srealloc(*route, sizeof(s_route)*(*count+1));
   actualRoute = &(*route)[*count];
-  memset(actualRoute, 0, sizeof(s_route));
+  memset(actualRoute, '\0', sizeof(s_route));
+
+  actualRoute->id = id;
 
   option = strtok(token, " \t");
 
@@ -1382,7 +1385,6 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
     else if (strcmp(iOption, "crash")==0) actualRoute->flavour = crash;
     else if (strcmp(iOption, "direct")==0) actualRoute->flavour = direct;
     else if (strcmp(iOption, "immediate")==0) actualRoute->flavour = immediate;
-
     else if (strcmp(iOption, "hub")==0) actualRoute->routeVia = hub;
     else if (strcmp(iOption, "host")==0) actualRoute->routeVia = host;
     else if (strcmp(iOption, "boss")==0) actualRoute->routeVia = boss;
@@ -2657,10 +2659,9 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "emailencoding")==0) rc = parseEmailEncoding(getRestOfLine(), &(getDescrLink(config)->emailEncoding));
      else if (strcmp(iToken, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(getDescrLink(config)->echoMailFlavour));
      else if (strcmp(iToken, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(getDescrLink(config)->fileEchoFlavour));
-     else if (strcmp(iToken, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
-     else if (strcmp(iToken, "routefile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
-     else if (strcmp(iToken, "routemail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
-
+     else if (strcmp(iToken, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount), id_route);
+     else if (strcmp(iToken, "routefile")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount), id_routeFile);
+     else if (strcmp(iToken, "routemail")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount), id_routeMail);
      else if (strcmp(iToken, "pack")==0) rc = parsePack(getRestOfLine(), config);
      else if (strcmp(iToken, "unpack")==0) rc = parseUnpack(getRestOfLine(), config);
      else if (strcmp(iToken, "packer")==0) rc = parsePackerDef(getRestOfLine(), config, &(getDescrLink(config)->packerDef));

@@ -880,8 +880,9 @@ void dumpConfig(s_fidoconfig *config, FILE *f)
   dumpPaths(config, f);
   dumpLinks(config, f);
   dumpRoute(config->route, config->routeCount, "route              ", f);
-  dumpRoute(config->routeMail, config->routeMailCount, "routeMail          ", f);
-  dumpRoute(config->routeFile, config->routeFileCount, "routeFile          ", f);
+  //remove after 03-Apr-01
+  //dumpRoute(config->routeMail, config->routeMailCount, "routeMail          ", f);
+  //dumpRoute(config->routeFile, config->routeFileCount, "routeFile          ", f);
   dumpMsgAreas(config, f);
   dumpFileAreas(config, f);
   dumpBbsAreas(config, f);

@@ -162,12 +162,15 @@ typedef struct link {
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;
 
+typedef enum id {id_route, id_routeMail, id_routeFile} e_id;
+
 typedef struct route {
    e_flavour flavour;
    ps_link   target;   // if target = NULL use
    e_routing routeVia; // this
    char      *pattern;
    char      *viaStr;  // fix for realloc of config->links
+   e_id      id;
 } s_route, *ps_route;
 
 typedef enum dupeCheck {dcOff, dcMove, dcDel} e_dupeCheck;
@@ -363,14 +366,14 @@ typedef struct fidoconfig {
 
    unsigned int   routeCount;
    ps_route route;
-   unsigned int   routeFileCount;
-   ps_route routeFile;
-   unsigned int   routeMailCount;
-   ps_route routeMail;
+// remove after 03-Apr-01
+//   unsigned int   routeFileCount;
+//   ps_route routeFile;
+//   unsigned int   routeMailCount;
+//   ps_route routeMail;
 
    unsigned int   packCount;
    ps_pack  pack;
-  //   s_pack   *packDefault;
    unsigned int   unpackCount;
    ps_unpack unpack;
 

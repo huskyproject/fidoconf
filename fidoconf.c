@@ -252,6 +252,7 @@ void fixRoute(s_fidoconfig *config)
 			config->route[i].target = getLink(*config, config->route[i].viaStr);
 		nfree(config->route[i].viaStr);
 	}
+/* remove after 03-Apr-01
 	for (i = 0; i < config->routeFileCount; i++) {
 		if (config->routeFile[i].viaStr != NULL)
 			config->routeFile[i].target = getLink(*config, config->routeFile[i].viaStr);
@@ -262,6 +263,7 @@ void fixRoute(s_fidoconfig *config)
 			config->routeMail[i].target = getLink(*config, config->routeMail[i].viaStr);
 		nfree(config->routeMail[i].viaStr);
 	}
+*/
 }
 
 void stripPktPwd(s_fidoconfig *config)
@@ -415,11 +417,12 @@ void disposeConfig(s_fidoconfig *config)
 
    for (i = 0; i < config->routeCount; i++) nfree(config->route[i].pattern);
    nfree(config->route);
+/* remove after 03-Apr-01
    for (i = 0; i < config->routeFileCount; i++) nfree(config->routeFile[i].pattern);
    nfree(config->routeFile);
    for (i = 0; i < config->routeMailCount; i++) nfree(config->routeMail[i].pattern);
    nfree(config->routeMail);
-
+*/
    for (i = 0; i < config->remapCount; i++) 
        if (config->remaps[i].toname!=NULL)
           nfree(config->remaps[i].toname);

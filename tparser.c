@@ -861,16 +861,22 @@ int main(int argc, char **argv) {
          if (config->route[i].routeVia == 0)
             printf("Route %s via %u:%u/%u.%u\n", config->route[i].pattern, config->route[i].target->hisAka.zone, config->route[i].target->hisAka.net, config->route[i].target->hisAka.node, config->route[i].target->hisAka.point);
          else {
-            printf("Route %s ", config->route[i].pattern);
-            switch (config->route[i].routeVia) {
-               case route_zero: printf("zero\n"); break;
-               case noroute:  printf("direct\n"); break;
-               case nopack:   printf("nopack\n"); break;
-               case host:     printf("via host\n"); break;
-               case hub:      printf("via hub\n"); break;
-               case boss:     printf("via boss\n"); break;
-               case route_extern: break; /* internal only */
-            }
+			 printf("Route");
+			 switch (config->route[i].id) {
+			 case id_route : break;
+			 case id_routeMail : printf("Mail"); break;
+			 case id_routeFile : printf("File"); break;
+			 }
+			 printf(" %s ", config->route[i].pattern);
+			 switch (config->route[i].routeVia) {
+			 case route_zero: printf("zero\n"); break;
+			 case noroute:  printf("direct\n"); break;
+			 case nopack:   printf("nopack\n"); break;
+			 case host:     printf("via host\n"); break;
+			 case hub:      printf("via hub\n"); break;
+			 case boss:     printf("via boss\n"); break;
+			 case route_extern: break; /* internal only */
+			 }
          }
       }
 
