@@ -24,10 +24,12 @@
  * to the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA
  * or visit http://www.gnu.org
  *****************************************************************************
-*/
+ */
 
 #ifndef __TEMP_H__
 #define __TEMP_H__
+
+#include "fidoconf.h"
 
 /* Default temporary files suffix (==extension in DOS-like OS)
  * (re)define it in your program source if want other.
@@ -45,7 +47,6 @@
  * if name is not NULL its free().
  * Return file descriptor or NULL
  */
-
 FCONF_EXT FILE *createTempFileIn(const char *path, const char *ext, char mode, char **name);
 
 
@@ -64,9 +65,9 @@ FCONF_EXT FILE *createTempTextFile(const ps_fidoconfig pconfig, char **name);
  * if name is not NULL its free().
  * Return file descriptor or NULL
  */
+
+
 FCONF_EXT FILE *createTempBinFile(const ps_fidoconfig pconfig, char **name);
-
-
 /* Create new file with random name & default suffix (binary mode).
  * pconfig = fidoconfig structure pointer
  * Place to 'name' variable name of created file (from malloc() memory pool),
