@@ -379,6 +379,10 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
 	fprintf(f, "-b Squish           ");
 	break;
 
+    case MSGTYPE_JAM:
+	fprintf(f, "-b Jam              ");
+	break;
+
     case MSGTYPE_PASSTHROUGH:
 	fprintf(f, "Passthrough         ");
 	break;

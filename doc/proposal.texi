@@ -634,7 +634,7 @@ This statement cannot be repeated.
 @end table
 
 TextDupes stores from, to, subj & msgid as text lines.
-HashDupes stores src32 of from + to + subj + msgid (default).
+HashDupes stores src32 of from + to + subj + msgid.
 HashDupesWMsgId same as HashDupes, but stores also msgid as text.
 CommonDupeBase - stores hashes of from + to + subj + areatag + msgid in
 one file (hpt_base.dpa)
