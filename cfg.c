@@ -68,7 +68,7 @@ char *getvar(char *name)
 { int i;
 
   for (i=0; i<nvars; i++)
-    if (stricmp(name, set[i].var)==0)
+    if (sstricmp(name, set[i].var)==0)
     { if (set[i].value[0]==0)
         return NULL;
       return set[i].value;
@@ -81,7 +81,7 @@ void setvar(char *name, char *value)
 
   /* find var */
   for (i=0; i<nvars; i++)
-    if (stricmp(set[i].var, name)==0)
+    if (sstricmp(set[i].var, name)==0)
       break;
   if (i<nvars)
   { /* remove var */
@@ -98,10 +98,10 @@ void setvar(char *name, char *value)
       return;
   if (nvars==maxnvars)
     set = srealloc(set, (maxnvars+=10)*sizeof(*set));
-  set[nvars].var=smalloc(strlen(name)+strlen(value)+2);
-  strcpy(set[nvars].var, name);
-  set[nvars].value=set[nvars].var+strlen(name)+1;
-  strcpy(set[nvars].value, value);
+  set[nvars].var=smalloc(sstrlen(name)+sstrlen(value)+2);
+  sstrcpy(set[nvars].var, name);
+  set[nvars].value=set[nvars].var+sstrlen(name)+1;
+  sstrcpy(set[nvars].value, value);
   nvars++;
   return;
 }
@@ -164,7 +164,7 @@ char *vars_expand(char *line)
   if (strchr(line, '[')==NULL)
 #endif
      return line;
-  curlen = strlen(line)+1;
+  curlen = sstrlen(line)+1;
   parsed = dest = smalloc(curlen);
   for (src = line; *src; src++)
   {
@@ -213,14 +213,14 @@ char *vars_expand(char *line)
           *p = '\0';
           if ((p1 = getvar(src)) == NULL)
             p1 = src;
-          if (strlen(p1) > strlen(src)+2)
+          if (sstrlen(p1) > sstrlen(src)+2)
           {
-            newparsed = srealloc(parsed, curlen += strlen(p1)-strlen(src)-2);
+            newparsed = srealloc(parsed, curlen += sstrlen(p1)-sstrlen(src)-2);
             dest = newparsed+(unsigned)(dest-parsed);
             parsed = newparsed;
           }
-          strcpy(dest, p1);
-          dest += strlen(p1);
+          sstrcpy(dest, p1);
+          dest += sstrlen(p1);
           *p = ']';
           src = p;
           continue;
@@ -273,8 +273,8 @@ static short boolexpr(char *str)
   *p1=0;
   for (p2=p1-1; isspace(*p2); *p2--=0);
   for (p1+=2; isspace(*p1); p1++);
-  for (p2=p1+strlen(p1)-1; isspace(*p2); *p2--=0);
-  if (relax ? patimat(p, p1) : stricmp(p, p1))
+  for (p2=p1+sstrlen(p1)-1; isspace(*p2); *p2--=0);
+  if (relax ? patimat(p, p1) : sstricmp(p, p1))
     ret=!ret;
   return ret;
 }
@@ -318,7 +318,7 @@ char *configline(void)
         (strncasecmp(str, "ifndef ", 7)==0))
     {
       p=vars_expand(line); str+=(p-line); line=p;
-      for (p1=str+strlen(str)-1; isspace(*p1); *p1--='\0');
+      for (p1=str+sstrlen(str)-1; isspace(*p1); *p1--='\0');
       for (p=str+6; isspace(*p); p++);
       if (*p=='\0')
       { fprintf(stderr, "Bad %s in config %s line %d!\n",
@@ -411,9 +411,9 @@ char *configline(void)
     {
       p=vars_expand(line); str+=(p-line); line=p;
       for (p=str+7; (*p==' ') || (*p=='\t'); p++);
-      for (p1=p+strlen(p)-1; isspace(*p1); *p1--=0);
+      for (p1=p+sstrlen(p)-1; isspace(*p1); *p1--=0);
       for (i=0; i<sp; i++)
-        if (strcmp(incstack[i].confname, p) == 0)
+        if (sstrcmp(incstack[i].confname, p) == 0)
         { fprintf(stderr, "Line %d: WARNING: recursive include of file %s detected and fixed!\n", actualLineNr, p);
           continue;
         }
@@ -478,15 +478,15 @@ int cmpfnames(char *file1, char *file2)
 {
     char buf[256], path1[256], path2[256], *p;
 
-    if (stricmp(file1, file2) == 0) return 0;
+    if (sstricmp(file1, file2) == 0) return 0;
     if (!GetShortPathName(file1, buf, sizeof(buf)))
-	strncpy(buf, file1, sizeof(buf));
+	sstrncpy(buf, file1, sizeof(buf));
     if (!GetFullPathName(buf, sizeof(path1), path1, &p)) return 1;
     if (!GetShortPathName(file2, buf, sizeof(buf)))
-	strncpy(buf, file2, sizeof(buf));
+	sstrncpy(buf, file2, sizeof(buf));
     if (!GetFullPathName(buf, sizeof(path2), path2, &p)) return 1;
 
-    return stricmp(path1, path2);
+    return sstricmp(path1, path2);
 }
 #elif defined (OS2)
 #define INCL_DOSFILEMGR
@@ -496,7 +496,7 @@ static int cmpfnames(char *file1, char *file2)
     char path1[256], path2[256];
     if (DosQueryPathInfo(file1,FIL_QUERYFULLNAME,path1,sizeof(path1))) return 1;
     if (DosQueryPathInfo(file2,FIL_QUERYFULLNAME,path2,sizeof(path2))) return 1;
-    return stricmp(path1, path2);
+    return sstricmp(path1, path2);
 }
 #elif defined (__DJGPP__)
 #include <dos.h>
@@ -505,7 +505,7 @@ static int cmpfnames(char *file1, char *file2)
     char *path1 = NULL, *path2 = NULL;
     _truename(file1, path1);
     _truename(file2, path2);
-    return stricmp(path1, path2);
+    return sstricmp(path1, path2);
 }
 #elif defined(MSDOS) || defined(__MSDOS__) && !defined(__DJGPP__)
 #include <dos.h>
@@ -525,12 +525,12 @@ static int cmpfnames(char *file1, char *file2)
     r.r_di = FP_OFF(path2);
     r.r_ax = 0x6000;
     intr(0x21, &r);
-    return stricmp(path1, path2);
+    return sstricmp(path1, path2);
 }
 #else // Unknown OS
 static int cmpfnames(char *file1, char *file2)
 {
-    return stricmp(file1, file2);
+    return sstricmp(file1, file2);
 }
 #endif
 
