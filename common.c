@@ -1252,7 +1252,7 @@ char    *GetDirnameFromPathname(const char* pathname)
   if( sp ){
     sp++;
     lll = sp-pathname;
-    rp = smalloc(lll+1);
+    rp = scalloc(lll+1,sizeof(char));
     sstrncpy(rp, pathname, lll);
   }else
 #if PATH_DELIM=='/'
