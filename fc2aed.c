@@ -36,6 +36,7 @@
 #define BAD 0x20
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "fidoconf.h"
 
