@@ -1854,6 +1854,8 @@ int parseNodelist(char *token, s_fidoconfig *config)
 
    config->nodelists[config->nodelistCount].format = fts5000;
 
+   config->nodelists[config->nodelistCount].delAppliedDiff = 0;
+
    config->nodelistCount++;
    return 0;
 }
@@ -4351,6 +4353,10 @@ int parseLine(char *line, s_fidoconfig *config)
                 printNodelistError();
                 rc = 1;
             }
+            break;
+        case ID_DELAPPLIEDDIFF:
+            rc = parseBool(getRestOfLine(), 
+                &(config->nodelists[config->nodelistCount-1].delAppliedDiff));
             break;
         case ID_FULLUPDATE:
             rc = 0;

@@ -360,6 +360,7 @@ typedef struct nodelist {
    char *diffUpdateStem;      /* with pathname */
    char *fullUpdateStem;      /* with pathname */
    unsigned int defaultZone;
+   int delAppliedDiff;
    int format;
 } s_nodelist, *ps_nodelist;
 

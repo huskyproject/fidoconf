@@ -1031,6 +1031,7 @@ This section contains keyword-list only. Read HTick Manual for more info.
 * fullupdate::                  where complete updates for the nodelist are
 * defaultzone::                 specifying a zone number for a nodelist
 * nodelistformat::              is it a nodelist or a pointlist?
+* delapplieddiff::              delete applied nodediff
 @end menu
 
 @node nodelistdir, fidouserlist, NLTools, NLTools
@@ -1143,7 +1144,7 @@ othernets that only have one zone. In this case, you can use the
 @code{DefaultZone} keyword to specify the default zone number for all nodes
 listed in this nodelist.
 
-@node nodelistformat, , defaultzone, NLTools
+@node nodelistformat, delapplieddiff, defaultzone, NLTools
 @subsection nodelistformat
 @table @asis
 @item Syntax:
@@ -1157,6 +1158,20 @@ Here you can specify the format of the unpacked nodelist. The default is
 specify @samp{points24}, which is needed for the nodelist compiler to
 recognise a point list in the German points24 format as such, so that it can
 see the proper 5D point numbers instead of the fakenet numbers.
+
+@node delapplieddiff, , nodelistformat, NLTools
+@subsection delapplieddiff
+@table @asis
+@item Syntax:
+@code{delAppliedDiff <bool>}
+@item Example:
+@code{delAppliedDiff on} or@code{delAppliedDiff off}
+@end table
+
+NLTools can delete nodediffs after applying them if you set @code{delAppliedDiff} to @code{on}.
+Default is @code{off}
+
+This token can't be repeated.
 
 @node EmailPkt, BSOpack, NLTools, config file
 @section EmailPkt keywords

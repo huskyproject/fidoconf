@@ -1669,6 +1669,7 @@ int main(int argc, char **argv) {
             if (config->nodelists[i].diffUpdateStem != NULL)
               printf("Nodediff Update File %s\n",
                      config->nodelists[i].diffUpdateStem);
+            printf("DelAppliedDiff: %s\n", (config->nodelists[i].delAppliedDiff) ? "on" : "off");
             if (config->nodelists[i].fullUpdateStem != NULL)
               printf("Full Nodelist Update File %s\n",
                      config->nodelists[i].fullUpdateStem);
