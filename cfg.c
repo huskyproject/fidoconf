@@ -422,7 +422,7 @@ void checkIncludeLogic(ps_fidoconfig config)
     for (j=0; j<config->linkCount; j++) {
 	if (config->links[j].autoAreaCreateFile==NULL) continue;
 	for (i=0; i<cfgNamesCount; i++) {
-	    if (strcmp(cfgNames[i],config->links[j].autoAreaCreateFile)==0) break;
+	    if (stricmp(cfgNames[i],config->links[j].autoAreaCreateFile)==0) break;
 	}
 	// if not found include file - return error
 	if (i==cfgNamesCount) {
@@ -435,7 +435,7 @@ void checkIncludeLogic(ps_fidoconfig config)
     for (j=0; j<config->linkCount; j++) {
 	if (config->links[j].autoFileCreateFile==NULL) continue;
 	for (i=0; i<cfgNamesCount; i++) {
-	    if (strcmp(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
+	    if (stricmp(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
 	}
 	// if not found include file - return error
 	if (i==cfgNamesCount) {
