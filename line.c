@@ -82,6 +82,8 @@ char wasError = 0;
 char CommentChar = '#';
 int _carbonrule = CC_AND;
 
+static s_link linkDefined;
+
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
@@ -276,13 +278,16 @@ int parseRemap(char *token, s_fidoconfig *config)
    return 0;
 }
 
-int parsePath(char *token, char **var)
+int parsePath(char *token, char **var, char **alreadyDefined)
 {
 //   char *p, *q, *osvar;
 
    if (*var != NULL) {
-      prErr("Duplicate path!");
-      return 1;
+      if (alreadyDefined==NULL || *alreadyDefined) {
+         prErr("Duplicate path!");
+         return 1;
+      }
+      nfree(*var);
    }
    if (token == NULL) {
       prErr("There is a path missing after %s!", actualKeyword);
@@ -290,11 +295,13 @@ int parsePath(char *token, char **var)
    }
    if (stricmp(token, "passthrough")==0) {
       copyString(token, &(*var));
+      if (alreadyDefined) *alreadyDefined=*var;
       return 0;
    }
    if (*token && token[strlen(token)-1] == PATH_DELIM)
 	   Strip_Trailing(token, PATH_DELIM);
    xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
+   if (alreadyDefined) *alreadyDefined=*var;
 
    if (!direxist(*var)) {
 	   prErr( "Path %s not found!", *var);
@@ -303,12 +310,14 @@ int parsePath(char *token, char **var)
    return 0;
 }
 
-int parsePathNoCheck(char *token, char **var)
+int parsePathNoCheck(char *token, char **var, char **alreadyDefined)
 {
-
    if (*var != NULL) {
-      prErr("Duplicate path!");
-      return 1;
+      if (alreadyDefined==NULL || *alreadyDefined) {
+         prErr("Duplicate path!");
+         return 1;
+      }
+      nfree(*var);
    }
 
    if (token == NULL) {
@@ -319,6 +328,7 @@ int parsePathNoCheck(char *token, char **var)
    if (*token && token[strlen(token)-1] == PATH_DELIM)
 	   Strip_Trailing(token, PATH_DELIM);
    xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
+   if (alreadyDefined) *alreadyDefined=*var;
 
    return 0;
 }
@@ -1633,6 +1643,7 @@ int parseLink(char *token, s_fidoconfig *config)
    clink->handle = clink->name;
 
    config->linkCount++;
+   memset(&linkDefined, 0, sizeof(linkDefined));
    return 0;
 }
 
@@ -2047,12 +2058,15 @@ static int f_accessable(char *token)
 }
 */
 
-int parseFileName(char *line, char **name) {
+int parseFileName(char *line, char **name, char **alreadyDefined) {
    char *token;
 
    if (*name != NULL) {
-      prErr("Duplicate file name!");
-      return 1;
+      if (alreadyDefined == NULL || *alreadyDefined) {
+         prErr("Duplicate file name!");
+         return 1;
+      }
+      nfree(*name);
    }
 
    if (line == NULL) {
@@ -2076,6 +2090,7 @@ int parseFileName(char *line, char **name) {
 //      (*name) = smalloc(strlen(token)+1);
 //      strcpy((*name), token);
 	xstrcat(name, token);
+	if (alreadyDefined) *alreadyDefined=*name;
    } else {
       prErr("File not found or no permission: %s!", token);
       if (line[0]=='\"')
@@ -2709,7 +2724,7 @@ int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
       tok = strtok(NULL, " \t");
    }
 
-   return  parsePath(tok, &savetic->pathName);
+   return  parsePath(tok, &savetic->pathName, NULL);
 }
 
 int parseSaveTicStatement(char *token, s_fidoconfig *config)
@@ -2803,6 +2818,7 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
       config->linkDefaults->maxUnpackedNetmail = 100;
    }
 
+   memset(&linkDefined, 0, sizeof(linkDefined));
    return 0;
 }
 
@@ -3201,67 +3217,69 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseAddress(getRestOfLine(), config);
             break;
         case ID_INBOUND:
-            rc = parsePath(getRestOfLine(), &(config->inbound));
+            rc = parsePath(getRestOfLine(), &(config->inbound), NULL);
             break;
         case ID_PROTINBOUND:
-            rc = parsePath(getRestOfLine(), &(config->protInbound));
+            rc = parsePath(getRestOfLine(), &(config->protInbound), NULL);
             break;
         case ID_LISTINBOUND:
-            rc = parsePath(getRestOfLine(), &(config->listInbound));
+            rc = parsePath(getRestOfLine(), &(config->listInbound), NULL);
             break;
         case ID_LOCALINBOUND:
-            rc= parsePath(getRestOfLine(), &(config->localInbound));
+            rc= parsePath(getRestOfLine(), &(config->localInbound), NULL);
             break;
         case ID_TEMPINBOUND:
-            rc= parsePath(getRestOfLine(), &(config->tempInbound));
+            rc= parsePath(getRestOfLine(), &(config->tempInbound), NULL);
             break;
         case ID_OUTBOUND:
-            rc = parsePath(getRestOfLine(), &(config->outbound));
+            rc = parsePath(getRestOfLine(), &(config->outbound), NULL);
             break;
         case ID_TICOUTBOUND:
-            rc = parsePath(getRestOfLine(), &(config->ticOutbound));
+            rc = parsePath(getRestOfLine(), &(config->ticOutbound), NULL);
             break;
         case ID_PUBLIC:
             rc = parsePublic(getRestOfLine(), config);
             break;
         case ID_LOGFILEDIR:
-            rc = parsePath(getRestOfLine(), &(config->logFileDir));
+            rc = parsePath(getRestOfLine(), &(config->logFileDir), NULL);
             break;
         case ID_DUPEHISTORYDIR:
-            rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
+            rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir), NULL);
             break;
         case ID_NODELISTDIR:
-            rc = parsePath(getRestOfLine(), &(config->nodelistDir));
+            rc = parsePath(getRestOfLine(), &(config->nodelistDir), NULL);
             break;
         case ID_FILEAREABASEDIR:
-            rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir));
+            rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir), NULL);
             break;
         case ID_PASSFILEAREADIR:
-            rc = parsePath(getRestOfLine(), &(config->passFileAreaDir));
+            rc = parsePath(getRestOfLine(), &(config->passFileAreaDir), NULL);
             break;
         case ID_BUSYFILEDIR:
-            rc = parsePath(getRestOfLine(), &(config->busyFileDir));
+            rc = parsePath(getRestOfLine(), &(config->busyFileDir), NULL);
             break;
         case ID_MSGBASEDIR:
-            rc = parsePath(getRestOfLine(), &(config->msgBaseDir));
+            rc = parsePath(getRestOfLine(), &(config->msgBaseDir), NULL);
             break;
         case ID_LINKMSGBASEDIR:
             rc = parsePath(getRestOfLine(),
-                           &(getDescrLink(config)->msgBaseDir));
+                           &(getDescrLink(config)->msgBaseDir),
+			   &(linkDefined.msgBaseDir));
             break;
         case ID_LINKFILEBASEDIR:
             rc = parsePath(getRestOfLine(),
-                           &(getDescrLink(config)->fileBaseDir));
+                           &(getDescrLink(config)->fileBaseDir),
+			   &(linkDefined.fileBaseDir));
             break;
 
         case ID_MAGIC:
-            rc = parsePath(getRestOfLine(), &(config->magic));
+            rc = parsePath(getRestOfLine(), &(config->magic), NULL);
             break;
         case ID_SEMADIR:
-            rc = parsePath(getRestOfLine(), &(config->semaDir));
+            rc = parsePath(getRestOfLine(), &(config->semaDir), NULL);
             break;
         case ID_BADFILESDIR:
-            rc = parsePath(getRestOfLine(), &(config->badFilesDir));
+            rc = parsePath(getRestOfLine(), &(config->badFilesDir), NULL);
             break;
         case ID_NETMAILAREA:
         case ID_NETAREA:
@@ -3631,36 +3649,41 @@ int parseLine(char *line, s_fidoconfig *config)
                                 &(getDescrLink(config)->packerDef));
             break;
         case ID_INTAB:
-            rc = parseFileName(getRestOfLine(), &(config->intab));
+            rc = parseFileName(getRestOfLine(), &(config->intab), NULL);
             break;
         case ID_OUTTAB:
-            rc = parseFileName(getRestOfLine(), &(config->outtab));
+            rc = parseFileName(getRestOfLine(), &(config->outtab), NULL);
             break;
         case ID_AREAFIXHELP:
-            rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
+            rc = parseFileName(getRestOfLine(), &(config->areafixhelp), NULL);
             break;
         case ID_FILEFIXHELP:
-            rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
+            rc = parseFileName(getRestOfLine(), &(config->filefixhelp), NULL);
             break;
         case ID_FORWARDREQUESTFILE:
             rc = parseFileName(getRestOfLine(),
-                               &(getDescrLink(config)->forwardRequestFile));
+                               &(getDescrLink(config)->forwardRequestFile),
+                               &(linkDefined.forwardRequestFile));
             break;
         case ID_DENYFWDFILE:
             rc = parseFileName(getRestOfLine(),
-                               &(getDescrLink(config)->denyFwdFile));
+                               &(getDescrLink(config)->denyFwdFile),
+                               &(linkDefined.denyFwdFile));
             break;
         case ID_FORWARDFILEREQUESTFILE:
             rc = parseFileName(getRestOfLine(),
-                             &(getDescrLink(config)->forwardFileRequestFile));
+                             &(getDescrLink(config)->forwardFileRequestFile),
+                             &(linkDefined.forwardFileRequestFile));
             break;
         case ID_AUTOAREACREATEFILE:
             rc = parseFileName(getRestOfLine(),
-                               &(getDescrLink(config)->autoAreaCreateFile));
+                               &(getDescrLink(config)->autoAreaCreateFile),
+                               &(linkDefined.autoAreaCreateFile));
             break;
         case ID_AUTOFILECREATEFILE:
             rc = parseFileName(getRestOfLine(),
-                               &(getDescrLink(config)->autoFileCreateFile));
+                               &(getDescrLink(config)->autoFileCreateFile),
+                               &(linkDefined.autoFileCreateFile));
             break;
         case ID_LINKBUNDLENAMESTYLE:
             rc = parseBundleNameStyle(getRestOfLine(),
@@ -3684,25 +3707,25 @@ int parseLine(char *line, s_fidoconfig *config)
                                             &(config->kludgeAreaNetmail));
             break;
         case ID_FILEAREASLOG:
-            rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));
+            rc = parseFileName(getRestOfLine(), &(config->fileAreasLog), NULL);
             break;
         case ID_FILENEWAREASLOG:
-            rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog));
+            rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog), NULL);
             break;
         case ID_LONGNAMELIST:
-            rc = parseFileName(getRestOfLine(), &(config->longNameList));
+            rc = parseFileName(getRestOfLine(), &(config->longNameList), NULL);
             break;
         case ID_FILEARCLIST:
-            rc = parseFileName(getRestOfLine(), &(config->fileArcList));
+            rc = parseFileName(getRestOfLine(), &(config->fileArcList), NULL);
             break;
         case ID_FILEPASSLIST:
-            rc = parseFileName(getRestOfLine(), &(config->filePassList));
+            rc = parseFileName(getRestOfLine(), &(config->filePassList), NULL);
             break;
         case ID_FILEDUPELIST:
-            rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
+            rc = parseFileName(getRestOfLine(), &(config->fileDupeList), NULL);
             break;
         case ID_MSGIDFILE:
-            rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
+            rc = parseFileName(getRestOfLine(), &(config->fileDupeList), NULL);
             break;
         case ID_LOGLEVELS:
             rc = parseLoglevels(getRestOfLine(), &(config->loglevels));
@@ -3768,13 +3791,13 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = copyString(getRestOfLine(), &(config->lockfile));
             break;
         case ID_TEMPOUTBOUND:
-            rc = parsePath(getRestOfLine(), &(config->tempOutbound));
+            rc = parsePath(getRestOfLine(), &(config->tempOutbound), NULL);
             break;
         case ID_AREAFIXFROMPKT:
             rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
             break;
         case ID_AREAFIXQUEUEFILE:
-            rc = parseFileName(getRestOfLine(), &(config->areafixQueueFile));
+            rc = parseFileName(getRestOfLine(), &(config->areafixQueueFile), NULL);
             break;
         case ID_AREAFIXKILLREPORTS:
             rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
@@ -4062,16 +4085,18 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = copyString(getRestOfLine(), &(config->areafixNames));
             break;
         case ID_REQIDXDIR:
-            rc = parsePath(getRestOfLine(), &(config->reqidxDir));
+            rc = parsePath(getRestOfLine(), &(config->reqidxDir), NULL);
             break;
         case ID_SYSLOG_FACILITY:
             rc = parseSyslog(getRestOfLine(), &(config->syslogFacility));
             break;
         case ID_FILEBOX:
-            rc = parsePathNoCheck(getRestOfLine(), &(getDescrLink(config)->fileBox));
+            rc = parsePathNoCheck(getRestOfLine(),
+				  &(getDescrLink(config)->fileBox),
+				  &(linkDefined.fileBox));
             break;
         case ID_FILEBOXESDIR:
-            rc = parsePath(getRestOfLine(), &(config->fileBoxesDir));
+            rc = parsePath(getRestOfLine(), &(config->fileBoxesDir), NULL);
             break;
         case ID_FILEBOXALWAYS:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->fileBoxAlways));
@@ -4080,7 +4105,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseBool(getRestOfLine(), &(config->carbonExcludeFwdFrom));
             break;
         case ID_HPTPERLFILE:
-            rc = parseFileName(getRestOfLine(), &(config->hptPerlFile));
+            rc = parseFileName(getRestOfLine(), &(config->hptPerlFile), NULL);
             break;
         case ID_READONLY:
             rc = parsePermissions (getRestOfLine(),  &(config->readOnly), &(config->readOnlyCount));
@@ -4096,7 +4121,7 @@ int parseLine(char *line, s_fidoconfig *config)
             }
             break;
         case ID_RULESDIR:
-            rc = parsePath(getRestOfLine(), &(config->rulesDir));
+            rc = parsePath(getRestOfLine(), &(config->rulesDir), NULL);
             break;
         case ID_NORULES:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->noRules));
@@ -4112,12 +4137,12 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
 
         case ID_TEMPDIR:
-            rc = parsePath(getRestOfLine(), &(config->tempDir));
+            rc = parsePath(getRestOfLine(), &(config->tempDir), NULL);
             break;
 
         /*  htick announcer */
         case ID_ANNOUNCESPOOL:
-            rc = parsePath(getRestOfLine(), &(config->announceSpool));
+            rc = parsePath(getRestOfLine(), &(config->announceSpool), NULL);
             break;
        case ID_ANNAREATAG:
             rc = parseAnnDef(getRestOfLine(), config);
