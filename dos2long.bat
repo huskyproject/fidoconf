@@ -1,4 +1,9 @@
-ren fc2ged.c   fconf2golded.c 
-ren fc2msged.c fconf2msged.c  
-ren fidoconf.c fidoconfig.c   
-ren fidoconf.h fidoconfig.h   
+ren makefile.com makefile.common
+ren fc2ged.c     fconf2golded.c 
+ren fc2msged.c   fconf2msged.c  
+ren fc2aed.c     fconf2aquaed.c
+ren fc2fgate.c   fconf2fidogate.c
+ren fc2sq.c      fconf2squish.c
+ren fidoconf.c   fidoconfig.c   
+ren fidoconf.h   fidoconfig.h
+ren fecfg2fc.c   fecfg2fconf.c

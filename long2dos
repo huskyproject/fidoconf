@@ -1,4 +1,9 @@
+mv makefile.common makefile.com
 mv fconf2golded.c fc2ged.c
 mv fconf2msged.c fc2msged.c
+mv fconf2aquaed.c fc2aed.c
+mv fconf2fidogate.c fc2fgate.c
+mv fconf2squish.c fc2sq.c
+mv fecfg2fconf.c fecfg2fc.c
 mv fidoconfig.c fidoconf.c
 mv fidoconfig.h fidoconf.h
