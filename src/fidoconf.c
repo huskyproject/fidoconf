@@ -334,8 +334,8 @@ int carbonNames2Addr(s_fidoconfig *config)
    return rc;
 }
 
-/* set link-area permissions stored in readOnly[], writeOnly[] */
-void processPermissions (s_fidoconfig *config)
+
+void processAreaPermissions(s_fidoconfig *config, ps_area areas, unsigned areaCount)
 {
     unsigned i,narea, nalink;
     ps_area aptr;
@@ -346,7 +346,7 @@ void processPermissions (s_fidoconfig *config)
     if (config->readOnlyCount) {
         for (i=0; i < config->readOnlyCount; i++) {
             if(config->readOnly[i].areaMask[0] != '!') {
-                for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+                for (aptr=areas, narea=0; narea < areaCount; narea++, aptr++) {
                     if (patimat (aptr->areaName, config->readOnly[i].areaMask)) {
                         for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
                             if (patmat (aka2str((*dlink)->link->hisAka),
@@ -359,7 +359,7 @@ void processPermissions (s_fidoconfig *config)
             } else {
                 ExclMask = config->readOnly[i].areaMask;
                 ExclMask++;
-                for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+                for (aptr=areas, narea=0; narea < areaCount; narea++, aptr++) {
                     if (patimat (aptr->areaName, ExclMask)) {
                         for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
                             if (patmat (aka2str((*dlink)->link->hisAka),
@@ -376,7 +376,7 @@ void processPermissions (s_fidoconfig *config)
     if (config->writeOnlyCount) {
         for (i=0; i < config->writeOnlyCount; i++) {
             if(config->writeOnly[i].areaMask[0] != '!') {
-                for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+                for (aptr=areas, narea=0; narea < areaCount; narea++, aptr++) {
                     if (patimat (aptr->areaName, config->writeOnly[i].areaMask)) {
                         for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
                             if (patmat (aka2str((*dlink)->link->hisAka),
@@ -389,7 +389,7 @@ void processPermissions (s_fidoconfig *config)
             } else {
                 ExclMask = config->writeOnly[i].areaMask;
                 ExclMask++;
-                for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+                for (aptr=areas, narea=0; narea < areaCount; narea++, aptr++) {
                     if (patimat (aptr->areaName, ExclMask)) {
                         for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
                             if (patmat (aka2str((*dlink)->link->hisAka),
@@ -404,15 +404,24 @@ void processPermissions (s_fidoconfig *config)
     }
 }
 
+/* set link-area permissions stored in readOnly[], writeOnly[] */
+void processPermissions(s_fidoconfig *config)
+{
+    if      (theApp.module == M_HPT)
+        processAreaPermissions(config, config->echoAreas, config->echoAreaCount);
+    else if (theApp.module == M_HTICK)
+        processAreaPermissions(config, config->fileAreas, config->fileAreaCount);
+}
+
 void fixRoute(s_fidoconfig *config)
 {
-	unsigned int i;
+    unsigned int i;
 
-	for (i = 0; i < config->routeCount; i++) {
-		if (config->route[i].viaStr != NULL)
-			config->route[i].target = getLink(config, config->route[i].viaStr);
-		nfree(config->route[i].viaStr);
-	}
+    for (i = 0; i < config->routeCount; i++) {
+        if (config->route[i].viaStr != NULL)
+            config->route[i].target = getLink(config, config->route[i].viaStr);
+        nfree(config->route[i].viaStr);
+    }
 }
 
 void stripPktPwd(s_fidoconfig *config)
@@ -515,6 +524,7 @@ s_fidoconfig *readConfig(const char *fileName)
    processPermissions (config);
    fixRoute(config);
    stripPktPwd(config);
+   theApp.config = config;
    return config;
 }
 

@@ -88,4 +88,16 @@ HUSKYEXT   void RemoveLink(s_link*, s_area*);
 
 HUSKYEXT   void Addlink(s_fidoconfig*, s_link*, s_area*);
 
+/* ---------------- areafix checking stuff --------------*/
+
+HUSKYEXT   int mandatoryCheck(s_area*, s_link*);
+
+HUSKYEXT   int manualCheck(s_area*, s_link*);
+
+HUSKYEXT   int subscribeCheck(s_area*, s_link*);
+
+HUSKYEXT   int subscribeAreaCheck(s_area*, char*, s_link*);
+
+HUSKYEXT   int limitCheck(s_link *link);
+
 #endif

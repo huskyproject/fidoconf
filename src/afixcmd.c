@@ -421,3 +421,140 @@ void RemoveLink(s_link *link, s_area *area)
 }
 
 
+/* ---------------- areafix checking stuff --------------*/
+
+/* test area-link pair to mandatory */
+int mandatoryCheck(s_area *area, s_link *link)
+{
+    int i;
+
+    w_log(LL_FUNC, __FILE__ "::mandatoryCheck()");
+
+    if (grpInArray(area->group,link->optGrp,link->numOptGrp)&&link->mandatory){
+      w_log(LL_FUNC, __FILE__ "::mandatoryCheck() rc=1");
+      return 1;
+    }
+    if (link->numOptGrp==0 && link->mandatory){
+      w_log(LL_FUNC, __FILE__ "::mandatoryCheck() rc=1");
+      return 1;
+    }
+    if (area->mandatory){
+      w_log(LL_FUNC, __FILE__ "::mandatoryCheck() rc=1");
+      return 1;
+    }
+    if ((i=isAreaLink(link->hisAka, area))!=-1){
+      w_log(LL_FUNC, __FILE__ "::mandatoryCheck() rc=%d", area->downlinks[i]->mandatory);
+      return area->downlinks[i]->mandatory;
+    }
+      w_log(LL_FUNC, __FILE__ "::mandatoryCheck() rc=0");
+    return 0;
+}
+
+/* test area-link pair to manual */
+int manualCheck(s_area *area, s_link *link)
+{
+    int i;
+
+    w_log(LL_FUNC, __FILE__ "::manualCheck()");
+
+    if (grpInArray(area->group,link->optGrp,link->numOptGrp)&&link->manual){
+      w_log(LL_FUNC, __FILE__ "::manualCheck() rc=1");
+      return 1;
+    }
+    if (link->numOptGrp==0 && link->manual){
+      w_log(LL_FUNC, __FILE__ "::manualCheck() rc=1");
+      return 1;
+    }
+    if (area->manual) {
+      w_log(LL_FUNC, __FILE__ "::manualCheck() rc=1");
+      return 1;
+    }
+    if ((i=isAreaLink(link->hisAka, area))!=-1){
+      w_log(LL_FUNC, __FILE__ "::manualCheck() rc=%d", area->downlinks[i]->manual);
+      return area->downlinks[i]->manual;
+    }
+    w_log(LL_FUNC, __FILE__ "::manualCheck() rc=0");
+    return 0;
+}
+
+int subscribeCheck(s_area *area, s_link *link)
+{
+    int found = 0;
+    s_fidoconfig *config = theApp.config;
+
+    w_log( LL_FUNC, "%s::subscribeCheck() begin", __FILE__ );
+
+    if (isLinkOfArea(link, area)) return 0;
+
+    if (area->group) {
+        if (config->numPublicGroup)
+            found = grpInArray(area->group,config->PublicGroup,config->numPublicGroup);
+        if (!found && link->numAccessGrp)
+            found = grpInArray(area->group,link->AccessGrp,link->numAccessGrp);
+    } else found = 1;
+
+    if (!found){
+        w_log( LL_FUNC, "%s::subscribeCheck() end, rc=2", __FILE__ );
+        return 2;
+    }
+    if (area->hide) return 3;
+
+    w_log( LL_FUNC, "%s::subscribeCheck() end, rc=1", __FILE__ );
+    return 1;
+}
+
+int subscribeAreaCheck(s_area *area, char *areaname, s_link *link)
+{
+    int rc=4;
+
+    w_log( LL_SRCLINE, "%s::subscribeAreaCheck()", __FILE__ );
+
+    if( (!areaname)||(!areaname[0]) ){
+      w_log( LL_SRCLINE, "%s::subscribeAreaCheck() Failed (areaname empty) rc=%d", __FILE__, rc );
+      return rc;
+    }
+    if (patimat(area->areaName,areaname)==1) {
+	rc=subscribeCheck(area, link);
+	/*  0 - already subscribed / linked */
+	/*  1 - need subscribe / not linked */
+	/*  2 - no access */
+	/*  3 - area is hidden */
+    }
+    /*  else: this is another area */
+    w_log( LL_SRCLINE, "%s::subscribeAreaCheck() end rc=%d", __FILE__, rc );
+    return rc;
+}
+
+/* test link for areas quantity limit exceed
+ * return 0 if not limit exceed
+ * else return not zero
+ */
+int limitCheck(s_link *link) {
+    register unsigned int i,n;
+    unsigned echoLimit = 0;
+    unsigned areaCount = 0;
+    ps_area  areas = NULL;
+
+    if      (theApp.module == M_HPT) {
+        echoLimit = link->afixEchoLimit;
+        areaCount = theApp.config->echoAreaCount;
+        areas     = theApp.config->echoAreas;
+    }
+    else if (theApp.module == M_HTICK) {
+        echoLimit = link->afixEchoLimit;
+        areaCount = theApp.config->fileAreaCount;
+        areas     = theApp.config->fileAreas;
+    }
+    w_log(LL_FUNC, __FILE__ "::limitCheck()");
+
+    if (echoLimit==0) return 0;
+    
+    for (i=n=0; i < areaCount; i++)
+        if (isLinkOfArea(link, &(areas[i])))	
+            n++;
+
+    i = n >= echoLimit ;
+
+    w_log(LL_FUNC, __FILE__ "::limitCheck() rc=%u", i);
+    return i;
+}
