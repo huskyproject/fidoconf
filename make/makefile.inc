@@ -60,6 +60,8 @@ TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
 PACKAGEBASE=$(LIBNAME)$(LIBSUFFIX)-$(VER)
 PACKAGENAME=$(LIBNAME)$(LIBSUFFIX)$(VER)$(_ARC)
 
+LIBS	= -l$(LIBPREFIX)husky$(_LIB) -l$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB)
+DLLS	= -l$(DLLPREFIX)husky$(_DLL) -l$(DLLPREFIX)smapi$(DLLSUFFIX)$(_DLL)
 
 commonlibs: $(TARGETLIB) $(SYMBOLIC)
 	$(NULL)
@@ -69,20 +71,21 @@ commonprogs: $(PROGRAMS) $(FC2TOR) $(FECFG2FC) $(SYMBOLIC)
 
 
 %$(_OBJ): $(_SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(DEBUG) $(CDEFS) $(OBJOPT) $<
+	$(CC) $(CFLAGS) $(DEBUG) $(CDEFS) $(CINCL) $(OBJOPT) $<
 
 $(TARGETLIB): $(LOBJS)
-	$(AR) $(AR_R) $(TARGETLIB) $?
+	$(AR) $(ARFLAGS) $@ $?
+	$(RANLIB) $@
 
 
 $(PROGRAMS): $(TARGETLIB)
-	$(CC) $(LFLAGS) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
+	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
 
 $(FC2TOR): $(TOROBJS) $(TARGETLIB)
-	$(CC) $(LFLAGS) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
+	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
 
 $(FECFG2FC): $(FEOBJS) $(TARGETLIB)
-	$(CC) $(LFLAGS) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
+	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEOPT)$@ $@$(_OBJ) $(LIBS) $<
 
 
 commonclean: $(SYMBOLIC)

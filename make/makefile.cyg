@@ -1,0 +1,244 @@
+# $Id$
+# Makefile to build FIDOCONFIG/win32 with Mingw32 from Cygwin.
+# No support for the Husky build environment.
+
+# Uncomment this for compile info for gdb and display more compiler warnings
+DEBUG	= -g -pedantic
+
+# Uncomment this for strip all simbols from binaries to reduce file sizes
+#STRIP	= -s
+
+
+## programs ##
+
+# compiler
+CC	= gcc
+# library tool
+AR	= ar
+# library indexer
+RANLIB	= ranlib
+# linker program
+LINK	= ld
+# archiver program
+ARCHIVER= zip
+# file removing command
+RM	= rm
+# create directory command
+MKDIR	= mkdir
+# remove directory command
+RMDIR	= rm
+# install command
+INSTALL	= install
+# copy command
+CP	= cp
+# move command
+MV	= mv
+# groff program (man pages formatter, possible use man2html perl script)
+GROFF	= groff
+
+
+## file suffixes ##
+
+# source file
+_C	= .c
+# object file
+_OBJ	= .o
+# binary (executable) file
+_EXE	= .exe
+# static library
+_LIB	= .lib
+# shared library
+_DLL	= .dll
+# shared library definitions file (export/import lists & etc.)
+_DEF	= .def
+# shared library exported list
+_EXP	= .exp
+# archive (package) file
+_ARC	= .zip
+# documentation file (".info", ".html", ".div", ...)
+_HTML	= .html
+# text file
+_TXT	= .txt
+
+
+## program options ##
+
+# compiler defines
+CDEFS	=
+# common compiler options
+CFLAGS	= -Wno-long-long -Wall -mno-cygwin -O3
+# includes directories
+CINCL	= -I../fidoconf/ -I../../smapi/ -I../../huskylib/
+# options for compile only (link is off)
+OBJOPT	= -c
+# options for build static library
+LIBOPT	= -static
+# options for build dll
+DLLOPT  = -shared -L../../smapi/make/ -L../../huskylib/make/
+# option for specify output file name
+NAMEOPT	= -o
+# options for $(AR) program
+ARFLAGS	= rs
+# options for $(RM) program
+RMFLAGS	= -f
+# options for archiver
+ARCFLAGS= -9r
+# create directory command options
+MKDIROPT= -p
+# remove directory command options
+RMDIROPT= -rf
+# copy command options
+CPOPT	= -f
+# move command options
+MVOPT	= -uf
+# install command options
+INSTOPT	= -c
+# groff program option (this example doing format man page to html page)
+GROFFOPT= -Thtml -mman
+
+_SRC_DIR=../src/
+
+## Library filename elements ##
+
+# Prefix to construct static library name
+LIBPREFIX=lib
+# Prefix to construct dll name
+DLLPREFIX=
+# Suffix to construct library name
+LIBSUFFIX=cyg
+# Suffix to construct dll name
+DLLSUFFIX=
+
+## Binary package name ##
+PACKAGEBASE=$(LIBNAME)$(LIBPREFIX)-$(LIBSUFFIX)-$(VERH)
+PACKAGENAME=$(LIBNAME)$(LIBPREFIX)-$(LIBSUFFIX)-$(VERH)$(_ARC)
+
+## make directives ##
+
+.PHONY:	distclean clean all static dll programs default
+
+## Default make rule ##
+
+default:
+	@echo Run 'make dll' to build dll version \($(TARGETDLL), $(PROGRAMS)\)
+	@echo
+	@echo Run 'make static' to build static version \($(TARGETLIB), $(PROGRAMS)\)
+	@echo
+#	@echo Run 'make dllprograms' to build dll version of programs \($(PROGRAMS)\)
+#	@echo Run 'make programs' to build static version of programs \($(PROGRAMS)\)
+	@echo Run 'make all' to build all above
+	@echo
+	@echo Run 'make package-static' to build package with static library and programs
+	@echo Run 'make package-dll' to build package with shared library and programs
+
+## include common makefiles part ##
+
+include makefile.inc
+
+# libraries need to build binary file
+LIBS	+=
+
+## other, usualy not modify below ##
+CYGWIN_VERSION	= $(shell uname -r)
+
+ifeq ( , $(findstring "1.3.9", $(CYGWIN_VERSION)) )
+ifeq ( , $(findstring "1.3.10", $(CYGWIN_VERSION)) )
+ifeq ( , $(findstring "1.3.11", $(CYGWIN_VERSION)) )
+ # new cygwin require library mingwex for build with '-mno-cygwin' option
+LIBS	+= -lmingwex
+endif
+endif
+endif
+
+## Additions (add into end of strings) ##
+CFLAGS	+= -I$(H_DIR) $(DEBUG)
+
+## make rules ##
+
+all:	static dll programs
+
+static:	$(TARGETLIB)
+dll:	$(TARGETDLL)
+programs: $(TARGETLIB) $(PROGRAMS)
+dllprograms: $(TARGETDLL) $(PROGRAMS)
+
+%$(_EXE): $(_SRC_DIR)%$(_C) $(TARGETLIB)
+	$(CC) $(STRIP) $(CFLAGS) $(CDEFS) $(CINCL) $(NAMEOPT)$@ $^ $(LIBS)
+
+%$(_OBJ): $(_SRC_DIR)%$(_C)
+	$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $(OBJOPT) $<
+
+$(TARGETLIB):	$(LOBJS)
+	$(AR) $(ARFLAGS) $@ $?
+#	$(RANLIB) $@   # 'ar rs' doing this
+	
+$(TARGETDLL):	$(LOBJS)
+	$(CC) $(DLLOPT) $(CFLAGS) $(NAMEOPT)$@ $^ $(DLLS)
+
+
+clean:
+	-$(RM) $(RMOPT) *$(_OBJ)
+
+distclean: clean
+	-$(RM) $(RMOPT) $(TARGETDLL) $(TARGETLIB) $(PROGRAMS)
+
+doc:
+	cd ../doc ; make html
+
+pkg-dir:
+	$(MKDIR) $(MKDIROPT) $(PACKAGEBASE)
+
+pkg-doc-dir:
+	$(MKDIR) $(MKDIROPT) $(PACKAGEBASE)/doc
+
+pkg-doc: pkg-doc-dir
+	$(CP) $(CPOPT) ../doc $(PACKAGEBASE)/doc
+
+pkg-readme:
+	@echo husky library v.$(VERH) for `uname -s` platform > $(PACKAGEBASE)/file_id.diz
+	@echo "(Part of HUSKY Fidonet Software Project)" >> $(PACKAGEBASE)/file_id.diz
+	@echo See http://husky.sourceforge.net and/or >> $(PACKAGEBASE)/file_id.diz
+	@echo http://sourceforge.net/projects/husky >> $(PACKAGEBASE)/file_id.diz
+	$(CP) $(CPOPT) ../COPYING ../cvsdate.h ../INSTALL ../TODO $(PACKAGEBASE)
+	$(CP) $(CPOPT) ../HISTORY ../ChangeLog ../VERSION $(PACKAGEBASE)
+
+pkg-man: pkg-doc-dir
+	for f in ../man/*.? ; \
+	 do $(GROFF) $(GROFFOPT) $$f > $(PACKAGEBASE)/doc/`basename $$f`$(_HTML) ; done
+
+pkg-h-dir: pkg-dir
+	$(MKDIR) $(MKDIROPT) $(PACKAGEBASE)/$(LIBNAME)/
+
+$(HEADERS): pkg-h-dir
+	$(CP) $(CPOPT) $(H_DIR)$@ $(PACKAGEBASE)/$(LIBNAME)/$@
+
+pkg-h: $(HEADERS)
+
+pkg-bin-dir:
+	-$(MKDIR) $(MKDIROPT) $(PACKAGEBASE)/bin
+
+pkg-bin-static: static programs pkg-bin-dir
+	$(CP) $(CPOPT) $(TARGETLIB) $(PROGRAMS) $(PACKAGEBASE)/bin
+
+pkg-bin-dll: dll programs pkg-bin-dir
+	$(CP) $(CPOPT) $(TARGETDLL) $(PROGRAMS) $(PACKAGEBASE)/bin
+
+
+package-static: pkg-dir pkg-h pkg-man pkg-readme pkg-bin-static
+	$(ARCHIVER) $(ARCFLAGS) $(PACKAGENAME) $(PACKAGEBASE)/*
+
+package-dll: pkg-dir pkg-h pkg-man pkg-readme pkg-bin-dll
+	$(ARCHIVER) $(ARCFLAGS) $(PACKAGENAME) $(PACKAGEBASE)/*
+
+package:
+	@echo Run 'make package-dll' to build package with dll version
+	@echo Run 'make package-static' to build with static version
+
+pkgclean:
+	-$(RMDIR) $(RMDIROPT) $(PACKAGEBASE)
+
+pkgdistclean: pkgclean
+	-$(RM) $(RMOPT) $(PACKAGENAME)
+
+pkg-distclean: pkgdistclean
+pkg-clean: pkgclean
