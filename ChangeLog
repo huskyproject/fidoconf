@@ -1,3 +1,7 @@
+2001-11-06 Tuesday 08:56  ml
+
+	* makefile.cyg (1.1): cygwin makefile
+
 2001-10-24 Wednesday 09:36  ml
 
 	* fidoconf.c (1.55), line.c (1.263): change exit codes
