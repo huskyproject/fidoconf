@@ -1,3 +1,18 @@
+2002-10-24 Thursday 11:37  mche
+
+	* tparser.c (1.202): fix spelling
+
+2002-10-24 Thursday 09:12  mche
+
+	* afixcmn.c (1.16): hpt attach processing patch by [val khokhlov  
+	2:550/180]
+
+2002-10-24 Thursday 06:16  stas_degteff
+
+	* afixcmn.c (1.15): MSGID generation in createKludges(): Wait one
+	second to prevent generate equvalence msgid in two sequental
+	program call
+
 2002-10-23 Wednesday 13:16  stas_degteff
 
 	* afixcmn.c (1.14), common.c (1.123), common.h (1.65), crc.c (1.5),
