@@ -138,8 +138,9 @@ int main (int argc, char *argv[]) {
    printf("------------\n");
    if (argc < 2) {
       printf("\nUsage:\n");
-      printf("   fconf2golded <goldedConfigFileName> [<default.cfg>]\n");
+      printf("   fconf2golded [-a] <goldedConfigFileName> [<default.cfg>]\n");
       printf("   (you may read config defaults from default.cfg)\n");
+      printf("   (-a exports areas only)\n");
       printf("\nExample:\n");
       printf("   fconf2golded ~/golded/golded.cfg\n\n");
       return 1;
