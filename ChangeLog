@@ -1,3 +1,84 @@
+2002-12-18 Wednesday 06:03  stas_degteff
+
+	* afixcmd.c (1.23): Fix errors on renaming config: use move_file()
+	instead rename()
+
+2002-12-18 Wednesday 05:25  stas_degteff
+
+	* afixcmd.c (1.22): Change fprintf(stderr, to w_log(LL_ERR,
+
+2002-12-17 Tuesday 14:27  stas_degteff
+
+	* tparser.c (1.222): Warnings outputs before config dump now.
+	Display message to stderr if warnings found. Thanks to Pavel
+	Girnov,2:5066/18.66 (for idea)
+
+2002-12-17 Tuesday 14:15  stas_degteff
+
+	* tparser.c (1.221): Fix addresses output
+
+2002-12-17 Tuesday 14:13  stas_degteff
+
+	* makefile.mvcdll (1.25): Fix distclean tag (Thanks to Alexander
+	Reznikov)
+
+2002-12-17 Tuesday 08:14  stas_degteff
+
+	* tparser.c (1.220): Check for: robotsarea value is not an existing
+	area
+
+2002-12-10 Tuesday 16:27  mche
+
+	* makefile.mvc (1.24): correct makefile
+
+2002-12-09 Monday 15:29  nssoft
+
+	* linked.c (1.1), makefile.inc (1.37): Add "linked" program, that
+	show linked areas for link
+
+2002-12-06 Friday 16:58  stas_degteff
+
+	* line.c (1.357), tparser.c (1.219): Echoarea options: 'kill' is
+	synonym for 'k' and 'hide' is synonym for 'h'
+
+2002-12-06 Friday 16:28  stas_degteff
+
+	* line.c (1.356), tparser.c (1.218): Uppercase for
+	areafixReportsattr
+
+2002-12-06 Friday 15:59  stas_degteff
+
+	* Makefile (1.53): Install version.h into system includes directory
+
+2002-12-06 Friday 15:44  stas_degteff
+
+	* tparser.c (1.217): Fix areafixreportsattr & filefixreportsattr
+	syntax
+
+2002-12-06 Friday 15:40  stas_degteff
+
+	* line.c (1.355): uppercase filefixreportsattr & areafixreportsattr
+
+2002-12-06 Friday 15:02  stas_degteff
+
+	* makefile.bsd (1.19): Fix make warning about NULL
+
+2002-12-06 Friday 14:22  mche
+
+	* common.h (1.76): try to compile with msvc
+
+2002-12-06 Friday 13:23  mche
+
+	* fidoconf.h (1.162), line.c (1.354), tparser.c (1.216): Kill area
+	msgbase only if it dfined area options -- "-k"
+
+2002-12-06 Friday 06:14  mche
+
+	* afixcmd.c (1.21), fidoconf.c (1.98), fidoconf.h (1.161),
+	fidoconfDll.dsp (1.4), line.c (1.353), tokens.h (1.58), tparser.c
+	(1.215): new token added: advStatisticsFile token removed:
+	msgIdFile
+
 2002-12-05 Thursday 14:00  stas_degteff
 
 	* tparser.c (1.214): Add filefixhelp output
