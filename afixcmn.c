@@ -226,8 +226,8 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
     /* FORCED ATTRIBUTES !!! */
     msgHeader.attr |= forceattr;
 
-    strcpy((char *) msgHeader.from,msg->fromUserName);
-    strcpy((char *) msgHeader.to, msg->toUserName);
+    sstrcpy((char *) msgHeader.from,msg->fromUserName);
+    sstrcpy((char *) msgHeader.to, msg->toUserName);
 
     if (((msgHeader.attr & MSGFILE) == MSGFILE)
 	&& (msg->netMail==1)
