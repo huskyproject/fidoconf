@@ -65,7 +65,7 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
    unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate );
 
 /* Check version of fidoconfig library
- * return zero if test passed
+ * return zero if test failed; non-zero if passed
  * test cvs need for DLL version only, using #include <fidoconf/cvsdate.h>
   const char *fidoconfdate(){
   static
