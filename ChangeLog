@@ -1,3 +1,17 @@
+2002-05-11 Saturday 15:32  mche
+
+	* afixcmn.c (1.7): fix cygwin warnings
+
+2002-05-11 Saturday 12:16  mche
+
+	* common.c (1.84), common.h (1.48): changeFileSuffix() moved to
+	fidoconfig for common use in hpt, htick
+
+2002-05-11 Saturday 11:16  mche
+
+	* afixcmd.h (1.4), afixcmn.c (1.6), fidoconf.h (1.116):
+	createXMSG() moved to fidoconfig for common use in hpt, htick
+
 2002-05-07 Tuesday 13:15  mche
 
 	* fidoconf.h (1.115): make mvcdll version compilable
