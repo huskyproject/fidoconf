@@ -68,11 +68,11 @@ int MKSTEMPS( char *tempfilename )
          if( !mktemp(ttt) )
            break;
          *pp = '.';
-         fd = open( ttt, O_EXCL | O_CREAT );
+         fd = open( ttt, O_EXCL | O_CREAT | O_RDWR );
      }while( fd==-1 && errno == EEXIST );
    }else{
      while( fd==-1 && mktemp(ttt) ){
-       fd = open( ttt, O_EXCL | O_CREAT );
+       fd = open( ttt, O_EXCL | O_CREAT | O_RDWR );
      };
    }
    if(fd!=-1) strcpy(tempfilename,ttt);
