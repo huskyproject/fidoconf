@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Wed Mar 28 18:02:13 NOVST 2001
+max:
+* fix deleting last char of the last line while parsing under win32
+
+----- cvs ci ------
 Thu Mar 22 21:04:53 NOVT 2001
 max:
 * readLine() & trimLine() clean up (thanx to Kees Bergwerf)

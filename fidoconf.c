@@ -73,7 +73,7 @@ char *readLine(FILE *f)
 		   if (line[l_end] == '\n') break; // EOL
        }
    }
-   line[l_end] = '\0';
+   if (line[l_end]=='\n') line[l_end]='\0';
 
    return line;
 }

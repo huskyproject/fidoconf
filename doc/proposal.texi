@@ -136,6 +136,10 @@ if [VAR]==myvar
 else
 ...
 endif
+
+ifdef UNIX
+MsgBaseDir  [home]/msgbase
+endif
 @end example
 
 You can use external programs output via @code{`cmd`}. It is available
