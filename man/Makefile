@@ -25,7 +25,7 @@ copy:
 	$(INSTALL) $(IMOPT) $(MAN1PAGES) $(MAN1DIR)
 
 link:
-	for f in $(FCONF2ALIASES) ; do $(LN) -f fconf2.1 $(MAN1DIR)$(DIRSEP)$$f ; done
+	for f in $(FCONF2ALIASES) ; do $(LN) -f $(MAN1DIR)$(DIRSEP)fconf2.1 $(MAN1DIR)$(DIRSEP)$$f ; done
 
 clean:
 
