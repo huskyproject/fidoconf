@@ -50,8 +50,8 @@ ifeq ($(CC), gcc)
 $(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(OBJ)
 	$(CC) -fpack-struct $(FECFG2FCONF)$(OBJ) -o $(FECFG2FCONF)$(EXE)
 else
-.PHONY: $(FECFG2FCONF)($EXE)
-$(FECFG2FCONF)($EXE):
+$(FECFG2FCONF)$(EXE):
+	echo "not supported on this platform" > $(FECFG2FCONF)$(EXE)
 endif
 
 
