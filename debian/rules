@@ -21,27 +21,21 @@ configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
-	
-
 	touch configure-stamp
 
 build: configure-stamp build-stamp
 build-stamp:
 	dh_testdir
-
 	# Add here commands to compile the package.
 	$(MAKE)
-
 	touch build-stamp
 
 clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp configure-stamp
-
 	# Add here commands to clean up after the build process.
 	-$(MAKE) distclean
-
 	dh_clean
 
 install: build
@@ -49,14 +43,8 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	# Hmm, dh_installdirs want make tmp/* directories. I dont now why.
-	-mkdir -p debian/tmp/usr/lib debian/tmp/usr/include
-	-mkdir -p debian/tmp/usr/bin
 	# Add here commands to install the package into debian/tmp
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
-	cp doc/config debian/fidoconf-runtime/etc/husky/config
-	chmod 0755 debian/tmp/usr/bin/linkedto
-
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -67,15 +55,15 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_movefiles
-
 #	dh_installdebconf	
 	dh_installdocs
 	dh_installexamples
-	dh_installmenu
-	dh_installcron
+#	dh_installmenu
+#	dh_installcron
 	dh_installman
 	# And now a few symlinks :)
 	cd debian/fidoconf-runtime/usr/share/man/man1 ;\
+	ln -s fconf2.1 fconf2areasbbs.1 ;\
 	ln -s fconf2.1 fconf2aquaed.1 ;\
 	ln -s fconf2.1 fconf2golded.1 ;\
 	ln -s fconf2.1 fconf2msged.1 ;\
@@ -85,6 +73,7 @@ binary-arch: build install
 	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs ChangeLog
+	rm -rf $(CURDIR)/debian/libfidoconf0-dev/usr/share/doc/libfidoconf0-dev
 	dh_link
 	dh_strip
 	dh_compress

@@ -1,3 +1,14 @@
+fidoconf (0.14-20020905-1) stable; urgency=low
+
+  * New cvs version
+  * Install linkedto and fconf2areasbbs into /usr/bin directory
+  * Remove installation of /etc/husky/config (now it was ship with hpt
+    package)
+  * Fix install of documentation
+  * /usr/share/doc/libfidoconf0-dev is symlink now
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Thu,  5 Sep 2002 07:01:00 +0600
+
 fidoconf (0.14-20020815-2) stable; urgency=low
 
   * debian/copyright: new http-location of sources
