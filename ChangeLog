@@ -1,3 +1,8 @@
+2002-03-02 Saturday 14:44  mche
+
+	* common.c (1.75), common.h (1.42): function
+	GetFilenameFromPathname added
+
 2002-03-01 Friday 14:12  mche
 
 	* makefile.mvcdll (1.8), makeperl.mvcdll (1.3): makefile updates
