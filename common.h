@@ -4,15 +4,6 @@
 #include "typesize.h"
 #include <stdio.h>
 
-struct addr {
-
-   UINT16 zone, net, node, point;
-   CHAR   *domain;
-
-};
-
-typedef struct addr s_addr;
-
 /* common functions */
 
 int  addrComp(const s_addr a1, const s_addr a2);

@@ -1,14 +1,24 @@
 #ifndef FIDOCONFIG_H
 #define FIDOCONFIG_H
+#include <stdio.h>
 #include <msgapi.h>
 
-#include "common.h"
+// #include "common.h"
 
 #define MSGTYPE_PASSTHROUGH 0x04
 
 extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
 extern char wasError;
+
+struct addr {
+
+   unsigned int zone, net, node, point;
+   char   *domain;
+
+};
+
+typedef struct addr s_addr;
 
 struct pack {
    char    *packer;
@@ -62,9 +72,9 @@ struct area {
    s_addr *useAka;
    
    s_link **downlinks;  // array of pointers to s_link
-   UINT downlinkCount;
+   unsigned int downlinkCount;
 
-   UINT purge, max, dupeHistory;
+   unsigned purge, max, dupeHistory;
    e_dupeCheck dupeCheck;
    char tinySB, manual, hide, noPause;
 
@@ -90,23 +100,23 @@ struct carbon {
 typedef struct carbon s_carbon;
 
 struct unpack {
-   UINT    offset;
+   unsigned int  offset;
    char    *matchCode;
    char    *call;
 };
 typedef struct unpack s_unpack;
 
 struct fidoconfig {
-   UINT     cfgVersionMajor, cfgVersionMinor;
+   unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop;
 
-   UINT     addrCount;
+   unsigned int   addrCount;
    s_addr   *addr;
 
-   UINT     publicCount;
+   unsigned int publicCount;
    char     **public;
 
-   UINT     linkCount;
+   unsigned int  linkCount;
    s_link   *links;
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound;
@@ -114,28 +124,28 @@ struct fidoconfig {
    char     *magic, *areafixhelp, *autoCreateDefaults, *tempOutbound;
 
    s_area   netMailArea, dupeArea, badArea;
-   UINT     echoAreaCount;
+   unsigned int   echoAreaCount;
    s_area   *echoAreas;
-   UINT     localAreaCount;
+   unsigned int   localAreaCount;
    s_area   *localAreas;
 
-   UINT     routeCount;
+   unsigned int   routeCount;
    s_route  *route;
-   UINT     routeFileCount;
+   unsigned int   routeFileCount;
    s_route  *routeFile;
-   UINT     routeMailCount;
+   unsigned int   routeMailCount;
    s_route  *routeMail;
 
-   UINT     packCount;
+   unsigned int   packCount;
    s_pack   *pack;
    s_pack   *packDefault;
-   UINT     unpackCount;
+   unsigned int   unpackCount;
    s_unpack *unpack;
    
    char     *intab, *outtab;
    char     *echotosslog, *importlog, *lockfile;
 
-   UINT     carbonCount;
+   unsigned int   carbonCount;
    s_carbon *carbons;
 };
 typedef struct fidoconfig s_fidoconfig;

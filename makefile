@@ -12,6 +12,7 @@ ALL: $(OBJS) \
      libfidoconfig.so.$(VER) \
      tparser \
      fconf2msged \
+     fconf2aquaed \
      fconf2golded 
 
 fidoconfig.a: fidoconfig.o line.o common.o patmat.o dir.o
@@ -29,6 +30,9 @@ fconf2msged: fconf2msged.o fidoconfig.a
 fconf2golded: fconf2golded.o fidoconfig.a
 	$(CC) fconf2golded.o -o fconf2golded -lfidoconfig -lsmapilnx
 
+fconf2aquaed: fconf2aquaed.o fidoconfig.a
+	$(CC) fconf2aquaed.o -o fconf2aquaed -lfidoconfig -lsmapilnx
+
 tparser: tparser.o fidoconfig.a
 	$(CC) tparser.o -o tparser -lfidoconfig -lsmapilnx
 
@@ -37,7 +41,7 @@ clean:
 	-rm *.o
 
 distclean: clean
-	-rm tparser fconf2golded fconf2msged
+	-rm tparser fconf2golded fconf2msged fconf2aquaed
 	-rm libfidoconfig.so.$(VER)
 	-rm fidoconfig.a
 

@@ -9,6 +9,7 @@
 #include <pwd.h>
 #endif
 
+#include "fidoconfig.h"
 #include "common.h"
 
 int  addrComp(const s_addr a1, const s_addr a2)

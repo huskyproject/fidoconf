@@ -4,6 +4,7 @@
 
 #include "fidoconfig.h"
 #include "typesize.h"
+#include "common.h"
 
 char *readLine(FILE *f)
 {

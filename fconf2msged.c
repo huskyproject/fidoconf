@@ -1,4 +1,5 @@
 #include "fidoconfig.h"
+#include "common.h"
 
 int writeArea(FILE *f, s_area *area, char netmail) {
    switch (area->msgbType) {

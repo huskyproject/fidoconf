@@ -7,6 +7,8 @@
 #include "dir.h"
 
 #include "fidoconfig.h"
+#include "common.h"
+#include "typesize.h"
 
 #include <compiler.h>
 #include <stamp.h>
