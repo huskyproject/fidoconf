@@ -1,3 +1,29 @@
+2003-07-27 Sunday 15:27  d_sergienko
+
+	* src/line.c (1.17): remove debug message about carbonextern
+	parameters
+
+2003-07-27 Sunday 12:21  d_sergienko
+
+	* doc/proposal.texi (1.152): missed keyword :)
+
+2003-07-27 Sunday 12:19  d_sergienko
+
+	* doc/proposal.texi (1.151): added docs about zipInternal
+
+2003-06-27 Friday 04:16  lmike
+
+	* fidoconfig.qpg (1.4): Fixed .so file name, after install.
+
+2003-06-21 Saturday 11:03  mche
+
+	* make/tparser.vcproj (1.2): documentation build added
+
+2003-06-21 Saturday 08:23  mche
+
+	* src/line.c (1.16): new area option  -pass define area as
+	passthrough even if msgbase type or filename is defined
+
 2003-06-18 Wednesday 19:50  d_sergienko
 
 	* src/line.c (1.15): make squish msgbtype as default
