@@ -71,7 +71,7 @@ char *getRestOfLine(void) {
 }
 
 char *getDescription(void) {
-  char desc[81];
+  char desc[FC_MAX_AREADESC_LEN + 1];
   char *token;
   char *tmp=NULL;
   int out=0;
@@ -79,7 +79,7 @@ char *getDescription(void) {
   
   desc[0]='\0';
   while ((out==0) && ((token=strtok(NULL," "))!=NULL)) {
-    if ((length+=strlen(token))>80)
+    if ((length+=strlen(token))>FC_MAX_AREADESC_LEN)
       out=1;
     else {
       strcat (desc,token);

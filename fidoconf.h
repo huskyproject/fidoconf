@@ -40,6 +40,8 @@ extern "C" {
 
 #define MSGTYPE_PASSTHROUGH 0x04
 
+#define FC_MAX_AREADESC_LEN 80
+
 #ifdef UNIX
 #define PATH_DELIM        '/'
 #else

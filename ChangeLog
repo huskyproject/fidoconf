@@ -1,3 +1,11 @@
+----- cvs ci ------
+Mon Jan  1 15:57:02 MET 2001
+tobi:
+* Define FC_MAX_AREADESC_LEN constant, so that hpt's areafix knows
+  what the largest supported area description length is when auto-adding
+  echo definitions.  (This fix is only relevant for the 0.10 stable branch,
+  because current fidoconfig has a dynamic maximum area description length).
+
 fidoconfig 0.10b
 ================
 (released on Tue 31 Oct 2000 23:35:25 CET)
