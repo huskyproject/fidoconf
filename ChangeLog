@@ -1,3 +1,35 @@
+2002-11-12 Tuesday 07:02  mche
+
+	* line.c (1.341): fix carbonreason
+
+2002-11-12 Tuesday 06:58  mche
+
+	* areatree.c (1.10), fidoconf.c (1.94), fidoconf.h (1.151), line.c
+	(1.340): fix coredump in areafix tanks to Alexander Reznikov
+	[2:4600/220]
+
+2002-11-12 Tuesday 05:35  stas_degteff
+
+	* cfg.c (1.55): Add top comment
+
+2002-11-12 Tuesday 05:30  stas_degteff
+
+	* cfg.c (1.54): Fix types redefinitions for OS/2 compilers
+
+2002-11-12 Tuesday 05:29  stas_degteff
+
+	* temp.h (1.5): DOS2UNIX
+
+2002-11-12 Tuesday 05:17  stas_degteff
+
+	* common.c (1.135): Fix (prevent memory leak) and improve
+	performance in GetDirnameFromPathname()
+
+2002-11-12 Tuesday 04:47  stas_degteff
+
+	* common.c (1.134): Fix: variable incremention move out from macros
+	call
+
 2002-11-11 Monday 07:41  mche
 
 	* afixcmn.c (1.21): fix coredump on scaning
