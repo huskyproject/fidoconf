@@ -1,3 +1,21 @@
+2002-09-03 Tuesday 10:39  stas_degteff
+
+	* common.c (1.96): Use w_log() alt. to fprintf(stderr, message) in
+	smalloc(), srealloc(), sstrdup().
+
+2002-09-03 Tuesday 10:36  stas_degteff
+
+	* log.c (1.9): Critical error prints to stder if can't logged
+
+2002-09-03 Tuesday 09:47  stas_degteff
+
+	* common.c (1.95): Test source string for empty ("") in sstrdup().
+
+2002-09-03 Tuesday 04:16  stas_degteff
+
+	* doc/keywords.htick (1.3): Include following htick's keywords in
+	documentation: AnnFileOrigin, AnnFileRFrom.
+
 2002-09-02 Monday 15:45  mche
 
 	* fc2tor_g.c (1.2), fc2tor_g.h (1.2), makefile.mvc (1.17),
