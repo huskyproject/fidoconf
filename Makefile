@@ -25,7 +25,7 @@ CDEFS=-D$(OSTYPE) $(ADDCDEFS) -DCFGDIR=\"$(CFGDIR)\"
 LOPT = -L. -L$(LIBDIR)
 
 ifneq ($(OSTYPE), UNIX)
-  LIBPREFIX=
+#  LIBPREFIX=
 else
   LIBPREFIX=lib
 endif
