@@ -2,6 +2,12 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Mon May 22 14:03:38 CEST 2000
+mtt:
+* made some release adjustements
+* changed version to numer 0.10
+
+----- cvs ci ------
 Mon May 22 11:40:00 NOVST 2000
 max:
 * autoPause added to docs

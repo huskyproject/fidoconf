@@ -9,19 +9,22 @@ Sysop Matthias Tichy
 LogLevels 456789
 
 Address 2:2432/645
-address 2:2432/605.14
-Address 2:2433/1247 #
-Address 2:2433/1245.1
 Address 44:4932/110
-Address 44:4932/100.14
+Address 21:499/976
+Address 49:199/976
+Address 54:490/976
+Address 64:199/976
+Address 530:199/976
 
 # This is taken from Serge Koghin's ParToss
 # Hope he wouldn't be angry for this
-# ATTENTION the commeneed lines are not tested by me (mtt)
-# and will mostly only useful on dos-systems
+# ATTENTION the commented lines are not tested by me (mtt)
+# and will mostly be only useful on dos-systems
  
 Unpack  "unzip  -j -Loqq $a -d $p" 0 504b0304
 Pack  zip zip -9 -j -q $a $f
+
+Unpack  "arc eno $a $p'*.*'" 0 1a
 
 #Unpack  "pkunpak /r $a $p" 0 1a
 #Pack  arc pkpak -oct a $a $f
@@ -52,7 +55,7 @@ Unpack  "unrar e -y  $a $p \* > /dev/null"   0 52617221
 Link Matthias Schniedermeyer
 Aka 2:2432/600
 ourAka 2:2432/645
-Password xxxxxxx
+Password xxxxxxxxx
 EchoMailFlavour Crash
 AutoAreaCreate on
 AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
@@ -63,16 +66,17 @@ Packer zip
 Link Matthias Schniedermeyer
 Aka 44:4932/100
 ourAka 44:4932/110
-password xxxxxxx
+password xxxxxxxx
 EchoMailFlavour Crash
 AutoAreaCreate on
+AutoFileCreate on
 AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
 Packer zip
 
 Link Carsten Ellermann
 Aka 2:2432/215
 ourAka 2:2432/645
-password xxxxxxxx
+password xxxxxxx
 autoAreaCreate on
 AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
 autoFileCreate on
@@ -85,6 +89,83 @@ autoAreaCreate on
 AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
 forwardPkts on
 
+Link Matthias Tichy
+Aka 21:499/980
+ourAka 21:499/976
+Password xxxxxxx
+autoAreaCreate on
+AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
+forwardPkts on
+
+Link Matthias Tichy
+Aka 49:199/980
+ourAka 49:199/976
+Password xxxxxxxx
+autoAreaCreate on
+AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
+forwardPkts on
+
+Link Matthias Tichy
+Aka 54:490/980
+ourAka 54:490/976
+Password xxxxxxx
+autoAreaCreate on
+AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
+forwardPkts on
+
+Link Matthias Tichy
+Aka 64:199/980
+ourAka 64:199/976
+Password xxxxxxxx
+autoAreaCreate on
+AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
+forwardPkts on
+
+Link Matthias Tichy
+Aka 530:199/980
+ourAka 530:199/976
+Password xxxxxxxx
+autoAreaCreate on
+AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
+forwardPkts on
+
+Link Matthias Born
+Aka 2:240/6223
+ourAka 2:2432/645
+Password xxxxxxx
+EchoMailFlavour hold
+Packer zip
+
+Link Matthias Born
+Aka 44:4932/120
+ourAka 44:4932/110
+Password xxxxxxx
+EchoMailFlavour hold
+Packer zip
+
+Link Sascha Silbe
+Aka 2:2435/424
+ourAka 2:2432/645
+AutoFileCreate on
+Password xxxxxxxx
+
+Link Sascha Silbe
+Aka 54:490/963
+ourAka 54:490/976
+AutoFileCreate on
+Password xxxxxxxxx
+
+Link Alfred Cleve
+Aka 2:244/6260
+ourAka 2:2432/645
+password xxxxxxxxxxx
+packer zip
+EchoMailFlavour crash
+autoAreaCreate on
+AutoAreaCreateDefaults -p 14 -dupeCheck move -dupeHistory 11
+
+; +++ FREEPNT-MARKE +++  
+
 #route crash 2:2433/1245 *
 #route hold  2:2433/1247.100 2:2433/1247.100
 #route Crash  2:2433/1245 2:2433/* 
@@ -93,10 +174,17 @@ forwardPkts on
 #route crash enc no-route *
 
 route hold noroute 2:2432/645.*
-Route crash 44:4932/100 44:*
+route hold noroute 2:240/6223.*
 route crash noroute 2:2432/646
-Route crash 2:2432/600 *
+route hold 44:4932/120 44:4932/120 44:4932/130
+Route crash 44:4932/100 44:*
+Route crash 49:199/980 49:*
+Route crash 54:490/980 54:*
+Route crash 530:199/980 530:*
 
+Route normal 2:2435/424 2:2435/*
+
+Route crash 2:2432/646 *
 
 Inbound		/home/mtt/fido/in/
 ProtInbound	/home/mtt/fido/in.sec
@@ -120,11 +208,19 @@ importlog       /home/mtt/fido/import.log
 logFileDir      /home/mtt/fido/hpt/linux
 DupeHistoryDir	/home/mtt/fido/dupes
 NodelistDir	/home/mtt/fido/nodelist
+PassFileAreaDir     /home/mtt/fido/passFileDir
 magic		/home/mtt/fido/magic
 lockfile        /home/mtt/fido/lock
 
 areafixhelp     /home/mtt/fido/hpt/misc/areafix.hlp
 FileFixHelp     /home/mtt/fido/htick/misc/filefix.hlp
+
+NodeList nodelist
+DiffUpdate /home/mtt/fido/files/nodediff
+NodeList unionnet
+Nodelist geonode
+Nodelist linuxnet
+DiffUpdate /home/mtt/fido/files/lin44.node
 
 NetmailArea NetmailArea /home/mtt/fido/msgb/netmail -b msg
 # NetmailArea NetmailArea /home/mtt/fido/msgb/net -b  Squish
@@ -138,10 +234,8 @@ EchoArea C_PLUSPLUS.ger   /home/mtt/fido/msgb/c_plpl_g          -a 2:2432/645  -
 EchoArea binkley          /home/mtt/fido/msgb/binkley           -a 2:2432/645  -b  Squish -p 14 2:2432/600
 EchoArea Binkley.ger      /home/mtt/fido/msgb/binkley_g         -a 2:2432/645  -b  Squish -p 14 2:2432/600
 EchoArea hardrock.ger     /home/mtt/fido/msgb/hardrock_g        -a 2:2432/645  -b Squish -p 14 2:2432/600
-EchoArea   linux.ger        /home/mtt/fido/msgb/linux/ger           -a 2:2432/645  -b Squish -p 14 -dupecheck move -dupeHistory 11  2:2432/600
-echoArea linux.develop.ger /home/mtt/fido/msgb/linux/develop_g   -a 2:2432/645 -b Squish  -dupeCheck move -dupeHistory 11  2:2432/600
-#echoarea linux.ger /home/mtt/fido/msgb/linux/ger -a 2:2433/1247 -b Squish 2:2433/1245 2:2433/1200
-# echoarea linux.develop.ger /home/mtt/fido/msgb/linux/develop_g -a 2:2433/1247 -b Squish 2:2433/1245 2:2423/605 2:2433/1245.100
+EchoArea   linux.ger        /home/mtt/fido/msgb/linux/ger           -a 2:2432/645  -b Squish -p 14 -dupecheck move -dupeHistory 11  2:2432/646
+echoArea linux.develop.ger /home/mtt/fido/msgb/linux/develop_g   -a 2:2432/645 -b Squish  -dupeCheck move -dupeHistory 11  2:2432/646
 EchoArea os2.base.ger     /home/mtt/fido/msgb/os2/base_g        -a 2:2432/645  -b Squish -p 14 2:2432/600 
 EchoArea os2.beta.ger     /home/mtt/fido/msgb/os2/beta_g        -a 2:2432/645  -b Squish -p 14 2:2432/600
 EchoArea os2bbs.ger       /home/mtt/fido/msgb/os2/bbs_g         -a 2:2432/645  -b Squish -p 14 2:2432/600
@@ -188,19 +282,17 @@ EchoArea linux.x /home/mtt/fido/msgb/linux.x -a 44:4932/110 -b  Squish -p 14 -du
 EchoArea 2432.nodes /home/mtt/fido/msgb/2432.nodes -a 2:2432/645 -b  Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
 EchoArea fido2000.ger /home/mtt/fido/msgb/fido2000.ger -a 2:2432/645 -b  Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
 EchoArea java.ger /home/mtt/fido/msgb/java.ger -a 2:2432/645 -b  Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
-EchoArea ftsc_public /home/mtt/fido/msgb/ftsc_public -a 2:2432/645 -b  Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
+EchoArea ftsc_public /home/mtt/fido/msgb/ftsc_public -a 2:2432/645 -b  Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/646
 EchoArea BINKLEY.DEVELOP /home/mtt/fido/msgb/binkley.develop -a 2:2432/645 -b  Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/215
 
 FileArea binkley.dev /home/mtt/fido/files/binkley.dev -a 2:2432/645  -d "Binkleyterm Development: Source Diffs, Misc, stuff" 2:2432/215
 FileArea btxebos2 /home/mtt/fido/files/btxebos2 -a 2:2432/645  -d "Binkleyterm Development: Beta Binaries for OS/2" 2:2432/215
 FileArea btxebsrc /home/mtt/fido/files/btxebsrc -a 2:2432/645  -d "Binkleyterm Development: Beta Source" 2:2432/215
 FileArea btxebw32 /home/mtt/fido/files/btxebw32 -a 2:2432/645  -d "Binkleyterm Development: Beta Binaries for Win32" 2:2432/215
-
-
 EchoArea golded.ger /home/mtt/fido/msgb/golded.ger -b Squish -a 2:2432/645 -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
-
+EchoArea fidosoft.husky /home/mtt/fido/msgb/fidosoft.husky -b Squish -a 2:2432/645 -dupeCheck move -dupeHistory 11 2:2432/646 2:240/6223 
 EchoArea darkness.points /home/mtt/fido/msgb/darkness.points -a 2:2432/645 -b  Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
-EchoArea linux.fido.ger /home/mtt/fido/msgb/linux.fido.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
+EchoArea linux.fido.ger /home/mtt/fido/msgb/linux.fido.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/646
 EchoArea FUSSBALL.GER /home/mtt/fido/msgb/fussball.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
 EchoArea PGP.GER /home/mtt/fido/msgb/pgp.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
 EchoArea HARDWARE.SCSI.GER /home/mtt/fido/msgb/hardware.scsi.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
@@ -212,3 +304,49 @@ EchoArea PRO_WRESTLING /home/mtt/fido/msgb/pro_wrestling -a 2:2432/645 -b Squish
 EchoArea SPORT.EISHOCKEY.GER /home/mtt/fido/msgb/sport.eishockey.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
 EchoArea RAETSEL.GER /home/mtt/fido/msgb/raetsel.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
 EchoArea WRESTLING.GER /home/mtt/fido/msgb/wrestling.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
+EchoArea JAZZ.GER /home/mtt/fido/msgb/jazz.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
+EchoArea TV.SITCOM.GER /home/mtt/fido/msgb/tv.sitcom.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
+EchoArea FAEKAL.GER /home/mtt/fido/msgb/faekal.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
+EchoArea STEUER.GER /home/mtt/fido/msgb/steuer.ger -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/600
+EchoArea LINUX.TALK /home/mtt/fido/msgb/linux.talk -a 44:4932/110 -b Squish -p 14 -dupeCheck move -dupeHistory 11 44:4932/100
+EchoArea LINUX /home/mtt/fido/msgb/linux -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/646 2:240/6223
+EchoArea FTN.BACKBONE.INFO /home/mtt/fido/msgb/ftn.backbone.info -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11 2:2432/646 
+FileArea 24000 /home/mtt/fido/files/24000 -a 2:2432/645  2:2432/600
+FileArea NODEDIFF /home/mtt/fido/files/nodediff -a 2:2432/645  2:2432/600
+FileArea LIN44.NODE /home/mtt/fido/files/lin44.node -a 44:4932/110  44:4932/100
+FileArea LIN44.POINT /home/mtt/fido/files/lin44.point -a 44:4932/110  44:4932/100
+EchoArea GN.ALLGEMEIN /home/mtt/fido/msgb/gn.allgemein -a 54:490/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 54:490/980
+EchoArea GN.ANNOUNCE /home/mtt/fido/msgb/gn.announce -a 54:490/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 54:490/980
+EchoArea SN.GEW.IGMEDIEN.ALLG /home/mtt/fido/msgb/sn.gew.igmedien.allg -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.RECHT.ARB.URTEILE /home/mtt/fido/msgb/sn.recht.arb.urteile -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.RECHT.SOZ.DISKUSSION /home/mtt/fido/msgb/sn.recht.soz.diskussion -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.RECHT.ARB.DISKUSSION /home/mtt/fido/msgb/sn.recht.arb.diskussion -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.BETR.BR+PR /home/mtt/fido/msgb/sn.betr.br+pr -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.BETR.VEREINBARUNGEN /home/mtt/fido/msgb/sn.betr.vereinbarungen -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea GN.CLUBS /home/mtt/fido/msgb/gn.clubs -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.KOO.VORSTELLUNG /home/mtt/fido/msgb/sn.koo.vorstellung -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.ALLGEMEIN /home/mtt/fido/msgb/sn.gew.allgemein -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.AKTUELL.TERMINE /home/mtt/fido/msgb/sn.aktuell.termine -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.KOO.TEST /home/mtt/fido/msgb/sn.koo.test -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.GHK /home/mtt/fido/msgb/sn.gew.ghk -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.AKTUELL.AKTIONEN /home/mtt/fido/msgb/sn.aktuell.aktionen -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.BETR.BILDUNG /home/mtt/fido/msgb/sn.betr.bildung -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.INTERNATIONAL /home/mtt/fido/msgb/sn.gew.international -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.KOO.DISKUSSION /home/mtt/fido/msgb/sn.koo.diskussion -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.HBV /home/mtt/fido/msgb/sn.gew.hbv -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.IGMETALL /home/mtt/fido/msgb/sn.gew.igmetall -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.JUGEND /home/mtt/fido/msgb/sn.gew.jugend -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea GN.CBM /home/mtt/fido/msgb/gn.cbm -a 54:490/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 54:490/980
+EchoArea SN.KOO.WICHTIG /home/mtt/fido/msgb/sn.koo.wichtig -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.KOO.ANTRAEGE /home/mtt/fido/msgb/sn.koo.antraege -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.THESEN /home/mtt/fido/msgb/sn.gew.thesen -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.OETV /home/mtt/fido/msgb/sn.gew.oetv -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.FRAUEN /home/mtt/fido/msgb/sn.frauen -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.GEW.HBS /home/mtt/fido/msgb/sn.gew.hbs -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.ARB+SOZ.ALLGEMEIN /home/mtt/fido/msgb/sn.arb+soz.allgemein -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.AKTUELL.VORSCHAU /home/mtt/fido/msgb/sn.aktuell.vorschau -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.ARB+SOZ.ERWERBSLOS /home/mtt/fido/msgb/sn.arb+soz.erwerbslos -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.ARB+SOZ.DISKUSSION /home/mtt/fido/msgb/sn.arb+soz.diskussion -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.BETR.ARBSCHU+UMWELT /home/mtt/fido/msgb/sn.betr.arbschu+umwelt -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea SN.BETR.ARBEIT+TECHNIK /home/mtt/fido/msgb/sn.betr.arbeit+technik -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 49:199/980
+EchoArea GN.SYSOPS /home/mtt/fido/msgb/gn.sysops -a 54:490/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11 54:490/980

@@ -8,7 +8,7 @@
 @ifinfo
 This file documents fidoconfig.
 
-Copyright 1998-99 Matthias Tichy
+Copyright 1998-2000 Husky Development Team
 
 @end ifinfo
 
@@ -19,7 +19,7 @@ Copyright 1998-99 Matthias Tichy
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-99 Matthias Tichy
+Copyright @copyright{} 1998-2000 Husky Development Team 
 
 @end titlepage
 
@@ -36,7 +36,7 @@ Copyright @copyright{} 1998-99 Matthias Tichy
 This document describes the use of fidoconfig to make fido work on your unix
 workstation.
 
-This document applies to version 0.9 of fidoconfig.
+This document applies to version 0.10 of fidoconfig.
 @end ifinfo
 
 @menu
@@ -116,14 +116,14 @@ You can reach me at
 
 @example
 @email{mtt@@tichy.de}
-2:2432/605.14
-2:2433/1245
+2:2432/645
 @end example
 
 and in the fido echoarea
 
 @example
 linux.develop.ger
+fidosoft.husky
 @end example
 
 The actual fidoconfig library and other fido software will be on
