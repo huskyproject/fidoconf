@@ -580,7 +580,7 @@ void dumpNodelists(s_fidoconfig *config, FILE *f)
         fprintf(f, "FullUpdate          %s\n",
                 config->nodelists[i].fullUpdateStem);
       if (config->nodelists[i].defaultZone != 0)
-        fprintf (f, "DefaultZone          %d\n",
+        fprintf (f, "DefaultZone         %d\n",
                  config->nodelists[i].defaultZone);
       switch (config->nodelists[i].format)
         {
