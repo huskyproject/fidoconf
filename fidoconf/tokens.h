@@ -300,7 +300,8 @@ enum {
     ID_LISTECHO,
     ID_NETMAILFLAVOUR,
     ID_FLAVOUR,
-    ID_RECODEMSGBASE
+    ID_RECODEMSGBASE,
+    ID_CREATEADDUPLINK
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -396,6 +397,7 @@ token_t parseline_tokens[] =
     { "carbonto", ID_CARBONTO },
     { "convertlongnames", ID_CONVERTLONGNAMES },
     { "convertshortnames", ID_CONVERTSHORTNAMES },
+    { "createadduplink", ID_CREATEADDUPLINK },
     { "createareascase", ID_CREATEAREASCASE },
     { "createdirs", ID_CREATEDIRS },
     { "createfwdnonpass", ID_CREATEFWDNONPASS },

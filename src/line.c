@@ -4638,6 +4638,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_LISTECHO:
             rc = parseListEcho( getRestOfLine(), &(config->listEcho) );
             break;
+        case ID_CREATEADDUPLINK:
+            rc = parseBool(getRestOfLine(), &(config->createAddUplink));
+            break;
 
         default:
             prErr( "unrecognized: %s", line);

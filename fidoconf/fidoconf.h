@@ -588,6 +588,7 @@ typedef struct fidoconfig {
    unsigned int keepTrsFiles; /*  Keep Transit Files */
    unsigned int createFwdNonPass;
    unsigned int autoPassive;
+   unsigned int createAddUplink; /* add -def for uplink on autocreate */
 
    ps_filelist filelists;
    unsigned int filelistCount;
