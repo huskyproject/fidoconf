@@ -5,7 +5,7 @@
 #include "common.h"
 
 struct link {
-   s_addr hisAka, ourAka;
+   s_addr hisAka, *ourAka;
    char *name;
    char *defaultPwd,               // 8 byte passwords
         *pktPwd,
@@ -94,6 +94,9 @@ s_fidoconfig *readConfig();
 void disposeConfig(s_fidoconfig *config);
 
 s_link *getLink(s_fidoconfig config, char *addr);
+s_link *getLinkFromAddr(s_fidoconfig, s_addr aka);
 s_addr *getAddr(s_fidoconfig config, char *addr);
+int    existAddr(s_fidoconfig config, s_addr aka);
+s_area *getArea(s_fidoconfig config, char *areaName);
 
 #endif
