@@ -1764,12 +1764,19 @@ int parsePause(char *token, unsigned *Pause)
 }
 
 int parseUInt(char *token, unsigned int *uint) {
+    long var=0;
 
     if (token == NULL) {
 	prErr("Parameter missing after %s!", actualKeyword);
 	return 1;
     }
-    sscanf(token, "%u", uint);
+    sscanf(token, "%ld", &var);
+    if( var<0 ) {
+        prErr("Negative value of %s is invalid!", actualKeyword);
+	return 1;
+    }
+    *uint = (unsigned int)var;
+
     return 0;
 }
 
@@ -3502,7 +3509,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseUInt(getRestOfLine(), &(config->forwardRequestTimeout));
             break;
         case ID_IDLEPASSTHRUTIMEOUT:
-            rc = parseUInt(getRestOfLine(), &(config->idlePassthruTimeout));
+            rc = parseUInt(getRestOfLine(), (unsigned int*)&(config->idlePassthruTimeout));
             break;
         case ID_KILLEDREQUESTTIMEOUT:
             rc = parseUInt(getRestOfLine(), &(config->killedRequestTimeout));
