@@ -139,7 +139,8 @@ static int compare_arealistitems_and_desc(const void *a, const void *b)
 
 void sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes)
 {
-  int i,j,k;
+  int i,j;
+  unsigned int k;
   char *prev;
   ps_arealist al;
   ps_arealistitem ali;
@@ -182,6 +183,7 @@ void sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes)
     }
     if (ali)
     {
+      prev = NULL;
       nfree(al->areas[i].tag);
       nfree(al->areas[i].desc);
       continue;
