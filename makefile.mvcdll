@@ -8,7 +8,7 @@ TLIB=   lib -nologo
 LINK=   link
 
 FCONFL=	fconfmvc.lib
-SMAPIL=	..\smapi\smapimvc.lib msvcrt.lib Kernel32.lib 
+SMAPIL=	..\smapi\smapimvc.lib msvcrt.lib Kernel32.lib /link /opt:nowin98
 LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
 SRC1  =  adcase.c line.c fidoconf.c dirlayer.c common.c findtok.c xstr.c cfg.c log.c recode.c strsep.c crc.c
