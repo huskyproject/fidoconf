@@ -15,19 +15,20 @@ AutoCreateDefaults -m 14 -dupeCheck move -dupeHistory 11
 Link Dirk Fischer
 Aka 2:2432/601
 ourAka 2:2432/601.29
-Password xxxxxx
+Password xxxxxxx
+EchoMailFlavour crash
 Packer Zip
 
 Link Matthias Tichy
 Aka 2:2433/1245
 OurAka 2:2433/1247
-Password xxxxx
+Password xxxxxx
 autoAreaCreate on
 
 Link edde
 AKA 2:2433/1247.100
 OurAka 2:2433/1247
-password xxxxx
+password xxx
 
 # route crash 2:2433/1245 *
 # route hold  2:2433/1247.100 2:2433/1247.100

@@ -129,8 +129,6 @@ rights
 * AutoCreateDef::       default area options for autocreated areas
 * GroupDefaults::       default area options for GroupAutoAreaCreated areas
 
-@ignore 
-  
 packer
 * pack::                definition for packer
 * unpack::              definition for unpacker
@@ -139,8 +137,6 @@ routing
 * route::               routing of netmails
 * routeMail::           routing of netmails without file attached
 * routeFile::           routing of netmails with file attached
-
-@end ignore
 @end menu
 
 @node version, name, , Keywords
@@ -744,6 +740,8 @@ be replaced by the group scheme, which is about to be implemented.}
 
 This statement sets the packer for the link. You can use the packer which you
 has set up using the pack statement.
+If you omit this statement no mail will be packed. The pkt´s will be put in
+the outbound.
 
 This statement can only be repeated for different links.
 
@@ -905,7 +903,7 @@ Area options defaults for autoCreated Areas.
 
 @strong{This will be replaced by the more flexible group definition.}
 
-@node GroupDefaults, , AutoCreateDef, Keywords
+@node GroupDefaults, pack, AutoCreateDef, Keywords
 @subsection GroupDefaults
 @table @asis
 @item Syntax:
@@ -919,18 +917,140 @@ the creater.
 
 @strong{This is currently not supported}
 
-@ignore
+@node pack, unpack, GroupDefaults, Keywords
+@subsection Pack
+@table @asis
+@item Syntax:
+@code{Pack zip|tgz|rar|arc|arj|..... <call>}
+@item Example:
+@code{Pack zip zip -9 -g -q $a $f}
+@end table
 
-packer
-* pack::                definition for packer
-* unpack::              definition for unpacker
+This statement sets the command line call for the packer.
+The file will be moved into the archiv, that means the file will be deleted on
+the harddisk. It only remains in the archiv.
 
-routing
-* route::               routing of netmails
-* routeMail::           routing of netmails without file attached
-* routeFile::           routing of netmails with file attached
+$a will be replaced by the archiv file
 
-@end ignore
+$f will be replaced by the file  which should be packed into the archiv
+
+@node unpack, route, pack, Keywords
+@subsection Unpack
+@table @asis
+@item Syntax:
+@code{Unpack <Call> [<offset> <matchcode>]1*}
+@item Example:
+@code{Unpack "mypack -e $a" 0e ffff????cefe}
+@end table
+
+This statement sets the call of certain unpackers according to a id in the
+archiv file
+
+call: see pack
+
+offset: position of recognition string in packed file.
+
+offset ::= <hexValue>
+
+match code:  recognition string for packed file, ?? can be used as don't care
+
+@example
+
+e.g.: unpack "mypack -e %s" 0e ffff????cefe
+
+       files packed by mypack can be recognized by
+         ffff(hex) at offset 0e(hex) and
+         cefe(hex) at offset 13(hex)
+       they can be unpacked by "mypack -e <filename>"
+
+@end example
+
+@strong{This statement is currently not supported.}
+       
+@node route, routeFile, unpack, Keywords
+@subsection route
+@table @asis
+@item Syntax:
+@code{route <flavour> [enc|noenc] <target> @{<linkWW>@}}
+@item Example:
+@code{route crash 2:2433/1245 2:2433/* 2:2432/*}
+@end table
+
+This statement defines a route.
+
+@strong{flavour:}
+@enumerate
+@item
+hold
+@item
+normal
+@item
+crash
+@item
+direct
+@item
+immediate
+@end enumerate
+
+enc: means encrypted msgs
+
+noenc: means unencrypted msgs
+
+@strong{target:}
+@enumerate
+@item
+<aka>
+@item
+host
+@item
+hub
+@item
+boss
+@item
+no-route
+@end enumerate
+
+linkWW is a dos pattern with ? and *.
+
+Route statements are parsed in descending order:
+Pseudo-code:
+
+@example
+  1) actual = first statement
+
+  2) if linkWWW = msg-destination using pattern matching
+
+  2a) take this routing and return
+
+  2b) else actual = next statement
+
+  3) jump to 2)
+  
+@end example
+
+@node routeFile, routeMail, route, Keywords
+@subsection routeFile
+@table @asis
+@item Syntax:
+@code{route <flavour> [enc|noenc] <target> @{<linkWW>@}}
+@item Example:
+@code{route crash 2:2433/1245 2:2433/* 2:2432/*}
+@end table
+
+This statement is the same as the route statement, but considers only
+msgs with an file attached.
+
+@node routeMail, , routeFile, Keywords
+@subsection routeMail
+@table @asis
+@item Syntax:
+@code{route <flavour> [enc|noenc] <target> @{<linkWW>@}}
+@item Example:
+@code{route crash 2:2433/1245 2:2433/* 2:2432/*}
+@end table
+
+This statement is the same as the route statement, but considers only
+msgs without file attached.
 
 
 @node Example, , Keywords, config file

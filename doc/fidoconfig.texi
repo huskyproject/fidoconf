@@ -100,7 +100,7 @@ your config.
 You can reach me at 
 
 @example
-mtt@@tichy.de
+@email{mtt@@tichy.de}
 2:2433/1245
 @end example
 
