@@ -277,6 +277,7 @@ typedef struct area {
    int keepsb;         /*  keep seen-by's and path */
    int scn;            /*  1 if scanned (number of scanned messages-1) */
    int nopack;         /*  do not pack area */
+   int killMsgBase;    /*  kill msg base */
 
    ps_addr       sbadd;
    unsigned int  sbaddCount;

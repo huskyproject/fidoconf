@@ -143,6 +143,7 @@ void printArea(s_area area) {
    }
    printf("Options: ");
    if (area.hide) printf("hide ");
+   if (area.killMsgBase) printf("kill msgbase when unsubscribing from own addres");
    if (area.noPause) printf("noPause ");
    if (area.tinySB) printf("tinySB ");
    if (area.killSB) printf("killSB ");
