@@ -22,6 +22,11 @@ void printArea(s_area area) {
    if (area.noPause) printf("noPause ");
    if (area.tinySB) printf("tinySB ");
    printf("\n");
+   printf("DupeCheck: ");
+   if (area.dupeCheck==off) printf("off");
+   if (area.dupeCheck==move) printf("move");
+   if (area.dupeCheck==del) printf("delete");
+   printf("\n");
    printf("-------\n");
 }
 
