@@ -930,7 +930,7 @@ This statement can only be repeated for different links.
 @subsection accessgrp
 @table @asis
 @item Syntax:
-@code{accessgrp @{<group>@}}
+@code{accessgrp @{<group1>,<group2>,...@}}
 @item Example:
 @code{accessgrp A,B,C,pay1,pay2}
 @end table
@@ -944,7 +944,7 @@ This statement can only be repeated for different links.
 @subsection optgrp
 @table @asis
 @item Syntax:
-@code{optgrp @{<group>@}}
+@code{optgrp @{<group1>,<group2>,...@}}
 @item Example:
 @code{optgrp py}
 @end table

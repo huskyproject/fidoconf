@@ -645,8 +645,10 @@ int grpInArray(char *group, char **strarray, unsigned int len)
 {
 	unsigned int i;
 
+	if (group==NULL) return 0;
+
 	for (i=0; i < len; i++) {
-		if (strcmp(group, strarray[i])==0) return 1;
+		if (strarray[i] && strcmp(group, strarray[i])==0) return 1;
 	}
 	
 	return 0;
