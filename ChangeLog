@@ -1,3 +1,8 @@
+2002-12-30 Monday 08:57  stas_degteff
+
+	* common.c (1.151): Add empty line into end of file to prevent
+	invalid patches generation
+
 2002-12-27 Friday 13:23  mche
 
 	* common.c (1.150), common.h (1.80): common function for clearing
