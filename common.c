@@ -1204,11 +1204,14 @@ char    *GetFilenameFromPathname(const char* pathname)
 char    *GetDirnameFromPathname(const char* pathname)
 {
   char *sp=NULL, *rp=NULL;
+  register unsigned short lll;
 
   sp = strrchr(pathname,PATH_DELIM);
   if( sp ){
     sp++;
-    rp = sstrncpy(smalloc(sp-pathname+1), pathname, sp-pathname);
+    lll = sp-pathname;
+    rp = smalloc(lll+1);
+    sstrncpy(rp, pathname, lll);
   }else
 #if PATH_DELIM=='/'
     rp = sstrdup("./");
