@@ -120,7 +120,10 @@ char *stripComment(char *line)
     case 0:
       if (line[i]=='"') state = 1;
       if (line[i]=='#')	{
-	line[i] = '\0';
+        if (line[0]=='#')
+          line[0]='\0';
+        else
+	  line[i] = '\0';
 	state = 2;
       }
       break;

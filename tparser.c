@@ -50,7 +50,7 @@ void printArea(s_area area) {
    int i;
    
    printf("%s \n", area.areaName);
-   printf("Description: %s");
+   printf("Description: ");
    if (area.description != NULL)
      printf("%s",area.description);
    printf("\n-> %s\t", area.fileName);
@@ -151,9 +151,9 @@ void printLink(s_link link) {
      printf("pktPwd:     %s\n", link.pktPwd);
    if (link.ticPwd != NULL)
      printf("ticPwd:     %s\n", link.ticPwd);
-   if (link.areafixPwd != NULL)
+   if (link.areaFixPwd != NULL)
      printf("areafixPwd: %s\n", link.areaFixPwd);
-   if (link.filefixPwd != NULL)
+   if (link.fileFixPwd != NULL)
      printf("filefixPwd: %s\n", link.fileFixPwd);
    if (link.bbsPwd != NULL)
      printf("bbsPwd:     %s\n", link.bbsPwd);
