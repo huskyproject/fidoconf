@@ -50,7 +50,7 @@
 
 #ifdef HAS_IO_H
 #  include <io.h>
-int cmpfnames(char *file1, char *file2);
+/* int cmpfnames(char *file1, char *file2); */
 #define COMMON_C_HAVE_CMPFNAMES
 #endif
 

@@ -526,7 +526,7 @@ int cmpfnames(char *file1, char *file2)
 }
 
 #elif defined (__OS2__)
-static int cmpfnames(char *file1, char *file2)
+int cmpfnames(char *file1, char *file2)
 {
   char path1[256], path2[256];
 
