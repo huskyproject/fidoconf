@@ -13,5 +13,6 @@ FIDOCONFIG 0.15 current
    - pause statement expanded to: Pause ON Pause OFF Pause FAREA Pause EAREA
 
 3. IMPORTANT bugfixes:
+   - fix line parsing if comment ends line.
 
 $Id$
