@@ -2438,6 +2438,7 @@ int parseLine(char *line, s_fidoconfig *config)
 
 
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
+   else if (stricmp(token, "statlog")==0) rc = copyString(getRestOfLine(), &(config->statlog));
    else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
    else if (stricmp(token, "linkwithimportlog")==0) rc = parseLinkWithILogType(getRestOfLine(), &(config->LinkWithImportlog));
    else if (stricmp(token, "fileareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));

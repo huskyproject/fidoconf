@@ -127,6 +127,7 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
   dumpString(f, "Intab               %s\n", config->intab);
   dumpString(f, "Outtab              %s\n", config->outtab);
   dumpString(f, "EchotossLog         %s\n", config->echotosslog);
+  dumpString(f, "StatLog             %s\n", config->statlog);
   dumpString(f, "ImportLog           %s\n", config->importlog);
   dumpString(f, "LinkWithImportlog   %s\n", config->LinkWithImportlog);
   dumpString(f, "FileAreasLog        %s\n", config->fileAreasLog);

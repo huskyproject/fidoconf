@@ -94,6 +94,7 @@ a comment and will be ignored.
 * outtab::                      file for recoding outgoing msgs
 * importlog::                   file which contains the names of the areas tossed in
 * echotosslog::                 file which contains the names of the areas messaged entered
+* statlog::                     file which contains the counter of personal net- and echo mails
 * linkWithImportLog::           determines if only the areas which are in importLog should be linked
 * public::                      path for requestable files
 * logfiledir::                  path for log files
@@ -544,7 +545,7 @@ of the areas where echomails has been tossed in.
 
 This statement cannot be repeated.
 
-@node echotosslog, linkWithImportLog, importlog, Keywords
+@node echotosslog, statlog, importlog, Keywords
 @subsection echotosslog 
 @table @asis
 @item Syntax:
@@ -560,7 +561,37 @@ After scanning the tosser will remove the file.
 
 This statement cannot be repeated.
 
-@node linkWithImportLog, public, echotosslog, Keywords
+@node statlog, linkWithImportLog, echotosslog, Keywords
+@subsection statlog 
+@table @asis
+@item Syntax:
+@code{statlog <file>}
+@item Example:
+@code{statlog /var/spool/fido/stat.log}
+@end table
+
+After tossing (hpt toss), it is checked if there is new personal mail
+(netmail or personal echo mail). If that's true, it is checked if
+statlog is defined in config. If yes, then it is checked if the log file
+exists. If not, then it is created and the number of received netmails
+or/and personal echo mails is written to the log file. Otherwise, if the
+file exists, the old counter will be read, added to the new counter and
+written the actual counter.
+The log file looks like this:
+ netmail: x
+ CC: x
+Whereas x is the number of mails.
+If the log file exists, one of the two or both lines exist.
+
+This is for utils, which can show you how many personal mail you got.
+The log file is not removed by hpt, only by the util that uses it.
+Or you could write in your toss script something like this:
+ if exist stat.log type stat.log
+ if exist stat.log del stat.log>nul
+
+This statement cannot be repeated.
+
+@node linkWithImportLog, public, statlog, Keywords
 @subsection linkWithImportLog 
 @table @asis
 @item Syntax:

@@ -455,6 +455,7 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->loglevels);
    nfree(config->screenloglevels);
    nfree(config->echotosslog);
+   nfree(config->statlog);
    nfree(config->lockfile);
 
    for (i = 0; i< config->carbonCount; i++) {

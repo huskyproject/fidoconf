@@ -333,7 +333,7 @@ typedef struct fidoconfig {
    ps_unpack unpack;
 
    char     *intab, *outtab;
-   char     *echotosslog, *importlog, *LinkWithImportlog, *lockfile;
+   char     *echotosslog, *statlog, *importlog, *LinkWithImportlog, *lockfile;
    unsigned loguid, loggid, logperm;
    char     *fileAreasLog, *longNameList, *fileNewAreasLog;
    char     *fileArcList, *filePassList, *fileDupeList;
