@@ -53,5 +53,6 @@ FCONF_EXT   int DelLinkFromString(char *line, s_addr linkAddr);
 
 FCONF_EXT   int testAddr(char *addr, s_addr hisAka);
 
+FCONF_EXT   int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd);
 
 #endif 
