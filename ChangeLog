@@ -2,9 +2,18 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Tue Oct 12 19:21:43 NOVST 1999
+max (patch from Kolya Nesterov & my fixes):
+* fecfg2fconf: print squish and jam echoareas to fidoconfig
+
+----- cvs ci ------
 Mon Oct 11 01:14:27 NOVST 1999
-max:
-* patch from Kolya Nesterov
+max (patch from Kolya Nesterov):
+- str2attr function added
+- coredump in string2addr fixed
+- echoareas file permissions (broken for now, will fix soon)
+- new EchoArea tokens : -keepUnread, -killRead -0 (for use with golded).
+- replaced parseLevel with parseNumber (allows to specify radix)
 
 ----- cvs ci ------
 Fri Oct  8 16:11:26 MET DST 1999

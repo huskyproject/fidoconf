@@ -282,7 +282,7 @@ int main(int argc, char **argv)
    fprintf(f_hpt, "# Areas\n\n");
    fprintf(f_hpt, "NetmailArea NetmailArea %s\n\n", config.NetMPath);
    for (i = stop = 0; i < config.AreaCnt; i++) {
-      if (area[i]->flags.storage == FIDO || area[i]->flags.storage == SQUISH || area[i]->flags.storage == PASSTHRU) {
+      if (area[i]->flags.storage == FIDO || area[i]->flags.storage == SQUISH || area[i]->flags.storage == JAM || area[i]->flags.storage == PASSTHRU) {
          switch (area[i]->flags.atype) {
             case AREA_ECHOMAIL:
                fprintf(f_hpt, "EchoArea");
@@ -308,8 +308,11 @@ int main(int argc, char **argv)
          } else {
             fprintf(f_hpt, " %s", area[i]->path);
             if (area[i]->flags.storage == SQUISH) {
-               fprintf(f_hpt, " Squish");
+               fprintf(f_hpt, "-b Squish");
+            } else if (area[i]->flags.storage == JAM) {
+               fprintf(f_hpt, "-b Jam");
             } /* endif */
+
          } /* endif */
          if (area[i]->info.group <= 25) {
             fprintf(f_hpt, " -g %c", 'A'+area[i]->info.group);

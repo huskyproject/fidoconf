@@ -454,7 +454,6 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    else if (stricmp(option, "tinysb")==0) area->tinySB = 1;
    else if (stricmp(option, "keepUnread")==0) area->keepUnread = 1; 
    else if (stricmp(option, "killRead")==0) area->killRead = 1; 
-   else if (stricmp(option, "tinysb")==0) area->tinySB = 1; 
    else if (stricmp(option, "h")==0) area->hide = 1;
    else if (stricmp(option, "manual")==0) area->manual = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
