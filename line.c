@@ -72,6 +72,7 @@ char *actualKeyword, *actualLine;
 int  actualLineNr;
 char wasError = 0;
 char CommentChar = '#';
+int _carbonrule = 0;
 
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
@@ -2144,34 +2145,36 @@ int parseCarbonRule(char *token, s_fidoconfig *config)
 {
     s_carbon *cb=&(config->carbons[config->carbonCount-1]);
 
-    if(config->carbonCount==0 || cb->areaName!=NULL){
-      prErr("Expression missing before %s!", actualKeyword);
-      return 1;
-   }
-
    if (token == NULL) {
-      prErr("There is AND|NOT missing after %s!", actualKeyword);
+      prErr("There is OR|AND|NOT missing after %s!", actualKeyword);
       return 1;
    }
 
-   if(cb->reason!=NULL){
-      prErr("carbonReason will be lost before %s!", actualKeyword);
-      return 1;
+   /* rules are valid for the expressions that follow */
+   /* but carbonRule AND also involves cb */
+   /* expressions can start with NOT, but not with AND */
+   if(!stricmp(token,"NOT")){
+       _carbonrule= CC_NOT|CC_AND;
+       if(config->carbonCount>0 && (cb->areaName==NULL && cb->move!=2)) /* no action */
+           cb->rule|=CC_AND; /* AND NOT .. with next expr */
    }
 
-   if(!stricmp(token,"NOT"))
-       cb->rule|=CC_NOT|CC_AND;
-   else
-   if(!stricmp(token,"OR")) /* just to make it complete, but it has no effect */
-       cb->rule=CC_OR; /* =0 */
-   else
-   if(!stricmp(token,"AND"))
-       cb->rule|=CC_AND;
-   else{
-      prErr("There is AND|NOT missing after %s!", actualKeyword);
-      return 1;
+   else if(!stricmp(token,"OR")){
+       _carbonrule=CC_OR; /* =0 */
+       if(config->carbonCount>0)
+           cb->rule&=CC_NOT;
    }
 
+   else if(!stricmp(token,"AND")){
+       _carbonrule=CC_AND;
+       if(config->carbonCount>0 && (cb->areaName==NULL && cb->move!=2)) /* no action */
+           cb->rule|=CC_AND;
+   }
+
+   else {
+       prErr("There is OR|AND|NOT missing after %s!", actualKeyword);
+       return 1;
+   }
    return 0;
 }
 
@@ -2194,6 +2197,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
     memset(cb, 0, sizeof(s_carbon));
 
     cb->ctype = ctype;
+    cb->rule=_carbonrule;
 
     if(ctype==ct_addr)
         string2addr(token, &(cb->addr));
@@ -2205,7 +2209,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
 
 int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
 
-    char *Eptr=NULL, *areaName;
+    char *areaName;
     int c=config->carbonCount-1;
     s_carbon *cb=&(config->carbons[c]);
 
@@ -2224,45 +2228,37 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
           return 1;
    }
 
-
-    /* carbonArea works only with carbonRule OR, because after AND and NOT another */
-    /* expression must follow, not an area */
-    if(cb->rule){
-        if(cb->rule&CC_AND)
-            Eptr="AND";
-        if(cb->rule&CC_NOT)
-            Eptr="NOT";
-        /* AND|NOT specified, but no 2nd expression */
-        prErr("CarbonRule %s used without 2nd expression before %s", Eptr,actualKeyword);
-        return 1;
-    }
-
     if(cb->extspawn){
-        prErr("Extspawn already defined before %s", actualKeyword);
+        prErr("Extspawn was specified before %s", actualKeyword);
         return 1;
     }
+
     if(cb->areaName!=NULL){
         prErr("CarbonArea already defined before %s", actualKeyword);
         return 1;
     }
 
+
     copyString(token, &(cb->areaName));
     cb->move = move;
+    _carbonrule=0;  /* starts with OR again */
+    cb->rule&=CC_NOT; /* switch AND off */
 
     /* checking area*/
     /* it is possible to have several groups of expressions and each of them */
     /* should have a carbonArea in the last expression */
     /* so now the area is known, the previous expressions must be checked */
     areaName=cb->areaName;
+
     while(c--){
         cb--;
         /* this was the end of a previous set expressions */
-        if(cb->areaName!=NULL)
+        if(cb->areaName!=NULL)  /* carboncopy, -move or extspawn */
             break;
         /* this was the end of a previous set expressions */
-        if(cb->extspawn)
+        if(cb->move==2)         /* carbondelete */
             break;
-        if(!cb->rule) /* OR */
+        if(!cb->rule&CC_AND)
             copyString(areaName, &(cb->areaName));
     }
 
@@ -2285,17 +2281,19 @@ int parseCarbonDelete(char *token, s_fidoconfig *config) {
           return 1;
    }
 
-   if(cb->areaName!=NULL){
-          prErr("CarbonArea was specified before %s", actualKeyword);
-          return 1;
-   }
-
    if(cb->extspawn){
           prErr("CarbonExtern was specified before %s", actualKeyword);
           return 1;
    }
 
+   if(cb->areaName!=NULL){
+          prErr("CarbonArea was specified before %s", actualKeyword);
+          return 1;
+   }
+
    cb->move = 2;
+   _carbonrule=0;
+   cb->rule&=CC_NOT;
 
    /* checking area*/
    /* it is possible to have several groups of expressions and each of them */
@@ -2303,13 +2301,11 @@ int parseCarbonDelete(char *token, s_fidoconfig *config) {
    /* so now the area is known, the previous expressions must be checked */
    while(c--){
        cb--;
-       if(cb->areaName!=NULL)
+       if(cb->areaName!=NULL) /* carboncopy, -move, extern */
            break; /* this was the end of a previous set expressions */
-       if(cb->extspawn)
+       if(cb->move==2) /* delete */
            break;
-       if(cb->move==2)
-           break;
-       if(!cb->rule) /* OR */
+       if(!cb->rule&CC_AND) /* OR */
            cb->move=2;
    }
    return 0;
@@ -2328,6 +2324,12 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
           prErr("No carbon codition specified before %s", actualKeyword);
           return 1;
    }
+
+   if(cb->extspawn){
+          prErr("CarbonExtern was already specified before %s", actualKeyword);
+          return 1;
+   }
+
    if (cb->areaName!= NULL) {
        prErr("CarbonArea defined before %s!", actualKeyword);
        return 1;
@@ -2338,9 +2340,11 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
    }
 
    copyString(token, &(cb->areaName));
+   printf("carbonextern paramaters: <%s>\n",token);
    cb->extspawn = 1;
    cb->move = 0;
-
+   _carbonrule=0;
+   cb->rule&=CC_NOT;
 
    /* checking area*/
    /* it is possible to have several groups of expressions and each of them */
@@ -2348,13 +2352,11 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
    /* so now the area is known, the previous expressions must be checked */
    while(c--){
        cb--;
-       if(cb->areaName!=NULL)
+       if(cb->areaName!=NULL) /* carboncopy, -move, extern */
            break; /* this was the end of a previous set expressions */
-       if(cb->extspawn)
+       if(cb->move==2) /* delete */
            break;
-       if(cb->move==2)
-           break;
-       if(!cb->rule){ /* OR */
+       if(!cb->rule&CC_AND){ /* OR */
            copyString(token, &(cb->areaName));
            cb->extspawn=1;
            cb->move=0;
@@ -2385,11 +2387,6 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
    if(config->carbonCount == 0 || (cb->str==NULL && cb->addr.zone==0)){
           prErr("No carbon codition specified before %s", actualKeyword);
           return 1;
-   }
-
-   if(cb->rule){
-	   prErr("Reason cannot follow carbonRule NOT|AND in %s!", actualKeyword);
-	   return 1;
    }
 
    copyString(token, &(cb->reason));

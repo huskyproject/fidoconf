@@ -569,11 +569,101 @@ void checkLogic(s_fidoconfig *config) {
 	}
 }
 
+void printCarbons(s_fidoconfig *config) {
+
+    int i;
+    s_carbon *cb;
+    char *crbKey="", *aspc="|    ", *nspc;
+
+    printf("\n=== CarbonCopy ===\n");
+    printf("CarbonAndQuit %s\n", (config->carbonAndQuit) ? "on" : "off");
+    printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
+    printf("CarbonOut %s\n", (config->carbonOut) ? "on" : "off");
+    printf("ExcludePassthroughCarbon %s\n\n", (config->exclPassCC) ? "on" : "off");
+
+    for (i = 0, cb=&(config->carbons[0]); i< config->carbonCount; i++, cb++) {
+
+        if (cb->rule&CC_NOT){
+            nspc="";
+            printf("%sNOT ",aspc);
+            aspc="";
+        }else
+            nspc="    ";
+
+        switch(cb->ctype){
+        case ct_to:
+            crbKey= "CarbonTo:       ";
+            break;
+        case ct_from:
+            crbKey= "CarbonFrom:     ";
+            break;
+        case ct_kludge:
+            crbKey= "CarbonKludge:   ";
+            break;
+        case ct_subject:
+            crbKey= "CarbonSubj:     ";
+            break;
+        case ct_msgtext:
+            crbKey= "CarbonText:     ";
+            break;
+        case ct_fromarea:
+            crbKey= "CarbonFromArea: ";
+            break;
+        case ct_group:
+            crbKey= "CarbonGroups:   ";
+            break;
+        case ct_addr:
+            crbKey= "CarbonAddr:     ";
+            break;
+        }
+
+        printf("%s%s%s%s\n",aspc,nspc,crbKey,cb->ctype==ct_addr ? aka2str(cb->addr) : cb->str);
+
+        if (cb->rule&CC_AND){
+            printf((cb+1)->rule&CC_NOT ? "|and " : "|AND ");
+            aspc="";
+            continue;
+        }
+        aspc="|    ";
+
+        if (cb->extspawn)
+            printf("CarbonExtern: \"%s\"", cb->areaName);
+        else {
+
+            switch (cb->move) {
+            case 0:
+                printf("CarbonCopy:     ");
+                break;
+            case 2:
+                printf("CarbonDelete");
+                break;
+            case 1:
+            default:
+                printf("CarbonMove:     ");
+                break;
+            }
+            if (cb->areaName) {
+                if(stricmp(cb->areaName, cb->area->areaName)) {
+                    printf(" !!! \"%s\" wanted !!! using \"%s\"", cb->areaName, cb->area->areaName);
+                } else {
+                    printf("\"%s\"", cb->area->areaName);
+                }
+            } else
+                if (cb->move != 2) printf(" !!! No area specified !!!");
+        }
+        putchar('\n');
+        if (cb->reason) printf("CarbonReason:   %s\n", cb->reason);
+        if (cb->export) printf("Copied messages will be exported.\n");
+        if (cb->netMail) printf("Active on netMail\n");
+        printf("-------\n");
+    }
+}
+
+
 int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
    int i, j, hpt=0;
    char *cfgFile=NULL, *module;
-   s_carbon *cb;
 
    for (i=1; i<argc; i++)
    {
@@ -834,60 +924,10 @@ int main(int argc, char **argv) {
         printBbsArea(config->bbsAreas[i]);
       }
    }
-      printf("\n=== CarbonCopy ===\n");
-      printf("CarbonAndQuit %s\n", (config->carbonAndQuit) ? "on" : "off");
-      printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
-      printf("CarbonOut %s\n", (config->carbonOut) ? "on" : "off");
-      printf("ExcludePassthroughCarbon %s\n", (config->exclPassCC) ? "on" : "off");
-	  printf("\n");
-      for (i = 0, cb=&(config->carbons[0]); i< config->carbonCount; i++, cb++) {
-                  if (cb->ctype == ct_to)      printf("CarbonTo:       ");
-		  else if (cb->ctype == ct_from)    printf("CarbonFrom:     ");
-		  else if (cb->ctype == ct_kludge)  printf("CarbonKludge:   ");
-		  else if (cb->ctype == ct_subject) printf("CarbonSubj:     ");
-		  else if (cb->ctype == ct_msgtext) printf("CarbonText:     ");
-                  else if (cb->ctype == ct_fromarea) printf("CarbonFromArea: ");
-                  else if (cb->ctype == ct_group) printf("CarbonGroup:    ");
-		  if (cb->ctype != ct_addr)
-			  printf("%s\n",cb->str);
-                  else {
-                      printf("CarbonAddr:     ");
-		      printf("%s\n", aka2str(cb->addr));
-                  }
-                  if (cb->rule&CC_NOT)
-                      printf("  and NOT\n");
-                  else if (cb->rule&CC_AND)
-                      printf("  AND\n");
-                  else {
-                      if (cb->extspawn) {
-                          printf("CarbonExtern: \"%s\"", cb->areaName);
-                      } else {
-                          switch (cb->move) {
-                          case 0: printf("CarbonCopy:     ");
-                          break;
-                          case 2: printf("CarbonDelete");
-                          break;
-                          case 1:
-                          default: printf("CarbonMove:     ");
-                          break;
-                          }
-                          if (cb->areaName) {
-	                     if(stricmp(cb->areaName, cb->area->areaName)) {
-                                printf(" !!! \"%s\" wanted !!! using \"%s\"", cb->areaName, cb->area->areaName);
-                             } else {
-                                printf("\"%s\"", cb->area->areaName);
-                             }
-        	          } else {
-                	     if (cb->move != 2) printf(" !!! No area specified !!!");
-                          }
-                      }
-                  putchar('\n');
-		  if (cb->reason) printf("CarbonReason:   %s\n", cb->reason);
-		  if (cb->export) printf("Copied messages will be exported.\n");
-		  if (cb->netMail) printf("Active on netMail\n");
-                  printf("-------\n");
-                  }
-      }
+
+
+      if(config->carbonCount)
+         printCarbons(config);
 
       printf("\n=== ROUTE CONFIG ===\n");
       for (i = 0; i < config->routeCount; i++) {

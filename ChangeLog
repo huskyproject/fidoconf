@@ -1,3 +1,9 @@
+-----------
+Wed Apr 25 00:17:41 NOVST 2001
+max (patch from kees):
+* fixed CarbonRule NOT
+* changed default behaviour of carbonrule, see hpt.texi
+
 ----- cvs ci ------
 Wed Apr 18 23:24:50 CEST 2001
 tobi:

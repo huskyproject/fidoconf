@@ -245,7 +245,7 @@ void carbonNames2Addr(s_fidoconfig *config)
            doesn't look at localAreas */
           /* now getArea can found local areas */
            found=0;
-           if(cb->rule) /* area is not used with AND and NOT */
+           if(cb->rule&CC_AND) /* area is not used with AND */
                continue;
            if (cb->areaName && !(cb -> extspawn)) {
                aptr=config->echoAreas;
