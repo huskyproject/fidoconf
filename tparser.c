@@ -167,7 +167,7 @@ void printFilelist(s_filelist *fl)
   }
 
   printf("destination file: %s\n", fl->destFile);
-  if ((fl->flType == flGlobal) || (fl->flType == flDirList))
+  if ((fl->flType == flGlobal) || (fl->flType == flDir))
   {
     printf("directory header template: %s\n", fl->dirHdrTpl);
     printf("directory entry template: %s\n", fl->dirEntryTpl);

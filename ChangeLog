@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Fri Dec  8 02:39:38 UTC 2000
+sms:
+* fixed typo in tparser.c
+
+----- cvs ci ------
 Fri Dec  8 01:20:34 UTC 2000
 sms:
 + added dirlist option to keyword filelist
