@@ -65,7 +65,7 @@ extern "C" {
 /* PATH_DELIM used for consruct full pathname
  */
 #ifndef PATH_DELIM
-#  if defined(SASC) || defined(UNIX)
+#  if defined(SASC) || defined(__UNIX__)
 #    define PATH_DELIM  '/'
 #  else
 #    define PATH_DELIM  '\\'
