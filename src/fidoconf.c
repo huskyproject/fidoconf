@@ -46,11 +46,19 @@
 #define DLLEXPORT
 #include <huskylib/huskyext.h>
 
+/* smapi */
+#include <smapi/msgapi.h>
+
+/* fidoconfig */
 #include "fidoconf.h"
 #include "common.h"
 #include "areatree.h"
 #include "grptree.h"
 
+/* Global for fidoconfig, do not export from DLL, please! */
+/*s_fidoconfig *config;*/
+
+/* End of line: CR+LF (wasCR==1) or LF only (wasCR==0) */
 static int wasCR=0;
 
 sApp theApp = { 0, NULL };
@@ -464,7 +472,7 @@ void setConfigDefaults(s_fidoconfig *config)
  */
 s_fidoconfig *readConfig(const char *fileName)
 {
-   s_fidoconfig *config;
+   s_fidoconfig *config;  /* Use global variable ?*/
    char *line;
 
    if (fileName==NULL) fileName = getConfigFileName();

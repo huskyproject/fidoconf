@@ -51,13 +51,13 @@
 
 #define LIST_PAGE_SIZE  256
 
-static s_fidoconfig *config;
+static s_fidoconfig *config;  /*  extern? see fidoconf.c */
 
 ps_arealist newAreaList(s_fidoconfig *cfg)
 {
     ps_arealist al;
-    
-    config = cfg;
+
+    config = cfg;              /* This may cause problem if somewhere release memory... */
     if(NULL == (al = malloc(sizeof(s_arealist)))) 
         return NULL;
     al->areas = NULL;
@@ -134,9 +134,9 @@ static int compare_bygrptag(const void *a, const void *b) {
   return r ? r : sstricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag);
 }
 
-void sortAreaList(ps_arealist al)
+HUSKYEXT void sortAreaList(ps_arealist al)
 {
-  if (al && al->count && al->areas) 
+  if (config && al && al->count && al->areas) 
     switch (config->listEcho) {
       case lemGroupName:
         qsort(al->areas, al->count, sizeof(s_arealistitem), compare_bygrptag);
@@ -174,7 +174,7 @@ static int compare_arealistitems_and_desc(const void *a, const void *b)
 */
 }
 
-void sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes)
+HUSKYEXT void sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes)
 {
   int i,j;
   unsigned int k;
@@ -273,10 +273,10 @@ static char *addchars(char *text, char c, int count, int *pos, int *tlen)
 
 static char *find_grpdesc(char *grp) {
   register int i;
-  char *ddef;
+  char *ddef=NULL;
   if (*grp == 0) return NULL;
-  ddef = NULL;
-  for (i = 0; i < config->groupCount; i++) {
+  
+  if(config) for (i = 0; i < config->groupCount; i++) {
     if ( strcmp(grp, config->group[i].name) == 0 ) return config->group[i].desc;
     else if (*config->group[i].name == '*') ddef = config->group[i].desc;
   }
@@ -284,7 +284,7 @@ static char *find_grpdesc(char *grp) {
     else return "*** Other areas"/* NULL*/;
 }
 
-char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int grps)
+HUSKYEXT char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int grps)
 {
 	char *text;
 	char *p;
