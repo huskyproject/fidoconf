@@ -1,4 +1,10 @@
 ----- cvs ci ------
+Sat Oct  7 16:58:58 MSZ 2000
+tobi:
+* fecfg2fconf is now platform independent
+* -> included fecfg2fconf into standard makefile.
+
+----- cvs ci ------
 Wed Sep 27 20:24:45 NOVST 2000
 max:
 * robotsArea token

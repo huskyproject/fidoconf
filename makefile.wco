@@ -36,10 +36,7 @@ default: all
 
 !include makefile.inc
 
-$(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ) $(LIBFIDOCONFIG)$(LIB)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG)$(FECFG2FCONF)$(EXE) fecfg2fc$(OBJ)
-
-all: commonlibs commonprogs $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
+all: commonlibs commonprogs $(SYMBOLIC)
 	$(NULL)
 
 clean: commonclean $(SYMBOLIC)
