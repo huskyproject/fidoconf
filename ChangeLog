@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Sun Dec 12 22:36:57 CET 1999
+mtt:
+* added fconf2areabbs (hacked by Grischa Brockhaus)
+
+----- cvs ci ------
 Sat Dec 11 19:27:40 1999 
 Georgi (patch from Nestyurkin Nikolay, 2:5020/3600):
 * added token fileEchoFlavour (flavour for fileecho)

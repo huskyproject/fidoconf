@@ -1,0 +1,115 @@
+#!/usr/bin/perl
+
+###############################################################################
+# fconf config file to areas.bbs converter
+# Done Dez. 1999 by Grischa Brockhaus, brockhaus@grischa.de, 2:2411/601.1
+# This source is public domain, do what you want ! :-)
+
+# Please change these variables, if needed, or (better) change the
+# environment variable FIDOCONFIG:
+my $fconf	= "/etc/fido/config";
+
+
+my $areasbbs	= "";
+# =============================================================================
+# Main Routine
+header();
+if ($ARGV[0] eq "") { 
+    printf("\nUsage:\n   fconf2areasbbs <AreasBbsFileName>\n\n");
+    printf("Example:\n   fconf2areasbbs ./areas.bbs\n\n");
+    exit;
+}
+$areasbbs = $ARGV[0];
+readConfig();
+saveAreasBBS();
+exit;
+
+# =============================================================================
+# Subroutinen, lokale Variablen
+
+my $sysopname	= "";
+my $bbsname	= "";
+my @echoarea;
+
+my ($cfgname,$cfgwert);
+
+###############################################################################
+# readConfig()
+# Autor: gb
+# Datum: 19991209
+# Descr: Es wird die fconf Konfiguration eingelesen und Prgrammvariablen
+#	mit der	Konfiguration geladen.
+sub readConfig(){
+    my $fctmp = $ENV{"FIDOCONFIG"};
+    if ($fctmp ne "") {$fconf = $fctmp;}
+    
+    print ("reading $fconf\n");
+    open(CONFIG, $fconf);
+    while(<CONFIG>) {
+        parseCfgLine($_);
+	if ($cfgname =~ /name/i) { $bbsname= $cfgwert;} 	# i: casinsensitive
+	if ($cfgname =~ /sysop/i) { $sysopname= $cfgwert; }
+	if ($cfgname =~ /echoarea/i) { saveEchoArea($cfgwert); }
+    }
+    close(CONFIG);
+}
+
+###############################################################################
+# parseCfgLine()
+# Autor: gb
+# Datum: 19991211
+# Descr: Übergebener String wird in Schlüsselwort und Wert getrennt und
+#	in die entsprechende globale Variable abgelegt ($bezeichner,$wert)
+sub parseCfgLine(){
+    my @werte;
+    ($cfgname,@werte) = split (/[\s]+/, $_[0]);
+    $cfgwert = "";
+    foreach (@werte) {
+	$cfgwert .=$_." ";
+    }
+    $cfgwert =~ s/\s$//g;
+}
+
+###############################################################################
+# saveEchoArea()
+# Autor: gb
+# Datum: 19991211
+# Descr: Zeile hinter dem EchoArea Tag wird zerlegt und relevante Teile in 
+#	in eine globae Liste abgespeichert.
+sub saveEchoArea(){
+    my @echoparse = split (/[\s]+/, $_[0]);
+    my $echotype ="";
+    if ($_[0] =~ /-b[\s]*squish/i ) {$echotype ="\$";}
+    @echoarea = ( @echoarea, $echotype.@echoparse[1]." ".@echoparse[0]." ".@echoparse[$#echoparse] );
+}
+
+###############################################################################
+# readConfig()
+# Autor: gb
+# Datum: 19991209
+# Descr: Ausgabe des Infokopfes
+sub header(){
+    printf("fconf2areasbbs\n");
+    printf("--------------\n");
+}
+
+###############################################################################
+# saveAreasBBS()
+# Autor: gb
+# Datum: 19991211
+# Descr: Es wird aus den ausgelesenen Daten eine Areas.BBS erzeugt.
+sub saveAreasBBS(){
+    print ("saving $areasbbs\n");
+    open(AREAS, ">".$areasbbs);
+    printf(AREAS "; AREAS.BBS file created by fconf2areasbbs\n");
+    printf(AREAS "; hacked in by Grischa Bockhaus ;-)\n");
+    printf(AREAS ";\n");
+    printf(AREAS "; bbsname!sysopname:\n");
+    printf(AREAS "%s!%s\n",$bbsname,$sysopname);
+    printf(AREAS ";\n");
+    printf(AREAS "; the areas:\n");
+    foreach(@echoarea) {
+        printf(AREAS "%s\n",$_);
+    }
+    close(AREAS);
+}
