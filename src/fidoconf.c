@@ -463,7 +463,7 @@ void setConfigDefaults(s_fidoconfig *config)
    r->areas = &(config->fileAreas);
    r->areaCount = &(config->fileAreaCount);
    r->strA = sstrdup("filearea");
-   r->strC = sstrdup("echoarea");
+   r->strC = sstrdup("filearea");
    if (!r->names) xstrcat(&r->names,"FileFix FileMgr AllFix FileScan htick");
    if (!r->reportsAttr) r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
    if (!r->reportsFlags) r->reportsFlags = sstrdup("NPD");
