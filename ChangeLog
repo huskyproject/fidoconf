@@ -1,3 +1,7 @@
+2004-12-31 Friday 20:24  val_khokhlov
+
+	* src/fidoconf.c (1.22): use correct token for filefix robot's strC
+
 2004-12-30 Thursday 14:35  val_khokhlov
 
 	* fidoconf/fidoconf.h (1.28), fidoconf/tokens.h (1.15),
