@@ -1,3 +1,9 @@
+2001-08-30 Thursday 17:50  ml
+
+	* fidoconf.h (1.77), line.c (1.261), tokens.h (1.15), tparser.c
+	(1.151), doc/keywords.hpt (1.14): New tokens: FileBoxesDir,
+	FileBoxAlways [patch by SR]
+
 2001-08-27 Monday 10:09  ml
 
 	* line.c (1.260): don't check file boxes existence (for fileBox
