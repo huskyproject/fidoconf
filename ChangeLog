@@ -1,3 +1,39 @@
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/fidoconf-runtime.install (1.1): file
+	fidoconf-runtime.install was initially added on branch
+	fidoconf-1_4-stable.
+
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/: changelog, compat, control, fidoconf-runtime.files,
+	fidoconf-runtime.install, libfidoconf1-dev.files,
+	libfidoconf1-dev.install, libfidoconf1.files, libfidoconf1.install,
+	rules (fidoconf-1_4-stable.[7,1,4,1,1,1,1,1,1,2]): New debian
+	version
+
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/compat (1.1): file compat was initially added on branch
+	fidoconf-1_4-stable.
+
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/libfidoconf1-dev.install (1.1): file
+	libfidoconf1-dev.install was initially added on branch
+	fidoconf-1_4-stable.
+
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/libfidoconf1.install (1.1): file libfidoconf1.install was
+	initially added on branch fidoconf-1_4-stable.
+
+2004-04-13 Tuesday 10:24  sfpavel
+
+	* Makefile, makefile.in1, makefile.in2, makefile.inc
+	(fidoconf-1_4-stable.[3,3,1,3]): Comment out previous patch -
+	fconf2pwd build is broken
+
 2004-03-25 Thursday 10:06  stas_degteff
 
 	* makefile.cyg, makefile.in1, makefile.inc
