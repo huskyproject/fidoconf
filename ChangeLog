@@ -1,3 +1,25 @@
+2003-01-17 Friday 13:40  stas_degteff
+
+	* line.c (1.370): Use HAS_PROCESS_H
+
+2003-01-17 Friday 11:45  mche
+
+	* fidoconf.c (1.103): no message
+
+2003-01-17 Friday 09:24  gerritkuehn
+
+	* adcase.c (1.12), fecfg2fc.c (1.17), line.c (1.369): Fixed
+	includes/defines.
+
+2003-01-17 Friday 07:38  stas_degteff
+
+	* tparser.c (1.235): Check config file existents before all
+	operations; print used config file name
+
+2003-01-17 Friday 07:34  stas_degteff
+
+	* dirlayer.h (1.13): Fix includes
+
 2003-01-16 Thursday 15:06  mche
 
 	* dirlayer.c (1.10): fix #include "dirlayer.h"
