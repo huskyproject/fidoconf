@@ -630,6 +630,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
    else if (stricmp(option, "sendorig")==0) area->sendorig = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
    else if (stricmp(option, "nocrc")==0) area->noCRC = 1;
+   else if (stricmp(option, "noreplace")==0) area->noreplace = 1;
    else if (stricmp(option, "g")==0) {
           token = strtok(NULL, " \t");
       if (token == NULL) {
@@ -2363,6 +2364,13 @@ int parseLine(char *line, s_fidoconfig *config)
 		rc = 1;
       }
    }
+   else if (stricmp(token, "delnotrecievedtic")==0) {
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->delNotRecievedTIC);
+      } else {
+		rc = 1;
+      }
+   }
    else if (stricmp(token, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(getDescrLink(config)->autoPause));
    else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName));
    else if (stricmp(token, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName));
@@ -2499,7 +2507,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filemaxdupeage")==0) rc = parseUInt(getRestOfLine(), &(config->fileMaxDupeAge));
    else if (stricmp(token, "filefileumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileFileUMask));
    else if (stricmp(token, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
-   else if (stricmp(token, "origininannounce")==0) config->originInAnnounce = 1;
+   else if (stricmp(token, "origininannounce")==0) rc = parseBool(getRestOfLine(), &(config->originInAnnounce));
    else if (stricmp(token, "maxticlinelength")==0) rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
    else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
    else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));

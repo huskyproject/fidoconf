@@ -131,6 +131,7 @@ typedef struct link {
    unsigned int export, import, mandatory; // Default link's options
    char **optGrp; // groups for this options
    unsigned int numOptGrp;
+   unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack} e_routing;
@@ -199,6 +200,7 @@ typedef struct fileareatype {
    int sendorig;       // 1 - Send Original
    int pass;           // 1 - Passthrough File Area
    int noCRC;          // 0 if CRC check should be done on incoming files
+   int noreplace;      // 1 - no replace files in this filearea
    ps_addr useAka;
 
    ps_arealink *downlinks;  // array of pointers to s_link
