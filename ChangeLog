@@ -1,3 +1,7 @@
+2002-10-26 Saturday 13:03  mche
+
+	* cfg.c (1.52): added chak for duplicate includes
+
 2002-10-25 Friday 13:19  stas_degteff
 
 	* common.c (1.124): Fix Watcom C win32 compilation
