@@ -705,7 +705,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      nfree(area->group);
      area->group = sstrdup(token);
    }
-   else if (strcmp(iOption, "nopack")==0 area->nopack = 1;
+   else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
    else if (strcmp(iOption, "ccoff")==0) area->ccoff=1;
    else if (strcmp(iOption, "keepsb")==0) area->keepsb=1;
    else if (strcmp(iOption, "$")==0) ;
