@@ -60,28 +60,40 @@ int subscribeCheck(s_area area, s_link *link)
     return 1;
 }
 
-void linked(s_link *link) {
+int linked(s_link *link) {
     unsigned int i, n, rc;
 
-    printf("%s areas on %s\n\n",((link->Pause & EPAUSE) == EPAUSE) ? "Passive" : "Active", aka2str(link->hisAka));
+    if (!link) return -1;
 
     for (i=n=0; i<cfg->echoAreaCount; i++) {
 	rc=subscribeCheck(cfg->echoAreas[i], link);
 	if (rc==0) {
+	    if(!n)
+              printf("\n%s areas on %s:\n\n",((link->Pause & EPAUSE) == EPAUSE) ? "Passive" : "Active", aka2str(link->hisAka));
 	    printf("  %s\n", cfg->echoAreas[i].areaName);
 	    n++;
 	}
     }
-    printf("\n%u areas linked\n", n);
+    if( n ) printf("\n%u areas linked\n\n", n);
+    else    printf("%s not linked to any area\n", aka2str(link->hisAka));
+
+    return 0;
 }
 
 int main(int argc, char **argv) {
 
     cfg = readConfig(NULL);
-    if (argc !=2) {
-	printf(" Usage: linked <Address>\n");
-    } else {
-	linked(getLink(cfg, argv[1] ));
+    if (argc <2) {
+	printf(" Usage: linked <Address> [<Address> ... ]\n");
+    } else
+	for(; --argc; ) {
+          if(linked(getLink(cfg, argv[argc] ))) {
+            hs_addr paddr;
+            string2addr(argv[argc],&paddr);
+            if( paddr.zone ) {
+              printf("link %s not found in config file\n", argv[argc]);
+            } else printf("illegal parameter no.%d (\"%s\"): not an FTN address\n", argc, argv[argc]);
+          } else if ( argc>1 ) printf( "-------------------------------------\n" );
     };
     return 0;
 }

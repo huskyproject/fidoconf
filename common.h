@@ -34,9 +34,10 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "typesize.h"
 #include "fidoconf.h"
-#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
