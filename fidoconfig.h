@@ -361,6 +361,7 @@ struct fidoconfig {
 
    unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
    unsigned int fileFileUMask, fileDirUMask;
+   unsigned int originInAnnounce; //Show origin in announce (for htick)
 
    char     *fileLocalPwd, *fileLDescString;
 
