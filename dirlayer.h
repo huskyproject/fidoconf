@@ -84,11 +84,6 @@ FCONF_EXT int  closedir(DIR*);
 #define DIR_H
 
 #include <direct.h>   /* include the other things out of direct.h */
-#ifdef OS_2
-#ifdef EXPENTRY
-#undef EXPENTRY
-#endif
-#endif
 #define INCL_DOSERRORS
 #define INCL_DOSFILEMGR
 #include <os2.h>
