@@ -29,7 +29,7 @@
 
 /* ----- unix systems that have syslog, but not facilitynames */
 
-#if defined(sun)
+#if defined(sun) || defined(__BEOS__)
 
 typedef struct _code {
         char    *c_name;

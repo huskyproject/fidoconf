@@ -223,7 +223,7 @@ void carbonNames2Addr(s_fidoconfig *config)
    int i, found, narea;
    s_carbon *cb;
    ps_area aptr;
-   char *cbaName;
+   char *cbaName=NULL;
 
    if(!config->carbonCount)
        return;
