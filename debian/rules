@@ -35,7 +35,14 @@ clean:
 
 	# Add here commands to clean up after the build process.
 	-$(MAKE) clean
-
+	-rm -f configure-stamp
+	-rm -f build-stamp
+	-rm -rf debian/$(PACKAGE)
+	-rm -f debian/postinst.debhelper
+	-rm -f debian/postrm.debhelper
+	-rm -f debian/prerm.debhelper
+	-rm -f debian/substvars
+	-rm -f debian/files
 	dh_clean
 
 install: build
@@ -53,7 +60,11 @@ install: build
 	cp fconf2fidogate.cfg.sample debian/fidoconf/usr/share/doc/fidoconf/examples/
 	mkdir -p debian/fidoconf/etc/fido
 	cp doc/config debian/fidoconf/etc/fido/config
+# The upstream makefile creates symlinks with full path. But this is BAD !
+# so we delete them and create links without path !
 	cd $(CURDIR)/debian/fidoconf/usr/lib ; \
+	rm -f libfidoconfig.so.0 ;\
+	rm -f libfidoconfig.so ;\
 	ln -s libfidoconfig.so.$(VERSION) libfidoconfig.so.0 ;\
 	ln -s libfidoconfig.so.$(VERSION) libfidoconfig.so ;\
 

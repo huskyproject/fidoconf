@@ -1,3 +1,10 @@
+fidoconf (0.11-3) unstable; urgency=low
+
+  * Put some of my changes from upstream makefile in debian/rules.
+  * Newest version from cvs. See upstream changelog for changes.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Thu, 12 Apr 2001 13:07:26 +0200
+
 fidoconf (0.11-2) unstable; urgency=low
 
   * Wrong CFGDIR in huskymak.cfg
