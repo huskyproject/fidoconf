@@ -65,18 +65,30 @@ s_log *openLog(char *fileName, char *appN, s_fidoconfig *config)
 {
    time_t     currentTime;
    struct tm  *locTime;
+   char *pathname=NULL;
 
    if (!fileName || !fileName[0]) {
       fprintf( stderr, "Logfile not defined, log into screen instead\n" );
       return NULL;
    }
 
+   if( strchr( fileName, '\\' ) || strchr( fileName, '/' ) ) 
+     pathname = fileName;
+   else
+     /* filename without path, construct full pathname  */
+     if ( config->logFileDir && config->logFileDir[0] ) {
+        xstrscat( &pathname, config->logFileDir, fileName, NULL );
+     } else {
+        fprintf( stderr, "LogFileDir not defined in fidoconfig, log into screen instead\n" );
+        return NULL;      
+     }
    husky_log = (s_log *) smalloc(sizeof(s_log));
    memset(husky_log, '\0', sizeof(s_log));
-   husky_log->logFile = fopen(fileName, "a");
+   husky_log->logFile = fopen(pathname, "a");
    if (NULL == husky_log->logFile) {
       fprintf(stderr, "Cannot open log '%s': %s\n", fileName,  strerror(errno) );
       nfree(husky_log);
+      if( pathname != fileName ) nfree(pathname);
       return NULL;
    } /* endif */
 
@@ -107,6 +119,7 @@ s_log *openLog(char *fileName, char *appN, s_fidoconfig *config)
             wdnames[locTime->tm_wday], locTime->tm_mday,
             mnames[locTime->tm_mon], locTime->tm_year%100, husky_log->appName);
 
+   if( pathname != fileName ) nfree(pathname);
    return husky_log;
 }
 
