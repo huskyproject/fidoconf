@@ -1,6 +1,12 @@
-2003-11-01 Saturday 22:07  i_zkh
+2003-11-24 Monday 22:15  i_zkh
 
-	* doc/fidoconfig.texi (fidoconf-1_4-stable.2): Minor fix
+	* doc/rus/: fidoconfig.texi, proposal.texi
+	(fidoconf-1_4-stable.[1,1]): Added Russian docs
+
+2003-11-01 Saturday 22:06  i_zkh
+
+	* doc/: fidoconfig.texi (fidoconf-1_4-stable.2),
+	rus/fidoconfig.texi (1.4): Minor fix
 
 2003-10-07 Tuesday 11:59  stas_degteff
 
@@ -27,6 +33,21 @@
 
 	* debian/changelog (fidoconf-1_4-stable.6): New stable version:
 	1.4-RC2
+
+2003-09-02 Tuesday 21:10  i_zkh
+
+	* doc/rus/: fidoconfig.texi (1.3), proposal.texi (1.3): Fixed
+	including other files, plus few updates
+
+2003-08-28 Thursday 21:18  i_zkh
+
+	* doc/rus/: fidoconfig.texi (1.2), proposal.texi (1.2): Almost
+	rewrited docs
+
+2003-08-21 Thursday 18:51  d_sergienko
+
+	* doc/rus/: fidoconfig.texi (1.1), proposal.texi (1.1): added
+	russian doc translation from vadim s. sabinich (2:5070/264)
 
 2003-05-29 Thursday 17:30  d_sergienko
 
