@@ -1908,7 +1908,12 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
    else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
    else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
-   else if (stricmp(token, "fidouserlist") ==0)
+#ifdef __TURBOC__
+   else unrecognised++;
+#else   
+   else
+#endif       
+   if (stricmp(token, "fidouserlist") ==0)
      rc = copyString(getRestOfLine(), &(config->fidoUserList));
    else if (stricmp(token, "nodelist") ==0)
      rc = parseNodelist(getRestOfLine(), config);
@@ -1960,7 +1965,7 @@ int parseLine(char *line, s_fidoconfig *config)
 
 #ifdef __TURBOC__
    else unrecognised++;
-   if (unrecognised == 2)
+   if (unrecognised == 3)
 #else   
    else 
 #endif
