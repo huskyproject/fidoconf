@@ -1,3 +1,11 @@
+2002-04-06 Thuesday 09:20 og
+
+	* fc2sq.c now interpret argument "-" as stdout 
+	  When you're tossing under linux, but using a non-Husky MsgReader
+          on another (non-linux) WS you can make cool commands like:
+
+          fconf2squish - | sed -e "s/\/var\/fido\//u:\\\/gi" > /etc/fido/squish.cfg
+
 2002-06-03 Monday 09:14  mche
 
 	* tparser.c (1.176): token SaveTic in tparser

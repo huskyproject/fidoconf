@@ -110,7 +110,10 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
 
    unused(areasOnly);
 
-   f = fopen(fileName, "a+");
+   if (strcmp(fileName,"-") == 0)
+     f = stdout;
+   else
+     f = fopen(fileName, "a+");
    if (f!= NULL) {
 
      for (i=0; i<config->netMailAreaCount; i++) {
@@ -139,18 +142,18 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
 
-   printf("fconf2squish\n");
-   printf("------------\n");
+   fprintf(stderr,"fconf2squish\n");
+   fprintf(stderr,"------------\n");
    if (argc < 2) {
-      printf("\nUsage:\n");
-      printf("   fconf2squish <squish.cfg> [<default.cfg>]\n");
-      printf("   (you may read config defaults from default.cfg)\n");
-      printf("\nExample:\n");
-      printf("   fconf2squish ~/squish/squish.cfg\n\n");
+      fprintf(stderr,"\nUsage:\n");
+      fprintf(stderr,"   fconf2squish <squish.cfg> [<default.cfg>]\n");
+      fprintf(stderr,"   (you may read config defaults from default.cfg)\n");
+      fprintf(stderr,"\nExample:\n");
+      fprintf(stderr,"   fconf2squish ~/squish/squish.cfg\n\n");
       return 1;
    }
 
-   printf("Generating Config-file %s\n", argv[1]);
+   fprintf(stderr,"Generating Config-file %s\n", argv[1]);
 
    config = readConfig(NULL);
    if (config!= NULL) {
