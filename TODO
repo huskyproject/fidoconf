@@ -18,7 +18,7 @@
   mandatory means: subscription allowed, unsubscription not allowed
 - print name of config file with error
 
-- dump remaps, bbsareas and fileareas
+- dump remaps
 - for htick developers (add to doc & tparser):
     filefixkillreports
     filefixkillrequests

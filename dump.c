@@ -539,6 +539,93 @@ void dumpMsgAreas(s_fidoconfig *config, FILE *f)
   fprintf(f, "\n");
 }
 
+void dumpBbsArea(s_bbsarea *area, FILE *f)
+{
+  fprintf(f, "bbsArea            %-39s %s", area->areaName, area->pathName);
+  if (area->description)
+    fprintf(f, " -d \"%s\"", area->description);
+  fprintf(f, "\n");
+}
+
+void dumpBbsAreas(s_fidoconfig *config, FILE *f)
+{
+  int i;
+  
+  for (i = 0; i < config->bbsAreaCount; i++)
+  {
+    dumpBbsArea(&config->bbsAreas[i], f);
+  }
+
+  fprintf(f, "\n");
+}
+
+void dumpFileArea(s_filearea *area, FILE *f)
+{
+  int i;
+  s_arealink *d;
+
+  fprintf(f, "fileArea            %-39s", area->areaName);
+
+  if (area->pass)
+    fprintf(f, "Passthrough");
+  else
+
+    fprintf(f, " %s", area->pathName);
+  if (area->description)
+    fprintf(f, " -d \"%s\"", area->description);
+  if (area->sendorig)
+    fprintf(f, " -sendOrig");
+  if (area->noCRC)
+    fprintf(f, " -noCRC");
+  if (area->noreplace)
+    fprintf(f, " -noReplace");
+  if (area->mandatory)
+    fprintf(f, " -manual");
+  if (area->hide)
+    fprintf(f, " -h");
+  if (area->noPause)
+    fprintf(f, " -noPause");
+
+  if (area->useAka)
+    fprintf(f, " -a %s", aka2str(*area->useAka));
+
+  if (area->group)
+    fprintf(f, " -g %s", area->group);
+
+  if (area->levelread)
+    fprintf(f, " -lr %u", area->levelread);
+  if (area->levelwrite)
+    fprintf(f, " -lr %u", area->levelwrite);
+
+  for (i = 0; i < area->downlinkCount; i++)
+  {
+    d = area->downlinks[i];
+    fprintf(f, " %s", aka2str(d->link->hisAka));
+    if (!d->import)
+      fprintf(f, " -r");
+    if (!d->export)
+      fprintf(f, " -w");
+    if (d->mandatory)
+      fprintf(f, " -mn");
+    if (d->defLink)
+      fprintf(f, " -def");
+  }
+
+  fprintf(f, "\n");
+}
+
+void dumpFileAreas(s_fidoconfig *config, FILE *f)
+{
+  int i;
+  
+  for (i = 0; i < config->fileAreaCount; i++)
+  {
+    dumpFileArea(&config->fileAreas[i], f);
+  }
+
+  fprintf(f, "\n");
+}
+
 void dumpCarbon(s_carbon *carbon, FILE *f)
 {
     switch (carbon->ctype)
@@ -701,6 +788,8 @@ void dumpConfig(s_fidoconfig *config, FILE *f)
   dumpRoute(config->routeMail, config->routeMailCount, "routeMail          ", f);
   dumpRoute(config->routeFile, config->routeFileCount, "routeFile          ", f);
   dumpMsgAreas(config, f);
+  dumpFileAreas(config, f);
+  dumpBbsAreas(config, f);
   dumpCarbons(config, f);
   dumpAreafix(config, f);
   dumpFilefix(config, f);
