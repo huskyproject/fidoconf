@@ -1122,14 +1122,18 @@ DiffUpdate /var/spool/filebase/24000/points24
 @item Синтаксис:
 @code{Nodelistformat <format>}
 @item Пример:
-@code{NodelistFormat standard} or @code{NodelistFormat Points24}
+@example
+NodelistFormat standard
+NodelistFormat points4d
+NodelistFormat points24
+@end example
 @end table
 
 Здесь вы можете указать формат распакованного нодлиста. По умолчанию это
 @samp{standard} - стандартный формат нодлиста Fidonet. Вы можете также указать
-@samp{points24}, что нужно компилятору нодлиста, чтобы распознать пойнтлист
-немецкого формата points24 - чтобы он видел правильные 5D пойнтовые адреса
-вместо фейковых.
+@samp{points4d}, что нужно компилятору нодлиста, чтобы распознать стандартный
+пойнтлист 4D формата или @samp{points24} немецкого формата points24 - чтобы он
+видел правильные 5D пойнтовые адреса вместо фейковых.
 
 @node EmailPkt, BSOpack, NLTools, config file
 @section Ключевые слова EmailPkt
