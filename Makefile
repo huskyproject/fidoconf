@@ -87,7 +87,7 @@ clean: commonclean
 	(cd doc && $(MAKE) clean)
 
 distclean: commondistclean
-	-$(RM) $(RMOPT) $(LIBFIDOCONFIG).so.$(VER)
+	-$(RM) $(RMOPT) $(LIBFIDOCONFIG).so*
 	(cd doc && $(MAKE) distclean)
 
 ifeq (~$(MKSHARED)~, ~ld~)
@@ -99,6 +99,8 @@ $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
 	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
          -o $(LIBFIDOCONFIG).so.$(VER) $(LOBJS) $(LOPT)
 endif
+	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so.$(VERH) ;\
+	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so
 
 %$(OBJ): %.c
 	$(CC) $(CDEFS) $(COPT) $*.c
@@ -109,8 +111,8 @@ instdyn: $(LIBFIDOCONFIG).so.$(VER)
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBDIR)
 # Removed path from symlinks.
 	cd $(LIBDIR) ;\
-	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so.0 ;\
-	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.0 $(LIBFIDOCONFIG).so
+	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so.$(VERH) ;\
+	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so
 ifneq (~$(LDCONFIG)~, ~~)
 	$(LDCONFIG)
 endif
