@@ -81,6 +81,7 @@ all: dllprograms
 	@$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(COPT) -c $<
 
 $(TARGETLIB): $(OBJS)
+	@echo Create $(TARGETDLL)...
 	@$(LINK) $(LOPTS) $**
 
 tparser$(_EXE):
