@@ -171,6 +171,7 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
 	if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
 	    fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
 	    nfree(line);
+	    fclose(f_conf);
 	    return 0;
 	}
 	fseek(f_conf, strbeg, SEEK_SET);
