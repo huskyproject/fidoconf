@@ -45,6 +45,45 @@
 #include "xstr.h"
 #include "common.h"
 
+
+/* Test for required tokens */
+int testConfig(s_fidoconfig *config){
+  int rc=0;
+
+  printf("\n");
+
+  if(!config->tempDir){
+    printf("Warning:  TempDir not defined!\n");
+    rc=1;
+  }
+  if(!config->protInbound){
+    printf("Warning:  ProtInbound not defined!\n");
+    rc=1;
+  }
+  if(!config->inbound){
+    printf("Warning:  Inbound not defined!\n");
+    rc=1;
+  }
+  if(!config->tempInbound){
+    printf("Warning:  TempInbound not defined!\n");
+    rc=1;
+  }
+  if(!config->outbound){
+    printf("Warning:  Outbound not defined!\n");
+    rc=1;
+  }
+  if(!config->tempOutbound){
+    printf("Warning:  TempOutbound not defined!\n");
+    rc=1;
+  }
+  if(!config->nodelistDir){
+    printf("Warning:  NodelistDir not defined!\n");
+    rc=1;
+  }
+
+  return rc;
+}
+
 void printAddr(const s_addr addr)
 {
   if (addr.domain != NULL)
@@ -763,7 +802,7 @@ static int dumpcfg(char *fileName)
 
 int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
-   int i, j, hpt=0, preproc=0;
+   int i, j, hpt=0, preproc=0, rc=0;
    char *cfgFile=NULL, *module;
 
    for (i=1; i<argc; i++)
@@ -800,376 +839,377 @@ int main(int argc, char **argv) {
        if (stricmp(module,"hpt")==0) hpt=1;
    } else printf("all modules\n");
 
-   config = readConfig(cfgFile);
-   nfree(cfgFile);
+     config = readConfig(cfgFile);
+     nfree(cfgFile);
 
-   if (config != NULL) {
-	  checkLogic(config);
-      printf("=== MAIN CONFIG ===\n");
-      printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
-      if (config->name != NULL)	printf("Name:     %s\n", config->name);
-      if (config->sysop != NULL) printf("Sysop:    %s\n", config->sysop);
-      if (config->location != NULL)printf("Location: %s\n", config->location);
-      for (i=0; i<config->addrCount; i++) {
-	 if (config->addr[i].domain != NULL)
-            printf("Addr: %u:%u/%u.%u@%s\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point, config->addr[i].domain);
-	 else
-            printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
-      }
-
-      if (config->loglevels) printf("LogLevels %s\n", config->loglevels);
-      printf("LogEchoToScreen %s\n", (config->logEchoToScreen) ? "on" : "off");
-      if (config->logEchoToScreen && config->screenloglevels)
-	 printf("ScreenLogLevels %s\n", config->screenloglevels);
-
-      if (config->echotosslog != NULL) printf("EchoTossLog:     %s\n", config->echotosslog);
-      if (config->importlog != NULL)   printf("ImportLog:       %s\n", config->importlog);
-      if (config->statlog != NULL)     printf("StatLog:         %s\n", config->statlog);
-
-      if (config->inbound != NULL) printf("Inbound:         %s\n", config->inbound);
-      if (config->tempInbound != NULL) printf("tempInbound:     %s\n", config->tempInbound);
-      if (config->protInbound != NULL) printf("ProtInbound:     %s\n", config->protInbound);
-      if (config->localInbound != NULL) printf("LocalInbound:    %s\n", config->localInbound);
-      if (config->listInbound != NULL) printf("ListInbound:     %s\n", config->listInbound);
-      if (config->ticOutbound != NULL) printf("TicOutbound:     %s\n", config->ticOutbound);
-      if (config->outbound != NULL) printf("Outbound:        %s\n", config->outbound);
-      if (config->tempOutbound != NULL) printf("tempOutbound:    %s\n", config->tempOutbound);
-      for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->publicDir[i]);
-      if (config->reqidxDir) printf ("ReqIdxDir:       %s\n", config->reqidxDir);
-      if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir:  %s\n", config->dupeHistoryDir);
-      if (config->logFileDir != NULL) printf("LogFileDir:      %s\n", config->logFileDir);
-      if (config->tempDir != NULL) printf("TempDir:      %s\n", config->tempDir);
-      if (config->msgBaseDir != NULL) printf("MsgBaseDir:      %s\n", config->msgBaseDir);
-      if (config->fileAreaBaseDir) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
-      if (config->passFileAreaDir) printf("passFileAreaDir: %s\n", config->passFileAreaDir);
-      if (config->busyFileDir) printf("busyFileDir:     %s\n", config->busyFileDir);
-      if (config->magic) printf("Magic: %s\n", config->magic);
-      if (config->semaDir) printf("semaDir:         %s\n", config->semaDir);
-      if (config->badFilesDir) printf("BadFilesDir:     %s\n", config->badFilesDir);
-      if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
-      if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
-      if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
-//      printf("Perl support: %s\n", config->perlSupport ? "on" : "off");
-//      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
-      if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
-      if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
-      if (config->minDiskFreeSpace)
-		  printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
-      if (config->syslogFacility)
-          printf ("SyslogFacility: %d\n", config->syslogFacility);
-
-	  if (config->lockfile) {
-		  printf("LockFile: %s\n",config->lockfile);
-		  printf("AdvisoryLock: %s\n", config->advisoryLock ? "on" : "off");
-	  }
-
-      if (hpt==0) {
-          printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");
-          printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
-      }
-
-      printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
-      printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
-      switch (config->bundleNameStyle) {
-	  case eUndef:
-		  printf("BundleNameStyle: undefined (timeStamp)\n");
-		  break;
-	  case eAddrDiff:
-		  printf("BundleNameStyle: addrDiff\n");
-		  break;
-	  case eAddrDiffAlways:
-	          printf("BundleNameStyle: addrDiffAlways\n");
-	          break;
-	  case eTimeStamp:
-		  printf("BundleNameStyle: timeStamp\n");
-		  break;
-	  case eAmiga:
-		  printf("BundleNameStyle: Amiga\n");
-		  break;
-	  default:
-		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
-		  break;
-
-      }
-
-      if (config->fileBoxesDir) printf ("fileBoxesDir: %s\n", config->fileBoxesDir);
-      printf("DupeBaseType: ");
-      if (config->typeDupeBase==textDupes) printf("textDupes\n");
-      if (config->typeDupeBase==hashDupes) printf("hashDupes\n");
-      if (config->typeDupeBase==hashDupesWmsgid) printf("hashDupesWmsgid\n");
-      if (config->typeDupeBase==commonDupeBase) {
-            printf("commonDupeBase\n");
-            printf("AreasMaxDupeAge: %d\n",config->areasMaxDupeAge);
-      }
-
-      if (config->numPublicGroup > 0) {
-          printf("PublicGroups: ");
-          for (i = 0; i < config->numPublicGroup; i++)
-              printf( (i>0) ? ",%s" : "%s", config->PublicGroup[i]);
-          printf("\n");
-      }
-
-      printf("createAreasCase: %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
-      printf("areasFileNameCase: %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
-      printf("DisableTID: %s\n", (config->disableTID) ? "on" : "off");
-      printf("keepTrsMail: %s\n", (config->keepTrsMail) ? "on" : "off");
-      printf("keepTrsFiles: %s\n", (config->keepTrsFiles) ? "on" : "off");
-	  printf("createFwdNonPass: %s\n", config->createFwdNonPass ? "on" : "off");
-#if defined ( __NT__ )
-      printf("SetConsoleTitle: %s\n", (config->setConsoleTitle) ? "on" : "off");
-#endif
-      if (config->processPkt != NULL) printf("processPkt: %s\n", config->processPkt);
-      if (config->tossingExt != NULL) printf("tossingExt: %s\n", config->tossingExt);
-
-	  if (config->addToSeenCount) {
-		  printf("AddToSeen:");
-		  for (i=0; i<config->addToSeenCount; i++) {
-			  printf(" %u/%u", config->addToSeen[i].net,config->addToSeen[i].node );
-		  }
-		  printf("\n");
-	  }
-	  if (config->ignoreSeenCount) {
-		  printf("IgnoreSeen:");
-		  for (i=0; i<config->ignoreSeenCount; i++) {
-			  printf(" %u/%u", config->ignoreSeen[i].net,config->ignoreSeen[i].node );
-		  }
-		  printf("\n");
-	  }
-
-	  if (config->tearline || config->origin) printf("\n");
-	  if (config->tearline) printf("--- %s\n", config->tearline);
-	  if (config->origin) printf("* Origin: %s (%s)\n", config->origin, aka2str(config->addr[0]));
-	  printf("AutoPassive: %s\n", config->autoPassive ? "on" : "off");
-	  printf("packNetMailOnScan: %s\n", config->packNetMailOnScan ? "on" : "off");
-	  printf("NotValidFileNameChars: %s\n", config->notValidFNChars ?
-		 config->notValidFNChars : "\"*/:;<=>?\\|%`'&+");
-
-      printf("\n=== AREAFIX CONFIG ===\n");
-	  if (config->areafixNames) printf("AreafixNames: %s\n", config->areafixNames);
-	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
-	  printf("areafixQueryReports: %s\n",(config->areafixQueryReports)?"on":"off");
-	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");
-	  printf("areafixKillRequests: %s\n",(config->areafixKillRequests)?"on":"off");
-	  if (config->areafixMsgSize) printf("areafixMsgSize - %u\n", config->areafixMsgSize);
-	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
-	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
-	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
-	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
-	  if (config->areafixQueueFile) printf("areafixQueueFile: %s\n",config->areafixQueueFile);
-	  printf("ForwardRequestTimeout: %d\n",config->forwardRequestTimeout);
-	  printf("IdlePassthruTimeout  : %d\n",config->idlePassthruTimeout);
-	  printf("KilledRequestTimeout : %d\n",config->killedRequestTimeout);
-
-
-  if (hpt==0) {
-      printf("\n=== FILEFIX CONFIG ===\n");
-	  printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
-	  printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
-
-      printf("\n=== TICKER CONFIG ===\n");
-      if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
-      if (config->fileNewAreasLog) printf("FileNewAreasLog: %s\n", config->fileNewAreasLog);
-      if (config->fileArcList) printf("FileArcList: %s\n", config->fileArcList);
-      if (config->filePassList) printf("FileArcList: %s\n", config->filePassList);
-      if (config->fileDupeList) printf("FileArcList: %s\n", config->fileDupeList);
-      printf("AddDLC: %s\n",(config->addDLC) ? "on": "off");
-      printf("FileSingleDescLine: %s\n",(config->fileSingleDescLine) ? "on": "off");
-      printf("FileCheckDest: %s\n",(config->fileCheckDest) ? "on": "off");
-      printf("FileDescName: %s\n", (config->fileDescName) ? config->fileDescName: "off");
-      printf("FileDescPos: %u\n", config->fileDescPos);
-      if (config->fileLDescString) printf("FileLDescString: %s\n", config->fileLDescString);
-      printf("DLCDigits: %u\n", config->DLCDigits);
-      printf("FileMaxDupeAge: %u\n", config->fileMaxDupeAge);
-      printf("FileFileUMask: %o\n", config->fileFileUMask);
-      printf("FileDirUMask: %o\n", config->fileDirUMask);
-      if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
-	  if (config->saveTicCount)
-      for (i = 0; i< config->saveTicCount; i++) {
-		printf("SaveTic for %s in %s\n", config->saveTic[i].fileAreaNameMask,
-                                         config->saveTic[i].pathName );
-      }
-  }
-
-      printf("\n=== FILELIST CONFIG ===\n");
-      for (i = 0; i < config->filelistCount; i++) printFilelist(&(config->filelists[i]));
-
-      printf("\n=== LINKER CONFIG ===\n");
-      switch (config->LinkWithImportlog)
-      {
-      case lwiYes:
-	printf("LinkWithImportlog   Yes\n");
-	break;
-
-      case lwiNo:
-	printf("LinkWithImportlog   No\n");
-	break;
-
-      case lwiKill:
-	printf("LinkWithImportlog   Kill\n");
-	break;
-
-      default:
-	printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
-      }
-
-      printf("\n=== LINK CONFIG ===\n");
-      printf("%u links in config\n", config->linkCount);
-      for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
-
-      printf("\n=== AREA CONFIG ===\n");
-
-	  printf("kludgeAreaNetmail ");
-	  switch (config->kludgeAreaNetmail) {
-	  case kanKill: printf("kill");
-		  break;
-	  case kanIgnore: printf("ignore");
-		  break;
-	  case kanEcho: printf ("echomail");
-		  break;
-	  }
-	  printf("\n");
-
-      if (config->netMailAreaCount == 0) { printf("you must define at least one NetmailArea!\n"); return 1; }
-      printf("\n=== Net&EchoAreas ===\n");
-      for (i = 0; i< config->netMailAreaCount; i++) {
-         printArea(config->netMailAreas[i]);
-      }
-      if (config->dupeArea.areaName == NULL)
-	{ printf("you must define DupeArea!\n"); return 1; }
-      if (config->dupeArea.fileName != NULL) printArea(config->dupeArea);
-	else { printf("DupeArea can not be passthrough!\n"); return 1; }
-      if (config->badArea.areaName == NULL)
-	{ printf("you must define BadArea!\n"); return 1; }
-      if (config->badArea.fileName != NULL) printArea(config->badArea);
-	else { printf("BadArea can not be passthrough!\n"); return 1; }
-      for (i = 0; i< config->echoAreaCount; i++) {
-         printArea(config->echoAreas[i]);
-      }
-      printf("\n=== LocalAreas ===\n");
-      for (i = 0; i< config->localAreaCount; i++) {
-         printArea(config->localAreas[i]);
-      }
-
-   if (hpt==0) {
-      printf("\n=== FileAreas ===\n");
-      for (i=0; i<config->fileAreaCount; i++) {
-        printFileArea(config->fileAreas[i]);
-      }
-      printf("\n=== BbsAreas ===\n");
-      for (i=0; i<config->bbsAreaCount; i++) {
-        printBbsArea(config->bbsAreas[i]);
-      }
-   }
-
-
-      if(config->carbonCount)
-         printCarbons(config);
-
-      printf("\n=== ROUTE CONFIG ===\n");
-      for (i = 0; i < config->routeCount; i++) {
-         if (config->route[i].routeVia == 0)
-            printf("Route %s via %u:%u/%u.%u\n", config->route[i].pattern, config->route[i].target->hisAka.zone, config->route[i].target->hisAka.net, config->route[i].target->hisAka.node, config->route[i].target->hisAka.point);
-         else {
-			 printf("Route");
-			 switch (config->route[i].id) {
-			 case id_route : break;
-			 case id_routeMail : printf("Mail"); break;
-			 case id_routeFile : printf("File"); break;
-			 }
-			 printf(" %s ", config->route[i].pattern);
-			 switch (config->route[i].routeVia) {
-			 case route_zero: printf("zero\n"); break;
-			 case noroute:  printf("direct\n"); break;
-			 case nopack:   printf("nopack\n"); break;
-			 case host:     printf("via host\n"); break;
-			 case hub:      printf("via hub\n"); break;
-			 case boss:     printf("via boss\n"); break;
-			 case route_extern: break; /* internal only */
-			 }
-         }
-      }
-
-   if (hpt==0) {
-      printf("\n=== NODELIST CONFIG ===\n");
-      if (config->nodelistDir != NULL)
-        {
-          printf("NodelistDir: %s\n", config->nodelistDir);
+     if (config != NULL) {
+  	  checkLogic(config);
+        printf("=== MAIN CONFIG ===\n");
+        printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
+        if (config->name != NULL)	printf("Name:     %s\n", config->name);
+        if (config->sysop != NULL) printf("Sysop:    %s\n", config->sysop);
+        if (config->location != NULL)printf("Location: %s\n", config->location);
+        for (i=0; i<config->addrCount; i++) {
+  	 if (config->addr[i].domain != NULL)
+              printf("Addr: %u:%u/%u.%u@%s\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point, config->addr[i].domain);
+  	 else
+              printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
         }
-      if (config->fidoUserList != NULL)
-        {
-          printf("Fidouser List File: %s\n", config->fidoUserList);
+
+        if (config->loglevels) printf("LogLevels %s\n", config->loglevels);
+        printf("LogEchoToScreen %s\n", (config->logEchoToScreen) ? "on" : "off");
+        if (config->logEchoToScreen && config->screenloglevels)
+  	 printf("ScreenLogLevels %s\n", config->screenloglevels);
+
+        if (config->echotosslog != NULL) printf("EchoTossLog:     %s\n", config->echotosslog);
+        if (config->importlog != NULL)   printf("ImportLog:       %s\n", config->importlog);
+        if (config->statlog != NULL)     printf("StatLog:         %s\n", config->statlog);
+
+        if (config->inbound != NULL) printf("Inbound:         %s\n", config->inbound);
+        if (config->tempInbound != NULL) printf("tempInbound:     %s\n", config->tempInbound);
+        if (config->protInbound != NULL) printf("ProtInbound:     %s\n", config->protInbound);
+        if (config->localInbound != NULL) printf("LocalInbound:    %s\n", config->localInbound);
+        if (config->listInbound != NULL) printf("ListInbound:     %s\n", config->listInbound);
+        if (config->ticOutbound != NULL) printf("TicOutbound:     %s\n", config->ticOutbound);
+        if (config->outbound != NULL) printf("Outbound:        %s\n", config->outbound);
+        if (config->tempOutbound != NULL) printf("tempOutbound:    %s\n", config->tempOutbound);
+        for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->publicDir[i]);
+        if (config->reqidxDir) printf ("ReqIdxDir:       %s\n", config->reqidxDir);
+        if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir:  %s\n", config->dupeHistoryDir);
+        if (config->logFileDir != NULL) printf("LogFileDir:      %s\n", config->logFileDir);
+        if (config->tempDir != NULL) printf("TempDir:      %s\n", config->tempDir);
+        if (config->msgBaseDir != NULL) printf("MsgBaseDir:      %s\n", config->msgBaseDir);
+        if (config->fileAreaBaseDir) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
+        if (config->passFileAreaDir) printf("passFileAreaDir: %s\n", config->passFileAreaDir);
+        if (config->busyFileDir) printf("busyFileDir:     %s\n", config->busyFileDir);
+        if (config->magic) printf("Magic: %s\n", config->magic);
+        if (config->semaDir) printf("semaDir:         %s\n", config->semaDir);
+        if (config->badFilesDir) printf("BadFilesDir:     %s\n", config->badFilesDir);
+        if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
+        if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
+        if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
+  //      printf("Perl support: %s\n", config->perlSupport ? "on" : "off");
+  //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
+        if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
+        if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
+        if (config->minDiskFreeSpace)
+  		  printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
+        if (config->syslogFacility)
+            printf ("SyslogFacility: %d\n", config->syslogFacility);
+
+  	  if (config->lockfile) {
+  		  printf("LockFile: %s\n",config->lockfile);
+  		  printf("AdvisoryLock: %s\n", config->advisoryLock ? "on" : "off");
+  	  }
+
+        if (hpt==0) {
+            printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");
+            printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
         }
-      printf("-------\n");
 
-      for (i = 0; i < config->nodelistCount; i++)
-        {
-          printf("Nodelist %s\n", config->nodelists[i].nodelistName);
-          if (config->nodelists[i].diffUpdateStem != NULL)
-            printf("Nodediff Update File %s\n",
-                   config->nodelists[i].diffUpdateStem);
-          if (config->nodelists[i].fullUpdateStem != NULL)
-            printf("Full Nodelist Update File %s\n",
-                   config->nodelists[i].fullUpdateStem);
-          if (config->nodelists[i].defaultZone != 0)
-            printf("Zone Number %d\n",
-                   config->nodelists[i].defaultZone);
-          switch (config->nodelists[i].format)
-            {
-            case fts5000:
-              printf ("Standard nodelist format\n");
-              break;
-            case points24:
-              printf ("Points24 nodelist format\n");
-              break;
-            case points4d:
-              printf ("Points4D nodelist format\n");
-              break;
-            default:
-              printf ("Unknown nodelist format???\n");
-              break;
-            }
-          printf("-------\n");
+        printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
+        printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
+        switch (config->bundleNameStyle) {
+  	  case eUndef:
+  		  printf("BundleNameStyle: undefined (timeStamp)\n");
+  		  break;
+  	  case eAddrDiff:
+  		  printf("BundleNameStyle: addrDiff\n");
+  		  break;
+  	  case eAddrDiffAlways:
+  	          printf("BundleNameStyle: addrDiffAlways\n");
+  	          break;
+  	  case eTimeStamp:
+  		  printf("BundleNameStyle: timeStamp\n");
+  		  break;
+  	  case eAmiga:
+  		  printf("BundleNameStyle: Amiga\n");
+  		  break;
+  	  default:
+  		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
+  		  break;
+
         }
-   }
-      printf("\n=== PACK CONFIG ===\n");
-      for (i = 0; i < config->packCount; i++) {
-         printf("Packer: %s      Call: %s\n", config->pack[i].packer, config->pack[i].call);
-      }
-      if (config->defarcmailSize!=0) printf("\nDefault Arcmail Size - %u kb\n",config->defarcmailSize);
-      printf("\n=== UNPACK CONFIG ===\n");
-      for (i = 0; i < config->unpackCount; i++) {
-         printf("UnPacker:  Call: %s Offset %d Match code ", config->unpack[i].call, config->unpack[i].offset);
-         for (j = 0; j < config->unpack[i].codeSize; j++)
-           printf("%02x", (int) config->unpack[i].matchCode[j]);
-         printf(" Mask : ");
-         for (j = 0; j < config->unpack[i].codeSize; j++)
-           printf("%02x", (int) config->unpack[i].mask[j]);
-         printf("\n");
-      }
 
-      if (config->beforePack) printf("Before Pack - \"%s\"\n",config->beforePack);
-      if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
+        if (config->fileBoxesDir) printf ("fileBoxesDir: %s\n", config->fileBoxesDir);
+        printf("DupeBaseType: ");
+        if (config->typeDupeBase==textDupes) printf("textDupes\n");
+        if (config->typeDupeBase==hashDupes) printf("hashDupes\n");
+        if (config->typeDupeBase==hashDupesWmsgid) printf("hashDupesWmsgid\n");
+        if (config->typeDupeBase==commonDupeBase) {
+              printf("commonDupeBase\n");
+              printf("AreasMaxDupeAge: %d\n",config->areasMaxDupeAge);
+        }
 
-      if (config->ReportTo) printf("ReportTo\t%s\n", config->ReportTo);
+        if (config->numPublicGroup > 0) {
+            printf("PublicGroups: ");
+            for (i = 0; i < config->numPublicGroup; i++)
+                printf( (i>0) ? ",%s" : "%s", config->PublicGroup[i]);
+            printf("\n");
+        }
 
-   if (hpt==0) {
-      printf("\n=== EXEC CONFIG ===\n");
-      for (i = 0; i < config->execonfileCount; i++) {
-         printf("ExecOnFile: Area %s File %s Call %s\n",
-                 config->execonfile[i].filearea,
-                 config->execonfile[i].filename,
-                 config->execonfile[i].command);
-      }
-   }
+        printf("createAreasCase: %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
+        printf("areasFileNameCase: %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
+        printf("DisableTID: %s\n", (config->disableTID) ? "on" : "off");
+        printf("keepTrsMail: %s\n", (config->keepTrsMail) ? "on" : "off");
+        printf("keepTrsFiles: %s\n", (config->keepTrsFiles) ? "on" : "off");
+  	  printf("createFwdNonPass: %s\n", config->createFwdNonPass ? "on" : "off");
+  #if defined ( __NT__ )
+        printf("SetConsoleTitle: %s\n", (config->setConsoleTitle) ? "on" : "off");
+  #endif
+        if (config->processPkt != NULL) printf("processPkt: %s\n", config->processPkt);
+        if (config->tossingExt != NULL) printf("tossingExt: %s\n", config->tossingExt);
 
-   printf( "\n=== EMAILPKT CONFIG ===\n" );
-   if( config->sendmailcmd ) {
-     printf( "sendMailCmd: %s\n", config->sendmailcmd );
-   }else
-     printf( "sendMailCmd:\n" );
+  	  if (config->addToSeenCount) {
+  		  printf("AddToSeen:");
+  		  for (i=0; i<config->addToSeenCount; i++) {
+  			  printf(" %u/%u", config->addToSeen[i].net,config->addToSeen[i].node );
+  		  }
+  		  printf("\n");
+  	  }
+  	  if (config->ignoreSeenCount) {
+  		  printf("IgnoreSeen:");
+  		  for (i=0; i<config->ignoreSeenCount; i++) {
+  			  printf(" %u/%u", config->ignoreSeen[i].net,config->ignoreSeen[i].node );
+  		  }
+  		  printf("\n");
+  	  }
+
+  	  if (config->tearline || config->origin) printf("\n");
+  	  if (config->tearline) printf("--- %s\n", config->tearline);
+  	  if (config->origin) printf("* Origin: %s (%s)\n", config->origin, aka2str(config->addr[0]));
+  	  printf("AutoPassive: %s\n", config->autoPassive ? "on" : "off");
+  	  printf("packNetMailOnScan: %s\n", config->packNetMailOnScan ? "on" : "off");
+  	  printf("NotValidFileNameChars: %s\n", config->notValidFNChars ?
+  		 config->notValidFNChars : "\"*/:;<=>?\\|%`'&+");
+
+        printf("\n=== AREAFIX CONFIG ===\n");
+  	  if (config->areafixNames) printf("AreafixNames: %s\n", config->areafixNames);
+  	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
+  	  printf("areafixQueryReports: %s\n",(config->areafixQueryReports)?"on":"off");
+  	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");
+  	  printf("areafixKillRequests: %s\n",(config->areafixKillRequests)?"on":"off");
+  	  if (config->areafixMsgSize) printf("areafixMsgSize - %u\n", config->areafixMsgSize);
+  	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
+  	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
+  	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
+  	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
+  	  if (config->areafixQueueFile) printf("areafixQueueFile: %s\n",config->areafixQueueFile);
+  	  printf("ForwardRequestTimeout: %d\n",config->forwardRequestTimeout);
+  	  printf("IdlePassthruTimeout  : %d\n",config->idlePassthruTimeout);
+  	  printf("KilledRequestTimeout : %d\n",config->killedRequestTimeout);
 
 
-      disposeConfig(config);
+    if (hpt==0) {
+        printf("\n=== FILEFIX CONFIG ===\n");
+  	  printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
+  	  printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
+
+        printf("\n=== TICKER CONFIG ===\n");
+        if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
+        if (config->fileNewAreasLog) printf("FileNewAreasLog: %s\n", config->fileNewAreasLog);
+        if (config->fileArcList) printf("FileArcList: %s\n", config->fileArcList);
+        if (config->filePassList) printf("FileArcList: %s\n", config->filePassList);
+        if (config->fileDupeList) printf("FileArcList: %s\n", config->fileDupeList);
+        printf("AddDLC: %s\n",(config->addDLC) ? "on": "off");
+        printf("FileSingleDescLine: %s\n",(config->fileSingleDescLine) ? "on": "off");
+        printf("FileCheckDest: %s\n",(config->fileCheckDest) ? "on": "off");
+        printf("FileDescName: %s\n", (config->fileDescName) ? config->fileDescName: "off");
+        printf("FileDescPos: %u\n", config->fileDescPos);
+        if (config->fileLDescString) printf("FileLDescString: %s\n", config->fileLDescString);
+        printf("DLCDigits: %u\n", config->DLCDigits);
+        printf("FileMaxDupeAge: %u\n", config->fileMaxDupeAge);
+        printf("FileFileUMask: %o\n", config->fileFileUMask);
+        printf("FileDirUMask: %o\n", config->fileDirUMask);
+        if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
+  	  if (config->saveTicCount)
+        for (i = 0; i< config->saveTicCount; i++) {
+  		printf("SaveTic for %s in %s\n", config->saveTic[i].fileAreaNameMask,
+                                           config->saveTic[i].pathName );
+        }
+    }
+
+        printf("\n=== FILELIST CONFIG ===\n");
+        for (i = 0; i < config->filelistCount; i++) printFilelist(&(config->filelists[i]));
+
+        printf("\n=== LINKER CONFIG ===\n");
+        switch (config->LinkWithImportlog)
+        {
+        case lwiYes:
+  	printf("LinkWithImportlog   Yes\n");
+  	break;
+
+        case lwiNo:
+  	printf("LinkWithImportlog   No\n");
+  	break;
+
+        case lwiKill:
+  	printf("LinkWithImportlog   Kill\n");
+  	break;
+
+        default:
+  	printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
+        }
+
+        printf("\n=== LINK CONFIG ===\n");
+        printf("%u links in config\n", config->linkCount);
+        for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
+
+        printf("\n=== AREA CONFIG ===\n");
+
+  	  printf("kludgeAreaNetmail ");
+  	  switch (config->kludgeAreaNetmail) {
+  	  case kanKill: printf("kill");
+  		  break;
+  	  case kanIgnore: printf("ignore");
+  		  break;
+  	  case kanEcho: printf ("echomail");
+  		  break;
+  	  }
+  	  printf("\n");
+
+        if (config->netMailAreaCount == 0) { printf("you must define at least one NetmailArea!\n"); return 1; }
+        printf("\n=== Net&EchoAreas ===\n");
+        for (i = 0; i< config->netMailAreaCount; i++) {
+           printArea(config->netMailAreas[i]);
+        }
+        if (config->dupeArea.areaName == NULL)
+  	{ printf("you must define DupeArea!\n"); return 1; }
+        if (config->dupeArea.fileName != NULL) printArea(config->dupeArea);
+  	else { printf("DupeArea can not be passthrough!\n"); return 1; }
+        if (config->badArea.areaName == NULL)
+  	{ printf("you must define BadArea!\n"); return 1; }
+        if (config->badArea.fileName != NULL) printArea(config->badArea);
+  	else { printf("BadArea can not be passthrough!\n"); return 1; }
+        for (i = 0; i< config->echoAreaCount; i++) {
+           printArea(config->echoAreas[i]);
+        }
+        printf("\n=== LocalAreas ===\n");
+        for (i = 0; i< config->localAreaCount; i++) {
+           printArea(config->localAreas[i]);
+        }
+
+     if (hpt==0) {
+        printf("\n=== FileAreas ===\n");
+        for (i=0; i<config->fileAreaCount; i++) {
+          printFileArea(config->fileAreas[i]);
+        }
+        printf("\n=== BbsAreas ===\n");
+        for (i=0; i<config->bbsAreaCount; i++) {
+          printBbsArea(config->bbsAreas[i]);
+        }
+     }
+
+
+        if(config->carbonCount)
+           printCarbons(config);
+
+        printf("\n=== ROUTE CONFIG ===\n");
+        for (i = 0; i < config->routeCount; i++) {
+           if (config->route[i].routeVia == 0)
+              printf("Route %s via %u:%u/%u.%u\n", config->route[i].pattern, config->route[i].target->hisAka.zone, config->route[i].target->hisAka.net, config->route[i].target->hisAka.node, config->route[i].target->hisAka.point);
+           else {
+  			 printf("Route");
+  			 switch (config->route[i].id) {
+  			 case id_route : break;
+  			 case id_routeMail : printf("Mail"); break;
+  			 case id_routeFile : printf("File"); break;
+  			 }
+  			 printf(" %s ", config->route[i].pattern);
+  			 switch (config->route[i].routeVia) {
+  			 case route_zero: printf("zero\n"); break;
+  			 case noroute:  printf("direct\n"); break;
+  			 case nopack:   printf("nopack\n"); break;
+  			 case host:     printf("via host\n"); break;
+  			 case hub:      printf("via hub\n"); break;
+  			 case boss:     printf("via boss\n"); break;
+  			 case route_extern: break; /* internal only */
+  			 }
+           }
+        }
+
+     if (hpt==0) {
+        printf("\n=== NODELIST CONFIG ===\n");
+        if (config->nodelistDir != NULL)
+          {
+            printf("NodelistDir: %s\n", config->nodelistDir);
+          }
+        if (config->fidoUserList != NULL)
+          {
+            printf("Fidouser List File: %s\n", config->fidoUserList);
+          }
+        printf("-------\n");
+
+        for (i = 0; i < config->nodelistCount; i++)
+          {
+            printf("Nodelist %s\n", config->nodelists[i].nodelistName);
+            if (config->nodelists[i].diffUpdateStem != NULL)
+              printf("Nodediff Update File %s\n",
+                     config->nodelists[i].diffUpdateStem);
+            if (config->nodelists[i].fullUpdateStem != NULL)
+              printf("Full Nodelist Update File %s\n",
+                     config->nodelists[i].fullUpdateStem);
+            if (config->nodelists[i].defaultZone != 0)
+              printf("Zone Number %d\n",
+                     config->nodelists[i].defaultZone);
+            switch (config->nodelists[i].format)
+              {
+              case fts5000:
+                printf ("Standard nodelist format\n");
+                break;
+              case points24:
+                printf ("Points24 nodelist format\n");
+                break;
+              case points4d:
+                printf ("Points4D nodelist format\n");
+                break;
+              default:
+                printf ("Unknown nodelist format???\n");
+                break;
+              }
+            printf("-------\n");
+          }
+     }
+        printf("\n=== PACK CONFIG ===\n");
+        for (i = 0; i < config->packCount; i++) {
+           printf("Packer: %s      Call: %s\n", config->pack[i].packer, config->pack[i].call);
+        }
+        if (config->defarcmailSize!=0) printf("\nDefault Arcmail Size - %u kb\n",config->defarcmailSize);
+        printf("\n=== UNPACK CONFIG ===\n");
+        for (i = 0; i < config->unpackCount; i++) {
+           printf("UnPacker:  Call: %s Offset %d Match code ", config->unpack[i].call, config->unpack[i].offset);
+           for (j = 0; j < config->unpack[i].codeSize; j++)
+             printf("%02x", (int) config->unpack[i].matchCode[j]);
+           printf(" Mask : ");
+           for (j = 0; j < config->unpack[i].codeSize; j++)
+             printf("%02x", (int) config->unpack[i].mask[j]);
+           printf("\n");
+        }
+
+        if (config->beforePack) printf("Before Pack - \"%s\"\n",config->beforePack);
+        if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
+
+        if (config->ReportTo) printf("ReportTo\t%s\n", config->ReportTo);
+
+     if (hpt==0) {
+        printf("\n=== EXEC CONFIG ===\n");
+        for (i = 0; i < config->execonfileCount; i++) {
+           printf("ExecOnFile: Area %s File %s Call %s\n",
+                   config->execonfile[i].filearea,
+                   config->execonfile[i].filename,
+                   config->execonfile[i].command);
+        }
+     }
+
+     printf( "\n=== EMAILPKT CONFIG ===\n" );
+     if( config->sendmailcmd ) {
+       printf( "sendMailCmd: %s\n", config->sendmailcmd );
+     }else
+       printf( "sendMailCmd:\n" );
+
+     rc = testConfig(config);
+
+     disposeConfig(config);
    } /* endif */
-   return 0;
+   return rc;
 }
