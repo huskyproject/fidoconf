@@ -1,3 +1,9 @@
+2003-12-26 Friday 16:39  andrew_ladutsko
+
+	* src/afixcmd.c (1.6): Addlink() speedup: do not call slow
+	processPermissions() there, check a particular area - arealink pair
+	instead
+
 2003-12-23 Tuesday 14:42  val_khokhlov
 
 	* src/fidoconf.c (1.13): ensure string is not null when stripping
