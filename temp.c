@@ -77,9 +77,11 @@ int MKSTEMPS( char *tempfilename )
          fd = open( ttt, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
      }while( fd==-1 && errno == EEXIST );
    }else{
-     while( fd==-1 && mktemp(ttt) ){
-       fd = open( ttt, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
-     };
+     do{
+         if( !mktemp(ttt) )
+           break;
+         fd = open( ttt, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
+     }while( fd==-1 && errno == EEXIST );
    }
    if(fd!=-1) strcpy(tempfilename,ttt);
    nfree(ttt);
