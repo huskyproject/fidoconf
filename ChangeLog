@@ -1,3 +1,10 @@
+2003-05-07 Wednesday 17:11  mche
+
+	* src/afixcmd.c (1.3), src/fidoconf.c (1.5), fidoconf/afixcmd.h
+	(1.3):	- common areafix function moved from htick & hpt to
+	fidoconfig
+	 - process writeonly/readonly tokens for fileechos
+
 2003-04-25 Friday 04:57  andr_lukyanov
 
 	* make/makefile.djg (1.3): Fixed DJGPP compilation.
