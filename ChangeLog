@@ -1,3 +1,8 @@
+2004-01-21 Wednesday 20:03  d_sergienko
+
+	* line.c (fidoconf-1_4-stable.9): fix coredump if ourAka is not
+	actually our AKA.
+
 2004-01-08 Thursday 17:08  d_sergienko
 
 	* line.c, doc/proposal.texi (fidoconf-1_4-stable.[8,4]): add link
