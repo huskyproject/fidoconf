@@ -118,10 +118,13 @@ linkliner:
       if (fftoken) {
          for (;;) {
             if ((cfgline = configline()) == NULL) { 
+/* !!! val: delete this if no bugs !!!
                *start = *end   = linkstart;
                *confName = linkConfName;
                close_conf();
-               return 0;
+               return 0;*/
+               fseek(get_hcfg(), linkstart, SEEK_SET);
+               break;
             }
             cfgline = expandCfgLine(cfgline);
             if (!*cfgline) {
@@ -132,10 +135,13 @@ linkliner:
             token = strseparate(&line, " \t");
             if (token && stricmp(token, "link") == 0)
             {
+/* !!! val: delete this if no bugs !!!
                *start = *end   = linkstart;
                *confName = linkConfName;
                close_conf();
-               return 0;
+               return 0;*/
+               fseek(get_hcfg(), linkstart, SEEK_SET);
+               break;
             }
             if (token && stricmp(token, fftoken) == 0) break;
             nfree(cfgline);
