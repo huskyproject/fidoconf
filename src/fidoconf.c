@@ -208,6 +208,8 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
    char *osSpecificPrefix = "/etc/fido/";
 #elif defined(__FreeBSD__)
    char *osSpecificPrefix = "/usr/local/etc/fido/";
+#elif defined(__QNXNTO__)
+   char *osSpecificPrefix = "/etc/fido/";
 #elif defined(UNIX)
    char *osSpecificPrefix = "./";
 #else
