@@ -66,20 +66,15 @@ ps_area FindAreaInTree(char* areaName)
 void     RebuildEchoAreaTree(ps_fidoconfig config)
 {
    unsigned int i = 0;
-   if(config->quickAreaSearch)
-   {
-      FreeAreaTree(config);
-      for (i=0; i < config->echoAreaCount; i++)
-         addAreaToTree(&(config->echoAreas[i]));
-      for (i=0; i < config->localAreaCount; i++) 
-         addAreaToTree(&(config->localAreas[i]));
-   }
+
+   FreeAreaTree(config);
+   for (i=0; i < config->echoAreaCount; i++)
+       addAreaToTree(&(config->echoAreas[i]));
+   for (i=0; i < config->localAreaCount; i++) 
+       addAreaToTree(&(config->localAreas[i]));
 }
 
 void     FreeAreaTree(ps_fidoconfig config)
 {
-   if(config->quickAreaSearch)
-   {
-      tree_mung(&echoAreaTree, fc_deleteEntry);
-   }
+    tree_mung(&echoAreaTree, fc_deleteEntry);
 }

@@ -926,7 +926,6 @@ int main(int argc, char **argv) {
 	  if (config->origin) printf("* Origin: %s (%s)\n", config->origin, aka2str(config->addr[0]));
 	  printf("AutoPassive: %s\n", config->autoPassive ? "on" : "off");
 	  printf("packNetMailOnScan: %s\n", config->packNetMailOnScan ? "on" : "off");
-	  printf("quickAreaSearch: %s\n",   config->quickAreaSearch ? "on" : "off");
 	  printf("NotValidFileNameChars: %s\n", config->notValidFNChars ?
 		 config->notValidFNChars : "\"*/:;<=>?\\|%`'&+");
 

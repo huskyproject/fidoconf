@@ -156,7 +156,6 @@ void initConfig(s_fidoconfig *config) {
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
    config -> typeDupeBase = hashDupesWmsgid;
    config -> packNetMailOnScan = 1;
-   config -> quickAreaSearch = 1;
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)
@@ -369,9 +368,9 @@ void stripPktPwd(s_fidoconfig *config)
 void setConfigDefaults(s_fidoconfig *config)
 {
    if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"");
-   config->forwardRequestTimeout = config->forwardRequestTimeout == 0 ? 7 : config->forwardRequestTimeout;
-   config->idlePassthruTimeout = config->idlePassthruTimeout == 0 ? 4 : config->idlePassthruTimeout;
-   config->killedRequestTimeout = config->killedRequestTimeout == 0 ? 3 : config->killedRequestTimeout;
+   config->forwardRequestTimeout = config->forwardRequestTimeout <= 0 ? 7 : config->forwardRequestTimeout;
+   config->idlePassthruTimeout = config->idlePassthruTimeout     <  0 ? 4 : config->idlePassthruTimeout;
+   config->killedRequestTimeout = config->killedRequestTimeout   <= 0 ? 3 : config->killedRequestTimeout;
    RebuildEchoAreaTree(config);   
 }
 
@@ -610,6 +609,11 @@ void disposeConfig(s_fidoconfig *config)
      nfree(config->filelists[i].dirListFtrTpl);
    }
 
+   for (i = 0; i < config->numuuEGrp; i++)
+   {
+     nfree(config->uuEGrp[i]);
+   }
+
    nfree(config->netmailFlag);
    nfree(config->aacFlag);
    nfree(config->notValidFNChars);
@@ -700,45 +704,17 @@ int existAddr(s_fidoconfig *config, s_addr aka) {
    return 0;
 }
 
-s_area *getEchoArea(s_fidoconfig *config, char *areaName)
+s_area *getEchoArea(s_fidoconfig *config, char *areaName) 
 {
-   if(config->quickAreaSearch)
-   {
-      return getArea(config, areaName);
-   }
-   else
-   {
-      UINT i;
-      for (i=0; i < config->echoAreaCount; i++) {
-         if (stricmp(config->echoAreas[i].areaName, areaName)==0)
-            return &(config->echoAreas[i]);
-      }
-   }
-   return &(config->badArea); // if all else fails, return badArea :-)
+    return getArea(config, areaName);
 }
 
 s_area *getArea(s_fidoconfig *config, char *areaName)
 {
-   if(config->quickAreaSearch)
-   {
-      ps_area ret = FindAreaInTree(areaName);
-      if(ret)
-         return ret;
-   }
-   else
-   {
-      UINT i;
-      for (i=0; i < config->echoAreaCount; i++) {
-         if (stricmp(config->echoAreas[i].areaName, areaName)==0)
-            return &(config->echoAreas[i]);
-      }
-      
-      for (i=0; i < config->localAreaCount; i++) {
-         if (stricmp(config->localAreas[i].areaName, areaName)==0)
-            return &(config->localAreas[i]);
-      }
-   }
-   return &(config->badArea); // if all else fails, return badArea :-)
+    ps_area ret = FindAreaInTree(areaName);
+    if(ret)
+        return ret;
+    return &(config->badArea); // if all else fails, return badArea :-)
 }
 
 s_area *getNetMailArea(s_fidoconfig *config, char *areaName)

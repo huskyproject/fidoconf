@@ -3916,9 +3916,6 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_PACKNETMAILONSCAN:
             rc = parseBool(getRestOfLine(), &(config->packNetMailOnScan));
             break;
-        case ID_QUICKAREASEARCH:
-            rc = parseBool(getRestOfLine(), &(config->quickAreaSearch));
-            break;
         case ID_UUEECHOGROUP:
             rc = parseUUEechoAreas(getRestOfLine(), &(config->uuEGrp), &(config->numuuEGrp));
             break;
