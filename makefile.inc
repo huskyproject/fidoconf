@@ -6,9 +6,7 @@
 VER = 1.3.0
 VERH = 1.3
 
-LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ)  xstr$(OBJ) cfg$(OBJ) findtok$(OBJ) crc$(OBJ) log$(OBJ) recode$(OBJ) strsep$(OBJ) tree$(OBJ) areatree$(OBJ) afixcmd$(OBJ) afixcmn$(OBJ) arealist$(OBJ) temp$(OBJ) getfree$(OBJ) version$(OBJ)
-
-OBJS = $(LOBJS) fc2binkd$(OBJ) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) fc2tor$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ) linked$(OBJ)
+include makefile.in1
 
 commonlibs: $(LIBFIDOCONFIG)$(LIB) $(SYMBOLIC)
 	$(NULL)
@@ -20,10 +18,10 @@ $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
 	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LOBJS)
 
 line$(OBJ): line.c tokens.h
-	$(CC) $(COPT) $(CDEFS) line.c
+	$(CC) $(CFLAGS) $(COPT) $(CDEFS) $(OBJOPT) $<
 
 .c$(OBJ):
-	$(CC) $(COPT) $(CDEFS) $<
+	$(CC) $(CFLAGS) $(COPT) $(CDEFS) $<
 
 $(FCONF2MSGED)$(EXE): fc2msged$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)$(FCONF2MSGED)$(EXE) fc2msged$(OBJ) $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
@@ -57,8 +55,6 @@ linked$(EXE): linked$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 
 commonclean: $(SYMBOLIC)
 	-$(RM) $(RMOPT) *$(OBJ)
-	-$(RM) $(RMOPT) *$(TPU)
-	-$(RM) $(RMOPT) core
 
 commondistclean: clean $(SYMBOLIC)
 	-$(RM) $(RMOPT) tparser$(EXE)
