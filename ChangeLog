@@ -1,6 +1,10 @@
 fidoconfig 0.9
 --------------
 
+----- cvs ci ------
+Thu Aug 26  20:26:50
+Fedor:
++ added AreaOption - Jam (adapted smapi for JAM). Need check and test.
 
 ----- cvs ci ------
 Fri Aug 20 14:42:16 NOVST 1999

@@ -54,6 +54,7 @@ int writeArea(FILE *f, s_area *area, char type) {
    }
 
    if (area->msgbType == MSGTYPE_SQUISH) fprintf(f, "Squish ");
+   else if (area->msgbType == MSGTYPE_JAM) fprintf(f, "Jam ");
    else fprintf(f, "Opus ");
 
    fprintf(f, "%s ", area->fileName);

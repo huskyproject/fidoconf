@@ -582,6 +582,13 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
          }
          area->msgbType = MSGTYPE_SQUISH;
       }
+      else if (stricmp(tok, "Jam")==0) {
+         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+            printf("Line %d: Logical Defect!! You could not make a Jam Area Passthrough!\n", actualLineNr);
+            rc += 1;
+         }
+         area->msgbType = MSGTYPE_JAM;
+      }
       else if (stricmp(tok, "Msg")==0) {
          if (area->msgbType == MSGTYPE_PASSTHROUGH) {
             printf("Line %d: Logical Defect!! You could not make a *.msg Area Passthrough!\n", actualLineNr);

@@ -56,6 +56,7 @@ void printArea(s_area area) {
    printf("\n-> %s\t", area.fileName);
    if (area.msgbType == MSGTYPE_SDM) printf("SDM");  
    else if (area.msgbType == MSGTYPE_SQUISH) printf("Squish");
+   else if (area.msgbType == MSGTYPE_JAM) printf("Jam");
    else printf("Passthrough");
 
    if (area.useAka->domain != NULL)

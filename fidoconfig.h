@@ -142,7 +142,8 @@ struct area {
    char *fileName;
    char *description;
    
-   int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH or MSGTYPE_PASSTHROUGH
+   int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH or
+                        // MSGTYPE_JAM or MSGTYPE_PASSTHROUGH
    s_addr *useAka;
    
    s_arealink **downlinks;  // array of pointers to s_link
