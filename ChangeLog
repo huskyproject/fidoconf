@@ -1,3 +1,26 @@
+2002-11-21 Thursday 20:54  pgul
+
+	* line.c (1.349): Check for more then once link subscription to an
+	area
+
+2002-11-21 Thursday 11:10  stas_degteff
+
+	* doc/config (1.18): Add unpacker examples:  pkzipc, pkzip25,
+	pkunzip
+
+2002-11-21 Thursday 07:08  mche
+
+	* afixcmd.c (1.19): correct config changing
+
+2002-11-21 Thursday 06:54  mche
+
+	* afixcmd.c (1.18), common.h (1.72): fix previous patches
+
+2002-11-21 Thursday 05:52  stas_degteff
+
+	* doc/: config (1.17), proposal.texi (1.146): Add unpacker example
+	for rar-sfx/dos
+
 2002-11-20 Wednesday 11:29  stas_degteff
 
 	* arealist.c (1.7): Fix for '2002-11-18 Monday 12:43'. Patch from
