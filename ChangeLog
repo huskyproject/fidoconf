@@ -1,3 +1,48 @@
+2002-10-23 Wednesday 13:16  stas_degteff
+
+	* afixcmn.c (1.14), common.c (1.123), common.h (1.65), crc.c (1.5),
+	crc.h (1.7): New msgid generation algorihtm in createKludges(),
+	based on code from val khokhlov
+
+2002-10-23 Wednesday 11:55  mche
+
+	* .cvsignore (1.6): fix ERROR redefinition
+
+2002-10-23 Wednesday 11:21  mche
+
+	* getfree.c (1.3): fix previous patch
+
+2002-10-23 Wednesday 10:38  stas_degteff
+
+	* getfree.c (1.2): Prevent compilation warnings for OS/2 EMX & UNIX
+
+2002-10-23 Wednesday 10:10  mche
+
+	* cfg.c (1.51): clean type redefinition for win32 compilers
+
+2002-10-23 Wednesday 10:03  mche
+
+	* typesize.h (1.24): clean type redefenition for win32 compilers
+
+2002-10-23 Wednesday 10:01  pgul
+
+	* common.c (1.122), line.c (1.332), common.h (1.64): Optimise
+	groups parsing
+
+2002-10-23 Wednesday 09:23  pgul
+
+	* line.c (1.331): Avoid nested strtok()
+
+2002-10-23 Wednesday 08:44  mche
+
+	* getfree.c (1.1): function getfree() moved to fidoconfig
+
+2002-10-23 Wednesday 08:13  mche
+
+	* common.h (1.63), fidoconfDll.dsp (1.2), makefile.inc (1.33),
+	makefile.mvc (1.22), makefile.mvcdll (1.23): function getfree()
+	moved to fidoconfig
+
 2002-10-22 Tuesday 11:36  stas_degteff
 
 	* cfg.c (1.50): Fix EMX compilation warning in cmpfnames()
