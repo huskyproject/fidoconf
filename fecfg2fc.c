@@ -34,6 +34,23 @@ char Revision[] = "$Revision$";
 
 #define OUTPUT_FILE "hpt_temp.cfg"
 
+
+/* Global variables */
+   char            *FEconfig=NULL;
+   CONFIG          config;
+   Area            **area;
+   ExtensionHeader header;
+   SysAddress      *sysaddr = NULL;
+   int             packers_count = 0, packers2_count = 0;
+   Packers         *packers = NULL, *packers2 = NULL;
+   int             unpackers_count = 0, unpackers2_count = 0;
+   Unpackers       *unpackers = NULL, *unpackers2 = NULL;
+   GroupDefaults   **groupdef = NULL;
+   Node            **node;
+   ForwardAreaFix  *frequest = NULL;
+   FILE            *f_cfg=NULL, *f_hpt=NULL;
+
+
 char parseFEgroup(register unsigned short FEgroup)
 {
   if (FEgroup <= 25) /* Letters */
@@ -131,256 +148,20 @@ void Usage(const char *program)
           basename(program));
 }
 
-int main(int argc, char **argv)
-{
-   FILE            *f_cfg, *f_hpt;
-   CONFIG          config;
-   Area            **area;
-   ExtensionHeader header;
-   SysAddress      *sysaddr = NULL;
-   Packers         *packers = NULL, *packers2 = NULL;
-   Unpackers       *unpackers = NULL, *unpackers2 = NULL;
-   GroupDefaults   **groupdef = NULL;
-   Node            **node;
-   ForwardAreaFix  *frequest = NULL;
-   int             i, ii, c;
-   char            *pp, *Version, *output_file = OUTPUT_FILE;
-   int             packers_count = 0, packers2_count = 0;
-   int             unpackers_count = 0, unpackers2_count = 0;
 
-   if (argc == 1) {
-      Usage(argv[0]);
-      exit(1);
-   } /* endif */
+void print_packers( Packers *packers, int packers_count )
+{  int i;
+   for (i = 0; i < packers_count; i++)
+     if ( strlen(packers[i].tag) && strlen(packers[i].command) )
+       fprintf( f_hpt,
+                " Pack %-10s  %s $a $f\n",
+                packers[i].tag,
+                packers[i].command );
+}
 
-   f_cfg = fopen(argv[1], "rb");
-   if (!f_cfg) {
-      fprintf(stderr, "\nCan\'t open %s file.\n", argv[1]);
-      exit(2);
-   } /* endif */
 
-   if(argc>2)
-     output_file = argv[2];
-
-   read_fe_config(&config, f_cfg);
-
-   if (config.revision != REVISION) {
-      fprintf(stderr, "%s file is not fastecho.cfg 1.46\n", argv[1]);
-      fclose(f_cfg);
-      exit(4);
-   } /* endif */
-
-   /* Extract program version from $Revision$ */
-   for(Version = Revision; *Version && !isdigit(*Version); Version++); /* Skip to digit */
-   for(pp=Version; *pp && (isdigit(*pp) || *pp=='.'); pp++);           /* Seek for number end */
-   *pp = '\0'; /* Trim after number */
-
-   c = 0;
-   while (c < config.offset) {
-      read_fe_extension_header(&header, f_cfg);
-      switch (header.type) {
-      case EH_AKAS:
-         sysaddr = (SysAddress*)calloc((header.offset / FE_SYS_ADDRESS_SIZE),
-                                       sizeof(SysAddress));
-         for (i = 0; i < header.offset / FE_SYS_ADDRESS_SIZE; i++)
-         {
-             read_fe_sysaddress(sysaddr+i, f_cfg);
-         }
-
-         break;
-      case EH_PACKERS:
-         packers = (Packers*)calloc(header.offset / FE_PACKERS_SIZE,
-                                    sizeof(Packers));
-         for (i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
-             read_fe_packers(packers + i, f_cfg);
-         packers_count = i;
-         break;
-      case EH_PACKERS2:
-         packers2 = (Packers*)calloc(header.offset / FE_PACKERS_SIZE,
-                                    sizeof(Packers));
-         for (i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
-             read_fe_packers(packers2 + i, f_cfg);
-         packers2_count = i;
-         break;
-      case EH_UNPACKERS:
-         unpackers = (Unpackers*)calloc(header.offset / FE_UNPACKERS_SIZE,
-                                    sizeof(Unpackers));
-         for (i = 0; i < header.offset / FE_UNPACKERS_SIZE; i++)
-             read_fe_unpackers(unpackers + i, f_cfg);
-         unpackers_count = i;
-         break;
-      case EH_UNPACKERS2:
-         unpackers2 = (Unpackers*)calloc(header.offset / FE_UNPACKERS_SIZE,
-                                    sizeof(Unpackers));
-         for (i = 0; i < header.offset / FE_UNPACKERS_SIZE; i++)
-             read_fe_unpackers(unpackers2 + i, f_cfg);
-         unpackers2_count = i;
-         break;
-      case EH_GRPDEFAULTS:
-         groupdef = (GroupDefaults**)calloc(config.GDCnt,
-                                            sizeof(GroupDefaults*));
-         for (i = 0; i < config.GDCnt; i++) {
-            groupdef[i] = (GroupDefaults*)malloc(sizeof(GroupDefaults));
-            read_fe_groupdefaults(groupdef[i], f_cfg, config.GrpDefRecSize);
-         } /* endfor */
-         break;
-      case EH_AREAFIX: /* 0x000d */
-         frequest = (ForwardAreaFix*)calloc(header.offset /
-                                            FE_FORWARD_AREAFIX_SIZE,
-                                            sizeof(ForwardAreaFix));
-         for (i = 0; i < header.offset / FE_FORWARD_AREAFIX_SIZE; i++)
-             read_fe_frequest(frequest + i, f_cfg);
-         break;
-      default:
-         fseek(f_cfg, header.offset, SEEK_CUR);
-        break;
-      } /* endswitch */
-      c += header.offset+FE_EXTHEADER_SIZE;
-      if (ftell(f_cfg) != c + FE_CONFIG_SIZE)
-      {
-          fprintf(stderr, "%s file seems to be currupt (exp %ld, found %ld)\n",
-                  argv[1], (long)c + FE_CONFIG_SIZE, (long)ftell(f_cfg));
-          fclose(f_cfg);
-          exit(4);
-      }
-   } /* endwhile */
-
-   fseek(f_cfg, FE_CONFIG_SIZE+config.offset, SEEK_SET);
-
-   node = (Node**)calloc(config.NodeCnt, sizeof(Node*));
-   for (i = 0; i < config.NodeCnt; i++) {
-      node[i] = (Node*)malloc(sizeof(Node));
-      assert(!read_fe_node(node[i], f_cfg, config.NodeRecSize));
-   } /* endfor */
-
-   fseek(f_cfg, FE_CONFIG_SIZE+config.offset+
-         (config.NodeRecSize*config.NodeCnt), SEEK_SET);
-
-   area = (Area**)calloc(config.AreaCnt, sizeof(Area*));
-   for (i = 0; i < config.AreaCnt; i++) {
-      area[i] = (Area*)malloc(sizeof(Area));
-      read_fe_area(area[i], f_cfg);
-   } /* endfor */
-
-   fclose(f_cfg);
-   f_hpt = fopen(output_file, "wt");
-   if (!f_hpt) {
-      fprintf(stderr, "\nCan\'t open %s file\n", output_file);
-      fclose(f_cfg);
-      exit(3);
-   } /* endif */
-
-   printf ("Writing %s. Please manually check this file!\n", output_file);
-
-   fprintf(f_hpt, "# fastecho v1.46 config (fastecho.cfg) -> %s. (c) 2:5020/960@FidoNet\n", output_file);
-   fprintf(f_hpt, "# Check this file, please!\n\n");
-
-   fprintf(f_hpt, "Version %s\t# Program version\n\n", Version);
-
-   fprintf(f_hpt, "##################################################################\n");
-   fprintf(f_hpt, "# System\n\n");
-   fprintf(f_hpt, "Sysop                    %s\n", config.sysops[0].name);
-   for (i = 0; i < config.AkaCnt; i++) {
-      if (*(char*)&sysaddr[i]) {
-/*         fprintf(f_hpt, "Address %s\n", FEaka2str(sysaddr[i].main)); */
-        fprintf(f_hpt, "Address                  %s\n", sysAddress2str(sysaddr[i]));
-      } /* endif */
-   } /* endfor */
-
-   fprintf(f_hpt, "\n");
-
-   if( config.UnprotInBound && *config.UnprotInBound )
-     fprintf(f_hpt, "Inbound                  %s\n", config.UnprotInBound);
-   if( config.InBound && *config.InBound )
-     fprintf(f_hpt, "ProtInbound              %s\n", config.InBound);
-   if( config.TempInBound && *config.TempInBound )
-     fprintf(f_hpt, "TempInbound              %s\n", config.TempInBound);
-   if( config.OutBound && *config.OutBound )
-     fprintf(f_hpt, "Outbound                 %s\n", config.OutBound);
-   if( config.TempPath && *config.TempPath )
-     fprintf(f_hpt, "TempOutbound             %s\n", config.TempPath);
-   if(config.SwapPath && *config.SwapPath)
-     fprintf(f_hpt, "TempDir                  %s\n", config.SwapPath);
-   if( config.SemaphorePath && *config.SemaphorePath )
-     fprintf(f_hpt, "busyFileDir              %s\n", config.SemaphorePath);
-   if( config.LocalInBound && *config.LocalInBound )
-     fprintf(f_hpt, "LocalInBound             %s\n", config.LocalInBound);
-   if( config.RulesPrefix && *config.RulesPrefix )
-     fprintf(f_hpt, "RulesDir                 %s\n", config.RulesPrefix);
-   pp = strrchr(config.LogFile, '\\');
-   if(pp){
-     *pp=0;
-     fprintf(f_hpt, "Logfiledir               %s\n", config.LogFile);
-   }
-
-   fprintf(f_hpt, "\n");
-   switch( config.loglevel ){
-   case 2:
-           fprintf(f_hpt, "LogLevels                0-z   # loglevel Full\n");
-           fprintf(f_hpt, "ScreenLogLevels          0-z\n");
-           break;
-   case 1:
-           fprintf(f_hpt, "LogLevels                0-C   # loglevel Norm\n");
-           fprintf(f_hpt, "ScreenLogLevels          0-C\n");
-           break;
-   case 0:
-           fprintf(f_hpt, "LogLevels \t\t# loglevel None\n");
-           fprintf(f_hpt, "ScreenLogLevels\n");
-           break;
-   }
-    /* Graphical tossing ? (Norm|Full) : None */
-   fprintf(f_hpt, "LogEchoToScreen          %s\n", config.graphics ? "on" : "off");
-
-   fprintf(f_hpt, "\n");
-   if( config.ExtAfter && *config.ExtAfter )
-     fprintf(f_hpt, "AfterUnpack              %s\n", config.ExtAfter);
-   if( config.ExtBefore && *config.ExtBefore )
-     fprintf(f_hpt, "BeforePack               %s\n", config.ExtBefore);
-
-   if( config.AreaFixHelp && *config.AreaFixHelp )
-     fprintf(f_hpt, "AreaFixHelp              %s\n", config.AreaFixHelp);
-
-   if( config.compressfree )
-     fprintf(f_hpt, "MinDiskFreeSpace         %d\n", config.compressfree);
-
-   if( config.maxPKT )
-     fprintf(f_hpt, "AreafixMsgSize           %u\n", config.maxPKT);
-
-/*
-   if( config. && *config. )
-     fprintf(f_hpt, " \t%s\n", config.);
-*/
-
-   fprintf( f_hpt, "\n");
-   fprintf( f_hpt, "AreafixKillRequests      %s\n",
-            config.AreaFixFlags & KEEPREQUEST ? "on" : "off" );
-   fprintf( f_hpt, "AreafixKillReports       %s\n",
-            config.AreaFixFlags & KEEPRECEIPT ? "on" : "off" );
-
-   if( packers_count ){
-     fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Packers (DOS)\n\n");
-     for (i = 0; i < packers_count; i++) {
-       if ( strlen(packers[i].tag) && strlen(packers[i].command) )
-         fprintf( f_hpt, "# Pack %-10s  %s $a $f\n", packers[i].tag, packers[i].command );
-     }
-   }
-   if( packers2_count ){
-     fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Packers (OS/2)\n\n");
-     for (i = 0; i < packers2_count; i++) {
-       if ( strlen(packers2[i].tag) && strlen(packers2[i].command) )
-         fprintf( f_hpt, "# Pack %-10s  %s $a $f\n", packers2[i].tag, packers2[i].command );
-     }
-   }
-
-   if( unpackers_count ){
-     fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Unpackers (DOS)\n\n");
-
-     if( sstrlen(config.Unpacker) )
-       fprintf( f_hpt, "# Unpack  \"%-30s $a $f $p\"  # Default unpacker", config.Unpacker );
-
+void print_unpackers( Unpackers *unpackers, int unpackers_count )
+{  int i;
      for (i = 0; i < unpackers_count; i++) {
        if ( strlen(unpackers[i].command) )
          fprintf( f_hpt, "# Unpack  \"" );
@@ -407,137 +188,206 @@ int main(int argc, char **argv)
          fprintf( f_hpt, "\" ");
          switch(i){
          case ARC_SeaArc:
-             fprintf( f_hpt, "  # SeaARC");
+             fprintf( f_hpt, " 0 XX       # SeaARC");
              break;
          case ARC_PkArc:
-             fprintf( f_hpt, "  # PKARC");
+             fprintf( f_hpt, " 0 1a       # PKARC");
              break;
          case ARC_Pak:
-             fprintf( f_hpt, "  # PAK");
+             fprintf( f_hpt, " -2 fe      # PAK");
              break;
          case ARC_ArcPlus:
-             fprintf( f_hpt, "  # ArcPlus");
+             fprintf( f_hpt, " 0 XX       # ArcPlus");
              break;
          case ARC_Zoo:
-             fprintf( f_hpt, "  # ZOO");
+             fprintf( f_hpt, " 0 5a4f4f   # ZOO");
              break;
          case ARC_PkZip:
-             fprintf( f_hpt, "  # PKZIP");
+             fprintf( f_hpt, " 0 504b0304 # PKZIP");
              break;
          case ARC_Lha:
-             fprintf( f_hpt, "  # LHA");
+             fprintf( f_hpt, " 2 2d6c68   # LHA");
              break;
          case ARC_Arj:
-             fprintf( f_hpt, "  # ARJ");
+             fprintf( f_hpt, " 0 60ea     # ARJ");
              break;
          case ARC_Sqz:
-             fprintf( f_hpt, "  # SQZ");
+             fprintf( f_hpt, " 0 XX       # SQZ");
              break;
          case ARC_RAR:
-             fprintf( f_hpt, "  # RAR");
+             fprintf( f_hpt, " 0 52617221 # RAR");
              break;
          case ARC_UC2:
-             fprintf( f_hpt, "  # UC2");
+             fprintf( f_hpt, " 0 XX       # UC2");
              break;
          case ARC_Unknown:
          default:
-             fprintf( f_hpt, "  # Unknown");
+             fprintf( f_hpt, " 0 ??       # Unknown");
              break;
          }
          fprintf( f_hpt, "\n");
      }
-   }
-   if( unpackers2_count ){
-     fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Unpackers (OS/2)\n\n");
+}
 
-     if( sstrlen(config.Unpacker2) )
-       fprintf( f_hpt, "# Unpack  \"%-30s $a $f $p\"  # Default unpacker", config.Unpacker2 );
 
-     for (i = 0; i < unpackers2_count; i++) {
-       if ( strlen(unpackers2[i].command) ){
-         fprintf( f_hpt, "# Unpack  \"" );
-         switch(unpackers2[i].callingconvention){
-         case 0: /*default*/
-             fprintf( f_hpt, "%-30s $a $f $p", unpackers2[i].command);
-             break;
-         case 1: /*cd path*/
-             fprintf( f_hpt, "cd $p ; %-28s $a", unpackers2[i].command);
-             break;
-         case 2:
-             fprintf( f_hpt, "%-30s $a $p $f", unpackers2[i].command);
-             break;
-         case 3:
-             fprintf( f_hpt, "%-30s $a $f $p", unpackers2[i].command);
-             break;
-         case 4:
-             fprintf( f_hpt, "%-30s $a $f #$p", unpackers2[i].command);
-             break;
-         case 5:
-             fprintf( f_hpt, "%-30s $a $f -d $p", unpackers2[i].command);
-             break;
-         }
-         fprintf( f_hpt, "\" ");
-         switch(i){
-         case ARC_SeaArc:
-             fprintf( f_hpt, "  # SeaARC");
-             break;
-         case ARC_PkArc:
-             fprintf( f_hpt, "  # PKARC");
-             break;
-         case ARC_Pak:
-             fprintf( f_hpt, "  # PAK");
-             break;
-         case ARC_ArcPlus:
-             fprintf( f_hpt, "  # ArcPlus");
-             break;
-         case ARC_Zoo:
-             fprintf( f_hpt, "  # ZOO");
-             break;
-         case ARC_PkZip:
-             fprintf( f_hpt, "  # PKZIP");
-             break;
-         case ARC_Lha:
-             fprintf( f_hpt, "  # LHA");
-             break;
-         case ARC_Arj:
-             fprintf( f_hpt, "  # ARJ");
-             break;
-         case ARC_Sqz:
-             fprintf( f_hpt, "  # SQZ");
-             break;
-         case ARC_RAR:
-             fprintf( f_hpt, "  # RAR");
-             break;
-         case ARC_UC2:
-             fprintf( f_hpt, "  # UC2");
-             break;
-         case ARC_Unknown:
+void print_carbon()
+{  int i,c;
+
+   for (i = 0; i < 10; i++) {
+      if (*((char*)&config.CC[i])) {
+         switch (config.CC[i].what) {
+         case CC_FROM:
+            fprintf(f_hpt, "CarbonFrom      ");
+            break;
+         case CC_TO:
+            fprintf(f_hpt, "CarbonTo        ");
+            break;
+         case CC_SUBJECT:
+            fprintf(f_hpt, "CarbonSubj      ");
+            break;
+         case CC_KLUDGE:
+            fprintf(f_hpt, "CarbonKludge    ");
+            break;
          default:
-             fprintf( f_hpt, "  # Unknown");
-             break;
-         }
-         fprintf( f_hpt, "\n");
-       }
-     }
-   }
+           break;
+         } /* endswitch */
+         fprintf(f_hpt, " %s\n", config.CC[i].object);
+         for (c = 0; c < config.AreaCnt; c++) {
+            if (config.CC[i].conference == area[c]->conference)
+               fprintf(f_hpt, "CarbonCopy       %s\n\n", area[c]->name);
+         } /* endfor */
+      }
+   } /* endfor */
+}
 
-   fprintf(f_hpt, "\n##################################################################\n");
-   fprintf(f_hpt, "# Nodes\n\n");
 
-   fprintf(f_hpt, "\nLinkDefaults\n");
+void print_areas()
+{  int i,ii,c;
+   int a[] = { AREA_BADMAILBOARD, AREA_DUPEBOARD, AREA_NETMAIL,
+               AREA_LOCAL, AREA_ECHOMAIL };
 
-   if( config.maxarcsize )
-     fprintf(f_hpt, "ArcmailSize              %u\n", config.maxarcsize);
-   if( config.maxPKT )
-     fprintf(f_hpt, "PktSize                  %u\n", config.maxPKT);
-   fprintf(f_hpt, "AllowEmptyPktPwd         %s\n", config.security>1 ? "off" : "on");
-/*   if( config. && *config. )
-     fprintf(f_hpt, "                         %s\n", config.);
-   if( config. && *config. )
-     fprintf(f_hpt, "                         %s\n", config.);
-*/
-   fprintf(f_hpt, "LinkDefaults end\n");
+  for (ii=0; ii<5; ii++)
+  {
+    switch (a[ii]) {
+       case AREA_ECHOMAIL:
+          fprintf(f_hpt, "\n# Echo Areas\n");
+          break;
+       case AREA_NETMAIL:
+          fprintf(f_hpt, "\n# Additional Netmail Areas\n");
+          break;
+       case AREA_LOCAL:
+          fprintf(f_hpt, "\n# Local Areas\n");
+          break;
+       case AREA_BADMAILBOARD:
+          fprintf(f_hpt, "\n# Badmail Area\n");
+          break;
+       case AREA_DUPEBOARD:
+          fprintf(f_hpt, "\n# Dupemail Area\n");
+          break;
+    } /* endswitch */
+
+
+    for (i = 0; i < config.AreaCnt; i++)
+    {
+       if( area[i]->flags.atype!=a[ii] )
+         continue;
+
+       if (area[i]->flags.storage == FE_FIDO || area[i]->flags.storage == FE_SQUISH || area[i]->flags.storage == FE_JAM || area[i]->flags.storage == FE_PASSTHRU)
+       {
+          switch (area[i]->flags.atype) {
+             case AREA_ECHOMAIL:
+                fprintf(f_hpt, "EchoArea   ");
+                break;
+             case AREA_NETMAIL:
+                fprintf(f_hpt, "NetmailArea");
+                break;
+             case AREA_LOCAL:
+                fprintf(f_hpt, "LocalArea  ");
+                break;
+             case AREA_BADMAILBOARD:
+                fprintf(f_hpt, "BadArea    ");
+                break;
+             case AREA_DUPEBOARD:
+                fprintf(f_hpt, "DupeArea   ");
+                break;
+             default:
+               continue;
+          } /* endswitch */
+
+          fprintf(f_hpt, " %-16s", area[i]->name);
+
+          if (area[i]->flags.storage == FE_PASSTHRU) {
+             fprintf(f_hpt, " Passthrough");
+          } else {
+             fprintf(f_hpt, " %s", area[i]->path);
+             if (area[i]->flags.storage == FE_SQUISH)
+                fprintf(f_hpt, " -b Squish");
+             else if (area[i]->flags.storage == FE_JAM)
+                fprintf(f_hpt, " -b Jam");
+          } /* endif */
+
+          if (area[i]->info.group <= 25) /* A..Z */
+             fprintf(f_hpt, " -g %c", 'A'+area[i]->info.group);
+          else if (area[i]->info.group <= 35) /* 0..6, possible 0..9 */
+             fprintf(f_hpt, " -g %d", area[i]->info.group-25);
+
+          if (area[i]->desc && *area[i]->desc )
+             fprintf(f_hpt, "\t-d \"%s\"\t", area[i]->desc);
+
+          if (area[i]->read_sec)
+             fprintf(f_hpt, " -lr %d", area[i]->read_sec);
+
+          if (area[i]->write_sec)
+             fprintf(f_hpt, " -lw %d", area[i]->write_sec);
+
+          if (area[i]->advflags.hide)
+             fprintf(f_hpt, " -h");
+
+          if (area[i]->advflags.mandatory)
+             fprintf(f_hpt, " -mandatory");
+
+          if (area[i]->advflags.manual)
+             fprintf(f_hpt, " -manual");
+
+          if (area[i]->advflags.tinyseen)
+             fprintf(f_hpt, " -tinysb");
+
+          if (area[i]->advflags.disablepsv)
+             fprintf(f_hpt, " -nopause");
+
+          fprintf(f_hpt, " -a %s", sysAddress2str(sysaddr[area[i]->info.aka]));
+
+          if (area[i]->days>0)
+             fprintf(f_hpt, " -p %d", area[i]->days);
+          else if (area[i]->days==-1 && config.def_days )
+             fprintf(f_hpt, " -p %u", config.def_days);
+          else if (area[i]->recvdays>0)
+             fprintf(f_hpt, " -p %d", area[i]->recvdays);
+          else if (area[i]->recvdays==-1 && config.def_recvdays )
+             fprintf(f_hpt, " -p %u", config.def_recvdays);
+
+          if (area[i]->messages )
+             fprintf(f_hpt, " -$m %d", area[i]->messages );
+          else if( area[i]->messages==-1 && config.def_messages )
+             fprintf(f_hpt, " -$m %d", config.def_messages );
+
+          if (area[i]->flags.atype == AREA_ECHOMAIL && config.flags & KILLDUPES)
+                fprintf(f_hpt, " -dupeCheck del");
+
+          for (c = 0, fprintf(f_hpt, "\t"); c < config.NodeCnt; c++)
+             if (GetBam(node[c]->areas, area[i]->conference))
+                fprintf(f_hpt, " %s", FEaka2str(node[c]->addr));
+
+          fprintf(f_hpt, "\n");
+
+       } /* endif */
+    } /* endfor */
+  }
+}
+
+
+void  print_links()
+{  int i, c;
 
    for (i = 0; i < config.NodeCnt; i++) {
       fprintf(f_hpt, "\nLink                     %s\n", node[i]->name);
@@ -715,6 +565,314 @@ int main(int argc, char **argv)
 
       fprintf(f_hpt, "\n");
    } /* endfor */
+}
+
+
+int parseFEconfig()
+{
+   int c, i;
+
+   c = 0;
+   while (c < config.offset) {
+      read_fe_extension_header(&header, f_cfg);
+      switch (header.type) {
+      case EH_AKAS:
+         sysaddr = (SysAddress*)calloc((header.offset / FE_SYS_ADDRESS_SIZE),
+                                       sizeof(SysAddress));
+         for (i = 0; i < header.offset / FE_SYS_ADDRESS_SIZE; i++)
+         {
+             read_fe_sysaddress(sysaddr+i, f_cfg);
+         }
+
+         break;
+      case EH_PACKERS:
+         packers = (Packers*)calloc(header.offset / FE_PACKERS_SIZE,
+                                    sizeof(Packers));
+         for (i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
+             read_fe_packers(packers + i, f_cfg);
+         packers_count = i;
+         break;
+      case EH_PACKERS2:
+         packers2 = (Packers*)calloc(header.offset / FE_PACKERS_SIZE,
+                                    sizeof(Packers));
+         for (i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
+             read_fe_packers(packers2 + i, f_cfg);
+         packers2_count = i;
+         break;
+      case EH_UNPACKERS:
+         unpackers = (Unpackers*)calloc(header.offset / FE_UNPACKERS_SIZE,
+                                    sizeof(Unpackers));
+         for (i = 0; i < header.offset / FE_UNPACKERS_SIZE; i++)
+             read_fe_unpackers(unpackers + i, f_cfg);
+         unpackers_count = i;
+         break;
+      case EH_UNPACKERS2:
+         unpackers2 = (Unpackers*)calloc(header.offset / FE_UNPACKERS_SIZE,
+                                    sizeof(Unpackers));
+         for (i = 0; i < header.offset / FE_UNPACKERS_SIZE; i++)
+             read_fe_unpackers(unpackers2 + i, f_cfg);
+         unpackers2_count = i;
+         break;
+      case EH_GRPDEFAULTS:
+         groupdef = (GroupDefaults**)calloc(config.GDCnt,
+                                            sizeof(GroupDefaults*));
+         for (i = 0; i < config.GDCnt; i++) {
+            groupdef[i] = (GroupDefaults*)malloc(sizeof(GroupDefaults));
+            read_fe_groupdefaults(groupdef[i], f_cfg, config.GrpDefRecSize);
+         } /* endfor */
+         break;
+      case EH_AREAFIX: /* 0x000d */
+         frequest = (ForwardAreaFix*)calloc(header.offset /
+                                            FE_FORWARD_AREAFIX_SIZE,
+                                            sizeof(ForwardAreaFix));
+         for (i = 0; i < header.offset / FE_FORWARD_AREAFIX_SIZE; i++)
+             read_fe_frequest(frequest + i, f_cfg);
+         break;
+      default:
+         fseek(f_cfg, header.offset, SEEK_CUR);
+        break;
+      } /* endswitch */
+      c += header.offset+FE_EXTHEADER_SIZE;
+      if (ftell(f_cfg) != c + FE_CONFIG_SIZE)
+      {
+          fprintf(stderr, "%s file seems to be currupt (exp %ld, found %ld)\n",
+                  FEconfig, (long)c + FE_CONFIG_SIZE, (long)ftell(f_cfg));
+          fclose(f_cfg);
+          return 4;
+      }
+   } /* endwhile */
+
+   fseek(f_cfg, FE_CONFIG_SIZE+config.offset, SEEK_SET);
+
+   node = (Node**)calloc(config.NodeCnt, sizeof(Node*));
+   for (i = 0; i < config.NodeCnt; i++) {
+      node[i] = (Node*)malloc(sizeof(Node));
+      assert(!read_fe_node(node[i], f_cfg, config.NodeRecSize));
+   } /* endfor */
+
+   fseek(f_cfg, FE_CONFIG_SIZE+config.offset+
+         (config.NodeRecSize*config.NodeCnt), SEEK_SET);
+
+   area = (Area**)calloc(config.AreaCnt, sizeof(Area*));
+   for (i = 0; i < config.AreaCnt; i++) {
+      area[i] = (Area*)malloc(sizeof(Area));
+      read_fe_area(area[i], f_cfg);
+   } /* endfor */
+
+  return 0;
+}
+
+
+void disposeFEconfig()
+{
+   int i;
+
+   for (i = 0; i < config.AreaCnt; i++) {
+      nfree(area[i]);
+   }
+   nfree(area);
+   for (i = 0; i < config.NodeCnt; i++) {
+       free_fe_node(node[i]);
+       nfree(node[i]);
+   } /* endfor */
+   nfree(frequest);
+   nfree(node);
+   nfree(sysaddr);
+   nfree(packers);
+   nfree(unpackers);
+   nfree(packers2);
+   nfree(unpackers2);
+   for (i = 0; i < config.GDCnt; i++) {
+      free_fe_groupdefaults(groupdef[i]);
+      nfree(groupdef[i]);
+   } /* endfor */
+   nfree(groupdef);
+}
+
+
+int main(int argc, char **argv)
+{
+   int   i;
+   char  *pp, *Version, *output_file = OUTPUT_FILE;
+
+   if (argc == 1) {
+      Usage(argv[0]);
+      exit(1);
+   } /* endif */
+
+   f_cfg = fopen( (FEconfig = argv[1]), "rb" );
+   if (!f_cfg) {
+      fprintf(stderr, "\nCan\'t open %s file.\n", argv[1]);
+      exit(2);
+   } /* endif */
+
+   if(argc>2)
+     output_file = argv[2];
+
+   read_fe_config(&config, f_cfg);
+
+   if (config.revision != REVISION) {
+      fprintf(stderr, "%s file is not fastecho.cfg 1.46\n", argv[1]);
+      fclose(f_cfg);
+      exit(4);
+   } /* endif */
+
+   i = parseFEconfig();
+   if( i ) exit(i);
+
+   fclose(f_cfg);
+
+   /* Extract program version from $Revision$ */
+   for(Version = Revision; *Version && !isdigit(*Version); Version++); /* Skip to digit */
+   for(pp=Version; *pp && (isdigit(*pp) || *pp=='.'); pp++);           /* Seek for number end */
+   *pp = '\0'; /* Trim after number */
+
+   f_hpt = fopen(output_file, "wt");
+   if (!f_hpt) {
+      fprintf(stderr, "\nCan\'t open %s file\n", output_file);
+      fclose(f_cfg);
+      exit(3);
+   } /* endif */
+
+   printf ("Writing %s. Please manually check this file!\n", output_file);
+
+   fprintf(f_hpt, "# fastecho v1.46 config (fastecho.cfg) -> %s. (c) 2:5020/960@FidoNet\n", output_file);
+   fprintf(f_hpt, "# Check this file, please!\n\n");
+
+   fprintf(f_hpt, "Version %s\t# Program version\n\n", Version);
+
+   fprintf(f_hpt, "##################################################################\n");
+   fprintf(f_hpt, "# System\n\n");
+   fprintf(f_hpt, "Sysop                    %s\n", config.sysops[0].name);
+   for (i = 0; i < config.AkaCnt; i++) {
+      if (*(char*)&sysaddr[i]) {
+        fprintf(f_hpt, "Address                  %s\n", sysAddress2str(sysaddr[i]));
+      } /* endif */
+   } /* endfor */
+
+   fprintf(f_hpt, "\n");
+
+   if( config.UnprotInBound && *config.UnprotInBound )
+     fprintf(f_hpt, "Inbound                  %s\n", config.UnprotInBound);
+   if( config.InBound && *config.InBound )
+     fprintf(f_hpt, "ProtInbound              %s\n", config.InBound);
+   if( config.TempInBound && *config.TempInBound )
+     fprintf(f_hpt, "TempInbound              %s\n", config.TempInBound);
+   if( config.OutBound && *config.OutBound )
+     fprintf(f_hpt, "Outbound                 %s\n", config.OutBound);
+   if( config.TempPath && *config.TempPath )
+     fprintf(f_hpt, "TempOutbound             %s\n", config.TempPath);
+   if(config.SwapPath && *config.SwapPath)
+     fprintf(f_hpt, "TempDir                  %s\n", config.SwapPath);
+   if( config.SemaphorePath && *config.SemaphorePath )
+     fprintf(f_hpt, "busyFileDir              %s\n", config.SemaphorePath);
+   if( config.LocalInBound && *config.LocalInBound )
+     fprintf(f_hpt, "LocalInBound             %s\n", config.LocalInBound);
+   if( config.RulesPrefix && *config.RulesPrefix )
+     fprintf(f_hpt, "RulesDir                 %s\n", config.RulesPrefix);
+   pp = strrchr(config.LogFile, '\\');
+   if(pp){
+     *pp=0;
+     fprintf(f_hpt, "Logfiledir               %s\n", config.LogFile);
+   }
+
+   fprintf(f_hpt, "\n");
+   switch( config.loglevel ){
+   case 2:
+           fprintf(f_hpt, "LogLevels                0-z   # loglevel Full\n");
+           fprintf(f_hpt, "ScreenLogLevels          0-z\n");
+           break;
+   case 1:
+           fprintf(f_hpt, "LogLevels                0-C   # loglevel Norm\n");
+           fprintf(f_hpt, "ScreenLogLevels          0-C\n");
+           break;
+   case 0:
+           fprintf(f_hpt, "LogLevels \t\t# loglevel None\n");
+           fprintf(f_hpt, "ScreenLogLevels\n");
+           break;
+   }
+    /* Graphical tossing ? (Norm|Full) : None */
+   fprintf(f_hpt, "LogEchoToScreen          %s\n", config.graphics ? "on" : "off");
+
+   fprintf(f_hpt, "\n");
+   if( config.ExtAfter && *config.ExtAfter )
+     fprintf(f_hpt, "AfterUnpack              %s\n", config.ExtAfter);
+   if( config.ExtBefore && *config.ExtBefore )
+     fprintf(f_hpt, "BeforePack               %s\n", config.ExtBefore);
+
+   if( config.AreaFixHelp && *config.AreaFixHelp )
+     fprintf(f_hpt, "AreaFixHelp              %s\n", config.AreaFixHelp);
+
+   if( config.compressfree )
+     fprintf(f_hpt, "MinDiskFreeSpace         %d\n", config.compressfree);
+
+   if( config.maxPKT )
+     fprintf(f_hpt, "AreafixMsgSize           %u\n", config.maxPKT);
+
+/*
+   if( config. && *config. )
+     fprintf(f_hpt, " \t%s\n", config.);
+*/
+
+   fprintf( f_hpt, "\n");
+   fprintf( f_hpt, "AreafixKillRequests      %s\n",
+            config.AreaFixFlags & KEEPREQUEST ? "on" : "off" );
+   fprintf( f_hpt, "AreafixKillReports       %s\n",
+            config.AreaFixFlags & KEEPRECEIPT ? "on" : "off" );
+
+   if( packers_count ){
+     fprintf(f_hpt, "\n##################################################################\n");
+     fprintf(f_hpt, "# Packers (DOS)\n\n");
+     print_packers(packers,packers_count);
+   }
+   if( packers2_count ){
+     fprintf(f_hpt, "\n##################################################################\n");
+     fprintf(f_hpt, "# Packers (OS/2)\n\n");
+     print_packers(packers2,packers2_count);
+   }
+
+   if( unpackers_count ){
+     fprintf(f_hpt, "\n##################################################################\n");
+     fprintf(f_hpt, "# Unpackers (DOS)\n\n");
+
+     if( sstrlen(config.Unpacker) )
+       fprintf( f_hpt, "# Unpack  \"%-30s $a $f $p\"  # Default unpacker", config.Unpacker );
+
+     print_unpackers(unpackers,unpackers_count);
+
+   }
+
+   if( unpackers2_count ){
+     fprintf(f_hpt, "\n##################################################################\n");
+     fprintf(f_hpt, "# Unpackers (OS/2)\n\n");
+
+     if( sstrlen(config.Unpacker2) )
+       fprintf( f_hpt, "# Unpack  \"%-30s $a $f $p\"  # Default unpacker", config.Unpacker2 );
+
+     print_unpackers(unpackers2,unpackers2_count);
+
+   }
+
+   fprintf(f_hpt, "\n##################################################################\n");
+   fprintf(f_hpt, "# Nodes\n\n");
+
+   fprintf(f_hpt, "\nLinkDefaults\n");
+
+   if( config.maxarcsize )
+     fprintf(f_hpt, "ArcmailSize              %u\n", config.maxarcsize);
+   if( config.maxPKT )
+     fprintf(f_hpt, "PktSize                  %u\n", config.maxPKT);
+   fprintf(f_hpt, "AllowEmptyPktPwd         %s\n", config.security>1 ? "off" : "on");
+/*   if( config. && *config. )
+     fprintf(f_hpt, "                         %s\n", config.);
+   if( config. && *config. )
+     fprintf(f_hpt, "                         %s\n", config.);
+*/
+   fprintf(f_hpt, "LinkDefaults end\n");
+
+
+   print_links();
+
 
 
    fprintf(f_hpt, "\n##################################################################\n");
@@ -731,154 +889,19 @@ int main(int argc, char **argv)
 */
    fprintf(f_hpt, "\n\n");
 
-   fprintf(f_hpt, "NetmailArea NetmailArea %s\n", config.NetMPath);
+   fprintf(f_hpt, "# Main netmail\nNetmailArea Netmail          %s\n", config.NetMPath);
 
-   for (i = 0, ii = AREA_NETMAIL; i < config.AreaCnt; i++)
-   {
-      if (area[i]->flags.storage == FE_FIDO || area[i]->flags.storage == FE_SQUISH || area[i]->flags.storage == FE_JAM || area[i]->flags.storage == FE_PASSTHRU)
-      {  if(ii != area[i]->flags.atype){
-           fprintf(f_hpt, "\n");
-           ii = area[i]->flags.atype;
-         }
-         switch (area[i]->flags.atype) {
-            case AREA_ECHOMAIL:
-               fprintf(f_hpt, "EchoArea");
-               break;
-            case AREA_NETMAIL:
-               fprintf(f_hpt, "NetmailArea");
-               break;
-            case AREA_LOCAL:
-               fprintf(f_hpt, "LocalArea");
-               break;
-            case AREA_BADMAILBOARD:
-               fprintf(f_hpt, "BadArea");
-               break;
-            case AREA_DUPEBOARD:
-               fprintf(f_hpt, "DupeArea");
-               break;
-            default:
-              continue;
-         } /* endswitch */
-
-         fprintf(f_hpt, " %-16s", area[i]->name);
-
-         if (area[i]->flags.storage == FE_PASSTHRU) {
-            fprintf(f_hpt, " Passthrough");
-         } else {
-            fprintf(f_hpt, " %s", area[i]->path);
-            if (area[i]->flags.storage == FE_SQUISH)
-               fprintf(f_hpt, " -b Squish");
-            else if (area[i]->flags.storage == FE_JAM)
-               fprintf(f_hpt, " -b Jam");
-         } /* endif */
-
-         if (area[i]->info.group <= 25) /* A..Z */
-            fprintf(f_hpt, " -g %c", 'A'+area[i]->info.group);
-         else if (area[i]->info.group <= 35) /* 0..6, possible 0..9 */
-            fprintf(f_hpt, " -g %d", area[i]->info.group-25);
-
-         if (area[i]->desc && *area[i]->desc )
-            fprintf(f_hpt, "\t-d \"%s\"\t", area[i]->desc);
-
-         if (area[i]->read_sec)
-            fprintf(f_hpt, " -lr %d", area[i]->read_sec);
-
-         if (area[i]->write_sec)
-            fprintf(f_hpt, " -lw %d", area[i]->write_sec);
-
-         if (area[i]->advflags.hide)
-            fprintf(f_hpt, " -h");
-
-         if (area[i]->advflags.mandatory)
-            fprintf(f_hpt, " -mandatory");
-
-         if (area[i]->advflags.manual)
-            fprintf(f_hpt, " -manual");
-
-         if (area[i]->advflags.tinyseen)
-            fprintf(f_hpt, " -tinysb");
-
-         if (area[i]->advflags.disablepsv)
-            fprintf(f_hpt, " -nopause");
-
-         fprintf(f_hpt, " -a %s", sysAddress2str(sysaddr[area[i]->info.aka]));
-
-         if (area[i]->days>0)
-            fprintf(f_hpt, " -p %d", area[i]->days);
-         else if (area[i]->days==-1 && config.def_days )
-            fprintf(f_hpt, " -p %u", config.def_days);
-         else if (area[i]->recvdays>0)
-            fprintf(f_hpt, " -p %d", area[i]->recvdays);
-         else if (area[i]->recvdays==-1 && config.def_recvdays )
-            fprintf(f_hpt, " -p %u", config.def_recvdays);
-
-         if (area[i]->messages )
-            fprintf(f_hpt, " -$m %d", area[i]->messages );
-         else if( area[i]->messages==-1 && config.def_messages )
-            fprintf(f_hpt, " -$m %d", config.def_messages );
-
-         if (area[i]->flags.atype == AREA_ECHOMAIL && config.flags & KILLDUPES)
-               fprintf(f_hpt, " -dupeCheck del");
-
-         for (c = 0, fprintf(f_hpt, "\t"); c < config.NodeCnt; c++)
-            if (GetBam(node[c]->areas, area[i]->conference))
-               fprintf(f_hpt, " %s", FEaka2str(node[c]->addr));
-
-         fprintf(f_hpt, "\n");
-
-      } /* endif */
-   } /* endfor */
-
+   print_areas();
 
    fprintf(f_hpt, "\n");
    fprintf(f_hpt, "\n##################################################################\n");
    fprintf(f_hpt, "# Carbon copy\n\n");
 
-   for (i = 0; i < 10; i++) {
-      if (*((char*)&config.CC[i])) {
-         switch (config.CC[i].what) {
-         case CC_FROM:
-            fprintf(f_hpt, "CarbonFrom      ");
-            break;
-         case CC_TO:
-            fprintf(f_hpt, "CarbonTo        ");
-            break;
-         case CC_SUBJECT:
-            fprintf(f_hpt, "CarbonSubj      ");
-            break;
-         case CC_KLUDGE:
-            fprintf(f_hpt, "CarbonKludge    ");
-            break;
-         default:
-           break;
-         } /* endswitch */
-         fprintf(f_hpt, " %s\n", config.CC[i].object);
-         for (c = 0; c < config.AreaCnt; c++) {
-            if (config.CC[i].conference == area[c]->conference)
-               fprintf(f_hpt, "CarbonCopy       %s\n\n", area[c]->name);
-         } /* endfor */
-      }
-   } /* endfor */
+   print_carbon();
 
-   for (i = 0; i < config.AreaCnt; i++) {
-      free(area[i]);
-   }
-   free(area);
-   for (i = 0; i < config.NodeCnt; i++) {
-       free_fe_node(node[i]);
-       free(node[i]);
-   } /* endfor */
-   free(frequest);
-   free(node);
-   free(sysaddr);
-   free(packers);
-   free(packers2);
-   for (i = 0; i < config.GDCnt; i++) {
-      free_fe_groupdefaults(groupdef[i]);
-      free(groupdef[i]);
-   } /* endfor */
-   free(groupdef);
    fclose(f_hpt);
+
+   disposeFEconfig();
 
    return 0;
 }
