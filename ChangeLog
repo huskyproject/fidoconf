@@ -2,6 +2,12 @@ fidoconfig 0.9
 --------------
 
 ----- cvs ci ------
+Wed Sep 15 15:18:50 MET DST 1999
+mtt:
++ added sun makefiles
+* dumpCfg puts address out now 
+
+----- cvs ci ------
 Sat Sep 11 13:00:16 NOVST 1999
 max:
 * added carbonReason token (patch from Serguei Revtov)

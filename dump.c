@@ -463,6 +463,7 @@ void dumpTicker(s_fidoconfig *config, FILE *f)
 void dumpConfig(s_fidoconfig *config, FILE *f)
 {
   dumpHeader(config, f);
+  dumpAddrs(config, f);
   dumpPack(config, f);
   dumpPaths(config, f);
   dumpLinks(config, f);
