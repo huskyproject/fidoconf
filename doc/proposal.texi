@@ -125,7 +125,7 @@ a comment and will be ignored.
 * autoareacreatedefaults::      set defaults to autocreated echoareas
 * packer::                      default packer for link
 * echomailflavour::             flavour for outgoing echomail
-* autoCreateFile::              file where autoCreated Areas by this links are going
+* autoAreaCreateFile::          file where autoCreated Areas by this links are going
 * forwardRequests::             allow forward requests to this link
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
 * remoteRobotName::             remote "areafix" name
@@ -942,7 +942,7 @@ the outbound.
 
 This statement can only be repeated for different links.
 
-@node echomailflavour, autoCreateFile, packer, Keywords
+@node echomailflavour, autoAreaCreateFile, packer, Keywords
 @subsection echomailflavour
 @table @asis
 @item Syntax:
@@ -956,13 +956,13 @@ For example set echomailFlavour for points to hold and for uplink crash.
 
 This statement can only be repeated for different links.
 
-@node autoCreateFile, forwardRequests, echomailflavour, Keywords
-@subsection autoCreateFile
+@node autoAreaCreateFile, forwardRequests, echomailflavour, Keywords
+@subsection autoAreaCreateFile
 @table @asis
 @item Syntax:
-@code{autoCreateFile <fileName>}
+@code{autoAreaCreateFile <fileName>}
 @item Example:
-@code{autoCreateFile /etc/fido/areas.matthias}
+@code{autoAreaCreateFile /etc/fido/areas.matthias}
 @end table
 
 This statement defines where autocreated areas by this link are going to.
@@ -974,7 +974,7 @@ so these autocreated areas are found in subsequent tosser-runs.}
 
 This statement can only be repeated for different links.
 
-@node forwardRequests, forwardRequestFile, autoCreateFile, Keywords
+@node forwardRequests, forwardRequestFile, autoAreaCreateFile, Keywords
 @subsection forwardRequests
 @table @asis
 @item Syntax:
