@@ -1,3 +1,7 @@
+2001-05-06 Sunday 21:52  ml
+
+	* TODO (1.55), tparser.c (1.145): cbaName small fix
+
 2001-05-05 Saturday 23:33  tobi
 
 	* doc/proposal.texi (1.127): updated doc with description of the
