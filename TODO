@@ -8,4 +8,4 @@
 - document ExecOnFile, filefixkillreports [ to Georgy :-> ]
 - fix "0" groups (to NULL)
 - ArcMailAddr (address PKT etc. to <Addr>, but send it to <ArcMailAddr>)
-
+- add savetic to tparser & doc
