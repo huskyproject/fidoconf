@@ -320,7 +320,7 @@ int main (int argc, char *argv[]) {
    int cont=1;
 
    printf("fconf2tornado\n");
-   printf("-------------\n");
+   printf("-------------\n\n");
 
    while ((cont<argc) && (*argv[cont]=='-')) {
         parseOptions(argv[cont]);
@@ -328,43 +328,49 @@ int main (int argc, char *argv[]) {
    }
 
    if (!(cont<argc)) {
-      printf("\nUsage:\n");
-      printf("   fconf2tornado -[option&flags [-option&flags...]] <TornadoCtlFileName> [<default.ctl>]\n");
-      printf("    (you may read config defaults from default.ctl)\n");
-      printf("    -m  exports mail areas:\n");
-      printf("      n  net areas\n");
-      printf("      e  echo areas\n");
-      printf("      l  local areas\n");
-      printf("    -f  exports file areas\n");
-      printf("      f  file areas\n");
-      printf("      b  bbs areas\n");
-      printf("    -s  exports security options\n");
-      printf("    -g  exports groups\n");
+      printf("\nUsage: ");
+      printf("   fconf2tornado [options] <TornadoCtlFileName> [<default.ctl>]\n");
+      printf("    (you can read config defaults from default.ctl)\n");
+      printf("    -m  export mail areas:\n");
+      printf("      n   netmail areas\n");
+      printf("      e   echo areas\n");
+      printf("      l   local areas\n");
+      printf("    -f  export file areas\n");
+      printf("      f   file areas\n");
+      printf("      b   bbs areas\n");
+      printf("    -s  export security options\n");
+      printf("    -g  export groups\n");
       printf("    -n  name type:\n");
-      printf("      t  uses area tag as name\n");
-      printf("      d  uses area description as name\n");
-      printf("      b  uses both rea tag and description as name\n");
-      printf("    -ss### uses ### as sysop sequrity level (default=256)\n");
-      printf("    -cd  uses CD-List as FList_Format (default=FilesBBS)\n");
-      printf("    -sc  exports Scan_NewFiles and Scan_PrivMail\n");
-      printf("    -ul### uses ### as default UL_Path\n");
+      printf("      t   use area tag as name\n");
+      printf("      d   use area description as name\n");
+      printf("      b   use both area tag and description as name\n");
+      printf("    -ss###  use ### as sysop security level (default=256)\n");
+      printf("    -cd     use CD-List as FList_Format (default=FilesBBS)\n");
+      printf("    -sc     export Scan_NewFiles and Scan_PrivMail\n");
+      printf("    -ul###  use ### as default UL_Path\n");
       printf("\nExamples:\n");
       printf("   fconf2tornado -mel -ss256 c:\\tornado\\msgarea.ctl\n");
       printf("   fconf2tornado -ffb -g -ulc:\\bbs\\upload c:\\tornado\\filearea.ctl\n");
       return 1;
 
    }
-   printf("Generating Config-file %s\n", argv[cont]);
+   printf("Reading fidoconfig... ", argv[cont]);
 
    config = readConfig(NULL);
 
-   config = readConfig(NULL);
+   //   config = readConfig(NULL);
+   printf("done!\n");
    if (config!= NULL) {
-    if (argv[cont+1]!=NULL) readDefaultConfig(argv[cont], argv[cont+1]);
-    else  remove (argv[cont]);
-     generateBBSConfig(config, argv[cont]);
-     disposeConfig(config);
-     return 0;
-   } return 1;
-
+       if (argv[cont+1]!=NULL)
+           readDefaultConfig(argv[cont], argv[cont+1]);
+       else
+           remove (argv[cont]);
+       printf("Generating config-file %s ... ", argv[cont]);
+       generateBBSConfig(config, argv[cont]);
+       printf("done!\n");
+       disposeConfig(config);
+       printf("\n");
+       return 0;
+   }
+   return 1;
 }
