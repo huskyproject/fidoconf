@@ -1,3 +1,13 @@
+2002-09-28 Saturday 08:22  stas_degteff
+
+	* common.c (1.102): Prevent replace file in move_file() and
+	copy_file(): if file exists return -1 and set errno into EEXIST
+
+2002-09-28 Saturday 07:17  stas_degteff
+
+	* common.c (1.101), common.h (1.56): New functions: sstricmp(),
+	sstrnicmp()
+
 2002-09-27 Friday 12:25  mche
 
 	* fidoconf.h (1.145): correct previous patch
