@@ -137,6 +137,20 @@ FCONF_EXT char   *stripLeadingChars(char *str, const char *chr);
           str is changed and returned.
 */
 
+
+/*DOC
+  Input:  str is a \0-terminated string
+          chr contains a list of characters.
+  Output: stripTrailingChars returns a pointer to a string
+  FZ:     all trailing characters which are in chr are deleted.
+          str is changed and returned (not reallocated, simply shorted).
+*/
+char *stripTrailingChars(char *str, const char *chr);
+
+
+#define stripRoundingChars(str,chrs) (stripTrailingChars(stripLeadingChars((str),(chrs)),(chrs)))
+
+
 FCONF_EXT char   *strUpper(char *str);
 /*DOC
   Input:  str is a \0 terminated string
@@ -220,7 +234,7 @@ FCONF_EXT int move_file(const char *from, const char *to, const int force_rewrit
 /* DOC
    Input:  source and destination filename
    Output: 0 if OK, != 0 and errno set on error
-   FZ:     Move a file, works even over file system boundaries, 
+   FZ:     Move a file, works even over file system boundaries,
    replace file if the destination file already exists and force_rewrite !=0
 */
 

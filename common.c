@@ -306,6 +306,26 @@ char *stripLeadingChars(char *str, const char *chr)
    return str;
 }
 
+/*DOC
+  Input:  str is a \0-terminated string
+          chr contains a list of characters.
+  Output: stripTrailingChars returns a pointer to a string
+  FZ:     all trailing characters which are in chr are deleted.
+          str is changed and returned (not reallocated, simply shorted).
+*/
+char *stripTrailingChars(char *str, const char *chr)
+{
+   char *i;
+
+   if( (str != NULL) && strlen(str)>0 ) {
+      i = str+strlen(str)-1;
+      while( (NULL != strchr(chr, *i)) && (i>=str) )
+         *i-- = '\0';
+   }
+   return str;
+}
+
+
 char *strUpper(char *str)
 {
    char *temp = str;
@@ -1441,3 +1461,4 @@ unsigned int dec2oct(unsigned int decimal)
     sscanf(tmpstr, "%o", &mode);
     return mode;
 }
+
