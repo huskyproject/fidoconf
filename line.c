@@ -550,6 +550,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 	  free(area->group);
       area->group = strdup(token);
    }
+   else if (stricmp(option, "nopack")==0) area->nopack = 1;
 /*   else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
 //        printf("rgrp - '%s'\n",token);

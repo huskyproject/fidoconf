@@ -5,6 +5,8 @@ fidoconfig 0.91
 Thu Mar 23 16:10:45 NOVT 2000
 max:
 * exit to shell after printing error when passthrough + sqush (jam, sdm) used
+patch from Serguei:
+* -nopack token
 
 ----- cvs ci ------
 Mon Mar 20 08:56:28 MSK 2000

@@ -187,6 +187,7 @@ struct area {
 
    int keepsb;         // keep seen-by's and path
    int scn;            // 1 if scanned
+   int nopack;         // do not pack area
 };
 
 typedef struct area s_area;

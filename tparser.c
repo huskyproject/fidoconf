@@ -69,7 +69,11 @@ void printArea(s_area area) {
    printf("Level read  - %d\n", area.levelread);
    printf("Level write - %d\n", area.levelwrite);
    printf("Group       - %s\n", area.group);
-   printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
+   if (area.nopack) {
+      printf("pack never (ignoging: max: %u msgs\tpurge: %u days)\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
+   } else {
+      printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
+   }
    if (area.downlinkCount) printf("Links:");
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) { 
