@@ -61,6 +61,11 @@ int cmpfnames(char *file1, char *file2);
 # endif
 #endif
 
+#ifndef O_BINARY
+# define O_BINARY 0 /* If O_BINARY is not defined - we're under UNIX
+                       where this flag has no effect */
+#endif
+
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
 #ifdef __MINGW32__
 #include <sys/utime.h>
@@ -799,7 +804,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     if (fin == NULL) { nfree(buffer); return -1; }
 
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
-    fh = open( to, (force_rewrite ? 0 : O_EXCL) | O_CREAT | O_RDWR | O_EXLOCK, S_IREAD | S_IWRITE );
+    fh = open( to, (force_rewrite ? 0 : O_EXCL) | O_CREAT | O_RDWR | O_EXLOCK | O_BINARY, S_IREAD | S_IWRITE );
     if( fh<0 ){
       fh=errno;
       fclose(fin);
