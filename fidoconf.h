@@ -48,11 +48,9 @@ extern "C" {
 
 #define strend(str) ((str) + strlen(str) - 1)
 
-#ifndef PASCAL
 extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
 extern char wasError;
-#endif
 
 char *striptwhite(char *str);
 
