@@ -1,3 +1,25 @@
+2002-10-22 Tuesday 09:57  stas_degteff
+
+	* makefile.emx (fidoconf-0_14-stable.1): Remove unused linker
+	option
+
+2002-10-22 Tuesday 09:38  stas_degteff
+
+	* cfg.c (fidoconf-0_14-stable.9): Fix EMX compiler warnings in
+	cmpfnames()
+
+2002-10-22 Tuesday 08:34  stas_degteff
+
+	* cfg.c (fidoconf-0_14-stable.8): Prevent Os/2 compilation warnings
+
+2002-10-22 Tuesday 08:31  stas_degteff
+
+	* temp.h (fidoconf-0_14-stable.1): dos2unix
+
+2002-10-22 Tuesday 08:25  stas_degteff
+
+	* fc2aed.c (fidoconf-0_14-stable.1): Fix compilation warning
+
 2002-10-21 Monday 09:31  stas_degteff
 
 	* makefile.inc (fidoconf-0_14-stable.2): MFC: fix commonclean tag:
