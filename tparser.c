@@ -253,11 +253,25 @@ int main(int argc, char **argv) {
    int i, j;
    char *cfgFile=NULL;
 
-   if (argc>1) {
-       if (stricmp(argv[1], "--help")==0) {
-           printf("run: tparser [/path/to/config/file]\n");
+   for (i=1; i<argc; i++)
+   {
+       if (argv[i][0]=='-' && argv[i][1]=='D') {
+           char *p=strchr(argv[i], '=');
+           if (p) {
+               *p='\0';
+               setvar(argv[i]+2, p+1);
+               *p='=';
+           } else {
+               setvar(argv[i]+2, "");
+           }
+       }
+       else if (stricmp(argv[i], "--help") == 0 ||
+                stricmp(argv[i], "-h") == 0 ||
+                cfgFile != NULL) {
+           printf("run: tparser [-Dvar=value] [/path/to/config/file]\n");
 	   return 0;
-       } else xstrcat(&cfgFile, argv[1]);
+       } else
+           xstrcat(&cfgFile, argv[i]);
    }
 
    config = readConfig(cfgFile);

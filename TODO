@@ -36,3 +36,6 @@
     forwardFileRequests
 - add to doc & tparser for hpt
     ForwardAreaPriority
+    AdvancedAreaFix
+    what is [module]
+    set, if, else, elseif, ifdef, ifndef, endif

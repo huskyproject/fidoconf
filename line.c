@@ -589,6 +589,7 @@ int parseLinkOption(s_arealink *alink, char *token)
     if (stricmp(token, "r")==0) alink->import = 0;
     else if (stricmp(token, "w")==0) alink->export = 0;
     else if (stricmp(token, "mn")==0) alink->mandatory = 1;
+    else if (stricmp(token, "def")==0) alink->defLink = 1;
     else return 1;
     return 0;
 }
@@ -1436,46 +1437,6 @@ int parseFileName(char *line, char **name) {
    return 0;
 }
 
-int alreadyIncluded(char *line, s_fidoconfig *config)
-{
-   unsigned int i;
-
-   for (i=0; i < config->includeCount; i++) {
-      if (stricmp(config->includeFiles[i], line)==0) return 1;
-   }
-
-   return 0;
-}
-
-int parseInclude(char *line, s_fidoconfig *config)
-{
-   FILE *f;
-
-   if (line == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
-
-   if ((f=fopen(line, "r")) == NULL) return 1;
-
-   if (!alreadyIncluded(line, config)) {
-
-      config->includeCount++;
-      config->includeFiles = srealloc(config->includeFiles, sizeof(char *) * config->includeCount);
-      config->includeFiles[config->includeCount-1] = smalloc(strlen(line)+1);
-      strcpy(config->includeFiles[config->includeCount-1], line);
-
-      free(actualLine);
-      parseConfig(f, config);
-      actualLine = NULL;  //FIXME: static Variable!!!
-   } else {
-      printf("Line %d: WARNING: recursive include of file %s detected and fixed!\n", actualLineNr, line);
-   }
-
-   fclose(f);
-   return 0;
-}
-
 int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
 
    int i;
@@ -2120,119 +2081,6 @@ int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
 	return 0;
 }
 
-static char *unquote(char *line)
-{
-  char *parsed, *src, *dest, *p, *p1, *newparsed;
-  int  curlen = strlen(line)+1;
-  int  i, pid, linepipe[2];
-  FILE *f;
-#ifndef UNIX
-  int  saveout;
-#endif
-
-  parsed = dest = smalloc(curlen);
-  for (src = line; *src; src++)
-  {
-    if (dest-parsed >= curlen-2)
-    {
-      newparsed = srealloc(parsed, curlen+=80);
-      dest += newparsed-parsed;
-      parsed = newparsed;
-    }
-    switch (*src)
-    {
-#if defined(UNIX) || (defined(OS2) && defined(__EMX__))
-      case '`':
-        p = strchr(src+1, '`');
-        if (p == NULL)
-        {
-          *dest++ = *src;
-          continue;
-        }
-        *p = '\0';
-	src++;
-        pipe(linepipe);
-#if defined(UNIX)
-pipefork:
-        if ((pid = fork()) > 0)
-        {
-          close(linepipe[1]);
-        }
-        else if (pid == 0)
-        {
-          dup2(linepipe[1], fileno(stdout));
-          close(linepipe[1]);
-          close(linepipe[0]);
-          p1 = getenv("SHELL");
-          if (p1 == NULL) p1 = "/bin/sh";
-          execl(p1, p1, "-c", src, NULL);
-        }
-        else if (errno == EINTR)
-          goto pipefork;
-        else
-        { /* Can't fork */
-          *p = '`';
-          src = p;
-          continue;
-        }
-#else
-        saveout = dup(fileno(stdout));
-        dup2(linepipe[1], fileno(stdout));
-        close(linepipe[1]);
-        p1 = getenv("COMSPEC");
-        if (p1 == NULL) p1 = "cmd.exe";
-        pid = spawnl(P_NOWAIT, p1, p1, "-c", src, NULL);
-        dup2(saveout, fileno(stdout));
-        close(saveout);
-#endif
-        *p = '`';
-        src = p;
-        f = fdopen(linepipe[0], "r");
-        while ((i = fgetc(f)) != EOF)
-        {
-          if (dest-parsed >= curlen-2)
-          {
-            newparsed = srealloc(parsed, curlen+=80);
-            dest += newparsed-parsed;
-            parsed = newparsed;
-          }
-          if (i!='\n') *dest++ = (char)i;
-        }
-        waitpid(pid, &i, 0);
-        fclose(f);
-        continue;
-#endif
-      case '[':
-        p = strchr(src, ']');
-        if (p)
-        {
-          src++;
-          *p = '\0';
-          if ((p1 = getenv(src)) == NULL)
-            p1 = src;
-          if (dest-parsed+strlen(p1) >= curlen-2)
-          {
-            newparsed = srealloc(parsed, curlen = dest-parsed+strlen(p1)+80);
-            dest += newparsed-parsed;
-            parsed = newparsed;
-          }
-          strcpy(dest, p1);
-          dest += strlen(p1);
-          *p = ']';
-          src = p;
-          continue;
-        }
-      default:
-        *dest++ = *src;
-        continue;
-    }
-  }
-  *dest++ = '\0';
-  if (curlen != dest-parsed)
-    parsed = srealloc(parsed, dest-parsed);
-  return parsed;
-}
-
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -2243,7 +2091,8 @@ int parseLine(char *line, s_fidoconfig *config)
    int unrecognised = 0;
 #endif   
 
-   actualLine = temp = unquote(line);
+   actualLine = temp = (char *) smalloc(strlen(line)+1);
+   strcpy(temp, line);
 
    actualKeyword = token = strtok(temp, " \t");
 
@@ -2430,6 +2279,13 @@ int parseLine(char *line, s_fidoconfig *config)
 		rc = 1;
       }
    }
+   else if (stricmp(token, "advancedareafix")==0) {
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->advancedAreafix);
+      } else {
+		rc = 1;
+      }
+   }
    else if (stricmp(token, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(getDescrLink(config)->autoPause));
    else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName));
    else if (stricmp(token, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName));
@@ -2507,7 +2363,6 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "msgidfile")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
    else if (stricmp(token, "loglevels")==0) rc = copyString(getRestOfLine(), &(config->loglevels));
    else if (stricmp(token, "screenloglevels")==0) rc = copyString(getRestOfLine(), &(config->screenloglevels));
-   else if (stricmp(token, "include")==0) rc = parseInclude(getRestOfLine(), config);
 
    else if (stricmp(token, "accessgrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
    else if (stricmp(token, "linkgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);

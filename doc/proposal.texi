@@ -966,7 +966,8 @@ This statement can only be repeated for different links.
 
   Add this group to @code{autoareacreatedefaults}.
   Link without acces to group @code{Fido} can't forward requests to
-uplink with @code{linkgrp Fido}  
+uplink with @code{linkgrp Fido}.
+  Areas deleted from config only from LinkGrp of that link, who delete it.
 
 This statement can only be repeated for different links.
 
@@ -1616,10 +1617,10 @@ disables reply-linking for this area
 
 LinkOption:
 @table @asis
+@item -def
+default-uplink for redundant echomail-supply
 @item -imp
 import only for redundant echomail-supply @strong{This statement is currently not supported.}
-@item -def
-default-uplink for redundant echomail-supply @strong{This statement is currently not supported.}
 @end table
 
 This statement can be repeated.

@@ -132,6 +132,7 @@ typedef struct link {
    char **optGrp; // groups for this options
    unsigned int numOptGrp;
    unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
+   unsigned int advancedAreafix;  // 1 - send %DELETE when area delete
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;
@@ -152,6 +153,7 @@ typedef struct arealink {
    unsigned int export;		// 1 - export yes, 0 - export no
    unsigned int import;		// 1 - import yes, 0 - import no
    unsigned int mandatory;	// 1 - mandatory yes, 0 - mandatory no
+   unsigned int defLink;	// 1 - default uplink
 } s_arealink, *ps_arealink;
 
 typedef struct area {
@@ -335,9 +337,6 @@ typedef struct fidoconfig {
    unsigned int   carbonKeepSb;  // keep SeenBy's and PATH in carbon area
    unsigned int   carbonOut;     // carbon outgoing messages
 
-   char     **includeFiles;
-   unsigned int includeCount;
-
    unsigned int  remapCount;
    ps_remap remaps;
 
@@ -448,12 +447,16 @@ int dumpConfigToFile(ps_fidoconfig config, char *fileName);
 // the following functions are for internal use.
 // Only use them if you really know what you do.
 char *readLine(FILE *F);
-int parseLine(char *line, ps_fidoconfig config);
-void parseConfig(FILE *f, ps_fidoconfig config);
+int  parseLine(char *line, ps_fidoconfig config);
 char *getConfigFileName(void);
 char *trimLine(char *line);
 void carbonNames2Addr(s_fidoconfig *config);
-
+int  init_conf(char *conf_name);
+void close_conf(void);
+void setvar(char *var, char *value);
+void closeall(void);
+char *configline(void);
+char *stripComment(char *line);
 
 /**
  * This method can be used to get a program-specifically config-filename, in the same directories which are searched for fidoconfig.

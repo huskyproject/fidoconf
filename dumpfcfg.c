@@ -44,25 +44,38 @@ int syntax(void)
 
 int main(int argc, char *argv[])
 {
-    FILE *outf;
+    FILE *outf = NULL;
     s_fidoconfig *config;
+    int i;
 
-    if (argc > 1)
+    for (i=1; i<argc; i++)
     {
-	if (strcmp(argv[1], "-h") == 0) return syntax();
-	if (strcmp(argv[1], "--help") == 0) return syntax();
-
-	outf = fopen(argv[1], "w");
-	if (outf == NULL)
-	{
-	    printf("could not open '%s' for writing!", argv[1]);
-	    return 5;
-	}
+       if (argv[i][0]=='-' && argv[i][1]=='D') {
+           char *p=strchr(argv[i], '=');
+           if (p) {
+               *p='\0';
+               setvar(argv[i]+2, p+1);
+               *p='=';
+           } else {
+               setvar(argv[i]+2, "");
+           }
+       }
+       else if (strcmp(argv[i], "-h") == 0) return syntax();
+       else if (strcmp(argv[i], "--help") == 0) return syntax();
+       else if (outf == NULL) {
+	   outf = fopen(argv[i], "w");
+	   if (outf == NULL)
+	   {
+	       printf("could not open '%s' for writing!", argv[i]);
+	       return 5;
+	   }
+       } else {
+	   return syntax();
+       }
     }
-    else
-    {
+
+    if (outf == NULL)
 	outf = stdout;
-    }
 
     config = readConfig(NULL);
     dumpConfig(config, outf);

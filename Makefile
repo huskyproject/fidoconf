@@ -90,11 +90,9 @@ ifdef INFODIR
 endif
 
 
-$(LIBFIDOCONFIG).so.$(VER): line$(OBJ) common$(OBJ) fidoconf$(OBJ) \
-                            adcase$(OBJ) dirlayer$(OBJ) xstr$(OBJ)
+$(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
 	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
-          -o $(LIBFIDOCONFIG).so.$(VER) line$(OBJ) common$(OBJ) \
-          fidoconf$(OBJ) adcase$(OBJ) dirlayer$(OBJ) xstr$(OBJ) $(LOPT)
+          -o $(LIBFIDOCONFIG).so.$(VER) $(LOBJS) $(LOPT)
 
 %$(OBJ): %.c
 	$(CC) $(CDEFS) $(COPT) $*.c

@@ -119,25 +119,6 @@ char *stripComment(char *line)
   return line;
 }
 
-void parseConfig(FILE *f, s_fidoconfig *config)
-{
-   char *line;
-
-   actualLineNr = 1;
-   while ((line = readLine(f)) != NULL) {
-      line = trimLine(line);
-      line = stripComment(line);
-      if (line[0] != 0) {
-	//	printf(line);
-	//	printf("\n");
-         line = shell_expand(line);
-         parseLine(line, config);
-      }
-      actualLineNr++;
-      free(line);
-   }
-}
-
 void initConfig(s_fidoconfig *config) {
    // set all to 0
    memset(config, 0, sizeof(s_fidoconfig));
@@ -280,9 +261,9 @@ void fixRoute(s_fidoconfig *config)
 
 s_fidoconfig *readConfig(char *cfgFile)
 {
-   FILE *f;
    s_fidoconfig *config;
    char *fileName = cfgFile;
+   char *line;
 
    if (fileName==NULL) fileName = getConfigFileName();
 
@@ -291,33 +272,32 @@ s_fidoconfig *readConfig(char *cfgFile)
         exit(1);
    }
 
-   f = fopen(fileName, "r");
-
-   if (f != NULL) {
-      config = (s_fidoconfig *) smalloc(sizeof(s_fidoconfig));
-
-      initConfig(config);
-
-      config->includeCount = 1;
-      config->includeFiles = srealloc(config->includeFiles, sizeof(char *));
-      config->includeFiles[0] = smalloc(strlen(fileName)+1);
-      strcpy(config->includeFiles[config->includeCount-1], fileName);
-
-      parseConfig(f, config);
-
-      if (wasError == 1) {
-         printf("Please correct above error(s) first!\n");
-         fflush(stdout);
-         exit(1);
-      }
-      fclose(f);
-      carbonNames2Addr(config);
-      fixRoute(config);
-      return config;
-   } else {
-      printf("Could not find config-file!\n");
+   if (init_conf(fileName))
       return NULL;
+
+   config = (s_fidoconfig *) smalloc(sizeof(s_fidoconfig));
+
+   initConfig(config);
+
+   while ((line = configline()) != NULL) {
+      line = trimLine(line);
+      line = stripComment(line);
+      if (line[0] != 0) {
+         line = shell_expand(line);
+         parseLine(line, config);
+      }
+      free(line);
    }
+
+   if (wasError == 1) {
+      printf("Please correct above error(s) first!\n");
+      fflush(stdout);
+      exit(1);
+   }
+   close_conf();
+   carbonNames2Addr(config);
+   fixRoute(config);
+   return config;
 }
 
 void freeArea(s_area area) {
@@ -447,10 +427,6 @@ void disposeConfig(s_fidoconfig *config)
            nfree(config->unpack[i].call);
    }
    nfree(config->unpack);
-
-   for (i= 0; i < config->includeCount; i++) nfree(config->includeFiles[i]);
-   nfree(config->includeFiles);
-
    nfree(config->intab);
    nfree(config->outtab);
    nfree(config->importlog);

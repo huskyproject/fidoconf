@@ -9,7 +9,7 @@ TLIB=   lib -nologo
 FCONFL=	fconfmvc.lib
 SMAPIL=	..\smapi\smapimvc.lib
 
-OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj
+OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj dump.obj xstr.obj cfg.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<

@@ -3,7 +3,7 @@
 VER = 0.11
 VERH = 0
 
-LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ) dump$(OBJ) xstr$(OBJ)
+LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ) dump$(OBJ) xstr$(OBJ) cfg$(OBJ)
 
 OBJS = $(LOBJS) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) dumpfcfg$(OBJ)
 
