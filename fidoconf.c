@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <sysexits.h>
 
 #include <smapi/patmat.h>
 #include "fidoconf.h"
@@ -343,7 +344,7 @@ s_fidoconfig *readConfig(char *cfgFile)
 
    if (fileName == NULL) {
         printf("Could not find Config-file\n");
-        exit(1);
+        exit(EX_UNAVAILABLE);
    }
 
    if (init_conf(fileName))
@@ -366,7 +367,7 @@ s_fidoconfig *readConfig(char *cfgFile)
    if (wasError == 1) {
       printf("Please correct above error(s) first!\n");
       fflush(stdout);
-      exit(1);
+      exit(EX_CONFIG);
    }
    close_conf();
    carbonNames2Addr(config);

@@ -36,6 +36,7 @@
 #include <time.h>
 #include <errno.h>
 #include <stdarg.h>
+#include <sysexits.h>
 
 #ifdef UNIX
 #include <pwd.h>
@@ -177,7 +178,7 @@ int parseVersion(char *token, s_fidoconfig *config)
 void printLinkError(void)
 {
   prErr( "You must define a link first before you use %s!", actualKeyword);
-  exit(1);
+  exit(EX_CONFIG);
 }
 
 s_link *getDescrLink(s_fidoconfig *config)
@@ -3130,7 +3131,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseLink(getRestOfLine(), config);
             if (rc)
             {
-                exit(1); /* 'cause of parsing aka and overriding prev. aka */
+                exit(EX_CONFIG); /* 'cause of parsing aka and overriding prev. aka */
             }
             break;
         case ID_PASSWORD:
