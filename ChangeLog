@@ -1,3 +1,17 @@
+2002-02-08 Friday 11:20  ml
+
+	* cfg.c (1.27): fixed bug with unsubscribing link from echoarea
+	with mixed unix/non-unix strings in config under msvc
+
+2002-02-08 Friday 11:15  ml
+
+	* tparser.c (1.165): msvc compiling
+
+2002-02-08 Friday 10:09  mche
+
+	* fidoconf.h (1.96): making actualLineNr exportable for mcvdll
+	version
+
 2002-02-05 Tuesday 18:50  stas
 
 	* tparser.c (1.164): Check permissions of AutoAreaCreateFile &
