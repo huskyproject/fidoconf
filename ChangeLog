@@ -1,3 +1,17 @@
+2002-07-15 Monday 22:42  stas
+
+	* tokens.h (1.41): fix C syntax (remove comma)
+
+2002-07-15 Monday 22:36  stas
+
+	* line.c (1.316), doc/proposal.texi (1.140): Implement ranges into
+	loglevels and screenloglevels
+
+2002-07-15 Monday 10:05  pavel.gulchouck
+
+	* fidoconf.h (1.131), line.c (1.315), tparser.c (1.188): added
+	bundleNameStyle addrsCRC32Always
+
 2002-07-14 Sunday 21:51  pavel.gulchouck
 
 	* doc/proposal.texi (1.139): "!=" and "!~" (not equial) in "if"
