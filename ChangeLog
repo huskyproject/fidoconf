@@ -1,3 +1,13 @@
+2003-05-26 Monday 05:30  lmike
+
+	* src/tparser.c (1.10): Added support for QNX 6.x
+
+2003-05-26 Monday 05:26  lmike
+
+	* src/: afixcmd.c (1.4), afixcmn.c (1.5), areatree.c (1.2), cfg.c
+	(1.4), common.c (1.11), fidoconf.c (1.8), grptree.c (1.2): Added
+	support for QNX 6.x
+
 2003-05-25 Sunday 12:49  lmike
 
 	* fidoconf/syslogp.h (1.2): Added syslog.h file placement switch.
