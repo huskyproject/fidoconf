@@ -64,6 +64,7 @@ int cmpfnames(char *file1, char *file2);
 
 #ifdef UNIX
 #include <pwd.h>
+#include <signal.h>
 #endif
 
 #ifdef __BEOS__
@@ -1514,3 +1515,36 @@ const char *basename(const char *pathname)
 
   return temp;
 }
+
+#if defined(UNIX)
+/* this function should be moved to huskylib() */
+int createLock(char *lockFile)
+{
+    FILE *fp;
+    char s_pid[64];
+    long pid;
+    int process_active=0;
+
+    if(!access(lockFile, R_OK | W_OK))
+    {
+        fp = fopen(lockFile, "r");
+        if (fp == NULL) return 0;
+        if (fgets(s_pid, 64, fp))
+            pid=atol(s_pid);
+        if (pid) // pid is not a trash in file
+        {
+            process_active=1;
+            if (kill(pid, 0) && (errno==ESRCH))
+                process_active=0;
+        }
+        fclose(fp);
+    }
+    if(process_active) return 0;
+
+    fp = fopen(lockFile, "w");
+    fprintf(fp, "%lu\n", getpid());
+    fclose(fp);
+    return 1;
+}
+
+#endif
