@@ -415,6 +415,8 @@ typedef struct anndef /* announce definition */
   s_addr* annadrfrom;    /* field ADRFROM:  in announce message         */
   char *annmessflags;    /* message  flags string                       */
   dword  attributes;
+  unsigned  annforigin;  /* announce address of system who hatched file */ 
+  unsigned  annfrfrom;   /* announce address of system which file recived from */
 } s_anndef, *ps_anndef;
 
 typedef struct fidoconfig {

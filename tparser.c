@@ -1020,11 +1020,11 @@ int main(int argc, char **argv) {
   	  printf("KilledRequestTimeout : %d\n",config->killedRequestTimeout);
 
 
-    if (hpt==0) {
+     if (hpt==0) {
         printf("\n=== FILEFIX CONFIG ===\n");
-  	    printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
+        printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
         printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
-
+        
         printf("\n=== TICKER CONFIG ===\n");
         if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
         if (config->fileNewAreasLog) printf("FileNewAreasLog: %s\n", config->fileNewAreasLog);
@@ -1043,75 +1043,80 @@ int main(int argc, char **argv) {
         printf("FileDirUMask: %o\n", config->fileDirUMask);
         if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
         if (config->saveTicCount)
-        for (i = 0; i< config->saveTicCount; i++) {
-  		printf("SaveTic for %s in %s\n", config->saveTic[i].fileAreaNameMask,
-                                           config->saveTic[i].pathName );
+        {
+           for (i = 0; i< config->saveTicCount; i++) {
+              printf("SaveTic for %s in %s\n", config->saveTic[i].fileAreaNameMask,
+                 config->saveTic[i].pathName );
+           }
         }
         printf("\n=== FILE ANNOUNCER CONFIG ===\n");
-		if (config->announceSpool) printf("AnnounceSpool: %s\n", config->announceSpool);		
+        if (config->announceSpool) printf("AnnounceSpool: %s\n", config->announceSpool);
         if(config->ADCount)
         {
-			for (i = 0; i< config->ADCount; i++) {
-            	printf("\n----- announce group -----\n");
-	            if(config->AnnDefs[i].annAreaTag)
-    	        printf("AnnAreaTag: %s\n",config->AnnDefs[i].annAreaTag);
-        	    if(config->AnnDefs[i].annInclude == NULL)
-            	printf("AnnInclude: *\n");
-	            else {
-	            	printf("AnnInclude:");
-					for (j = 0; j < config->AnnDefs[i].numbI; j++) {
-		            	printf(" %s",config->AnnDefs[i].annInclude[j]);
-	                }
-   	            	printf("\n");
-	    		}
-        	    if(config->AnnDefs[i].annExclude != NULL)
-	            {
-	            	printf("AnnExclude:");
-					for (j = 0; j < config->AnnDefs[i].numbE; j++) {
-		            	printf(" %s",config->AnnDefs[i].annExclude[j]);
-	                }
-   	            	printf("\n");
-	    		}
-	            if(config->AnnDefs[i].annto)
-    	        printf("AnnTo     : %s\n",config->AnnDefs[i].annto);
-	            if(config->AnnDefs[i].annfrom)
-    	        printf("AnnFrom   : %s\n",config->AnnDefs[i].annfrom);
-	            if(config->AnnDefs[i].annadrto)
-    	        printf("AnnAddrTo : %s\n",aka2str(*(config->AnnDefs[i].annadrto)));
-	            if(config->AnnDefs[i].annadrfrom)
-    	        printf("AnnAddrFro: %s\n",aka2str(*(config->AnnDefs[i].annadrfrom)));
-	            if(config->AnnDefs[i].annsubj)
-    	        printf("AnnSubj   : %s\n",config->AnnDefs[i].annsubj);
-	            if(config->AnnDefs[i].annorigin)
-    	        printf("AnnOrigin : %s\n",config->AnnDefs[i].annorigin);
-	            if(config->AnnDefs[i].annorigin)
-    	        printf("AnnMessFlags : %s\n",config->AnnDefs[i].annmessflags);
-
-			}
+           for (i = 0; i< config->ADCount; i++) 
+           {
+              printf("\n----- announce group -----\n");
+              if(config->AnnDefs[i].annAreaTag)
+                 printf("AnnAreaTag: %s\n",config->AnnDefs[i].annAreaTag);
+              if(config->AnnDefs[i].annInclude == NULL)
+                 printf("AnnInclude: *\n");
+              else {
+                 printf("AnnInclude:");
+                 for (j = 0; j < config->AnnDefs[i].numbI; j++) {
+                    printf(" %s",config->AnnDefs[i].annInclude[j]);
+                 }
+                 printf("\n");
+              }
+              if(config->AnnDefs[i].annExclude != NULL)
+              {
+                 printf("AnnExclude:");
+                 for (j = 0; j < config->AnnDefs[i].numbE; j++) {
+                    printf(" %s",config->AnnDefs[i].annExclude[j]);
+                 }
+                 printf("\n");
+              }
+              if(config->AnnDefs[i].annto)
+                 printf("AnnTo     : %s\n",config->AnnDefs[i].annto);
+              if(config->AnnDefs[i].annfrom)
+                 printf("AnnFrom   : %s\n",config->AnnDefs[i].annfrom);
+              if(config->AnnDefs[i].annadrto)
+                 printf("AnnAddrTo : %s\n",aka2str(*(config->AnnDefs[i].annadrto)));
+              if(config->AnnDefs[i].annadrfrom)
+                 printf("AnnAddrFro: %s\n",aka2str(*(config->AnnDefs[i].annadrfrom)));
+              if(config->AnnDefs[i].annsubj)
+                 printf("AnnSubj   : %s\n",config->AnnDefs[i].annsubj);
+              if(config->AnnDefs[i].annorigin)
+                 printf("AnnOrigin : %s\n",config->AnnDefs[i].annorigin);
+              if(config->AnnDefs[i].annorigin)
+                 printf("AnnMessFlags : %s\n",config->AnnDefs[i].annmessflags);
+              
+              printf("AnnFileOrigin: %s\n", config->AnnDefs[i].annforigin ? "on" : "off");
+              printf("AnnFileRFrom : %s\n", config->AnnDefs[i].annfrfrom ? "on" : "off");
+              
+           }
         }
-    }
-
-        printf("\n=== FILELIST CONFIG ===\n");
-        for (i = 0; i < config->filelistCount; i++) printFilelist(&(config->filelists[i]));
-
-        printf("\n=== LINKER CONFIG ===\n");
-        switch (config->LinkWithImportlog)
-        {
-        case lwiYes:
-  	printf("LinkWithImportlog   Yes\n");
-  	break;
-
-        case lwiNo:
-  	printf("LinkWithImportlog   No\n");
-  	break;
-
-        case lwiKill:
-  	printf("LinkWithImportlog   Kill\n");
-  	break;
-
-        default:
-  	printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
-        }
+     }
+     printf("\n=== FILELIST CONFIG ===\n");
+     for (i = 0; i < config->filelistCount; i++) printFilelist(&(config->filelists[i]));
+     
+     printf("\n=== LINKER CONFIG ===\n");
+     switch (config->LinkWithImportlog)
+     {
+     case lwiYes:
+        printf("LinkWithImportlog   Yes\n");
+        break;
+        
+     case lwiNo:
+        printf("LinkWithImportlog   No\n");
+        break;
+        
+     case lwiKill:
+        printf("LinkWithImportlog   Kill\n");
+        break;
+        
+     default:
+        printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
+     }
 
         printf("\n=== LINK CONFIG ===\n");
         printf("%u links in config\n", config->linkCount);

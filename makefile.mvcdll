@@ -38,34 +38,34 @@ $(FCONFL):
 		$(LINK) $(LINKOPTS) $(OBJS1)
 
 tparser.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ tparser.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ tparser.c $(FCONFL) $(SMAPIL)
 
 fconf2golded.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2ged.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2ged.c $(FCONFL) $(SMAPIL)
 
 fconf2msged.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2msged.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2msged.c $(FCONFL) $(SMAPIL)
 
 fconf2aquaed.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2aed.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2aed.c $(FCONFL) $(SMAPIL)
 
 fconf2squish.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
 
 fconf2fidogate.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2fgate.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2fgate.c $(FCONFL) $(SMAPIL)
 
 fconf2tornado.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2tor.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2tor.c $(FCONFL) $(SMAPIL)
 
 fconf2binkd.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2binkd.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2binkd.c $(FCONFL) $(SMAPIL)
 
 fecfg2fconf.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c  fecfg146.c $(FCONFL) $(SMAPIL)
+		$(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c  fecfg146.c $(FCONFL) $(SMAPIL)
 
 clean:
-        -del *.obj
+	-del *.obj
 	-del *.lib
 
 distclean: clean

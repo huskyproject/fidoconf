@@ -4140,6 +4140,12 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_ANNMESSFLAGS:
             rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annmessflags));
             break;
+        case ID_ANNFILEORIGIN:
+            rc = parseBool(getRestOfLine(), &(getDescrAnnDef(config)->annforigin));
+            break;
+        case ID_ANNFILERFROM:
+            rc = parseBool(getRestOfLine(), &(getDescrAnnDef(config)->annfrfrom));
+            break;
         case ID_ANNADRTO:
             rc = parseAnnDefAddres(getRestOfLine(), config, 1);
             break;
