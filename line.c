@@ -673,7 +673,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    area->dupeHistory = 7; /* 7 days */
 
    // set default group for reader
-   area->group = "\060";
+   area->group="0";
 
    tok = strtok(token, " \t");
    if (tok == NULL) {
@@ -815,7 +815,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    area->useAka = &(config->addr[0]);
 
    // set default group for reader
-   area->group = "\060";
+   area->group = "0";
 
    tok = strtok(token, " \t");
    if (tok == NULL) {

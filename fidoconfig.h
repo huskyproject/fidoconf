@@ -363,7 +363,14 @@ s_link *getLink(s_fidoconfig config, char *addr);
 s_link *getLinkFromAddr(s_fidoconfig config, s_addr aka);
 s_addr *getAddr(s_fidoconfig config, char *addr);
 int    existAddr(s_fidoconfig config, s_addr aka);
+
+/* find echo & local areas in config */
 s_area *getArea(s_fidoconfig *config, char *areaName);
+
+/* find only echo areas in config */
+s_area *getEchoArea(s_fidoconfig *config, char *areaName);
+
+/* find netmail areas in config */
 s_area *getNetMailArea(s_fidoconfig *config, char *areaName);
 
 /**

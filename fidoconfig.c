@@ -298,6 +298,7 @@ void freeArea(s_area area) {
         free(area.areaName);
         free(area.fileName);
         free(area.description);
+	free(area.group);
         /*free(area.rwgrp);
         free(area.wgrp);
         free(area.rgrp);*/
@@ -310,6 +311,7 @@ void freeFileArea(s_filearea area) {
         free(area.areaName);
         free(area.pathName);
         free(area.description);
+	free(area.group);
         /*free(area.rwgrp);
         free(area.wgrp);
         free(area.rgrp);*/
@@ -531,6 +533,18 @@ int existAddr(s_fidoconfig config, s_addr aka) {
    return 0;
 }
 
+s_area *getEchoArea(s_fidoconfig *config, char *areaName)
+{
+   UINT i;
+
+   for (i=0; i < config->echoAreaCount; i++) {
+      if (stricmp(config->echoAreas[i].areaName, areaName)==0)
+         return &(config->echoAreas[i]);
+   }
+
+   return &(config->badArea); // if all else fails, return badArea :-)
+}
+
 s_area *getArea(s_fidoconfig *config, char *areaName)
 {
    UINT i;
@@ -538,6 +552,11 @@ s_area *getArea(s_fidoconfig *config, char *areaName)
    for (i=0; i < config->echoAreaCount; i++) {
       if (stricmp(config->echoAreas[i].areaName, areaName)==0)
          return &(config->echoAreas[i]);
+   }
+
+   for (i=0; i < config->localAreaCount; i++) {
+      if (stricmp(config->localAreas[i].areaName, areaName)==0)
+         return &(config->localAreas[i]);
    }
 
    return &(config->badArea); // if all else fails, return badArea :-)
