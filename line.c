@@ -102,7 +102,7 @@ char *getDescription(void)
   char *descBuf = NULL, *token;
   int quoted=0, length;
 
-  while ((token=strtok(NULL," "))!=NULL)
+  while ((token=strtok(NULL," \t"))!=NULL)
   {
     xstrscat (&descBuf, token, " ", NULL);
     if (*token=='\"' && !quoted)
