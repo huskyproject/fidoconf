@@ -1,3 +1,12 @@
+2002-07-24 Wednesday 16:59  mche
+
+	* arealist.c (1.2), arealist.h (1.2): report about rescanable areas
+	by %list command to areafix rescanable areas will have mark 'R'
+
+2002-07-24 Wednesday 09:41  mche
+
+	* common.c (1.89): initialize stat structure
+
 2002-07-23 Tuesday 20:32  d.sergienko
 
 	* common.c (1.88), common.h (1.50), fidoconf.h (1.132), line.c
