@@ -234,7 +234,7 @@ typedef          void       VOID;
 
 /*   the uSoft 16bit compiler family for DOS */
 
-#if defined(__MSC__) 
+#if defined(__MSC__)
 typedef   signed char        CHAR;              /*  1 byte */
 typedef unsigned char       UCHAR;              /*  1 byte */
 typedef   signed int        INT16;              /*  2 byte */
@@ -255,6 +255,8 @@ typedef          void       VOID;
 #if !defined(__OS2_H__) && !defined(__NT__)  /*  os2.h and windows.h defines it already */
 typedef signed   char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
+#endif
+#if !defined(__NT__)  /* windows.h defines its already */
 typedef signed   short int  INT16;              /*  2 byte */
 typedef unsigned short int UINT16;              /*  2 byte */
 #endif
