@@ -1,0 +1,109 @@
+<QPG:Generation>
+   <QPG:Options>
+      <QPG:User unattended="yes" verbosity="0" listfiles="yes"/>
+      <QPG:Defaults type="qnx_package"/>
+      <QPG:Source></QPG:Source>
+      <QPG:Release date="today" number="+"/>
+      <QPG:Build></QPG:Build>
+      <QPG:FileSorting strip="yes"/>
+      <QPG:Package targets="standart"/>
+      <QPG:Repository generate="yes"/>
+      <QPG:FinalDir></QPG:FinalDir>
+      <QPG:Cleanup></QPG:Cleanup>
+   </QPG:Options>
+
+   <QPG:Responsible>
+      <QPG:Company>QNX.ORG.RU Community</QPG:Company>
+      <QPG:Department></QPG:Department>
+      <QPG:Group></QPG:Group>
+      <QPG:Team>QNX.ORG.RU Team</QPG:Team>
+      <QPG:Employee>Mike Gorchak</QPG:Employee>
+      <QPG:EmailAddress>mike@malva.ua</QPG:EmailAddress>
+   </QPG:Responsible>
+
+   <QPG:Values>
+      <QPG:Files>
+         <QPG:Add file="./COPYING" install="LicenseUrl/" handling="repdata"/>
+         <QPG:Add permissions="0755" file="./make/libfidoconfigqnx-1.9.0.so" install="/opt/lib/"/>
+         <QPG:Add filetype="symlink" file="libfidoconfig.so" install="/opt/lib/" linkto="libfidoconfigqnx-1.9.0.so"/>
+         <QPG:Add permissions="0644" file="./make/libsmapiqnx.a" install="/opt/lib/"/>
+         <QPG:Add permissions="0644" file="./fidoconf/*.h" install="/opt/include/fidoconfig/"/>
+         <QPG:Add permissions="0644" file="./COPYING" install="/usr/doc/husky/fidoconfig/"/>
+         <QPG:Add permissions="0644" file="./ChangeLog" install="/usr/doc/husky/fidoconfig/"/>
+         <QPG:Add permissions="0644" file="./HISTORY" install="/usr/doc/husky/fidoconfig/"/>
+         <QPG:Add permissions="0644" file="./INSTALL" install="/usr/doc/husky/fidoconfig/"/>
+         <QPG:Add permissions="0644" file="./README.TXT" install="/usr/doc/husky/fidoconfig/"/>
+         <QPG:Add permissions="0644" file="./TODO" install="/usr/doc/husky/fidoconfig/"/>
+         <QPG:Add permissions="0644" file="./VERSION" install="/usr/doc/husky/fidoconfig/"/>
+         <QPG:Add permissions="0755" file="./make/fc2aed" install="/opt/bin/"/>
+         <QPG:Add permissions="0755" file="./make/fc2binkd" install="/opt/bin/"/>
+         <QPG:Add permissions="0755" file="./make/fc2fgate" install="/opt/bin/"/>
+         <QPG:Add permissions="0755" file="./make/fc2ged" install="/opt/bin/"/>
+         <QPG:Add permissions="0755" file="./make/fc2msged" install="/opt/bin/"/>
+         <QPG:Add permissions="0755" file="./make/fc2sq" install="/opt/bin/"/>
+         <QPG:Add permissions="0755" file="./make/linked" install="/opt/bin/"/>
+         <QPG:Add permissions="0755" file="./make/tparser" install="/opt/bin/"/>
+         <QPG:Add permissions="0755" file="./util/linkedto" install="/opt/bin/"/>
+         <QPG:Add permissions="0644" file="./doc/fidoconfig.info" install="/opt/info/fidoconfig.info"/>
+         <QPG:Add permissions="0644" file="./man/fconf2.1" install="/opt/man/man1/fconf2.1"/>
+         <QPG:Add permissions="0644" file="./man/linked.1" install="/opt/man/man1/linked.1"/>
+         <QPG:Add permissions="0644" file="./man/linkedto.1" install="/opt/man/man1/linkedto.1"/>
+         <QPG:Add permissions="0644" file="./man/tparser.1" install="/opt/man/man1/tparser.1"/>
+      </QPG:Files>
+      <QPG:PackageFilter>
+         <QPM:PackageManifest>
+            <QPM:PackageDescription>
+               <QPM:PackageType>Library</QPM:PackageType>
+               <QPM:PackageName>fidoconfig</QPM:PackageName>
+               <QPM:PackageReleaseNumber>1</QPM:PackageReleaseNumber>
+               <QPM:PackageRepository>http://qnx.org.ru/repository</QPM:PackageRepository>
+               <QPM:FileVersion>2.0</QPM:FileVersion>
+            </QPM:PackageDescription>
+            <QPM:ProductDescription>
+               <QPM:ProductName>fidoconfig</QPM:ProductName>
+               <QPM:ProductIdentifier>fidoconfig</QPM:ProductIdentifier>
+               <QPM:ProductEmail></QPM:ProductEmail>
+               <QPM:VendorName>husky</QPM:VendorName>
+               <QPM:VendorInstallName>husky</QPM:VendorInstallName>
+               <QPM:VendorURL>http://husky.sourceforge.net</QPM:VendorURL>
+               <QPM:VendorEmbedURL/>
+               <QPM:VendorEmail></QPM:VendorEmail>
+               <QPM:AuthorName>Husky Team</QPM:AuthorName>
+               <QPM:AuthorURL>http://husky.sourceforge.net/team.html</QPM:AuthorURL>
+               <QPM:AuthorEmbedURL/>
+               <QPM:AuthorEmail></QPM:AuthorEmail>
+               <QPM:ProductIconSmall/>
+               <QPM:ProductIconLarge/>
+               <QPM:ProductDescriptionShort>This library is a core part of HUSKY portable fidonet software which parsing and manipulating config file.</QPM:ProductDescriptionShort>
+               <QPM:ProductDescriptionLong>This library is a core part of HUSKY portable fidonet software which parsing and manipulating config file.</QPM:ProductDescriptionLong>
+               <QPM:ProductDescriptionURL>http://husky.sourceforge.net</QPM:ProductDescriptionURL>
+               <QPM:ProductDescriptionEmbedURL/>
+            </QPM:ProductDescription>
+            <QPM:ReleaseDescription>
+               <QPM:ReleaseVersion>1.9.0</QPM:ReleaseVersion>
+               <QPM:ReleaseUrgency>Low</QPM:ReleaseUrgency>
+               <QPM:ReleaseStability>Experimental</QPM:ReleaseStability>
+               <QPM:ReleaseNoteMinor/>
+               <QPM:ReleaseNoteMajor/>
+               <QPM:ReleaseBuild>1</QPM:ReleaseBuild>
+               <QPM:CountryExclude/>
+               <QPM:ReleaseCopyright>GNU Lesser General Public License</QPM:ReleaseCopyright>
+            </QPM:ReleaseDescription>
+            <QPM:ContentDescription>
+               <QPM:ContentTopic>Software Development/Libraries and Extensions/C Libraries</QPM:ContentTopic>
+               <QPM:ContentKeyword>FIDO, Husky, FTN, FIDOCONF, FidoConfig</QPM:ContentKeyword>
+               <QPM:Processor/>
+               <QPM:TargetProcessor/>
+               <QPM:TargetOS>qnx6</QPM:TargetOS>
+               <QPM:HostOS>qnx6</QPM:HostOS>
+               <QPM:DisplayEnvironment>Console</QPM:DisplayEnvironment>
+               <QPM:TargetAudience>Developer</QPM:TargetAudience>
+            </QPM:ContentDescription>
+            <QPM:LicenseUrl>repdata://LicenseUrl/COPYING</QPM:LicenseUrl>
+            <QPM:ProductInstallationDependencies>
+               <QPM:ProductRequirements/>
+            </QPM:ProductInstallationDependencies>
+         </QPM:PackageManifest>
+      </QPG:PackageFilter>
+   </QPG:Values>
+</QPG:Generation>
