@@ -638,7 +638,7 @@ void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
 
     if (area->mandatory) arealink->mandatory = 1;
     if (area->manual) arealink->manual = 1;
-    if ((area->levelread > link->level) || (link->Pause & area->areaType)) arealink->export = 0;
+    if ((area->levelread > link->level) || ((link->Pause & area->areaType) && (!area->noPause))) arealink->export = 0;
     if (area->levelwrite > link->level) arealink->import = 0;
 
     if (area->group) {
