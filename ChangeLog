@@ -4,6 +4,11 @@ fidoconfig 0.10
 
 
 ----- cvs ci ------
+Sat Aug  5 12:53:03 NOVST 2000
+max:
+* parsePath() modifications, see also docs about msgBaseDir.
+
+----- cvs ci ------
 Mon Jul 31 12:18:23 NOVST 2000
 max (patch from Pavel Gulchouk):
 * dumpcfg put "advancedAreafix" and "-def" now

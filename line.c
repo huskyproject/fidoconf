@@ -234,6 +234,8 @@ int parseRemap(char *token, s_fidoconfig *config)
 
 int parsePath(char *token, char **var)
 {
+   char *p, *q, *osvar;
+
    if (*var != NULL) {
       printf("Line %d: Dublicate path!\n", actualLineNr);
       return 1;
@@ -247,14 +249,34 @@ int parsePath(char *token, char **var)
       return 0;
    }
 
-   if (*token && token[strlen(token)-1] == PATH_DELIM)
-       Strip_Trailing(token, PATH_DELIM);
-   xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
+   if (strchr(token,'[') && strchr(token,']')) {
+	   
+	   osvar = strchr(token,'[');
+	   osvar++;
+	   q = strchr(osvar, ']');
+	   if (q) *q = '\0';
+	   if (NULL == (p = getvar(osvar))) {
+		   *q=']';
+		   p=token;
+	   }
+	   if (!direxist(p))
+		   {
+			   printf("Line %d: Path %s not found!\n", actualLineNr, p);
+			   return 1;
+		   }
+	   xstrscat(var, "[", osvar, "]", NULL);
+	   
+   } else {
 
-   if (!direxist(*var))
-   {
-      printf("Line %d: Path %s not found!\n", actualLineNr, *var);
-      return 1;
+	   if (*token && token[strlen(token)-1] == PATH_DELIM)
+		   Strip_Trailing(token, PATH_DELIM);
+	   xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
+   
+	   if (!direxist(*var))
+		   {
+			   printf("Line %d: Path %s not found!\n", actualLineNr, *var);
+			   return 1;
+		   }
    }
 
    return 0;

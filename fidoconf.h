@@ -454,6 +454,7 @@ void carbonNames2Addr(s_fidoconfig *config);
 int  init_conf(char *conf_name);
 void close_conf(void);
 void setvar(char *var, char *value);
+char *getvar(char *var);
 void closeall(void);
 char *configline(void);
 char *stripComment(char *line);

@@ -59,7 +59,7 @@ int init_conf(char *conf_name)
   return 0;
 }
 
-static char *getvar(char *var)
+char *getvar(char *var)
 { int i;
 
   for (i=0; i<nvars; i++)

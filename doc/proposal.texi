@@ -480,6 +480,17 @@ the msgBaseDir is @code{/var/spool/fido/msgb} the resulting msgBaseName is
 If you specify the msgbasedir as PASSTHROUGH, the areas are created as
 passthrough areas.
 
+You also can set msgabsedir like:
+
+@example
+# last delimiter is important!
+set msgbdir = /var/spool/fido/msgb/
+msgbasedir = [[]msgbdir[]]
+@end
+
+In this way msgbasedir will be [msgbdir] in autocreated areas.
+This is a good way toss mail in different systems (UNIX, OS/2, etc.)
+
 This statement cannot be repeated.
 
 @node intab, outtab, msgbasedir, Keywords
