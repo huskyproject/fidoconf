@@ -31,6 +31,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #if !defined(MSDOS) || defined(__DJGPP__)
 #include "fidoconfig.h"
@@ -312,12 +313,17 @@ int main() {
 		  if (config->carbons[i].type == subject) printf("CarbonSubj:   ");
 		  if (config->carbons[i].type == msgtext) printf("CarbonText:   ");
 		  printf("%s\n",config->carbons[i].str);
-		  printf("CarbonArea:   %s\n",config->carbons[i].area->areaName);
+		  printf("CarbonArea:   \"%s\"",config->carbons[i].area->areaName);
+                  if (config->carbons[i].areaName) {
+                     if(stricmp(config->carbons[i].areaName, config->carbons[i].area->areaName)) printf(" !!! \"%s\" wanted !!!", config->carbons[i].areaName);
+                  } else {
+                     printf(" !!! No area specified !!!");
+                  }
+                  putchar('\n');
 		  if (config->carbons[i].reason) printf("CarbonReason: %s\n", config->carbons[i].reason);
 		  if (config->carbons[i].export) printf("Copied messages will be exported.\n");
 		  printf("-------\n");
       }
-	  printf("\nWarning! After each Carbon(to|from|kludge) write CarbonArea in config.\n");
 
 
       printf("\n=== ROUTE CONFIG ===\n");

@@ -204,6 +204,39 @@ char *getConfigFileName(void) {
    return getConfigFileNameForProgram("FIDOCONFIG", "config");
 }
 
+void carbonNames2Addr(s_fidoconfig *config)
+{
+   int i, found, narea;
+
+   for (i=0; i<config->carbonCount; i++) {
+           /* Can't use getArea() - it doesn't say about export and doesn't look at localAreas */
+           found=0;
+           if (config->carbons[i].areaName) {
+              for (narea=0; narea < config->echoAreaCount && !found; narea++) {
+                 if (stricmp(config->carbons[i].areaName, config->echoAreas[narea].areaName)==0) {
+                    found++;
+                    config->carbons[i].area = &(config->echoAreas[narea]);
+                    config->carbons[i].export = 1;
+                 }
+              }
+
+              for (narea=0; narea < config->localAreaCount && !found; narea++) {
+                 if (stricmp(config->carbons[i].areaName, config->localAreas[narea].areaName)==0) {
+                    found++;
+                    config->carbons[i].area = &(config->localAreas[narea]);
+                    config->carbons[i].export = 0;
+                 }
+              }
+           }
+
+           if (!found) {
+              printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (config->carbons[i].areaName) ? config->carbons[i].areaName : "");
+              config->carbons[i].area = &(config->badArea);
+              config->carbons[i].export = 0;
+           }
+   }
+}
+
 s_fidoconfig *readConfig()
 {
    FILE *f;
@@ -234,6 +267,8 @@ s_fidoconfig *readConfig()
          fflush(stdout);
          exit(1);
       }
+      fclose(f);
+      carbonNames2Addr(config);
       return config;
    } else {
       printf("Could not find config-file!\n");

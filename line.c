@@ -1397,7 +1397,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
    config->carbons[config->carbonCount-1].type = type;
    copyString(token, &(config->carbons[config->carbonCount-1].str));
 
-   config->carbons[config->carbonCount-1].area = &(config->badArea);
+   config->carbons[config->carbonCount-1].areaName = NULL;
    config->carbons[config->carbonCount-1].export = 0;
    config->carbons[config->carbonCount-1].reason = NULL;
 
@@ -1405,29 +1405,14 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
 }
 
 int parseCarbonArea(char *token, s_fidoconfig *config) {
-   int i;
 
    if (token == NULL) {
 	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
 	   return 1;
    }
    
-   for (i=0; i<config->localAreaCount; i++) {
-	   if (stricmp(config->localAreas[i].areaName,token)==0) {
-	     config->carbons[config->carbonCount-1].area = &(config->localAreas[i]);
-	     config->carbons[config->carbonCount-1].export = 0; 
-	     return 0;
-	   }
-   }
-   
-   for (i=0; i<config->echoAreaCount; i++) {
-	   if (stricmp(config->echoAreas[i].areaName,token)==0) {
-		   config->carbons[config->carbonCount-1].area = &(config->echoAreas[i]);
-	           config->carbons[config->carbonCount-1].export = 1;
-		   return 0;
-	   }
-   }
-   
+   copyString(token, &(config->carbons[config->carbonCount-1].areaName));
+
    return 0;
 }
 

@@ -2,6 +2,12 @@ fidoconfig 0.9
 --------------
 
 ----- cvs ci ------
+Sat Sep 18 20:16:07 NOVST 1999
+max: (patch from Serguei Revtov)
+* fixed bug when parsing carbon areas
+* added fclose after parsing config
+
+----- cvs ci ------
 Wed Sep 15 15:18:50 MET DST 1999
 mtt:
 * new example config

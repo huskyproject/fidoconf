@@ -205,6 +205,7 @@ struct carbon {
    char         *str;     // string to compare
    char        	*reason;  // reason of copy
    s_area       *area;    // area to copy messages
+   char         *areaName;// name of area to copy messages
    int          export;   // export copied msg?
 };
 typedef struct carbon s_carbon;
