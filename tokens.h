@@ -261,7 +261,8 @@ enum {
     ID_FILEDESCNAME,
     ID_FORWARDREQUESTTIMEOUT,
     ID_IDLEPASSTHRUTIMEOUT,
-    ID_KILLEDREQUESTTIMEOUT
+    ID_KILLEDREQUESTTIMEOUT,
+    ID_PACKNETMAILONSCAN
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -464,6 +465,7 @@ token_t parseline_tokens[] =
     { "pack", ID_PACK },
     { "packer", ID_PACKER },
     { "packnetmail", ID_PACKNETMAIL },
+    { "packnetmailonscan", ID_PACKNETMAILONSCAN },
     { "passfileareadir", ID_PASSFILEAREADIR },
     { "password", ID_PASSWORD },
     { "pause", ID_PAUSE },

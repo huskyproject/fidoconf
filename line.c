@@ -3905,6 +3905,9 @@ int parseLine(char *line, s_fidoconfig *config)
 	case ID_NORULES:
 	    rc = parseBool(getRestOfLine(), &(getDescrLink(config)->noRules));
 	    break;
+	case ID_PACKNETMAILONSCAN:
+	    rc = parseBool(getRestOfLine(), &(config->packNetMailOnScan));
+	    break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

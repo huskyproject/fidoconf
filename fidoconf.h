@@ -535,6 +535,7 @@ typedef struct fidoconfig {
    char *notValidFNChars;
    char *rulesDir;
    unsigned int perlSupport;
+   unsigned int packNetMailOnScan;
     
 } s_fidoconfig, *ps_fidoconfig;
 

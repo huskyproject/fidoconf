@@ -154,6 +154,7 @@ void initConfig(s_fidoconfig *config) {
    config -> tossingExt = strdup("tos");
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
    config -> typeDupeBase = hashDupesWmsgid;
+   config -> packNetMailOnScan = 1;
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)

@@ -458,7 +458,7 @@ static int cmpfnames(char *file1, char *file2)
 	return 1;
     return 0;
 }
-#elif (defined(NT) || defined(WINNT) || defined(__NT__)) && (defined(_MSC_VER) || defined(__MINGW32__))
+#elif (defined(NT) || defined(WINNT) || defined(__NT__)) && (defined(_MSC_VER) || defined(__MINGW32__)) && !defined(_MAKE_DLL)
 #ifdef __MINGW32__
 typedef unsigned long DWORD;
 typedef char        *LPSTR;
