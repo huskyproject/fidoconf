@@ -76,7 +76,7 @@ typedef struct addr {
    unsigned int zone, net, node, point;
    char   *domain;
 
-} s_addr, *ps_addr;
+} s_addr, *ps_addr, hs_addr;
 
 typedef struct  pack {
    char    *packer;
