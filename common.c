@@ -739,7 +739,7 @@ int copy_file(const char *from, const char *to)
         remove(to);
 	return -1;
     }
-
+    memset(&st, 0, sizeof(st));
     fstat(fileno(fin), &st);
     fclose(fin);
     if (fclose(fout))
