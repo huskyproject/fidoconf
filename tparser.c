@@ -703,6 +703,7 @@ int main(int argc, char **argv) {
 	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
 	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
 	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
+	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
 
   if (hpt==0) {
       printf("\n=== FILEFIX CONFIG ===\n");

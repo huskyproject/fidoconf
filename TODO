@@ -8,8 +8,11 @@
   mandatory means: subscription allowed, unsubscription not allowed
 - print name of config file with error
 
-- dump remaps
-- for htick developers (add to doc & tparser):
+- add to doc & tparser for hpt
+    what is [module]
+    set, if, if not, else, elseif, ifdef, ifndef, endif
+
+- for htick developers (add to doc, tparser, dumpcfg?):
     filefix
     filefixkillreports
     filefixkillrequests
@@ -29,12 +32,6 @@
     ForwardFilePriority
     forwardFileRequests
     filefixhelp
-- add to doc & tparser for hpt
-    AdvancedAreaFix
-    what is [module]
-    set, if, if not, else, elseif, ifdef, ifndef, endif
-    areafixhelp
-    areafixEchoLimit
 
 - fix dumping of: Unpack, netMailArea, dupeArea, badArea, echoArea, origin,
-tearline
+tearline, remaps

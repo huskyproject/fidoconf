@@ -30,7 +30,7 @@ points to the file:
 set FIDOCONFIG=e:\bbs\fidoconfig\config
 
 FIDOCONFIG=~/fidoconfig/config
-export FIDOCONFIG
+sexport FIDOCONFIG
 @end example
 
 The config file(s) must be readable. If you plan to use the autoareacreate
@@ -104,6 +104,7 @@ a comment and will be ignored.
 * areasMaxDupeAge::             max age for dupes in CommonDupeBase
 * magic::                       path for magic-file requests
 * lockfile::                    file which lock hpt session
+* areafixhelp::                 file with help for areafix reports
 
 * link::                        adding a link to your config
 * linkdefaults::                start/end/destroy links default definitions
@@ -113,6 +114,8 @@ a comment and will be ignored.
 * pktpwd::                      pktpassword for this link
 * ticpwd::                      ticker password for this link
 * areafix::                     areafix access for this link
+* advancedareafix::             advanced areafix
+* areafixecholimit::            limit for subscribe via areafix
 * areafixpwd::                  areafix password for this link
 * filefixpwd::                  filefix password for this link
 * bbspwd::                      bbs password for this link (online user)
@@ -122,7 +125,6 @@ a comment and will be ignored.
 * emailSubj::                   subject of email
 * emailFrom::                   sender address used for outgoing emails
 * emailEncoding::               encoding of outgoing emails
-* tossgrp::                     tosser groups which link belongs to
 * ticgrp::                      ticcer groups which link belongs to
 * bbsgrp::                      online groups which link belongs to
 * accessgrp::                   groups for echomail access
@@ -739,7 +741,7 @@ Execution of commands may compromize security!  You are warned.
 
 This statement cannot be repeated.
 
-@node lockfile, link, magic, Keywords
+@node lockfile, areafixhelp, magic, Keywords
 @subsection lockfile
 @table @asis
 @item Syntax:
@@ -752,7 +754,20 @@ another session of hpt will be terminated if found lockfile
 
 This statement cannot be repeated.
 
-@node link, linkdefaults, lockfile, Keywords
+@node areafixhelp, link, lockfile, Keywords
+@subsection areafixhelp
+@table @asis
+@item Syntax:
+@code{areafixhelp <file>}
+@item Example:
+@code{areafixhelp /etc/ftn/areafix.hlp}
+@end table
+
+This is help file, which sends to link if he requests "%HELP".
+
+This statement cannot be repeated.
+
+@node link, linkdefaults, areafixhelp, Keywords
 @subsection link
 @table @asis
 @item Syntax:
@@ -867,7 +882,7 @@ An empty statement is allowed.
 
 This statement can only be repeated for different links.
 
-@node areafix, areafixpwd, ticpwd, Keywords
+@node areafix, advancedareafix, ticpwd, Keywords
 @subsection areafix
 @table @asis
 @item Syntax:
@@ -880,7 +895,35 @@ By default areafix is on. You can turn off using of areafix by this link.
 
 This statement can only be repeated for different links.
 
-@node areafixpwd, filefixpwd, areafix, Keywords
+@node advancedareafix, areafixecholimit, areafix, Keywords
+@subsection advancedareafix
+@table @asis
+@item Syntax:
+@code{advancedareafix <bool>}
+@item Example:
+@code{advancedareafix on}
+@end table
+
+If this statement turn "on", then unsubscribe messages to areafix robot
+of this link looks like "~areaname". The area on the remote system will
+be deleted from config file, if our system is default uplink.
+
+This statement can only be repeated for different links.
+
+@node areafixecholimit, areafixpwd, advancedareafix, Keywords
+@subsection areafixecholimit
+@table @asis
+@item Syntax:
+@code{areafixecholimit <integer>}
+@item Example:
+@code{areafixecholimit 50}
+@end table
+
+This is maximum echo areas which can be subscribed via areafix.
+
+This statement can only be repeated for different links.
+
+@node areafixpwd, filefixpwd, areafixecholimit, Keywords
 @subsection areafixpwd
 @table @asis
 @item Syntax:
@@ -1001,7 +1044,7 @@ link. It may be ignored by some encodings (e.g. SEAT).
 
 This statement can only be repeated for different links.
 
-@node emailEncoding, tossgrp, emailSubj, Keywords
+@node emailEncoding, ticgrp, emailSubj, Keywords
 @subsection email
 @table @asis
 @item Syntax:
@@ -1015,22 +1058,7 @@ link.
 
 This statement can only be repeated for different links.
 
-@node tossgrp, ticgrp, emailEncoding, Keywords
-@subsection tossgrp
-@table @asis
-@item Syntax:
-@code{tossgrp @{<group>@}}
-@item Example:
-@code{tossgrp fido}
-@end table
-
-This statement connects a link to several echomails groups.
-
-This statement can only be repeated for different links.
-
-@strong{This statement is currently not supported.}
-
-@node ticgrp, bbsgrp, tossgrp, Keywords
+@node ticgrp, bbsgrp, emailEncoding, Keywords
 @subsection ticgrp
 @table @asis
 @item Syntax:
@@ -2032,7 +2060,7 @@ Default extension: tos.
 @subsection route
 @table @asis
 @item Syntax:
-@code{route <flavour> [enc|noenc] <target> @{<linkWW>@}}
+@code{route <flavour> <target> @{<linkWW>@}}
 @item Example:
 @code{route crash 2:2433/1245 2:2433/* 2:2432/*}
 @end table
@@ -2052,10 +2080,6 @@ direct
 @item
 immediate
 @end enumerate
-
-enc: means encrypted msgs
-
-noenc: means unencrypted msgs
 
 @strong{target:}
 @enumerate

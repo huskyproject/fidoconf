@@ -446,10 +446,6 @@ void dumpRoute(s_route *route, int count, char *prefix, FILE *f)
 	break;
       }
       
-      if (route[i].enc != 0)
-	  fprintf(f, "enc       ");
-      else fprintf(f, "noenc     ");
-
       if (route[i].target != NULL) fprintf(f, "%-19s ", aka2str(route[i].target->hisAka));
       else
       {

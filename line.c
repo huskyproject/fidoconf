@@ -1364,9 +1364,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
 
   while (option != NULL) {
     iOption = strLower(sstrdup(option));
-    if (strcmp(iOption, "enc")==0) actualRoute->enc = 1;
-    else if (strcmp(iOption, "noenc")==0) actualRoute->enc = 0;
-    else if (strcmp(iOption, "hold")==0) actualRoute->flavour = hold;
+	if (strcmp(iOption, "hold")==0) actualRoute->flavour = hold;
     else if (strcmp(iOption, "normal")==0) actualRoute->flavour = normal;
     else if (strcmp(iOption, "crash")==0) actualRoute->flavour = crash;
     else if (strcmp(iOption, "direct")==0) actualRoute->flavour = direct;

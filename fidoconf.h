@@ -162,7 +162,6 @@ typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern
 
 typedef struct route {
    e_flavour flavour;
-   char      enc;
    ps_link   target;   // if target = NULL use
    e_routing routeVia; // this
    char      *pattern;
