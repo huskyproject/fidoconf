@@ -1,0 +1,40 @@
+# Makefile for Mingw32 CPD to cross-compile NT executables
+
+CC=gcc
+# the space after the o is important!
+EXENAMEFLAG=-o 
+CDEFS=	-DNT -D__NT__ -DWINNT -D__CYG__ -I.. -Wall -pedantic -c -Wno-char-subscripts -mno-cygwin
+COPT=	-O2
+LFLAGS=-mno-cygwin
+
+OBJ=.o
+EXE=.exe
+TPU=.tpu
+RM=rm
+LIB=.a
+AR=ar
+AR_R=rs
+
+LINKSMAPI=../smapi/libsmapicyg.a
+LIBPREFIX=lib
+
+FIDOCONFIG = fidoconfigcyg
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+FECFG2FCONF = fecfg2fconf
+LIBFIDOCONFIG = $(LIBPREFIX)$(FIDOCONFIG)
+LINKFIDOCONFIG=$(LIBFIDOCONFIG)$(LIB)
+
+default: all
+
+include makefile.inc
+
+all: commonlibs commonprogs
+
+clean: commonclean
+
+distclean: commondistclean
+
