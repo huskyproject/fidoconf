@@ -202,18 +202,21 @@ char *fc_stristr(const char *str, const char *find)
     char ch, sc;
     const char *str1 = NULL, *find1 = NULL;
 
-    find++;
-    if ((ch = *(find-1)) != 0) {
-	do {
-	    do {
-		str++;
-		if ((sc = *(str-1)) == 0) return (NULL);
-	    } while (tolower((unsigned char) sc) != tolower((unsigned char) ch));
-			
-	    for(str1=str,find1=find; *find1 && *str1 && tolower(*find1)==tolower(*str1); str1++,find1++);
-			
-	} while (*find1);
-	str--;
+    if(str)
+    {
+        find++;
+        if ((ch = *(find-1)) != 0) {
+            do {
+                do {
+                    str++;
+                    if ((sc = *(str-1)) == 0) return (NULL);
+                } while (tolower((unsigned char) sc) != tolower((unsigned char) ch));
+                
+                for(str1=str,find1=find; *find1 && *str1 && tolower(*find1)==tolower(*str1); str1++,find1++);
+                
+            } while (*find1);
+            str--;
+        }
     }
     return ((char *)str);
 }
