@@ -380,6 +380,8 @@ void stripPktPwd(s_fidoconfig *config)
             memcpy(config->links[i].pktPwd, config->links[i].defaultPwd, 8);
          }
          config->links[i].pktPwd[8] = '\0';
+         printf("WARNING: pktPwd too long! Truncated to 8 chars (%s)\n",aka2str(config->links[i].hisAka));
+         fprintf(stderr,"pktPwd too long! Truncated to 8 chars (%s)\n",aka2str(config->links[i].hisAka));
       }
    }
 }

@@ -336,8 +336,8 @@ static char *cvtFlavour(e_flavour flavour)
    }
 }
 
-void printLink(s_link link) {
-  unsigned int i;
+int printLink(s_link link) {
+  unsigned int i, rc=0;
 
    printf("Link: "); printAddr(link.hisAka);
    printf(" (ourAka "); printAddr(*(link.ourAka));
@@ -355,7 +355,13 @@ void printLink(s_link link) {
    if (link.areaFixPwd) printf("areafixPwd: %s\n", link.areaFixPwd);
    if (link.fileFixPwd) printf("filefixPwd: %s\n", link.fileFixPwd);
    if (link.bbsPwd) printf("bbsPwd:     %s\n", link.bbsPwd);
-   if (link.sessionPwd) printf("sessionPwd: %s\n", link.sessionPwd);
+   if (link.sessionPwd) {
+      printf("sessionPwd: %s\n", link.sessionPwd);
+      if(strlen(link.sessionPwd)>8) {
+        printf("WARNING: sessionPwd too long, should be not more what 8 chars usually.\nMore long password may cause error in some mailers.\n");
+        fprintf(stderr,"WARNING: sessionPwd too long, should be not more what 8 chars usually.\n");
+      }
+   }
    if (link.handle!=link.name) printf("handle:     %s\n", link.handle);
    if (link.email)
    {
@@ -561,6 +567,7 @@ void printLink(s_link link) {
    printf("reducedSeenBy %s\n", (link.reducedSeenBy) ? "on" : "off");
 
    printf("-------\n");
+   return rc;
 }
 
 /*  Some dumb checks ;-) */
