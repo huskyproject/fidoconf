@@ -1,3 +1,21 @@
+2002-09-12 Thursday 11:21  stas_degteff
+
+	* HISTORY (fidoconf-0_14-stable.3): Info about previous fix
+
+2002-09-12 Thursday 10:49  stas_degteff
+
+	* fidoconf.c (fidoconf-0_14-stable.1): Fix commented line parsing
+	(if comment ends line)
+
+2002-09-12 Thursday 08:35  stas_degteff
+
+	* tparser.c (fidoconf-0_14-stable.2): Fix previous patch
+
+2002-09-12 Thursday 08:31  stas_degteff
+
+	* tparser.c (fidoconf-0_14-stable.1): Tparser output remaps
+	statements (merged from -current)
+
 2002-09-05 Thursday 04:38  stas_degteff
 
 	* Makefile (fidoconf-0_14-stable.2): Set instll options for perl &
