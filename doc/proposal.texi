@@ -674,7 +674,7 @@ e.g.: unpack "unzip -joLqq $a -d $p $f" 0 504b0304
 if some husky program is compiled with hptzip, you can use the following definition:
 @example
 
-@code{Unpack zip 0 504b0304}
+@code{Unpack zip zipInternal 0 504b0304}
 @end example
 
 This statement can be repeated.
