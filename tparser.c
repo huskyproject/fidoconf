@@ -191,6 +191,7 @@ void printLink(s_link link) {
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
    if (link.packerDef != NULL) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
+   if (link.arcmailSize != 0) printf("arcmailSize - %u kb\n",link.arcmailSize);
    printf("forwardPkts ");
    switch (link.forwardPkts){
    case fOff : printf("off\n");
@@ -291,6 +292,7 @@ int main() {
       for (i = 0; i < config->packCount; i++) {
          printf("Packer: %s      Call: %s\n", config->pack[i].packer, config->pack[i].call);
       }
+	  if (config->defarcmailSize!=0) printf("\nDefault Arcmail Size - %u kb\n",config->defarcmailSize);
       printf("\n=== UNPACK CONFIG ===\n");
       for (i = 0; i < config->unpackCount; i++) {
          printf("UnPacker:  Call: %s Offset %d Match code ", config->unpack[i].call, config->unpack[i].offset);

@@ -1467,6 +1467,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "mandatory")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
    else if (stricmp(token, "optgrp")==0) rc = parseOptGrp(getRestOfLine(), &(config->links[config->linkCount-1].optGrp));
    else if (stricmp(token, "level")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].level));
+   else if (stricmp(token, "arcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].arcmailSize));
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));
    else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].areaFixPwd));
@@ -1513,7 +1514,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "logechotoscreen")==0) config->logEchoToScreen = 1;
    else if (stricmp(token, "separatebundles")==0) config->separateBundles = 1;
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
-             
+   else if (stricmp(token, "defarcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->defarcmailSize));
+
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
 
    if (rc != 0) {

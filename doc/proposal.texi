@@ -132,6 +132,7 @@ link definition:
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
 * forwardPkts::                 shall we forward inbound packets for this node?
 * pause::                       don't export mail for this link
+* arcmailsize::			size of arcmail bundle
 
 area definition:
 * netmailarea::                 definition of netmailarea
@@ -170,6 +171,7 @@ misc:
 * logEchoToScreen::             set output to screen log information
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
+* defarcmailsize::		default size for arcmail bundle
 
 @end menu
 
@@ -1027,7 +1029,7 @@ cannot process it (each tosser has a different node number, because the
 systems operate on distinct outbound structures and distinct message
 base areas).
 
-@node pause, netmailarea, forwardPkts, Keywords
+@node pause, arcmailsize, forwardPkts, Keywords
 @subsection pause
 @table @asis
 @item Syntax:
@@ -1038,7 +1040,19 @@ base areas).
 
 Stop export echomail for this link.
 
-@node netmailarea, badarea, pause, Keywords
+@node arcmailsize, netmailarea, pause, Keywords
+@subsection arcmailsize
+@table @asis
+@item Syntax:
+@code{arcmailsize <integer>}
+@item Example:
+@code{arcmailsize 300}
+@end table
+
+maximum arcmail size in kb for this link.
+default is 500kb.
+
+@node netmailarea, badarea, arcmailsize, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:
@@ -1485,7 +1499,7 @@ Set output to screen log messages.
 
 Remap mail to other address.
 
-@node SeparateBundles, , Remap, Keywords
+@node SeparateBundles, defarcmailsize, Remap, Keywords
 @subsection SeparateBundles
 @table @asis
 @item Syntax:
@@ -1495,6 +1509,18 @@ Remap mail to other address.
 @end table
 
 This statament move echomail for all links to his own directory.
+
+@node defarcmailsize, ,SeparateBundles, Keywords
+@subsection defarcmailsize
+@table @asis
+@item Syntax:
+@code{defarcmailsize <integer>}
+@item Example:
+@code{defarcmailsize 1024}
+@end table
+
+default arcmail size in kb for all links.
+500kb if not defined.
 
 @node Example,  , Keywords, config file
 @section Working sample config

@@ -103,7 +103,8 @@ struct link {
    void *msg;                 // active msg to the link (used in areafix)
    int  Pause;                // 0 if no pause (default)
    unsigned autoPause;        // in days
-   unsigned level;	      // 0-65535
+   unsigned level;	          // 0-65535
+   unsigned arcmailSize;      // max arcmail size in kb
    // Default link's options
    char *export, *import, *mandatory, *optGrp;
 };
@@ -267,6 +268,7 @@ struct fidoconfig {
 
    unsigned int logEchoToScreen;
    unsigned int separateBundles;
+   unsigned int defarcmailSize;
 };
 
 
