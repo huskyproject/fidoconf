@@ -44,7 +44,12 @@ FCONF_EXT char *xstrscat(char **s, ...);
  * Appends a list of strings to "s", reallocating it when it needs
  * list is terminated with NULL value
  */
-	
+
+FCONF_EXT *xstrcpy(char **s, char *add);
+/*
+ * Copys "add" to variable "s", reallocating it when it needs
+ */
+
 FCONF_EXT int xscatprintf(char **s, const char *format, ...);
 /* 
  * sprintf's "format" to the end of "s". Reallocates it when it needs

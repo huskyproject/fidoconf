@@ -53,6 +53,13 @@ char *xstrcat(char **s, char *add)
     return strcat(xstralloc(s, strlen(add)), add);
 }
 
+char *xstrcpy(char **s, char *add)
+{
+    nfree(*s);
+    return xstrcat(s, add);
+}
+
+
 char *xstrscat(char **s, ...)
 {
     va_list	ap;
