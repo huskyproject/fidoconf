@@ -135,7 +135,8 @@ LIBOBJS:=$(LOBJS)
 TARGETDLL:=$(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)-$(VER)$(_DLL)
 
 # libraries need to build binary file
-DYNLIBS = ./libfidoconfigqnx.so ../../smapi/make/libsmapiqnx.so ../../huskylib/make/libhuskyqnx.so
+SLIBS=-L../../smapi/make -lsmapiqnx
+DYNLIBS = -L. -lfidoconfigqnx
 STATLIBS = ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)  ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
 LIBS=$(DYNLIBS)
 
@@ -162,7 +163,7 @@ $(TARGETLIB):	$(LIBOBJS)
 		$(STRIPLIB) $@
 
 $(TARGETDLL):	$(DLLOBJS)
-		$(CC) $(DLLOPT) $(DLLLINKOPT) $(CFLAGS) $(NAMEOPT)$@ $^ $(DLLS)
+		$(CC) $(DLLOPT) $(DLLLINKOPT) $(CFLAGS) $(SLIBS) $(NAMEOPT)$@ $^
 		$(STRIPDLL) $@
 		$(LN) -f -s $@ $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
 
