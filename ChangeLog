@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Wed Apr 19 16:52:16 MSD 2000
+max (patch from Serguei Revtov):
+* unifying some boolean tokens parsing
+
+----- cvs ci ------
 Sat Apr 15 14:16:00 MSK 2000
 nn:
 * disableTID small fix

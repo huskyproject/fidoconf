@@ -1181,7 +1181,7 @@ int parseNodelist(char *token, s_fidoconfig *config)
    return 0;
 }
 
-int parseBool (char *token, int *value) {
+int parseBool (char *token, unsigned int *value) {
 
     if (token == NULL) {
        *value = 1;
@@ -2447,24 +2447,24 @@ int parseLine(char *line, s_fidoconfig *config)
 #endif       
         if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
    else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
-   else if (stricmp(token, "areafixfrompkt")==0) config->areafixFromPkt = 1;
-   else if (stricmp(token, "areafixkillreports")==0) config->areafixKillReports = 1;
-   else if (stricmp(token, "areafixkillrequests")==0) config->areafixKillRequests = 1;
-   else if (stricmp(token, "filefixkillreports")==0) config->filefixKillReports = 1;
-   else if (stricmp(token, "filefixkillrequests")==0) config->filefixKillRequests = 1;
-   else if (stricmp(token, "createdirs")==0) config->createDirs = 1;
-   else if (stricmp(token, "longdirnames")==0) config->longDirNames = 1;
-   else if (stricmp(token, "splitdirs")==0) config->splitDirs = 1;
-   else if (stricmp(token, "adddlc")==0) config->addDLC = 1;
-   else if (stricmp(token, "filesingledescline")==0) config->fileSingleDescLine = 1;
-   else if (stricmp(token, "filecheckdest")==0) config->fileCheckDest = 1;
+   else if (stricmp(token, "areafixfrompkt")==0) rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
+   else if (stricmp(token, "areafixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
+   else if (stricmp(token, "areafixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));
+   else if (stricmp(token, "filefixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->filefixKillReports));
+   else if (stricmp(token, "filefixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->filefixKillRequests));
+   else if (stricmp(token, "createdirs")==0) rc = parseBool(getRestOfLine(), &(config->createDirs));
+   else if (stricmp(token, "longdirnames")==0) rc = parseBool(getRestOfLine(), &(config->longDirNames));
+   else if (stricmp(token, "splitdirs")==0) rc = parseBool(getRestOfLine(), &(config->splitDirs));
+   else if (stricmp(token, "adddlc")==0) rc = parseBool(getRestOfLine(), &(config->addDLC));
+   else if (stricmp(token, "filesingledescline")==0) rc = parseBool(getRestOfLine(), &(config->fileSingleDescLine));
+   else if (stricmp(token, "filecheckdest")==0) rc = parseBool(getRestOfLine(), &(config->fileCheckDest));
    else if (stricmp(token, "publicgroup")==0) rc = parseGroup(getRestOfLine(), config, 2);
-   else if (stricmp(token, "logechotoscreen")==0) config->logEchoToScreen = 1;
-   else if (stricmp(token, "separatebundles")==0) config->separateBundles = 1;
-   else if (stricmp(token, "carbonandquit")==0) config->carbonAndQuit = 1;
-   else if (stricmp(token, "carbonkeepsb")==0) config->carbonKeepSb = 1;
-   else if (stricmp(token, "ignorecapword")==0) config->ignoreCapWord = 1;
-   else if (stricmp(token, "noprocessbundles")==0) config->noProcessBundles = 1;
+   else if (stricmp(token, "logechotoscreen")==0) rc = parseBool(getRestOfLine(), &(config->logEchoToScreen));
+   else if (stricmp(token, "separatebundles")==0) rc = parseBool(getRestOfLine(), &(config->separateBundles));
+   else if (stricmp(token, "carbonandquit")==0) rc = parseBool(getRestOfLine(), &(config->carbonAndQuit));
+   else if (stricmp(token, "carbonkeepsb")==0) rc = parseBool(getRestOfLine(), &(config->carbonKeepSb));
+   else if (stricmp(token, "ignorecapword")==0) rc = parseBool(getRestOfLine(), &(config->ignoreCapWord));
+   else if (stricmp(token, "noprocessbundles")==0) rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
    else if (stricmp(token, "execonfile")==0) rc = parseExecOnFile(getRestOfLine(), config);
    else if (stricmp(token, "defarcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
