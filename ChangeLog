@@ -1,3 +1,8 @@
+2003-04-27 Sunday 19:32  d_sergienko
+
+	* adcase.c (fidoconf-1_4-stable.1): backport of mche's patch about
+	file case
+
 2003-04-15 Tuesday 15:12  stas_degteff
 
 	* common.c, common.h, fidoconf.c, line.c
