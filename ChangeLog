@@ -1,3 +1,18 @@
+2003-02-12 Wednesday 18:14  sfpavel
+
+	* tparser.c (fidoconf-1_4-stable.1): Update tparser for new version
+	check
+
+2003-02-12 Wednesday 09:13  sfpavel
+
+	* makefile.mvc, makefile.mvcdll (fidoconf-1_4-stable.[2,2]): Remove
+	unstable code for AreaAutoCreateGroup support (MSVC makefiles)
+
+2003-02-12 Wednesday 04:16  sfpavel
+
+	* line.c (fidoconf-1_4-stable.1): Display diagnostic message if
+	OurAka is not listed as Address [patch from stas_degteff]
+
 2003-02-11 Tuesday 12:26  sfpavel
 
 	* debian/changelog (fidoconf-1_4-stable.2): Change debian version
