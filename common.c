@@ -65,6 +65,7 @@
 
 #include "fidoconf.h"
 #include "common.h"
+#include "xstr.h"
 #include <smapi/patmat.h>
 
 int copyString(char *str, char **pmem)
@@ -992,4 +993,21 @@ char    *GetFilenameFromPathname(char* pathname)
     else
         fname = pathname;
     return fname;
+}
+
+char *makeMsgbFileName(ps_fidoconfig config, char *s) {
+    // allowed symbols: 0..9, a..z, A..Z, ".,!@#$^()~-_{}[]"
+    static char defstr[]="\"*/:;<=>?\\|%`'&+"; // not allowed
+    char *name=NULL, *str;
+
+    if (config->notValidFNChars) str = config->notValidFNChars;
+    else str = defstr;
+
+    while (*s) {
+	if (strchr(str,*s)) xscatprintf(&name,"%%%x", *s);
+	else xscatprintf(&name, "%c", *s);
+	s++;
+    }
+
+    return name;
 }

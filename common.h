@@ -152,6 +152,10 @@ FCONF_EXT  char    *GetFilenameFromPathname(char* pathname);
     name
 */
 
+FCONF_EXT  char *makeMsgbFileName(ps_fidoconfig config, char *s);
+/*
+    makes correct file neme fot echo or fecho area
+*/
 
 FCONF_EXT char   *shell_expand(char *str);
 /*DOC
