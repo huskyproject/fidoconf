@@ -34,6 +34,7 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <ctype.h>
 
 #if ((!(defined(_MSC_VER) && (_MSC_VER >= 1200))) && (!defined(__TURBOC__)))
@@ -48,6 +49,14 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
+#ifdef __MINGW32__
+#include <sys/utime.h>
+#else
+#include <utime.h>
+#endif
+#endif
 
 #if defined ( __WATCOMC__ )
 #include <dos.h>
@@ -668,10 +677,6 @@ int move_file(const char *from, const char *to)
 {
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
     int rc;
-    char *buffer;
-    size_t read;
-    FILE *fin, *fout;
-	
 
     rc = rename(from, to);
     if (!rc) {               /* rename succeeded. fine! */
@@ -687,53 +692,10 @@ int move_file(const char *from, const char *to)
       return 0;
     }
 
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
     /* Rename did not succeed, probably because the move is accross
        file system boundaries. We have to copy the file. */
 
-    buffer = malloc(MOVE_FILE_BUFFER_SIZE);
-    if (buffer == NULL)	return -1;
-
-    fin = fopen(from, "rb");
-    if (fin == NULL) { nfree(buffer); return -1; }
-
-    fout = fopen(to, "wb");
-    if (fout == NULL) { nfree(buffer); fclose(fin); return -1; }
-
-    while ((read = fread(buffer, 1, MOVE_FILE_BUFFER_SIZE, fin)) > 0)
-    {
-	if (fwrite(buffer, 1, read, fout) != read)
-	{
-	    fclose(fout); fclose(fin); remove(to); nfree(buffer);
-	    return -1;
-	}
-    }
-
-    if (ferror(fout) || ferror(fin))
-    {
-	fclose(fout);
-	fclose(fin);
-	nfree(buffer);
-	remove(to);
-	return -1;
-    }
-
-    fclose(fout);
-    fclose(fin);
-    nfree(buffer);
-#elif defined (__NT__) && defined(USE_SYSTEM_COPY)
-    rc = CopyFile(from, to, FALSE);
-    if (rc == FALSE) {
-      remove(to);
-      return -1;
-    }       
-#elif defined (OS2) && defined(USE_SYSTEM_COPY)
-    rc = DosCopy((PSZ)from, (PSZ)to, 1);
-    if (rc) {
-      remove(to);
-      return -1;
-    }       
-#endif
+    if (copy_file(from, to)) return -1;
     remove(from);
     return 0;
 }
@@ -745,7 +707,8 @@ int copy_file(const char *from, const char *to)
     char *buffer;
     size_t read;
     FILE *fin, *fout;
-	
+    struct stat st;
+    struct utimbuf ut;
 
     /* Rename did not succeed, probably because the move is accross
        file system boundaries. We have to copy the file. */
@@ -768,18 +731,27 @@ int copy_file(const char *from, const char *to)
 	}
     }
 
+    nfree(buffer);
     if (ferror(fout) || ferror(fin))
     {
 	fclose(fout);
 	fclose(fin);
-	nfree(buffer);
         remove(to);
 	return -1;
     }
 
-    fclose(fout);
+    fstat(fileno(fin), &st);
     fclose(fin);
-    nfree(buffer);
+    if (fclose(fout))
+    {
+	fclose(fout);
+	fclose(fin);
+        remove(to);
+	return -1;
+    }
+    ut.actime = st.st_atime;
+    ut.modtime = st.st_mtime;
+    utime(to, &ut);
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
     int rc = CopyFile(from, to, FALSE);
     if (rc == FALSE) {
