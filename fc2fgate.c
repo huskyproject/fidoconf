@@ -191,7 +191,7 @@ int main (int argc, char *argv[]) {
 
    printf("Generating Config-file %s\n", argv[1]);
 
-   areaconfig=(char *)malloc(65536);
+   areaconfig=(char *) smalloc(65536);
 
    config = readConfig(NULL);
    if (config!= NULL) {

@@ -89,7 +89,7 @@ char *getDescription(void) {
             return NULL;
     case 2: /* '"' out... */
             desc[strlen(desc)-2]='\0';
-            tmp=(char *) malloc (strlen(desc));
+            tmp=(char *) smalloc (strlen(desc));
             strcpy(tmp,desc+1);
   }
   return tmp;
@@ -162,7 +162,7 @@ int parseAddress(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->addr = realloc(config->addr, sizeof(s_addr)*(config->addrCount+1));
+   config->addr = srealloc(config->addr, sizeof(s_addr)*(config->addrCount+1));
    string2addr(aka, &(config->addr[config->addrCount]));
    config->addrCount++;
 
@@ -179,7 +179,7 @@ int parseRemap(char *token, s_fidoconfig *config)
    }
 
  
-   config->remaps=realloc(config->remaps,
+   config->remaps = srealloc(config->remaps,
                           (config->remapCount+1)*sizeof(s_remap));
 
    param = strtok(token, ",\t"); 
@@ -252,10 +252,10 @@ int parsePath(char *token, char **var)
 #endif */
 
    if (token[strlen(token)-1] == PATH_DELIM) {
-      *var = (char *) malloc(strlen(token)+1);
+      *var = (char *) smalloc(strlen(token)+1);
       strcpy(*var, token);
    } else {
-      *var = (char *) malloc(strlen(token)+2);
+      *var = (char *) smalloc(strlen(token)+2);
       strcpy(*var, token);
       (*var)[strlen(token)] = PATH_DELIM;
       (*var)[strlen(token)+1] = '\0';
@@ -278,38 +278,7 @@ int parsePath(char *token, char **var)
 /*   closedir(dirent); */
    return 0;
 }
-/*
-int parseFileareaBaseDirPath(char *token, char **var)
-{
-   DIR  *dirent;
 
-   if (token == NULL) {
-      printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
-
-   if ( (token[strlen(token)-1] == PATH_DELIM) || (stricmp(token,"Passthrough")==0) ) {
-      *var = (char *) malloc(strlen(token)+1);
-      strcpy(*var, token);
-   } else {
-      *var = (char *) malloc(strlen(token)+2);
-      strcpy(*var, token);
-      (*var)[strlen(token)] = PATH_DELIM;
-      (*var)[strlen(token)+1] = '\0';
-   }
-
-   if (stricmp(token,"Passthrough")) {
-      dirent = opendir(*var);
-      if (dirent == NULL) {
-         printf("Line %d: Path %s not found!\n", actualLineNr, *var);
-         return 1;
-      }
-      closedir(dirent);
-   }
-
-   return 0;
-}
-*/
 int parsePublic(char *token, s_fidoconfig *config)
 {
    char limiter;
@@ -319,7 +288,7 @@ int parsePublic(char *token, s_fidoconfig *config)
       printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
-   config->publicDir = realloc(config->publicDir, sizeof(char *)*(config->publicCount+1));
+   config->publicDir = srealloc(config->publicDir, sizeof(char *)*(config->publicCount+1));
 
 #ifdef UNIX
    limiter = '/';
@@ -328,10 +297,10 @@ int parsePublic(char *token, s_fidoconfig *config)
 #endif
 
    if (token[strlen(token)-1] == limiter) {
-      config->publicDir[config->publicCount] = (char *) malloc(strlen(token)+1);
+      config->publicDir[config->publicCount] = (char *) smalloc(strlen(token)+1);
       strcpy(config->publicDir[config->publicCount], token);
    } else {
-      config->publicDir[config->publicCount] = (char *) malloc(strlen(token)+2);
+      config->publicDir[config->publicCount] = (char *) smalloc(strlen(token)+2);
       strcpy(config->publicDir[config->publicCount], token);
       (config->publicDir[config->publicCount])[strlen(token)] = limiter;
       (config->publicDir[config->publicCount])[strlen(token)+1] = '\0';
@@ -682,7 +651,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    area->dupeHistory = 7; /* 7 days */
 
    // set default group for reader
-   area->group = (char*) malloc(sizeof(char)+1);
+   area->group = (char*) smalloc(sizeof(char)+1);
    strcpy(area->group, "0");
 
    // set defaults for MS-DOS
@@ -696,7 +665,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
       return 1;         // if there is no areaname
    }
 
-   area->areaName= (char *) malloc(strlen(tok)+1);
+   area->areaName= (char *) smalloc(strlen(tok)+1);
    strcpy(area->areaName, tok);
 
    tok = strtok(NULL, " \t");
@@ -706,7 +675,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    }
    if (stricmp(tok, "Passthrough") != 0) {
       // msgbase on disk
-      area->fileName = (char *) malloc(strlen(tok)+1);
+      area->fileName = (char *) smalloc(strlen(tok)+1);
       strcpy(area->fileName, tok);
    } else {
       // passthrough area
@@ -719,8 +688,8 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    while (tok != NULL) {
       if(tok[0]=='-') rc += parseAreaOption(config, tok+1, area);
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
-         area->downlinks = realloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
-	 area->downlinks[area->downlinkCount] = (s_arealink*)calloc(1, sizeof(s_arealink));
+         area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+	 area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
 //         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
          area->downlinks[area->downlinkCount]->link = getLinkForArea(*config,tok,area);
          if (area->downlinks[area->downlinkCount]->link == NULL) {
@@ -782,7 +751,7 @@ int parseEchoArea(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->echoAreas = realloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
+   config->echoAreas = srealloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
    rc = parseArea(config, token, &(config->echoAreas[config->echoAreaCount]));
    config->echoAreaCount++;
    return rc;
@@ -797,7 +766,7 @@ int parseNetMailArea(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->netMailAreas = realloc(config->netMailAreas, sizeof(s_area)*(config->netMailAreaCount+1));
+   config->netMailAreas = srealloc(config->netMailAreas, sizeof(s_area)*(config->netMailAreaCount+1));
    rc = parseArea(config, token, &(config->netMailAreas[config->netMailAreaCount]));
    config->netMailAreaCount++;
    return rc;
@@ -822,7 +791,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    area->useAka = config->addr;
 
    // set default group for reader
-   area->group = (char*) malloc(sizeof(char)+1);
+   area->group = (char*) smalloc(sizeof(char)+1);
    strcpy(area->group, "0");
 
    tok = strtok(token, " \t");
@@ -831,7 +800,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
       return 1;         // if there is no areaname
    }
 
-   area->areaName= (char *) malloc(strlen(tok)+1);
+   area->areaName= (char *) smalloc(strlen(tok)+1);
    strcpy(area->areaName, tok);
 
    tok = strtok(NULL, " \t");
@@ -841,10 +810,10 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    }
    if (stricmp(tok, "Passthrough") != 0) {
       if (tok[strlen(tok)-1] == PATH_DELIM) {
-         area->pathName = (char *) malloc(strlen(tok)+1);
+         area->pathName = (char *) smalloc(strlen(tok)+1);
          strcpy(area->pathName, tok);
       } else {
-         area->pathName = (char *) malloc(strlen(tok)+2);
+         area->pathName = (char *) smalloc(strlen(tok)+2);
          strcpy(area->pathName, tok);
          area->pathName[strlen(tok)] = PATH_DELIM;
          area->pathName[strlen(tok)+1] = '\0';
@@ -860,8 +829,8 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    while (tok != NULL) {
       if(tok[0]=='-') rc += parseFileAreaOption(config, tok+1, area);
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
-         area->downlinks = realloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
-         area->downlinks[area->downlinkCount] = (s_arealink*)calloc(1, sizeof(s_arealink));
+         area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+         area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
          area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
          if (area->downlinks[area->downlinkCount]->link == NULL) {
             printf("Line %d: Link for this area is not found!\n", actualLineNr);
@@ -924,7 +893,7 @@ int parseFileAreaStatement(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->fileAreas = realloc(config->fileAreas,
+   config->fileAreas = srealloc(config->fileAreas,
 sizeof(s_filearea)*(config->fileAreaCount+1));
    rc = parseFileArea(config, token,
 &(config->fileAreas[config->fileAreaCount]));
@@ -952,7 +921,7 @@ int parseBbsArea(const s_fidoconfig *config, char *token, s_bbsarea *area)
       return 1;         // if there is no areaname
    }
 
-   area->areaName= (char *) malloc(strlen(tok)+1);
+   area->areaName= (char *) smalloc(strlen(tok)+1);
    strcpy(area->areaName, tok);
 
    tok = strtok(NULL, " \t");
@@ -962,10 +931,10 @@ int parseBbsArea(const s_fidoconfig *config, char *token, s_bbsarea *area)
    }
 
    if (tok[strlen(tok)-1] == PATH_DELIM) {
-      area->pathName = (char *) malloc(strlen(tok)+1);
+      area->pathName = (char *) smalloc(strlen(tok)+1);
       strcpy(area->pathName, tok);
    } else {
-      area->pathName = (char *) malloc(strlen(tok)+2);
+      area->pathName = (char *) smalloc(strlen(tok)+2);
       strcpy(area->pathName, tok);
       area->pathName[strlen(tok)] = PATH_DELIM;
       area->pathName[strlen(tok)+1] = '\0';
@@ -998,10 +967,10 @@ int parseBbsAreaStatement(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->bbsAreas = realloc(config->bbsAreas,
-sizeof(s_bbsarea)*(config->bbsAreaCount+1));
+   config->bbsAreas = srealloc(config->bbsAreas,
+	sizeof(s_bbsarea)*(config->bbsAreaCount+1));
    rc = parseBbsArea(config, token,
-&(config->bbsAreas[config->bbsAreaCount]));
+	&(config->bbsAreas[config->bbsAreaCount]));
    config->bbsAreaCount++;
    return rc;
 }
@@ -1020,7 +989,7 @@ int parseLink(char *token, s_fidoconfig *config)
 
    config->describeLinkDefaults=0; // Stop describing of link defaults if it was
 
-   config->links = realloc(config->links, sizeof(s_link)*(config->linkCount+1));
+   config->links = srealloc(config->links, sizeof(s_link)*(config->linkCount+1));
 
    clink = &(config->links[config->linkCount]);
 
@@ -1067,7 +1036,7 @@ int parseLink(char *token, s_fidoconfig *config)
 	  if (deflink->email) copyString(deflink->email, &clink->email);
 	  if (deflink->LinkGrp) copyString(deflink->LinkGrp, &clink->LinkGrp);
 	  if (deflink->AccessGrp) {
-		  clink->AccessGrp = malloc(sizeof(char *) * clink->numAccessGrp);
+		  clink->AccessGrp = smalloc(sizeof(char *) * clink->numAccessGrp);
 		  for ( i=0; i < deflink->numAccessGrp; i++)
 			  copyString(deflink->AccessGrp[i], &clink->AccessGrp[i]);
 	  }
@@ -1080,7 +1049,7 @@ int parseLink(char *token, s_fidoconfig *config)
 	  if (deflink->forwardFileRequestFile) copyString(deflink->forwardFileRequestFile, &clink->forwardFileRequestFile);
 	  if (deflink->RemoteFileRobotName) copyString(deflink->RemoteFileRobotName, &clink->RemoteFileRobotName);
 	  if (deflink->optGrp) {
-		  clink->optGrp = malloc(sizeof(char *) * clink->numOptGrp);
+		  clink->optGrp = smalloc(sizeof(char *) * clink->numOptGrp);
 		  for ( i=0; i < deflink->numOptGrp; i++)
 			  copyString(deflink->optGrp[i], &clink->optGrp[i]);
 	  }
@@ -1103,7 +1072,7 @@ int parseLink(char *token, s_fidoconfig *config)
    
    }
 
-   clink->name = (char *) malloc (strlen(token)+1);
+   clink->name = (char *) smalloc (strlen(token)+1);
    strcpy(clink->name, token);
    clink->handle = clink->name;
 
@@ -1118,10 +1087,10 @@ int parseNodelist(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->nodelists = realloc(config->nodelists, sizeof(s_nodelist)*(config->nodelistCount+1));
+   config->nodelists = srealloc(config->nodelists, sizeof(s_nodelist)*(config->nodelistCount+1));
    memset(&(config->nodelists[config->nodelistCount]), 0, sizeof(s_nodelist));
    config->nodelists[config->nodelistCount].nodelistName =
-     (char *) malloc (strlen(token)+1);
+     (char *) smalloc (strlen(token)+1);
    strcpy(config->nodelists[config->nodelistCount].nodelistName, token);
 
    config->nodelists[config->nodelistCount].format = fts5000;
@@ -1186,12 +1155,12 @@ int parseOctal(char *token, unsigned int *octal) {
 int parsePWD(char *token, char **pwd) {
 
    if (token == NULL) {            // return empty password
-      *pwd = (char *) malloc(1);
+      *pwd = (char *) smalloc(1);
       (*pwd)[0] = '\0';
       return 0;
    }
 
-   *pwd = (char *) malloc(9);
+   *pwd = (char *) smalloc(9);
    strncpy(*pwd, token, 8);        // only use 8 characters of password
    (*pwd)[8] = '\0';
    if (strlen(token)>8) return 1;
@@ -1208,7 +1177,7 @@ int parseHandle(char *token, s_fidoconfig *config) {
 
    clink = getDescrLink(config);
 
-   clink->handle = (char *) malloc (strlen(token)+1);
+   clink->handle = (char *) smalloc (strlen(token)+1);
    strcpy(clink->handle, token);
    return 0;
 }
@@ -1223,7 +1192,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
       return 1;
    }
 
-   *route = realloc(*route, sizeof(s_route)*(*count+1));
+   *route = srealloc(*route, sizeof(s_route)*(*count+1));
    actualRoute = &(*route)[*count];
    memset(actualRoute, 0, sizeof(s_route));
 
@@ -1253,13 +1222,13 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
       else if (isdigit(option[0]) || (option[0] == '*') || (option[0] == '?')) {
 		  if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL)) {
 			  actualRoute->target = getLink(*config, option);
-			  actualRoute->viaStr = (char *) malloc(strlen(option)+1);
+			  actualRoute->viaStr = (char *) smalloc(strlen(option)+1);
 			  strcpy(actualRoute->viaStr, option);
 		  }
 		  else {
 			  if (actualRoute->pattern == NULL) {
 				  //2 for additional .0 if needed
-				  actualRoute->pattern = (char *) malloc(strlen(option)+2+1);
+				  actualRoute->pattern = (char *) smalloc(strlen(option)+2+1);
 				  strcpy(actualRoute->pattern, option);
 				  if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
 					  strcat(actualRoute->pattern, ".0");
@@ -1267,14 +1236,14 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
 				  (*count)++;
               } else {
 				  // add new Route for additional patterns
-				  *route = realloc(*route, sizeof(s_route)*(*count+1));
+				  *route = srealloc(*route, sizeof(s_route)*(*count+1));
 				  actualRoute = &(*route)[*count];
 				  memcpy(actualRoute,&(*route)[(*count)-1],sizeof(s_route));
 				  if ((*route)[(*count)-1].viaStr != NULL)
 				    actualRoute->viaStr = strdup((*route)[(*count)-1].viaStr);
 
 				  //2 for additional .0 if needed
-				  actualRoute->pattern = (char *) malloc(strlen(option)+2+1);
+				  actualRoute->pattern = (char *) smalloc(strlen(option)+2+1);
 				  strcpy(actualRoute->pattern, option);
 				  if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
 					  strcat(actualRoute->pattern, ".0");
@@ -1310,13 +1279,13 @@ int parsePack(char *line, s_fidoconfig *config) {
 
       // add new pack statement
       config->packCount++;
-      config->pack = realloc(config->pack, config->packCount * sizeof(s_pack));
+      config->pack = srealloc(config->pack, config->packCount * sizeof(s_pack));
 
       // fill new pack statement
       pack = &(config->pack[config->packCount-1]);
-      pack->packer = (char *) malloc(strlen(p)+1);
+      pack->packer = (char *) smalloc(strlen(p)+1);
       strcpy(pack->packer, p);
-      pack->call   = (char *) malloc(strlen(c)+1);
+      pack->call   = (char *) smalloc(strlen(c)+1);
       strcpy(pack->call, c);
       if (strstr(pack->call, "$a")==NULL) {
          printf("Line %d: $a missing in pack statement %s!\n", actualLineNr, actualLine);
@@ -1367,11 +1336,11 @@ int parseUnpack(char *line, s_fidoconfig *config) {
 
        // add new pack statement
        config->unpackCount++;
-       config->unpack = realloc(config->unpack, config->unpackCount * sizeof(s_unpack));
+       config->unpack = srealloc(config->unpack, config->unpackCount * sizeof(s_unpack));
 
        // fill new pack statement
        unpack = &(config->unpack[config->unpackCount-1]);
-       unpack->call   = (char *) malloc(strlen(p)+1);
+       unpack->call   = (char *) smalloc(strlen(p)+1);
        strcpy(unpack->call, p);
 
        if (strstr(unpack->call, "$a")==NULL) {
@@ -1394,8 +1363,8 @@ int parseUnpack(char *line, s_fidoconfig *config) {
           return 1;     // error occured;
        }
 
-       unpack->matchCode = (UCHAR *) malloc(strlen(c) / 2 + 1);
-       unpack->mask      = (UCHAR *) malloc(strlen(c) / 2 + 1);
+       unpack->matchCode = (UCHAR *) smalloc(strlen(c) / 2 + 1);
+       unpack->mask      = (UCHAR *) smalloc(strlen(c) / 2 + 1);
 
        // parse matchcode statement
        // this looks a little curvy, I know. Remember, I programmed this at 23:52 :)
@@ -1464,7 +1433,7 @@ int parseFileName(char *line, char **name) {
    }
 
    if (line[0]=='\"') {
-     token=(char *) malloc (strlen(line)+1);
+     token=(char *) smalloc (strlen(line)+1);
      sscanf(line,"\"%[^\"]s",token);
    }
    else
@@ -1475,7 +1444,7 @@ int parseFileName(char *line, char **name) {
       return 1;
    }
    if (f_accessable(token)) {
-      (*name) = malloc(strlen(token)+1);
+      (*name) = smalloc(strlen(token)+1);
       strcpy((*name), token);
    } else {
       printf("Line %d: File not found or no permission: %s!\n", actualLineNr, token);
@@ -1513,8 +1482,8 @@ int parseInclude(char *line, s_fidoconfig *config)
    if (!alreadyIncluded(line, config)) {
 
       config->includeCount++;
-      config->includeFiles = realloc(config->includeFiles, sizeof(char *) * config->includeCount);
-      config->includeFiles[config->includeCount-1] = malloc(strlen(line)+1);
+      config->includeFiles = srealloc(config->includeFiles, sizeof(char *) * config->includeCount);
+      config->includeFiles[config->includeCount-1] = smalloc(strlen(line)+1);
       strcpy(config->includeFiles[config->includeCount-1], line);
 
       free(actualLine);
@@ -1641,7 +1610,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	case 0:
 
 		for (link->numAccessGrp = 0; *token != '\0'; link->numAccessGrp++) {
-			link->AccessGrp = realloc (link->AccessGrp,
+			link->AccessGrp = srealloc (link->AccessGrp,
 									   (link->numAccessGrp+1)*sizeof(char *));
 
 			// strip leading spaces/tabs
@@ -1653,7 +1622,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 						
-				link->AccessGrp[link->numAccessGrp]=malloc((size_t)(cpos-token+1));
+				link->AccessGrp[link->numAccessGrp]=smalloc((size_t)(cpos-token+1));
 						
 				for (j = 0; j < cpos - token; j++)
 					link->AccessGrp[link->numAccessGrp][j] = token[j];
@@ -1668,7 +1637,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				link->AccessGrp[link->numAccessGrp] = malloc((size_t)(cpos - token + 1));
+				link->AccessGrp[link->numAccessGrp] = smalloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					link->AccessGrp[link->numAccessGrp][j] = token[j];
@@ -1685,7 +1654,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		
 	case 2:
 		for (config->numPublicGroup = 0; *token != '\0'; config->numPublicGroup++) {
-			config->PublicGroup = realloc(config->PublicGroup,
+			config->PublicGroup = srealloc(config->PublicGroup,
 										  (config->numPublicGroup+1)*sizeof(char *));
 
 			// strip leading spaces/tabs
@@ -1697,7 +1666,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				config->PublicGroup[config->numPublicGroup] = malloc((size_t)(cpos - token + 1));
+				config->PublicGroup[config->numPublicGroup] = smalloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					config->PublicGroup[config->numPublicGroup][j] = token[j];
@@ -1711,7 +1680,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				config->PublicGroup[config->numPublicGroup] = malloc((size_t)(cpos - token + 1));
+				config->PublicGroup[config->numPublicGroup] = smalloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					config->PublicGroup[config->numPublicGroup][j] = token[j];
@@ -1725,7 +1694,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	case 3:
 
 		for (link->numOptGrp = 0; *token != '\0'; link->numOptGrp++) {
-			link->optGrp = realloc(link->optGrp, (link->numOptGrp+1)*sizeof(char *));
+			link->optGrp = srealloc(link->optGrp, (link->numOptGrp+1)*sizeof(char *));
 
 			// strip leading spaces/tabs
 			while ((*token == ' ') || (*token == '\t')) token++;
@@ -1736,7 +1705,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				link->optGrp[link->numOptGrp] = malloc((size_t)(cpos - token + 1));
+				link->optGrp[link->numOptGrp] = smalloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					link->optGrp[link->numOptGrp][j] = token[j];
@@ -1750,7 +1719,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				link->optGrp[link->numOptGrp] = malloc((size_t)(cpos - token + 1));
+				link->optGrp[link->numOptGrp] = smalloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					link->optGrp[link->numOptGrp][j] = token[j];
@@ -1774,7 +1743,7 @@ int parseLocalArea(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->localAreas = realloc(config->localAreas, sizeof(s_area)*(config->localAreaCount+1));
+   config->localAreas = srealloc(config->localAreas, sizeof(s_area)*(config->localAreaCount+1));
    rc = parseArea(config, token, &(config->localAreas[config->localAreaCount]));
    config->localAreaCount++;
    return rc;
@@ -1789,7 +1758,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
    }
 
    config->carbonCount++;
-   config->carbons = realloc(config->carbons,sizeof(s_carbon)*(config->carbonCount));
+   config->carbons = srealloc(config->carbons,sizeof(s_carbon)*(config->carbonCount));
    memset(&(config->carbons[config->carbonCount-1]), 0, sizeof(s_carbon));
 
    config->carbons[config->carbonCount-1].ctype = ctype;
@@ -1983,7 +1952,7 @@ int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
       return 1;         // if there is no areaname mask
    }
 
-   savetic->fileAreaNameMask= (char *) malloc(strlen(tok)+1);
+   savetic->fileAreaNameMask= (char *) smalloc(strlen(tok)+1);
    strcpy(savetic->fileAreaNameMask, tok);
 
    tok = strtok(NULL, " \t");
@@ -1992,10 +1961,10 @@ int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
       return 2;         // if there is no filename
    }
       if (tok[strlen(tok)-1] == PATH_DELIM) {
-         savetic->pathName = (char *) malloc(strlen(tok)+1);
+         savetic->pathName = (char *) smalloc(strlen(tok)+1);
          strcpy(savetic->pathName, tok);
       } else {
-         savetic->pathName = (char *) malloc(strlen(tok)+2);
+         savetic->pathName = (char *) smalloc(strlen(tok)+2);
          strcpy(savetic->pathName, tok);
          savetic->pathName[strlen(tok)] = PATH_DELIM;
          savetic->pathName[strlen(tok)+1] = '\0';
@@ -2021,7 +1990,7 @@ int parseSaveTicStatement(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->saveTic = realloc(config->saveTic,sizeof(s_savetic)*(config->saveTicCount+1));
+   config->saveTic = srealloc(config->saveTic,sizeof(s_savetic)*(config->saveTicCount+1));
    rc = parseSaveTic(config, token,&(config->saveTic[config->saveTicCount]));
    config->saveTicCount++;
    return rc;
@@ -2043,15 +2012,15 @@ int parseExecOnFile(char *line, s_fidoconfig *config) {
 
       // add new execonfile statement
       config->execonfileCount++;
-      config->execonfile = realloc(config->execonfile, config->execonfileCount * sizeof(s_execonfile));
+      config->execonfile = srealloc(config->execonfile, config->execonfileCount * sizeof(s_execonfile));
 
       // fill new execonfile statement
       execonfile = &(config->execonfile[config->execonfileCount-1]);
-      execonfile->filearea = (char *) malloc(strlen(a)+1);
+      execonfile->filearea = (char *) smalloc(strlen(a)+1);
       strcpy(execonfile->filearea, a);
-      execonfile->filename = (char *) malloc(strlen(f)+1);
+      execonfile->filename = (char *) smalloc(strlen(f)+1);
       strcpy(execonfile->filename, f);
-      execonfile->command = (char *) malloc(strlen(c)+1);
+      execonfile->command = (char *) smalloc(strlen(c)+1);
       strcpy(execonfile->command, c);
       return 0;
 
@@ -2086,7 +2055,7 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
 
    if (config->describeLinkDefaults && config->linkDefaults==NULL) {
 
-	   config->linkDefaults = calloc(1, sizeof(s_link));
+	   config->linkDefaults = scalloc(1, sizeof(s_link));
 
       // Set defaults like in parseLink()
 
@@ -2164,7 +2133,7 @@ int parseAddToSeen(char *token, s_fidoconfig *config)
 		
 		if (*token == '.') { token++; while(isdigit(*token)) token++; }
 		
-		config->addToSeen = realloc(config->addToSeen, 
+		config->addToSeen = srealloc(config->addToSeen, 
 									sizeof(s_addr)*(config->addToSeenCount+1));
 		config->addToSeen[config->addToSeenCount].net  = net;
 		config->addToSeen[config->addToSeenCount].node = node;
@@ -2183,7 +2152,7 @@ int parseLine(char *line, s_fidoconfig *config)
    int unrecognised = 0;
 #endif   
 
-   actualLine = temp = (char *) malloc(strlen(line)+1);
+   actualLine = temp = (char *) smalloc(strlen(line)+1);
    strcpy(temp, line);
 
    actualKeyword = token = strtok(temp, " \t");

@@ -43,7 +43,7 @@ char *readLine(FILE *f)
    char *line = NULL, temp[81];
    size_t size = 1024;
 
-   line = (char *) malloc(size);
+   line = (char *) smalloc(size);
    if (fgets(line, 81, f) == NULL) {
       free(line);                      // end of file...
       return NULL;
@@ -52,7 +52,7 @@ char *readLine(FILE *f)
    if (line[strlen(line)-1] != '\n') {
      while ((strlen(line) % 80) == 0) {
        if (fgets(temp, 81, f) == NULL) break; // eof encountered
-       line = realloc(line, strlen(line)+strlen(temp)+1);
+       line = srealloc(line, strlen(line)+strlen(temp)+1);
        strcat(line, temp);
        if (temp[strlen(temp)-1] == '\n') {
 	 temp[strlen(temp)-1] = 0; // kill \n
@@ -70,7 +70,7 @@ char *trimLine(char *line)
    char *start = line, *temp;
 
    while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
-   temp = (char *) malloc(strlen(start)+1);
+   temp = (char *) smalloc(strlen(start)+1);
 //   strcpy(temp, start);
    strcpy(temp, striptwhite(start));
    free(line);
@@ -171,7 +171,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
       if (configName == NULL) return NULL;
       
       //try osSpecificName
-      osSpecificName = (char *) malloc(strlen(osSpecificPrefix)+strlen(configName)+2); // +1 - for training delimiter
+      osSpecificName = (char *) smalloc(strlen(osSpecificPrefix)+strlen(configName)+2); // +1 - for training delimiter
       strcpy(osSpecificName, osSpecificPrefix);
 
       i = strlen(osSpecificName);
@@ -188,7 +188,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
             if (strrchr(envFidoConfig, PATH_DELIM) != NULL) {
                free (osSpecificName);
                i = strlen(envFidoConfig) - strlen(strrchr(envFidoConfig,PATH_DELIM)) + strlen(configName)+1;
-               osSpecificName = malloc (i+1);
+               osSpecificName = smalloc (i+1);
                strncpy (osSpecificName,envFidoConfig,i);
                strcpy (strrchr(osSpecificName,PATH_DELIM)+1,configName);
                f = fopen (osSpecificName, "r");
@@ -294,13 +294,13 @@ s_fidoconfig *readConfig(char *cfgFile)
    f = fopen(fileName, "r");
 
    if (f != NULL) {
-      config = (s_fidoconfig *) malloc(sizeof(s_fidoconfig));
+      config = (s_fidoconfig *) smalloc(sizeof(s_fidoconfig));
 
       initConfig(config);
 
       config->includeCount = 1;
-      config->includeFiles = realloc(config->includeFiles, sizeof(char *));
-      config->includeFiles[0] = malloc(strlen(fileName)+1);
+      config->includeFiles = srealloc(config->includeFiles, sizeof(char *));
+      config->includeFiles[0] = smalloc(strlen(fileName)+1);
       strcpy(config->includeFiles[config->includeCount-1], fileName);
 
       parseConfig(f, config);

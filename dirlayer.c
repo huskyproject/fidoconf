@@ -46,6 +46,7 @@ DIR      *opendir( const char * dirName)
 
    findCount = 1;
    temp = (DIR *) malloc(sizeof(DIR));
+   if (!temp) return NULL;
    temp->d_hdir = HDIR_SYSTEM;
    temp->d_first = 1;
 
