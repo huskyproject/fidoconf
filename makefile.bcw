@@ -13,7 +13,7 @@ OBJ=.obj
 EXE=.exe
 RM=del
 LIB=.lib
-AR=tlib_sup
+AR=tlib_sup tlib
 AR_R=
 
 LINKFIDOCONFIG=fconfbcw.lib

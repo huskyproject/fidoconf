@@ -1,63 +1,53 @@
-# include Husky-Makefile-Config
-include ..\huskymak.cfg
+# Makefile for IBM CSet or VACPP (OS/2)
+# no support for huskymak.cfg
 
-CC=     icc
-CFLAGS= -Ss+ -Sp1 -W2 -q+
-CDEFS=  -DOS2
-COPT=   -O -I$(INCDIR)
-LIB=    ilib
+CC=	icc
+EXENAMEFLAG=/Fe
+CDEFS=	-Ss+ -Sp1 -W2 -q+ -c -I.. -I../smapi -DOS2
+COPT=	-O
+LFLAGS= 
+#-Ss+ -Sp1 -W2 -q+
 
-LIBS=  fidoconfig.lib
-ALLIBS= $(LIBS) $(LIBDIR)\smapiibo.lib
+TPU=.tpu
+OBJ=.obj
+EXE=.exe
+RM=del
+LIB=.lib
+AR=tlib_sup lib
+#AR=tlib_sup ilib
+AR_R=
 
-HDRS=  common.h \
-       dirlayer.h \
-       fidoconfig.h \
-       adcase.h \
-       typesize.h
+LINKFIDOCONFIG=fconfibo.lib
+LINKSMAPI=..\smapi\smapiibo.lib
+LIBPREFIX=
 
-OBJS=  adcase.obj \
-       line.obj \
-       fidoconfig.obj \
-       dirlayer.obj \
-       common.obj
+FIDOCONFIG = fidoconfig
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+FECFG2FCONF = fecfg2fconf
+LIBFIDOCONFIG = $(LIBPREFIX)fconfibo
 
-LOBJS=  -+line.obj -+fidoconfig.obj -+dirlayer.obj -+common.obj;
+.SUFFIXES:
+.SUFFIXES: .c .obj
 
-all:    fidoconfig.lib fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe
+default: all
 
-fidoconfig.lib: $(OBJS)
-	$(LIB) $(LIBS) $(LOBJS)
+!include makefile.common
+
+tlib_sup.cmd: tlib_sup.bat
+	copy tlib_sup.bat tlib_sup.cmd
+
+libs: tlib_sup.cmd commonlibs
+
+all: libs commonprogs
+
+clean: commonclean
+	$(RM) tlib_sup.cmd
+
+distclean: commondistclean
 
 
-fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
-
-fconf2golded.exe: $(LIBS) $(HDRS) fconf2golded.c
-
-tparser.exe: $(LIBS) $(HDRS) tparser.c
-
-clean:
-	del *.obj
-	del fidoconfig.bak
-
-distclean: clean
-        del fconf2golded.exe fconf2msged.exe tparser.exe
-
-install: $(LIBS) tparser.exe fconf2golded.exe fconf2msged.exe fidoconfig.h fidoconf.pas
-	copy fidoconfig.lib $(LIBDIR)
-	copy tparser.exe $(BINDIR)
-	copy fconf2golded.exe $(BINDIR)
-	copy fconf2msged.exe $(BINDIR)
-	copy fidoconfig.h $(INCDIR)
-	copy common.h $(INCDIR)
-	copy typsize.h $(INCDIR)
-	copy dirlayer.h $(INCDIR)
-	copy adcase.h $(INCDIR)
-	copy fidoconf.pas $(INCDIR)
-
-.c.obj:
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
-
-.c.exe:
-	$(CC) -Gd+ $(CFLAGS) $(CDEFS) $(COPT) $< $(ALLIBS)
 

@@ -13,7 +13,7 @@ OBJ=.obj
 EXE=.exe
 RM=del
 LIB=.lib
-AR=tlib_sup
+AR=tlib_sup tlib
 AR_R=
 
 LINKFIDOCONFIG=fconfbcd.lib
@@ -31,10 +31,17 @@ LIBFIDOCONFIG  = fconfbcd
 
 default: all
 
-!include makefile.com
+!include makefile.common
 
-all: commonlibs commonprogs
+tlib_sup.cmd: tlib_sup.bat
+	copy tlib_sup.bat tlib_sup.cmd
+
+libs: tlib_sup.cmd commonlibs
+
+all: libs commonprogs
 
 clean: commonclean
+	$(RM) tlib_sup.cmd
 
 distclean: commondistclean
+

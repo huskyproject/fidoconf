@@ -13,7 +13,7 @@ OBJ=.obj
 EXE=.exe
 RM=del
 LIB=.lib
-AR=tlib_sup
+AR=tlib_sup tlib
 AR_R=
 
 LINKFIDOCONFIG=fconfbco.lib
@@ -41,5 +41,6 @@ libs: tlib_sup.cmd commonlibs
 all: libs commonprogs
 
 clean: commonclean
+	$(RM) tlib_sup.cmd
 
 distclean: commondistclean
