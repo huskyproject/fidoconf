@@ -51,7 +51,7 @@ extern "C" {
 
 /* common functions */
 
-int copyString(char *str, char **pmem);
+FCONF_EXT int copyString(char *str, char **pmem);
 /*DOC
  * Copy string from *str to *pmem, allocating memory as needed
    NOTE! *pmem must be NULL, if not NULL, it will be free().
@@ -125,7 +125,7 @@ FCONF_EXT INT    fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter);
   FZ:     fgetsUntil0 reads chars into the buffer until eof(f) || n-1 are read || a \0 is encountered.
 */
 
-char   *stripLeadingChars(char *str, const char *chr);
+FCONF_EXT char   *stripLeadingChars(char *str, const char *chr);
 /*DOC
   Input:  str is a \0-terminated string
           chr contains a list of characters.

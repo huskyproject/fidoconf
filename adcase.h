@@ -7,8 +7,9 @@
  *  you must call adaptcase_refresh_dir() with the subdirectory path name
  *  as argument!
  */
+#include "fidoconf.h"
 
 void adaptcase_refresh_dir(char *directory);
-void adaptcase(char *);
+FCONF_EXT void adaptcase(char *);
 
 #endif

@@ -453,6 +453,7 @@ add_to_cache:
    the FS is case insensitive */
 
 #include <ctype.h>
+#include "adcase.h"
 
 void adaptcase (char *str)
 {
