@@ -1,3 +1,19 @@
+2004-01-25 Sunday 17:45  d_sergienko
+
+	* doc/: proposal.texi (1.155), rus/proposal.texi (1.5): password is
+	case insensitive
+
+2004-01-23 Friday 10:41  mche
+
+	* src/: fidoconf.c (1.14), tparser.c (1.17): some improvement on
+	fileDescription
+
+2004-01-23 Friday 07:40  andr_lukyanov
+
+	* fidoconf/fidoconf.h (1.22), fidoconf/tokens.h (1.11), src/line.c
+	(1.26), src/tparser.c (1.16): Add new token: fileDescription, by
+	default - files.bbs
+
 2004-01-21 Wednesday 04:02  andr_lukyanov
 
 	* make/makefile.mvcdll (1.2): Fix MSVC compilation
