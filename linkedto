@@ -26,8 +26,8 @@ then
 else
    echo The Adress $1 is linked to the following Areas:
    echo
-   cat "$FIDOCONFIG"|grep EchoArea |grep -w $1|cut -b10-40|cut -d\  -f1 -s|sort
-   cat "$FIDOCONFIG"|grep LocalArea|grep -w $1|cut -b11-40|cut -d\  -f1 -s|sort
+   cat "$FIDOCONFIG"|grep -i EchoArea |grep -w $1|cut -b10-40|cut -d\  -f1 -s|sort
+   cat "$FIDOCONFIG"|grep -i LocalArea|grep -w $1|cut -b11-40|cut -d\  -f1 -s|sort
    grep -h -i EchoArea  $INCLUDES  |grep -w $1|cut -b10-40|cut -d\  -f1 -s|sort
    grep -h -i LocalArea $INCLUDES  |grep -w $1|cut -b11-40|cut -d\  -f1 -s|sort
 fi

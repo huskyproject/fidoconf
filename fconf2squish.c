@@ -63,7 +63,7 @@ int writeArea(FILE *f, s_area *area, char type) {
 
    if (area->description!=NULL) fprintf(f, " -$n\"%s\"", area->description);
 
-   if (area->group != NULL) fprintf(f, " -$g%s",area->group);
+   if (area->group && !strcmp(area->group,"0")) fprintf(f, " -$g%s",area->group);
 
    if (area->purge) fprintf(f, " -$d%u", area->purge);
 
