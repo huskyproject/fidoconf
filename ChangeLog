@@ -1,3 +1,18 @@
+2002-05-17 Friday 22:05  pavel.gulchouck
+
+	* makeperl.mvc (1.6): use makefile.mvc instead of makeperl.mvc
+
+2002-05-17 Friday 17:55  pavel.gulchouck
+
+	* makeperl.mvcdll (1.6): Use makefile.mvcdll instead of
+	makeperl.mvcdll
+
+2002-05-17 Friday 07:56  mche
+
+	* fidoconf.h (1.117), line.c (1.295), tokens.h (1.32),
+	doc/keywords.hpt (1.25): new token for link  "LinkFileFaseDir"
+	Where autocreated file echos will be placed (may be "passthrough")
+
 2002-05-15 Wednesday 19:04  mche
 
 	* afixcmn.c (1.8): fast msgid generation
