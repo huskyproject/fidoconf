@@ -176,6 +176,7 @@ typedef struct link {
     unsigned int autoFileCreateSubdirs;
     char  *fileBox;
     unsigned int fileBoxAlways;
+    int  arcNetmail; // 1 if pack netmail into arcmail bundles
     char useFileBox; // internal
 
     char sb; // internal

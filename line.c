@@ -3895,7 +3895,13 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_WRITEONLY:
 	    rc = parsePermissions (getRestOfLine(),  &(config->writeOnly), &(config->writeOnlyCount));
             break;
-
+        case ID_ARCNETMAIL:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->arcNetmail);
+            } else {
+                rc = 1;
+            }
+            break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

@@ -253,7 +253,9 @@ enum {
     ID_READONLY,
     ID_WRITEONLY,
     ID_AREAFIXQUERYREPORTS,
-    ID_NOTVALIDFILENAMECHARS
+    ID_AREAFIXQUERYREPORTS,
+    ID_NOTVALIDFILENAMECHARS,
+    ID_ARCNETMAIL
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -274,6 +276,7 @@ token_t parseline_tokens[] =
     { "allowemptypktpwd", ID_ALLOWEMPTYPKTPWD },
     { "allowpktaddrdiffer", ID_ALLOWPKTADDRDIFFER },
     { "arcmailsize", ID_ARCMAILSIZE },
+    { "arcnetmail", ID_ARCNETMAIL },
     { "areafix", ID_AREAFIX },
     { "areafixecholimit", ID_AREAFIXECHOLIMIT },
     { "areafixfrompkt", ID_AREAFIXFROMPKT },
