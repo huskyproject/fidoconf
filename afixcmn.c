@@ -114,7 +114,6 @@ char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
               ourAka->zone,ourAka->net,ourAka->node,msgid);
 
    if (!disableTID) xscatprintf(&buff, "\001TID: %s\r", versionStr);
-   xstrcat(&buff, "\001FLAGS NPD\r");
 
    return buff;
 }
