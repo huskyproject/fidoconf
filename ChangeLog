@@ -1,3 +1,35 @@
+2002-10-25 Friday 13:19  stas_degteff
+
+	* common.c (1.124): Fix Watcom C win32 compilation
+
+2002-10-25 Friday 13:06  stas_degteff
+
+	* crc.c (1.7), crc.h (1.8): Implement 16-bit & 32-bit checksum
+	algorithmes
+
+2002-10-25 Friday 08:12  stas_degteff
+
+	* getfree.c (1.4): workaround Watcom C/win32 compilation error
+
+2002-10-25 Friday 07:23  stas_degteff
+
+	* crc.c (1.6): Bugfix: Check for NULL pointer in crc calculating
+	routines; Also try improve performance - use register variables
+
+2002-10-25 Friday 06:56  mche
+
+	* afixcmn.c (1.18): undo previos patch
+
+2002-10-25 Friday 06:17  mche
+
+	* afixcmn.c (1.17): undo previos patch
+
+2002-10-25 Friday 04:37  stas_degteff
+
+	* Makefile (1.52), makefile.in2 (1.8), makefile.sun (1.12), xstr.c
+	(1.10): Insert VSPRINTF_ONLY define commented out, need for SunOS
+	2.5.1
+
 2002-10-24 Thursday 11:37  mche
 
 	* tparser.c (1.202): fix spelling
