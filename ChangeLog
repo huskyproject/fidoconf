@@ -1,3 +1,8 @@
+2001-11-08 Thursday 15:40  ml
+
+	* fidoconf.c (1.56), fidoconf.h (1.78), line.c (1.264): define exit
+	codes for non unix systems
+
 2001-11-06 Tuesday 08:56  ml
 
 	* makefile.cyg (1.1): cygwin makefile
