@@ -1,3 +1,23 @@
+2002-05-06 Monday 17:50  pavel.gulchouck
+
+	* fidoconf.h (1.113): added FILE *pkt to s_link structure
+
+2002-05-06 Monday 14:02  pavel.gulchouck
+
+	* afixcmn.c (1.4): Do not add "FLAGS NPD" in createKludges
+
+2002-05-06 Monday 12:50  pavel.gulchouck
+
+	* line.c (1.292): getDescription fix
+
+2002-05-06 Monday 11:07  pavel.gulchouck
+
+	* afixcmn.c (1.3): fix compiler warning
+
+2002-05-06 Monday 09:18  pavel.gulchouck
+
+	* fidoconf.c (1.75): stripComment fix
+
 2002-05-04 Saturday 09:54  mche
 
 	* afixcmd.h (1.3), afixcmn.c (1.2), fidoconf.h (1.112):
