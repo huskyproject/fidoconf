@@ -2,7 +2,7 @@
 *.dll
 *.lib
 *.obj
-*.dsp
 *.plg
 *.o
 *.orig
+*.exe
