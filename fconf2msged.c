@@ -36,6 +36,8 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
       for (i=0; i<config->addrCount; i++)
          fprintf(f, "Address %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
       fprintf(f, "\n");
+      
+      if (config->echotosslog != NULL) fprintf(f, "tossLog %s\n", config->echotosslog);
 
       writeArea(f, &(config->netMailArea), 1);
       

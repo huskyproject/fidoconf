@@ -120,13 +120,23 @@ _Keyword definitions_
   # outbound root path, followed by subdirectories in
   #   binkley-style
   protinbound <path>
-  #inbound path for protected sessions
+  # inbound path for protected sessions
   listinbound <path>
-  #inbound path for listed systems
+  # inbound path for listed systems
   localinbound <path>
-  #inbound path for local generated mails
+  # inbound path for local generated mails
   MsgBaseDir <path>
-  #path where autoareacreated msgbases are stored
+  # path where autoareacreated msgbases are stored
+  Intab <file>
+  # file for recoding incoming characters (used for example in russia)
+  Outtab <file>
+  # file for recoding outgoing characters (used for example in russia)
+  importLog <file>
+  # file which is created by hpt.
+  # it containts the names of the areas which hpt has tossed in
+  echotossLog <file>
+  # file is created by a message editor.
+  # it containts the name of the areas in which have been new messages entered
   {
   public <path>
   }

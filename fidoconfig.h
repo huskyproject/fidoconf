@@ -58,6 +58,7 @@ struct area {
 
    void *dupes;        // used internally by hpt. pointer to dupeDataBase
    void *newDupes;     // dito
+   char imported;      // dito
 };
 typedef struct area s_area;
 
@@ -107,10 +108,10 @@ struct fidoconfig {
    s_pack   *packDefault;
    UINT     unpackCount;
    s_unpack *unpack;
+   char     *intab, *outtab;
+   char     *echotosslog, *importlog;
 };
 typedef struct fidoconfig s_fidoconfig;
-
-int parseLine(char *line, s_fidoconfig *config);
 
 s_fidoconfig *readConfig();
 
@@ -125,5 +126,6 @@ s_area *getArea(s_fidoconfig *config, char *areaName);
 // the following functions are for internal use.
 // Only use them if you really know what you do
 char *readLine(FILE *F);
+int parseLine(char *line, s_fidoconfig *config);
 
 #endif

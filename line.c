@@ -8,6 +8,10 @@
 
 #include "fidoconfig.h"
 
+#include <compiler.h>
+#include <stamp.h>
+#include <progprot.h>
+
 char *actualKeyword, *actualLine;
 int  actualLineNr;
 
@@ -16,7 +20,7 @@ char *getRestOfLine() {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
 
-int copyString(char **pmem, char *str, s_fidoconfig *config)
+int copyString(char *str, char **pmem)
 {
    if (str==NULL) {
       printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
@@ -446,6 +450,23 @@ int parseUnpack(char *line, s_fidoconfig *config) {
    
 }
 
+int parseFileName(char *line, char **name) {
+   char *token = strtok(line, " \t");
+   if (token == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+   if (fexist(token)) {
+      (*name) = malloc(strlen(token)+1);
+      strcpy((*name), token);
+   } else {
+      printf("Line %d: File not found %s!\n", actualLineNr, token);
+      return 2;
+   }
+
+   return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -460,9 +481,9 @@ int parseLine(char *line, s_fidoconfig *config)
    //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
    if (token == NULL);
    else if (stricmp(token, "version")==0) rc = parseVersion(getRestOfLine(), config);
-   else if (stricmp(token, "name")==0) rc = copyString(&(config->name), getRestOfLine(), config);
-   else if (stricmp(token, "location")==0) rc = copyString(&(config->location), getRestOfLine(), config);
-   else if (stricmp(token, "sysop")==0) rc = copyString(&(config->sysop), getRestOfLine(), config);
+   else if (stricmp(token, "name")==0) rc = copyString(getRestOfLine(), &(config->name));
+   else if (stricmp(token, "location")==0) rc = copyString(getRestOfLine(), &(config->location));
+   else if (stricmp(token, "sysop")==0) rc = copyString(getRestOfLine(), &(config->sysop));
    else if (stricmp(token, "address")==0) rc = parseAddress(getRestOfLine(), config);
    else if (stricmp(token, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound));
    else if (stricmp(token, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound));
@@ -514,6 +535,12 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "routeMail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
 
    else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
+
+   else if (stricmp(token, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));
+   else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
+
+   else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
+   else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
    
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
                                                           

@@ -95,6 +95,8 @@ void disposeConfig(s_fidoconfig *config)
    free(config->name);
    free(config->sysop);
    free(config->location);
+   free(config->intab);
+   free(config->outtab);
    free(config);
    config = NULL;
 }

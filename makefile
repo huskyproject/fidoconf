@@ -5,7 +5,7 @@ VER = 0.3
 LIBDIR = /usr/local/lib
 INSTDIR = /usr/local/bin
 
-OBJS    = patmat.o line.o fidoconfig.o fconf2msged.o fconf2golded.o tparser.o dir.o
+OBJS    = patmat.o line.o fidoconfig.o fconf2msged.o fconf2golded.o tparser.o dir.o common.o
 
 ALL: $(OBJS) \
      fidoconfig.a \
@@ -25,13 +25,13 @@ libfidoconfig.so.$(VER): fidoconfig.o line.o common.o patmat.o dir.o
 	$(CC) $(COPT) $*.c
 
 fconf2msged: fconf2msged.o fidoconfig.a
-	$(CC) fconf2msged.o -o fconf2msged -lfidoconfig
+	$(CC) fconf2msged.o -o fconf2msged -lfidoconfig -lsmapilnx
 
 fconf2golded: fconf2golded.o fidoconfig.a
-	$(CC) fconf2golded.o -o fconf2golded -lfidoconfig
+	$(CC) fconf2golded.o -o fconf2golded -lfidoconfig -lsmapilnx
 
 tparser: tparser.o fidoconfig.a
-	$(CC) tparser.o -o tparser -lfidoconfig
+	$(CC) tparser.o -o tparser -lfidoconfig -lsmapilnx
 
 clean:
 	-rm -f *.o
