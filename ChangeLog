@@ -1,3 +1,8 @@
+2002-07-09 Tuesday 17:11  mche
+
+	* fidoconf.h (1.128), line.c (1.312), tparser.c (1.185), tree.c
+	(1.4): added purging option "-p" for file echos
+
 2002-07-08 Monday 18:07  mche
 
 	* doc/: Makefile (1.15), makefile.lnx (1.2): The duplicated "RM"
