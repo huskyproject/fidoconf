@@ -1,5 +1,5 @@
 Source: fidoconf
-Section: contrib/libs
+Section: libs
 Priority: optional
 Maintainer: Pavel Andreew <pavel@collage.etel.ru>
 Build-Depends: debhelper (>> 4.0.0), binutils, libsmapi2-dev(>=2.4.0-1), texinfo
@@ -20,7 +20,7 @@ Description: Library to access the fidoconfig
  creep in one library and not in thousands over thousands libraries.
 
 Package: libfidoconf1-dev
-Section: contrib/devel
+Section: devel
 Architecture: any
 Depends: libfidoconf1(=${Source-Version}), libsmapi2-dev, libc6-dev
 Replaces: libfidoconf0-dev
@@ -38,7 +38,7 @@ Description: Library to access the fidoconfig, development files
  compile the Husky-Programs yourself
 
 Package: fidoconf-runtime
-Section: contrib/mail
+Section: mail
 Architecture: any
 Depends: ${shlibs:Depends}
 Description: Runtime-Files for the Fidoconf Library
