@@ -2094,7 +2094,7 @@ int parseFileName(char *line, char **name) {
 int parseLoglevels(char *line, char **loglevels) {
   char *ll, *temp; /* Array for store */
   char *p=line;
-  char i,k;
+  int i,k;
 
   ll = calloc(256,sizeof(char));
   if( !ll ) {
@@ -2104,7 +2104,7 @@ int parseLoglevels(char *line, char **loglevels) {
 
   while( *p ){  /* scan string */
     if( isdigit(*p) || isalpha(*p) )
-      ll[*p] = 1;
+      ll[(int)*p] = 1;
     else if( *p=='-' && p!=*loglevels )
            for( i=*(p-1), k=*(p+1) ; i && i<k ; i++ )
               ll[i]=1;
