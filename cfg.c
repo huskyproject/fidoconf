@@ -38,11 +38,11 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#if defined (OS2)
+#include <smapi/compiler.h>
 
+#if defined (__OS2__)
 # define INCL_DOSFILEMGR
 # include <os2.h>
-
 #endif
 
 #include "typesize.h"

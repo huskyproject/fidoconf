@@ -36,51 +36,43 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-
-#if ((!(defined(_MSC_VER) && (_MSC_VER >= 1200))) && (!defined(__TURBOC__)))
-#  include <unistd.h>
-#endif
-
-#if (defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__MINGW32__) || defined(__CYGWIN__) || defined(__DJGPP__)
-#  include <io.h>
-int cmpfnames(char *file1, char *file2);
-#define COMMON_C_HAVE_CMPFNAMES
-#endif
-
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
 
-#ifndef O_BINARY
-# define O_BINARY 0 /* If O_BINARY is not defined - we're under UNIX
-                       where this flag has no effect */
+#include <smapi/compiler.h>
+
+#ifdef HAS_UNISTD_H
+#  include <unistd.h>
 #endif
 
-#if defined ( __WATCOMC__ )
+#ifdef HAS_IO_H
+#  include <io.h>
+int cmpfnames(char *file1, char *file2);
+#define COMMON_C_HAVE_CMPFNAMES
+#endif
+
+#ifdef HAS_DOS_H
 #include <dos.h>
 #endif
 
-#ifdef UNIX
+#ifdef __UNIX__
 #include <pwd.h>
-#include <signal.h>
 #endif
 
 #ifdef __BEOS__
 #include <KernelKit.h>
 #endif
 
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2) || defined(__OS2__)))
-#if ( defined(__MINGW32__) || defined(__WATCOMC__) || (defined(_MSC_VER) && (_MSC_VER >= 1200)) )
-/* cygwin/mingw; Watcom C NT or OS/2; MS Visual C */
+#ifdef HAS_SYS_UTIME_H
 #include <sys/utime.h>
 #else
+/* #elif defined(HAS_UTIME_H) */
 #include <utime.h>
 #endif
-#endif
 
-#include <smapi/compiler.h>
 #include <smapi/progprot.h>
 #include <smapi/patmat.h>
 
@@ -371,7 +363,7 @@ char *strLower(char *str)
 char *shell_expand(char *str)
 {
     char *slash = NULL, *ret = NULL, c;
-#ifdef UNIX
+#ifdef __UNIX__
     struct passwd *pw = NULL;
 #endif
     char *pfix = NULL;
@@ -385,7 +377,7 @@ char *shell_expand(char *str)
         return str;
     }
     for (slash = str; *slash != '/' && *slash != '\0'
-#ifndef UNIX
+#ifndef __UNIX__
                      && *slash != '\\'
 #endif
          ; slash++);
@@ -395,7 +387,7 @@ char *shell_expand(char *str)
     if (str[1] == '\0')
     {
         pfix = getenv("HOME");
-#ifdef UNIX
+#ifdef __UNIX__
         if (pfix == NULL)
         {
             pw = getpwuid(getuid());
@@ -406,7 +398,7 @@ char *shell_expand(char *str)
         }
 #endif
     }
-#ifdef UNIX
+#ifdef __UNIX__
     else
     {
         pw = getpwnam(str + 1);
@@ -583,12 +575,10 @@ static void atexit_wait_handler_function(void)
     time(&t);
     while (t < last_reftime_used)
     {
-#ifdef __BEOS__
-        snooze(10);
-#elif defined(UNIX)
-        usleep(10);
-#else
+#if HAS_sleep
         sleep(1);
+#else
+        mysleep(1);
 #endif
         time (&t);
     }
@@ -616,12 +606,10 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    /* make it reentrant */
    while (flag)
    {
-#ifdef __BEOS__
-       snooze(10);
-#elif defined(UNIX) || defined(EMX)
-       usleep(10);       /* wait to get a fresh number */
+#if HAS_sleep
+        sleep(1);
 #else
-       sleep(1);
+        mysleep(1);
 #endif
    }
 
@@ -706,12 +694,10 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 	
                while (tmpt < refTime)
                {
-#ifdef __BEOS__
-                   snooze(50);
-#elif defined(UNIX) || defined(EMX)
-                   usleep(50);       /* wait to get a fresh number */
-#else
+#if HAS_sleep
                    sleep(1);
+#else
+                   mysleep(1);
 #endif
                    time(&tmpt);
                }
@@ -742,7 +728,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    return fileName;
 }
 
-#if defined(__DOS__) && !defined(__FLAT__) || defined(_WINDOWS)
+#if defined(__DOS__) && !defined(__FLAT__) || defined(__WIN16__)
 /* _WINDOWS : 16-bit windows */
 #define MOVE_FILE_BUFFER_SIZE 16384
 #else
@@ -751,7 +737,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 
 int move_file(const char *from, const char *to, const int force_rewrite)
 {
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(__OS2__)))
     int rc;
 
 #ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
@@ -786,7 +772,7 @@ int move_file(const char *from, const char *to, const int force_rewrite)
     }
     rc = MoveFile(from, to);
     if (rc == TRUE) {
-#elif defined(OS2) && defined(USE_SYSTEM_COPY)
+#elif defined(__OS2__) && defined(USE_SYSTEM_COPY)
     USHORT rc;
 
 #ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
@@ -817,7 +803,7 @@ int move_file(const char *from, const char *to, const int force_rewrite)
 	
 int copy_file(const char *from, const char *to, const int force_rewrite)
 {
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
     char *buffer;
     size_t read;
     FILE *fin, *fout;
@@ -851,7 +837,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
       errno=fh;
       return -1;
     }
-#ifdef UNIX
+#ifdef __UNIX__
 /*     flock(to,O_EXLOCK); */
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
     /* try to save file ownership if it is possible */
@@ -1631,7 +1617,7 @@ unsigned int dec2oct(unsigned int decimal)
 }
 
 
-#if defined(UNIX)
+#if defined(__UNIX__)
 /* this function should be moved to huskylib() */
 int createLock(char *lockFile)
 {

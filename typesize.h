@@ -55,6 +55,8 @@
 /*   the definitions for your compiler, if not already present. */
 /*  */
 
+#include <smapi/compiler.h>
+
 #ifdef __OS2__
 #define INCL_DOSPROCESS
 #define INCL_DOSERRORS
@@ -65,7 +67,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMSG
 #define NOGDI
-#if !defined(__EMX__) 
+#if !defined(__EMX__)
 #include <windows.h>
 #endif
 #endif
@@ -78,7 +80,7 @@ extern "C" {
 #if defined(__NT__)
 typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
-#endif                                         
+#endif
 
 
 /*   the EMX/GNU 32bit compilers */
@@ -136,8 +138,8 @@ typedef          void       VOID;
 
 
 /* AIX using xlc or gcc. Unfortunately, the _AIX constant is also defined
-   on 64 bit RS/6000 machines. As I do not have such a thing available, 
-   I do not know how to discern it from a 32 bit one, so the following will 
+   on 64 bit RS/6000 machines. As I do not have such a thing available,
+   I do not know how to discern it from a 32 bit one, so the following will
    probably not work there. */
 
 #if defined(_AIX)
@@ -268,6 +270,9 @@ typedef signed   long        LONG;              /*  4 byte */
 typedef unsigned long       ULONG;              /*  4 byte */
 typedef          void        VOID;
 #endif
+
+typedef unsigned __int64 ULONGLONG;             /*  8 bytes */ /* from wtypes.h */
+
 #endif                                          /*  #if defined(__WATCOMC__) */
 
 /*  MacOS X with gcc */

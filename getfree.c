@@ -15,6 +15,17 @@
 /*  the License, or (at your option) any later version. See COPYING.  */
 /*--------------------------------------------------------------------*/
 
+#include <stdio.h>
+#include <limits.h>
+#include <ctype.h>
+#include <sys/types.h>
+
+
+#include <smapi/compiler.h>
+
+#include "typesize.h"
+#include "common.h"
+#include "log.h"
 
 #ifdef __NT__
 #  ifdef __WATCOMC__
@@ -22,7 +33,7 @@
 #     ifndef MAXPATHLEN
 #       define MAXPATHLEN NAME_MAX
 #     endif
-#  elif defined (_MSC_VER)
+#  elif defined (__MSVC__)
 #     include <stdlib.h>
 #     ifndef MAXPATHLEN
 #       define MAXPATHLEN _MAX_PATH
@@ -34,28 +45,17 @@
 #  endif
 
 /*  #include <windows.h> included in typesize.h */
-#include <stdio.h>
-#include <limits.h>
-#include <ctype.h>
-
-#include "common.h"
-#include "log.h"
-
-#if defined(__WATCOMC__) /* todo: move this & other 64-bit defines to compiler.h*/
-/* from wtypes.h */
-typedef unsigned __int64 ULONGLONG;
-#endif
 
 ULONG fc_GetDiskFreeSpace (const char *path)
 {
     FARPROC pGetDiskFreeSpaceEx = NULL;
     BOOL rc;
     ULONG freeSpace = ULONG_MAX;
-    
-  
+
+
     pGetDiskFreeSpaceEx = GetProcAddress( GetModuleHandle("kernel32.dll"),
         "GetDiskFreeSpaceExA");
-    
+
     if (pGetDiskFreeSpaceEx)
     {
         ULARGE_INTEGER i64FreeBytesToCaller,i64TotalBytes,i64FreeBytes;
@@ -67,13 +67,13 @@ ULONG fc_GetDiskFreeSpace (const char *path)
             w_log (LL_ERR, "GetDiskFreeSpace error: return code = %lu", GetLastError());
             /* return freeSpace;		    Assume enough disk space */
         } else {
-            freeSpace = i64FreeBytesToCaller.QuadPart > (ULONGLONG)freeSpace ? 
-                        freeSpace : 
+            freeSpace = i64FreeBytesToCaller.QuadPart > (ULONGLONG)freeSpace ?
+                        freeSpace :
                         (ULONG)i64FreeBytesToCaller.QuadPart;
             /*  Process GetDiskFreeSpaceEx results. */
         }
     }
-    else 
+    else
     {
         DWORD SPC;				/*  sectors per cluster */
         DWORD BPS;				/*  bytes per sector */
@@ -102,17 +102,17 @@ ULONG fc_GetDiskFreeSpace (const char *path)
             do {
                 RPN[i] = path[i];
             } while (path[i++] != '\\');
-            
+
             RPN[i] = '\0';
-            
+
         } else {
             /*  Current Drive */
             pRPN = NULL;
         }
-        
-        
+
+
         rc = GetDiskFreeSpace (pRPN,&SPC,&BPS,&FC,&TNC);
-        
+
         if (rc != TRUE) {
             w_log (LL_ERR, "GetDiskFreeSpace error: return code = %lu", GetLastError());
             /* return freeSpace;		    Assume enough disk space */
@@ -126,7 +126,7 @@ ULONG fc_GetDiskFreeSpace (const char *path)
     }
     return freeSpace;
 }
-#elif defined(__OS2__) || defined(OS2)
+#elif defined(__OS2__)
 
 #ifdef __WATCOMC__
 #define __IBMC__ 0
@@ -135,11 +135,7 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 
 #define INCL_DOS
 #include <os2.h>
-#include <ctype.h>
-#include <limits.h>
 
-#include "common.h"
-#include "log.h"
 
 ULONG fc_GetDiskFreeSpace (const char *path)
 {
@@ -170,7 +166,7 @@ ULONG fc_GetDiskFreeSpace (const char *path)
   }
 }
 
-#elif defined(UNIX) || defined (__linux__)
+#elif defined(__UNIX__)
 /*
    This was taken from ifmail, and modified a bit for binkd -- mff, 1997
 
@@ -187,8 +183,6 @@ ULONG fc_GetDiskFreeSpace (const char *path)
    EITHER EXPRESSED OR IMPLIED.  IN NO EVENT WILL THE COPYRIGHT HOLDER BE
    LIABLE FOR ANY DAMAGES RESULTING FROM THE USE OF THIS SOFTWARE.
  */
-
-#include <sys/types.h>
 
 
 /* TE: test for FreeBSD, NetBSD, OpenBSD or any other BSD 4.4 - derived OS */
@@ -222,7 +216,6 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 #endif /* _SYS_STATFS_H */
 #endif /* linux &! GLIBC */
 
-#include <limits.h>
 #endif /* not BSD-like OS */
 
 /*
@@ -230,9 +223,6 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 #error no statfs() or statvfs() in your system!
 #endif
 */
-
-#include "common.h"
-#include "log.h"
 
 #if defined(_SYS_STATFS_H) || defined(_SYS_STATVFS_H)
 ULONG fc_GetDiskFreeSpace (const char *path)
@@ -270,12 +260,8 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 
 #endif
 
-#elif defined(MSDOS) || defined(DOS) || defined(__MSDOS__) || defined(__DOS__)
+#elif defined(__DOS__)
 
-#include <limits.h>
-
-#include "common.h"
-#include "log.h"
 
 ULONG fc_GetDiskFreeSpace (const char *path)
 {
