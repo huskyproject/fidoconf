@@ -93,12 +93,14 @@
 #define LL_MSGID   	'I'      /* Generate/check MSGID */
 #define LL_ECHOMAIL 	'J'      /* Echomail phase */
 #define LL_FILEBOX 	'K'      /* Filebox phase/operations */
+#define LL_BOX        LL_FILEBOX
 #define LL_NETMAIL 	'L'      /* Netmail phase */
 #define LL_CREAT        'M'      /* Create file */
 #define LL_DEL     	'N'      /* Delete file */
 #define LL_FILE    	'O'      /* Other file operations (read, write, seek, ...) */
 #define LL_DIR     	'P'      /* Directory create/delete/etc */
 #define LL_PATH       LL_DIR
+#define LL_EMAIL        'Q'      /* Email parsing or construct */
 #define LL_TRUNC   	'R'      /* Truncate file */
 #define LL_DELETE     LL_DEL
 #define LL_TRUNCATE   LL_TRUNC
@@ -109,6 +111,9 @@
 #define LL_LINKPASS	'Y'      /* Link messagebase pass (some phase) */
 #define LL_SRCLINE 	'Z'      /* Source lines numbers */
 #define LL_DEBUG        'a'      /* Debug output */
+#define LL_DEBUGA       'a'      /* Debug output */
+#define LL_DEBUGB       'b'      /* Debug output */
+
 
 #ifdef __cplusplus
 extern "C" {
