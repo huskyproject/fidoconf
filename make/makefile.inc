@@ -13,7 +13,11 @@
 # _SRC_DIR  sources dir
 
 # Library name
-LIBNAME = fidoconf
+ifeq ($(SHORTNAME), 1)
+  LIBNAME = fidoconf
+else
+  LIBNAME = fidoconfig
+endif
 
 # Version
 VERMAJOR= 1
