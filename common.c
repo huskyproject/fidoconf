@@ -52,6 +52,10 @@
 #include <pwd.h>
 #endif
 
+#ifdef __BEOS__
+#include <KernelKit.h>
+#endif
+
 #include "fidoconf.h"
 #include "common.h"
 #include <smapi/patmat.h>
@@ -525,7 +529,9 @@ static void atexit_wait_handler_function(void)
     time(&t);
     while (t < last_reftime_used)
     {
-#ifdef UNIX
+#ifdef __BEOS__
+        snooze(10);
+#elif defined(UNIX)
         usleep(10);
 #else
         sleep(1);
@@ -556,7 +562,9 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    /* make it reentrant */
    while (flag)
    {
-#if defined(UNIX) || defined(EMX)   
+#ifdef __BEOS__
+       snooze(10);
+#elif defined(UNIX) || defined(EMX)   
        usleep(10);       /* wait to get a fresh number */
 #else
        sleep(1);
@@ -644,7 +652,9 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 	   
                while (tmpt < refTime)
                {
-#if defined(UNIX) || defined(EMX)   
+#ifdef __BEOS__
+                   snooze(50);               
+#elif defined(UNIX) || defined(EMX)   
                    usleep(50);       /* wait to get a fresh number */
 #else
                    sleep(1);
