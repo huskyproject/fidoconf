@@ -138,6 +138,7 @@ DIR* readdir(DIR* dir)
       }
 
     dir->d_attr = (dir->_dt).attrib;
+    dir->d_size = (dir->_dt).size;
     return dir; 
 }
 

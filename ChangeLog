@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Mon Mar  5 22:51:20 NOVT 2001
+max (patch from Alex Bronin):
+* dirlayer.c: d_size for MSVC
+
+----- cvs ci ------
 Sun Mar  4 12:05:20 NOVT 2001
 max:
 * fix "0" groups (to NULL)
