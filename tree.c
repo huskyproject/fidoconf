@@ -444,9 +444,9 @@ static int delete(tree **ppr_p, int (*pfi_compare)(char *, char *), char *pc_use
 			if (*pi_balance)
 				balanceL(ppr_p, pi_balance);
 		}
-		nfree(pr_q);
 		if (!*pi_uar_called && pfi_uar)
 			(*pfi_uar)(pr_q->tree_p);
+		nfree(pr_q);
 		i_ret = TRUE;
 	}
 	EXIT(i_ret)
@@ -474,11 +474,11 @@ int tree_trav_real(tree **ppr_tree, int (*pfi_uar)(char *))
 	if (!*ppr_tree)
 		EXIT(TRUE)
 
-	if (!tree_trav(&(**ppr_tree).tree_l, pfi_uar))
+	if (!tree_trav_real(&(**ppr_tree).tree_l, pfi_uar))
 		EXIT(FALSE)
 	if (!(*pfi_uar)((**ppr_tree).tree_p))
 		EXIT(FALSE)
-	if (!tree_trav(&(**ppr_tree).tree_r, pfi_uar))
+	if (!tree_trav_real(&(**ppr_tree).tree_r, pfi_uar))
 		EXIT(FALSE)
 	EXIT(TRUE)
 }
