@@ -3,7 +3,7 @@
 
 CC=	gcc
 EXENAMEFLAG=-o
-CDEFS=	-DOS2
+CDEFS=	-DOS2 -DNOSEMAPHORES
 COPT=	-O2 -I.. -Wall -pedantic -c -Zomf -Wno-char-subscripts
 LFLAGS= -Zomf -Zsys -s -Zlinker /PM:VIO
 

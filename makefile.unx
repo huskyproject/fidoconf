@@ -7,7 +7,7 @@ AR = ar
 AR_R = rs
 RM = rm
 
-COPT = -c -DUNIX -I..
+COPT = -c -DUNIX -I.. -DNOSEMAPHORES
 LFLAGS = -L.
 
 # filename settings

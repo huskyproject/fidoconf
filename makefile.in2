@@ -8,7 +8,7 @@ AR   = ar
 AR_R = rs
 RM   = rm
 
-CDEFS  += -c -fPIC -Wall -ggdb -DUNIX -I.. -Wno-char-subscripts
+CDEFS  += -c -fPIC -Wall -ggdb -DUNIX -I.. -Wno-char-subscripts -DNOSEMAPHORES
 COPT   = -O3
 LFLAGS = -L.
 

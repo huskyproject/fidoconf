@@ -11,7 +11,7 @@
 # This will allow "//" style comments in ANSI C # source code. 
 
 CC=cc
-CFLAGS=-qcpluscmt -DUNIX -D_AIX -I..
+CFLAGS=-qcpluscmt -DUNIX -D_AIX -I..  -DNOSEMAPHORES
 
 LIB=	ar
 RANLIB= ranlib

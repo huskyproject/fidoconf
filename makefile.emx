@@ -4,7 +4,7 @@
 CC=	gcc
 # the space after the o is important!
 EXENAMEFLAG=-o 
-CDEFS=	-DOS2 -I.. -Wall -pedantic -c -Wno-char-subscripts
+CDEFS=	-DOS2 -I.. -Wall -pedantic -c -Wno-char-subscripts -DNOSEMAPHORES
 COPT=	-O2
 LFLAGS= -s  -Zcrtdll
 

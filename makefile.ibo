@@ -3,7 +3,7 @@
 
 CC=	icc
 EXENAMEFLAG=/Fe
-CDEFS=	-Ss+ -Sp1 -W2 -q+ -c -I.. -I../smapi -DOS2
+CDEFS=	-Ss+ -Sp1 -W2 -q+ -c -I.. -I../smapi -DOS2 -DNOSEMAPHORES
 COPT=	-O
 LFLAGS= 
 #-Ss+ -Sp1 -W2 -q+

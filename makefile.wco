@@ -4,7 +4,7 @@
 
 CC=wcl386
 EXENAMEFLAG=-fe=
-CDEFS=-DOS2
+CDEFS=-DOS2 -DNOSEMAPHORES
 COPT=-zq -wx -i=.. -oneatx -5 -c -bt=os2v2
 LFLAGS=-bt=os2v2 -l=os2v2
 
