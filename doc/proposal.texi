@@ -95,6 +95,7 @@ Path and file definition:
 * outtab::              file for recoding outgoing msgs
 * importlog::           file which contains the names of the areas tossed in
 * echotosslog::         file which contains the names of the areas messaged entered
+* linkWithImportLog::   determines if only the areas which are in importLog should be linked
 * public::              path for requestable files
 * logfiledir::          path for log files
 * dupehistorydir::      path for dupe files
@@ -379,7 +380,8 @@ This statement cannot be repeated.
 @code{tempinbound /var/spool/fido/in.tmp}
 @end table
 
-This command specifies a patch which is used while tossing.
+This command specifies a path which is used while tossing. The incoming packets
+are unpacked there.
 
 This statement cannot be repeated.
 
@@ -451,7 +453,7 @@ of the areas where echomails has been tossed in.
 
 This statement cannot be repeated.
 
-@node echotosslog, public, importlog, Keywords
+@node echotosslog, linkWithImportLog, importlog, Keywords
 @subsection echotosslog 
 @table @asis
 @item Syntax:
@@ -467,7 +469,31 @@ After scanning the tosser will remove the file.
 
 This statement cannot be repeated.
 
-@node public, logfiledir, echotosslog, Keywords
+@node linkWithImportLog, public, echotosslog, Keywords
+@subsection linkWithImportLog 
+@table @asis
+@item Syntax:
+@code{linkWithImportLog <yers|no|kill>}
+@item Example:
+@code{linkWithImportLog yes}
+@end table
+
+This statement specifies if the importlog-file should be used to determine
+which echomail areas need to be linked.
+
+@table @asis
+@item yes
+importlog-file will be read. areas which are in importlog, will be linked.
+the importlog-file will not be erased.
+@item kill
+like yes, but the importlog-file will be killed after using it.
+@item no
+DEFAULT. all areas will be linked.
+@end table
+
+This statement cannot be repeated.
+
+@node public, logfiledir, linkWithImportLog, Keywords
 @subsection public
 @table @asis
 @item Syntax:

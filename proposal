@@ -2,7 +2,7 @@ LINUX FIDOSOFT PROJECT
 Definition of commonly used configuration files
 
 
-Version: 0.14 (981028)
+Version: 0.15 (990121)
 Status: proposal
 
 
@@ -140,6 +140,8 @@ _Keyword definitions_
   echotossLog <file>
   # file is created by a message editor.
   # it containts the name of the areas in which have been new messages entered
+  linkWithImportLog <yes|no|kill>
+  # importlog will be used to determine which areas whould be linked.
   {
   public <path>
   }

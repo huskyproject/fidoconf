@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #ifndef MSDOS
 #include "fidoconfig.h"
@@ -74,10 +75,36 @@ char *trimLine(char *line)
 
    while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
    temp = (char *) malloc(strlen(start)+1);
-   strcpy(temp, start);
+//   strcpy(temp, start);
+   strcpy(temp, striptwhite(start));
    free(line);
    return temp;
 }
+
+/* Strips trailing spaces from a string. */
+
+char *striptwhite(char *str)
+{
+    char *p;
+
+    if (str == NULL)
+    {
+        return str;
+    }
+    if (*str == 0)
+    {
+        return str;   // strend is undefined for zero-length string! 
+    }
+    p = strend(str);
+    while (p > str && *p && isspace((unsigned char)*p))
+    {
+        *p = '\0';
+        p--;
+    }
+    return str;
+}
+
+
 
 void parseConfig(FILE *f, s_fidoconfig *config)
 {
@@ -262,6 +289,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->intab);
    free(config->outtab);
    free(config->importlog);
+   free(config->LinkWithImportlog);
    free(config->echotosslog);
    free(config->lockfile);
 

@@ -44,9 +44,12 @@
 #define PATH_DELIM        '\\'
 #endif
 
+#define strend(str) ((str) + strlen(str) - 1)
+
 extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
 extern char wasError;
+char *striptwhite(char *str);
 
 struct addr {
 
@@ -182,7 +185,7 @@ struct fidoconfig {
    s_unpack *unpack;
    
    char     *intab, *outtab;
-   char     *echotosslog, *importlog, *lockfile;
+   char     *echotosslog, *importlog, *LinkWithImportlog ,*lockfile;
 
    unsigned int   carbonCount;
    s_carbon *carbons;
@@ -190,6 +193,8 @@ struct fidoconfig {
    char     **includeFiles;
    unsigned int includeCount;
 };
+
+
 typedef struct fidoconfig s_fidoconfig;
 
 s_fidoconfig *readConfig(void);

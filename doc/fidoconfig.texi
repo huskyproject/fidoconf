@@ -30,7 +30,7 @@ Copyright @copyright{} 1998 Matthias Tichy
 This document describes the use of fidoconfig to make fido work on your unix
 workstation.
 
-This document applies to version 0.5 of fidoconfig.
+This document applies to version 0.6 of fidoconfig.
 @end ifinfo
 
 @menu

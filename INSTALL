@@ -12,17 +12,14 @@ Unix:
 
 2. compile and install fidoconfig:
 	$ make
+	$ make install
+	$ make 
+   After the first make there will be an error displayed. Just do the second
+   and third make and all will be ok.
 
-3. copy the library libfidoconfig.so.0.5 to a dir like /usr/local/lib
+3. execute ldconfig as root
 
-4. create syslinks:
-        [cd /usr/local/lib]
-        ln -s libfidoconfig.so.0.5 libfidoconfig.so.0
-        ln -s libfidoconfig.so.0 fidoconfig.so
-
-5. execute ldconfig as root
-
-6. write a fido config according to the proposal which is also in this package.
+4. write a fido config according to the proposal which is also in this package.
    If your are just some normal point, give the shell script fidoInst a
    chance. Always test the config with the tparser tool, which you can place
    in a directory like /usr/local/bin.

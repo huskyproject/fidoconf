@@ -110,7 +110,8 @@ int main() {
       printf("LogFileDir: %s\n", config->logFileDir);
       printf("MsgBaseDir: %s\n", config->msgBaseDir);
       printf("Magic: %s\n", config->magic);
-
+      printf("\n=== LINKER CONFIG ===\n");
+      printf("LinkWithImportlog: %s\n", config->LinkWithImportlog);
       printf("\n=== LINK CONFIG ===\n");
       for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
       

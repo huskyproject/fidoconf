@@ -3,6 +3,14 @@ fidoconfig 0.6
 --------------
 
 ----- cvs ci ------
+Fri Jan 22 00:00:04 CET 1999
+- added LinkWithImportLog added (gerald)
+- tailing spaces will be killed in every line (gerald)
+
+----- cvs ci ------
+Tue Jan 19 19:46:05 CET 1999
+- changed makefile for use without installing the libraries
+----- cvs ci ------
 - changed public to publicDir
 
 ----- cvs ci ------

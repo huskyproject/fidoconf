@@ -906,6 +906,7 @@ int parseLine(char *line, s_fidoconfig *config)
 
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
    else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
+   else if (stricmp(token, "LinkWithImportlog")==0) rc = copyString(getRestOfLine(), &(config->LinkWithImportlog));
    else if (stricmp(token, "include")==0) rc = parseInclude(getRestOfLine(), config);
 
    else if (stricmp(token, "denygrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
