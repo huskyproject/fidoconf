@@ -77,7 +77,7 @@ ifeq ($(DYNLIBS), 1)
 	(cd doc && $(MAKE) all)
 else
   all: commonlibs ranlib
-  	$(MAKE) progs
+	$(MAKE) progs
 	(cd doc && $(MAKE) all)
 endif
 
