@@ -2553,6 +2553,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "setconsoletitle")==0) rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
 #endif
    else if (stricmp(token,"addtoseen")==0) rc = parseAddToSeen(getRestOfLine(),config);
+   else if (stricmp(token, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline));
+   else if (stricmp(token, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
 
 #ifdef __TURBOC__
    else unrecognised++;

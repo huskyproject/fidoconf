@@ -215,6 +215,8 @@ a comment and will be ignored.
 * DisableTID::			disable adding TID to messages
 * SetConsoleTitle::             schange conesole title under win32
 * addToSeen::                   add addr to seen-by's
+* tearline::                    add specified tearline to hpt messages
+* origin::                      add specified origin to hpt messages
 
 @end menu
 
@@ -2319,7 +2321,7 @@ Set hpt console title while tossing
 
 @strong{This statement is only for win32 platform.}
 
-@node addToSeen, , SetConsoleTitle, Keywords
+@node addToSeen, tearline, SetConsoleTitle, Keywords
 @subsection addToSeen
 @table @asis
 @item Syntax:
@@ -2331,6 +2333,29 @@ Set hpt console title while tossing
 Add aka(s) to SEEN-BYs.
 
 This statement can be repeated.
+
+@node tearline, origin, AddToSeen, Keywords
+@subsection tearline
+@table @asis
+@item Syntax:
+@code{tearline <string>}
+@item Example:
+@code{tearline we love hpt :)}
+@end table
+
+Add this tearline to hpt messages (post, reports about new areas created)
+
+@node origin, , tearline, Keywords
+@subsection origin
+@table @asis
+@item Syntax:
+@code{origin <string>}
+@item Example:
+@code{origin mega cool station}
+@end table
+
+Add this Origin to hpt messages: post, reports about new areas created,
+areafix (if no areafixOrigin defined)
 
 @node Example,  , Keywords, config file
 @section Working sample config

@@ -400,6 +400,8 @@ typedef struct fidoconfig {
    ps_addr      addToSeen;
    unsigned int addToSeenCount;
 
+   char *tearline, *origin;
+
 } s_fidoconfig, *ps_fidoconfig;
 
 

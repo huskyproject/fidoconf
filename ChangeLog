@@ -4,6 +4,11 @@ fidoconfig 0.10
 
 
 ----- cvs ci ------
+Sun Jun 18 13:35:07 NOVST 2000
+max:
+* tearline, origin tokens
+
+----- cvs ci ------
 Tue Jun  6 19:39:31 NOVST 2000
 max:
 * smalloc(), srealloc(), scalloc()
