@@ -255,13 +255,11 @@ typedef          void       VOID;
 #if !defined(__OS2_H__) && !defined(__NT__)  /*  os2.h and windows.h defines it already */
 typedef signed   char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
+#endif
 typedef signed   short int  INT16;              /*  2 byte */
 typedef unsigned short int UINT16;              /*  2 byte */
-#endif
-/*#if !defined(__OS2_H__)*/
 typedef signed   int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
-/*#endif*/
 /*  -------------------------------------------------------------------------- */
 #if !defined(__OS2_H__) && !defined(__NT__)  /*  os2.h and windows.h defines it already */
 typedef signed   int          INT;              /*  2/4 byte */
