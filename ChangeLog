@@ -1,3 +1,12 @@
+2002-10-07 Monday 14:27  d_sergienko
+
+	* common.c (1.107): cosmetic fixes
+
+2002-10-07 Monday 14:07  d_sergienko
+
+	* common.c (1.106): save permissions (and ownership when running as
+	root) in copy_file on UNIX
+
 2002-10-04 Friday 13:12  stas_degteff
 
 	* cfg.c (1.40): Workaround for DJGPP compilation
