@@ -43,20 +43,6 @@ extern "C" {
 #include <huskylib/compiler.h>
 #include <smapi/msgapi.h>
 
-#ifdef _MAKE_DLL
-#   if defined(_MSC_VER) && (_MSC_VER >= 1200)
-#		define _MAKE_DLL_MVC_
-#       ifndef _FCONF_EXT
-#           define FCONF_EXT __declspec(dllimport)
-#       else
-#           define FCONF_EXT __declspec(dllexport)
-#       endif /* _FCONF_EXT */
-#   else
-#       define FCONF_EXT extern
-#   endif
-#else
-#   define FCONF_EXT extern
-#endif
 
 #ifndef MSGTYPE_PASSTHROUGH /* see smapi/msgapi.h */
 #define MSGTYPE_PASSTHROUGH 0x04
@@ -78,9 +64,9 @@ extern "C" {
 
 extern char *actualLine, *actualKeyword;
 
-FCONF_EXT int  actualLineNr;
-FCONF_EXT char CommentChar;
-FCONF_EXT int  fc_trycreate;
+HUSKYEXT int  actualLineNr;
+HUSKYEXT char CommentChar;
+HUSKYEXT int  fc_trycreate;
 
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"
@@ -95,7 +81,7 @@ enum _eAvailList
 
 typedef enum _eAvailList eAvailList;
 
-FCONF_EXT char *striptwhite(char *str);
+HUSKYEXT char *striptwhite(char *str);
 
 typedef struct addr {
 
@@ -681,55 +667,55 @@ typedef struct {
 #ifndef _MAKE_DLL_MVC_
 	extern sApp theApp;
 #else
-	FCONF_EXT sApp theApp;
+	HUSKYEXT sApp theApp;
 #endif
 
-FCONF_EXT void SetAppModule(e_known_moduls mod); /*  setup struct sApp */
+HUSKYEXT void SetAppModule(e_known_moduls mod); /*  setup struct sApp */
 
 /* Read fidoconfig from file into memory.
  * Parameter: filename or NULL
  * if NULL: try to find FIDOCONFIG enviroment variable, next use hardcoded path
  * Return NULL and print diagnostic message to stdout if error(s) found.
  */
-FCONF_EXT ps_fidoconfig readConfig(const char *cfgFile);
+HUSKYEXT ps_fidoconfig readConfig(const char *cfgFile);
 
 /* Dispose fidoconfig structure: free memory.
  */
-FCONF_EXT void disposeConfig(ps_fidoconfig config);
+HUSKYEXT void disposeConfig(ps_fidoconfig config);
 
-FCONF_EXT ps_link getLink(s_fidoconfig *config, char *addr);
-FCONF_EXT ps_link getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area);
-FCONF_EXT ps_link getLinkFromAddr(s_fidoconfig *config, hs_addr aka);
-FCONF_EXT ps_addr getAddr(const s_fidoconfig *config, char *addr);
+HUSKYEXT ps_link getLink(s_fidoconfig *config, char *addr);
+HUSKYEXT ps_link getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area);
+HUSKYEXT ps_link getLinkFromAddr(s_fidoconfig *config, hs_addr aka);
+HUSKYEXT ps_addr getAddr(const s_fidoconfig *config, char *addr);
 int    existAddr(s_fidoconfig *config, hs_addr aka);
 
 /* find echo & local areas in config */
-FCONF_EXT ps_area getArea(ps_fidoconfig config, char *areaName);
+HUSKYEXT ps_area getArea(ps_fidoconfig config, char *areaName);
 
 /* find only echo areas in config */
-FCONF_EXT ps_area getEchoArea(ps_fidoconfig config, char *areaName);
+HUSKYEXT ps_area getEchoArea(ps_fidoconfig config, char *areaName);
 
 /* find netmail areas in config */
-FCONF_EXT ps_area getNetMailArea(ps_fidoconfig config, char *areaName);
+HUSKYEXT ps_area getNetMailArea(ps_fidoconfig config, char *areaName);
 
 /**
  * This function return 0 if the link is not linked to the area,
  * else it returns 1.
  */
-FCONF_EXT int isLinkOfArea(ps_link link, s_area *area);
+HUSKYEXT int isLinkOfArea(ps_link link, s_area *area);
 
 /**
  * This function return -1 if the link is not linked to the area,
  * else it returns index of link into arealinks array.
  */
 
-FCONF_EXT int isAreaLink(hs_addr link, s_area *area);
+HUSKYEXT int isAreaLink(hs_addr link, s_area *area);
 
 /**
  * This function tests if link addr is our aka.
  */
 
-FCONF_EXT int isOurAka(ps_fidoconfig config, hs_addr link);
+HUSKYEXT int isOurAka(ps_fidoconfig config, hs_addr link);
 
 
 
@@ -746,26 +732,26 @@ int dumpConfigToFile(ps_fidoconfig config, char *fileName);
 
 /*  the following functions are for internal use. */
 /*  Only use them if you really know what you do. */
-FCONF_EXT char *readLine(FILE *F);
-FCONF_EXT int  parseLine(char *line, ps_fidoconfig config);
+HUSKYEXT char *readLine(FILE *F);
+HUSKYEXT int  parseLine(char *line, ps_fidoconfig config);
 int parsePath(char *token, char **var, char **alreadyDefined);
-FCONF_EXT char *getConfigFileName(void);
-FCONF_EXT char *trimLine(char *line);
-FCONF_EXT int  carbonNames2Addr(s_fidoconfig *config);
-FCONF_EXT int  init_conf(const char *conf_name);
-FCONF_EXT void close_conf(void);
-FCONF_EXT void setvar(char *name, char *value);
-FCONF_EXT char *getvar(char *name);
+HUSKYEXT char *getConfigFileName(void);
+HUSKYEXT char *trimLine(char *line);
+HUSKYEXT int  carbonNames2Addr(s_fidoconfig *config);
+HUSKYEXT int  init_conf(const char *conf_name);
+HUSKYEXT void close_conf(void);
+HUSKYEXT void setvar(char *name, char *value);
+HUSKYEXT char *getvar(char *name);
 void closeall(void);
-FCONF_EXT char *configline(void);
-FCONF_EXT char *stripComment(char *line);
+HUSKYEXT char *configline(void);
+HUSKYEXT char *stripComment(char *line);
 void checkIncludeLogic(ps_fidoconfig config);
 
-FCONF_EXT const char* getCurConfName();
-FCONF_EXT long getCurConfPos();
-FCONF_EXT long get_hcfgPos();
-FCONF_EXT FILE *get_hcfg();
-FCONF_EXT const char *cfgEol();
+HUSKYEXT const char* getCurConfName();
+HUSKYEXT long getCurConfPos();
+HUSKYEXT long get_hcfgPos();
+HUSKYEXT FILE *get_hcfg();
+HUSKYEXT const char *cfgEol();
 
 /**
  * This method can be used to get a program-specifically config-filename, in the same directories which are searched for fidoconfig.
@@ -778,16 +764,16 @@ FCONF_EXT const char *cfgEol();
 
 char *getConfigFileNameForProgram(char *envVar, char *configName);
 
-FCONF_EXT ps_area getFileArea(char *areaName);
+HUSKYEXT ps_area getFileArea(char *areaName);
 
 /*  this function can be used to dump config to stdout or to an already opened file. */
 void dumpConfig(ps_fidoconfig config, FILE *f);
 
 /*  return 1 if group found in array of strings, else return 0 */
-FCONF_EXT int grpInArray(char *group, char **strarray, unsigned int len);
+HUSKYEXT int grpInArray(char *group, char **strarray, unsigned int len);
 
 /* delete the area from in-core config */
-FCONF_EXT void fc_freeEchoArea(s_area     *area);
+HUSKYEXT void fc_freeEchoArea(s_area     *area);
 
 
 void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink);

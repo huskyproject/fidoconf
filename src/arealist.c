@@ -42,6 +42,10 @@
 #endif
 
 
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
+
 #include "arealist.h"
 #include "common.h"
 

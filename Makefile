@@ -14,10 +14,10 @@ endif
 # program settings
 
 ifeq ($(DEBUG), 1)
-  COPT = $(WARNFLAGS) $(DEBCFLAGS) -I. -I$(INCDIR)
+  COPT = $(WARNFLAGS) $(DEBCFLAGS) -Ifidoconf -I$(INCDIR)
   LFLAGS = $(DEBLFLAGS)
 else
-  COPT = $(WARNFLAGS) $(OPTCFLAGS) -I. -I$(INCDIR)
+  COPT = $(WARNFLAGS) $(OPTCFLAGS) -Ifidoconf -I$(INCDIR)
   LFLAGS = $(OPTLFLAGS)
 endif
 
@@ -46,7 +46,7 @@ endif
 # filename settings
 ifeq ($(SHORTNAMES), 1)
   FIDOCONFIG     = fidoconf
-  FCONF2AREASBBS = fc2abbs
+  FCONF2AREASBBS = fc2abbs.pl
   FCONF2AQUAED   = fc2aed
   FCONF2GOLDED   = fc2ged
   FCONF2MSGED    = fc2msged
@@ -59,7 +59,7 @@ ifeq ($(SHORTNAMES), 1)
   CDEFS = $(CDEFS) -DSHORTNAMES
 else
   FIDOCONFIG = fidoconfig
-  FCONF2AREASBBS = fconf2areasbbs
+  FCONF2AREASBBS = fconf2areasbbs.pl
   FCONF2AQUAED = fconf2aquaed
   FCONF2GOLDED = fconf2golded
   FCONF2MSGED  = fconf2msged
@@ -71,7 +71,7 @@ else
   LIBFIDOCONFIG = $(LIBPREFIX)fidoconfig
 endif
 
-LINKSMAPI = -lsmapi
+LINKSMAPI = -lhusky -lsmapi
 LINKFIDOCONFIG = -l$(FIDOCONFIG)
 
 default: all
@@ -110,8 +110,8 @@ endif
 	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so.$(VERH) ;\
 	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so
 
-%$(OBJ): %.c
-	$(CC) $(CDEFS) $(COPT) $*.c
+%$(_OBJ): $(_SRC_DIR)%.c
+	$(CC) $(CDEFS) $(COPT) $(_SRC_DIR)$*.c
 
 ifeq ($(DYNLIBS), 1)
 instdyn: $(LIBFIDOCONFIG).so.$(VER)
@@ -131,41 +131,41 @@ instdyn: commonlibs
 endif
 
 ranlib: commonlibs
-#	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)/patmat.o
+#	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(_LIB) $(LIBDIR)/patmat.o
 ifdef RANLIB
-	$(RANLIB) $(LIBFIDOCONFIG)$(LIB)
+	$(RANLIB) $(LIBFIDOCONFIG)$(_LIB)
 endif
 
 install: commonlibs progs instdyn
 	-$(MKDIR) $(MKDIROPT) $(BINDIR)
 	-$(MKDIR) $(MKDIROPT) $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
-	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(EXE)   $(BINDIR)
-	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
-	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(EXE) $(BINDIR)
-	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
-	$(INSTALL) $(IBOPT) $(FCONF2TORNADO)$(EXE)  $(BINDIR)
-	$(INSTALL) $(IBOPT) $(FCONF2BINKD)$(EXE)    $(BINDIR)
-	$(INSTALL) $(IBOPT) linked$(EXE)	    $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(_EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(_EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(_EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(_EXE) $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(_EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2TORNADO)$(_EXE)  $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2BINKD)$(_EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) linked$(_EXE)	    $(BINDIR)
 ifeq ($(CC), gcc)
-	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(_EXE)    $(BINDIR)
 endif
-	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
+	$(INSTALL) $(IBOPT) tparser$(_EXE)          $(BINDIR)
 ifeq (${OSTYPE}, UNIX)
-	$(INSTALL) $(ISOPT) linkedto                $(BINDIR)
+	$(INSTALL) $(ISOPT) util/linkedto           $(BINDIR)
 endif
-	$(INSTALL) $(ISOPT) fconf2na.pl             $(BINDIR)
-	$(INSTALL) $(ISOPT) $(FCONF2AREASBBS)       $(BINDIR)
-	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) common.h       $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) afixcmd.h      $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) arealist.h     $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) version.h      $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) grptree.h      $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(ISLOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
+	$(INSTALL) $(ISOPT) util/fconf2na.pl        $(BINDIR)
+	$(INSTALL) $(ISOPT) util/$(FCONF2AREASBBS)  $(BINDIR)
+	$(INSTALL) $(IIOPT) fidoconf/fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf/areatree.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf/findtok.h      $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf/common.h       $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf/fidoconf.pas   $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf/afixcmd.h      $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf/arealist.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf/version.h      $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf/grptree.h      $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(ISLOPT) $(LIBFIDOCONFIG)$(_LIB) $(LIBDIR)
 	(cd doc && $(MAKE) install)
 	@echo
 	@echo "*** For install man pages run 'gmake install-man' (unixes only)"
@@ -175,16 +175,16 @@ install-man:
 	(cd man && $(MAKE) install)
 
 uninstall:
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2MSGED)$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2GOLDED)$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AQUAED)$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2FIDOGATE)$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2SQUISH)$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2TORNADO)$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2BINKD)$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linked$(EXE)
-	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2MSGED)$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2GOLDED)$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AQUAED)$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2FIDOGATE)$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2SQUISH)$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2TORNADO)$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2BINKD)$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linked$(_EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(_EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)fconf2na.pl
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AREASBBS)

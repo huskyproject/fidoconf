@@ -43,7 +43,7 @@
 #define VERSION_H
 
 #include "version.h"
-#include "cvsdate.h"
+#include "../cvsdate.h"
 
 #endif
 

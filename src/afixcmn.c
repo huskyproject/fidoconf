@@ -36,13 +36,16 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <huskylib/compiler.h>
 #include <huskylib/huskylib.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
 #endif
 
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
 
 #include "fidoconf.h"
 #include "common.h"

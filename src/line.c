@@ -30,7 +30,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#include <huskylib/compiler.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -41,6 +40,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
@@ -74,6 +74,10 @@
 #endif
 
 #include <huskylib/huskylib.h>
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
 
 #include "syslogp.h"
 #include "fidoconf.h"
@@ -3339,7 +3343,7 @@ int parseSyslog(char *line, int *value)
 
 /* Parse additional option tokens like ReadOnly/WriteOnly */
 
-int parsePermissions (char *line,  s_permissions **perm, int *permCount)
+int parsePermissions (char *line,  s_permissions **perm, unsigned int *permCount)
 {
     char *ptr;
 

@@ -37,7 +37,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <huskylib/compiler.h>
 #include <huskylib/huskylib.h>
 #include "fidoconf.h"
 
@@ -49,7 +48,7 @@ extern "C" {
 
 /* common functions */
 
-FCONF_EXT int copyString(char *str, char **pmem);
+HUSKYEXT int copyString(char *str, char **pmem);
 /*DOC
  * Copy string from *str to *pmem, allocating memory as needed
    NOTE! *pmem must be NULL, if not NULL, it will be free().
@@ -63,32 +62,32 @@ int copyStringUntilSep(char *str, char *seps, char **dest);
  * returns number of chars copied
  */
 
-FCONF_EXT long str2attr(const char *str);
+HUSKYEXT long str2attr(const char *str);
 /*DOC
   Input:  Msg flag name
   Output: value with corresponding bit set or -1L else
 */
 
-FCONF_EXT char *attr2str(long attr);
+HUSKYEXT char *attr2str(long attr);
 /*DOC
   Input:  Msg flag bitmask
   Output: flags string, dynamic allocated, space separated
 */
 
-FCONF_EXT char *extattr(const char *line);
+HUSKYEXT char *extattr(const char *line);
 /*DOC
   Input:  Msg extended flag name
   Output: Uppercased flag name or NULL if flag unknown
 */
 
-FCONF_EXT int  addrComp(const hs_addr a1, const hs_addr a2);
+HUSKYEXT int  addrComp(const hs_addr a1, const hs_addr a2);
 /*DOC
   Input:  two addresses
   Output: 0, or !0
   FZ:     0 ist returned if the two addresses are the same, !0 else
 */
 
-FCONF_EXT void string2addr(const char *string, hs_addr *addr);
+HUSKYEXT void string2addr(const char *string, hs_addr *addr);
 /*DOC
   Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
   Output: ./.
@@ -106,12 +105,12 @@ HUSKYEXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidocon
 */
 
 /* will be moved to huskylib */
-FCONF_EXT  char *makeMsgbFileName(ps_fidoconfig config, char *s);
+HUSKYEXT  char *makeMsgbFileName(ps_fidoconfig config, char *s);
 /*
     makes correct file neme fot echo or fecho area
 */
 
-FCONF_EXT char   *vars_expand(char *str);
+HUSKYEXT char   *vars_expand(char *str);
 /*DOC
    Input: str is a \0 terminated string which must have been malloc'ed
    Ouput: a pointer to a \0 terminated string is returned which must be free'd
@@ -120,8 +119,8 @@ FCONF_EXT char   *vars_expand(char *str);
 */
 
 /* will be moved to huskylib */
-FCONF_EXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ);
-FCONF_EXT int  NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ, hs_addr *aka);
+HUSKYEXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ);
+HUSKYEXT int  NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ, hs_addr *aka);
 /*DOC
   Input:  link is the link whose OutboundFileName should be created.
           prio is some kind of CRASH, HOLD, NORMAL
@@ -135,13 +134,13 @@ FCONF_EXT int  NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_
 /*  fileBoxes support */
 
 /* will be moved to huskylib */
-FCONF_EXT int needUseFileBoxForLink (ps_fidoconfig config, s_link *link);
-FCONF_EXT int needUseFileBoxForLinkAka (ps_fidoconfig config, s_link *link, hs_addr *aka);
+HUSKYEXT int needUseFileBoxForLink (ps_fidoconfig config, s_link *link);
+HUSKYEXT int needUseFileBoxForLinkAka (ps_fidoconfig config, s_link *link, hs_addr *aka);
 /* will be moved to huskylib */
-FCONF_EXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
-FCONF_EXT char *makeFileBoxNameAka  (ps_fidoconfig config, s_link *link, hs_addr *aka);
+HUSKYEXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
+HUSKYEXT char *makeFileBoxNameAka  (ps_fidoconfig config, s_link *link, hs_addr *aka);
 /* will be moved to huskylib */
-FCONF_EXT void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path);
+HUSKYEXT void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path);
 
 /* will be moved to huskylib */
 /*  Change file sufix (add if not present).
@@ -150,29 +149,29 @@ FCONF_EXT void fillCmdStatement(char *cmd, const char *call, const char *archiv,
     inc = 0 - do not increment suffix, do not rename file, return new suffix only
     if 1st or 2nd parameter is NULL return NULL and set errno to EINVAL
 */
-FCONF_EXT char* changeFileSuffix(char *fileName, char *newSuffix, int inc);
+HUSKYEXT char* changeFileSuffix(char *fileName, char *newSuffix, int inc);
 
 /*  this function returns the string representation of an address. */
 /*  it returns a static array!!! */
-FCONF_EXT char *aka2str(const hs_addr aka);
+HUSKYEXT char *aka2str(const hs_addr aka);
 
 /* This function returns the string representation of an 5D address.
  * Return malloc()'ed string!
  */
-FCONF_EXT char *aka2str5d(hs_addr aka);
+HUSKYEXT char *aka2str5d(hs_addr aka);
 
 void freeGroups(char **grps, int numGroups);
 char **copyGroups(char **grps, int numGroups);
 void freeLink (s_link *link);
 
-FCONF_EXT int e_readCheck(s_fidoconfig *config, s_area *echo, s_link *link);
+HUSKYEXT int e_readCheck(s_fidoconfig *config, s_area *echo, s_link *link);
 /*  '\x0000' access o'k */
 /*  '\x0001' no access group */
 /*  '\x0002' no access level */
 /*  '\x0003' no access export */
 /*  '\x0004' not linked */
 
-FCONF_EXT int e_writeCheck(s_fidoconfig *config, s_area *echo, s_link *link);
+HUSKYEXT int e_writeCheck(s_fidoconfig *config, s_area *echo, s_link *link);
 /*  '\x0000' access o'k */
 /*  '\x0001' no access group */
 /*  '\x0002' no access level */
@@ -180,7 +179,7 @@ FCONF_EXT int e_writeCheck(s_fidoconfig *config, s_area *echo, s_link *link);
 /*  '\x0004' not linked */
 
 /* Select PackAka: link->hisPackAka if PackAka defined, link->hisAka otherwise. */
-FCONF_EXT hs_addr *SelectPackAka(s_link *link);
+HUSKYEXT hs_addr *SelectPackAka(s_link *link);
 
 
 #ifdef __cplusplus

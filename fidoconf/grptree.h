@@ -41,13 +41,13 @@ typedef struct {
     s_area *area;
 } grp_t;
 
-FCONF_EXT tree *groupTree;
+HUSKYEXT tree *groupTree;
 
-FCONF_EXT void initGroupTree();
-FCONF_EXT int addPatternToGrpTree(char *groupName, char *patternList);
-FCONF_EXT grp_t *findGroupForArea(char *areaName);
-FCONF_EXT grp_t *findGroupByName(char *groupName);
-FCONF_EXT void freeGrpTree();
+HUSKYEXT void initGroupTree();
+HUSKYEXT int addPatternToGrpTree(char *groupName, char *patternList);
+HUSKYEXT grp_t *findGroupForArea(char *areaName);
+HUSKYEXT grp_t *findGroupByName(char *groupName);
+HUSKYEXT void freeGrpTree();
 
 
 #endif 

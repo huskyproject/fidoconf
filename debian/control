@@ -2,7 +2,7 @@ Source: fidoconf
 Section: contrib/libs
 Priority: optional
 Maintainer: Pavel Andreew <pavel@collage.etel.ru>
-Build-Depends: debhelper (>> 4.0.0), binutils, libsmapi2-dev(>=2.3.0-1), texinfo
+Build-Depends: debhelper (>> 4.0.0), binutils, libsmapi2cur-dev(>=2.5-0), texinfo
 Standards-Version: 3.5.8
 
 Package: libfidoconf1
@@ -22,7 +22,7 @@ Description: Library to access the fidoconfig
 Package: libfidoconf1-dev
 Section: contrib/devel
 Architecture: any
-Depends: libfidoconf1(=${Source-Version}), libsmapi2-dev, libc6-dev
+Depends: libfidoconf1(=${Source-Version}), libsmapi2cur-dev, libc6-dev
 Replaces: libfidoconf0-dev
 Conflicts: libfidoconf0-dev
 Description: Library to access the fidoconfig, development files

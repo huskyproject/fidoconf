@@ -61,7 +61,7 @@ typedef enum {
  * Require cvs_date.h in module hearer files directory
  */
 
-FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
+HUSKYEXT char *GenVersionStr( const char *programname, unsigned major,
    unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate );
 
 /* Check version of fidoconfig library
@@ -74,7 +74,7 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
   }
   CheckFidoconfigVersion( ..., fidoconfdate());
  */
-FCONF_EXT int CheckFidoconfigVersion( int need_major, int need_minor,
+HUSKYEXT int CheckFidoconfigVersion( int need_major, int need_minor,
                       int need_patch, branch_t need_branch, const char *cvs );
 
 #ifdef __cplusplus

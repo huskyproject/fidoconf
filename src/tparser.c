@@ -38,7 +38,6 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
-#include <huskylib/compiler.h>
 #include <huskylib/huskylib.h>
 
 #ifdef HAS_UNISTD_H
@@ -50,7 +49,7 @@
 #endif
 
 #include "version.h"
-#include "cvsdate.h"
+#include "../cvsdate.h"
 #include "fidoconf.h"
 #include "common.h"
 #include "grptree.h"
@@ -1154,7 +1153,7 @@ void usage()
 
 const char *smapi_cvs_date(){
 static
-#include "../smapi/cvsdate.h"
+#include "../../smapi/cvsdate.h"
 return cvs_date;
 }
 
@@ -1163,7 +1162,7 @@ int main(int argc, char **argv) {
    UINT i, j, hpt=0, preproc=0, rc=0;
    int k;
    char *cfgFile=NULL, *module;
-   #include "cvsdate.h"
+   #include "../cvsdate.h"
 
    printf("%s\n", module = GenVersionStr( "tparser", FC_VER_MAJOR, FC_VER_MINOR,
 				FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));

@@ -39,10 +39,10 @@
 #define VERSION_H
 
 #include "version.h"
-#include "cvsdate.h"
+#include "../cvsdate.h"
 
-#define VER_MAJOR 0
-#define VER_MINOR 15
+#define VER_MAJOR 1
+#define VER_MINOR 9
 #define VER_PATCH 0
 #define VER_BRANCH BRANCH_CURRENT
 

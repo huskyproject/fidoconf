@@ -30,15 +30,14 @@
 #define	_AREA_TREE_FLAG
 
 #include "fidoconf.h"
-#include <huskylib/huskylib.h>
 
 /* if returns 1 - All Ok                                           */
 /* if returns 0 - we have duplicate definition for area in config  */
-FCONF_EXT   int      RebuildEchoAreaTree(ps_fidoconfig config);
+HUSKYEXT   int      RebuildEchoAreaTree(ps_fidoconfig config);
             void     FreeAreaTree();
             ps_area  FindAreaInTree(char* areaName);
 
-FCONF_EXT   int      RebuildFileAreaTree(ps_fidoconfig config);
+HUSKYEXT   int      RebuildFileAreaTree(ps_fidoconfig config);
             ps_area  FindFileAreaInTree(char* areaName);
 
 #endif 

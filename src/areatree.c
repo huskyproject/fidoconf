@@ -28,7 +28,15 @@
  */
 
 #include <string.h>
+#include <huskylib/huskylib.h>
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
+
+#include "fidoconf.h"
 #include "areatree.h"
+
 
 static tree* echoAreaTree = NULL;
 static tree* fileAreaTree = NULL;

@@ -34,8 +34,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <huskylib/compiler.h>
-#include <huskylib/huskyext.h>
 #include <huskylib/huskylib.h>
 
 #ifdef HAS_SYS_SYSEXITS_H
@@ -43,6 +41,10 @@
 #elif defined(HAS_SYSEXITS_H)
 #include <sysexits.h>
 #endif
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
 
 #include "fidoconf.h"
 #include "common.h"

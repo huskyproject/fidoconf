@@ -28,15 +28,18 @@
  *****************************************************************************
  */
 #include <string.h>
-
-#include <huskylib/compiler.h>
 #include <huskylib/huskylib.h>
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
+
 #include "common.h"
 
 #define __VERSION__C__
 
 #include "version.h"
-#include "smapi/msgapi.h"
+
 
 /* Generate version string like
  * programname/platform[-compiler] <major>.<minor>.<patchlevel>-<branch> [<cvs date>]
@@ -47,7 +50,7 @@
  * "program/FreeBSD 1.3.0-current 01-10-2002"
  * Return malloc'ed pointer
  */
-FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
+HUSKYEXT char *GenVersionStr( const char *programname, unsigned major,
    unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate )
 {
   char *_version_str=NULL; /* compose to this var */
@@ -214,12 +217,12 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
  * return zero if test failed; non-zero if passed
  * test cvs need for DLL version only, using #include <fidoconf/cvsdate.h>
  */
-FCONF_EXT int CheckFidoconfigVersion( int need_major, int need_minor,
+HUSKYEXT int CheckFidoconfigVersion( int need_major, int need_minor,
                       int need_patch, branch_t need_branch, const char *cvs )
 { /* We don't need check pathlevel: see huskybse/develop-docs/ */
 
 static
-#include "cvsdate.h"   /* char cvs_date[]=datestring; */
+#include "../cvsdate.h"   /* char cvs_date[]=datestring; */
 
   if( need_major==FC_VER_MAJOR && need_minor==FC_VER_MINOR ) {
     if(need_branch==BRANCH_CURRENT) {
@@ -236,7 +239,7 @@ static
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "cvsdate.h"
+#include "../cvsdate.h"
 
 int main(){
   char *versionStr;

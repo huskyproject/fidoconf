@@ -68,6 +68,10 @@ int cmpfnames(char *file1, char *file2);
 
 #include <huskylib/huskylib.h>
 
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
+
 #include "fidoconf.h"
 #include "common.h"
 

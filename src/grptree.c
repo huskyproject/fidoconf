@@ -28,8 +28,12 @@
  */
 
 #include <string.h>
-#include <huskylib/compiler.h>
 #include <huskylib/huskylib.h>
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
+
 #include "common.h"
 #include "grptree.h"
 

@@ -34,7 +34,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <huskylib/compiler.h>
 #include <huskylib/huskylib.h>
 
 #ifdef HAS_UNISTD_H
@@ -44,6 +43,10 @@
 #ifdef HAS_IO_H
 #   include <io.h>
 #endif
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
 
 #include "afixcmd.h"
 #include "common.h"

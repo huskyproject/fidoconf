@@ -38,13 +38,16 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include <huskylib/compiler.h>
 #include <huskylib/huskylib.h>
 
 #if defined (__OS2__)
 # define INCL_DOSFILEMGR
 # include <os2.h>
 #endif
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
 
 #include "fidoconf.h"
 #include "common.h"

@@ -1,7 +1,7 @@
 # Microsoft Visual C++ Makefile
 
 CC=     cl
-CFLAGS= -nologo -MD -Zp1 -I..\smapi -I..\huskylib
+CFLAGS= -nologo -MD -Zp1 -Ifidoconf -I..\huskylib -I..\smapi
 CDEFS=  -D__NT__ -DWIN32 -D_CONSOLE -D_MAKE_DLL
 COPT=   -Ob2
 TLIB=   lib -nologo
@@ -22,48 +22,48 @@ all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe \
         fconf2binkd.exe fconf2fidogate.exe linked.exe
 
 $(FCONFL):
-	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c line.c
-	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c fidoconf.c
-	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c common.c
-	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c findtok.c
-	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c cfg.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c areatree.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmd.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmn.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c arealist.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c version.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c grptree.c
-    $(LINK) $(LINKOPTS) $(OBJS1)
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\line.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\fidoconf.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\common.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\findtok.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\cfg.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\areatree.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\afixcmd.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\afixcmn.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\arealist.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\version.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\grptree.c
+	$(LINK) $(LINKOPTS) $(OBJS1)
 
 tparser.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ tparser.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\tparser.c $(FCONFL) $(SMAPIL)
 
 fconf2golded.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2ged.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\fc2ged.c $(FCONFL) $(SMAPIL)
 
 fconf2msged.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2msged.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\fc2msged.c $(FCONFL) $(SMAPIL)
 
 fconf2aquaed.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2aed.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\fc2aed.c $(FCONFL) $(SMAPIL)
 
 fconf2squish.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\fc2sq.c $(FCONFL) $(SMAPIL)
 
 fconf2fidogate.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2fgate.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\fc2fgate.c $(FCONFL) $(SMAPIL)
 
 fconf2tornado.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2tor.c fc2tor_g.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\fc2tor.c src\fc2tor_g.c $(FCONFL) $(SMAPIL)
 
 fconf2binkd.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2binkd.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\fc2binkd.c $(FCONFL) $(SMAPIL)
 
 fecfg2fconf.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c  fecfg146.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\fecfg2fc.c  src\fecfg146.c $(FCONFL) $(SMAPIL)
 
 linked.exe:
-    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ linked.c $(FCONFL) $(SMAPIL)
+    $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ src\linked.c $(FCONFL) $(SMAPIL)
 
 clean:
 	-del *.obj

@@ -3,8 +3,8 @@
 # Object files lists for all platforms
 # include into makefile.inc (and other makefiles)
 
-LOBJS = common$(OBJ) fidoconf$(OBJ) line$(OBJ) cfg$(OBJ) findtok$(OBJ) areatree$(OBJ) afixcmd$(OBJ) afixcmn$(OBJ) arealist$(OBJ) version$(OBJ) grptree$(OBJ)
+LOBJS = common$(_OBJ) fidoconf$(_OBJ) line$(_OBJ) cfg$(_OBJ) findtok$(_OBJ) areatree$(_OBJ) afixcmd$(_OBJ) afixcmn$(_OBJ) arealist$(_OBJ) version$(_OBJ) grptree$(_OBJ)
 
-OBJS = $(LOBJS) fc2binkd$(OBJ) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) fc2tor$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ) linked$(OBJ)
+OBJS = $(LOBJS) fc2binkd$(_OBJ) fc2msged$(_OBJ) fc2ged$(_OBJ) fc2aed$(_OBJ) fc2fgate$(_OBJ) fc2sq$(_OBJ) fc2tor$(_OBJ) fecfg146$(_OBJ) fecfg2fc$(_OBJ) linked$(_OBJ)
 
-PROGRAMS= tparser$(EXE) linked$(EXE) $(FCONF2BINKD)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) $(FCONF2TORNADO)$(EXE) $(FECFG2FCONF)$(EXE)
+PROGRAMS= tparser$(_EXE) linked$(_EXE) $(FCONF2BINKD)$(_EXE) $(FCONF2MSGED)$(_EXE) $(FCONF2AQUAED)$(_EXE) $(FCONF2FIDOGATE)$(_EXE) $(FCONF2GOLDED)$(_EXE) $(FCONF2SQUISH)$(_EXE) $(FCONF2TORNADO)$(_EXE) $(FECFG2FCONF)$(_EXE)
