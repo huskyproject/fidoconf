@@ -14,6 +14,7 @@
 
 #include <typedefs.h>
 #include <compiler.h>
+#include <stamp.h>
 #include <progprot.h>
 
 //#define INC_FE_TYPES
