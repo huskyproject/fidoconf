@@ -1,44 +1,39 @@
+# Makefile for EMX GCC on OS/2 with GMAKE using a.out style linkage
+# This will produce dynamic executables requiring EMX.DLL and EMXLIB*DLL
+
 CC=	gcc
-CFLAGS=	-pedantic
 CDEFS=	-DOS2
-COPT=	-O2 -I../smapi
-LOPT=    -L../smapi
+COPT=	-O2 -I.. -Wall -pedantic -c
+LFLAGS=-Zcrtdll
 
-LIBS=  fidoconfig.a
-SMLIB= ../smapi/smapiemx.lib
+OBJ=.o
+EXE=.exe
+TPU=.tpu
+RM=cmd /c del
+LIB=.a
+AR=ar
+AR_R=r
 
-HDRS=  common.h \
-       dirlayer.h \
-       fidoconfig.h \
-       adcase.h \
-       typesize.h
+LINKSMAPI=../smapi/smapiemx.a
+LIBPREFIX=
 
-OBJS=  adcase.o \
-       line.o \
-       fidoconfig.o \
-       dirlayer.o \
-       common.o
+FIDOCONFIG = fidoconfigemx
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+FECFG2FCONF = fecfg2fconf
+LIBFIDOCONFIG = $(LIBPREFIX)$(FIDOCONFIG)
+LINKFIDOCONFIG=$(LIBFIDOCONFIG)
 
-all:	fidoconfig.a fconf2msged.exe fconf2golded.exe tparser.exe
+default: all
 
-fidoconfig.a: $(OBJS)
-	ar rcv $(LIBS) $(OBJS)
+include makefile.common
 
-fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
+all: commonlibs commonprogs
 
-fconf2golded.exe: $(LIBS) $(HDRS) fconf2golded.c
+clean: commonclean
 
-tparser.exe: $(LIBS) $(HDRS) tparser.c
+distclean: commondistclean
 
-# Thunderbirds are go!
-
-clean:
-	rm $(OBJS)
-	rm fidoconf.bak
-	rm fconf2golded.o fconf2msged.o fconf2golded.exe fconf2msged.exe tparser.o tparser.exe
-
-%.o: %.c
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
-
-%.exe: %.c
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) $(LOPT) $< -lfidoconfig -lsmapiemx

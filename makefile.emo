@@ -1,64 +1,37 @@
-# include Husky-Makefile-Config
-include ../huskymak.cfg
+# Makefile for EMX GCC on OS/2 with GMAKE using OMF style linkage
+# This will produce static standalone executables.
 
 CC=	gcc
-CFLAGS=	-pedantic -Zomf
 CDEFS=	-DOS2
+COPT=	-O2 -I.. -Wall -pedantic -c -Zomf
+LFLAGS= -Zomf -Zsys
 
-ifeq ($(DEBUG), 1)
-  COPT=	-O2 -I$(INCDIR) -g
-else
-  COPT=	-O2 -I$(INCDIR) -s
-endif
+OBJ=.obj
+EXE=.exe
+RM=del
+LIB=.lib
+AR=emxomfar
+AR_R=r
 
-LOPT=   -L. -L$(LIBDIR)
+LINKFIDOCONFIG=fidoconfig.lib
+LINKSMAPI=../smapi/smapiemo.lib
+LIBPREFIX=
 
-LIBS=  fidoconfig.lib 
-SMLIB= $(LIBDIR)/smapiemo.lib
+FIDOCONFIG = fidoconfig
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+FECFG2FCONF = fecfg2fconf
+LIBFIDOCONFIG = $(LIBPREFIX)fidoconfig
 
-HDRS=  common.h \
-       dirlayer.h \
-       fidoconfig.h \
-       typesize.h 
+default: all
 
-OBJS=  line.obj \
-       fidoconfig.obj \
-       dirlayer.obj \
-       common.obj
+include makefile.common
 
-all:	fidoconfig.lib fconf2msged.exe fconf2golded.exe tparser.exe
+all: commonlibs commonprogs
 
-fidoconfig.lib: $(OBJS)
-	emxomfar rcv $(LIBS) $(OBJS)
-
-fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
-
-fconf2golded.exe: $(LIBS) $(HDRS) fconf2golded.c
-
-tparser.exe: $(LIBS) $(HDRS) tparser.c
-
-clean:
-	-del $(OBJS)
-	-del fidoconf.bak
-	-del fconf2golded.obj fconf2msged.obj
+clean: commonclean
 
 distclean: commondistclean
-
-install: commonlibs commonprogs
-	copy fidoconfig.lib $(LIBDIR)
-	copy tparser.exe $(BINDIR)
-	copy fconf2msged.exe $(BINDIR)
-	copy fconf2golded.exe $(BINDIR)
-	copy fidoconfig.h $(INCDIR)
-	copy common.h $(INCDIR)
-	copy typesize.h $(INCDIR)
-	copy dirlayer.h $(INCDIR)
-	copy adcase.h $(INCDIR)
-	copy fidoconf.pas $(INCDIR)
-
-%.obj: %.c
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
-
-%.exe: %.c
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) $(LOPT) $< -lfidoconfig -lsmapiemo
-
