@@ -1,3 +1,9 @@
+2005-01-13 Thursday 20:09  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.32), fidoconf/tokens.h (1.17),
+	doc/keywords.hpt (1.36), src/line.c (1.42), src/tparser.c (1.27):
+	new token dailyBundles
+
 2005-01-09 Sunday 17:27  val_khokhlov
 
 	* fidoconf/fidoconf.h (1.31), src/common.c (1.20), src/line.c
