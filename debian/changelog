@@ -1,3 +1,9 @@
+fidoconf (0.12-2) unstable; urgency=low
+
+  * libsmapi is non-free so this Package could only be contrib !
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Mon,  9 Jul 2001 23:09:15 +0200
+
 fidoconf (0.12-1) unstable; urgency=low
 
   * Newest cvs.
