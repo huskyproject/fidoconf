@@ -398,6 +398,9 @@ int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd) {
 
 void Addlink(s_fidoconfig *config, s_link *link, s_area *area)
 {
+    char *ExclMask;
+    int i;
+
     if(area)
     {
         s_arealink *arealink;
@@ -407,7 +410,42 @@ void Addlink(s_fidoconfig *config, s_link *link, s_area *area)
         area->downlinkCount++;
         
         setLinkAccess(config, area, arealink);
-        processPermissions(config);
+
+        if (config->readOnlyCount) {
+            for (i=0; i < config->readOnlyCount; i++) {
+                if(config->readOnly[i].areaMask[0] != '!') {
+                    if (patimat(area->areaName, config->readOnly[i].areaMask) &&
+                        patmat(aka2str(link->hisAka), config->readOnly[i].addrMask)) {
+                            arealink->import = 0;
+                    }
+                } else {
+                    ExclMask = config->readOnly[i].areaMask;
+                    ExclMask++;
+                    if (patimat(area->areaName, ExclMask) &&
+                        patmat(aka2str(link->hisAka), config->readOnly[i].addrMask)) {
+                            arealink->import = 1;
+                    }
+                }
+            }
+        }
+        
+        if (config->writeOnlyCount) {
+            for (i=0; i < config->writeOnlyCount; i++) {
+                if(config->writeOnly[i].areaMask[0] != '!') {
+                    if (patimat(area->areaName, config->writeOnly[i].areaMask) &&
+                        patmat(aka2str(link->hisAka), config->writeOnly[i].addrMask)) {
+                            arealink->export = 0;
+                    }
+                } else {
+                    ExclMask = config->writeOnly[i].areaMask;
+                    ExclMask++;
+                    if (patimat(area->areaName, ExclMask) &&
+                        patmat(aka2str(link->hisAka), config->writeOnly[i].addrMask)) {
+                            arealink->export = 1;
+                    }
+                }
+            }
+        }
     }
 }
 
