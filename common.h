@@ -293,6 +293,9 @@ FCONF_EXT int sstricmp(const char *str1, const char *str2);
 /* safety strnicmp (case-insencitive) */
 FCONF_EXT int sstrnicmp(const char *str1, const char *str2, size_t length);
 
+/* safety string envelope (use this in functions calls) */
+#define sstr(ss) ( ss ? ss : "" )
+
 /* strsep.c
 */
 FCONF_EXT char *strseparate(register char **stringp, register const char *delim);
