@@ -67,6 +67,7 @@
 #define LL_ROUTE  	'7'      /* Routing */
 #define LL_FROUTE  	'7'      /* File routing */
 #define LL_ATTACH 	'7'      /* File attach */
+#define LL_TIC          '7'      /* TIC file parse/create/etc. */
 #define LL_MSGPACK    	'7'      /* Message packing */
 #define LL_AREAFIX  	'8'      /* areafix & filefix operations */
 #define LL_RELINK   	'8'      /* send relink message */
@@ -82,6 +83,7 @@
 #define LL_WARN    	'B'      /* Warning */
 #define LL_WARNING   LL_WARN
 #define LL_ALERT   	'B'      /* Alert */
+#define LL_SECURITY	'B'      /* Security alert */
 #define LL_INFO    	'C'      /* Information messages */
 #define LL_STAT    	'D'      /* Statistics */
 #define LL_SUMMARY 	'E'      /* Summary */
