@@ -82,6 +82,7 @@ typedef enum pktheaderdiffer {pdOff, pdOn} e_pktheaderdiffer;
 typedef enum nameCase { eLower, eUpper} e_nameCase;
 typedef enum nameCaseConvertion { cLower, cUpper, cDontTouch } e_nameCaseConvertion;
 typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlways} e_bundleFileNameStyle;
+typedef enum emailEncoding { eeMIME, eeSEAT, eeUUE } e_emailEncoding;
 
 typedef struct link {
    s_addr hisAka, *ourAka;
@@ -95,6 +96,9 @@ typedef struct link {
         *sessionPwd;
    char *handle;              // nickname
    char *email;
+   char *emailFrom; // sender address for outgoing emails
+   char *emailSubj;
+   e_emailEncoding emailEncoding;
    unsigned int autoAreaCreate;       // 0 if not allowed for autoareacreate
    unsigned int autoFileCreate;       // 0 if not allowed for autofilecreate
    unsigned int AreaFix;              // 0 if not allowed for areafix

@@ -172,6 +172,32 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       dumpString(f, "Link                %s\n", link.name);
       fprintf(f, "Aka                 %s\n", aka2str(link.hisAka));
       fprintf(f, "ourAka              %s\n", aka2str(*link.ourAka));
+      if (link.email)
+      {
+	fprintf(f, "Email               %s\n", link.email);
+	switch (link.emailEncoding)
+	{
+	case eeMIME:
+	  fprintf(f, "EmailEncoding       MIME\n");
+	  break;
+
+	case eeSEAT:
+	  fprintf(f, "EmailEncoding       SEAT\n");
+	  break;
+
+	case eeUUE:
+	  fprintf(f, "EmailEncoding       UUE\n");
+	  break;
+
+	default:
+	  printf("Internal error: Unknown encoding #%d for link %s!\n",
+		 link.emailEncoding, link.name);
+	}
+      }
+      if (link.emailFrom)
+	fprintf(f, "EmailFrom           %s\n", link.emailFrom);
+      if (link.emailSubj)
+	fprintf(f, "EmailSubj           %s\n", link.emailSubj);
       dumpString(f, "Password            %s\n", link.defaultPwd);
       if (nstricmp(link.defaultPwd, link.pktPwd)!=0)
 	fprintf(f, "pktPwd              %s\n", link.pktPwd);

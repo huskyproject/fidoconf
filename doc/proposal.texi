@@ -117,6 +117,9 @@ a comment and will be ignored.
 * sessionpwd::                  session password for this link
 * handle::                      nickname or handle for link
 * email::                       email address of this link
+* emailSubj::                   subject of email
+* emailFrom::                   sender address used for outgoing emails
+* emailEncoding::               encoding of outgoing emails
 * tossgrp::                     tosser groups which link belongs to
 * ticgrp::                      ticcer groups which link belongs to
 * bbsgrp::                      online groups which link belongs to
@@ -915,11 +918,11 @@ systems.
 This statement can only be repeated for different links.
 
 
-@node email, tossgrp, handle, Keywords
+@node email, emailFrom, handle, Keywords
 @subsection email
 @table @asis
 @item Syntax:
-@code{email <name>}
+@code{email <email-address>}
 @item Example:
 @code{email eddie@@ironmaiden.com}
 @end table
@@ -929,7 +932,49 @@ be used to send pkts via email.
 
 This statement can only be repeated for different links.
 
-@node tossgrp, ticgrp, email, Keywords
+@node emailFrom, emailSubj, email, Keywords
+@subsection emailFrom
+@table @asis
+@item Syntax:
+@code{emailFrom <email-address>}
+@item Example:
+@code{emailFrom fred@@ironmaiden.com}
+@end table
+
+This keyword is used to set the email-address used as sender address
+for outgoing emails to this link.
+
+This statement can only be repeated for different links.
+
+@node emailSubj, emailEncoding, emailFrom, Keywords
+@subsection emailSubj
+@table @asis
+@item Syntax:
+@code{emailSubj <subject>}
+@item Example:
+@code{emailSubj Fido over EMail message in UUE format}
+@end table
+
+This keyword is used to set the subject for emails to and from this 
+link. It may be ignored by some encodings (e.g. SEAT).
+
+This statement can only be repeated for different links.
+
+@node emailEncoding, tossgrp, emailSubj, Keywords
+@subsection email
+@table @asis
+@item Syntax:
+@code{emailEncoding (MIME | SEAT | UUE)}
+@item Example:
+@code{emailEncoding MIME}
+@end table
+
+This keyword is used to set the encoding for outgoing emails to this 
+link.
+
+This statement can only be repeated for different links.
+
+@node tossgrp, ticgrp, emailEncoding, Keywords
 @subsection tossgrp
 @table @asis
 @item Syntax:

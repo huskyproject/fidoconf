@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Tue Dec  5 01:48:22 UTC 2000
+sms:
++ added emailSubj, emailFrom, emailEncoding
+
+----- cvs ci ------
 Sat Dec  2 02:13:10 UTC 2000
 sms:
 * temporarily deactivated commentChar support in dump.c

@@ -1055,6 +1055,9 @@ int parseLink(char *token, s_fidoconfig *config)
       }
 	  clink->handle = sstrdup (deflink->handle);
 	  clink->email = sstrdup (deflink->email);
+	  clink->emailFrom = sstrdup (deflink->emailFrom);
+	  clink->emailSubj = sstrdup (deflink->emailSubj);
+          clink->emailEncoding = deflink->emailEncoding;
 	  clink->LinkGrp = sstrdup (deflink->LinkGrp);
       if (deflink->AccessGrp) {
           clink->AccessGrp = smalloc(sizeof(char *) * clink->numAccessGrp);
@@ -2183,6 +2186,23 @@ int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
 	return 0;
 }
 
+int parseEmailEncoding(char *line, e_emailEncoding *value)
+{
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (stricmp(line, "uue") == 0) *value = eeUUE;
+   else if (stricmp(line, "mime") == 0) *value = eeMIME;
+   else if (stricmp(line, "seat") == 0) *value = eeSEAT;
+   else {
+      printf("Line %d: Unknown email encoding parameter %s!\n", actualLineNr, line);
+      return 2;
+   }
+   return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -2450,6 +2470,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->sessionPwd));
    else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
        else if (stricmp(token, "email")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
+   else if (stricmp(token, "emailfrom")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->emailFrom));
+   else if (stricmp(token, "emailsubj")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->emailSubj));
+   else if (stricmp(token, "emailencoding")==0) rc = parseEmailEncoding(getRestOfLine(), &(getDescrLink(config)->emailEncoding));
    else if (stricmp(token, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(getDescrLink(config)->echoMailFlavour));
    else if (stricmp(token, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(getDescrLink(config)->fileEchoFlavour));
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));

@@ -170,7 +170,30 @@ void printLink(s_link link) {
    if (link.bbsPwd) printf("bbsPwd:     %s\n", link.bbsPwd);
    if (link.sessionPwd) printf("sessionPwd: %s\n", link.sessionPwd);
    if (link.handle!=link.name) printf("handle:     %s\n", link.handle);
-   if (link.email) printf("email:      %s\n", link.email);
+   if (link.email)
+   {
+     printf("email:      %s\n", link.email);
+
+     switch (link.emailEncoding)
+     {
+     case eeMIME:
+       printf("emailEncoding: MIME\n");
+       break;
+
+     case eeSEAT:
+       printf("emailEncoding: SEAT\n");
+       break;
+
+     case eeUUE:
+       printf("emailEncoding: UUE\n");
+       break;
+
+     default:
+       printf("Internal error: Unknown encoding #%d!\n", link.emailEncoding);
+     }
+   }
+   if (link.emailFrom) printf("emailFrom:  %s\n", link.emailFrom);
+   if (link.emailSubj) printf("emailSubj:  %s\n", link.emailSubj);
    printf("Level:      %u\n", link.level);
    printf("Export:     %s\n",(link.export) ? "on" : "off");
    printf("Import:     %s\n",(link.import) ? "on" : "off");
