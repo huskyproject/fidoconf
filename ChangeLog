@@ -4,6 +4,12 @@ fidoconfig 0.10
 
 
 ----- cvs ci ------
+Mon Aug 14 12:07:14 NOVST 2000
+max (patch from PG):
+* tparser show deflink
+* stripping spaces before if, endif, etc...
+
+----- cvs ci ------
 Sat Aug  5 12:53:03 NOVST 2000
 max:
 * parsePath() modifications, see also docs about msgBaseDir.
@@ -24,7 +30,7 @@ max (patch from Pavel Gulchouk):
 * set, if, else, elseif, ifdef, ifndef, endif
 * arealink option -def
 * -Dvar=value in tparser parameters (example: "tparser -Dmodule=hpt")
-* link option davancedAreaFix
+* link option advancedAreaFix
 
 ----- cvs ci ------
 Tue Jul 18 22:51:16 NOVST 2000

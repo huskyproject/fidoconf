@@ -80,6 +80,7 @@ void printArea(s_area area) {
        printf(" level %d,", area.downlinks[i]->link->level);
        printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
        printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");
+       printf(" defLink %s,", (area.downlinks[i]->defLink) ? "on" : "off");
        printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
@@ -244,6 +245,7 @@ void printLink(s_link link) {
      break;
    default: fprintf(stderr, "Error in keyword allowPktAddrDiffer\n");
    }
+   printf("AdvancedAreaFix %s\n", (link.advancedAreafix) ? "on" : "off");
    
    printf("-------\n");
 }

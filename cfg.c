@@ -252,11 +252,11 @@ static short boolexpr(char *str)
 
 char *configline(void)
 { int  i;
-  char *p, *p1, *p2, *str;
+  char *p, *p1, *p2, *str, *line;
 
-  for (;;free(str))
+  for (;;free(line))
   {
-    str=_configline();
+    line=str=_configline();
     if (str==NULL)
     { if (sp)
       { fclose(hcfg);
@@ -268,6 +268,8 @@ char *configline(void)
       }
       return NULL;
     }
+    while (*str && isspace(*str))
+      str++;
     if (strncasecmp(str, "if ", 3)==0)
     {
       iflevel++;
@@ -393,6 +395,6 @@ char *configline(void)
       actualLineNr=0;
       continue;
     }
-    return str;
+    return line;
   }
 }
