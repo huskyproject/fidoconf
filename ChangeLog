@@ -1,3 +1,7 @@
+2003-06-17 Tuesday 04:25  lmike
+
+	* fidoconfig.qpg (1.3): Added lost config example.
+
 2003-06-16 Monday 14:26  lmike
 
 	* make/makefile.qnx (1.4): Added proper library dependencies
