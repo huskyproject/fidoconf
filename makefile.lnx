@@ -52,5 +52,5 @@ install:
 	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
 	ldconfig
-	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed fconf2fidogate $(INSTDIR)
+	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed fconf2fidogate linkedto $(INSTDIR)
 	install $(IBOPT) tparser      $(INSTDIR)
