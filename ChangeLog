@@ -1,3 +1,37 @@
+2003-01-09 Thursday 15:29  mche
+
+	* tparser.c (1.230): fix compiler warnings
+
+2003-01-09 Thursday 14:54  mche
+
+	* line.c (1.365): parse advStatisticsFile as usal line
+
+2003-01-09 Thursday 12:51  stas_degteff
+
+	* Makefile (1.55): set permissions for install documentations &
+	libraries. Patch from Max Khon <fjoe@iclub.nsu.ru>
+
+2003-01-09 Thursday 10:32  stas_degteff
+
+	* typesize.h (1.31): Fix declaration INT32 & UINT32 for OS/2
+
+2003-01-09 Thursday 08:22  stas_degteff
+
+	* linked.c (1.6), tparser.c (1.229): Fix memory leak
+
+2003-01-09 Thursday 08:20  stas_degteff
+
+	* doc/makefile.unx (1.4): Fix macrovariable name
+
+2003-01-09 Thursday 08:01  stas_degteff
+
+	* tparser.c (1.228): Fix output
+
+2003-01-09 Thursday 04:19  andr_lukyanov
+
+	* linked.c (1.5), tparser.c (1.227): Add display message about
+	version info
+
 2003-01-08 Wednesday 11:55  stas_degteff
 
 	* fidoconf.c (1.101), tparser.c (1.226): Warnings about too long
