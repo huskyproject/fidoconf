@@ -23,7 +23,7 @@ $(LIBFIDOCONFIG)$(_LIB): $(LOBJS)
 #	$(CC) $(CFLAGS) $(COPT) $(CDEFS) $(OBJOPT) $<
 
 #{$(_SRC_DIR)}.c$(_OBJ):
-%.o: ${_SRC_DIR}%.c
+%$(_OBJ): ${_SRC_DIR}%.c
 	$(CC) $(CFLAGS) $(COPT) $(CDEFS) $<
 
 $(FCONF2MSGED)$(_EXE): fc2msged$(_OBJ) $(LIBFIDOCONFIG)$(_LIB)
