@@ -413,6 +413,11 @@ FCONF_EXT int cmdcall(const char *cmd);
 #  define cmdcall(cmd) system(cmd)
 #endif
 
+/* Compare real file names. Return 0 if eq.
+ * See cfg.c for details
+ */
+int cmpfnames(char *file1, char *file2);
+
 #ifdef __cplusplus
 }
 #endif

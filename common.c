@@ -50,8 +50,6 @@
 
 #ifdef HAS_IO_H
 #  include <io.h>
-/* int cmpfnames(char *file1, char *file2); */
-#define COMMON_C_HAVE_CMPFNAMES
 #endif
 
 #ifdef HAS_DOS_H
@@ -744,10 +742,8 @@ int move_file(const char *from, const char *to, const int force_rewrite)
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(__OS2__)))
     int rc;
 
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
     if ( cmpfnames((char*)from,(char*)to) == 0 )
         return 0;
-#endif
 
 #ifdef DEBUG
     w_log( LL_DEBUGY, __FILE__ ":%u:move_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
@@ -767,10 +763,8 @@ int move_file(const char *from, const char *to, const int force_rewrite)
 #elif defined(__NT__) && defined(USE_SYSTEM_COPY)
     int rc;
 
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
     if ( cmpfnames((char*)from,(char*)to) == 0 )
         return 0;
-#endif
 
     if(force_rewrite)
       remove(to);
@@ -783,10 +777,8 @@ int move_file(const char *from, const char *to, const int force_rewrite)
 #elif defined(__OS2__) && defined(USE_SYSTEM_COPY)
     USHORT rc;
 
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
     if ( cmpfnames((char*)from,(char*)to) == 0 )
         return 0;
-#endif
 
     if(force_rewrite)
       remove(to);
@@ -823,10 +815,8 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
 #endif
 
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
     if ( cmpfnames((char*)from,(char*)to) == 0 )
         return 0;
-#endif
 
     buffer = malloc(MOVE_FILE_BUFFER_SIZE);
     if (buffer == NULL)	return -1;
@@ -918,10 +908,8 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
 #elif defined (OS2) && defined(USE_SYSTEM_COPY)
     USHORT rc;
 
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
     if ( cmpfnames((char*)from,(char*)to) == 0 )
         return 0;
-#endif
 
     if(force_rewrite)
       remove(to);            /* if DosCopy can't work file deleted..... */

@@ -2032,7 +2032,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
     return 1;
   }
 
-  *route = srealloc(*route, sizeof(s_route)*(*count+1));
+  *route = srealloc(*route, sizeof(**route)*(*count+1));
   actualRoute = &(*route)[*count];
   memset(actualRoute, '\0', sizeof(s_route));
 
@@ -2064,6 +2064,17 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
 	actualRoute->target = getLink(config, option);
 	actualRoute->viaStr = (char *) smalloc(strlen(option)+1);
 	strcpy(actualRoute->viaStr, option);
+#if 0
+/**/if( config && config->echoAreas && config->echoAreas->downlinks[0]&&config->echoAreas->downlinks[0]->link){
+/**/  static hs_addr aaa={0,0,0,0,NULL};
+      if(memcmp(&aaa,&(config->echoAreas->downlinks[0]->link->hisAka),sizeof(aaa))){
+        memcpy(&aaa,&(config->echoAreas->downlinks[0]->link->hisAka),sizeof(aaa));
+/**/    fprintf(stderr,__FILE__ ":%u: Line %i\n",__LINE__,actualLineNr);
+/**/    fprintf(stderr,"config->echoareas->downlinks[0]->link->hisAka=%lX\n",&(config->echoAreas->downlinks[0]->link->hisAka));
+/**/    fprintf(stderr,"config->echoareas->downlinks[0]->link->hisAka=%s\n",aka2str(config->echoAreas->downlinks[0]->link->hisAka));
+      }
+/**/}
+#endif
       }
       else {
 	if (actualRoute->pattern == NULL) {
@@ -2074,6 +2085,17 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
 	    strcat(actualRoute->pattern, ".0");
 	  }
 	  (*count)++;
+#if 0
+/**/if( config && config->echoAreas && config->echoAreas->downlinks[0]&&config->echoAreas->downlinks[0]->link){
+/**/  static hs_addr aaa={0,0,0,0,NULL};
+      if(memcmp(&aaa,&(config->echoAreas->downlinks[0]->link->hisAka),sizeof(aaa))){
+        memcpy(&aaa,&(config->echoAreas->downlinks[0]->link->hisAka),sizeof(aaa));
+/**/    fprintf(stderr,__FILE__ ":%u: Line %i\n",__LINE__,actualLineNr);
+/**/    fprintf(stderr,"config->echoareas->downlinks[0]->link->hisAka=%lX\n",&(config->echoAreas->downlinks[0]->link->hisAka));
+/**/    fprintf(stderr,"config->echoareas->downlinks[0]->link->hisAka=%s\n",aka2str(config->echoAreas->downlinks[0]->link->hisAka));
+      }
+/**/}
+#endif
 	} else {
 	  /*  add new Route for additional patterns */
 	  *route = srealloc(*route, sizeof(s_route)*(*count+1));
@@ -2089,6 +2111,17 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
 	    strcat(actualRoute->pattern, ".0");
 	  }
 	  (*count)++;
+#if 0
+/**/if( config && config->echoAreas && config->echoAreas->downlinks[0]&&config->echoAreas->downlinks[0]->link){
+/**/  static hs_addr aaa={0,0,0,0,NULL};
+      if(memcmp(&aaa,&(config->echoAreas->downlinks[0]->link->hisAka),sizeof(aaa))){
+        memcpy(&aaa,&(config->echoAreas->downlinks[0]->link->hisAka),sizeof(aaa));
+/**/    fprintf(stderr,__FILE__ ":%u: Line %i\n",__LINE__,actualLineNr);
+/**/    fprintf(stderr,"config->echoareas->downlinks[0]->link->hisAka=%lX\n",&(config->echoAreas->downlinks[0]->link->hisAka));
+/**/    fprintf(stderr,"config->echoareas->downlinks[0]->link->hisAka=%s\n",aka2str(config->echoAreas->downlinks[0]->link->hisAka));
+      }
+/**/}
+#endif
 	}
 
       }
@@ -4570,6 +4603,17 @@ int parseLine(char *line, s_fidoconfig *config)
             nfree(actualLine);
             return 1;
         }
+#if 0
+/**/if( config && config->echoAreas && config->echoAreas->downlinks[0]&&config->echoAreas->downlinks[0]->link){
+/**/  static hs_addr aaa={0,0,0,0,NULL};
+      if(memcmp(&aaa,&(config->echoAreas->downlinks[0]->link->hisAka),sizeof(aaa))){
+        memcpy(&aaa,&(config->echoAreas->downlinks[0]->link->hisAka),sizeof(aaa));
+/**/    fprintf(stderr,__FILE__ ":%u: Line %i: '%s'\n",__LINE__,actualLineNr,line);
+/**/    fprintf(stderr,"config->echoareas->downlinks[0]->link->hisAka=%lX\n",&(config->echoAreas->downlinks[0]->link->hisAka));
+/**/    fprintf(stderr,"config->echoareas->downlinks[0]->link->hisAka=%s\n",aka2str(config->echoAreas->downlinks[0]->link->hisAka));
+      }
+/**/}
+#endif
 
         nfree(iToken);
     }
