@@ -474,8 +474,8 @@ static int cmpfnames(char *file1, char *file2)
 static int cmpfnames(char *file1, char *file2)
 {
     char path1[256], path2[256];
-    if (DosQueryPathInfo(file1,FIL_QUERYFULLNAME,path1,sizeof(path1)) return 1;
-    if (DosQueryPathInfo(file2,FUL_QUERYFULLNAME,path2,sizeof(path2)) return 1;
+    if (DosQueryPathInfo(file1,FIL_QUERYFULLNAME,path1,sizeof(path1))) return 1;
+    if (DosQueryPathInfo(file2,FIL_QUERYFULLNAME,path2,sizeof(path2))) return 1;
     return stricmp(path1, path2);
 }
 #elif defined(MSDOS) || defined(__MSDOS__)
