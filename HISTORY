@@ -24,11 +24,13 @@ Changes after FIDOCONFIG 0.14
    - new tokens: seqDir and seqOutrun; used for MSGID generation;
    - new tokens: AreafixReportsAttr and FilefixReportsAttr: set attributes for
      areafix & filefix reports/replies;
-   - tokens areafixKillReports and filefixKillReports removed.
+   - tokens areafixKillReports and filefixKillReports removed;
+   - new token for link: PackAka.
 
 3. IMPORTANT bugfixes:
    - fix line parsing if comment ends line.
-   - AllowEmptyPktPwd parsing: now enable 'off' and all boolean values
+   - AllowEmptyPktPwd parsing: now enable 'off' and all boolean values;
+   - fix loglevels and screenloglevels parsing.
 
 4. KNOWN BUGS
    - GCC 3.0 and 3.1 complains about va_start in line.c and refuses compiling
