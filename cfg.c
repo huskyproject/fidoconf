@@ -489,6 +489,14 @@ char *configline(void)
   }
 }
 
+/* Retrieve full file name (path+file)
+Borland -     char* _fullpath
+MSVC    -     char* _fullpath
+Watcom  -     char* _fullpath
+MinGw32 -     char* _fullpath
+gcc/emx-os2 - int   _fullpath
+gcc/linux -   char* realpath   (not in all distributions)
+*/
 #if defined (__UNIX__)
 int cmpfnames(char *file1, char *file2)
 {
