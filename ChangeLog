@@ -1,3 +1,7 @@
+2001-12-10 Monday 09:18  ml
+
+	* common.c (1.66): check for zero zone in string2addr()
+
 2001-12-09 Sunday 16:30  ml
 
 	* fidoconf.h (1.79), line.c (1.266), tokens.h (1.16), tparser.c
