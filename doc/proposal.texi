@@ -90,6 +90,7 @@ a comment and will be ignored.
 * localinbound::                local inbound
 * tempinbound::                 temporary inbound path
 * msgbasedir::                  base directory of areas
+* linkmsgbasedir::              base directory of areas for link
 * intab::                       file for recoding incoming msgs
 * outtab::                      file for recoding outgoing msgs
 * importlog::                   file which contains the names of the areas tossed in
@@ -473,7 +474,7 @@ are unpacked there.
 
 This statement cannot be repeated.
 
-@node msgbasedir, intab, tempinbound, Keywords
+@node msgbasedir, linkmsgbasedir, tempinbound, Keywords
 @subsection msgBaseDir
 @table @asis
 @item Syntax:
@@ -493,7 +494,7 @@ the msgBaseDir is @code{/var/spool/fido/msgb} the resulting msgBaseName is
 If you specify the msgbasedir as PASSTHROUGH, the areas are created as
 passthrough areas.
 
-You also can set msgabsedir like:
+You also can set msgabsedir like (@strong{not supported yet}):
 
 @example
 # last delimiter is important!
@@ -506,7 +507,21 @@ This is a good way toss mail in different systems (UNIX, OS/2, etc.)
 
 This statement cannot be repeated.
 
-@node intab, outtab, msgbasedir, Keywords
+@node linkmsgbasedir, intab, msgbasedir, Keywords
+@subsection linkMsgbaseDir
+@table @asis
+@item Syntax:
+@code{linkMsgBaseDir <path>}
+@item Example:
+@code{linkMsgBaseDir /var/spool/fido/msgb}
+@end table
+
+Same as MsgBaseDir, but you can set it for different links.
+Do not use it with Linkdefaults!
+
+This statement cannot be repeated for one link.
+
+@node intab, outtab, linkmsgbasedir, Keywords
 @subsection intab
 @table @asis
 @item Syntax:
@@ -1391,7 +1406,7 @@ Stop export echomail for this link.
 
 Stop export echomail for this link after 10 days (write Pause token to
 link section). It works when founding "10 days old" file for this link
-in outbound directory.
+in outbound directory with "#" and "^" prefixes.
 
 @node arcmailsize, pktsize, autopause, Keywords
 @subsection arcmailsize
@@ -2448,7 +2463,7 @@ This statament move echomail for all links to his own directory.
 @item Syntax:
 @code{bundleNameStyle timeStamp|addrDiff|addrDiffAlways}
 @item Example:
-@code{bundleNameStyle}
+@code{bundleNameStyle timeStamp}
 @end table
 
 This statament sets rule for creating names of arcmail bundles.
@@ -2460,9 +2475,9 @@ addrDiffAlways - the same as addrDiff but tryes to use lower free numbers of ext
 @subsection linkBundleNameStyle
 @table @asis
 @item Syntax:
-@code{linkbundleNameStyle timeStamp|addrDiff|addrDiffAlways}
+@code{linkBundleNameStyle timeStamp|addrDiff|addrDiffAlways}
 @item Example:
-@code{bundleNameStyle}
+@code{linkbundleNameStyle addrDiff}
 @end table
 
 This statament sets rule for creating names of arcmail bundles for link.

@@ -1,6 +1,4 @@
-- CommentChar token
 - if (( a && b ) || c) by Pavel Golchouk
-- fix dublicate tokens parsing
 - rewrite string2addr()
 - routeMail, route, routeFile must be "the same"
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)

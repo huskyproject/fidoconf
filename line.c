@@ -252,9 +252,9 @@ int parseRemap(char *token, s_fidoconfig *config)
    return 0;
 }
 
-int parsePath(char *token, char **var, const s_fidoconfig *config)
+int parsePath(char *token, char **var)
 {
-   char *p, *q, *osvar;
+//   char *p, *q, *osvar;
 
    if (*var != NULL) {
       printf("Line %d: Dublicate path!\n", actualLineNr);
@@ -268,7 +268,7 @@ int parsePath(char *token, char **var, const s_fidoconfig *config)
       copyString(token, &(*var));
       return 0;
    }
-
+/*
    if (strchr(token,'[') && strchr(token,']')) {
 
 	   osvar = strchr(token,'[');
@@ -287,17 +287,17 @@ int parsePath(char *token, char **var, const s_fidoconfig *config)
 	   xstrscat(var, "[", osvar, "]", NULL);
 
    } else {
+*/
+   if (*token && token[strlen(token)-1] == PATH_DELIM)
+	   Strip_Trailing(token, PATH_DELIM);
+   xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
 
-	   if (*token && token[strlen(token)-1] == PATH_DELIM)
-		   Strip_Trailing(token, PATH_DELIM);
-	   xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
-
-	   if (!direxist(*var))
-		   {
-			   printf("Line %d: Path %s not found!\n", actualLineNr, *var);
-			   return 1;
-		   }
+   if (!direxist(*var)) {
+	   printf("Line %d: Path %s not found!\n", actualLineNr, *var);
+	   return 1;
    }
+
+//   }
 
    return 0;
 }
@@ -1124,6 +1124,7 @@ int parseLink(char *token, s_fidoconfig *config)
 	  clink->RemoteRobotName = sstrdup (deflink->RemoteRobotName);
 	  clink->forwardFileRequestFile = sstrdup (deflink->forwardFileRequestFile);
 	  clink->RemoteFileRobotName = sstrdup (deflink->RemoteFileRobotName);
+	  clink->msgBaseDir = sstrdup (deflink->msgBaseDir);
       if (deflink->optGrp) {
           clink->optGrp = smalloc(sizeof(char *) * clink->numOptGrp);
           for ( i=0; i < deflink->numOptGrp; i++)
@@ -2463,24 +2464,25 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "location")==0) rc = copyString(getRestOfLine(), &(config->location));
      else if (strcmp(iToken, "sysop")==0) rc = copyString(getRestOfLine(), &(config->sysop));
      else if (strcmp(iToken, "address")==0) rc = parseAddress(getRestOfLine(), config);
-     else if (strcmp(iToken, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound), config);
-     else if (strcmp(iToken, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound), config);
-     else if (strcmp(iToken, "listinbound")==0) rc = parsePath(getRestOfLine(), &(config->listInbound), config);
-     else if (strcmp(iToken, "localinbound")==0) rc= parsePath(getRestOfLine(), &(config->localInbound), config);
-     else if (strcmp(iToken, "tempinbound")==0) rc= parsePath(getRestOfLine(), &(config->tempInbound), config);
-     else if (strcmp(iToken, "outbound")==0) rc = parsePath(getRestOfLine(), &(config->outbound), config);
-     else if (strcmp(iToken, "ticoutbound")==0) rc = parsePath(getRestOfLine(), &(config->ticOutbound), config);
+     else if (strcmp(iToken, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound));
+     else if (strcmp(iToken, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound));
+     else if (strcmp(iToken, "listinbound")==0) rc = parsePath(getRestOfLine(), &(config->listInbound));
+     else if (strcmp(iToken, "localinbound")==0) rc= parsePath(getRestOfLine(), &(config->localInbound));
+     else if (strcmp(iToken, "tempinbound")==0) rc= parsePath(getRestOfLine(), &(config->tempInbound));
+     else if (strcmp(iToken, "outbound")==0) rc = parsePath(getRestOfLine(), &(config->outbound));
+     else if (strcmp(iToken, "ticoutbound")==0) rc = parsePath(getRestOfLine(), &(config->ticOutbound));
      else if (strcmp(iToken, "public")==0) rc = parsePublic(getRestOfLine(), config);
-     else if (strcmp(iToken, "logfiledir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir), config);
-     else if (strcmp(iToken, "dupehistorydir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir), config);
-     else if (strcmp(iToken, "nodelistdir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir), config);
-     else if (strcmp(iToken, "fileareabasedir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir), config);
-     else if (strcmp(iToken, "passfileareadir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir), config);
-     else if (strcmp(iToken, "busyfiledir")==0) rc = parsePath(getRestOfLine(), &(config->busyFileDir), config);
-     else if (strcmp(iToken, "msgbasedir")==0) rc = parsePath(getRestOfLine(), &(config->msgBaseDir), config);
-     else if (strcmp(iToken, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic), config);
-     else if (strcmp(iToken, "semadir")==0) rc = parsePath(getRestOfLine(), &(config->semaDir), config);
-     else if (strcmp(iToken, "badfilesdir")==0) rc = parsePath(getRestOfLine(), &(config->badFilesDir), config);
+     else if (strcmp(iToken, "logfiledir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
+     else if (strcmp(iToken, "dupehistorydir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
+     else if (strcmp(iToken, "nodelistdir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
+     else if (strcmp(iToken, "fileareabasedir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir));
+     else if (strcmp(iToken, "passfileareadir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir));
+     else if (strcmp(iToken, "busyfiledir")==0) rc = parsePath(getRestOfLine(), &(config->busyFileDir));
+     else if (strcmp(iToken, "msgbasedir")==0) rc = parsePath(getRestOfLine(), &(config->msgBaseDir));
+	 else if (strcmp(iToken, "linkmsgbasedir")==0) rc = parsePath(getRestOfLine(), &(getDescrLink(config)->msgBaseDir));
+     else if (strcmp(iToken, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic));
+     else if (strcmp(iToken, "semadir")==0) rc = parsePath(getRestOfLine(), &(config->semaDir));
+     else if (strcmp(iToken, "badfilesdir")==0) rc = parsePath(getRestOfLine(), &(config->badFilesDir));
      else if ((strcmp(iToken, "netmailarea")==0) ||
 	      (strcmp(iToken, "netarea")==0))
        rc = parseNetMailArea(getRestOfLine(), config);
@@ -2771,7 +2773,7 @@ int parseLine(char *line, s_fidoconfig *config)
      else
 #endif
        if (strcmp(iToken, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
-     else if (strcmp(iToken, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound), config);
+     else if (strcmp(iToken, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
      else if (strcmp(iToken, "areafixfrompkt")==0) rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
      else if (strcmp(iToken, "areafixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
      else if (strcmp(iToken, "areafixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));

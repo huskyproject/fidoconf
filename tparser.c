@@ -78,10 +78,10 @@ void printArea(s_area area) {
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
-       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
-       printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");
+       printf(" exp. %s,", (area.downlinks[i]->export) ? "on" : "off");
+       printf(" imp. %s,", (area.downlinks[i]->import) ? "on" : "off");
        printf(" defLink %s,", (area.downlinks[i]->defLink) ? "on" : "off");
-       printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
+       printf(" mand. %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
    if (area.hide) printf("hide ");
@@ -200,7 +200,7 @@ void printFilelist(s_filelist *fl)
 
 void printLink(s_link link) {
   if ((link.hisAka.domain != NULL) && (link.ourAka->domain != NULL)) {
-    printf("Link: %d:%d/%d.%d@%s (ourAddres %d:%d/%d.%d@%s)\n",
+    printf("Link: %d:%d/%d.%d@%s (ourAka %d:%d/%d.%d@%s)\n",
 	   link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point, link.hisAka.domain,
 	   link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point, link.ourAka->domain);
   }
@@ -287,6 +287,7 @@ void printLink(s_link link) {
    if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
    else printf("RemoteRobotName areafix\n");
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
+   if (link.msgBaseDir) printf("MsgBaseDir %s\n",link.msgBaseDir);
    if (link.packerDef) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
    if (link.pktSize != 0) printf("pktSize - %u kb\n",link.pktSize);
