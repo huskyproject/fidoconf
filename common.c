@@ -962,15 +962,24 @@ int patimat(char *raw,char *pat)
 
 void freeGroups(char **grps, int numGroups)
 {
-	int i;
-
-	if ( grps == NULL) return;
-
-	for ( i = 0; i < numGroups; i++) {
-		nfree (grps[i]);
-	}
-
 	nfree (grps);
+}
+
+char **copyGroups(char **grps, int numGroups)
+{
+	char **dst;
+	int  i, len = 0;
+
+	if (grps == NULL || numGroups == 0) return NULL;
+	for (i=0; i<numGroups; i++)
+		len += sstrlen(grps[i]) + 1;
+	dst = smalloc(sizeof(char *)*numGroups + len);
+	dst[0] = (char *)(dst + numGroups);
+	for (i=0; i<numGroups; i++) {
+		if (i>0) dst[i] = dst[i-1] + strlen(dst[i-1]) + 1;
+		sstrcpy(dst[i], grps[i]);
+	}
+	return dst;
 }
 
 void freeLink (s_link *link)

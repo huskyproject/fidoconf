@@ -260,6 +260,7 @@ FCONF_EXT char *aka2str5d(s_addr aka);
 FCONF_EXT int patimat(char *raw, char *pat); /* case insensitive */
 
 void freeGroups(char **grps, int numGroups);
+char **copyGroups(char **grps, int numGroups);
 void freeLink (s_link *link);
 
 int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link);

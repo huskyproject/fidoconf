@@ -1528,7 +1528,6 @@ int parseLink(char *token, s_fidoconfig *config)
 
    s_link   *clink;
    s_link   *deflink;
-   unsigned int i;
 
    if (token == NULL) {
       prErr("There is a name missing after %s!", actualKeyword);
@@ -1587,11 +1586,8 @@ int parseLink(char *token, s_fidoconfig *config)
 	  clink->emailSubj = sstrdup (deflink->emailSubj);
           clink->emailEncoding = deflink->emailEncoding;
 	  clink->LinkGrp = sstrdup (deflink->LinkGrp);
-      if (deflink->AccessGrp) {
-          clink->AccessGrp = smalloc(sizeof(char *) * clink->numAccessGrp);
-          for ( i=0; i < deflink->numAccessGrp; i++)
-			  clink->AccessGrp[i] = sstrdup (deflink->AccessGrp[i]);
-      }
+	  clink->numAccessGrp = deflink->numAccessGrp;
+	  clink->AccessGrp = copyGroups(deflink->AccessGrp, deflink->numAccessGrp);
 	  clink->autoAreaCreateFile = sstrdup (deflink->autoAreaCreateFile);
 	  clink->autoFileCreateFile = sstrdup (deflink->autoFileCreateFile);
 	  clink->autoAreaCreateDefaults = sstrdup (deflink->autoAreaCreateDefaults);
@@ -1602,21 +1598,12 @@ int parseLink(char *token, s_fidoconfig *config)
 	  clink->forwardFileRequestFile = sstrdup (deflink->forwardFileRequestFile);
 	  clink->RemoteFileRobotName = sstrdup (deflink->RemoteFileRobotName);
 	  clink->msgBaseDir = sstrdup (deflink->msgBaseDir);
-      if (deflink->optGrp) {
-          clink->optGrp = smalloc(sizeof(char *) * clink->numOptGrp);
-          for ( i=0; i < deflink->numOptGrp; i++)
-			  clink->optGrp[i] = sstrdup (deflink->optGrp[i]);
-      }
-      if (deflink->frMask) {
-          clink->frMask = smalloc(sizeof(char *) * clink->numFrMask);
-          for ( i=0; i < deflink->numFrMask; i++)
-			  clink->frMask[i] = sstrdup (deflink->frMask[i]);
-      }
-      if (deflink->dfMask) {
-          clink->dfMask = smalloc(sizeof(char *) * clink->numDfMask);
-          for ( i=0; i < deflink->numDfMask; i++)
-			  clink->dfMask[i] = sstrdup (deflink->dfMask[i]);
-      }
+	  clink->numOptGrp = deflink->numOptGrp;
+	  clink->optGrp = copyGroups(deflink->optGrp, deflink->numOptGrp);
+	  clink->numFrMask = deflink->numFrMask;
+	  clink->frMask = copyGroups(deflink->frMask, deflink->numFrMask);
+	  clink->numDfMask = deflink->numDfMask;
+	  clink->dfMask = copyGroups(deflink->dfMask, deflink->numDfMask);
 
    } else {
 
@@ -2230,23 +2217,31 @@ int parseUUEechoAreas(char *token, char **grp[], unsigned int *count) {
 }
 
 int parseGrp(char *token, char **grp[], unsigned int *count) {
-	char *tok;
+	char *p;
 
-	/* strtok() returns static area,
-	 * we cannot use it's result for another strtok call */
-	token = sstrdup(token);
-
-	tok = strtok(token, " \t,");
-
-	while (tok) {
-		*grp = srealloc(*grp, sizeof(char*)*(*count+1));
-		(*grp)[*count] = sstrdup(tok);
-		(*count)++;
-
-		tok = strtok(NULL, " \t,");
+	p = token;
+	while (*p && strchr(" \t,", *p)) p++;
+	if (!*p) return 0;
+	for (*count=1; ;(*count)++) {
+		while (*p && !strrchr(" \t,", *p)) p++;
+		while (*p && strchr(" \t,", *p)) p++;
+		if (!*p) break;
 	}
-
-	nfree(token);
+	p = token;
+	while (*p && strchr(" \t,", *p)) p++;
+	*grp = smalloc(sizeof(char *)*(*count) + strlen(p) + 1);
+	(*grp)[0]=(char *)(*grp+(*count));
+	strcpy((*grp)[0], p);
+	p = (*grp)[0];
+	(*count)=1;
+	while (1) {
+		while (*p && !strrchr(" \t,", *p)) p++;
+		if (!*p) break;
+		*p++ = '\0';
+		while (*p && strchr(" \t,", *p)) p++;
+		if (!*p) break;
+		(*grp)[(*count)++] = p;
+ 	}
 
 	return 0;
 }
