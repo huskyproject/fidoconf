@@ -58,26 +58,26 @@ int copyStringUntilSep(char *str, char *seps, char **dest);
  * returns number of chars copied
  */
 
-void *memdup(void *p, size_t size);
+FCONF_EXT void *memdup(void *p, size_t size);
 /*DOC
  * Input:  a chunk of memory, with size bytes
  * Output: a copy of it 
  */	
 
-long str2attr(const char *str);
+FCONF_EXT long str2attr(const char *str);
 /*DOC
   Input:  Msg flag name 
   Output: value with corresponding bit set or -1L else
 */
 
-int  addrComp(const s_addr a1, const s_addr a2);
+FCONF_EXT int  addrComp(const s_addr a1, const s_addr a2);
 /*DOC
   Input:  two addresses
   Output: 0, or !0
   FZ:     0 ist returned if the two addresses are the same, !0 else
 */
 
-char *strrstr(const char *HAYSTACK, const char *NEEDLE);
+FCONF_EXT char *strrstr(const char *HAYSTACK, const char *NEEDLE);
 
 /*DOC
   Input:  two constant null-terminated strings
@@ -86,21 +86,21 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE);
           (same as strstr but last occurence
 */
 
-void string2addr(char *string, s_addr *addr);
+FCONF_EXT void string2addr(char *string, s_addr *addr);
 /*DOC
   Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
   Output: ./.
   FZ:     string2addr converts a char[] to an addr. If string is not an addr NULL ist returned.
 */
 
-UINT16 getUINT16(FILE *in);
+FCONF_EXT UINT16 getUINT16(FILE *in);
 /*DOC
   Input:  in is an file stream opened for reading.
   Output: getUINT16 returns an UINT16
   FZ:     the UINT15 is read from the stream using the method lowByte, highByte.
 */
 
-int    fputUINT16(FILE *out, UINT16 word);
+FCONF_EXT int    fputUINT16(FILE *out, UINT16 word);
 /*DOC
   Input:  out is an file opened for writing.
           word is the UINT16 which should be written
@@ -108,7 +108,7 @@ int    fputUINT16(FILE *out, UINT16 word);
   FZ:     fputUINT16 writes word into the stream using the order lowByte, highByte.
 */
 
-INT    fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter);
+FCONF_EXT INT    fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter);
 /*DOC
   Input:  n-1 chars are read at most.
           str is a buffer with the length n.
@@ -127,21 +127,21 @@ char   *stripLeadingChars(char *str, const char *chr);
           str is changed and returned.
 */
 
-char   *strUpper(char *str);
+FCONF_EXT char   *strUpper(char *str);
 /*DOC
   Input:  str is a \0 terminated string
   Output: a pointer to a \0 terminated string is returned.
   FZ:     strUpper converts the string from lower case to upper case.
   */
 
-char   *strLower(char *str);
+FCONF_EXT char   *strLower(char *str);
 /*DOC
   Input:  str is a \0 terminated string
   Output: a pointer to a \0 terminated string is returned.
   FZ:     strLower converts the string from upper case to lower case.
 */
 
-char   *shell_expand(char *str);
+FCONF_EXT char   *shell_expand(char *str);
 /*DOC
    Input: str is a \0 terminated string which must have been malloc'ed
    Ouput: a pointer to a \0 terminated string is returned which must be free'd
@@ -149,7 +149,7 @@ char   *shell_expand(char *str);
           see sh(1) for further explanations
 */
 
-char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoconfig *config);
+FCONF_EXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoconfig *config);
 /*DOC
    Input:  dir: \0 terminated string designating the destination directory
            ext: \0 terminated string designating the file extension w/o dot
@@ -159,7 +159,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoconfig *conf
            See the comments in common.c for further explanations
 */
 
-int move_file(const char *from, const char *to);
+FCONF_EXT int move_file(const char *from, const char *to);
 /* DOC
    Input:  source and destination filename
    Output: 0 if OK, != 0 and errno set on error
@@ -167,13 +167,13 @@ int move_file(const char *from, const char *to);
            the destination file already exists.
 */
 
-int copy_file(const char *from, const char *to);
+FCONF_EXT int copy_file(const char *from, const char *to);
 
 // this function returns the string representation of an address.
 // it returns a static array!!!
-char *aka2str(s_addr aka);
+FCONF_EXT char *aka2str(s_addr aka);
 
-int patimat(char *raw, char *pat); /* case insensitive */
+FCONF_EXT int patimat(char *raw, char *pat); /* case insensitive */
 
 void freeGroups(char **grps, int numGroups);
 void freeLink (s_link *link);

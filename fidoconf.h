@@ -38,6 +38,20 @@
 extern "C" {
 #endif
 
+#ifdef _MAKE_DLL
+#   if defined(_MSC_VER) && (_MSC_VER >= 1200)
+#       ifndef _FCONF_EXT
+#           define FCONF_EXT __declspec(dllimport)
+#       else
+#           define FCONF_EXT __declspec(dllexport)
+#       endif //_FCONF_EXT
+#   else 
+#       define FCONF_EXT
+#   endif
+#else 
+#   define FCONF_EXT
+#endif
+
 #define MSGTYPE_PASSTHROUGH 0x04
 
 #ifdef UNIX
@@ -55,7 +69,7 @@ extern char wasError;
 extern char CommentChar;
    
 
-char *striptwhite(char *str);
+FCONF_EXT char *striptwhite(char *str);
 
 typedef struct addr {
 
@@ -64,7 +78,7 @@ typedef struct addr {
 
 } s_addr, *ps_addr;
 
-typedef struct pack {
+typedef struct  pack {
    char    *packer;
    char    *call;
 } s_pack, *ps_pack;
@@ -512,31 +526,31 @@ typedef struct fidoconfig {
 } s_fidoconfig, *ps_fidoconfig;
 
 
-ps_fidoconfig readConfig(char *cfgFile);
+FCONF_EXT ps_fidoconfig readConfig(char *cfgFile);
 
-void disposeConfig(ps_fidoconfig config);
+FCONF_EXT void disposeConfig(ps_fidoconfig config);
 
-ps_link getLink(s_fidoconfig config, char *addr);
-ps_link getLinkForArea(s_fidoconfig config, char *addr, s_area *area);
-ps_link getLinkForFileArea(s_fidoconfig config, char *addr, s_filearea *area);
-ps_link getLinkFromAddr(s_fidoconfig config, s_addr aka);
-ps_addr getAddr(s_fidoconfig config, char *addr);
+FCONF_EXT ps_link getLink(s_fidoconfig config, char *addr);
+FCONF_EXT ps_link getLinkForArea(s_fidoconfig config, char *addr, s_area *area);
+FCONF_EXT ps_link getLinkForFileArea(s_fidoconfig config, char *addr, s_filearea *area);
+FCONF_EXT ps_link getLinkFromAddr(s_fidoconfig config, s_addr aka);
+FCONF_EXT ps_addr getAddr(s_fidoconfig config, char *addr);
 int    existAddr(s_fidoconfig config, s_addr aka);
 
 /* find echo & local areas in config */
-ps_area getArea(ps_fidoconfig config, char *areaName);
+FCONF_EXT ps_area getArea(ps_fidoconfig config, char *areaName);
 
 /* find only echo areas in config */
-ps_area getEchoArea(ps_fidoconfig config, char *areaName);
+FCONF_EXT ps_area getEchoArea(ps_fidoconfig config, char *areaName);
 
 /* find netmail areas in config */
-ps_area getNetMailArea(ps_fidoconfig config, char *areaName);
+FCONF_EXT ps_area getNetMailArea(ps_fidoconfig config, char *areaName);
 
 /**
  * This function return 0 if the link is not linked to the area,
  * else it returns 1.
  */
-int    isLinkOfArea(ps_link link, s_area *area);
+FCONF_EXT int isLinkOfArea(ps_link link, s_area *area);
 
 /**
  * This function dumps the config to a file. The file is in fidoconfig format so,
@@ -551,18 +565,18 @@ int dumpConfigToFile(ps_fidoconfig config, char *fileName);
 
 // the following functions are for internal use.
 // Only use them if you really know what you do.
-char *readLine(FILE *F);
-int  parseLine(char *line, ps_fidoconfig config);
-char *getConfigFileName(void);
-char *trimLine(char *line);
-void carbonNames2Addr(s_fidoconfig *config);
-int  init_conf(char *conf_name);
-void close_conf(void);
-void setvar(char *name, char *value);
-char *getvar(char *name);
+FCONF_EXT char *readLine(FILE *F);
+FCONF_EXT int  parseLine(char *line, ps_fidoconfig config);
+FCONF_EXT char *getConfigFileName(void);
+FCONF_EXT char *trimLine(char *line);
+FCONF_EXT void carbonNames2Addr(s_fidoconfig *config);
+FCONF_EXT int  init_conf(char *conf_name);
+FCONF_EXT void close_conf(void);
+FCONF_EXT void setvar(char *name, char *value);
+FCONF_EXT char *getvar(char *name);
 void closeall(void);
-char *configline(void);
-char *stripComment(char *line);
+FCONF_EXT char *configline(void);
+FCONF_EXT char *stripComment(char *line);
 void checkIncludeLogic(ps_fidoconfig config);
 
 /**
@@ -583,7 +597,7 @@ ps_filearea getFileArea(ps_fidoconfig config, char *areaName);
 void dumpConfig(ps_fidoconfig config, FILE *f);
 
 // return 1 if group found in array of strings, else return 0
-int grpInArray(char *group, char **strarray, unsigned int len);
+FCONF_EXT int grpInArray(char *group, char **strarray, unsigned int len);
 
 // define exit codes for non unix systems
 #ifndef _SYSEXITS_H

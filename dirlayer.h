@@ -34,6 +34,9 @@
  */
 #ifndef DIR_H
 /* all other include their own dirent.h */
+
+#include "fidoconf.h"
+
 #if !defined(__IBMC__) && !defined(__WATCOMC__)
 #ifdef __MINGW32__
 #include <dir.h>
@@ -71,9 +74,9 @@ typedef struct dirent {
    char               _first_time;
 } DIR;
 
-DIR* opendir(const char*);
-DIR* readdir(DIR*);
-int  closedir(DIR*);
+FCONF_EXT DIR* opendir(const char*);
+FCONF_EXT DIR* readdir(DIR*);
+FCONF_EXT int  closedir(DIR*);
 #endif
 
 #ifdef __IBMC__   /* only define it for IBM VisualAge C++ */

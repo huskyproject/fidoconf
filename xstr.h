@@ -27,23 +27,25 @@
 #ifndef _XSTR_H
 #define _XSTR_H
 
-char *xstralloc(char **s, size_t add);
+#include "fidoconf.h"
+
+FCONF_EXT char *xstralloc(char **s, size_t add);
 /* 
  * Adds to variable "s" "add" bytes (allocates or reallocates it)
  */
 
-char *xstrcat(char **s, char *add);
+FCONF_EXT char *xstrcat(char **s, char *add);
 /*
  * Appends "add" to variable "s", reallocating it when it needs
  */
 
-char *xstrscat(char **s, ...);
+FCONF_EXT char *xstrscat(char **s, ...);
 /*
  * Appends a list of strings to "s", reallocating it when it needs
  * list is terminated with NULL value
  */
 	
-int xscatprintf(char **s, const char *format, ...);
+FCONF_EXT int xscatprintf(char **s, const char *format, ...);
 /* 
  * sprintf's "format" to the end of "s". Reallocates it when it needs
  * return value: number of bytes added.
