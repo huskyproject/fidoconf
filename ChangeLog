@@ -1,3 +1,8 @@
+2001-09-04 Tuesday 07:55  ml
+
+	* fidoconf.c (1.53): allow CR chars in unix configs (in empty
+	lines)
+
 2001-08-30 Thursday 17:50  ml
 
 	* fidoconf.h (1.77), line.c (1.261), tokens.h (1.15), tparser.c
