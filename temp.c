@@ -32,33 +32,47 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
+#include "common.h"
 #include "xstr.h"
 #include "log.h"
-#include "common.h"
-#include "compiler.h"
 #include "temp.h"
 
-
-#ifndef PATH_DELIM
-#if defined(SASC) || defined(UNIX)
-#define PATH_DELIM  '/'
-#else
-#define PATH_DELIM  '\\'
-#endif
-#endif
-
-/* If mkstemp() not implemented, use this function.
- *
+/* This includes commented for not create dependence from smapi
+   please don't use _createDirectoryTree()
  */
-int MKSTEMP( char *tempfilename )
-{  char * ttt;
+/*#include <smapi/compiler.h>*/
+/*#include <smapi/progprot.h>*/   /* for _createDirectoryTree() */
+/*#define MKDIR(dd) (_createDirectoryTree(dd))*/
+
+
+/* If mkstemps() not implemented, use this function.
+ * parameters example:
+ *   tempfilename = "/path/prefixXXXXX.suffix"
+ *   tempfilename = "/path/prefixXXXXX"
+ *  "XXXXX" replaced with random char sequence
+ */
+int MKSTEMPS( char *tempfilename )
+{  char *ttt;
    int fd=-1;
+   char *pp;
 
    ttt = sstrdup(tempfilename);
-   while( fd==-1 && mktemp( ttt ) ){
-     fd = open( ttt, O_EXCL | O_CREAT );
-   };
+   pp = strrchr(ttt, '.');
+   if(pp){ /* suffix presents */
+     do{
+         *pp = 0;
+         if( !mktemp(ttt) )
+           break;
+         *pp = '.';
+         fd = open( ttt, O_EXCL | O_CREAT );
+     }while( fd==-1 && errno == EEXIST );
+   }else{
+     while( fd==-1 && mktemp(ttt) ){
+       fd = open( ttt, O_EXCL | O_CREAT );
+     };
+   }
    if(fd!=-1) strcpy(tempfilename,ttt);
+   nfree(ttt);
    return fd;
 }
 
@@ -74,34 +88,23 @@ int MKSTEMP( char *tempfilename )
 
 FILE *createTempFileIn(const char *path, const char *ext, char mode, char **name)
 { int tempfh=-1; FILE *tempfd=NULL; char *tempfilename=NULL;
+  char *ii=0;
 
   if( !path || !path[0] ){
-    w_log(LL_ERR, "temp::createTempFileIn(): empty directory pathname!");
+    w_log(LL_ERR, "temp::createTempFileIn(): pathname is empty!");
     return NULL;   
   }
   w_log( LL_FUNC, "createtempfileIn() start" );
 
-  xstrcat( &tempfilename, path );
+  xstrcat( &tempfilename, (char *)path );
+  ii = tempfilename + strlen(tempfilename) -1;
+  if( *ii == PATH_DELIM ) *ii=0; /* strip trailing slash */
 
-  w_log( LL_DIR,"Try to create temp. directory '%s'", tempfilename );
-#if defined(__UNIX__)
-  if( !mkdir(tempfilename,TempDIRMODE) )
-#else
-  if( !MKDIR(tempfilename) )
-#endif
-    w_log( LL_INFO, "Temp. directory created: (%s)", tempfilename );
-  else if( errno==EEXIST )
-    w_log( LL_DIR,"Temp. directory alredy exist (%s)", tempfilename );
-  else
-  { w_log( LL_ERR, "Can't create temp. directory '%s': %s",
-                                           tempfilename, strerror(errno) );
-    return NULL;
-  }
+  xscatprintf( &tempfilename, "%cXXXXXX.%s", PATH_DELIM, ext);
 
-  xstrscat( &tempfilename, "%cXXXXXXXX.%s", PATH_DELIM, ext);
   w_log(LL_FILENAME, "Temp. file mask: %s", tempfilename);
 
-  if( (tempfh = MKSTEMP( tempfilename )) == -1 )
+  if( (tempfh = MKSTEMPS( tempfilename )) == -1 )
   { w_log( LL_ERR, "Cannot create temp. file (Mask %s): %s", tempfilename, strerror(errno) );
     w_log( LL_FUNC, "createTempFileIn() rc=NULL" );
     return NULL;
@@ -157,3 +160,29 @@ FILE *createTempBinFile(const ps_fidoconfig pconfig, char **name)
     return NULL;
   }
 }
+
+
+#if 0
+
+#include <string.h>
+#include <errno.h>
+#include <stdio.h>
+
+/*  Test */
+void main()
+{ FILE *fd;
+  s_fidoconfig *config;
+  char *name=NULL;
+
+  config = readConfig("../test.cfg");
+  fd = createTempBinFile(config, &name);
+  if( !fd )
+    printf("error creating %s: %s\n", name, strerror(errno) );
+  else
+  {  printf("created: %s\n", name);
+     fclose (fd);
+     unlink(name);
+  }
+  disposeConfig(config);
+}
+#endif
