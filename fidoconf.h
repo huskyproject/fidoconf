@@ -103,6 +103,7 @@ typedef struct link {
    unsigned int autoFileCreate;       // 0 if not allowed for autofilecreate
    unsigned int AreaFix;              // 0 if not allowed for areafix
    unsigned int FileFix;              // 0 if not allowed for filefix
+   unsigned int FileFixFSC87Subset; // 1 if only FSC87-commands are allowable in TIC files
    unsigned int forwardRequests;      // 0 if not allowed forward requests
    unsigned int forwardFileRequests;      // 0 if not allowed forward requests for file areas
 	unsigned int denyFRA; // denyFwdReqAccess

@@ -3116,6 +3116,13 @@ int parseLine(char *line, s_fidoconfig *config)
                 rc = 1;
             }
             break;
+	case ID_FILEFIXFSC87SUBSET:
+	    if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->FileFixFSC87Subset);
+	    } else {
+                rc = 1;
+	    }
+            break;
         case ID_AUTOFILECREATE:
             if( (clink = getDescrLink(config)) != NULL ) {
                 rc = parseBool (getRestOfLine(), &clink->autoFileCreate);

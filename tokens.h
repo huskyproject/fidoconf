@@ -243,7 +243,8 @@ enum {
     ID_ADVISORYLOCK,
     ID_AREAFIXNAMES,
     ID_REQIDXDIR,
-    ID_SYSLOG_FACILITY
+    ID_SYSLOG_FACILITY,
+    ID_FILEFIXFSC87SUBSET
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -356,6 +357,7 @@ token_t parseline_tokens[] =
     { "fileechoflavour", ID_FILEECHOFLAVOUR },
     { "filefileumask", ID_FILEFILEUMASK },
     { "filefix", ID_FILEFIX },
+    { "filefixfsc87subset", ID_FILEFIXFSC87SUBSET },
     { "filefixhelp", ID_FILEFIXHELP },
     { "filefixkillreports", ID_FILEFIXKILLREPORTS },
     { "filefixkillrequests", ID_FILEFIXKILLREQUESTS },

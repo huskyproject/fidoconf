@@ -296,6 +296,7 @@ void printLink(s_link link) {
 	   printf("\n");
    }
    printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
+   printf("FileFixFSC87Subset %s\n", (link.FileFixFSC87Subset) ? "on" : "off");
    printf("AutoAreaCreateSubdirs %s\n", (link.autoAreaCreateSubdirs) ? "on" : "off");
    if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
    if (link.numFrMask > 0) {
