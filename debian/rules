@@ -14,7 +14,7 @@ export PACKAGE=libfidoconf0
 # export DEB_BUILD_OPTIONS=nostrip
 
 # shared library versions, option 1
-version=0.13
+version=0.14
 major=0
 
 configure: configure-stamp
