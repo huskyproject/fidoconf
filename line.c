@@ -112,7 +112,7 @@ int parseVersion(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   while (isdigit(*temp)) {
+   while (isdigit(*temp) && i<9) {
       buffer[i] = *temp;
       i++; temp++;
    }
@@ -123,7 +123,7 @@ int parseVersion(char *token, s_fidoconfig *config)
    temp++; // eat .
    i = 0;
 
-   while (isdigit(*temp)) {
+   while (isdigit(*temp) && i<9) {
       buffer[i] = *temp;
       i++; temp++;
    }

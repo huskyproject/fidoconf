@@ -1,3 +1,7 @@
+Sun Oct 22 15:38:35 NOVST 2000
+max:
+* fixed version parsing
+
 Sat Oct 21 19:41:45 NOVST 2000
 max:
 * noPause works for echoAreas & fileAreas
