@@ -1,3 +1,8 @@
+2004-02-20 Friday 09:14  sfpavel
+
+	* line.c (fidoconf-1_4-stable.10): Fix parsing of SaveTick keyword
+	(backport from current)
+
 2004-02-06 Friday 03:16  andr_lukyanov
 
 	* fidoconf.c, tparser.c (fidoconf-1_4-stable.[4,3]): Set
