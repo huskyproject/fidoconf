@@ -979,7 +979,7 @@ void *smalloc(size_t size)
 {
     void *ptr = malloc(size);
     if (ptr == NULL) {
-		fprintf(stderr, "out of memory");
+		w_log(LL_CRIT, "out of memory");
 		abort();
     }
     return ptr;
@@ -989,7 +989,7 @@ void *srealloc(void *ptr, size_t size)
 {
     void *newptr = realloc(ptr, size);
     if (newptr == NULL) {
-		fprintf(stderr, "out of memory");
+		w_log(LL_CRIT, "out of memory");
 		abort();
     }
     return newptr;
@@ -1010,7 +1010,7 @@ char *sstrdup(const char *src)
     if (!strlen(src)) return NULL;
     ptr = strdup (src);
     if (ptr == NULL) {
-		fprintf(stderr, "out of memory");
+		w_log(LL_CRIT, "out of memory");
 		abort();
     }
     return ptr;
