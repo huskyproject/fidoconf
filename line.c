@@ -1066,6 +1066,9 @@ int parseLink(char *token, s_fidoconfig *config)
       clink->import = 1;
       clink->fReqFromUpLink = 1;
       clink->ourAka = &(config->addr[0]);
+
+      // set default maxUnpackedNetmail
+      clink->maxUnpackedNetmail = 100;
    
    }
 
@@ -2039,6 +2042,9 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
       config->linkDefaults->import = 1;
       config->linkDefaults->fReqFromUpLink = 1;
       config->linkDefaults->ourAka = &(config->addr[0]);
+
+      // set defaults maxUnpackedNetmail
+      config->linkDefaults->maxUnpackedNetmail = 100;
    }
 
 
@@ -2292,6 +2298,12 @@ int parseLine(char *line, s_fidoconfig *config)
        rc = 1;
      }
    }
+		else if (stricmp(token, "packnetmail")==0) {
+			if( (clink = getDescrLink(config)) != NULL ) {
+				rc = parseBool(getRestOfLine(), config, clink);
+			}
+			else rc = 1;
+		}
    else if (stricmp(token, "allowpktaddrdiffer")==0) {
      if( (clink = getDescrLink(config)) != NULL ) {
       rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);
@@ -2394,6 +2406,7 @@ int parseLine(char *line, s_fidoconfig *config)
 #endif       
        if (stricmp(token, "arcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->arcmailSize));
    else if (stricmp(token, "pktsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->pktSize));
+   else if (stricmp(token, "maxunpackednetmail")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->maxUnpackedNetmail));
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->ticPwd));
    else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->areaFixPwd));

@@ -1,3 +1,4 @@
+- CommentChar token
 - if (( a && b ) || c) by Pavel Golchouk
 - fix dublicate tokens parsing
 - rewrite string2addr()

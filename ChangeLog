@@ -1,4 +1,7 @@
-test
+Fri Oct 27 00:45:05 NOVST 2000
+max:
+* add tokens maxUnpackedNetmail, packNetmail for bsopack
+
 Sun Oct 22 15:38:35 NOVST 2000
 max:
 * fixed version parsing

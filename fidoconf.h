@@ -129,6 +129,11 @@ typedef struct link {
    unsigned level;	          // 0-65535
    unsigned arcmailSize;      // max arcmail size in kb
    unsigned pktSize;          // max .pkt size in kb
+   unsigned maxUnpackedNetmail; // max size of *.?ut file in kb. If
+								// more, then put it into
+								// bundle. Default 100 (used in bsopack)
+   unsigned int packNetmail;    // allows to pack outbound
+								// netmail. Default no (used in bsopack)
    unsigned int export, import, mandatory; // Default link's options
    char **optGrp; // groups for this options
    unsigned int numOptGrp;
