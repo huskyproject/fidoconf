@@ -1,1 +1,1 @@
-libfidoconfig 0 libfidoconf0 (>= 0.13-1), libfidoconf0 (<< 0.14)
+libfidoconfig 0 libfidoconf0 (>= 0.15-1), libfidoconf0 (<< 0.16)

@@ -1,3 +1,13 @@
+fidoconf (0.15-20020626-1) unstable; urgency=low
+
+  * NMU. Joerg, big thanks for Debian packages! But we don't see you now
+    :-(
+  * Change version depends: now 0.15-unstable
+  * Change scheme of versions numbers: include CVS date
+  * Update Standards - 3.5.6 now
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Thu, 27 Jun 2002 21:41:10 +0600
+
 fidoconf (0.13-1) unstable; urgency=low
 
   * Hey, im back. A new Debian Package is built and available for
