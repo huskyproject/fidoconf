@@ -8,24 +8,24 @@ OBJS =  adcase.obj line.obj fidoconfig.obj fconf2msged.obj fconf2golded.obj fcon
 
 .c.obj:
         $(CC) $(CFLAGS) $(COPT) -c $<
-        $(LIB) -b -q fidoconfig.lib -+$@
+        $(LIB) -b -q fconfwcw.lib -+$@
 
 all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.obj fecfg2fconf.exe
 
 tparser.exe:
-        $(CC) $(CFLAGS) $(COPT) tparser.c fidoconfig.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) tparser.c fconfwcw.lib $(LIBS)
 
 fconf2golded.exe:
-        $(CC) $(CFLAGS) $(COPT) fconf2golded.c fidoconfig.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) fconf2golded.c fconfwcw.lib $(LIBS)
 
 fconf2msged.exe:
-        $(CC) $(CFLAGS) $(COPT) fconf2msged.c fidoconfig.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) fconf2msged.c fconfwcw.lib $(LIBS)
 
 fconf2aquaed.exe:
-        $(CC) $(CFLAGS) $(COPT) fconf2aquaed.c fidoconfig.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) fconf2aquaed.c fconfwcw.lib $(LIBS)
 
 fconf2squish.exe:
-        $(CC) $(CFLAGS) $(COPT) fconf2squish.c fidoconfig.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) fconf2squish.c fconfwcw.lib $(LIBS)
 
 fecfg2fconf.obj: fecfg2fconf.c
 	$(CC) $(CFLAGS) $(COPT) fecfg2fconf.c -zp1 -5r
