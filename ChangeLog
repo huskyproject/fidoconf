@@ -1,3 +1,23 @@
+2002-09-20 Friday 17:21  d_sergienko
+
+	* fidoconf.h (1.140), line.c (1.327), tokens.h (1.49), tparser.c
+	(1.199), doc/keywords.htick (1.5): added new token
+	"autoFileCreateFlag" for htick
+
+2002-09-20 Friday 16:35  d_sergienko
+
+	* HISTORY (1.11): update for previous commit
+
+2002-09-20 Friday 16:34  d_sergienko
+
+	* fidoconf.h (1.139), line.c (1.326), tokens.h (1.48), tparser.c
+	(1.198), doc/keywords.htick (1.4): added token 'filefixFromName'
+
+2002-09-20 Friday 10:33  pgul
+
+	* line.c (1.325): filenames and paths defined in linkDefaults may
+	be overrided in link section
+
 2002-09-19 Thursday 08:37  sfpavel
 
 	* fc2msged.c (1.5), makefile.djg (1.12): Fix DJGPP build
