@@ -4,3 +4,5 @@
 *.obj
 *.dsp
 *.plg
+*.o
+*.orig
