@@ -85,7 +85,7 @@ void setvar(char *name, char *value)
       break;
   if (i<nvars)
   { /* remove var */
-    free(set[i].var);
+    nfree(set[i].var);
     for (j=i; j<nvars-1; j++)
     { set[j].var=set[j+1].var;
       set[j].value=set[j+1].value;
@@ -118,7 +118,7 @@ void close_conf(void)
   nfree(set);
   if (module)
   { setvar("module", module);
-    free(module);
+    nfree(module);
   }
   nfree(ifstack);
   maxif=0;
@@ -219,7 +219,7 @@ static char *_configline(void)
   *dest++ = '\0';
   if (curlen != dest-parsed)
     parsed = srealloc(parsed, (unsigned)(dest-parsed));
-  free(line);
+  nfree(line);
   return parsed;
 }
 
@@ -265,7 +265,8 @@ char *configline(void)
 { int  i;
   char *p, *p1, *p2, *str, *line;
 
-  for (;;free(line)) {
+  for (;;) {
+	  nfree(line);
       line=str=_configline();
       if (str==NULL) {
 	  // save parsed config name
