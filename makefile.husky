@@ -4,9 +4,9 @@ include ../huskymak.cfg
 # program settings
 
 ifeq ($(DEBUG), 1)
-  COPT = -c -fPIC -Wall -ggdb -I. -I../smapi -I$(INCDIR)
+  COPT = $(WARNFLAGS) $(DEBCFLAGS) -I. -I../smapi -I$(INCDIR)
 else
-  COPT = -c -fPIC -Wall -s -O6 -I. -I../smapi -I$(INCDIR)
+  COPT = $(WARNFLAGS) $(OPTCFLAGS) -I. -I../smapi -I$(INCDIR)
 endif
 
 CDEFS=-D$(OSTYPE) $(ADDCDEFS)
@@ -77,9 +77,13 @@ instdyn: commonlibs
 endif
 
 install: commonlibs commonprogs instdyn
-	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE) $(FCONF2GOLDED)$(EXE) \
-          $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2SQUISH)$(EXE) \
-          tparser$(EXE) dumpfcfg$(EXE) $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(EXE) $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
+	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
 	$(INSTALL) linkedto $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconfig.h   $(INCDIR)
 	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)
