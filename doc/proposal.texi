@@ -866,6 +866,8 @@ disallow remote changes (only manual connect/disconnect)
 hide area
 @item -nopause        
 %PAUSE has no effect to this area
+@item -ccoff
+disables carbonCopies for this area
 @item -DupeCheck off|move|del
 toss in dupes, move dupes to dupeArea or delete dupes.
 @item -DupeHistory <unsignedInteger>

@@ -248,6 +248,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
 		 return 1;
       }
    }
+   else if (stricmp(option, "ccoff")==0) area->ccoff=1;
    else {
       printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
       return 1;

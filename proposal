@@ -222,6 +222,9 @@ _Keyword definitions_
   # for example "-w ABC" option allows write to this AREA those links
   # who has "DenyGrp A[BC]". if link not allowed to write in this area 
   # message tosses to BadArea.
+ 
+  # if you don't want to carbon from this echo
+  # -ccoff
 
   # if a group name is an unsignedInteger, it is
   #   interpreted as level, access rights are
