@@ -482,6 +482,9 @@ int main(int argc, char **argv) {
 	  if (config->logEchoToScreen && config->screenloglevels)
 		  printf("ScreenLogLevels %s\n", config->screenloglevels);
 
+      if (config->echotosslog != NULL) printf("EchoTossLog: %s\n", config->echotosslog);
+      if (config->statlog != NULL) printf("StatLog: %s\n", config->statlog);
+
       if (config->inbound != NULL) printf("Inbound: %s\n", config->inbound);
       if (config->tempInbound != NULL) printf("tempInbound: %s\n", config->tempInbound);
       if (config->protInbound != NULL) printf("ProtInbound: %s\n", config->protInbound);

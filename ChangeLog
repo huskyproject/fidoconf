@@ -1,3 +1,8 @@
+----- cvs ci ------
+Mon Oct 23 18:09:53 MET 2000
+  Michael Haase:
++ added statlog for hpt
+
 Fri Oct 27 00:45:05 NOVST 2000
 max:
 * add tokens maxUnpackedNetmail, packNetmail for bsopack
