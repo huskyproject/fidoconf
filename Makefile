@@ -140,9 +140,9 @@ ifeq ($(CC), gcc)
 endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 ifeq (${OSTYPE}, UNIX)
-	$(INSTALL) $(IBOPT) linkedto                $(BINDIR)
+	$(INSTALL) $(ILOPT) linkedto                $(BINDIR)
 endif
-	$(INSTALL) $(IBOPT) $(FCONF2AREASBBS)       $(BINDIR)
+	$(INSTALL) $(ILOPT) $(FCONF2AREASBBS)       $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
