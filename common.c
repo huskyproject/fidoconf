@@ -1007,6 +1007,7 @@ char *sstrdup(const char *src)
     char *ptr;
     
     if (src == NULL) return NULL;
+    if (!strlen(src)) return NULL;
     ptr = strdup (src);
     if (ptr == NULL) {
 		fprintf(stderr, "out of memory");
