@@ -121,7 +121,7 @@ endif
 
 install: commonlibs ranlib progs instdyn
 	-$(MKDIR) $(MKDIROPT) $(BINDIR)
-	-$(MKDIR) $(MKDIROPT) $(INCDIR)/fidoconf
+	-$(MKDIR) $(MKDIROPT) $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
@@ -133,14 +133,33 @@ endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
 	$(INSTALL) $(ILOPT) linkedto $(BINDIR)
-	$(INSTALL) $(IIOPT) fidoconf.h   $(INCDIR)/fidoconf
-	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)/fidoconf
-	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/fidoconf
-	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)/fidoconf
-	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)/fidoconf
-	$(INSTALL) $(IIOPT) xstr.h         $(INCDIR)/fidoconf
-	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/fidoconf
+	$(INSTALL) $(IIOPT) fidoconf.h   $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) common.h       $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) xstr.h         $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
-ifdef INFODIR
 	(cd doc && $(MAKE) install)
-endif
+
+uninstall:
+	-$(RM) $(BINDIR)$(DIRSEP)$(FCONF2MSGED)$(EXE)
+	-$(RM) $(BINDIR)$(DIRSEP)$(FCONF2GOLDED)$(EXE)
+	-$(RM) $(BINDIR)$(DIRSEP)$(FCONF2AQUAED)$(EXE)
+	-$(RM) $(BINDIR)$(DIRSEP)$(FCONF2FIDOGATE)$(EXE)
+	-$(RM) $(BINDIR)$(DIRSEP)$(FCONF2SQUISH)$(EXE)
+	-$(RM) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
+	-$(RM) $(BINDIR)$(DIRSEP)tparser$(EXE)
+	-$(RM) $(BINDIR)$(DIRSEP)dumpfcfg$(EXE)
+	-$(RM) $(BINDIR)$(DIRSEP)linkedto
+	-$(RM) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)fidoconf.h
+	-$(RM) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)typesize.h
+	-$(RM) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)common.h
+	-$(RM) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)dirlayer.h
+	-$(RM) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)adcase.h
+	-$(RM) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)xstr.h
+	-$(RM) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)fidoconf.pas
+	-$(RM) $(LIBDIR)$(DIRSEP)$(LIBFIDOCONFIG)$(LIB)
+	(cd doc && $(MAKE) uninstall)
+
