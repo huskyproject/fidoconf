@@ -3,7 +3,7 @@ AR = ar
 COPT = -g -s -c -fPIC -O2 -Wall -I../smapi -DUNIX
 VER = 0.3
 LIBDIR = /usr/local/lib
-INSTDIR = /usr/local/bin
+INSTDIR = $(HOME)/fido
 
 OBJS    = patmat.o line.o fidoconfig.o fconf2msged.o fconf2golded.o tparser.o dir.o common.o
 

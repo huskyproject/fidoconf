@@ -60,30 +60,44 @@ void initConfig(s_fidoconfig *config) {
    memset(config, sizeof(s_fidoconfig), 0);
 }
 
+char *getConfigFileName() {
+
+   FILE *f;
+#ifdef __linux__
+   char *osSpecificName = "/etc/fido/config";
+#elif __FreeBSD__
+   char *osSpecificName = "/usr/local/etc/fido/config";
+#elif OS2
+   char *osSpecificName = "c:\fido\config";
+#else
+   char *osSpecificName = "fidoconfig";
+#endif
+
+   //try env-var fidoconfig
+   f = fopen(getenv("FIDOCONFIG"), "r");
+   if (f== NULL) {
+      //try osSpecificName
+      f = fopen(osSpecificName, "r");
+      if (f==NULL) return NULL;
+      else return osSpecificName;
+   } else return getenv("FIDOCONFIG");
+}
+
 s_fidoconfig *readConfig()
 {
    FILE *f;
    s_fidoconfig *config;
+   char *fileName = getConfigFileName();
 
-   // try env-var fidoconfig
-   f = fopen(getenv("FIDOCONFIG"), "r");
-   if (f==NULL) {
-#ifdef __linux__
-      f = fopen("/etc/fido/config", "r");
-#elif __FreeBSD__
-      f = fopen("/usr/local/etc/fido/config", "r");
-#elif OS2
-      f = fopen("c:\fido\config", "r");
-#else
-      f = fopen("fidoconfig", "r");
-#endif
-   }
-
+   if (fileName == NULL) printf("Could not find Config-file\n");
+   
+   f = fopen(fileName, "r");
+   
    if (f != NULL) {
       config = (s_fidoconfig *) malloc(sizeof(s_fidoconfig));
       initConfig(config);
       parseConfig(f, config);
-      if (isError == 1) {
+      if (wasError == 1) {
          printf("Please correct above error(s) first!\n");
          fflush(stdout);
          exit(1);
@@ -102,6 +116,8 @@ void disposeConfig(s_fidoconfig *config)
    free(config->location);
    free(config->intab);
    free(config->outtab);
+   free(config->areafixhelp);
+   free(config->autoCreateDefaults);
    free(config->importlog);
    free(config->echotosslog);
    free(config);

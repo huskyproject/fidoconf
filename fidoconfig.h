@@ -8,7 +8,7 @@
 
 extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
-extern char isError;
+extern char wasError;
 
 struct link {
    s_addr hisAka, *ourAka;
@@ -21,7 +21,8 @@ struct link {
         *bbsPwd;
    char *handle;
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
-   char *pktFile;             // used only internally by hpt
+   int  AreaFix;              // 0 if not allowed for areafix
+   char *pktFile,*packFile;   // used only internally by hpt
 };
 typedef struct link s_link;
 
@@ -91,7 +92,7 @@ struct fidoconfig {
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
-   char     *magic;
+   char     *magic, *areafixhelp, *autoCreateDefaults;
 
    s_area   netMailArea, dupeArea, badArea;
    UINT     echoAreaCount;
@@ -128,5 +129,8 @@ s_area *getArea(s_fidoconfig *config, char *areaName);
 // Only use them if you really know what you do
 char *readLine(FILE *F);
 int parseLine(char *line, s_fidoconfig *config);
+void parseConfig(FILE *f, s_fidoconfig *config);
+char *getConfigFileName();
+char *trimLine(char *line);
 
 #endif

@@ -14,7 +14,7 @@
 
 char *actualKeyword, *actualLine;
 int  actualLineNr;
-char isError = 0;
+char wasError = 0;
 
 
 char *getRestOfLine() {
@@ -468,6 +468,16 @@ int parseFileName(char *line, char **name) {
    return 0;
 }
 
+int parseInclude(char *line, s_fidoconfig *config) {
+   FILE *f;
+
+   if ((f=fopen(line, "r")) == NULL) return 1;
+
+   parseConfig(f, config);
+   fclose(f);
+   return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -525,6 +535,12 @@ int parseLine(char *line, s_fidoconfig *config)
       if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].autoAreaCreate = 1;
       else rc = 2;
    }
+   else if (stricmp(token, "autoCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoCreateDefaults));
+   else if (stricmp(token, "AreaFix")==0) {
+	  rc = 0;
+	  if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].AreaFix = 1;
+      else rc = 2;
+   }
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));
    else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].areaFixPwd));
@@ -540,14 +556,17 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));
    else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
 
+   else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
+   
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
    else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
+   else if (stricmp(token, "include")==0) rc = parseInclude(getRestOfLine(), config);
    
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
                                                           
    if (rc != 0) {
       printf("Error %d (line %d): %s\n", rc, actualLineNr, line);
-      isError = 1;
+      wasError = 1;
       return rc;
    }
 
