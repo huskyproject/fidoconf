@@ -1,3 +1,24 @@
+2002-07-13 Saturday 18:56  stas
+
+	* doc/: makefile.bsd (1.2), makefile.cyg (1.2), makefile.lnx (1.3),
+	makefile.unx (1.2): Add makefiles for building documentation for
+	*BSD, cygwin & generic unix.
+
+2002-07-13 Saturday 18:52  stas
+
+	* doc/makefile.unx (1.1): file makefile.unx was initially added on
+	branch fidoconf-0_14-stable.
+
+2002-07-13 Saturday 18:52  stas
+
+	* doc/makefile.cyg (1.1): file makefile.cyg was initially added on
+	branch fidoconf-0_14-stable.
+
+2002-07-13 Saturday 18:52  stas
+
+	* doc/makefile.bsd (1.1): file makefile.bsd was initially added on
+	branch fidoconf-0_14-stable.
+
 2002-07-12 Friday 20:59  stas
 
 	* fidoconf.h (1.130), line.c (1.314), tparser.c (1.187): New value
