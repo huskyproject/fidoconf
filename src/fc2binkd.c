@@ -135,10 +135,10 @@ int writePasswords( s_fidoconfig *config, char * ofname ){
 
   for( ; ll-- ; ){
     fprintf( ofd, "%s %s\n",
-            aka2str(config->links[ll].hisAka), 
-            config->links[ll].sessionPwd ? config->links[ll].sessionPwd
-                                         : (config->links[ll].defaultPwd ?
-                                            config->links[ll].defaultPwd : "" )
+            aka2str(config->links[ll]->hisAka),
+            config->links[ll]->sessionPwd ? config->links[ll]->sessionPwd
+                                         : (config->links[ll]->defaultPwd ?
+                                            config->links[ll]->defaultPwd : "" )
            );
   }
 
@@ -203,12 +203,12 @@ int writeBinkdConfig( s_fidoconfig *config, const char *ofname ){
          );
   for( ll=config->linkCount ; ll-- ; ){
     fprintf( ofd, "Node %s * %s %c %s\n",
-            aka2str(config->links[ll].hisAka), 
-            config->links[ll].sessionPwd ? config->links[ll].sessionPwd
-                                         : (config->links[ll].defaultPwd ?
-                                            config->links[ll].defaultPwd : "" ),
-             config->links[ll].fileBox ? 'c' : ' ',
-             config->links[ll].fileBox ? config->links[ll].fileBox : ""
+            aka2str(config->links[ll]->hisAka),
+            config->links[ll]->sessionPwd ? config->links[ll]->sessionPwd
+                                         : (config->links[ll]->defaultPwd ?
+                                            config->links[ll]->defaultPwd : "" ),
+             config->links[ll]->fileBox ? 'c' : ' ',
+             config->links[ll]->fileBox ? config->links[ll]->fileBox : ""
            );
   }
 
