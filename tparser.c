@@ -254,6 +254,9 @@ void printLink(s_link link) {
       case eAddrDiff:
          printf("linkBundleNameStyle: addrDiff\n");
          break;
+      case eAddrDiffAlways:
+         printf("linkBundleNameStyle: addrDiffAlways\n");
+         break;
       case eTimeStamp:
          printf("linkBundleNameStyle: timeStamp\n");
          break;

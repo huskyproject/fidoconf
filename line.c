@@ -2088,6 +2088,7 @@ int parseBundleNameStyle(char *line, e_bundleFileNameStyle *value)
    }
 
    if (stricmp(line, "addrDiff") == 0) *value = eAddrDiff;
+   else if (stricmp(line, "addrDiffAlways") == 0) *value = eAddrDiffAlways;
    else if (stricmp(line, "timeStamp") == 0) *value = eTimeStamp;
    else {
       printf("Line %d: Unknown bundle name style %s!\n", actualLineNr, line);

@@ -3,6 +3,11 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Tue Sep 26 00:25:41 NOVST 2000
+max (patch from Serguei Revtov):
+* addrDiffAlways value for BundleNameStyle & linkBundleNameStyle
+
+----- cvs ci ------
 Sun Sep 24 15:14:00 NOVST 2000
 max (patch from Serguei Revtov):
 * some dumb checks in tparser

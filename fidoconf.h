@@ -78,7 +78,7 @@ typedef enum emptypktpwd {eOff, eSecure, eOn} e_emptypktpwd;
 typedef enum pktheaderdiffer {pdOff, pdOn} e_pktheaderdiffer;
 typedef enum nameCase { eLower, eUpper} e_nameCase;
 typedef enum nameCaseConvertion { cLower, cUpper, cDontTouch } e_nameCaseConvertion;
-typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff} e_bundleFileNameStyle;
+typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlways} e_bundleFileNameStyle;
 
 typedef struct link {
    s_addr hisAka, *ourAka;

@@ -2308,29 +2308,30 @@ This statament move echomail for all links to his own directory.
 @subsection bundleNameStyle
 @table @asis
 @item Syntax:
-@code{bundleNameStyle addrDiff|timeStamp}
+@code{bundleNameStyle timeStamp|addrDiff|addrDiffAlways}
 @item Example:
 @code{bundleNameStyle}
 @end table
 
 This statament sets rule for creating names of arcmail bundles.
-addrDiff - create name from difference of source and destination addreses. Always the same filename for every pair of links.
 timeStamp - some kind of random names (current time + some counter)
+addrDiff - create name from difference of source and destination addreses. Always the same filename for every pair of links. Automatically switched to timeStampwhen all alowed extensions were used.
+addrDiffAlways - the same as addrDiff but tryes to use lower free numbers of extension in case when all higher numbers are already busy.
 
 @node linkBundleNameStyle, defarcmailsize, bundleNameStyle, Keywords
 @subsection linkBundleNameStyle
 @table @asis
 @item Syntax:
-@code{linkBundleNameStyle addrDiff|timeStamp}
+@code{linkbundleNameStyle timeStamp|addrDiff|addrDiffAlways}
 @item Example:
 @code{bundleNameStyle}
 @end table
 
 This statament sets rule for creating names of arcmail bundles for link.
 Used in link description and overwrides definition set in bundleNameStyle.
-addrDiff - create name from difference of source and destination addreses. Alway
-s the same filename for every pair of links.
 timeStamp - some kind of random names (current time + some counter)
+addrDiff - create name from difference of source and destination addreses. Always the same filename for every pair of links. Automatically switched to timeStampwhen all alowed extensions were used.
+addrDiffAlways - the same as addrDiff but tryes to use lower free numbers of extension in case when all higher numbers are already busy.
 
 This statement can only be repeated for different links.
 

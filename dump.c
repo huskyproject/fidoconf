@@ -37,6 +37,9 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   case eAddrDiff:
 	  printf("BundleNameStyle: addrDiff\n");
 	  break;
+  case eAddrDiffAlways:
+	  printf("BundleNameStyle: addrDiffAlways\n");
+	  break;
   case eTimeStamp:
 	  printf("BundleNameStyle: timeStamp\n");
 	  break;
