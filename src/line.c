@@ -2934,6 +2934,12 @@ int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
 
    tok = strtok(NULL, " \t");
 
+   if (tok == NULL) {
+      prErr("There are parameters missing after %s!", token);
+      return 1;
+   }
+
+
    if(*tok == '-')
    {
       if       (tok[1] == 'l')
