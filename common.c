@@ -888,7 +888,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     if (i == echo->downlinkCount) return 4;
 
     // pause
-    if (link->Pause && echo->noPause==0) return 3;
+    if (((link->Pause & EPAUSE) == EPAUSE) && echo->noPause==0) return 3;
 
     if (echo->group) {
 		if (link->numAccessGrp) {
