@@ -48,6 +48,8 @@
 #   include <io.h>
 #endif
 
+#include "version.h"
+#include "cvsdate.h"
 #include "fidoconf.h"
 #include "xstr.h"
 #include "common.h"
@@ -55,8 +57,6 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#include "version.h"
-#include "cvsdate.h"
 
 #endif
 
@@ -1194,22 +1194,34 @@ int main(int argc, char **argv) {
         if (config->filefixhelp) printf("filefixHelp:  %s\n", config->filefixhelp);
 
         printf("\n=== TICKER CONFIG ===\n");
+        /* not used
         if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
         if (config->fileNewAreasLog) printf("FileNewAreasLog: %s\n", config->fileNewAreasLog);
         if (config->fileArcList) printf("FileArcList: %s\n", config->fileArcList);
         if (config->filePassList) printf("FileArcList: %s\n", config->filePassList);
         if (config->fileDupeList) printf("FileArcList: %s\n", config->fileDupeList);
+        */
         printf("AddDLC: %s\n",(config->addDLC) ? "on": "off");
+        /* not used
         printf("FileSingleDescLine: %s\n",(config->fileSingleDescLine) ? "on": "off");
         printf("FileCheckDest: %s\n",(config->fileCheckDest) ? "on": "off");
-        printf("FileDescName: %s\n", (config->fileDescName) ? config->fileDescName: "off");
+        */
+        if(config->fDescNameCount) {
+            for(i = 0; i < config->fDescNameCount; i++)
+                printf("FileDescName: %s\n", config->fileDescNames[i]);
+        } else {
+            printf("FileDescName: off");
+        }
+
         printf("FileDescPos: %u\n", config->fileDescPos);
         if (config->fileLDescString) printf("FileLDescString: %s\n", config->fileLDescString);
         printf("DLCDigits: %u\n", config->DLCDigits);
+        /* not used
         printf("FileMaxDupeAge: %u\n", config->fileMaxDupeAge);
         printf("FileFileUMask: %o\n", config->fileFileUMask);
         printf("FileDirUMask: %o\n", config->fileDirUMask);
         if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
+        */
         if (config->saveTicCount)
         {
            for (i = 0; i< config->saveTicCount; i++) {

@@ -4019,6 +4019,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseKludgeAreaNetmailType(getRestOfLine(),
                                             &(config->kludgeAreaNetmail));
             break;
+        /* not used
         case ID_FILEAREASLOG:
             rc = parseFileName(getRestOfLine(), &(config->fileAreasLog), NULL);
             break;
@@ -4037,6 +4038,7 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_FILEDUPELIST:
             rc = parseFileName(getRestOfLine(), &(config->fileDupeList), NULL);
             break;
+        */
         case ID_LOGLEVELS:
             rc = parseLoglevels(getRestOfLine(), &(config->loglevels));
             break;
@@ -4212,6 +4214,7 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_DLCDIGITS:
             rc = parseUInt(getRestOfLine(), &(config->DLCDigits));
             break;
+        /* not used
         case ID_FILEMAXDUPEAGE:
             rc = parseUInt(getRestOfLine(), &(config->fileMaxDupeAge));
             break;
@@ -4221,14 +4224,16 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_FILEDIRUMASK:
             rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
             break;
+        case ID_FILELOCALPWD:
+            rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
+            break;
+
+        */
         case ID_ORIGININANNOUNCE:
             rc = parseBool(getRestOfLine(), &(config->originInAnnounce));
             break;
         case ID_MAXTICLINELENGTH:
             rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
-            break;
-        case ID_FILELOCALPWD:
-            rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
             break;
         case ID_FILELDESCSTRING:
             rc = copyString(getRestOfLine(), &(config->fileLDescString));
