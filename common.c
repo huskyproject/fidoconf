@@ -37,7 +37,7 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE)
 
 void string2addr(const char *string, s_addr *addr)
 {
-  char *start = string;
+  const char *start = string;
   char buffer[32];
   int  i = 0;
 
