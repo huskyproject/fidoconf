@@ -1,3 +1,31 @@
+2002-11-16 Saturday 21:21  stas_degteff
+
+	* fecfg2fc.c (1.9): Use strLower from common.c
+
+2002-11-16 Saturday 20:28  stas_degteff
+
+	* cfg.c (1.56), fecfg2fc.c (1.8), fidoconf.c (1.95), fidoconf.h
+	(1.153), line.c (1.344), tparser.c (1.208), man/tparser.1 (1.4):
+	Create nonexisted directories: tparser -P
+
+2002-11-16 Saturday 20:25  stas_degteff
+
+	* doc/fidoconfig.texi (1.24): Create nonexisted directories:
+	tparser -P
+
+2002-11-16 Saturday 11:48  pgul
+
+	* makefile.inc (1.35): Fix fecfg2fconf build
+
+2002-11-16 Saturday 08:05  pgul
+
+	* afixcmd.c (1.16): Change config if it is r/o
+
+2002-11-16 Saturday 01:28  stas_degteff
+
+	* line.c (1.343): Fix passing 'passthrough' value for ordinary
+	directory
+
 2002-11-15 Friday 19:14  pgul
 
 	* afixcmd.c (1.15): Small fix for previous patch
