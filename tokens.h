@@ -247,7 +247,9 @@ enum {
     ID_FILEFIXFSC87SUBSET,
     ID_FILEBOXDIR,
     ID_CARBONEXCLUDEFWDFROM,
-    ID_HPTPERLFILE
+    ID_HPTPERLFILE,
+    ID_READONLY,
+    ID_WRITEONLY
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -449,6 +451,7 @@ token_t parseline_tokens[] =
     { "protinbound", ID_PROTINBOUND },
     { "public", ID_PUBLIC },
     { "publicgroup", ID_PUBLICGROUP },
+    { "readonly", ID_READONLY },
     { "remap", ID_REMAP },
     { "remotefilerobotname", ID_REMOTEFILEROBOTNAME },
     { "remoterobotname", ID_REMOTEROBOTNAME },
@@ -476,6 +479,7 @@ token_t parseline_tokens[] =
     { "tossingext", ID_TOSSINGEXT },
     { "unpack", ID_UNPACK },
     { "version", ID_VERSION },
+    { "writeonly", ID_WRITEONLY },
     { NULL, -1 }
 };
 

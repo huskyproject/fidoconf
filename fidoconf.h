@@ -339,6 +339,12 @@ typedef struct filelist
   char *dirListFtrTpl;   /*             dirlist footer (flDirlist only) */
 } s_filelist, *ps_filelist;
 
+typedef struct permissions
+{
+  char *addrMask;	/* address mask for permissions settings */
+  char *areaMask;       /* area mask */
+} s_permissions;
+
 typedef struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop;
@@ -492,6 +498,12 @@ typedef struct fidoconfig {
    char *reqidxDir;         /* directory for herp request index files */
 
    int syslogFacility;     /* facility to use when logging via syslog */
+
+   s_permissions *readOnly; /* temporary storage of address & area masks */
+   int readOnlyCount;
+   s_permissions *writeOnly;
+   int writeOnlyCount;
+
 
 } s_fidoconfig, *ps_fidoconfig;
 

@@ -34,6 +34,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <smapi/patmat.h>
 #include "fidoconf.h"
 #include "typesize.h"
 #include "common.h"
@@ -225,69 +226,113 @@ void carbonNames2Addr(s_fidoconfig *config)
    ps_area aptr;
    char *cbaName=NULL;
 
-   if(!config->carbonCount)
-       return;
+   if(!config->carbonCount) return;
 
    cb = &(config->carbons[0]);
 
    for (i=0; i<config->carbonCount; i++, cb++) {
-           /* Can't use getArea() - it doesn't say about export and
-           doesn't look at localAreas */
-          /* now getArea can found local areas */
-           found=0;
-           if(cb->areaName!=NULL){
-               cbaName=cb->areaName;
-               if(*cbaName=='*')
-                   ++cbaName;
-           }
-           if(cb->rule&CC_AND) /* area is not used with AND */
-               continue;
-           if (cb->areaName && !(cb -> extspawn)) {
-               aptr=config->echoAreas;
-               for (narea=0; narea < config->echoAreaCount && !found; narea++, aptr++) {
-                   if (stricmp(cbaName, aptr->areaName)==0) {
-                       found++;
-                       cb->area = aptr;
-                       cb->export = 1;
-                       cb->netMail = 0;
-                   }
-               }
-               aptr=config->localAreas;
-               for (narea=0; narea < config->localAreaCount && !found; narea++, aptr++) {
-                   if (stricmp(cbaName, aptr->areaName)==0) {
-                       found++;
-                       cb->area = aptr;
-                       cb->export = 0;
-                       cb->netMail = 0;
-                   }
-               }
-               aptr=config->netMailAreas;
-               for (narea=0; narea < config->netMailAreaCount && !found; narea++, aptr++) {
-                   if (stricmp(cbaName, aptr->areaName)==0) {
-                       found++;
-                       cb->area = aptr;
-                       cb->export = 0;
-                       cb->netMail = 1;
-                   }
-               }
-           }
+       /* Can't use getArea() - it doesn't say about export and
+	  doesn't look at localAreas */
+       /* now getArea can found local areas */
+       if(cb->rule&CC_AND) /* area is not used with AND */
+	   continue;
+       found=0;
+       if(cb->areaName!=NULL){
+	   cbaName=cb->areaName;
+	   if(*cbaName=='*') ++cbaName;
+
+	   if (!(cb -> extspawn)) {
+	       aptr=config->echoAreas;
+	       for (narea=0; narea < config->echoAreaCount && !found; narea++, aptr++) {
+		   if (stricmp(cbaName, aptr->areaName)==0) {
+		       found++;
+		       cb->area = aptr;
+		       cb->export = 1;
+		       cb->netMail = 0;
+		   }
+	       }
+	       aptr=config->localAreas;
+	       for (narea=0; narea < config->localAreaCount && !found; narea++, aptr++) {
+		   if (stricmp(cbaName, aptr->areaName)==0) {
+		       found++;
+		       cb->area = aptr;
+		       cb->export = 0;
+		       cb->netMail = 0;
+		   }
+	       }
+	       aptr=config->netMailAreas;
+	       for (narea=0; narea < config->netMailAreaCount && !found; narea++, aptr++) {
+		   if (stricmp(cbaName, aptr->areaName)==0) {
+		       found++;
+		       cb->area = aptr;
+		       cb->export = 0;
+		       cb->netMail = 1;
+		   }
+	       }
+	   }
+       }
 
 
-           if (!found && (cb->move != 2) && !cb->extspawn) {// move==2 - delete
-               printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (cb->areaName) ? cbaName : "");
-               cb->area = &(config->badArea);
-               if(cb->areaName!=NULL){
-                   i= *cb->areaName=='*' ? 1 : 0;
-                   nfree(cb->areaName);
-               }else
-                   i=0;
-               cb->areaName = (char *) smalloc(strlen(config->badArea.areaName)+i+1);
-               if(i)
-                   *cb->areaName='*';
-               strcpy(cb->areaName+i,config->badArea.areaName);
-               cb->export = 0;
-           }
+       if (!found && (cb->move != 2) && !cb->extspawn) {// move==2 - delete
+	   printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (cb->areaName) ? cb->areaName : "");
+	   cb->area = &(config->badArea);
+	   if(cb->areaName!=NULL){
+	       i= *cb->areaName=='*' ? 1 : 0;
+	       nfree(cb->areaName);
+	   }else
+	       i=0;
+	   cb->areaName = (char *) smalloc(strlen(config->badArea.areaName)+i+1);
+	   if(i)
+	       *cb->areaName='*';
+	   strcpy(cb->areaName+i,config->badArea.areaName);
+	   cb->export = 0;
+       }
    }
+}
+
+/* set link-area permissions stored in readOnly[], writeOnly[] */
+void processPermissions (s_fidoconfig *config)
+{
+    int i, narea, nalink;
+    ps_area aptr;
+    ps_arealink *dlink;
+
+
+    if (config->readOnlyCount) {
+	for (i=0; i < config->readOnlyCount; i++) {
+	    for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+		if (patimat (aptr->areaName, config->readOnly[i].areaMask)) {
+		    for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
+			if (patmat (aka2str((*dlink)->link->hisAka),
+				    config->readOnly[i].addrMask)) {
+			    (*dlink)->import = 0;
+			}
+		    }
+		}
+	    }
+	    nfree (config->readOnly[i].areaMask);
+	    nfree (config->readOnly[i].addrMask);
+	}
+	nfree (config->readOnly);
+    }
+
+    if (config->writeOnlyCount) {
+	for (i=0; i < config->writeOnlyCount; i++) {
+	    for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+		if (patimat (aptr->areaName, config->writeOnly[i].areaMask)) {
+		    for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
+			if (patmat (aka2str((*dlink)->link->hisAka),
+				    config->writeOnly[i].addrMask)) {
+			    (*dlink)->export = 0;
+			}
+		    }
+		}
+	    }
+	    nfree (config->writeOnly[i].areaMask);
+	    nfree (config->writeOnly[i].addrMask);
+	}
+    }
+    nfree (config->writeOnly);
 }
 
 void fixRoute(s_fidoconfig *config)
@@ -352,6 +397,7 @@ s_fidoconfig *readConfig(char *cfgFile)
    }
    close_conf();
    carbonNames2Addr(config);
+   processPermissions (config);
    fixRoute(config);
    stripPktPwd(config);
    if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"");

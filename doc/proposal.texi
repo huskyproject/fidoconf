@@ -645,6 +645,7 @@ Read documentation of HPT for details.
 
 This statement can be repeated.
 
+
 @node HPT, NLTools, Keywords, config file
 @section High Portable Tosser keywords
 This section contains only keyword-list. Read HPT Manual for more info.

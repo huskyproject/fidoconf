@@ -2932,6 +2932,43 @@ int parseSyslog(char *line, int *value)
 }
 
 
+/* Parse additional option tokens like ReadOnly/WriteOnly */
+
+int parsePermissions (char *line,  s_permissions **perm, int *permCount)
+{
+    char *ptr;
+
+    if (line == NULL) {
+	prErr("Parameter missing after %s!", actualKeyword);
+	return 1;
+    }
+
+    *perm = srealloc (*perm, (*permCount + 1) * sizeof(s_permissions));
+
+    if ((ptr = strtok(line, " \t")) == NULL) {
+	prErr("AddressMask missing in %s!", actualKeyword);
+	return 1;
+    }
+
+    (*perm)[*permCount].addrMask = strdup (ptr);
+
+    if ((ptr = strtok(NULL, " \t")) == NULL) {
+	prErr("AreaMask missing in %s!", actualKeyword);
+	return 1;
+    }
+
+    (*perm)[*permCount].areaMask = strdup (ptr);
+
+    (*permCount)++;
+
+    if (strtok(NULL, " \t") != NULL) {
+        prErr("Extra parameters in %s", actualLine);
+        return 1;
+    }
+
+    return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
     char *token, *temp;
@@ -3802,6 +3839,12 @@ int parseLine(char *line, s_fidoconfig *config)
 	    break;
         case ID_HPTPERLFILE:
             rc = parseFileName(getRestOfLine(), &(config->hptPerlFile));
+            break;
+        case ID_READONLY:
+	    rc = parsePermissions (getRestOfLine(),  &(config->readOnly), &(config->readOnlyCount));
+            break;
+        case ID_WRITEONLY:
+	    rc = parsePermissions (getRestOfLine(),  &(config->writeOnly), &(config->writeOnlyCount));
             break;
 
         default:
