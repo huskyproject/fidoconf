@@ -74,9 +74,9 @@ void printArea(s_area area) {
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
-       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
-       printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");
-	   printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
+       printf(" export %s,", ((area.levelread <= area.downlinks[i]->link->level) && area.downlinks[i]->export) ? "on" : "off");
+       printf(" import %s,", ((area.levelwrite <= area.downlinks[i]->link->level) && area.downlinks[i]->import) ? "on" : "off");
+       printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
    if (area.manual) printf("manual ");
@@ -116,13 +116,9 @@ void printFileArea(s_filearea area) {
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
-       if (area.downlinks[i]->export) printf(" export on,");
-       else printf(" export off,");
-       if (area.downlinks[i]->import) printf(" import on,");
-       else printf(" import off,");
-       if (area.downlinks[i]->mandatory) printf(" mandatory on.");
-       else printf(" mandatory off.");
-       printf("\n");
+       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
+       printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");
+       printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
    if (area.manual) printf("manual ");
@@ -155,51 +151,32 @@ void printLink(s_link link) {
 	   link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point);
     }
    printf("Name: %s\n", link.name);
-   if (link.defaultPwd != NULL)
-     printf("defaultPwd: %s\n", link.defaultPwd);
-   if (link.pktPwd != NULL)
-     printf("pktPwd:     %s\n", link.pktPwd);
-   if (link.ticPwd != NULL)
-     printf("ticPwd:     %s\n", link.ticPwd);
-   if (link.areaFixPwd != NULL)
-     printf("areafixPwd: %s\n", link.areaFixPwd);
-   if (link.fileFixPwd != NULL)
-     printf("filefixPwd: %s\n", link.fileFixPwd);
-   if (link.bbsPwd != NULL)
-     printf("bbsPwd:     %s\n", link.bbsPwd);
+   if (link.defaultPwd) printf("defaultPwd: %s\n", link.defaultPwd);
+   if (link.pktPwd) printf("pktPwd:     %s\n", link.pktPwd);
+   if (link.ticPwd) printf("ticPwd:     %s\n", link.ticPwd);
+   if (link.areaFixPwd) printf("areafixPwd: %s\n", link.areaFixPwd);
+   if (link.fileFixPwd) printf("filefixPwd: %s\n", link.fileFixPwd);
+   if (link.bbsPwd) printf("bbsPwd:     %s\n", link.bbsPwd);
    printf("Level:      %u\n", link.level);
-   if (link.export) {
-       printf("Export:     ");
-       if (link.export[0] == 1) printf("on\n");
-       else printf("off\n");
-   }
-   if (link.import) {
-       printf("Import:     ");
-       if (link.import[0] == 1) printf("on\n");
-       else printf("off\n");
-   }
-   if (link.mandatory) {
-       printf("Mandatory   ");
-       if (link.mandatory[0] == 1) printf("on\n");
-       else printf("off\n");
-   }
+   if (link.export) printf("Export:     %s\n",(link.export[0]) ? "on" : "off");
+   if (link.import) printf("Import:     %s\n",(link.import[0]) ? "on" : "off");
+   if (link.mandatory) printf("Mandatory:  %s\n",(link.mandatory[0]) ? "on" : "off");
    if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
    if (link.optGrp) printf("OptGrp       %s\n", link.optGrp);
+   printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
    if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
+   printf("AutoFileCreate %s\n", (link.autoFileCreate) ? "on" : "off");
    if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);
    if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
    if (link.AccessGrp) printf("AccessGrp %s\n",link.AccessGrp);
-   if (link.autoAreaCreate) printf("AutoAreaCreate on\n");
-   if (link.autoFileCreate) printf("AutoFileCreate on\n");
-   if (link.AreaFix) printf("AreaFix on\n"); else printf("AreaFix off\n");
-   if (link.FileFix) printf("FileFix on\n"); else printf("FileFix off\n");
-   if (link.forwardRequests) printf("Forward Requests from this link is on\n");
-   if (link.fReqFromUpLink) printf("Forward Request to another links is on\n");
-   else printf("Forward Request to another links is off\n");
+   printf("AreaFix %s\n", (link.AreaFix) ? "on" : "off");
+   printf("FileFix %s\n", (link.FileFix) ? "on" : "off");
+   printf("Forward Requests from this link is %s\n",(link.forwardRequests)?"on":"off");
+   printf("Forward Request to another links is %s\n",(link.fReqFromUpLink)?"on":"off");
    if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
    else printf("RemoteRobotName AreaFix\n");
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
-   if (link.packerDef != NULL) printf("PackerDefault %s\n", link.packerDef->packer);
+   if (link.packerDef) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
    if (link.arcmailSize != 0) printf("arcmailSize - %u kb\n",link.arcmailSize);
    printf("forwardPkts ");
