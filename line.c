@@ -2285,6 +2285,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filefileumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileFileUMask));
    else if (stricmp(token, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
    else if (stricmp(token, "origininannounce")==0) config->originInAnnounce = 1;
+   else if (stricmp(token, "maxticlinelength")==0) rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
    else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
    else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
    else if (stricmp(token, "savetic")==0) rc = parseSaveTicStatement(getRestOfLine(), config);
