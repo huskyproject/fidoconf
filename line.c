@@ -639,6 +639,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    char *iOption;
    char *iToken;
    size_t i;
+   long il;
 
    iOption = strLower(sstrdup(option));
    if (strcmp(iOption, "b")==0) {
@@ -692,13 +693,13 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
            return 1;
        }
        area->nopack = 0;
-       i = strtol(token, &error, 0);
+       il = strtol(token, &error, 0);
        if ((error != NULL) && (*error != '\0')) {
            prErr("Number is wrong after -p in areaOptions!");
            nfree(iOption);
            return 1;     /*  error occured; */
        }
-       area->purge = i<0? config->EchoAreaDefault.purge : (UINT) i ;
+       area->purge = il<0? config->EchoAreaDefault.purge : (UINT) il ;
    }
    else if (strcmp(iOption, "$m")==0) {
        token = strtok(NULL, " \t");
@@ -708,13 +709,13 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
            return 1;
        }
        area->nopack = 0;
-       i = strtol(token, &error, 0);
+       il = strtol(token, &error, 0);
        if ((error != NULL) && (*error != '\0')) {
            prErr("Number is wrong after -$m in areaOptions!");
            nfree(iOption);
            return 1;     /*  error */
        }
-       area->max = i<0? config->EchoAreaDefault.max : (UINT) i ;
+       area->max = il<0? config->EchoAreaDefault.max : (UINT) il ;
    }
    else if (strcmp(iOption, "a")==0) {
       token = strtok(NULL, " \t");
@@ -746,13 +747,18 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 	   nfree(iOption);
 	   return 1;
        }
-       i = strtol(token, &error, 0);
+       il = strtol(token, &error, 0);
        if ((error != NULL) && (*error != '\0')) {
            prErr("Number is wrong after -lr in areaOptions!");
            nfree(iOption);
            return 1;     /*  error occured; */
        }
-       area->levelread = i<0 ? config->EchoAreaDefault.levelread : (UINT) i ;
+       if (il<0) {
+           prErr("Number is wrong after -lr in areaOptions (negative values not alloved)!");
+           nfree(iOption);
+           return 1;     /*  error occured; */
+       }
+       area->levelread = (UINT) il ;
 
        /* if link was added before -lr setting it must be updated */
        for(i=0;i<area->downlinkCount;++i)
@@ -774,13 +780,18 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 	   nfree(iOption);
 	   return 1;
        }
-       i = strtol(token, &error, 0);
+       il = strtol(token, &error, 0);
        if ((error != NULL) && (*error != '\0')) {
            prErr("Number is wrong after -lw in areaOptions!");
            nfree(iOption);
            return 1;     /*  error occured; */
        }
-       area->levelwrite = i<0 ? config->EchoAreaDefault.levelwrite : (UINT) i ;
+       if (il<0) {
+           prErr("Number is wrong after -lw in areaOptions (negative values not alloved)!");
+           nfree(iOption);
+           return 1;     /*  error occured; */
+       }
+       area->levelwrite = (UINT) il ;
        /* if link was added before -lw setting it must be updated */
        for(i=0;i<area->downlinkCount;++i)
            setEchoLinkAccess( config, area, area->downlinks[i]);
@@ -910,6 +921,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   char *token;
   char *iOption;
   size_t i;
+  long il;
 
   iOption = strLower(sstrdup(option));
   if (strcmp(iOption, "a")==0) {
@@ -941,13 +953,18 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
           nfree(iOption);
           return 1;
       }
-      i = strtol(token, &error, 0);
+      il = strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
           prErr("Number is wrong after -lr in fileareaOptions!");
           nfree(iOption);
           return 1;     /*  error occured; */
       }
-      area->levelread = i<0 ? config->FileAreaDefault.levelread : (UINT) i ;
+      if (il<0) {
+          prErr("Number is wrong after -lr in fileareaOptions (negative values not alloved)!");
+          nfree(iOption);
+          return 1;     /*  error occured; */
+      }
+      area->levelread = (UINT) il ;
       /* if link was added before -lr setting, it should be updated */
       for(i=0;i<area->downlinkCount;++i)
           setFileLinkAccess( area, area->downlinks[i]);
@@ -960,13 +977,13 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
           nfree(iOption);
           return 1;
       }
-      i = strtol(token, &error, 0);
+      il = strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
           prErr("Number is wrong after -p in fileareaOptions!");
           nfree(iOption);
           return 1;     /*  error occured; */
       }
-      area->purge = i<0? config->FileAreaDefault.purge : (UINT) i ;
+      area->purge = il<0? config->FileAreaDefault.purge : (UINT) il ;
   }
   else if (strcmp(iOption, "lw")==0) {
       token = strtok(NULL, " \t");
@@ -983,13 +1000,18 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
           nfree(iOption);
           return 1;
       }
-      i = strtol(token, &error, 0);
+      il = strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
           prErr("Number is wrong after -lw in fileareaOptions!");
           nfree(iOption);
           return 1;     /*  error occured; */
       }
-      area->levelwrite = i<0? config->FileAreaDefault.levelwrite : (UINT) i ;
+      if (il<0) {
+          prErr("Number is wrong after -lw in fileareaOptions (negative values not alloved)!");
+          nfree(iOption);
+          return 1;     /*  error occured; */
+      }
+      area->levelwrite = (UINT) il ;
       /* if link was added before -lr setting, it should be updated */
       for(i=0;i<area->downlinkCount;++i)
           setFileLinkAccess( area, area->downlinks[i]);
@@ -3445,7 +3467,7 @@ int parseAvailList(char *line, eAvailList *availlist)
 {
   char *iLine;
 
-  if (line == NULL) 
+  if (line == NULL)
   {
     prErr("Parameter missing after %s!", actualKeyword);
     return 1;
