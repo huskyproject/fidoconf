@@ -688,10 +688,48 @@ void printCarbons(s_fidoconfig *config) {
     }
 }
 
+static int dumpcfg(char *fileName)
+{
+   s_fidoconfig *config = NULL;
+   char *line;
+
+   if (fileName==NULL) fileName = getConfigFileName();
+
+   if (fileName == NULL) {
+        printf("Could not find Config-file\n");
+        return EX_UNAVAILABLE;
+   }
+
+   if (init_conf(fileName))
+      return 0;
+
+   config = (s_fidoconfig *) smalloc(sizeof(s_fidoconfig));
+   memset(config, 0, sizeof(s_fidoconfig));
+   config -> CommentChar = CommentChar;
+
+   while ((line = configline()) != NULL) {
+      line = trimLine(line);
+      line = stripComment(line);
+      if (line[0] != 0) {
+         line = shell_expand(line);
+         puts(line);
+         parseLine(line, config); /* search for CommentChar token */
+      } else
+         puts(line);
+      nfree(line);
+   }
+
+   checkIncludeLogic(config);
+   close_conf();
+   if (config == NULL) return 0;
+   nfree(fileName);
+   checkLogic(config);
+   return 0;
+}
 
 int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
-   int i, j, hpt=0;
+   int i, j, hpt=0, preproc=0;
    char *cfgFile=NULL, *module;
 
    for (i=1; i<argc; i++)
@@ -706,14 +744,20 @@ int main(int argc, char **argv) {
                setvar(argv[i]+2, "");
            }
        }
+       else if (argv[i][0]=='-' && argv[i][1]=='E') {
+           preproc = 1;
+       }
        else if (stricmp(argv[i], "--help") == 0 ||
                 stricmp(argv[i], "-h") == 0 ||
                 cfgFile != NULL) {
-           printf("run: tparser [-Dvar=value] [/path/to/config/file]\n");
+           printf("run: tparser [-Dvar=value] [-E] [/path/to/config/file]\n");
 	   return 0;
        } else
            xstrcat(&cfgFile, argv[i]);
    }
+
+   if (preproc)
+	return dumpcfg(cfgFile);
 
    module = getvar("module");
    printf("module: ");
