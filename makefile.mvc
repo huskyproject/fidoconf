@@ -15,7 +15,7 @@ OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xst
 .c.obj:
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
 
-all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
+all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe fconf2tornado.exe fconf2binkd.exe
 
 $(FCONFL): $(OBJS)
 	$(TLIB) /out:$@ $(OBJS)
@@ -34,6 +34,12 @@ fconf2aquaed.exe:
 
 fconf2squish.exe:
         $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
+
+fconf2fidogate.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2fgate.c $(FCONFL) $(SMAPIL)
+
+fconf2tornado.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2tor.c $(FCONFL) $(SMAPIL)
 
 fconf2binkd.exe:
         $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2binkd.c $(FCONFL) $(SMAPIL)

@@ -13,7 +13,7 @@ LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fc
 
 OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj tree.obj areatree.obj afixcmd.obj afixcmn.obj arealist.obj temp.obj
 
-all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
+all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe fconf2tornado.exe fconf2binkd.exe
 
 $(FCONFL):
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c adcase.c
@@ -51,6 +51,12 @@ fconf2aquaed.exe:
 
 fconf2squish.exe:
         $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
+
+fconf2fidogate.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2fgate.c $(FCONFL) $(SMAPIL)
+
+fconf2tornado.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2tor.c $(FCONFL) $(SMAPIL)
 
 fconf2binkd.exe:
         $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2binkd.c $(FCONFL) $(SMAPIL)
