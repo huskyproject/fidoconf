@@ -539,7 +539,7 @@ void setConfigDefaults(s_fidoconfig *config)
 s_fidoconfig *readConfig(const char *fileName)
 {
    s_fidoconfig *config;  /* Use global variable ?*/
-   char *line;
+   char *line, *tmp;
 
    if (fileName==NULL) fileName = getConfigFileName();
 
@@ -548,7 +548,9 @@ s_fidoconfig *readConfig(const char *fileName)
         exit(EX_UNAVAILABLE);
    }
 
-   setvar("configdir", GetDirnameFromPathname(fileName));
+   tmp = GetDirnameFromPathname(fileName);
+   setvar("configdir", tmp);
+   nfree(tmp);
 
    if (init_conf(fileName))
       return NULL;
@@ -630,7 +632,6 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->links);
 
    freeLink(config->linkDefaults);
-   nfree(config->linkDefaults);
 
    nfree(config->inbound);
    nfree(config->outbound);
@@ -659,6 +660,7 @@ void disposeConfig(s_fidoconfig *config)
 
    for (i = 0; i< config->netMailAreaCount; i++)
        fc_freeEchoArea(&(config->netMailAreas[i]));
+   nfree(config->netMailAreas);
 
    fc_freeEchoArea(&(config->dupeArea));
    fc_freeEchoArea(&(config->badArea));
@@ -684,6 +686,8 @@ void disposeConfig(s_fidoconfig *config)
    fc_freeEchoArea(&(config->EchoAreaDefault));
    fc_freeEchoArea(&(config->FileAreaDefault));
 
+   nfree(config->robotsArea);
+
    for (i = 0; i < config->robotCount; i++) {
      nfree(config->robot[i]->name);
      nfree(config->robot[i]->strA);
@@ -698,6 +702,7 @@ void disposeConfig(s_fidoconfig *config)
      nfree(config->robot[i]->queueFile);
      nfree(config->robot[i]->reportsFlags);
      nfree(config->robot[i]->splitStr);
+	 nfree(config->robot[i]);
    }
    nfree(config->robot);
 
@@ -753,6 +758,8 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->echotosslog);
    nfree(config->statlog);
    nfree(config->lockfile);
+   nfree(config->fileDescription);
+   nfree(config->tossingExt);
 
    for (i = 0; i< config->carbonCount; i++) {
 	   nfree(config->carbons[i].str);
