@@ -232,7 +232,7 @@ int main() {
             printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
       }
 
-      printf("LogEchoToScreen %s\n", (config->logEchoToScreen = 0) ? "off" : "on");
+      printf("LogEchoToScreen %s\n", (config->logEchoToScreen) ? "on" : "off");
 
       if (config->inbound != NULL) printf("Inbound: %s\n", config->inbound);
       if (config->protInbound != NULL) printf("ProtInbound: %s\n", config->protInbound);
@@ -281,7 +281,7 @@ int main() {
         printBbsArea(config->bbsAreas[i]);
       }
       printf("\n=== CarbonCopy ===\n");
-	  printf("CarbonAndQuit %s", (config->carbonAndQuit) ? "on" : "off");
+      printf("CarbonAndQuit %s\n\n", (config->carbonAndQuit) ? "on" : "off");
       for (i = 0; i< config->carbonCount; i++) {
 		  if (config->carbons[i].type == to)     printf("CarbonTo:     ");
 		  if (config->carbons[i].type == from)   printf("CarbonFrom:   ");
