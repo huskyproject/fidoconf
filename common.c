@@ -307,19 +307,12 @@ INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter)
 
 char *stripLeadingChars(char *str, const char *chr)
 {
-   char *i = str;
-
-   if (str != NULL) {
-
-      while (NULL != strchr(chr, *i)) {       /*  *i is in chr */
-         i++;
-      } /* endwhile */                        /*  i points to the first occurences */
-                                              /*  of a character not in chr */
-      strcpy(str, i);
-   }
-   return str;
+    if (str && chr && *chr) {
+        int i = strspn(str, chr);
+        memmove(str, str + i, strlen(str) - i+1);
+    }
+    return str;
 }
-
 /*DOC
   Input:  str is a \0-terminated string
           chr contains a list of characters.
@@ -330,15 +323,15 @@ char *stripLeadingChars(char *str, const char *chr)
 char *stripTrailingChars(char *str, const char *chr)
 {
    char *i;
+   register int l;
 
-   if( (str != NULL) && strlen(str)>0 ) {
-      i = str+strlen(str)-1;
+   if( str && chr && (l=strlen(str))>0 ) {
+      i = str+l-1;
       while( (NULL != strchr(chr, *i)) && (i>=str) )
          *i-- = '\0';
    }
    return str;
 }
-
 
 char *strUpper(char *str)
 {
