@@ -482,20 +482,20 @@ static int cmpfnames(char *file1, char *file2)
 #include <dos.h>
 static int cmpfnames(char *file1, char *file2)
 {
-    union REGS r;
+    struct REGPACK r;
     char path1[128], path2[128];
-    r.x.ds = FP_SEG(file1);
-    r.x.si = FP_OFF(file1);
-    r.x.es = FP_SEG(path1);
-    r.x.di = FP_OFF(path1);
-    r.h.ah = 0x60;
-    intdos(&r, &r);
-    r.x.ds = FP_SEG(file2);
-    r.x.si = FP_OFF(file2);
-    r.x.es = FP_SEG(path2);
-    r.x.di = FP_OFF(path2);
-    r.h.ah = 0x60;
-    intdos(&r, &r);
+    r.r_ds = FP_SEG(file1);
+    r.r_si = FP_OFF(file1);
+    r.r_es = FP_SEG(path1);
+    r.r_di = FP_OFF(path1);
+    r.r_ax = 0x6000;
+    intr(0x21, &r);
+    r.r_ds = FP_SEG(file2);
+    r.r_si = FP_OFF(file2);
+    r.r_es = FP_SEG(path2);
+    r.r_di = FP_OFF(path2);
+    r.r_ax = 0x6000;
+    intr(0x21, &r);
     return stricmp(path1, path2);
 }
 #else // Unknown OS
