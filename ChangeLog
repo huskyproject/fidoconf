@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Thu Mar  9 10:38:34 NOVT 2000
+max:
+* dupeBaseType & araesMaxDupeAge in doc
+
+----- cvs ci ------
 Mi   8 Mar 2000 00:23:16 CET
 tobi:
 * the default path of the config file now is not hardwired any more,

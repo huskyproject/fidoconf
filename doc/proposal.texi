@@ -98,6 +98,8 @@ a comment and will be ignored.
 * public::                      path for requestable files
 * logfiledir::                  path for log files
 * dupehistorydir::              path for dupe files
+* dupeBaseType::                type of dupe base
+* areasMaxDupeAge::             max age for dupes in CommonDupeBase
 * magic::                       path for magic-file requests
 * lockfile::                    file which lock hpt session
 
@@ -573,7 +575,7 @@ be stored.
 
 This statement cannot be repeated.
 
-@node dupehistorydir, magic, logfiledir, Keywords
+@node dupehistorydir, dupeBaseType, logfiledir, Keywords
 @subsection dupeHistoryDir
 @table @asis
 @item Syntax:
@@ -587,8 +589,38 @@ The format and the names of the dupe-files are not standardized.
 
 This statement cannot be repeated.
 
+@node dupeBaseType, areasMaxDupeAge, dupehistorydir, Keywords
+@subsection dupeBaseType
+@table @asis
+@item Syntax:
+@code{dupeBaseType <TextDupes | HashDupes | HashDupesWMsgId | CommonDupeBase>}
+@item Example:
+@code{dupeBaseType HashDupesWMsgId}
+@end table
 
-@node magic, lockfile, dupehistorydir, Keywords
+TextDupes stores from, to, subj & msgid as text lines.
+HashDupes stores src32 of from + to + subj + msgid (default).
+HashDupesWMsgId same as HashDupes, but stores also msgid as text.
+CommonDupeBase - stores hashes of from + to + subj + areatag + msgid in
+one file (hpt_base.dpa)
+
+This statement cannot be repeated.
+
+@node areasMaxDupeAge, magic, dupeBaseType, Keywords
+@subsection areasMaxDupeAge
+@table @asis
+@item Syntax:
+@code{areasMaxDupeAge <integer>}
+@item Example:
+@code{areasMaxDupeAge 10}
+@end table
+
+Set maximum days for storing you hashes in CommonDupeBase.
+Default value is 5.
+
+This statement cannot be repeated.
+
+@node magic, lockfile, areasMaxDupeAge, Keywords
 @subsection magic
 @table @asis
 @item Syntax:
