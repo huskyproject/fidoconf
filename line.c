@@ -4147,6 +4147,9 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseNumber(getRestOfLine(), 10, &(config->fileAreaCreatePerms));
             config->fileAreaCreatePerms = dec2oct(config->fileAreaCreatePerms);
             break;
+        case ID_NEWAREAREFUSEFILE:
+            rc = copyString(getRestOfLine(), &(config->newAreaRefuseFile));
+            break;
 
 
         default:

@@ -280,7 +280,8 @@ enum {
     ID_ANNADRFROM,
     ID_ANNORIGIN,
     ID_ANNMESSFLAGS,
-    ID_FILEAREACREATEPERMS
+    ID_FILEAREACREATEPERMS,
+    ID_NEWAREAREFUSEFILE
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -482,6 +483,7 @@ token_t parseline_tokens[] =
     { "netmailarea", ID_NETMAILAREA },
     { "netmailextern", ID_NETMAILEXTERN },
     { "netmailflag", ID_NETMAILFLAG },
+    { "newarearefusefile", ID_NEWAREAREFUSEFILE },
     { "nodelist", ID_NODELIST },
     { "nodelistdir", ID_NODELISTDIR },
     { "nodelistformat", ID_NODELISTFORMAT },
