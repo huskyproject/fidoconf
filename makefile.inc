@@ -17,8 +17,8 @@ commonprogs: tparser$(EXE) linked$(EXE) $(FCONF2BINKD)$(EXE) $(FCONF2MSGED)$(EXE
 $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
 	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LOBJS)
 
-line$(OBJ): line.c tokens.h
-	$(CC) $(CFLAGS) $(COPT) $(CDEFS) $(OBJOPT) $<
+#line$(OBJ): line.c tokens.h
+#	$(CC) $(CFLAGS) $(COPT) $(CDEFS) $(OBJOPT) $<
 
 .c$(OBJ):
 	$(CC) $(CFLAGS) $(COPT) $(CDEFS) $<
