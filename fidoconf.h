@@ -573,6 +573,7 @@ typedef struct fidoconfig {
 
    char *netmailFlag;
    char *aacFlag;
+   char *afcFlag;
 
    unsigned int minDiskFreeSpace;
    unsigned int advisoryLock;

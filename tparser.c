@@ -923,6 +923,7 @@ int main(int argc, char **argv) {
   //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
         if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
         if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
+        if (config->afcFlag) printf("AutoFileCreateFlag: %s\n",config->afcFlag);
         if (config->minDiskFreeSpace)
   		  printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
         if (config->syslogFacility)

@@ -12,6 +12,7 @@ AnnOrigin
 AnnounceSpool
 AnnSubj
 AnnTo
+AutoFileCreateFlag
 BbsArea
 BusyFileDir
 ConvertLongNames
