@@ -54,6 +54,9 @@ default: all
 
 include makefile.inc
 
+  fecfg2fc$(OBJ): fecfg2fc.c
+	$(CC) $(COPT) $(CDEFS) -fpack-struct fecfg2fc.c
+
 ifeq ($(CC), gcc)
   $(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ)
 	$(CC) $(LFLAGS) -fpack-struct fecfg2fc$(OBJ) \
@@ -117,7 +120,7 @@ ifdef RANLIB
 	$(RANLIB) $(LIBFIDOCONFIG)$(LIB)
 endif
 
-install: commonlibs ranlib commonprogs instdyn
+install: commonlibs ranlib progs instdyn
 	-$(MKDIR) $(MKDIROPT) $(BINDIR)
 	-$(MKDIR) $(MKDIROPT) $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
