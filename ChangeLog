@@ -1,3 +1,8 @@
+2005-01-30 Sunday 20:12  i_zkh
+
+	* doc/: proposal.texi (1.157), rus/proposal.texi (1.7): Moved
+	RobotsArea description to fidoconfig doc
+
 2005-01-13 Thursday 20:09  val_khokhlov
 
 	* fidoconf/fidoconf.h (1.32), fidoconf/tokens.h (1.17),
