@@ -1,3 +1,26 @@
+2002-10-30 Wednesday 14:31  mche
+
+	* line.c (1.335): fix previous patch
+
+2002-10-30 Wednesday 13:50  mche
+
+	* line.c (1.334): fix redefinition packing options deined by
+	EchoAreaDefaults
+
+2002-10-30 Wednesday 13:48  stas_degteff
+
+	* common.c (1.127), common.h (1.67): Prevent memory fault in
+	changeFileSuffix(); Fix comments after MCHE patches
+
+2002-10-30 Wednesday 08:57  mche
+
+	* common.c (1.126): a little optimization of changeFileSuffix
+
+2002-10-30 Wednesday 08:52  mche
+
+	* common.c (1.125), common.h (1.66): syntax of changeFileSuffix is
+	expanded
+
 2002-10-29 Tuesday 12:35  stas_degteff
 
 	* xstr.c (1.11), xstr.h (1.6): Add 'const' modifier for string
