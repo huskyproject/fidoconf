@@ -198,6 +198,7 @@ FCONF_EXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_fla
 FCONF_EXT int needUseFileBoxForLink (ps_fidoconfig config, s_link *link);
 FCONF_EXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
 
+FCONF_EXT void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path);
 
 FCONF_EXT int move_file(const char *from, const char *to);
 /* DOC
