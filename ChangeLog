@@ -1,3 +1,8 @@
+2002-02-25 Monday 13:44  mche
+
+	* cfg.c (1.32): another fix cmpfnames under Cygwin compilations
+	warnings removed
+
 2002-02-24 Sunday 15:09  mche
 
 	* cfg.c (1.31): fixed bug with cmpfnames under Cygwin
