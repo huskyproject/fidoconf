@@ -2,7 +2,7 @@ fidoconf (0.14-20020815-1) stable; urgency=low
 
   * Take sources from new CVS at sourceforge.net (nothing changes from
     20020801)
-  * Setup new location for apt: http://husky.sourceforge.net/deb-stable
+  * Setup new location for apt: http://husky.sourceforge.net/debian
 
  -- Pavel Andreew <pavel@collage.etel.ru>  Fri, 16 Aug 2002 16:41:37 +0600
 
