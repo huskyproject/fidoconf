@@ -604,7 +604,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       if (token == NULL) {
                  return 1;
       }
-      area->group = &token[0];
+      area->group = strLower(strdup(token));
    }
 /*   else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
