@@ -122,7 +122,7 @@ endif
 
 install: commonlibs ranlib progs instdyn
 	-$(MKDIR) $(MKDIROPT) $(BINDIR)
-	-$(MKDIR) $(MKDIROPT) $(INCDIR)/$(FIDOCONFIG)
+	-$(MKDIR) $(MKDIROPT) $(INCDIR)/fidoconf
 	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
@@ -134,12 +134,12 @@ endif
 	$(INSTALL) $(IIOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IIOPT) dumpfcfg$(EXE)          $(BINDIR)
 	$(INSTALL) $(IIOPT) linkedto $(BINDIR)
-	$(INSTALL) $(IIOPT) fidoconf.h   $(INCDIR)/$(FIDOCONFIG)
-	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)/$(FIDOCONFIG)
-	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/$(FIDOCONFIG)
-	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)/$(FIDOCONFIG)
-	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)/$(FIDOCONFIG)
-	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/$(FIDOCONFIG)
+	$(INSTALL) $(IIOPT) fidoconf.h   $(INCDIR)/fidoconf
+	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)/fidoconf
+	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/fidoconf
+	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)/fidoconf
+	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)/fidoconf
+	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/fidoconf
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 ifdef INFODIR
 	(cd doc && $(MAKE) -f makefile.husky install)
