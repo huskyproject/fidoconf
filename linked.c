@@ -28,8 +28,8 @@
  * $Id$
  */
 
-#include <fidoconf/fidoconf.h>
-#include <fidoconf/arealist.h>
+#include "fidoconf.h"
+#include "arealist.h"
 
 s_fidoconfig *cfg;
 
