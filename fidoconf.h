@@ -292,6 +292,8 @@ typedef struct savetictype {
    char *pathName;
 } s_savetic, *ps_savetic;
 
+typedef enum linkWithImportLog { lwiNo, lwiYes, lwiKill } e_linkWithImportLog;
+
 typedef struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop;
@@ -340,11 +342,13 @@ typedef struct fidoconfig {
    ps_unpack unpack;
 
    char     *intab, *outtab;
-   char     *echotosslog, *statlog, *importlog, *LinkWithImportlog, *lockfile;
+   char     *echotosslog, *statlog, *importlog, *lockfile;
    unsigned loguid, loggid, logperm;
    char     *fileAreasLog, *longNameList, *fileNewAreasLog;
    char     *fileArcList, *filePassList, *fileDupeList;
    char     *msgidfile;
+
+   e_linkWithImportLog LinkWithImportlog;
 
    unsigned int   carbonCount;
    ps_carbon carbons;

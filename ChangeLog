@@ -1,4 +1,11 @@
 ----- cvs ci ------
+Tue Dec  5 03:17:40 UTC 2000
+sms:
+! replaced most stricmp-calls with strcmp-calls on the lower case variant
+  of the variable (parsing should be significantly faster now)
+! using enum for linkWithImportLog instead of strings
+
+----- cvs ci ------
 Tue Dec  5 01:48:22 UTC 2000
 sms:
 + added emailSubj, emailFrom, emailEncoding

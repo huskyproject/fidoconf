@@ -46,7 +46,7 @@
 #else
 #include <process.h>
 #include <io.h>
-#endif 
+#endif
 
 #include <limits.h>
 
@@ -77,7 +77,7 @@ char *getDescription(void) {
   char *tmp=NULL;
   int out=0;
   int length=0;
-  
+
   desc[0]='\0';
   while ((out==0) && ((token=strtok(NULL," "))!=NULL)) {
     if ((length+=strlen(token))>80)
@@ -105,22 +105,22 @@ char *getDescription(void) {
 int parseComment(char *token, s_fidoconfig *config)
 {
     char *ptr;
-    
+
    // if there is no token return error...
    if (token==NULL) {
       printf("Line %d: There is a comment character missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
-   
+
    ptr = strchr(TRUE_COMMENT, *token);
-   
+
    if (!ptr) {
        printf("CommentChar - '%c' is not valid comment characters!\n", *token);
    } else {
        CommentChar = *token;
        config->CommentChar = *token;
    }
-   
+
    return 0;
 }
 
@@ -208,11 +208,11 @@ int parseRemap(char *token, s_fidoconfig *config)
       return 1;
    }
 
- 
+
    config->remaps = srealloc(config->remaps,
                           (config->remapCount+1)*sizeof(s_remap));
 
-   param = strtok(token, ",\t"); 
+   param = strtok(token, ",\t");
    if (param == NULL) {
       printf("Line %d: Missing Name or * after %s!\n", actualLineNr, actualKeyword);
       return 1;
@@ -221,22 +221,22 @@ int parseRemap(char *token, s_fidoconfig *config)
    if (strcmp(param,"*")!=0)
       { // Name for rerouting
       config->remaps[config->remapCount].toname=sstrdup(param);
-      } 
+      }
      else
       config->remaps[config->remapCount].toname=NULL;
 
-   param = strtok(NULL, ",\t"); 
+   param = strtok(NULL, ",\t");
    if (param == NULL) {
       printf("Line %d: Address or * missing after %s!\n", actualLineNr,actualKeyword);
       return 1;
    }
-   
+
    if (strcmp(param,"*")==0)
       config->remaps[config->remapCount].oldaddr.zone=0;
      else
       string2addr(param, &(config->remaps[config->remapCount].oldaddr));
 
-   param = strtok(NULL, " \t"); 
+   param = strtok(NULL, " \t");
    if (param == NULL) {
       printf("Line %d: Address missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
@@ -274,7 +274,7 @@ int parsePath(char *token, char **var, const s_fidoconfig *config)
    }
 
    if (strchr(token,'[') && strchr(token,']')) {
-	   
+
 	   osvar = strchr(token,'[');
 	   osvar++;
 	   q = strchr(osvar, ']');
@@ -289,13 +289,13 @@ int parsePath(char *token, char **var, const s_fidoconfig *config)
 			   return 1;
 		   }
 	   xstrscat(var, "[", osvar, "]", NULL);
-	   
+
    } else {
 
 	   if (*token && token[strlen(token)-1] == PATH_DELIM)
 		   Strip_Trailing(token, PATH_DELIM);
 	   xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
-   
+
 	   if (!direxist(*var))
 		   {
 			   printf("Line %d: Path %s not found!\n", actualLineNr, *var);
@@ -314,7 +314,7 @@ int parsePublic(char *token, s_fidoconfig *config)
    }
    config->publicDir = srealloc(config->publicDir, sizeof(char *)*(config->publicCount+1));
    config->publicDir[config->publicCount] = NULL;
-   
+
    if (*token && token[strlen(token)-1] == PATH_DELIM)
        Strip_Trailing(token, PATH_DELIM);
    xscatprintf(&(config->publicDir[config->publicCount]), "%s%c", token, (char) PATH_DELIM);
@@ -334,7 +334,7 @@ int parseOwner(char *token, unsigned int *uid, unsigned int *gid)
    struct passwd *pw;
    struct group *grp;
    char *name, *group, *p;
-    
+
    if (token == NULL) {
       printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
@@ -350,27 +350,27 @@ int parseOwner(char *token, unsigned int *uid, unsigned int *gid)
 
    if (name != NULL) {
 	pw  = getpwnam(name);
-   
+
   	if (*name && pw == NULL) {
 		printf("Line %d: User name %s is unknown to OS !\n", actualLineNr, name);
 		return 1;
 	}
-	*uid = pw ? pw -> pw_uid : -1 ;		
+	*uid = pw ? pw -> pw_uid : -1 ;
 
    };
 
    if (group != NULL) {
-	grp = getgrnam(group);  
+	grp = getgrnam(group);
 
 	if ((*group) && grp == NULL) {
 		printf("Line %d: Group name %s is unknown to OS !\n", actualLineNr, group);
 		return 1;
 	}
-	*gid = grp ? grp -> gr_gid : -1 ;		
+	*gid = grp ? grp -> gr_gid : -1 ;
    }
 #else
    unused(token); unused(uid); unused(gid);
-#endif   
+#endif
    return 0;
 }
 
@@ -389,7 +389,7 @@ int parseNumber(char *token, int radix, unsigned *level) {
 	printf("Line %d: Error in number representation : %s . %s!\n", actualLineNr, token, end);
 	return 1;
     }
-	
+
     *level = (unsigned) result;
     return 0;
 }
@@ -398,75 +398,95 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 {
    char *error;
    char *token;
+   char *iOption;
+   char *iToken;
    int i;
 
-   if (stricmp(option, "b")==0) {
+   iOption = strLower(strdup(option));
+   if (strcmp(iOption, "b")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
          printf("Line %d: An msgbase type is missing after -b in areaOptions!\n", actualLineNr);
+         free(iOption);
          return 1;
       }
-      if ((stricmp(token, "Squish")!=0) && (stricmp(token, "Jam")!=0) && (stricmp(token, "Msg")!=0)) {
-         printf ("Line %d: MsgBase type not valid after -b in areaOptions!\n", actualLineNr);
-         return 1;
-      }
-      if (stricmp(token, "Squish")==0) {
+      iToken = strLower(strdup(token));
+      if (strcmp(iToken, "squish")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            printf("Line %d: Logical Defect!! You could not make a Squish Area Passthrough!\n", actualLineNr);
+	   free(iOption);
+	   free(iToken);
            return 1;
         }
         area->msgbType = MSGTYPE_SQUISH;
       }
-      else if (stricmp(token, "Jam")==0) {
+      else if (strcmp(iToken, "jam")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            printf("Line %d: Logical Defect!! You could not make a Jam Area Passthrough!\n", actualLineNr);
+	   free(iOption);
+	   free(iToken);
            return 1;
         }
         area->msgbType = MSGTYPE_JAM;
       }
-      else if (stricmp(token, "Msg")==0) {
+      else if (strcmp(iToken, "msg")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            printf("Line %d: Logical Defect!! You could not make a *.msg Area Passthrough!\n", actualLineNr);
+	   free(iOption);
+	   free(iToken);
            return 1;
         }
         area->msgbType = MSGTYPE_SDM;
       }
+      else
+      {
+	printf ("Line %d: MsgBase type %s not valid after -b in areaOptions!\n", actualLineNr, token);
+	free(iOption);
+	free(iToken);
+	return 1;
+      }
    }
-   else if (stricmp(option, "p")==0) {
+   else if (strcmp(iOption, "p")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
          printf("Line %d: Number is missing after -p in areaOptions!\n", actualLineNr);
+	 free(iOption);
          return 1;
       }
       area->purge = (UINT) strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
          printf("Line %d: Number is wrong after -p in areaOptions!\n", actualLineNr);
+	 free(iOption);
          return 1;     // error occured;
       }
    }
-   else if (stricmp(option, "$m")==0) {
+   else if (strcmp(iOption, "$m")==0) {
       area->max = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) {
+	 free(iOption);
          return 1;     // error
       }
    }
-   else if (stricmp(option, "a")==0) {
+   else if (strcmp(iOption, "a")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL)
 	{
 	  printf("Line %d: Adress is missing after -a in areaOptions!\n", actualLineNr);
+	  free(iOption);
 	  return 1;
 	}
       area->useAka = getAddr(*config, token);
       if (area->useAka == NULL) {
          printf("Line %d: %s not found as address.\n", actualLineNr,  token);
+         free(iOption);
          return 1;
       }
    }
-   else if (stricmp(option, "lr")==0) {
+   else if (strcmp(iOption, "lr")==0) {
        token = strtok(NULL, " \t");
        if (token == NULL) {
            printf("Line %d: Number is missing after -lr in areaOptions!\n", actualLineNr);
+	   free(iOption);
 	   return 1;
        }
        for (i=0; i<strlen(token); i++) {
@@ -474,14 +494,16 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        }
        if (i != strlen(token)) {
            printf("Line %d: Number is wrong after -lr in areaOptions!\n", actualLineNr);
+	   free(iOption);
 	   return 1;
        }
        area->levelread = (unsigned)atoi(token);
    }
-   else if (stricmp(option, "lw")==0) {
+   else if (strcmp(iOption, "lw")==0) {
        token = strtok(NULL, " \t");
        if (token == NULL) {
            printf("Line %d: Number is missing after -lw in areaOptions!\n", actualLineNr);
+	   free(iOption);
 	   return 1;
        }
        for (i=0; i<strlen(token); i++) {
@@ -489,156 +511,190 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        }
        if (i != strlen(token)) {
            printf("Line %d: Number is wrong after -lw in areaOptions!\n", actualLineNr);
+	   free(iOption);
 	   return 1;
        }
        area->levelwrite = (unsigned)atoi(token);
    }
-   else if (stricmp(option, "tinysb")==0) area->tinySB = 1;
-   else if (stricmp(option, "killsb")==0) area->killSB = 1;
-   else if (stricmp(option, "keepUnread")==0) area->keepUnread = 1; 
-   else if (stricmp(option, "killRead")==0) area->killRead = 1; 
-   else if (stricmp(option, "h")==0) area->hide = 1;
-   else if (stricmp(option, "manual")==0) area->mandatory = 1;
-   else if (stricmp(option, "nopause")==0) area->noPause = 1;
-   else if (stricmp(option, "nolink")==0) area->nolink = 1;
-   else if (stricmp(option, "mandatory")==0) area->mandatory = 1;
-   else if (stricmp(option, "debug")==0) area->debug = 1;
-   else if (stricmp(option, "dosfile")==0) area->DOSFile = 1;
-   else if (stricmp(option, "dupeCheck")==0) {
-      token = strtok(NULL, " \t");
-      if (token == NULL) {
-         printf("Line %d: Missing dupeCheck parameter!\n", actualLineNr);
-         return 1;
-      }
-      if (stricmp(token, "off")==0) area->dupeCheck = dcOff;
-      else if (stricmp(token, "move")==0) area->dupeCheck = dcMove;
-      else if (stricmp(token, "del")==0) area->dupeCheck = dcDel;
-      else {
-         printf("Line %d: Wrong dupeCheck parameter!\n", actualLineNr);
-         return 1; // error
-      }
+   else if (strcmp(iOption, "tinysb")==0) area->tinySB = 1;
+   else if (strcmp(iOption, "killsb")==0) area->killSB = 1;
+   else if (strcmp(iOption, "keepunread")==0) area->keepUnread = 1;
+   else if (strcmp(iOption, "killread")==0) area->killRead = 1;
+   else if (strcmp(iOption, "h")==0) area->hide = 1;
+   else if (strcmp(iOption, "manual")==0) area->mandatory = 1;
+   else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
+   else if (strcmp(iOption, "nolink")==0) area->nolink = 1;
+   else if (strcmp(iOption, "mandatory")==0) area->mandatory = 1;
+   else if (strcmp(iOption, "debug")==0) area->debug = 1;
+   else if (strcmp(iOption, "dosfile")==0) area->DOSFile = 1;
+   else if (strcmp(iOption, "dupecheck")==0) {
+     token = strtok(NULL, " \t");
+     if (token == NULL) {
+       printf("Line %d: Missing dupeCheck parameter!\n", actualLineNr);
+       free(iOption);
+       return 1;
+     }
+     if (stricmp(token, "off")==0) area->dupeCheck = dcOff;
+     else if (stricmp(token, "move")==0) area->dupeCheck = dcMove;
+     else if (stricmp(token, "del")==0) area->dupeCheck = dcDel;
+     else {
+       printf("Line %d: Wrong dupeCheck parameter!\n", actualLineNr);
+       free(iOption);
+       return 1; // error
+     }
    }
-   else if (stricmp(option, "dupehistory")==0) {
-      area->dupeHistory = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
-      if ((error != NULL) && (*error != '\0')) return 1;    // error
+   else if (strcmp(iOption, "dupehistory")==0) {
+     area->dupeHistory = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
+     if ((error != NULL) && (*error != '\0')) return 1;    // error
    }
-   else if (stricmp(option, "g")==0) {
-          token = strtok(NULL, " \t");
-      if (token == NULL) {
-                 return 1;
-      }
-	  free(area->group);
-      area->group = sstrdup(token);
+   else if (strcmp(iOption, "g")==0) {
+     token = strtok(NULL, " \t");
+     if (token == NULL) {
+       free(iOption);
+       return 1;
+     }
+     free(area->group);
+     area->group = sstrdup(token);
    }
-   else if (stricmp(option, "nopack")==0) area->nopack = 1;
-   else if (stricmp(option, "ccoff")==0) area->ccoff=1;
-   else if (stricmp(option, "keepsb")==0) area->keepsb=1;
-   else if (stricmp(option, "$")==0) ;
-   else if (stricmp(option, "0")==0) ;
-   else if (stricmp(option, "d")==0) {
-          if ((area->description=getDescription())==NULL)
-            return 1;
+   else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
+   else if (strcmp(iOption, "ccoff")==0) area->ccoff=1;
+   else if (strcmp(iOption, "keepsb")==0) area->keepsb=1;
+   else if (strcmp(iOption, "$")==0) ;
+   else if (strcmp(iOption, "0")==0) ;
+   else if (strcmp(iOption, "d")==0) {
+     if ((area->description=getDescription())==NULL) {
+       free(iOption);
+       return 1;
+     }
    }
-	else if (stricmp(option, "fperm")==0) {
-			token = strtok(NULL, " \t");
-         if (token==NULL) {
-            printf("Line %d: Missing permission parameter!\n", actualLineNr);
-				return 1;	
-			} else
-				return parseNumber(token, 8, &(area->fperm));
+   else if (strcmp(iOption, "fperm")==0) {
+     token = strtok(NULL, " \t");
+     if (token==NULL) {
+       printf("Line %d: Missing permission parameter!\n", actualLineNr);
+       free(iOption);
+       return 1;
+     }
+     else
+     {
+       free(iOption);
+       return parseNumber(token, 8, &(area->fperm));
+     }
    }
-	else if (stricmp(option, "fowner")==0) {
-			token = strtok(NULL, " \t");
-         if (token==NULL) 
-            printf("Line %d: Missing ownership parameter!\n", actualLineNr);
-			else
-	   		return parseOwner(token, &(area->uid), &(area->gid));
-	}
+   else if (strcmp(iOption, "fowner")==0) {
+     token = strtok(NULL, " \t");
+     if (token==NULL)
+       printf("Line %d: Missing ownership parameter!\n", actualLineNr);
+     else {
+       free(iOption);
+       return parseOwner(token, &(area->uid), &(area->gid));
+     }
+   }
    else {
-      printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
-      return 1;
+     printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
+     free(iOption);
+     return 1;
    }
 
+   free(iOption);
    return 0;
 }
 
 int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *area)
 {
-   char *token;
-   int i;
+  char *token;
+  char *iOption;
+  int i;
 
-   if (stricmp(option, "a")==0) {
-      token = strtok(NULL, " \t");
-      area->useAka = getAddr(*config, token);
-      if (area->useAka == NULL) {
-//         printf("!!! %s not found as address.\n", token);
-         return 1;
-      }
-   }
-   else if (stricmp(option, "lr")==0) {
-       token = strtok(NULL, " \t");
-       if (token == NULL) {
-           printf("Line %d: Number is missing after -lr in areaOptions!\n", actualLineNr);
-	   return 1;
-       }
-       for (i=0; i<strlen(token); i++) {
-           if (isdigit(token[i]) == 0) break;
-       }
-       if (i != strlen(token)) {
-           printf("Line %d: Number is wrong after -lr in areaOptions!\n", actualLineNr);
-	   return 1;
-       }
-       area->levelread = (unsigned)atoi(token);
-   }
-   else if (stricmp(option, "lw")==0) {
-       token = strtok(NULL, " \t");
-       if (token == NULL) {
-           printf("Line %d: Number is missing after -lw in areaOptions!\n", actualLineNr);
-	   return 1;
-       }
-       for (i=0; i<strlen(token); i++) {
-           if (isdigit(token[i]) == 0) break;
-       }
-       if (i != strlen(token)) {
-           printf("Line %d: Number is wrong after -lw in areaOptions!\n", actualLineNr);
-	   return 1;
-       }
-       area->levelwrite = (unsigned)atoi(token);
-   }
-   else if (stricmp(option, "h")==0) area->hide = 1;
-   else if (stricmp(option, "manual")==0) area->mandatory = 1;
-   else if (stricmp(option, "sendorig")==0) area->sendorig = 1;
-   else if (stricmp(option, "nopause")==0) area->noPause = 1;
-   else if (stricmp(option, "nocrc")==0) area->noCRC = 1;
-   else if (stricmp(option, "noreplace")==0) area->noreplace = 1;
-   else if (stricmp(option, "g")==0) {
-          token = strtok(NULL, " \t");
-      if (token == NULL) {
-                 return 1;
-      }
-	  free(area->group);
-      area->group = sstrdup(token);
-   }
-   else if (stricmp(option, "d")==0) {
-          if ((area->description=getDescription())==NULL)
-            return 1;
-   }  
-   else {
-      printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
+  iOption = strLower(strdup(option));
+  if (strcmp(iOption, "a")==0) {
+    token = strtok(NULL, " \t");
+    area->useAka = getAddr(*config, token);
+    if (area->useAka == NULL) {
+      printf("Line %d: %s not found as address.\n", actualLineNr, token);
+      free(iOption);
       return 1;
-   }
+    }
+  }
+  else if (strcmp(iOption, "lr")==0) {
+    token = strtok(NULL, " \t");
+    if (token == NULL) {
+      printf("Line %d: Number is missing after -lr in areaOptions!\n", actualLineNr);
+      free(iOption);
+      return 1;
+    }
+    for (i=0; i<strlen(token); i++) {
+      if (isdigit(token[i]) == 0) break;
+    }
+    if (i != strlen(token)) {
+      printf("Line %d: Number is wrong after -lr in areaOptions!\n", actualLineNr);
+      free(iOption);
+      return 1;
+    }
+    area->levelread = (unsigned)atoi(token);
+  }
+  else if (strcmp(iOption, "lw")==0) {
+    token = strtok(NULL, " \t");
+    if (token == NULL) {
+      printf("Line %d: Number is missing after -lw in areaOptions!\n", actualLineNr);
+      free(iOption);
+      return 1;
+    }
+    for (i=0; i<strlen(token); i++) {
+      if (isdigit(token[i]) == 0) break;
+    }
+    if (i != strlen(token)) {
+      printf("Line %d: Number is wrong after -lw in areaOptions!\n", actualLineNr);
+      free(iOption);
+      return 1;
+    }
+    area->levelwrite = (unsigned)atoi(token);
+  }
+  else if (strcmp(iOption, "h")==0) area->hide = 1;
+  else if (strcmp(iOption, "manual")==0) area->mandatory = 1;
+  else if (strcmp(iOption, "sendorig")==0) area->sendorig = 1;
+  else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
+  else if (strcmp(iOption, "nocrc")==0) area->noCRC = 1;
+  else if (strcmp(iOption, "noreplace")==0) area->noreplace = 1;
+  else if (strcmp(iOption, "g")==0) {
+    token = strtok(NULL, " \t");
+    if (token == NULL) {
+      free(iOption);
+      return 1;
+    }
+    free(area->group);
+    area->group = sstrdup(token);
+  }
+  else if (strcmp(iOption, "d")==0) {
+    if ((area->description=getDescription())==NULL) {
+      free(iOption);
+      return 1;
+    }
+  }
+  else {
+    printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
+    free(iOption);
+    return 1;
+  }
 
-   return 0;
+  return 0;
 }
 
 int parseLinkOption(s_arealink *alink, char *token)
 {
-    if (stricmp(token, "r")==0) alink->import = 0;
-    else if (stricmp(token, "w")==0) alink->export = 0;
-    else if (stricmp(token, "mn")==0) alink->mandatory = 1;
-    else if (stricmp(token, "def")==0) alink->defLink = 1;
-    else return 1;
-    return 0;
+  char *iToken;
+
+  iToken = strLower(strdup(token));
+  if (strcmp(iToken, "r")==0) alink->import = 0;
+  else if (strcmp(iToken, "w")==0) alink->export = 0;
+  else if (strcmp(iToken, "mn")==0) alink->mandatory = 1;
+  else if (strcmp(iToken, "def")==0) alink->defLink = 1;
+  else {
+    free(iToken);
+    return 1;
+  }
+
+  free(iToken);
+  return 0;
 }
 
 int parseArea(const s_fidoconfig *config, char *token, s_area *area)
@@ -685,7 +741,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
       printf("Line %d: There is a filename missing %s!\n", actualLineNr, actualLine);
       return 2;         // if there is no filename
    }
-   if (stricmp(tok, "Passthrough") != 0) {
+   if (stricmp(tok, "passthrough") != 0) {
       // msgbase on disk
       area->fileName = (char *) smalloc(strlen(tok)+1);
       strcpy(area->fileName, tok);
@@ -696,7 +752,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    }
 
    tok = strtok(NULL, " \t");
-   
+
    while (tok != NULL) {
       if(tok[0]=='-') {
           rc += parseAreaOption(config, tok+1, area);
@@ -712,23 +768,23 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
             rc += 1;
 	    return rc;
          }
-	 
+
 		 link = area->downlinks[area->downlinkCount]->link;
 		 arealink = area->downlinks[area->downlinkCount];
          area->downlinkCount++;
-		 
+
 		 if (link->numOptGrp > 0) {
 			 // default set export on, import on, mandatory off
 			 arealink->export = 1;
 			 arealink->import = 1;
 			 arealink->mandatory = 0;
-		 
+
 			 if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
 				 arealink->export = link->export;
 				 arealink->import = link->import;
 				 arealink->mandatory = link->mandatory;
 			 }
-			 
+
 		 } else {
 			 arealink->export = link->export;
 			 arealink->import = link->import;
@@ -737,7 +793,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 		 if (area->mandatory) arealink->mandatory = 1;
 		 if (e_readCheck(config, area, link)) arealink->export = 0;
 		 if (e_writeCheck(config, area, link)) arealink->import = 0;
-		 
+
 	 tok = strtok(NULL, " \t");
 	 while (tok) {
 		 if (tok[0]=='-') {
@@ -753,7 +809,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
       }
       tok = strtok(NULL, " \t");
    }
-   
+
    return rc;
 }
 
@@ -823,7 +879,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
       printf("Line %d: There is a pathname missing %s!\n", actualLineNr, actualLine);
       return 2;         // if there is no filename
    }
-   if (stricmp(tok, "Passthrough") != 0) {
+   if (stricmp(tok, "passthrough") != 0) {
       if (tok[strlen(tok)-1] == PATH_DELIM) {
          area->pathName = (char *) smalloc(strlen(tok)+1);
          strcpy(area->pathName, tok);
@@ -865,7 +921,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 			 arealink->export = 1;
 			 arealink->import = 1;
 			 arealink->mandatory = 0;
-		 
+
 			 if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
 				 arealink->export = link->export;
 				 arealink->import = link->import;
@@ -966,7 +1022,7 @@ int parseBbsArea(const s_fidoconfig *config, char *token, s_bbsarea *area)
       if (stricmp(tok, "-d")==0) {
           if ((area->description=getDescription())==NULL)
             rc += 1;
-      }  
+      }
       else {
          printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
          rc +=1;
@@ -1096,7 +1152,7 @@ int parseLink(char *token, s_fidoconfig *config)
 
       // set default maxUnpackedNetmail
       clink->maxUnpackedNetmail = 100;
-   
+
    }
 
    clink->name = (char *) smalloc (strlen(token)+1);
@@ -1126,16 +1182,24 @@ int parseNodelist(char *token, s_fidoconfig *config)
    return 0;
 }
 
-int parseBool (char *token, unsigned int *value) {
+int parseBool (char *token, unsigned int *value)
+{
+  char *iToken;
 
-    if (token == NULL) {
-       *value = 1;
-       return 0;
-    }
-    if (stricmp(token, "on")==0 || stricmp(token, "yes")==0 || stricmp(token, "1")==0) *value = 1;
-    else if (stricmp(token, "off")==0 || stricmp(token, "no")==0 || stricmp(token, "0")==0) *value = 0;
-    else return 2;
+  if (token == NULL) {
+    *value = 1;
     return 0;
+  }
+
+  iToken = strLower(strdup(token));
+  if ((strcmp(iToken, "on")==0) || (strcmp(iToken, "yes")==0) || (strcmp(iToken, "1")==0)) *value = 1;
+  else if ((strcmp(iToken, "off")==0) || (strcmp(iToken, "no")==0) || (strcmp(iToken, "0")==0)) *value = 0;
+  else {
+    free(iToken);
+    return 2;
+  }
+  free(iToken);
+  return 0;
 }
 
 int parseAutoPause(char *token, unsigned *autoPause)
@@ -1193,7 +1257,7 @@ int parsePWD(char *token, char **pwd) {
 }
 
 int parseHandle(char *token, s_fidoconfig *config) {
-   s_link   *clink; 
+   s_link   *clink;
 
    if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
@@ -1208,84 +1272,87 @@ int parseHandle(char *token, s_fidoconfig *config) {
 }
 
 int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) {
-   char *option;
-   int  rc = 0;
-   s_route *actualRoute;
+  char *option;
+  char *iOption;
+  int  rc = 0;
+  s_route *actualRoute;
 
-   if (token == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  if (token == NULL) {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
 
-   *route = srealloc(*route, sizeof(s_route)*(*count+1));
-   actualRoute = &(*route)[*count];
-   memset(actualRoute, 0, sizeof(s_route));
+  *route = srealloc(*route, sizeof(s_route)*(*count+1));
+  actualRoute = &(*route)[*count];
+  memset(actualRoute, 0, sizeof(s_route));
 
-   option = strtok(token, " \t");
+  option = strtok(token, " \t");
 
-   if (option == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  if (option == NULL) {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
 
-   while (option != NULL) {
-      if (stricmp(option, "enc")==0) actualRoute->enc = 1;
-      else if (stricmp(option, "noenc")==0) actualRoute->enc = 0;
-      else if (stricmp(option, "hold")==0) actualRoute->flavour = hold;
-      else if (stricmp(option, "normal")==0) actualRoute->flavour = normal;
-      else if (stricmp(option, "crash")==0) actualRoute->flavour = crash;
-      else if (stricmp(option, "direct")==0) actualRoute->flavour = direct;
-      else if (stricmp(option, "immediate")==0) actualRoute->flavour = immediate;
+  while (option != NULL) {
+    iOption = strLower(strdup(option));
+    if (strcmp(iOption, "enc")==0) actualRoute->enc = 1;
+    else if (strcmp(iOption, "noenc")==0) actualRoute->enc = 0;
+    else if (strcmp(iOption, "hold")==0) actualRoute->flavour = hold;
+    else if (strcmp(iOption, "normal")==0) actualRoute->flavour = normal;
+    else if (strcmp(iOption, "crash")==0) actualRoute->flavour = crash;
+    else if (strcmp(iOption, "direct")==0) actualRoute->flavour = direct;
+    else if (strcmp(iOption, "immediate")==0) actualRoute->flavour = immediate;
 
-      else if (stricmp(option, "hub")==0) actualRoute->routeVia = hub;
-      else if (stricmp(option, "host")==0) actualRoute->routeVia = host;
-      else if (stricmp(option, "boss")==0) actualRoute->routeVia = boss;
-      else if (stricmp(option, "noroute")==0) actualRoute->routeVia = noroute;
-      else if (stricmp(option, "no-route")==0) actualRoute->routeVia = noroute;
-      else if (stricmp(option, "nopack")==0) actualRoute->routeVia = nopack;
-      else if (stricmp(option, "no-pack")==0) actualRoute->routeVia = nopack;
-      else if (isdigit(option[0]) || (option[0] == '*') || (option[0] == '?')) {
-		  if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL)) {
-			  actualRoute->target = getLink(*config, option);
-			  actualRoute->viaStr = (char *) smalloc(strlen(option)+1);
-			  strcpy(actualRoute->viaStr, option);
-		  }
-		  else {
-			  if (actualRoute->pattern == NULL) {
-				  //2 for additional .0 if needed
-				  actualRoute->pattern = (char *) smalloc(strlen(option)+2+1);
-				  strcpy(actualRoute->pattern, option);
-				  if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
-					  strcat(actualRoute->pattern, ".0");
-				  }
-				  (*count)++;
-              } else {
-				  // add new Route for additional patterns
-				  *route = srealloc(*route, sizeof(s_route)*(*count+1));
-				  actualRoute = &(*route)[*count];
-				  memcpy(actualRoute,&(*route)[(*count)-1],sizeof(s_route));
-				  if ((*route)[(*count)-1].viaStr != NULL)
-				    actualRoute->viaStr = sstrdup((*route)[(*count)-1].viaStr);
-
-				  //2 for additional .0 if needed
-				  actualRoute->pattern = (char *) smalloc(strlen(option)+2+1);
-				  strcpy(actualRoute->pattern, option);
-				  if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
-					  strcat(actualRoute->pattern, ".0");
-				  }
-				  (*count)++;
-			  }
-
-		  }
-		  if ((actualRoute->target == NULL) && (actualRoute->routeVia == 0)) {
-			  printf("Line %d: Link not found in Route statement!\n", actualLineNr);
-			  rc = 2;
-		  }
+    else if (strcmp(iOption, "hub")==0) actualRoute->routeVia = hub;
+    else if (strcmp(iOption, "host")==0) actualRoute->routeVia = host;
+    else if (strcmp(iOption, "boss")==0) actualRoute->routeVia = boss;
+    else if (strcmp(iOption, "noroute")==0) actualRoute->routeVia = noroute;
+    else if (strcmp(iOption, "no-route")==0) actualRoute->routeVia = noroute;
+    else if (strcmp(iOption, "nopack")==0) actualRoute->routeVia = nopack;
+    else if (strcmp(iOption, "no-pack")==0) actualRoute->routeVia = nopack;
+    else if (isdigit(option[0]) || (option[0] == '*') || (option[0] == '?')) {
+      if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL)) {
+	actualRoute->target = getLink(*config, option);
+	actualRoute->viaStr = (char *) smalloc(strlen(option)+1);
+	strcpy(actualRoute->viaStr, option);
       }
-      option = strtok(NULL, " \t");
-   }
+      else {
+	if (actualRoute->pattern == NULL) {
+	  //2 for additional .0 if needed
+	  actualRoute->pattern = (char *) smalloc(strlen(option)+2+1);
+	  strcpy(actualRoute->pattern, option);
+	  if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
+	    strcat(actualRoute->pattern, ".0");
+	  }
+	  (*count)++;
+	} else {
+	  // add new Route for additional patterns
+	  *route = srealloc(*route, sizeof(s_route)*(*count+1));
+	  actualRoute = &(*route)[*count];
+	  memcpy(actualRoute,&(*route)[(*count)-1],sizeof(s_route));
+	  if ((*route)[(*count)-1].viaStr != NULL)
+	    actualRoute->viaStr = sstrdup((*route)[(*count)-1].viaStr);
 
-   return rc;
+	  //2 for additional .0 if needed
+	  actualRoute->pattern = (char *) smalloc(strlen(option)+2+1);
+	  strcpy(actualRoute->pattern, option);
+	  if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
+	    strcat(actualRoute->pattern, ".0");
+	  }
+	  (*count)++;
+	}
+
+      }
+      if ((actualRoute->target == NULL) && (actualRoute->routeVia == 0)) {
+	printf("Line %d: Link not found in Route statement!\n", actualLineNr);
+	rc = 2;
+      }
+    }
+    free(iOption);
+    option = strtok(NULL, " \t");
+  }
+
+  return rc;
 }
 
 int parsePack(char *line, s_fidoconfig *config) {
@@ -1433,9 +1500,9 @@ static int f_accessable(char *token)
 //       to see if the file is accessible
 // BUT WE DON'T KNOW ABOUT DIRS!
 
-#ifdef UNIX       
+#ifdef UNIX
     struct stat sb;
-    
+
     if (stat(token, &sb))
 	return 0;  // cannot stat the file
     if (access(token, R_OK))
@@ -1455,7 +1522,7 @@ int parseFileName(char *line, char **name) {
    char *token;
 
    if (*name != NULL) {
-      printf("Line %d: Dublicate file name!\n", actualLineNr);
+      printf("Line %d: Duplicate file name!\n", actualLineNr);
       return 1;
    }
 
@@ -1469,7 +1536,7 @@ int parseFileName(char *line, char **name) {
      sscanf(line,"\"%[^\"]s",token);
    }
    else
-     token = strtok(line, " \t");     
+     token = strtok(line, " \t");
 
    if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
@@ -1515,42 +1582,52 @@ int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
    return 2;
 }
 
-int parseEchoMailFlavour(char *line, e_flavour *flavour) {
+int parseEchoMailFlavour(char *line, e_flavour *flavour)
+{
+  char *iLine;
 
-   if (line == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  if (line == NULL) {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
 
-   if (stricmp(line, "hold")==0) *flavour = hold;
-   else if (stricmp(line, "normal")==0) *flavour = normal;
-   else if (stricmp(line, "direct")==0) *flavour = direct;
-   else if (stricmp(line, "crash")==0) *flavour = crash;
-   else if (stricmp(line, "immediate")==0) *flavour = immediate;
-   else {
-      printf("Line %d: Unknown echomail flavour %s!\n", actualLineNr, line);
-      return 2;
-   }
-   return 0;
+  iLine = strLower(strdup(line));
+  if (strcmp(iLine, "hold")==0) *flavour = hold;
+  else if (strcmp(iLine, "normal")==0) *flavour = normal;
+  else if (strcmp(iLine, "direct")==0) *flavour = direct;
+  else if (strcmp(iLine, "crash")==0) *flavour = crash;
+  else if (strcmp(iLine, "immediate")==0) *flavour = immediate;
+  else {
+    printf("Line %d: Unknown echomail flavour %s!\n", actualLineNr, line);
+    free(iLine);
+    return 2;
+  }
+  free(iLine);
+  return 0;
 }
 
-int parseFileEchoFlavour(char *line, e_flavour *flavour) {
+int parseFileEchoFlavour(char *line, e_flavour *flavour)
+{
+  char *iLine;
 
-   if (line == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  if (line == NULL) {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
 
-   if (stricmp(line, "hold")==0) *flavour = hold;
-   else if (stricmp(line, "normal")==0) *flavour = normal;
-   else if (stricmp(line, "direct")==0) *flavour = direct;
-   else if (stricmp(line, "crash")==0) *flavour = crash;
-   else if (stricmp(line, "immediate")==0) *flavour = immediate;
-   else {
-      printf("Line %d: Unknown fileecho flavour %s!\n", actualLineNr, line);
-      return 2;
-   }
-   return 0;
+  iLine = strLower(strdup(line));
+  if (strcmp(iLine, "hold")==0) *flavour = hold;
+  else if (strcmp(iLine, "normal")==0) *flavour = normal;
+  else if (strcmp(iLine, "direct")==0) *flavour = direct;
+  else if (strcmp(iLine, "crash")==0) *flavour = crash;
+  else if (strcmp(iLine, "immediate")==0) *flavour = immediate;
+  else {
+    printf("Line %d: Unknown fileecho flavour %s!\n", actualLineNr, line);
+    free(iLine);
+    return 2;
+  }
+  free(iLine);
+  return 0;
 }
 
 
@@ -1572,7 +1649,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 					actualLineNr, actualKeyword);
 			return 1;
 		}
-	
+
 	if (i != 2) link = getDescrLink(config);
 
 	switch (i)
@@ -1620,12 +1697,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				// strip trailing spaces/tabs
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
-						
+
 				link->AccessGrp[link->numAccessGrp]=smalloc((size_t)(cpos-token+1));
-						
+
 				for (j = 0; j < cpos - token; j++)
 					link->AccessGrp[link->numAccessGrp][j] = token[j];
-						
+
 				link->AccessGrp[link->numAccessGrp][(size_t)(cpos - token)] = '\0';
 				token = cpos+1;
 			}
@@ -1650,7 +1727,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	case 1:
 		copyString(token, &link->LinkGrp);
 		break;
-		
+
 	case 2:
 		for (config->numPublicGroup = 0; *token != '\0'; config->numPublicGroup++) {
 			config->PublicGroup = srealloc(config->PublicGroup,
@@ -1781,7 +1858,7 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
    if (config->carbonCount == 0) {
           printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
           return 1;
-   }   
+   }
    copyString(token, &(config->carbons[config->carbonCount-1].areaName));
    config->carbons[config->carbonCount-1].extspawn = 0;
    config->carbons[config->carbonCount-1].move = move;
@@ -1797,7 +1874,7 @@ int parseCarbonDelete(char *token, s_fidoconfig *config) {
    if (config->carbonCount == 0) {
           printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
           return 1;
-   }   
+   }
    config->carbons[config->carbonCount-1].areaName = NULL;
    config->carbons[config->carbonCount-1].move = 2;
    config->carbons[config->carbonCount-1].extspawn = 0;
@@ -1813,8 +1890,8 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
    if (config->carbonCount == 0) {
           printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
           return 1;
-   }   
-   
+   }
+
    copyString(token, &(config->carbons[config->carbonCount-1].areaName));
    config->carbons[config->carbonCount-1].extspawn = 1;
    config->carbons[config->carbonCount-1].move = 0;
@@ -1836,14 +1913,14 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
    if (config->carbonCount == 0) {
           printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
           return 1;
-   }   
-   
+   }
+
    copyString(token, &(config->carbons[config->carbonCount-1].reason));
    return 0;
 }
 
 int parseForwardPkts(char *token, s_fidoconfig *config, s_link *link)
-{ 
+{
    unused(config);
 
    if (token == NULL) {
@@ -1854,12 +1931,12 @@ int parseForwardPkts(char *token, s_fidoconfig *config, s_link *link)
    if (stricmp(token, "secure")==0) link->forwardPkts = fSecure;
    else if (stricmp(token, "on")==0) link->forwardPkts = fOn;
    else return 2;
-   
+
    return 0;
 }
 
 int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
-{ 
+{
    unused(config);
 
    if (token == NULL) {
@@ -1870,7 +1947,7 @@ int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
    if (stricmp(token, "secure")==0) link->allowEmptyPktPwd = eSecure;
    else if (stricmp(token, "on")==0) link->allowEmptyPktPwd = eOn;
    else return 2;
-   
+
    return 0;
 }
 
@@ -1893,6 +1970,8 @@ int parseAllowPktAddrDiffer(char *token, s_fidoconfig *config, s_link *link)
 
 int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
 {
+  char *iToken;
+
   unused(config);
 
   if (token  == NULL) {
@@ -1900,36 +1979,46 @@ int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
     return 1;
   }
 
-  if (stricmp(token, "fts5000") == 0 || stricmp(token, "standard") == 0)
+  iToken = strLower(strdup(token));
+  if ((strcmp(iToken, "fts5000") == 0) || (strcmp(iToken, "standard") == 0))
     nodelist->format = fts5000;
-  else if (stricmp(token, "points24") == 0)
+  else if (strcmp(iToken, "points24") == 0)
     nodelist->format = points24;
-  else if (stricmp(token, "points4d") == 0)
+  else if (strcmp(iToken, "points4d") == 0)
     nodelist->format = points4d;
-  else return 2;
+  else {
+    free(iToken);
+    return 2;
+  }
 
+  free(iToken);
   return 0;
 }
 
-int parseTypeDupes(char *line, e_typeDupeCheck *typeDupeBase, unsigned *DayAge) {
+int parseTypeDupes(char *line, e_typeDupeCheck *typeDupeBase, unsigned *DayAge)
+{
+  char *iLine;
 
-   if (line == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  if (line == NULL) {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
 
-   if (stricmp(line, "textdupes")==0) *typeDupeBase = textDupes;
-   else if (stricmp(line, "hashdupes")==0) *typeDupeBase = hashDupes;
-   else if (stricmp(line, "hashdupeswmsgid")==0) *typeDupeBase = hashDupesWmsgid;
-   else if (stricmp(line, "commondupebase")==0) {
-           *typeDupeBase = commonDupeBase;
-           if (*DayAge==0) *DayAge=(unsigned) 5;
-        }
-   else {
-      printf("Line %d: Unknown type base of dupes %s!\n", actualLineNr, line);
-      return 2;
-   }
-   return 0;
+  iLine = strLower(strdup(line));
+  if (strcmp(iLine, "textdupes")==0) *typeDupeBase = textDupes;
+  else if (strcmp(iLine, "hashdupes")==0) *typeDupeBase = hashDupes;
+  else if (strcmp(iLine, "hashdupeswmsgid")==0) *typeDupeBase = hashDupesWmsgid;
+  else if (strcmp(iLine, "commondupebase")==0) {
+    *typeDupeBase = commonDupeBase;
+    if (*DayAge==0) *DayAge=(unsigned) 5;
+  }
+  else {
+    printf("Line %d: Unknown type base of dupes %s!\n", actualLineNr, line);
+    free(iLine);
+    return 2;
+  }
+  free(iLine);
+  return 0;
 }
 
 
@@ -2096,62 +2185,75 @@ int parseNamesCase(char *line, e_nameCase *value)
 
 int parseNamesCaseConversion(char *line, e_nameCaseConvertion *value)
 {
-   if (line == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  char *iLine;
 
-   if (stricmp(line, "lower") == 0) *value = cLower;
-   else if (stricmp(line, "upper") == 0) *value = cUpper;
-   else if (stricmp(line, "dont") == 0) *value = cDontTouch;
-   else if (stricmp(line, "donttouch") == 0) *value = cDontTouch;
-   else if (stricmp(line, "same") == 0) *value = cDontTouch;
-   else {
-      printf("Line %d: Unknown case convertion parameter %s!\n", actualLineNr, line);
-      return 2;
-   }
-   return 0;
+  if (line == NULL) {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
+
+  iLine = strLower(strdup(line));
+  if (strcmp(iLine, "lower") == 0) *value = cLower;
+  else if (strcmp(iLine, "upper") == 0) *value = cUpper;
+  else if (strcmp(iLine, "dont") == 0) *value = cDontTouch;
+  else if (strcmp(iLine, "donttouch") == 0) *value = cDontTouch;
+  else if (strcmp(iLine, "same") == 0) *value = cDontTouch;
+  else {
+    printf("Line %d: Unknown case convertion parameter %s!\n", actualLineNr, line);
+    free(iLine);
+    return 2;
+  }
+  free(iLine);
+  return 0;
 }
 
 int parseBundleNameStyle(char *line, e_bundleFileNameStyle *value)
 {
-   if (line == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  char *iLine;
 
-   if (stricmp(line, "addrDiff") == 0) *value = eAddrDiff;
-   else if (stricmp(line, "addrDiffAlways") == 0) *value = eAddrDiffAlways;
-   else if (stricmp(line, "timeStamp") == 0) *value = eTimeStamp;
-   else {
-      printf("Line %d: Unknown bundle name style %s!\n", actualLineNr, line);
-      return 2;
-   }
-   return 0;
+  if (line == NULL) {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
+
+  iLine = strLower(strdup(line));
+  if (strcmp(iLine, "addrdiff") == 0) *value = eAddrDiff;
+  else if (strcmp(iLine, "addrdiffalways") == 0) *value = eAddrDiffAlways;
+  else if (strcmp(iLine, "timestamp") == 0) *value = eTimeStamp;
+  else {
+    printf("Line %d: Unknown bundle name style %s!\n", actualLineNr, line);
+    free(iLine);
+    return 2;
+  }
+  free(iLine);
+  return 0;
 }
 
-int parseLinkWithILogType(char *line, char **value)
+int parseLinkWithILogType(char *line, e_linkWithImportLog *value)
 {
-   static char *yes="yes", *no="no", *kill="kill";
+  char *iLine;
 
-   if (line == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  if (line == NULL) {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
 
-   if (*value) {
-      printf("Line %d: LinkWithImportLog redefinition\n", actualLineNr);
-      return 2;
-   }
+  if (*value) {
+    printf("Line %d: LinkWithImportLog redefinition\n", actualLineNr);
+    return 2;
+  }
 
-   if (stricmp(line, yes) == 0) *value = yes;
-   else if (stricmp(line, no) == 0) *value = no;
-   else if (stricmp(line, kill) == 0) *value = kill;
-   else {
-      printf("Line %d: Unknown LinkWithImportLog value %s!\n", actualLineNr, line);
-      return 2;
+  iLine = strLower(strdup(line));
+  if (strcmp(iLine, "yes") == 0) *value = lwiYes;
+  else if (strcmp(iLine, "no") == 0) *value = lwiNo;
+  else if (strcmp(iLine, "kill") == 0) *value = lwiKill;
+  else {
+    printf("Line %d: Unknown LinkWithImportLog value %s!\n", actualLineNr, line);
+    free(iLine);
+    return 2;
    }
-   return 0;
+  free(iLine);
+  return 0;
 }
 
 int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
@@ -2175,9 +2277,9 @@ int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
 		while(!isdigit(*token)) token++; i=0;
 		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
 		buf[i]='\0'; node=atoi(buf);
-		
+
 		if (*token == '.') { token++; while(isdigit(*token)) token++; }
-		
+
 		(*addr) = srealloc(*addr, sizeof(s_addr)*(*count+1));
 		(*addr)[*count].net  = net;
 		(*addr)[*count].node = node;
@@ -2188,30 +2290,38 @@ int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
 
 int parseEmailEncoding(char *line, e_emailEncoding *value)
 {
-   if (line == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
+  char *iLine;
 
-   if (stricmp(line, "uue") == 0) *value = eeUUE;
-   else if (stricmp(line, "mime") == 0) *value = eeMIME;
-   else if (stricmp(line, "seat") == 0) *value = eeSEAT;
-   else {
-      printf("Line %d: Unknown email encoding parameter %s!\n", actualLineNr, line);
-      return 2;
-   }
-   return 0;
+  if (line == NULL)
+  {
+    printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
+
+  iLine = strLower(strdup(line));
+  if (strcmp(iLine, "uue") == 0) *value = eeUUE;
+  else if (strcmp(iLine, "mime") == 0) *value = eeMIME;
+  else if (strcmp(iLine, "seat") == 0) *value = eeSEAT;
+  else
+  {
+    printf("Line %d: Unknown email encoding parameter %s!\n", actualLineNr, line);
+    free(iLine);
+    return 2;
+  }
+  free(iLine);
+  return 0;
 }
 
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
+   char *iToken;
    int rc = 0;
-   s_link   *clink; 
+   s_link   *clink;
 
-#ifdef __TURBOC__   
+#ifdef __TURBOC__
    int unrecognised = 0;
-#endif   
+#endif
 
    actualLine = temp = (char *) smalloc(strlen(line)+1);
    strcpy(temp, line);
@@ -2220,446 +2330,450 @@ int parseLine(char *line, s_fidoconfig *config)
 
    //printf("Parsing: %s\n", line);
    //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
-   if (token == NULL);
-   else if (stricmp(token, "commentchar")==0) rc = parseComment(getRestOfLine(), config);
-   else if (stricmp(token, "version")==0) rc = parseVersion(getRestOfLine(), config);
-   else if (stricmp(token, "name")==0) rc = copyString(getRestOfLine(), &(config->name));
-   else if (stricmp(token, "location")==0) rc = copyString(getRestOfLine(), &(config->location));
-   else if (stricmp(token, "sysop")==0) rc = copyString(getRestOfLine(), &(config->sysop));
-   else if (stricmp(token, "address")==0) rc = parseAddress(getRestOfLine(), config);
-   else if (stricmp(token, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound), config);
-   else if (stricmp(token, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound), config);
-   else if (stricmp(token, "listinbound")==0) rc = parsePath(getRestOfLine(), &(config->listInbound), config);
-   else if (stricmp(token, "localinbound")==0) rc= parsePath(getRestOfLine(), &(config->localInbound), config);
-   else if (stricmp(token, "tempinbound")==0) rc= parsePath(getRestOfLine(), &(config->tempInbound), config);
-   else if (stricmp(token, "outbound")==0) rc = parsePath(getRestOfLine(), &(config->outbound), config);
-   else if (stricmp(token, "ticoutbound")==0) rc = parsePath(getRestOfLine(), &(config->ticOutbound), config);
-   else if (stricmp(token, "public")==0) rc = parsePublic(getRestOfLine(), config);
-   else if (stricmp(token, "logfiledir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir), config);
-   else if (stricmp(token, "dupehistorydir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir), config);
-   else if (stricmp(token, "nodelistdir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir), config);
-   else if (stricmp(token, "fileareabasedir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir), config);
-   else if (stricmp(token, "passfileareadir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir), config);
-   else if (stricmp(token, "busyfiledir")==0) rc = parsePath(getRestOfLine(), &(config->busyFileDir), config);
-   else if (stricmp(token, "msgbasedir")==0) rc = parsePath(getRestOfLine(), &(config->msgBaseDir), config);
-   else if (stricmp(token, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic), config);
-   else if (stricmp(token, "semadir")==0) rc = parsePath(getRestOfLine(), &(config->semaDir), config);
-   else if (stricmp(token, "badfilesdir")==0) rc = parsePath(getRestOfLine(), &(config->badFilesDir), config);
-   else if ((stricmp(token, "netMailarea")==0) ||
-	    (stricmp(token, "netarea")==0))
-     rc = parseNetMailArea(getRestOfLine(), config);
-   else if (stricmp(token, "dupearea")==0) rc = parseArea(config, getRestOfLine(), &(config->dupeArea));
-   else if (stricmp(token, "badarea")==0) rc = parseArea(config, getRestOfLine(), &(config->badArea));
-   else if (stricmp(token, "echoarea")==0) rc = parseEchoArea(getRestOfLine(), config);
-   else if (stricmp(token, "filearea")==0) rc = parseFileAreaStatement(getRestOfLine(), config);
-   else if (stricmp(token, "bbsarea")==0) rc = parseBbsAreaStatement(getRestOfLine(), config);
-   else if (stricmp(token, "localarea")==0) rc = parseLocalArea(getRestOfLine(), config);
-   else if (stricmp(token, "remap")==0) rc = parseRemap(getRestOfLine(),config);
-   else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
+   if (token)
+   {
+     iToken = strLower(strdup(token));
+     if (strcmp(iToken, "commentchar")==0) rc = parseComment(getRestOfLine(), config);
+     else if (strcmp(iToken, "version")==0) rc = parseVersion(getRestOfLine(), config);
+     else if (strcmp(iToken, "name")==0) rc = copyString(getRestOfLine(), &(config->name));
+     else if (strcmp(iToken, "location")==0) rc = copyString(getRestOfLine(), &(config->location));
+     else if (strcmp(iToken, "sysop")==0) rc = copyString(getRestOfLine(), &(config->sysop));
+     else if (strcmp(iToken, "address")==0) rc = parseAddress(getRestOfLine(), config);
+     else if (strcmp(iToken, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound), config);
+     else if (strcmp(iToken, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound), config);
+     else if (strcmp(iToken, "listinbound")==0) rc = parsePath(getRestOfLine(), &(config->listInbound), config);
+     else if (strcmp(iToken, "localinbound")==0) rc= parsePath(getRestOfLine(), &(config->localInbound), config);
+     else if (strcmp(iToken, "tempinbound")==0) rc= parsePath(getRestOfLine(), &(config->tempInbound), config);
+     else if (strcmp(iToken, "outbound")==0) rc = parsePath(getRestOfLine(), &(config->outbound), config);
+     else if (strcmp(iToken, "ticoutbound")==0) rc = parsePath(getRestOfLine(), &(config->ticOutbound), config);
+     else if (strcmp(iToken, "public")==0) rc = parsePublic(getRestOfLine(), config);
+     else if (strcmp(iToken, "logfiledir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir), config);
+     else if (strcmp(iToken, "dupehistorydir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir), config);
+     else if (strcmp(iToken, "nodelistdir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir), config);
+     else if (strcmp(iToken, "fileareabasedir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir), config);
+     else if (strcmp(iToken, "passfileareadir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir), config);
+     else if (strcmp(iToken, "busyfiledir")==0) rc = parsePath(getRestOfLine(), &(config->busyFileDir), config);
+     else if (strcmp(iToken, "msgbasedir")==0) rc = parsePath(getRestOfLine(), &(config->msgBaseDir), config);
+     else if (strcmp(iToken, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic), config);
+     else if (strcmp(iToken, "semadir")==0) rc = parsePath(getRestOfLine(), &(config->semaDir), config);
+     else if (strcmp(iToken, "badfilesdir")==0) rc = parsePath(getRestOfLine(), &(config->badFilesDir), config);
+     else if ((strcmp(iToken, "netmailarea")==0) ||
+	      (strcmp(iToken, "netarea")==0))
+       rc = parseNetMailArea(getRestOfLine(), config);
+     else if (strcmp(iToken, "dupearea")==0) rc = parseArea(config, getRestOfLine(), &(config->dupeArea));
+     else if (strcmp(iToken, "badarea")==0) rc = parseArea(config, getRestOfLine(), &(config->badArea));
+     else if (strcmp(iToken, "echoarea")==0) rc = parseEchoArea(getRestOfLine(), config);
+     else if (strcmp(iToken, "filearea")==0) rc = parseFileAreaStatement(getRestOfLine(), config);
+     else if (strcmp(iToken, "bbsarea")==0) rc = parseBbsAreaStatement(getRestOfLine(), config);
+     else if (strcmp(iToken, "localarea")==0) rc = parseLocalArea(getRestOfLine(), config);
+     else if (strcmp(iToken, "remap")==0) rc = parseRemap(getRestOfLine(),config);
+     else if (strcmp(iToken, "link")==0) rc = parseLink(getRestOfLine(), config);
 #ifdef __TURBOC__
-   else unrecognised++;
-#else   
-   else
+     else unrecognised++;
+#else
+     else
 #endif
-	   if (stricmp(token, "password")==0) {
-		   if( (clink = getDescrLink(config)) != NULL ) {
-			   rc = parsePWD(getRestOfLine(), &clink->defaultPwd);
-			   // if another pwd is not known (yet), make it point to the defaultPWD
-/* REMOVE after 08-Dec-2000
-   if (clink->pktPwd == NULL) clink->pktPwd = clink->defaultPwd;
-   if (clink->ticPwd == NULL) clink->ticPwd = clink->defaultPwd;
-   if (clink->areaFixPwd == NULL) clink->areaFixPwd = clink->defaultPwd;
-   if (clink->fileFixPwd == NULL) clink->fileFixPwd = clink->defaultPwd;
-   if (clink->bbsPwd == NULL) clink->bbsPwd = clink->defaultPwd;
-   if (clink->sessionPwd == NULL) clink->sessionPwd = clink->defaultPwd;
-*/
-			   // this way used because of redefinition
-			   // defaultPwd from linkdefaults (if exist)
-			   clink->pktPwd = clink->defaultPwd;
-			   clink->ticPwd = clink->defaultPwd;
-			   clink->areaFixPwd = clink->defaultPwd;
-			   clink->fileFixPwd = clink->defaultPwd;
-			   clink->bbsPwd = clink->defaultPwd;
-			   clink->sessionPwd = clink->defaultPwd;
-		   } else {
-			   rc = 1;
-		   }
-	   }
-   else if (stricmp(token, "aka")==0) {
-     if( (clink = getDescrLink(config)) != NULL ) {
-       string2addr(getRestOfLine(), &clink->hisAka);
+     if (strcmp(iToken, "password")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parsePWD(getRestOfLine(), &clink->defaultPwd);
+	 // if another pwd is not known (yet), make it point to the defaultPWD
+	 /* REMOVE after 08-Dec-2000
+	  if (clink->pktPwd == NULL) clink->pktPwd = clink->defaultPwd;
+	  if (clink->ticPwd == NULL) clink->ticPwd = clink->defaultPwd;
+	  if (clink->areaFixPwd == NULL) clink->areaFixPwd = clink->defaultPwd;
+	  if (clink->fileFixPwd == NULL) clink->fileFixPwd = clink->defaultPwd;
+	  if (clink->bbsPwd == NULL) clink->bbsPwd = clink->defaultPwd;
+	  if (clink->sessionPwd == NULL) clink->sessionPwd = clink->defaultPwd;
+	  */
+	 // this way used because of redefinition
+	 // defaultPwd from linkdefaults (if exist)
+	 clink->pktPwd = clink->defaultPwd;
+	 clink->ticPwd = clink->defaultPwd;
+	 clink->areaFixPwd = clink->defaultPwd;
+	 clink->fileFixPwd = clink->defaultPwd;
+	 clink->bbsPwd = clink->defaultPwd;
+	 clink->sessionPwd = clink->defaultPwd;
+       } else {
+	 rc = 1;
+       }
      }
-     else {
-       rc = 1;
+     else if (strcmp(iToken, "aka")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 string2addr(getRestOfLine(), &clink->hisAka);
+       }
+       else {
+	 rc = 1;
+       }
      }
-   }
-   else if (stricmp(token, "ouraka")==0) {
-      rc = 0;
-      if( (clink = getDescrLink(config)) != NULL ) {
-		 clink->ourAka = getAddr(*config, getRestOfLine());
-		 if (clink->ourAka == NULL) rc = 2;
-      } else {
-		 rc = 1;
-      }
-   }
-   else if (stricmp(token, "autoareacreate")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->autoAreaCreate);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "autofilecreate")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->autoFileCreate);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "forwardrequests")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->forwardRequests);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "forwardfilerequests")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->forwardFileRequests);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "frequestfromuplink") == 0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->fReqFromUpLink);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "forwardpkts")==0) {
-     if( (clink = getDescrLink(config)) != NULL ) {
-      rc = parseForwardPkts(getRestOfLine(), config, clink);
+     else if (strcmp(iToken, "ouraka")==0) {
+       rc = 0;
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 clink->ourAka = getAddr(*config, getRestOfLine());
+	 if (clink->ourAka == NULL) rc = 2;
+       } else {
+	 rc = 1;
+       }
      }
-     else {
-       rc = 1;
+     else if (strcmp(iToken, "autoareacreate")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->autoAreaCreate);
+       } else {
+	 rc = 1;
+       }
      }
-   }
-   else if (stricmp(token, "allowemptypktpwd")==0) {
-     if( (clink = getDescrLink(config)) != NULL ) {
-      rc = parseAllowEmptyPktPwd(getRestOfLine(), config, clink);
+     else if (strcmp(iToken, "autofilecreate")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->autoFileCreate);
+       } else {
+	 rc = 1;
+       }
      }
-     else {
-       rc = 1;
+     else if (strcmp(iToken, "forwardrequests")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->forwardRequests);
+       } else {
+	 rc = 1;
+       }
      }
-   }
-		else if (stricmp(token, "packnetmail")==0) {
-			if( (clink = getDescrLink(config)) != NULL ) {
-				rc = parseBool(getRestOfLine(), &clink->packNetmail);
-			}
-			else rc = 1;
-		}
-   else if (stricmp(token, "allowpktaddrdiffer")==0) {
-     if( (clink = getDescrLink(config)) != NULL ) {
-      rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);
+     else if (strcmp(iToken, "forwardfilerequests")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->forwardFileRequests);
+       } else {
+	 rc = 1;
+       }
      }
-     else {
-       rc = 1;
+     else if (strcmp(iToken, "frequestfromuplink") == 0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->fReqFromUpLink);
+       } else {
+	 rc = 1;
+       }
      }
-   }
-   else if (stricmp(token, "autoareacreatedefaults")==0) {
-     if( (clink = getDescrLink(config)) != NULL ) {
-       rc = copyString(getRestOfLine(), &clink->autoAreaCreateDefaults);
+     else if (strcmp(iToken, "forwardpkts")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseForwardPkts(getRestOfLine(), config, clink);
+       }
+       else {
+	 rc = 1;
+       }
      }
-     else {
-       rc = 1;
+     else if (strcmp(iToken, "allowemptypktpwd")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseAllowEmptyPktPwd(getRestOfLine(), config, clink);
+       }
+       else {
+	 rc = 1;
+       }
      }
-   }
-   else if (stricmp(token, "autofilecreatedefaults")==0) {
-     if( (clink = getDescrLink(config)) != NULL ) {
-       rc = copyString(getRestOfLine(), &clink->autoFileCreateDefaults);
+     else if (strcmp(iToken, "packnetmail")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool(getRestOfLine(), &clink->packNetmail);
+       }
+       else rc = 1;
      }
-     else {
-       rc = 1;
+     else if (strcmp(iToken, "allowpktaddrdiffer")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);
+       }
+       else {
+	 rc = 1;
+       }
      }
-   }
-   else if (stricmp(token, "areafix")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->AreaFix);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "filefix")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->FileFix);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "pause")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->Pause);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "notic")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->noTIC);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "delnotrecievedtic")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->delNotRecievedTIC);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "advancedareafix")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->advancedAreafix);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(getDescrLink(config)->autoPause));
-   else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName));
-   else if (stricmp(token, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName));
-   else if (stricmp(token, "forwardareapriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardAreaPriority));
-   else if (stricmp(token, "forwardfilepriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardFilePriority));
+     else if (strcmp(iToken, "autoareacreatedefaults")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = copyString(getRestOfLine(), &clink->autoAreaCreateDefaults);
+       }
+       else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "autofilecreatedefaults")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = copyString(getRestOfLine(), &clink->autoFileCreateDefaults);
+       }
+       else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "areafix")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->AreaFix);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "filefix")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->FileFix);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "pause")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->Pause);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "notic")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->noTIC);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "delnotrecievedtic")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->delNotRecievedTIC);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "advancedareafix")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->advancedAreafix);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(getDescrLink(config)->autoPause));
+     else if (strcmp(iToken, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName));
+     else if (strcmp(iToken, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName));
+     else if (strcmp(iToken, "forwardareapriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardAreaPriority));
+     else if (strcmp(iToken, "forwardfilepriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardFilePriority));
 
-   else if (stricmp(token, "export")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->export);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "import")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->import);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "mandatory")==0 || stricmp(token, "manual")==0) {
-      if( (clink = getDescrLink(config)) != NULL ) {
-		rc = parseBool (getRestOfLine(), &clink->mandatory);
-      } else {
-		rc = 1;
-      }
-   }
-   else if (stricmp(token, "optgrp")==0) rc = parseGroup(getRestOfLine(), config, 3);
-   else if (stricmp(token, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->level));
+     else if (strcmp(iToken, "export")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->export);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "import")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->import);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "mandatory")==0 || strcmp(iToken, "manual")==0) {
+       if( (clink = getDescrLink(config)) != NULL ) {
+	 rc = parseBool (getRestOfLine(), &clink->mandatory);
+       } else {
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "optgrp")==0) rc = parseGroup(getRestOfLine(), config, 3);
+     else if (strcmp(iToken, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->level));
 #ifdef __TURBOC__
-   else unrecognised++;
-#else   
-   else
-#endif       
-       if (stricmp(token, "arcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->arcmailSize));
-   else if (stricmp(token, "pktsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->pktSize));
-   else if (stricmp(token, "maxunpackednetmail")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->maxUnpackedNetmail));
-   else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->pktPwd));
-   else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->ticPwd));
-   else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->areaFixPwd));
-   else if (stricmp(token, "filefixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->fileFixPwd));
-   else if (stricmp(token, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->bbsPwd));
-   else if (stricmp(token, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->sessionPwd));
-   else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
-       else if (stricmp(token, "email")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
-   else if (stricmp(token, "emailfrom")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->emailFrom));
-   else if (stricmp(token, "emailsubj")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->emailSubj));
-   else if (stricmp(token, "emailencoding")==0) rc = parseEmailEncoding(getRestOfLine(), &(getDescrLink(config)->emailEncoding));
-   else if (stricmp(token, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(getDescrLink(config)->echoMailFlavour));
-   else if (stricmp(token, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(getDescrLink(config)->fileEchoFlavour));
-   else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
-   else if (stricmp(token, "routefile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
-   else if (stricmp(token, "routemail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
+     else unrecognised++;
+#else
+     else
+#endif
+       if (strcmp(iToken, "arcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->arcmailSize));
+     else if (strcmp(iToken, "pktsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->pktSize));
+     else if (strcmp(iToken, "maxunpackednetmail")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->maxUnpackedNetmail));
+     else if (strcmp(iToken, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->pktPwd));
+     else if (strcmp(iToken, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->ticPwd));
+     else if (strcmp(iToken, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->areaFixPwd));
+     else if (strcmp(iToken, "filefixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->fileFixPwd));
+     else if (strcmp(iToken, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->bbsPwd));
+     else if (strcmp(iToken, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->sessionPwd));
+     else if (strcmp(iToken, "handle")==0) rc = parseHandle(getRestOfLine(), config);
+     else if (strcmp(iToken, "email")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
+     else if (strcmp(iToken, "emailfrom")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->emailFrom));
+     else if (strcmp(iToken, "emailsubj")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->emailSubj));
+     else if (strcmp(iToken, "emailencoding")==0) rc = parseEmailEncoding(getRestOfLine(), &(getDescrLink(config)->emailEncoding));
+     else if (strcmp(iToken, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(getDescrLink(config)->echoMailFlavour));
+     else if (strcmp(iToken, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(getDescrLink(config)->fileEchoFlavour));
+     else if (strcmp(iToken, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
+     else if (strcmp(iToken, "routefile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
+     else if (strcmp(iToken, "routemail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
 
-   else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
-   else if (stricmp(token, "unpack")==0) rc = parseUnpack(getRestOfLine(), config);
-   else if (stricmp(token, "packer")==0) rc = parsePackerDef(getRestOfLine(), config, &(getDescrLink(config)->packerDef));
+     else if (strcmp(iToken, "pack")==0) rc = parsePack(getRestOfLine(), config);
+     else if (strcmp(iToken, "unpack")==0) rc = parseUnpack(getRestOfLine(), config);
+     else if (strcmp(iToken, "packer")==0) rc = parsePackerDef(getRestOfLine(), config, &(getDescrLink(config)->packerDef));
 
-   else if (stricmp(token, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));
-   else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
+     else if (strcmp(iToken, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));
+     else if (strcmp(iToken, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
 
-   else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
-   else if (stricmp(token, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
-   else if (stricmp(token, "forwardrequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardRequestFile));
-   else if (stricmp(token, "forwardfilerequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardFileRequestFile));
-   else if (stricmp(token, "autoareacreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
-   else if (stricmp(token, "autofilecreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));
-   else if (stricmp(token, "linkbundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(getDescrLink(config)->linkBundleNameStyle));
+     else if (strcmp(iToken, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
+     else if (strcmp(iToken, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
+     else if (strcmp(iToken, "forwardrequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardRequestFile));
+     else if (strcmp(iToken, "forwardfilerequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardFileRequestFile));
+     else if (strcmp(iToken, "autoareacreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
+     else if (strcmp(iToken, "autofilecreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));
+     else if (strcmp(iToken, "linkbundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(getDescrLink(config)->linkBundleNameStyle));
 
 
-   else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
-   else if (stricmp(token, "statlog")==0) rc = copyString(getRestOfLine(), &(config->statlog));
-   else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
-   else if (stricmp(token, "linkwithimportlog")==0) rc = parseLinkWithILogType(getRestOfLine(), &(config->LinkWithImportlog));
-   else if (stricmp(token, "fileareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));
-   else if (stricmp(token, "filenewareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog));
-   else if (stricmp(token, "longnamelist")==0) rc = parseFileName(getRestOfLine(), &(config->longNameList));
-   else if (stricmp(token, "filearclist")==0) rc = parseFileName(getRestOfLine(), &(config->fileArcList));
-   else if (stricmp(token, "filepasslist")==0) rc = parseFileName(getRestOfLine(), &(config->filePassList));
-   else if (stricmp(token, "filedupelist")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
-   else if (stricmp(token, "msgidfile")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
-   else if (stricmp(token, "loglevels")==0) rc = copyString(getRestOfLine(), &(config->loglevels));
-   else if (stricmp(token, "screenloglevels")==0) rc = copyString(getRestOfLine(), &(config->screenloglevels));
+     else if (strcmp(iToken, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
+     else if (strcmp(iToken, "statlog")==0) rc = copyString(getRestOfLine(), &(config->statlog));
+     else if (strcmp(iToken, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
+     else if (strcmp(iToken, "linkwithimportlog")==0) rc = parseLinkWithILogType(getRestOfLine(), &(config->LinkWithImportlog));
+     else if (strcmp(iToken, "fileareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));
+     else if (strcmp(iToken, "filenewareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog));
+     else if (strcmp(iToken, "longnamelist")==0) rc = parseFileName(getRestOfLine(), &(config->longNameList));
+     else if (strcmp(iToken, "filearclist")==0) rc = parseFileName(getRestOfLine(), &(config->fileArcList));
+     else if (strcmp(iToken, "filepasslist")==0) rc = parseFileName(getRestOfLine(), &(config->filePassList));
+     else if (strcmp(iToken, "filedupelist")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
+     else if (strcmp(iToken, "msgidfile")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
+     else if (strcmp(iToken, "loglevels")==0) rc = copyString(getRestOfLine(), &(config->loglevels));
+     else if (strcmp(iToken, "screenloglevels")==0) rc = copyString(getRestOfLine(), &(config->screenloglevels));
 
-   else if (stricmp(token, "accessgrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
-   else if (stricmp(token, "linkgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
+     else if (strcmp(iToken, "accessgrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
+     else if (strcmp(iToken, "linkgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
 
-   else if (stricmp(token, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, ct_to);
-   else if (stricmp(token, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, ct_from);
-   else if (stricmp(token, "carbonaddr")==0) rc = parseCarbon(getRestOfLine(), config, ct_addr);
-   else if (stricmp(token, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, ct_kludge);
-   else if (stricmp(token, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, ct_subject);
-   else if (stricmp(token, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, ct_msgtext);
-   else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
-   else if (stricmp(token, "carboncopy")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
-   else if (stricmp(token, "carbonmove")==0) rc = parseCarbonArea(getRestOfLine(), config, 1);
-   else if (stricmp(token, "carbonextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
-   /* +AS+ */
-   else if (stricmp(token, "netmailextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
-   /* -AS- */
-   else if (stricmp(token, "carbondelete")==0) rc = parseCarbonDelete(getRestOfLine(), config);
-   else if (stricmp(token, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
-   else if (stricmp(token, "excludepassthroughcarbon")==0) rc = parseBool(getRestOfLine(), &(config->exclPassCC));
+     else if (strcmp(iToken, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, ct_to);
+     else if (strcmp(iToken, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, ct_from);
+     else if (strcmp(iToken, "carbonaddr")==0) rc = parseCarbon(getRestOfLine(), config, ct_addr);
+     else if (strcmp(iToken, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, ct_kludge);
+     else if (strcmp(iToken, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, ct_subject);
+     else if (strcmp(iToken, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, ct_msgtext);
+     else if (strcmp(iToken, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
+     else if (strcmp(iToken, "carboncopy")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
+     else if (strcmp(iToken, "carbonmove")==0) rc = parseCarbonArea(getRestOfLine(), config, 1);
+     else if (strcmp(iToken, "carbonextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
+/* +AS+ */
+     else if (strcmp(iToken, "netmailextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
+/* -AS- */
+     else if (strcmp(iToken, "carbondelete")==0) rc = parseCarbonDelete(getRestOfLine(), config);
+     else if (strcmp(iToken, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
+     else if (strcmp(iToken, "excludepassthroughcarbon")==0) rc = parseBool(getRestOfLine(), &(config->exclPassCC));
 #ifdef __TURBOC__
-   else unrecognised++;
-#else   
-   else
-#endif       
-        if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
-   else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound), config);
-   else if (stricmp(token, "areafixfrompkt")==0) rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
-   else if (stricmp(token, "areafixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
-   else if (stricmp(token, "areafixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));
-   else if (stricmp(token, "filefixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->filefixKillReports));
-   else if (stricmp(token, "filefixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->filefixKillRequests));
-   else if (stricmp(token, "createdirs")==0) rc = parseBool(getRestOfLine(), &(config->createDirs));
-   else if (stricmp(token, "longdirnames")==0) rc = parseBool(getRestOfLine(), &(config->longDirNames));
-   else if (stricmp(token, "splitdirs")==0) rc = parseBool(getRestOfLine(), &(config->splitDirs));
-   else if (stricmp(token, "adddlc")==0) rc = parseBool(getRestOfLine(), &(config->addDLC));
-   else if (stricmp(token, "filesingledescline")==0) rc = parseBool(getRestOfLine(), &(config->fileSingleDescLine));
-   else if (stricmp(token, "filecheckdest")==0) rc = parseBool(getRestOfLine(), &(config->fileCheckDest));
-   else if (stricmp(token, "publicgroup")==0) rc = parseGroup(getRestOfLine(), config, 2);
-   else if (stricmp(token, "logechotoscreen")==0) rc = parseBool(getRestOfLine(), &(config->logEchoToScreen));
-   else if (stricmp(token, "separatebundles")==0) rc = parseBool(getRestOfLine(), &(config->separateBundles));
-   else if (stricmp(token, "carbonandquit")==0) rc = parseBool(getRestOfLine(), &(config->carbonAndQuit));
-   else if (stricmp(token, "carbonkeepsb")==0) rc = parseBool(getRestOfLine(), &(config->carbonKeepSb));
-   else if (stricmp(token, "carbonout")==0) rc = parseBool(getRestOfLine(), &(config->carbonOut));
-   else if (stricmp(token, "ignorecapword")==0) rc = parseBool(getRestOfLine(), &(config->ignoreCapWord));
-   else if (stricmp(token, "noprocessbundles")==0) rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
-   else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
-   else if (stricmp(token, "execonfile")==0) rc = parseExecOnFile(getRestOfLine(), config);
-   else if (stricmp(token, "defarcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
-   else if (stricmp(token, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
-   else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
-   else if (stricmp(token, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
-   else if (stricmp(token, "processpkt")==0) rc = copyString(getRestOfLine(), &(config->processPkt));
-   else if (stricmp(token, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
-   else if (stricmp(token, "areafixorigin")==0) rc = copyString(getRestOfLine(), &(config->areafixOrigin));
-   else if (stricmp(token, "robotsarea")==0) rc = copyString(getRestOfLine(), &(config->robotsArea));
-   else if (stricmp(token, "filedescpos")==0) rc = parseUInt(getRestOfLine(), &(config->fileDescPos));
-   else if (stricmp(token, "dlcdigits")==0) rc = parseUInt(getRestOfLine(), &(config->DLCDigits));
-   else if (stricmp(token, "filemaxdupeage")==0) rc = parseUInt(getRestOfLine(), &(config->fileMaxDupeAge));
-   else if (stricmp(token, "filefileumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileFileUMask));
-   else if (stricmp(token, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
-   else if (stricmp(token, "origininannounce")==0) rc = parseBool(getRestOfLine(), &(config->originInAnnounce));
-   else if (stricmp(token, "maxticlinelength")==0) rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
-   else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
-   else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
-   else if (stricmp(token, "savetic")==0) rc = parseSaveTicStatement(getRestOfLine(), config);
-   else if (stricmp(token, "areasmaxdupeage")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areasMaxDupeAge));
-   else if (stricmp(token, "dupebasetype")==0) rc = parseTypeDupes(getRestOfLine(), &(config->typeDupeBase), &(config->areasMaxDupeAge));
+     else unrecognised++;
+#else
+     else
+#endif
+       if (strcmp(iToken, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
+     else if (strcmp(iToken, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound), config);
+     else if (strcmp(iToken, "areafixfrompkt")==0) rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
+     else if (strcmp(iToken, "areafixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
+     else if (strcmp(iToken, "areafixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));
+     else if (strcmp(iToken, "filefixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->filefixKillReports));
+     else if (strcmp(iToken, "filefixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->filefixKillRequests));
+     else if (strcmp(iToken, "createdirs")==0) rc = parseBool(getRestOfLine(), &(config->createDirs));
+     else if (strcmp(iToken, "longdirnames")==0) rc = parseBool(getRestOfLine(), &(config->longDirNames));
+     else if (strcmp(iToken, "splitdirs")==0) rc = parseBool(getRestOfLine(), &(config->splitDirs));
+     else if (strcmp(iToken, "adddlc")==0) rc = parseBool(getRestOfLine(), &(config->addDLC));
+     else if (strcmp(iToken, "filesingledescline")==0) rc = parseBool(getRestOfLine(), &(config->fileSingleDescLine));
+     else if (strcmp(iToken, "filecheckdest")==0) rc = parseBool(getRestOfLine(), &(config->fileCheckDest));
+     else if (strcmp(iToken, "publicgroup")==0) rc = parseGroup(getRestOfLine(), config, 2);
+     else if (strcmp(iToken, "logechotoscreen")==0) rc = parseBool(getRestOfLine(), &(config->logEchoToScreen));
+     else if (strcmp(iToken, "separatebundles")==0) rc = parseBool(getRestOfLine(), &(config->separateBundles));
+     else if (strcmp(iToken, "carbonandquit")==0) rc = parseBool(getRestOfLine(), &(config->carbonAndQuit));
+     else if (strcmp(iToken, "carbonkeepsb")==0) rc = parseBool(getRestOfLine(), &(config->carbonKeepSb));
+     else if (strcmp(iToken, "carbonout")==0) rc = parseBool(getRestOfLine(), &(config->carbonOut));
+     else if (strcmp(iToken, "ignorecapword")==0) rc = parseBool(getRestOfLine(), &(config->ignoreCapWord));
+     else if (strcmp(iToken, "noprocessbundles")==0) rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
+     else if (strcmp(iToken, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
+     else if (strcmp(iToken, "execonfile")==0) rc = parseExecOnFile(getRestOfLine(), config);
+     else if (strcmp(iToken, "defarcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
+     else if (strcmp(iToken, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
+     else if (strcmp(iToken, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
+     else if (strcmp(iToken, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
+     else if (strcmp(iToken, "processpkt")==0) rc = copyString(getRestOfLine(), &(config->processPkt));
+     else if (strcmp(iToken, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
+     else if (strcmp(iToken, "areafixorigin")==0) rc = copyString(getRestOfLine(), &(config->areafixOrigin));
+     else if (strcmp(iToken, "robotsarea")==0) rc = copyString(getRestOfLine(), &(config->robotsArea));
+     else if (strcmp(iToken, "filedescpos")==0) rc = parseUInt(getRestOfLine(), &(config->fileDescPos));
+     else if (strcmp(iToken, "dlcdigits")==0) rc = parseUInt(getRestOfLine(), &(config->DLCDigits));
+     else if (strcmp(iToken, "filemaxdupeage")==0) rc = parseUInt(getRestOfLine(), &(config->fileMaxDupeAge));
+     else if (strcmp(iToken, "filefileumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileFileUMask));
+     else if (strcmp(iToken, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
+     else if (strcmp(iToken, "origininannounce")==0) rc = parseBool(getRestOfLine(), &(config->originInAnnounce));
+     else if (strcmp(iToken, "maxticlinelength")==0) rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
+     else if (strcmp(iToken, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
+     else if (strcmp(iToken, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
+     else if (strcmp(iToken, "savetic")==0) rc = parseSaveTicStatement(getRestOfLine(), config);
+     else if (strcmp(iToken, "areasmaxdupeage")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areasMaxDupeAge));
+     else if (strcmp(iToken, "dupebasetype")==0) rc = parseTypeDupes(getRestOfLine(), &(config->typeDupeBase), &(config->areasMaxDupeAge));
 #ifdef __TURBOC__
-   else unrecognised++;
-#else   
-   else
-#endif       
-   if (stricmp(token, "fidouserlist") ==0)
-     rc = copyString(getRestOfLine(), &(config->fidoUserList));
-   else if (stricmp(token, "nodelist") ==0)
-     rc = parseNodelist(getRestOfLine(), config);
-   else if (stricmp(token, "diffupdate") ==0) {
-      rc = 0;
-      if (config->nodelistCount > 0) {
-        rc = copyString(getRestOfLine(),
-                &(config->nodelists[config->nodelistCount-1].diffUpdateStem));
-      }
-      else {
-	printNodelistError();
-	rc = 1;
-      }
-   }
-   else if (stricmp(token, "fullupdate") ==0) {
-      rc = 0;
-      if (config->nodelistCount > 0) {
-        rc = copyString(getRestOfLine(),
-                &(config->nodelists[config->nodelistCount-1].fullUpdateStem));
-      }
-      else {
-	printNodelistError();
-	rc = 1;
-      }
-   }
-   else if (stricmp(token, "defaultzone") ==0) {
-      rc = 0;
-      if (config->nodelistCount > 0) {
-        rc = parseUInt(getRestOfLine(),
-                &(config->nodelists[config->nodelistCount-1].defaultZone));
-      }
-      else {
-	printNodelistError();
-	rc = 1;
-      }
-   }
-   else if (stricmp(token, "nodelistformat") ==0) {
-     if (config->nodelistCount > 0) {
-      rc = parseNodelistFormat(getRestOfLine(), config,
-                               &(config->nodelists[config->nodelistCount-1]));
+     else unrecognised++;
+#else
+     else
+#endif
+       if (strcmp(iToken, "fidouserlist") ==0)
+         rc = copyString(getRestOfLine(), &(config->fidoUserList));
+     else if (strcmp(iToken, "nodelist") ==0)
+       rc = parseNodelist(getRestOfLine(), config);
+     else if (strcmp(iToken, "diffupdate") ==0) {
+       rc = 0;
+       if (config->nodelistCount > 0) {
+	 rc = copyString(getRestOfLine(),
+			 &(config->nodelists[config->nodelistCount-1].diffUpdateStem));
+       }
+       else {
+	 printNodelistError();
+	 rc = 1;
+       }
      }
-     else {
-       printNodelistError();
-       rc = 1;
+     else if (strcmp(iToken, "fullupdate") ==0) {
+       rc = 0;
+       if (config->nodelistCount > 0) {
+	 rc = copyString(getRestOfLine(),
+			 &(config->nodelists[config->nodelistCount-1].fullUpdateStem));
+       }
+       else {
+	 printNodelistError();
+	 rc = 1;
+       }
      }
-   }
-   else if (stricmp(token, "logowner")==0) rc = parseOwner(getRestOfLine(), &(config->loguid), &(config->loggid));
-   else if (stricmp(token, "logperm")==0) rc = parseNumber(getRestOfLine(), 8, &(config->logperm));
-   else if (stricmp(token, "linkdefaults")==0) rc = parseLinkDefaults(getRestOfLine(), config);
-   else if (stricmp(token, "createareascase")==0) rc = parseNamesCase(getRestOfLine(), &(config->createAreasCase));
-   else if (stricmp(token, "areasfilenamecase")==0) rc = parseNamesCase(getRestOfLine(), &(config->areasFileNameCase));
-   else if (stricmp(token, "convertlongnames")==0) rc = parseNamesCaseConversion(getRestOfLine(), &(config->convertLongNames));
-   else if (stricmp(token, "convertshortnames")==0) rc = parseNamesCaseConversion(getRestOfLine(), &(config->convertShortNames));
-   else if (stricmp(token, "disabletid")==0) rc = parseBool(getRestOfLine(), &(config->disableTID));
-   else if (stricmp(token, "tossingext")==0) {
-      if ((temp=getRestOfLine()) != NULL)
-         rc = copyString(temp, &(config->tossingExt));
-        else config->tossingExt = NULL;
-   }
+     else if (strcmp(iToken, "defaultzone") ==0) {
+       rc = 0;
+       if (config->nodelistCount > 0) {
+	 rc = parseUInt(getRestOfLine(),
+			&(config->nodelists[config->nodelistCount-1].defaultZone));
+       }
+       else {
+	 printNodelistError();
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "nodelistformat") ==0) {
+       if (config->nodelistCount > 0) {
+	 rc = parseNodelistFormat(getRestOfLine(), config,
+				  &(config->nodelists[config->nodelistCount-1]));
+       }
+       else {
+	 printNodelistError();
+	 rc = 1;
+       }
+     }
+     else if (strcmp(iToken, "logowner")==0) rc = parseOwner(getRestOfLine(), &(config->loguid), &(config->loggid));
+     else if (strcmp(iToken, "logperm")==0) rc = parseNumber(getRestOfLine(), 8, &(config->logperm));
+     else if (strcmp(iToken, "linkdefaults")==0) rc = parseLinkDefaults(getRestOfLine(), config);
+     else if (strcmp(iToken, "createareascase")==0) rc = parseNamesCase(getRestOfLine(), &(config->createAreasCase));
+     else if (strcmp(iToken, "areasfilenamecase")==0) rc = parseNamesCase(getRestOfLine(), &(config->areasFileNameCase));
+     else if (strcmp(iToken, "convertlongnames")==0) rc = parseNamesCaseConversion(getRestOfLine(), &(config->convertLongNames));
+     else if (strcmp(iToken, "convertshortnames")==0) rc = parseNamesCaseConversion(getRestOfLine(), &(config->convertShortNames));
+     else if (strcmp(iToken, "disabletid")==0) rc = parseBool(getRestOfLine(), &(config->disableTID));
+     else if (strcmp(iToken, "tossingext")==0) {
+       if ((temp=getRestOfLine()) != NULL)
+	 rc = copyString(temp, &(config->tossingExt));
+       else config->tossingExt = NULL;
+     }
 
 #if defined ( __NT__ )
-   else if (stricmp(token, "setconsoletitle")==0) rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
+     else if (strcmp(iToken, "setconsoletitle")==0) rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
 #endif
-   else if (stricmp(token,"addtoseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->addToSeen), &(config->addToSeenCount));
-   else if (stricmp(token,"ignoreseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->ignoreSeen), &(config->ignoreSeenCount));
-   else if (stricmp(token, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline));
-   else if (stricmp(token, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
-   else if (stricmp(token, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
-   else if (stricmp(token, "keeptrsmail")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
-   
-#ifdef __TURBOC__
-   else unrecognised++;
-   if (unrecognised == 5)
-#else   
-   else 
-#endif
-        printf("Unrecognized line(%d): %s\n", actualLineNr, line);
+     else if (strcmp(iToken,"addtoseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->addToSeen), &(config->addToSeenCount));
+     else if (strcmp(iToken,"ignoreseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->ignoreSeen), &(config->ignoreSeenCount));
+     else if (strcmp(iToken, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline));
+     else if (strcmp(iToken, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
+     else if (strcmp(iToken, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
+     else if (strcmp(iToken, "keeptrsmail")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
 
+#ifdef __TURBOC__
+     else unrecognised++;
+     if (unrecognised == 5)
+#else
+     else
+#endif
+       printf("Unrecognized line(%d): %s\n", actualLineNr, line);
+
+     free(iToken);
+   }
    if (rc != 0) {
       printf("Error %d (line %d): %s\n", rc, actualLineNr, line);
       wasError = 1;

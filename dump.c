@@ -130,7 +130,25 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
   dumpString(f, "EchotossLog         %s\n", config->echotosslog);
   dumpString(f, "StatLog             %s\n", config->statlog);
   dumpString(f, "ImportLog           %s\n", config->importlog);
-  dumpString(f, "LinkWithImportlog   %s\n", config->LinkWithImportlog);
+
+  switch (config->LinkWithImportlog)
+  {
+  case lwiYes:
+    fprintf(f, "LinkWithImportlog   Yes\n");
+    break;
+
+  case lwiNo:
+    fprintf(f, "LinkWithImportlog   No\n");
+    break;
+
+  case lwiKill:
+    fprintf(f, "LinkWithImportlog   Kill\n");
+    break;
+
+  default:
+    printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
+  }
+
   dumpString(f, "FileAreasLog        %s\n", config->fileAreasLog);
   dumpString(f, "FileNewAreasLog     %s\n", config->fileNewAreasLog);
   dumpString(f, "Lockfile            %s\n", config->lockfile);

@@ -633,7 +633,24 @@ int main(int argc, char **argv) {
       if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
   }
       printf("\n=== LINKER CONFIG ===\n");
-      if (config->LinkWithImportlog != NULL) printf("LinkWithImportlog: %s\n", config->LinkWithImportlog);
+      switch (config->LinkWithImportlog)
+      {
+      case lwiYes:
+	printf("LinkWithImportlog   Yes\n");
+	break;
+
+      case lwiNo:
+	printf("LinkWithImportlog   No\n");
+	break;
+
+      case lwiKill:
+	printf("LinkWithImportlog   Kill\n");
+	break;
+
+      default:
+	printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
+      }
+
       printf("\n=== LINK CONFIG ===\n");
       printf("%u links in config\n", config->linkCount);
       for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
