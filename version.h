@@ -31,6 +31,10 @@
 #ifndef __FIDOCONF__VERSION_H
 #define __FIDOCONF__VERSION_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "fidoconf.h"
 
 /* values for 5th parameter of GenVersionStr() */
@@ -53,5 +57,9 @@
 
 FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
    unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
