@@ -144,7 +144,7 @@ void string2addr(const char *string, s_addr *addr)
    i = 0;
 
    switch (*start) {
-   case '0':                            /* no point / domain info */
+   case '\0':                            /* no point / domain info */
       start++;
       addr->point = 0;
       break;

@@ -10,7 +10,7 @@ AR_R = r
 RM = rm
 
 ifeq ($(DEBUG), 1)
-  COPT = -c -fPIC -Wall -ggdb -O6 -DUNIX -I$(INCDIR)
+  COPT = -c -fPIC -Wall -ggdb -DUNIX -I$(INCDIR)
 else
   COPT = -c -fPIC -Wall -s -O6 -DUNIX -I$(INCDIR)
 endif

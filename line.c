@@ -155,6 +155,7 @@ int parseAddress(char *token, s_fidoconfig *config)
    }
 
    aka = strtok(token, " \t"); // only look at aka
+   printf("aka='%s'\n", aka);
    if (aka == NULL) {
       printf("Line %d: There is an address missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
