@@ -36,13 +36,13 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
 #endif
 
-#include <smapi/progprot.h>
+#include <huskylib/huskylib.h>
 
 #include "fidoconf.h"
 #include "xstr.h"

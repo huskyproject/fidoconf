@@ -55,7 +55,7 @@
 /*   the definitions for your compiler, if not already present. */
 /*  */
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef __OS2__
 #define INCL_DOSPROCESS

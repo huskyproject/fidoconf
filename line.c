@@ -30,7 +30,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -73,10 +73,10 @@
 #  include <process.h>
 #endif
 
-#include <smapi/progprot.h>
-#include <smapi/patmat.h>
-#include <smapi/unused.h>
-#include <smapi/stamp.h>
+#include <huskylib/huskylib.h>
+#include <huskylib/patmat.h>
+#include <huskylib/unused.h>
+#include <huskylib/cvtdate.h>
 
 #include "syslogp.h"
 #include "dirlayer.h"

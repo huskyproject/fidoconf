@@ -39,7 +39,7 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_IO_H
 #include <io.h>

@@ -21,7 +21,7 @@
 #include <sys/types.h>
 
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #include "typesize.h"
 #include "common.h"

@@ -36,7 +36,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_IO_H
 #  include <io.h>

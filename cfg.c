@@ -38,7 +38,7 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #if defined (__OS2__)
 # define INCL_DOSFILEMGR

@@ -37,7 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 #include "typesize.h"
 #include "fidoconf.h"
 

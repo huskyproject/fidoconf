@@ -29,7 +29,7 @@
  */
 #include <string.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 #include "common.h"
 #include "xstr.h"
 

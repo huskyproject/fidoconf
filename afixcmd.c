@@ -34,7 +34,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
@@ -44,7 +44,7 @@
 #   include <io.h>
 #endif
 
-#include <smapi/progprot.h>
+#include <huskylib/huskylib.h>
 #include "afixcmd.h"
 #include "common.h"
 #include "log.h"

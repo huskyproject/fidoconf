@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 #include "fidoconf.h"
 #include "typesize.h"
 

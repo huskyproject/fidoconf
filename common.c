@@ -42,7 +42,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_UNISTD_H
 #  include <unistd.h>
@@ -77,8 +77,8 @@ int cmpfnames(char *file1, char *file2);
 #include <utime.h>
 #endif
 
-#include <smapi/progprot.h>
-#include <smapi/patmat.h>
+#include <huskylib/huskylib.h>
+#include <huskylib/patmat.h>
 
 #include "fidoconf.h"
 #include "common.h"

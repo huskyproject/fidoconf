@@ -34,7 +34,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_SYS_SYSEXITS_H
 #include <sys/sysexits.h>
@@ -42,7 +42,7 @@
 #include <sysexits.h>
 #endif
 
-#include <smapi/patmat.h>
+#include <huskylib/patmat.h>
 #include "fidoconf.h"
 #include "typesize.h"
 #include "common.h"

@@ -47,7 +47,7 @@
 
 #endif
 
-#include <smapi/unused.h>
+#include <huskylib/unused.h>
 
 int writeArea(FILE *f, s_area *area, char type) {
    int i;

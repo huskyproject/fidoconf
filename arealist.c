@@ -35,7 +35,7 @@
 #include <ctype.h>
 
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>

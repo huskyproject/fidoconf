@@ -19,10 +19,10 @@ char Revision[] = "$Revision$";
 #include <ctype.h>
 #include <assert.h>
 
-#include <smapi/compiler.h>
-#include <smapi/typedefs.h>
-#include <smapi/stamp.h>
-#include <smapi/progprot.h>
+#include <huskylib/compiler.h>
+#include <huskylib/typedefs.h>
+#include <huskylib/cvtdate.h>
+#include <huskylib/huskylib.h>
 
 #include "common.h"
 

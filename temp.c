@@ -34,7 +34,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-#include <smapi/compiler.h>
+#include <huskylib/compiler.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
@@ -57,7 +57,7 @@
 /* This includes commented for not create dependence from smapi functions
    please don't use _createDirectoryTree()
  */
-/*#include <smapi/compiler.h>*/
+/*#include <huskylib/compiler.h>*/
 /*#include <smapi/progprot.h>*/   /* for _createDirectoryTree() */
 /*#define MKDIR(dd) (_createDirectoryTree(dd))*/
 
