@@ -500,7 +500,7 @@ int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
          return 0;
       }
 
-   printf("Line %d: Packer %s not found for packerDef statement!\n", actualLineNr, line);
+   printf("Line %d: Packer %s not found for packer statement!\n", actualLineNr, line);
    return 2;
 }
 
@@ -578,7 +578,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "routeMail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
 
    else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
-   else if (stricmp(token, "packerDef")==0) rc = parsePackerDef(getRestOfLine(), config, &(config->links[config->linkCount-1].packerDef));
+   else if (stricmp(token, "packer")==0) rc = parsePackerDef(getRestOfLine(), config, &(config->links[config->linkCount-1].packerDef));
 
    else if (stricmp(token, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));
    else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
