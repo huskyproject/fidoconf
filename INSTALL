@@ -2,38 +2,57 @@
 Please read the files (especially README.Makefiles) in the
 husky-common (huskybse) package FIRST!
 
-Unix:
------
 
-0. the smapi package is required for the fidoconfig packages
+Instruction to build smapi
+--------------------------
+
+0. The smapi package is required for the fidoconfig packages
 
 1. Put the fidoconfig package in the directory where the other packages of fido
-   linux reside:
+   husky reside:
 
-   /usr/src/packages/        -> smapi/
+   unix, beos, possible cygwin:
+   -------------------
+   /usr/src/packages/        -> huskybse/
+                             -> smapi/
                              -> fidoconfig/
                              -> hpt/
                              -> htick/
                              ...some other
 
-2. Determine which makefile you need to use then compile and install fidoconfig
-   using selected makefile, as following examples:
-   Ex.1 (use platfom-specific makefile):
-	$ make -f makefile.lnx
-	$ make -f makefile.lnx install
-   Ex.2 (use common makefile and ../huskymak.cfg):
+   windows, dos, os/2 & etc:
+   -------------------------
+   d:\husky\                 -> smapi\
+                             -> fidoconf\
+                             -> hpt\
+                             -> htick\
+                             ...some other
+
+2. Determine which makefile you need to use then compile (and install if need)
+   fidoconfig using selected makefile, as following examples:
+   Example 1 (use common makefile (named 'Makefile'): require huskymak.cfg (see
+              huskybse); unixes only):
 	$ make
 	$ make install
+   Example 2 (use platfom-specific makefile):
+   linux:
+	$ make -f makefile.lnx
+	$ make -f makefile.lnx install
+   dos (DJGPP GCC):
+        d:\husky\fidoconfig>make -f makefile.djg
+   windows (MS Visual C/C++):
+        d:\husky\fidoconfig>nmake -f makefile.mvc
 
 3. (For UNIXes only) Ensure /usr/local/lib/ is in /etc/ld.so.conf
 
 4. (For UNIXes only) Execute ldconfig as root
 
 5. Write a fido config according to the proposal which is also in this package.
-   If your are just some normal point, give the shell script fidoInst a
-   chance. Always test the config with the tparser tool, which you can place
-   in a directory like /usr/local/bin.
+   (UNIXes only: if your are just some normal point, give the shell script
+   fidoInst a chance.) Always test the config after changes with the tparser
+   tool, which you can place in a directory listed in the PATH enviroment
+   variable.
 
-You're ready. Now you can install hpt and other software which uses fidoconfig. 
+You're ready. Now you can install hpt and other software which uses fidoconfig.
 
 $Id$
