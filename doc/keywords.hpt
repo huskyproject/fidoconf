@@ -67,6 +67,8 @@ echotosslog
 excludepassthroughcarbon
 export
 filebox
+fileboxalways
+fileboxesdir
 forwardareapriority
 forwardpkts
 forwardrequestfile

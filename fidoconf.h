@@ -162,6 +162,8 @@ typedef struct link {
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;
     char  *fileBox;
+    unsigned int fileBoxAlways;
+    char useFileBox; // internal
 
     char sb; // internal
 
@@ -503,7 +505,7 @@ typedef struct fidoconfig {
    int readOnlyCount;
    s_permissions *writeOnly;
    int writeOnlyCount;
-
+    char *fileBoxesDir;
 
 } s_fidoconfig, *ps_fidoconfig;
 

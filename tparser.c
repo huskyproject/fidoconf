@@ -348,7 +348,11 @@ void printLink(s_link link) {
    if (link.msgBaseDir) printf("MsgBaseDir %s\n",link.msgBaseDir);
    if (link.packerDef) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
-   if (link.fileBox)  printf("fileBox %s\n", link.fileBox);
+   if (link.fileBox)  {
+       printf("fileBox %s\n", link.fileBox);
+       printf("fileBoxAlways: %s\n", link.fileBoxAlways ? "on": "off");
+   }
+
    if (link.pktSize != 0) printf("pktSize - %u kb\n",link.pktSize);
    if (link.arcmailSize != 0) printf("arcmailSize - %u kb\n",link.arcmailSize);
 
@@ -769,7 +773,7 @@ int main(int argc, char **argv) {
 
       printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
       printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
-	  switch (config->bundleNameStyle) {
+      switch (config->bundleNameStyle) {
 	  case eUndef:
 		  printf("BundleNameStyle: undefined (timeStamp)\n");
 		  break;
@@ -789,7 +793,9 @@ int main(int argc, char **argv) {
 		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
 		  break;
 		  
-	  }		  
+      }		  
+
+      if (config->fileBoxesDir) printf ("fileBoxesDir: %s\n", config->fileBoxesDir);
       printf("DupeBaseType: ");
       if (config->typeDupeBase==textDupes) printf("textDupes\n");
       if (config->typeDupeBase==hashDupes) printf("hashDupes\n");

@@ -3850,9 +3850,15 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_SYSLOG_FACILITY:
             rc = parseSyslog(getRestOfLine(), &(config->syslogFacility));
             break;
-        case ID_FILEBOXDIR:
+        case ID_FILEBOX:
             rc = parsePathNoCheck(getRestOfLine(), &(getDescrLink(config)->fileBox));
             break;
+        case ID_FILEBOXESDIR:
+            rc = parsePath(getRestOfLine(), &(config->fileBoxesDir));
+            break;
+	case ID_FILEBOXALWAYS:
+	    rc = parseBool(getRestOfLine(), &(getDescrLink(config)->fileBoxAlways));
+	    break;
 	case ID_CARBONEXCLUDEFWDFROM:
 	    rc = parseBool(getRestOfLine(), &(config->carbonExcludeFwdFrom));
 	    break;
