@@ -1025,7 +1025,7 @@ char *makeMsgbFileName(ps_fidoconfig config, char *s) {
     return name;
 }
 
-int CreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ)
+int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ)
 {
    int fd; // bsy file for current link
    int nRet = 0;

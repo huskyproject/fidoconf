@@ -183,7 +183,7 @@ FCONF_EXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoco
            See the comments in common.c for further explanations
 */
 
-FCONF_EXT int  CreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ);
+FCONF_EXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ);
 /*DOC
   Input:  link is the link whose OutboundFileName should be created.
           prio is some kind of CRASH, HOLD, NORMAL
