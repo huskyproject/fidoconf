@@ -704,6 +704,7 @@ int move_file(const char *from, const char *to, const int force_rewrite)
         return 0;
 #endif
 
+    w_log( LL_DEBUGY, __FILE__ ":%u:move_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
     if(force_rewrite)
       remove(to);
     else if(fexist(to)){
@@ -711,6 +712,7 @@ int move_file(const char *from, const char *to, const int force_rewrite)
       return -1;
     }
 
+    w_log( LL_DEBUGY, __FILE__ ":%u:move_file()", __LINE__ );
     rc = rename(from, to);
     if (!rc) {               /* rename succeeded. fine! */
 #elif defined(__NT__) && defined(USE_SYSTEM_COPY)
@@ -768,6 +770,8 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     struct utimbuf ut;
     int fh=-1;
 
+    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
+
 #ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
     if ( cmpfnames((char*)from,(char*)to) == 0 )
         return 0;
@@ -779,10 +783,12 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     memset(&st, 0, sizeof(st));
     if (stat(from, &st)) return -1; /* file does not exist */
 
+    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
     fin = fopen(from, "rb");        /* todo: use open( ..., O_CREAT| ..., ...)
                                      * to prevent file overwrite */
     if (fin == NULL) { nfree(buffer); return -1; }
 
+    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
     fh = open( to, O_EXCL | (force_rewrite ? 0 : O_CREAT) | O_RDWR, S_IREAD | S_IWRITE );
     if( fh<0 ){
       fh=errno;
@@ -791,12 +797,14 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
       return -1;
     }
 #ifdef UNIX
-    // try to save file ownership if it is possible
+    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
+    /* try to save file ownership if it is possible */
     if (fchown(fh, st.st_uid, st.st_gid) != 0)
         fchmod(fh, st.st_mode & 01777);
     else
         fchmod(fh, st.st_mode);
 #endif
+    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
     fout = fdopen(fh, "wb");
     if (fout == NULL) { fh=errno; nfree(buffer); fclose(fin); errno=fh; return -1; }
 
@@ -806,6 +814,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
 	{   fh=errno;
 	    fclose(fout); fclose(fin); remove(to); nfree(buffer);
             errno=fh;
+            w_log( LL_DEBUGY, __FILE__ ":%u:copy_file() failed", __LINE__);
 	    return -1;
 	}
     }
@@ -817,6 +826,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
 	fclose(fin);
         remove(to);
         errno=fh;
+        w_log( LL_DEBUGY, __FILE__ ":%u:copy_file() failed", __LINE__);
 	return -1;
     }
     fclose(fin);
@@ -826,6 +836,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
 	fclose(fin);
         remove(to);
         errno=fh;
+        w_log( LL_DEBUGY, __FILE__ ":%u:copy_file() failed", __LINE__);
 	return -1;
     }
     ut.actime = st.st_atime;
@@ -870,6 +881,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
       return -1;
     }
 #endif
+    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file() OK", __LINE__);
     return 0;
 }
 
