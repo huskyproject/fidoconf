@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Mon Nov 13 22:56:43 NOVT 2000
+max:
+* fixed parsing excludePassthroughCarbon
+
+----- cvs ci ------
 Sun Nov 12 13:34:40 NOVT 2000
 max:
 * dublicates checking in copyString()

@@ -2479,7 +2479,7 @@ int parseLine(char *line, s_fidoconfig *config)
    /* -AS- */
    else if (stricmp(token, "carbondelete")==0) rc = parseCarbonDelete(getRestOfLine(), config);
    else if (stricmp(token, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
-   else if (stricmp(token, "excludepassthoughcarbon")==0) rc = parseBool(getRestOfLine(), &(config->exclPassCC));
+   else if (stricmp(token, "excludepassthroughcarbon")==0) rc = parseBool(getRestOfLine(), &(config->exclPassCC));
 #ifdef __TURBOC__
    else unrecognised++;
 #else   
