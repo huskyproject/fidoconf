@@ -1,0 +1,3 @@
+debian/tmp/usr/lib/libfidoconfig.so.1.*
+debian/tmp/usr/share/doc/libfidoconf1/*.html
+debian/tmp/usr/share/info/fidoconfig.info
