@@ -1019,10 +1019,10 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
         }
         tok = strtok(NULL, " \t");
     }
-    
+
     if(area->description==NULL && config->EchoAreaDefault.description!=NULL)
         area->description=sstrdup(config->EchoAreaDefault.description);
-    
+
     return rc;
 }
 
@@ -1664,7 +1664,7 @@ int parsePause(char *token, unsigned *Pause)
       *Pause |= EPAUSE;
    else if(stricmp(token,"farea") == 0)
       *Pause |= FPAUSE;
-   else if (stricmp(token,"off") == 0) 
+   else if (stricmp(token,"off") == 0)
       *Pause = NOPAUSE;
    else {
       prErr("Wrong Pause parameter!");
@@ -1674,12 +1674,17 @@ int parsePause(char *token, unsigned *Pause)
 }
 
 int parseUInt(char *token, unsigned int *uint) {
-
+    long var=0;
     if (token == NULL) {
 	prErr("Parameter missing after %s!", actualKeyword);
 	return 1;
     }
-    sscanf(token, "%u", uint);
+    sscanf(token, "%ld", &var);
+    if( var<0 ) {
+        prErr("Negative value of %s is invalid!", actualKeyword);
+	return 1;
+    }
+    *uint = (unsigned int)var;
     return 0;
 }
 
@@ -2948,7 +2953,7 @@ int parseSyslog(char *line, int *value)
     }
     else
     {
-        
+
                /* | if you get an error about undefined symbol "facilitynames"
                   | add your operating system after "sun" to the ifdef line
                   | in syslogp.h which comes below the
@@ -2963,7 +2968,7 @@ int parseSyslog(char *line, int *value)
                 break;
             }
         }
-        
+
         if (facilitynames[i].c_name == NULL)
         {
             prErr("%s: %s is an unknown syslog facility on this system.",
@@ -2971,7 +2976,7 @@ int parseSyslog(char *line, int *value)
             rv=1;
         }
     }
-#endif  
+#endif
   return rv;
 }
 
@@ -3021,19 +3026,19 @@ int parseLine(char *line, s_fidoconfig *config)
     s_link   *clink = NULL;
     static token_list_t tl;
     static token_list_t *ptl = NULL;
-    
+
     temp = (char *) smalloc(strlen(line)+1);
     strcpy(temp, line);
     actualLine = temp = vars_expand(temp);
-    
+
     if (ptl == NULL)
     {
         ptl = &tl;
         make_token_list(ptl, parseline_tokens);
     }
-    
+
     actualKeyword = token = strtok(temp, " \t");
-    
+
     /* printf("Parsing: %s\n", line);
        printf("token: %s - %s\n", line, strtok(NULL, "\0")); */
 
@@ -3344,7 +3349,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseUInt(getRestOfLine(), &(config->forwardRequestTimeout));
             break;
         case ID_IDLEPASSTHRUTIMEOUT:
-            rc = parseUInt(getRestOfLine(), &(config->idlePassthruTimeout));
+            parseUInt(getRestOfLine(), (unsigned int*)&(config->idlePassthruTimeout));
             break;
         case ID_KILLEDREQUESTTIMEOUT:
             rc = parseUInt(getRestOfLine(), &(config->killedRequestTimeout));
@@ -3969,7 +3974,7 @@ int parseLine(char *line, s_fidoconfig *config)
         prErr( "error %d in: %s", rc, line);
         wasError = 1;
     }
-    
+
     nfree(actualLine);
     return rc;
 }

@@ -64,7 +64,7 @@ char *readLine(FILE *f)
 
     if (get_hcfg()) wasCR = 0;
     do {
-	ch = getc (f); 
+	ch = getc (f);
         // not fgets() 'cause it concatenates lines without \r on Watcom C / WinDos
 	if (ch < 0) { // EOF
 	    if (i==0) {
@@ -291,7 +291,7 @@ void carbonNames2Addr(s_fidoconfig *config)
 	   if (cb->areaName!=NULL) {
 	       i = (*cb->areaName=='*') ? 1 : 0;
 	       nfree(cb->areaName);
-	   } 
+	   }
 	   else i = 0;
 	   cb->areaName = (char *) smalloc(strlen(config->badArea.areaName)+i+1);
 	   if (i) *cb->areaName='*';
@@ -375,10 +375,10 @@ void stripPktPwd(s_fidoconfig *config)
 void setConfigDefaults(s_fidoconfig *config)
 {
    if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"");
-   config->forwardRequestTimeout = config->forwardRequestTimeout <= 0 ? 7 : config->forwardRequestTimeout;
-   config->idlePassthruTimeout = config->idlePassthruTimeout     <  0 ? 4 : config->idlePassthruTimeout;
-   config->killedRequestTimeout = config->killedRequestTimeout   <= 0 ? 3 : config->killedRequestTimeout;
-   RebuildEchoAreaTree(config);   
+   if (config->forwardRequestTimeout==0) config->forwardRequestTimeout = 7;
+   if (config->idlePassthruTimeout<0)    config->idlePassthruTimeout   = 4;
+   if (config->killedRequestTimeout==0)  config->killedRequestTimeout  = 3;
+   RebuildEchoAreaTree(config);
 }
 
 s_fidoconfig *readConfig(char *cfgFile)
@@ -633,9 +633,9 @@ void disposeConfig(s_fidoconfig *config)
 
 s_link *getLink(s_fidoconfig *config, char *addr) {
    s_addr aka;
-   
+
    string2addr(addr, &aka);
- 
+
    return getLinkFromAddr(config, aka);
 }
 
@@ -713,7 +713,7 @@ int existAddr(s_fidoconfig *config, s_addr aka) {
    return 0;
 }
 
-s_area *getEchoArea(s_fidoconfig *config, char *areaName) 
+s_area *getEchoArea(s_fidoconfig *config, char *areaName)
 {
     return getArea(config, areaName);
 }
