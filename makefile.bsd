@@ -3,10 +3,12 @@
 #installation directories
 INSTBIN = /usr/local/bin
 INSTLIB = /usr/local/lib
+INSTUSR = bin
+INSTGRP = bin
 
 #install args
-IBOPT = -c -s -m 755 -o bin -g bin
-ILOPT = -c -m 444 -o bin -g bin
+IBOPT = -c -s -m 755 -o $(INSTUSR) -g $(INSTGRP)
+ILOPT = -c -m 444 -o $(INSTUSR) -g $(INSTGRP)
 
 # program settings
 CC = cc
@@ -16,7 +18,7 @@ AR_R = r
 RM = rm -f
 
 COPT = -fpic -O2 -pipe -Wall -DUNIX -I../smapi
-LOPT = -L /usr/local/lib -L. -L../smapi
+LOPT = -L $(INSTLIB) -L../smapi
 
 # filename settings
 O = .o
@@ -30,6 +32,9 @@ FCONF2FIDOGATE = fconf2fidogate
 LIBFIDOCONFIG = libfidoconfig
 LINKSMAPI = -lsmapibsd
 LINKFIDOCONFIG = -l$(FIDOCONFIG)
+
+.c$(O):
+	$(CC) $(COPT) -c $*.c
 
 default: all
 

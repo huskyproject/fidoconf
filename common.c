@@ -325,7 +325,6 @@ char *makeUniqueDosFileName(const char *dir, const char *ext)
    static unsigned      counter  = 0x100;
    static time_t        refTime  = 0x0;
    time_t               oldTime;
-   int                  exists;
 
 #ifdef UNIX
    char                 delim    = '/';
@@ -340,7 +339,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext)
        return NULL;
    }
                            
-   memcpy(fileName, dir, pathLen, pathLen + 1);
+   memcpy(fileName, dir, pathLen + 1);
 
    if (pathLen && fileName[pathLen - 1] != '\\' &&
                   fileName[pathLen - 1] != '/')
