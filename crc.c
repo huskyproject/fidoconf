@@ -66,7 +66,7 @@
 /*	   hardware you could probably optimize the shift in assembler by  */
 /*	   using byte-swap instructions.				   */
 
-static unsigned long crc32tab[] =	/* CRC polynomial 0xedb88320 */
+static UINT32 crc32tab[] =	/* CRC polynomial 0xedb88320 */
 {
   0x00000000UL, 0x77073096UL, 0xee0e612cUL, 0x990951baUL, 0x076dc419UL, 0x706af48fUL, 0xe963a535UL, 0x9e6495a3UL,
   0x0edb8832UL, 0x79dcb8a4UL, 0xe0d5e91eUL, 0x97d2d988UL, 0x09b64c2bUL, 0x7eb17cbdUL, 0xe7b82d07UL, 0x90bf1d91UL,
@@ -143,9 +143,9 @@ UINT16 crc16tab[] =
 };
 
 
-unsigned long memcrc32(char *str, int size, unsigned long initcrc)
+UINT32 memcrc32(char *str, int size, UINT32 initcrc)
 {
-  unsigned long crc;
+  UINT32 crc;
 
   for (crc = initcrc; size; str++, size--)
     crc = crc32tab[((int) crc ^ (*str)) & 0xff] ^ ((crc >> 8) & 0x00ffffffUL);
@@ -154,9 +154,9 @@ unsigned long memcrc32(char *str, int size, unsigned long initcrc)
 }
 
 
-unsigned long strcrc32(char *str, unsigned long initcrc)
+UINT32 strcrc32(char *str, UINT32 initcrc)
 {
-  unsigned long crc;
+  UINT32 crc;
 
   for (crc = initcrc; *str; str++)
     crc = crc32tab[((int) crc ^ (*str)) & 0xff] ^ ((crc >> 8) & 0x00ffffffUL);
@@ -165,12 +165,12 @@ unsigned long strcrc32(char *str, unsigned long initcrc)
 }
 
 
-unsigned long filecrc32(const char *filename)
+UINT32 filecrc32(const char *filename)
 {
   FILE *fd;
   unsigned char* buffer;
   size_t got;
-  unsigned long crc;
+  UINT32 crc;
 
   fd = fopen(filename, "rb");
 
@@ -215,7 +215,7 @@ UINT16 memcrc16(char *str, int size, UINT16 initcrc)
  */
 UINT16 strcrc16(char *str, UINT16 initcrc)
 {
-  unsigned long crc;
+  UINT32 crc;
 
   for (crc = initcrc; *str; str++)
     crc =  ( (crc<<8) ^ crc16tab[(char)(crc>>8)^(*str)] ) & 0xFFFF;

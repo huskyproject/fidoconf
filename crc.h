@@ -49,7 +49,7 @@ extern "C" {
    size: array size
    initcrc: initial value (start from 0xFFFFFFFFUL)
  */
-FCONF_EXT   unsigned long memcrc32(char *str, int size, unsigned long initcrc);
+FCONF_EXT   UINT32 memcrc32(char *str, int size, UINT32 initcrc);
 
 /* Alias for memcrc32() */
 #define crc32(x,y,z) memcrc32(x,y,z)
@@ -58,12 +58,12 @@ FCONF_EXT   unsigned long memcrc32(char *str, int size, unsigned long initcrc);
    str: string
    initcrc: initial value (start from 0xFFFFFFFFUL)
  */
-FCONF_EXT   unsigned long strcrc32(char *str, unsigned long initcrc);
+FCONF_EXT   UINT32 strcrc32(char *str, UINT32 initcrc);
 
 /* Calculate CRC32 for file
    filename: file name for calculate CRC32
  */
-FCONF_EXT   unsigned long filecrc32(const char *filename);
+FCONF_EXT   UINT32 filecrc32(const char *filename);
 
 /* Calculate CRC16 for memory array
    str: array
