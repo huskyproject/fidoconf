@@ -31,7 +31,7 @@
 
 static tree* echoAreaTree = NULL;
 
-int compareEntries(char *p_e1, char *p_e2)
+int fc_compareEntries(char *p_e1, char *p_e2)
 {
    ps_area e1 = (ps_area)p_e1;
    ps_area e2 = (ps_area)p_e2;
@@ -42,13 +42,13 @@ int compareEntries(char *p_e1, char *p_e2)
    return 0;
 }
 
-int deleteEntry(char *p_e1) {
+int fc_deleteEntry(char *p_e1) {
    return 1;
 }
 
 void  addAreaToTree(ps_area areaPtr)
 {
-   tree_add(&echoAreaTree, compareEntries, (char *)areaPtr, deleteEntry);     
+   tree_add(&echoAreaTree, fc_compareEntries, (char *)areaPtr, fc_deleteEntry);     
 }
 
 ps_area FindAreaInTree(char* areaName)
@@ -59,7 +59,7 @@ ps_area FindAreaInTree(char* areaName)
       return areaPtr;
    else
       areaSrc.areaName = areaName;
-   areaPtr = (ps_area)tree_srch(&echoAreaTree, compareEntries, (char *)(&areaSrc));
+   areaPtr = (ps_area)tree_srch(&echoAreaTree, fc_compareEntries, (char *)(&areaSrc));
    return areaPtr;
 }
 
@@ -80,6 +80,6 @@ void     FreeAreaTree(ps_fidoconfig config)
 {
    if(config->quickAreaSearch)
    {
-      tree_mung(&echoAreaTree, deleteEntry);
+      tree_mung(&echoAreaTree, fc_deleteEntry);
    }
 }
