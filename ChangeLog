@@ -1,3 +1,19 @@
+2003-02-04 Tuesday 20:41  stas_degteff
+
+	* tparser.c (1.239): Implement smapi version check
+
+2003-02-04 Tuesday 20:40  stas_degteff
+
+	* version.c (1.5), version.h (1.9): Add test for cvs_date
+
+2003-02-04 Tuesday 20:05  stas_degteff
+
+	* version.c (1.4), version.h (1.8): New function: CheckLibVersion()
+
+2003-02-03 Monday 22:04  d_sergienko
+
+	* common.c (1.165), grptree.c (1.5): fixed warnings
+
 2003-02-03 Monday 21:21  d_sergienko
 
 	* areatree.c (1.13), grptree.c (1.4), tree.c (1.11), tree.h (1.5):
