@@ -535,12 +535,12 @@ FCONF_EXT ps_fidoconfig readConfig(char *cfgFile);
 
 FCONF_EXT void disposeConfig(ps_fidoconfig config);
 
-FCONF_EXT ps_link getLink(s_fidoconfig config, char *addr);
-FCONF_EXT ps_link getLinkForArea(s_fidoconfig config, char *addr, s_area *area);
-FCONF_EXT ps_link getLinkForFileArea(s_fidoconfig config, char *addr, s_filearea *area);
-FCONF_EXT ps_link getLinkFromAddr(s_fidoconfig config, s_addr aka);
-FCONF_EXT ps_addr getAddr(s_fidoconfig config, char *addr);
-int    existAddr(s_fidoconfig config, s_addr aka);
+FCONF_EXT ps_link getLink(s_fidoconfig *config, char *addr);
+FCONF_EXT ps_link getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area);
+FCONF_EXT ps_link getLinkForFileArea(const s_fidoconfig *config, char *addr, s_filearea *area);
+FCONF_EXT ps_link getLinkFromAddr(s_fidoconfig *config, s_addr aka);
+FCONF_EXT ps_addr getAddr(const s_fidoconfig *config, char *addr);
+int    existAddr(s_fidoconfig *config, s_addr aka);
 
 /* find echo & local areas in config */
 FCONF_EXT ps_area getArea(ps_fidoconfig config, char *areaName);

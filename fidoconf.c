@@ -318,7 +318,7 @@ void fixRoute(s_fidoconfig *config)
 
 	for (i = 0; i < config->routeCount; i++) {
 		if (config->route[i].viaStr != NULL)
-			config->route[i].target = getLink(*config, config->route[i].viaStr);
+			config->route[i].target = getLink(config, config->route[i].viaStr);
 		nfree(config->route[i].viaStr);
 	}
 }
@@ -578,88 +578,88 @@ void disposeConfig(s_fidoconfig *config)
    config = NULL;
 }
 
-s_link *getLink(s_fidoconfig config, char *addr) {
+s_link *getLink(s_fidoconfig *config, char *addr) {
    s_addr aka;
    UINT i;
 
    string2addr(addr, &aka);
-   for (i = 0; i< config.linkCount; i++) {
-      if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
+   for (i = 0; i< config->linkCount; i++) {
+      if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
    }
 
    return NULL;
 }
 
-s_link *getLinkFromAddr(s_fidoconfig config, s_addr aka)
+s_link *getLinkFromAddr(s_fidoconfig *config, s_addr aka)
 {
    UINT i;
 
-   for (i = 0; i <config.linkCount; i++) {
-      if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
+   for (i = 0; i <config->linkCount; i++) {
+      if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
    }
 
    return NULL;
 }
 
-s_link *getLinkForArea(s_fidoconfig config, char *addr, s_area *area) {
+s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 	s_addr aka;
 	UINT i;
 
 	string2addr(addr, &aka);
 
 	// we must find "right" link
-	for (i = 0; i< config.linkCount; i++) {
-		if (addrComp(aka, config.links[i].hisAka)==0 &&
-			addrComp(*area->useAka, *config.links[i].ourAka)==0)
-			return &(config.links[i]);
+	for (i = 0; i< config->linkCount; i++) {
+		if (addrComp(aka, config->links[i].hisAka)==0 &&
+			addrComp(*area->useAka, *(config->links[i].ourAka))==0)
+			return &(config->links[i]);
 	}
 
 	// backward compatibility
-	for (i = 0; i< config.linkCount; i++) {
-	    if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
+	for (i = 0; i< config->linkCount; i++) {
+	    if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
 	}
 
 	return NULL;
 }
 
-s_link *getLinkForFileArea(s_fidoconfig config, char *addr, s_filearea *area) {
+s_link *getLinkForFileArea(const s_fidoconfig *config, char *addr, s_filearea *area) {
 	s_addr aka;
 	UINT i;
 
 	string2addr(addr, &aka);
 
 	// we must find "right" link
-	for (i = 0; i< config.linkCount; i++) {
-		if (addrComp(aka, config.links[i].hisAka)==0 &&
-			addrComp(*area->useAka, *config.links[i].ourAka)==0)
-			return &(config.links[i]);
+	for (i = 0; i< config->linkCount; i++) {
+		if (addrComp(aka, config->links[i].hisAka)==0 &&
+			addrComp(*area->useAka, *(config->links[i].ourAka))==0)
+			return &(config->links[i]);
 	}
 
 	// backward compatibility
-	for (i = 0; i< config.linkCount; i++) {
-	    if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
+	for (i = 0; i< config->linkCount; i++) {
+	    if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
 	}
 
 	return NULL;
 }
 
-s_addr *getAddr(s_fidoconfig config, char *addr) {
+s_addr *getAddr(const s_fidoconfig *config, char *addr) {
    s_addr aka;
    UINT i;
 
-   for (i = 0; i < config.addrCount; i++) {
+   for (i = 0; i < config->addrCount; i++) {
       string2addr(addr, &aka);
-      if (addrComp(aka, config.addr[i])==0) return &(config.addr[i]);
+      if (addrComp(aka, config->addr[i])==0) return &(config->addr[i]);
    }
 
    return NULL;
 }
 
-int existAddr(s_fidoconfig config, s_addr aka) {
+int existAddr(s_fidoconfig *config, s_addr aka) {
    UINT i;
 
-   for (i=0; i< config.addrCount; i++) {
-      if (addrComp(aka, config.addr[i])==0) return 1;
+   for (i=0; i< config->addrCount; i++) {
+      if (addrComp(aka, config->addr[i])==0) return 1;
    }
    return 0;
 }

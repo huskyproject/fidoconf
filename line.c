@@ -610,7 +610,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 	  nfree(iOption);
 	  return 1;
 	}
-      area->useAka = getAddr(*config, token);
+      area->useAka = getAddr(config, token);
       if (area->useAka == NULL) {
          prErr("%s not found as address.", token);
          nfree(iOption);
@@ -769,7 +769,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       nfree(iOption);
       return 1;
     }
-    area->useAka = getAddr(*config, token);
+    area->useAka = getAddr(config, token);
     if (area->useAka == NULL) {
       prErr("%s not found as address.", token);
       nfree(iOption);
@@ -870,7 +870,7 @@ int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
 	
 	area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
 	area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
-	area->downlinks[area->downlinkCount]->link = getLinkForArea(*config,tok,area);
+	area->downlinks[area->downlinkCount]->link = getLinkForArea(config,tok,area);
 	
 	if (area->downlinks[area->downlinkCount]->link == NULL) {
 		prErr("no links like \"%s\" in config!", tok);
@@ -1278,7 +1278,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
          area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
          area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
 //         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
-         area->downlinks[area->downlinkCount]->link = getLinkForFileArea(*config,tok,area);
+         area->downlinks[area->downlinkCount]->link = getLinkForFileArea(config,tok,area);
 
          if (area->downlinks[area->downlinkCount]->link == NULL) {
             prErr("Link for this area is not found!");
@@ -1371,7 +1371,7 @@ int parseFileAreaDefault(const s_fidoconfig *config, char *token, s_filearea *fd
          fdef->downlinks = srealloc(fdef->downlinks, sizeof(s_arealink*)*(fdef->downlinkCount+1));
          fdef->downlinks[fdef->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
 //         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
-         fdef->downlinks[fdef->downlinkCount]->link = getLinkForFileArea(*config,tok,fdef);
+         fdef->downlinks[fdef->downlinkCount]->link = getLinkForFileArea(config,tok,fdef);
 
          if (fdef->downlinks[fdef->downlinkCount]->link == NULL) {
             prErr("Link is not found!");
@@ -1767,7 +1767,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
     else if (strcmp(iOption, "no-pack")==0) actualRoute->routeVia = nopack;
     else if (isdigit(option[0]) || (option[0] == '*') || (option[0] == '?')) {
       if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL)) {
-	actualRoute->target = getLink(*config, option);
+	actualRoute->target = getLink(config, option);
 	actualRoute->viaStr = (char *) smalloc(strlen(option)+1);
 	strcpy(actualRoute->viaStr, option);
       }
@@ -3177,7 +3177,7 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_OURAKA:
             rc = 0;
             if( (clink = getDescrLink(config)) != NULL ) {
-                clink->ourAka = getAddr(*config, getRestOfLine());
+                clink->ourAka = getAddr(config, getRestOfLine());
                 if (clink->ourAka == NULL) rc = 2;
             } else {
                 rc = 1;
