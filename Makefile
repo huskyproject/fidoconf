@@ -171,6 +171,7 @@ endif
 	$(INSTALL) $(IIOPT) temp.h         $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) afixcmd.h      $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) arealist.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) version.h      $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 	(cd doc && $(MAKE) install)
 	@echo
