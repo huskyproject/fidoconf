@@ -269,8 +269,9 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
 }
 
 void parseOptions(char *line) {
-   int options=0;
+/*   int options=0;
    char chr=0;
+*/
 
    if ( strncasecmp(line, "-m", 2) == 0 ) {
     export_mailareas = 1;
