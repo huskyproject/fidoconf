@@ -63,7 +63,7 @@ int copyString(char *str, char **pmem)
       return 1;
    }
 
-   *pmem = (char *) malloc(strlen(str)+1);
+   *pmem = (char *) smalloc(strlen(str)+1);
    strcpy(*pmem, str);
    return 0;
 }
@@ -71,8 +71,8 @@ int copyString(char *str, char **pmem)
 void *memdup(void *p, size_t size)
 {
 	void *newp;
-	newp = malloc(size);
-	if (newp != NULL) memcpy(newp, p, size);
+	newp = smalloc(size);
+	memcpy(newp, p, size);
 	return newp;
 }
 
@@ -124,7 +124,7 @@ void string2addr(const char *string, s_addr *addr)
 
   if (strchr(start,':')==NULL || strchr(start,'/')==NULL) return;
 
-  buffer = malloc(strlen(string));
+  buffer = smalloc(strlen(string));
   while ((*start != ':')&&(*start != ' ')&&(*start != '\0')) {    // copy zone info or preceding domain
       buffer[i] = *start;
       start++;
@@ -365,7 +365,7 @@ char *shell_expand(char *str)
         return str;
     }
 
-    ret = malloc(strlen(slash) + strlen(pfix) + 1);
+    ret = smalloc(strlen(slash) + strlen(pfix) + 1);
     strcpy(ret, pfix);
     strcat(ret, slash);
     free(str);
@@ -958,4 +958,33 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     if (echo->levelwrite > link->level) return 2;
     
     return rc;
+}
+
+/* safe malloc, realloc, calloc */
+
+void *smalloc(size_t size)
+{
+    void *ptr = malloc(size);
+    if (ptr == NULL) {
+		fprintf(stderr, "out of memory");
+		abort();
+    }
+    return ptr;
+}
+
+void *srealloc(void *ptr, size_t size)
+{
+    void *newptr = realloc(ptr, size);
+    if (newptr == NULL) {
+		fprintf(stderr, "out of memory");
+		abort();
+    }
+    return newptr;
+}
+
+void *scalloc(size_t nmemb, size_t size)
+{
+    void *ptr = smalloc(size*nmemb);
+	memset(ptr,'\0',size*nmemb);
+    return ptr;
 }

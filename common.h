@@ -182,6 +182,14 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
 // '\x0003' no access import
 // '\x0004' not linked
 
+/* 
+   safe malloc, realloc, calloc
+   if no memory allocated -- abort()
+*/
+void *smalloc(size_t size);
+void *srealloc(void *ptr, size_t size);
+void *scalloc(size_t nmemb, size_t size);
+
 #ifdef __cplusplus
 }
 #endif
