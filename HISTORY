@@ -9,7 +9,7 @@ Changes after FIDOCONFIG 0.14
      empty origin may be defined as "";
    - compare with a pattern by using =~ and !~ instead of == and !=
      in "if" expressions in the config;
-   - fconf2binkd and fconf2tornado converters;
+   - fconf2binkd, fconf2tornado and fconf2na converters;
    - use TEMP, TMP or TMPDIR enviroment variables to point to directory for
      create temporary files, also use system-default temporary directory.
 
