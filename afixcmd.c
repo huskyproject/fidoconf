@@ -194,24 +194,28 @@ int DelLinkFromString(char *line, s_addr linkAddr)
 {
     int rc = 1;
     char *end = NULL;
-    char *beg = strrchr(line, '"'); // находим закрывающую строку коментария
-    if(!beg)  beg = line;           // если не найдена, то ищем с начала строки  
-    beg++;                          // переходим к следующему токену
-    while(*beg)                     // пока не конец строки
+    char *beg;
+
+    w_log(LL_FUNC, "%s::DelLinkFromString() begin");
+
+    beg = strrchr(line, '"'); /* seek end comment pointer (quote char) */
+    if(!beg)  beg = line;     /* if not found then seek from begin */
+    beg++;                    /* process next token */
+    while(*beg)               /* while not end of string */
     {
-        while(*beg && isspace(*beg)) beg++; // пропускаем пробельные символы
+        while(*beg && isspace(*beg)) beg++; /* skip spaces */
         if(*beg && testAddr(beg, linkAddr))
         {
             rc = 0;
             break;
         }
-        while(*beg && !isspace(*beg)) beg++; // пропускаем токен
+        while(*beg && !isspace(*beg)) beg++; /* skip token */
     }
-    if(rc == 0) // beg points to begin of unsubscribed addres
+    if(rc == 0) /* beg points to begin of unsubscribed address */
     {
         end = beg;
-        while(*beg && !isspace(*beg)) beg++; // пропускаем токен
-        while(*beg && !isdigit(*beg)) beg++; // находим судующего линка
+        while(*beg && !isspace(*beg)) beg++; /* skip token */
+        while(*beg && !isdigit(*beg)) beg++; /* find for next link */
         if(beg && *beg)
         {
             strcpy(end,beg);
@@ -222,5 +226,8 @@ int DelLinkFromString(char *line, s_addr linkAddr)
             *end = '\0';
         }
     }
+
+    w_log(LL_FUNC, "%s::DelLinkFromString() end");
     return rc;
 }
+
