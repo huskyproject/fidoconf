@@ -1,3 +1,12 @@
+2001-07-22 Sunday 13:22  twm
+
+	* fidoconf.pas (1.10): As of now I will stop maintaining
+	fidoconf.pas. It turned out that because of the alignment of the
+	structures passed between fidoconfig and calling programs is left
+	to the compiler, it is likely to need constant rechecking whether
+	the fields are still in sync. I am not going to do that.  So this
+	is the last update I will post.
+
 2001-07-21 Saturday 15:53  twm
 
 	* fidoconf.pas (1.9): Lots of changes to make fidoconf.pas actually
