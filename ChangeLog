@@ -2,6 +2,11 @@ fidoconfig 0.9
 --------------
 
 ----- cvs ci ------
+Mon Aug 02 18:20:50 1999
+Georgi:
++ Added token "BbsArea <name> <directory>"
++ Added -lw and -lr in filearea options
+
 Thu Jul 29 10:43:22 CEST 1999 	
 mtt:
 + added logEchoToScreen to tparser
