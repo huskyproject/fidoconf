@@ -1748,6 +1748,10 @@ int parseLink(char *token, s_fidoconfig *config)
       return 1;
    }
 
+   if (config->fileAreas || config->echoAreas) {
+       prErr("Can't define links after EchoArea of FileArea statements!");
+       return 1;
+   }
    config->describeLinkDefaults=0; /*  Stop describing of link defaults if it was */
 
    config->links = srealloc(config->links, sizeof(s_link)*(config->linkCount+1));

@@ -31,6 +31,7 @@ Changes after FIDOCONFIG 0.14
    - fix line parsing if comment ends line.
    - AllowEmptyPktPwd parsing: now enable 'off' and all boolean values;
    - fix loglevels and screenloglevels parsing.
+   - don't crash when link statement after described echoArea/fileArea found
 
 4. KNOWN BUGS
    - GCC 3.0 and 3.1 complains about va_start in line.c and refuses compiling
