@@ -4410,7 +4410,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseFileName(getRestOfLine(), &(config->hptPerlFile), NULL);
             break;
         case ID_ADVSTATISTICSFILE:
-            rc = copyString(getRestOfLine(), &(config->advStatisticsFile), NULL);
+            rc = copyString(getRestOfLine(), &(config->advStatisticsFile));
             break;
         case ID_READONLY:
             rc = parsePermissions (getRestOfLine(),  &(config->readOnly), &(config->readOnlyCount));
