@@ -1,12 +1,13 @@
 fidoconfig 0.10b
 ================
-(pending for release)
+(released on Tue 31 Oct 2000 23:35:25 CET)
 
 ----- cvs ci ------
 Sat Oct  7 16:58:58 MSZ 2000
 tobi:
 * fecfg2fconf is now platform independent
-* -> included fecfg2fconf into standard makefile.
+* -> included fecfg2fconf into standard makefile
+* -> fecfg2fconf.exe now part of binary distributions
 
 
 fidoconfig 0.10a
