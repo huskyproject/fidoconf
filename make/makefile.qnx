@@ -36,6 +36,8 @@ CP	= cp
 MV	= mv
 # groff program (man pages formatter, possible use man2html perl script)
 GROFF	= groff
+# ln, to make soft links
+LN      = ln
 
 
 ## file suffixes ##
@@ -130,6 +132,8 @@ _OBJ:=$(_LIBOBJ)
 include makefile.inc
 LIBOBJS:=$(LOBJS)
 
+TARGETDLL:=$(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)-$(VER)$(_DLL)
+
 # libraries need to build binary file
 DYNLIBS = ./libfidoconfigqnx.so ../../smapi/make/libsmapiqnx.so ../../huskylib/make/libhuskyqnx.so
 STATLIBS = ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)  ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
@@ -160,9 +164,10 @@ $(TARGETLIB):	$(LIBOBJS)
 $(TARGETDLL):	$(DLLOBJS)
 		$(CC) $(DLLOPT) $(DLLLINKOPT) $(CFLAGS) $(NAMEOPT)$@ $^ $(DLLS)
 		$(STRIPDLL) $@
+		$(LN) -f -s $@ $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
 
 clean:
-	-$(RM) $(RMOPT) *$(_LIBOBJ) *$(_DLLOBJ)
+	-$(RM) $(RMOPT) *$(_LIBOBJ) *$(_DLLOBJ) $(PROGRAMS) $(TARGETDLL) $(TARGETLIB) $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
 
 distclean: clean
 	-$(RM) $(RMOPT) $(TARGETDLL) $(TARGETLIB) $(PROGRAMS)
