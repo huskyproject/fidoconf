@@ -7,4 +7,4 @@ LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ)  xstr
 
 OBJS = $(LOBJS) fc2binkd$(OBJ) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) fc2tor$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ) linked$(OBJ)
 
-PROGRAMS= tparser$(EXE) linked$(EXE) $(FCONF2BINKD)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) $(FCONF2TORNADO)$(EXE) $(FECFG2FCONF)$(EXE)
+PROGRAMS= tparser$(EXE) linked$(EXE) $(FCONF2BINKD)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) $(FCONF2TORNADO)$(EXE) $(FECFG2FCONF)$(EXE) fconf2pwd$(EXE)
