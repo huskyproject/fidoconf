@@ -10,7 +10,9 @@ Unix:
                              -> hpt/
                              -> fidoconfig/
 
-2. compile and install fidoconfig:
+2a. Determine which makefile you need to use and copy it to "makefile".
+
+2b. compile and install fidoconfig:
 	$ make
 	$ make install
 
