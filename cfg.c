@@ -107,7 +107,8 @@ void setvar(char *name, char *value)
 }
 
 void close_conf(void)
-{ int i;
+{ 
+  int i;
   char *module;
 
   module = getvar("module");
@@ -131,7 +132,7 @@ void close_conf(void)
   nfree(curconfname);
   nfree(incstack);
   sp=maxsp=0;
-  for (i=0; i<cfgNamesCount; i++) nfree(cfgNames[i]);
+  for (i=0; i<(int)cfgNamesCount; i++) nfree(cfgNames[i]);
   nfree(cfgNames);
   cfgNamesCount=0;
 }
@@ -460,12 +461,12 @@ static int cmpfnames(char *file1, char *file2)
 #elif (defined(NT) || defined(WINNT) || defined(__NT__)) && (defined(_MSC_VER) || defined(__MINGW32__))
 #ifdef __MINGW32__
 typedef unsigned long DWORD;
-typedef char *LPWSTR;
-typedef const char *LPCWSTR;
-DWORD __stdcall GetFullPathNameA(LPCWSTR,DWORD,LPWSTR,LPWSTR*);
-DWORD __stdcall GetLongPathNameA(LPCWSTR,LPWSTR,DWORD);
-#define GetFullPathName GetFullPathNameA
-#define GetLongPathName GetLongPathNameA
+typedef char        *LPSTR;
+typedef const char  *LPCSTR;
+DWORD __stdcall GetFullPathNameA(LPCSTR,DWORD,LPSTR,LPSTR*);
+DWORD __stdcall GetShortPathNameA(LPCSTR,LPSTR,DWORD);
+#define GetFullPathName     GetFullPathNameA
+#define GetShortPathName    GetShortPathNameA
 #else
 #include <windows.h>
 #endif
@@ -473,9 +474,9 @@ static int cmpfnames(char *file1, char *file2)
 {
     char buf[256], path1[256], path2[256], *p;
 
-    if (!GetLongPathName(file1, buf, sizeof(buf))) return 1;
+    if (!GetShortPathName(file1, buf, sizeof(buf))) return 1;
     if (!GetFullPathName(buf, sizeof(path1), path1, &p)) return 1;
-    if (!GetLongPathName(file2, buf, sizeof(buf))) return 1;
+    if (!GetShortPathName(file2, buf, sizeof(buf))) return 1;
     if (!GetFullPathName(buf, sizeof(path2), path2, &p)) return 1;
 
     return stricmp(path1, path2);
@@ -519,7 +520,7 @@ static int cmpfnames(char *file1, char *file2)
 
 void checkIncludeLogic(ps_fidoconfig config)
 { 
-    int i, j;
+    unsigned int i, j;
 
     for (j=0; j<config->linkCount; j++) {
 	if (config->links[j].autoAreaCreateFile==NULL) continue;
