@@ -1,3 +1,17 @@
+2002-02-05 Tuesday 18:50  stas
+
+	* tparser.c (1.164): Check permissions of AutoAreaCreateFile &
+	AutoFileCreateFile (links definitions).
+
+2002-02-05 Tuesday 15:01  ml
+
+	* cfg.c (1.26): cmpfnames logical fix
+
+2002-02-05 Tuesday 09:52  mche
+
+	* common.c (1.74): - added: string2addr can take first address from
+	string of addresses   derived by spaces
+
 2002-02-02 Saturday 17:19  nestyurkin.nikolay
 
 	* cfg.c (1.25): cmpfnames() fix for Watcom C
