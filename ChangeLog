@@ -1,3 +1,31 @@
+2003-02-05 Wednesday 11:51  sfpavel
+
+	* Makefile (1.59), VERSION (1.5), debian/changelog (1.22),
+	debian/control (1.15), debian/huskymak.cfg (1.14), doc/Makefile
+	(1.18), man/Makefile (1.6): New debian package
+
+2003-02-05 Wednesday 11:51  sfpavel
+
+	* grptree.c (1.6), version.c (1.8): Fix compiler warnings
+
+2003-02-05 Wednesday 07:16  stas_degteff
+
+	* tparser.c (1.241): Test smapi & fidoconfig versions, display
+	message 'using...'
+
+2003-02-05 Wednesday 07:05  stas_degteff
+
+	* version.h (1.11): Fix comment
+
+2003-02-05 Wednesday 07:04  stas_degteff
+
+	* version.c (1.7): Update CheckFidoconfigVersion(); fix comment
+
+2003-02-05 Wednesday 06:01  stas_degteff
+
+	* tparser.c (1.240), version.c (1.6), version.h (1.10): Replace
+	CheckLibVersion() with CheckFidoconfigVersion()
+
 2003-02-04 Tuesday 20:41  stas_degteff
 
 	* tparser.c (1.239): Implement smapi version check
