@@ -543,6 +543,8 @@ typedef struct fidoconfig {
     
 } s_fidoconfig, *ps_fidoconfig;
 
+typedef enum { M_NOTDEF=0,M_HPT, M_HTICK, M_OTHER } e_known_moduls;
+
 typedef struct {
     int module;
 //  module = 0 - not defined
