@@ -2141,29 +2141,32 @@ int parseNamesCaseConversion(char *line, e_nameCaseConvertion *value)
 
 int parseAddToSeen(char *token, s_fidoconfig *config)
 {
-   char *aka;
+	char buf[6];
+	UINT net=0,node=0,i;
 
-   if (token==NULL) {
-	   printf("Line %d: There is an address missing after %s!\n",
-			  actualLineNr, actualKeyword);
-	   return 1;
-   }
+	if (token==NULL) {
+		printf("Line %d: There is an address missing after %s!\n",
+			   actualLineNr, actualKeyword);
+		return 1;
+	}
 
-   aka = strtok(token, " \t"); // only look at aka
-   if (aka == NULL) {
-	   printf("Line %d: There is an address missing after %s!\n",
-			  actualLineNr, actualKeyword);
-	   return 1;
-   }
+	while (*token) {
+		while(!isdigit(*token)) token++; i=0;
+		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
+		buf[i]='\0'; net=atoi(buf);
 
-   config->addToSeen = realloc(config->addToSeen, 
-							   sizeof(s_addr)*(config->addToSeenCount+1));
-   string2addr(aka, &(config->addToSeen[config->addToSeenCount]));
-   config->addToSeenCount++;
-
-   return 0;
+		while(!isdigit(*token)) token++; i=0;
+		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
+		buf[i]='\0'; node=atoi(buf);
+		
+		config->addToSeen = realloc(config->addToSeen, 
+									sizeof(s_addr)*(config->addToSeenCount+1));
+		config->addToSeen[config->addToSeenCount].net  = net;
+		config->addToSeen[config->addToSeenCount].node = node;
+		config->addToSeenCount++;
+	}
+	return 0;
 }
-   
 
 int parseLine(char *line, s_fidoconfig *config)
 {

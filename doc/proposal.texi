@@ -2323,12 +2323,12 @@ Set hpt console title while tossing
 @subsection addToSeen
 @table @asis
 @item Syntax:
-@code{addToSeen <addr>}
+@code{addToSeen <addr> [<addr> ...]}
 @item Example:
-@code{addToSeen 99:1/0}
+@code{addToSeen 99/100 99/101}
 @end table
 
-Add aka to seen-by's. @strong{write full address with zone!}
+Add aka(s) to SEEN-BYs.
 
 This statement can be repeated.
 

@@ -330,10 +330,14 @@ int main(int argc, char **argv) {
       if (config->processPkt != NULL) printf("processPkt: %s\n", config->processPkt);
       if (config->tossingExt != NULL) printf("tossingExt: %s\n", config->tossingExt);
 
-	  for (i=0; i<config->addToSeenCount; i++) {
-		  printf("AddToSeen: %s\n", aka2str(config->addToSeen[i]));
+	  if (config->addToSeenCount) {
+		  printf("AddToSeen:");
+		  for (i=0; i<config->addToSeenCount; i++) {
+			  printf(" %u/%u", config->addToSeen[i].net,config->addToSeen[i].node );
+		  }
+		  printf("\n");
 	  }
-      
+	  
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
 	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");
