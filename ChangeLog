@@ -1,5 +1,10 @@
 fidoconfig 0.9
 --------------
+
+----- cvs ci ------
+Thu Jul 29 10:43:22 CEST 1999 	
+mtt:
++ added logEchoToScreen to tparser
 	
 ----- cvs ci ------
 Sun Jul 18 15:21:25 1999

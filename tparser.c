@@ -224,6 +224,9 @@ int main() {
 	 else
             printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
       }
+
+      printf("LogEchoToScreen %s\n", (config->logEchoToScreen = 0) ? "off" : "on");
+
       if (config->inbound != NULL) printf("Inbound: %s\n", config->inbound);
       if (config->protInbound != NULL) printf("ProtInbound: %s\n", config->protInbound);
       if (config->localInbound != NULL) printf("LocalInbound: %s\n", config->localInbound);
