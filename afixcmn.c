@@ -50,27 +50,27 @@ static ULONG DoMakeMSGIDStamp(void)
 {
     static ULONG lStampPrev;
     ULONG lStamp, lSecs, lHund, lSecStart = (ULONG) time(NULL);
-    
+
     // Make up time stamp out of number of seconds since Jan 1, 1970
     // shifted 7 bits to the left OR'ed with current system clock and
     // loop untill we get a new stamp
-    
+
     do {
         lSecs = (ULONG) time(NULL);
         lHund = (ULONG) clock();
         lStamp = (lSecs << 7) | (lHund & 0x07f);
     } while ((lStampPrev >= lStamp) && ((ULONG) time(NULL) < lSecStart + 5));
-    
+
     // Check if we finally have unique ascending ^aMSGID kludge stamp and
     // if not, use incremented largest stamp value
-    
+
     if (lStampPrev >= lStamp) lStamp = lStampPrev + 1;
-    
+
     return lStampPrev = lStamp;
 }
 */
 
-char *createKludges(int disableTID, const char *area, const s_addr *ourAka, 
+char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
                     const s_addr *destAka, const char* versionStr)
 {
    char *buff = NULL;
@@ -84,9 +84,9 @@ char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
       if (ourAka->point) xscatprintf(&buff, "\001FMPT %d\r", ourAka->point);
       if (destAka->point) xscatprintf(&buff, "\001TOPT %d\r", destAka->point);
    }
-   sleep(1);           
-   msgid = time(NULL); 
-  
+   sleep(1);
+   msgid = time(NULL);
+
    if (ourAka->point)
       xscatprintf(&buff, "\001MSGID: %u:%u/%u.%u %08lx\r",
               ourAka->zone,ourAka->net,ourAka->node,ourAka->point,msgid);
@@ -100,7 +100,7 @@ char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
 }
 
 s_message *makeMessage (s_addr *origAddr, s_addr *destAddr,
-			char *fromName,	char *toName, char *subject, 
+			char *fromName,	char *toName, char *subject,
             int netmail, int  killreport)
 {
     // netmail == 0 - echomail
@@ -109,11 +109,11 @@ s_message *makeMessage (s_addr *origAddr, s_addr *destAddr,
     s_message *msg;
 
     if (toName == NULL) toName = "sysop";
-    
+
     time_cur = time(NULL);
-    
+
     msg = (s_message*) scalloc(1,sizeof(s_message));
-    
+
     msg->origAddr.zone = origAddr->zone;
     msg->origAddr.net = origAddr->net;
     msg->origAddr.node = origAddr->node;
@@ -141,7 +141,7 @@ s_message *makeMessage (s_addr *origAddr, s_addr *destAddr,
 }
 
 XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
-                dword forceattr, char* tossDir) 
+                dword forceattr, char* tossDir)
 {
     char **outbounds[4];
     XMSG  msgHeader;
@@ -149,8 +149,8 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
     time_t    currentTime;
     union stamp_combo dosdate;
     unsigned int i;
-    char *subject=NULL, *newSubj=NULL, *token, *running;
-       
+    char *subject=NULL, *newSubj=NULL, *token=NULL, *running=NULL, *p=NULL;
+
     //init outbounds
     outbounds[0] = &tossDir;
     outbounds[1] = &config->protInbound;
@@ -169,15 +169,37 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 	    if ((config->remaps[i].toname==NULL ||
 		 stricmp(config->remaps[i].toname,msg->toUserName)==0) &&
 		(config->remaps[i].oldaddr.zone==0 ||
-		 addrComp(config->remaps[i].oldaddr,msg->destAddr)==0) ) 
-		{
-		    msg->destAddr.zone=config->remaps[i].newaddr.zone;
-		    msg->destAddr.net=config->remaps[i].newaddr.net;
-		    msg->destAddr.node=config->remaps[i].newaddr.node;
+		 addrComp(config->remaps[i].oldaddr,msg->destAddr)==0) )
+		{   w_log( LL_NETMAIL,"Remap destination %u:%u/%u.%u to %s",
+                           msg->destAddr.zone, msg->destAddr.net,
+                           msg->destAddr.node, msg->destAddr.point,
+                           aka2str(config->remaps[i].newaddr) );
+		    msg->destAddr.zone =config->remaps[i].newaddr.zone;
+		    msg->destAddr.net  =config->remaps[i].newaddr.net;
+		    msg->destAddr.node =config->remaps[i].newaddr.node;
 		    msg->destAddr.point=config->remaps[i].newaddr.point;
+                    /* synchronize 'INTL' kludge with new dest address */
+                    for( running=msg->text; (p=strchr(running,'\r'))!=NULL; running=++p ){
+                      *p = '\0';
+                      if( strlen(running)>5 && !memcmp(running, "\001INTL ",6) ) {
+                          /*replace INTL to new*/
+                          xstrscat( &token, "\001INTL ", aka2str(msg->destAddr), NULL );
+                          xscatprintf( &token, " %s\r", aka2str(msg->origAddr) );
+                      } else { /* copy kludge or line */
+                          xscatprintf( &token, "%s\r", running );
+                      }
+                    }
+                    xscatprintf( &token, "\001Replace destaddr %s",
+                                 aka2str(config->remaps[i].oldaddr) );
+                    xscatprintf( &token, " with %s", aka2str(msg->destAddr) );
+                    xscatprintf( &token, " by %s", aka2str(config->addr[0]) );
+                    msg->textLength = strlen(token);
+                    nfree(msg->text);
+                    msg->text = token;
+                    token = p = NULL;
 		    break;
 		}
-		
+
 	//if (to_us(msg->destAddr)==0) {
     if (isOurAka(config,msg->destAddr)) {
 	    // kill these flags
@@ -193,17 +215,17 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
     } else
 	// kill these flags on echomail messages
 	msgHeader.attr &= ~(MSGREAD | MSGKILL | MSGFRQ | MSGSCANNED | MSGLOCKED);
-   
+
     // always kill crash, hold, sent & local flags on netmail & echomail
     msgHeader.attr &= ~(MSGCRASH | MSGHOLD | MSGSENT | MSGLOCAL);
 
     /* FORCED ATTRIBUTES !!! */
     msgHeader.attr |= forceattr;
-   
+
     strcpy((char *) msgHeader.from,msg->fromUserName);
     strcpy((char *) msgHeader.to, msg->toUserName);
 
-    if (((msgHeader.attr & MSGFILE) == MSGFILE) 
+    if (((msgHeader.attr & MSGFILE) == MSGFILE)
 	&& (msg->netMail==1)
 	&& !strchr(msg->subjectLine, PATH_DELIM)) {
 
