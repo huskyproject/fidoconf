@@ -1,8 +1,9 @@
 #Settings for Linux 
 
 #installation directires
-LIBDIR = /usr/local/lib
 INSTDIR = /usr/local/bin
+LIBDIR = /usr/local/lib
+INCDIR = /usr/local/include
 IBOPT = -c -s -m755
 ILOPT = -c -m644
 
