@@ -1,3 +1,7 @@
+2003-04-03 Thursday 09:44  mche
+
+	* src/afixcmn.c (1.4): fix freeMsgBuffers
+
 2003-04-02 Wednesday 09:48  val_khokhlov
 
 	* make/makefile.inc (1.10): makefile fix (errors when linking
