@@ -775,17 +775,14 @@ void printCarbons(s_fidoconfig *config) {
 void printRemaps(s_fidoconfig *config)
 {
     unsigned i;
-    char *temp;
 
     printf("\n=== Remap config ===\n");
     for( i=0; i<config->remapCount; i++ ){
       printf( "Remap %s,%s,",
-              sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "",
-              (temp=aka2str5d(config->remaps[i].oldaddr))
+              config->remaps[i].toname ? config->remaps[i].toname : "",
+              aka2str(config->remaps[i].oldaddr)
             );
-      nfree(temp);
-      puts( (temp=aka2str5d(config->remaps[i].newaddr)) );
-      nfree(temp);
+      puts( aka2str(config->remaps[i].newaddr) );
     }
 }
 
