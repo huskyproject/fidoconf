@@ -1,3 +1,11 @@
+2002-11-22 Friday 09:07  pgul
+
+	* fidoconf.h (1.157): optimise source
+
+2002-11-22 Friday 07:40  stas_degteff
+
+	* tparser.c (1.211): fix typo error
+
 2002-11-21 Thursday 20:54  pgul
 
 	* line.c (1.349): Check for more then once link subscription to an
