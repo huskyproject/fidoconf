@@ -1,3 +1,8 @@
+2005-04-03 Sunday 15:11  d_sergienko
+
+	* tparser.c (fidoconf-1_4-stable.4): Make warning if
+	autoFileCreateDefaults contain passthrough
+
 2005-03-20 Sunday 01:46  sfpavel
 
 	* debian/changelog (fidoconf-1_4-stable.9): 1.4-RC3 release
