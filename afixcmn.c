@@ -45,42 +45,19 @@
 #include "afixcmd.h"
 #include <smapi/progprot.h>
 
-
+/*
 static ULONG DoMakeMSGIDStamp(void)
 {
     static ULONG lStampPrev;
     ULONG lStamp, lSecs, lHund, lSecStart = (ULONG) time(NULL);
-#ifdef __OS2__
-    static BOOL fInfoSeg = FALSE;
-    static PGINFOSEG pgis;
-    static PLINFOSEG plis;
-    SEL selgis, sellis;
-#endif
-    
-    // Under OS2 get pointers to the global and local info segments once
-    
-#ifdef __OS2__
-    if (!fInfoSeg) {
-        DosGetInfoSeg(&selgis, &sellis);
-        pgis = MAKEPGINFOSEG(selgis);
-        plis = MAKEPLINFOSEG(sellis);
-        fInfoSeg = TRUE;
-    }
-#endif
     
     // Make up time stamp out of number of seconds since Jan 1, 1970
     // shifted 7 bits to the left OR'ed with current system clock and
     // loop untill we get a new stamp
     
     do {
-#ifdef __OS2__
-        lSecs = (ULONG) pgis->time;
-        lHund = (ULONG) pgis->hundredths;
-        DosSleep(0);
-#else
         lSecs = (ULONG) time(NULL);
         lHund = (ULONG) clock();
-#endif
         lStamp = (lSecs << 7) | (lHund & 0x07f);
     } while ((lStampPrev >= lStamp) && ((ULONG) time(NULL) < lSecStart + 5));
     
@@ -91,6 +68,7 @@ static ULONG DoMakeMSGIDStamp(void)
     
     return lStampPrev = lStamp;
 }
+*/
 
 char *createKludges(int disableTID, const char *area, const s_addr *ourAka, 
                     const s_addr *destAka, const char* versionStr)
@@ -106,9 +84,9 @@ char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
       if (ourAka->point) xscatprintf(&buff, "\001FMPT %d\r", ourAka->point);
       if (destAka->point) xscatprintf(&buff, "\001TOPT %d\r", destAka->point);
    }
-   //sleep(1);           // will be removed
-   // msgid = time(NULL); // for //msgid = DoMakeMSGIDStamp();
-   msgid = DoMakeMSGIDStamp();
+   sleep(1);           
+   msgid = time(NULL); 
+  
    if (ourAka->point)
       xscatprintf(&buff, "\001MSGID: %u:%u/%u.%u %08lx\r",
               ourAka->zone,ourAka->net,ourAka->node,ourAka->point,msgid);
