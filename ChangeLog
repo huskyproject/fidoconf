@@ -1,3 +1,30 @@
+2002-10-17 Thursday 18:57  stas_degteff
+
+	* common.c (1.117), common.h (1.61): Fix fc_stristr(): prevent
+	compiler warnings for other modules (use const char*)
+
+2002-10-17 Thursday 18:24  stas_degteff
+
+	* HISTORY (1.14): Update documentation
+
+2002-10-17 Thursday 17:11  stas_degteff
+
+	* common.c (1.116), common.h (1.60): Implement stripTrailingChars()
+	and define macro stripRoundingChars() in addition to
+	stripLeadingChars()
+
+2002-10-17 Thursday 12:50  stas_degteff
+
+	* Makefile (1.51): Add install and uninstall 'fconf2na.pl'
+
+2002-10-17 Thursday 12:47  stas_degteff
+
+	* makefile.bsd (1.18): Add install and uninstall 'fconf2na.pl'
+
+2002-10-17 Thursday 12:46  stas_degteff
+
+	* makefile.bsd (1.17): Fix install on makefile.bsd
+
 2002-10-16 Wednesday 12:28  d_sergienko
 
 	* fconf2na.pl (1.1): added converter fidoconfig -> ECHOLIST.NA
