@@ -921,10 +921,6 @@ int parseUnpack(char *line, s_fidoconfig *config) {
           printf("Line %d: $a missing in unpack statement %s!\n", actualLineNr, actualLine);
           return 2;
        }
-       if (strstr(unpack->call, "$f")==NULL) {
-          printf("Line %d: $f missing in unpack statement %s!\n", actualLineNr, actualLine);
-          return 2;
-       }
 
        p = strtok(c, " \t"); // p is containing offset now
        c = strtok(NULL, " \t"); // t is containing match code now

@@ -2,6 +2,11 @@ fidoconfig 0.7
 --------------
 
 ----- cvs ci ------
+Sat Apr  10 22:25:12
+Max:
+removed $f from unpack code
+	
+----- cvs ci ------
 Tue Apr  6 18:23:17 CEST 1999	
 Antonio: (applied by mtt)
 + Fidoconfig and hpt now supports descriptions for areas. See docs for
