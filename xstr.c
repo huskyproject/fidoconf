@@ -31,11 +31,6 @@
 #include "xstr.h"
 #include "common.h"
 
-#ifndef _MAKE_DLL_MVC_
-#  define vsnprintf	_vsnprintf
-#endif
-
-
 #define N_PRINTFBUF     1024
 
 char *xstralloc(char **s, size_t add)
