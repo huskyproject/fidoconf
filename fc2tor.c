@@ -35,13 +35,15 @@
 #include "fidoconf.h"
 #include "common.h"
 
-#ifndef strnicmp
-#define strnicmp strncasecmp
-#endif
+#include "fc2tor_g.h"
 
 #define TAG_NAME 0
 #define TAG_DESC 1
 #define TAG_BOTH 2
+
+/* group delimeters */
+
+#define DELIMS " ,;"
 
 unsigned bbslevelsysop = 256;
 unsigned bbslevelshow = 0;
@@ -66,6 +68,7 @@ int tag_type = TAG_NAME;
 int bbsdeffmt = 1;
 
 char *bbsulpath = NULL;
+char *groups = NULL;
 
 int writeEchoArea(FILE *f, s_area *area, char type) {
 
@@ -198,7 +201,8 @@ int generateBBSConfig(s_fidoconfig *config, char *fileName) {
 
     if (export_mailareas && export_netmail) {
       for (i=0; i<config->netMailAreaCount; i++) {
-        writeEchoArea(f, &(config->netMailAreas[i]), 1);
+        if (isSubSetOfGroups(groups, config->netMailAreas[i].group, DELIMS))
+         writeEchoArea(f, &(config->netMailAreas[i]), 1);
       }
     }
 
@@ -206,6 +210,7 @@ int generateBBSConfig(s_fidoconfig *config, char *fileName) {
      for (i=0; i<config->echoAreaCount; i++) {
        area = &(config->echoAreas[i]);
        if (area->msgbType != MSGTYPE_PASSTHROUGH)
+        if (isSubSetOfGroups(groups, area->group, DELIMS))
            writeEchoArea(f, area, 0);
      }
     }
@@ -213,19 +218,22 @@ int generateBBSConfig(s_fidoconfig *config, char *fileName) {
     if (export_mailareas && export_local) {
      for (i=0; i<config->localAreaCount; i++) {
        area = &(config->localAreas[i]);
-       writeEchoArea(f, area, 2);
+        if (isSubSetOfGroups(groups, area->group, DELIMS))
+         writeEchoArea(f, area, 2);
      }
     }
 
     if (export_fileareas && export_file) {
       for (i=0; i<config->fileAreaCount; i++) {
-        writeFileArea(f, &(config->fileAreas[i]));
+        if (isSubSetOfGroups(groups, config->fileAreas[i].group, DELIMS))
+          writeFileArea(f, &(config->fileAreas[i]));
       }
     }
 
     if (export_fileareas && export_bbs) {
       for (i=0; i<config->bbsAreaCount; i++) {
-        writeBBSArea(f, &(config->bbsAreas[i]));
+/*        if (isSubSetOfGroups(groups, config->bbsAreas[i].group, DELIMS)) */
+          writeBBSArea(f, &(config->bbsAreas[i]));
       }
     }
 
@@ -261,8 +269,10 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
 }
 
 void parseOptions(char *line) {
+   int options=0;
+   char chr=0;
 
-   if ( strnicmp(line, "-m", 2) == 0 ) {
+   if ( strncasecmp(line, "-m", 2) == 0 ) {
     export_mailareas = 1;
     line+=2;
     while ( *line ) {
@@ -276,7 +286,7 @@ void parseOptions(char *line) {
     }
    } else
 
-   if ( strnicmp(line, "-f", 2) == 0 ) {
+   if ( strncasecmp(line, "-f", 2) == 0 ) {
     export_fileareas = 1;
     line+=2;
     while ( *line ) {
@@ -301,14 +311,19 @@ void parseOptions(char *line) {
    if ( stricmp(line, "-nd" ) == 0 ) tag_type = TAG_DESC; else
    if ( stricmp(line, "-nb" ) == 0 ) tag_type = TAG_BOTH; else
 
-   if ( strnicmp(line, "-ss", 3 ) == 0 ) {
+   if ( strncasecmp(line, "-ss", 3 ) == 0 ) {
      line+=3;
      sscanf(line, "%u", &bbslevelsysop);
    } else
 
-   if ( strnicmp(line, "-ul", 3 ) == 0 ) {
+   if ( strncasecmp(line, "-ul", 3 ) == 0 ) {
      line+=3;
      bbsulpath = strdup(line);
+   } else
+
+   if ( strncasecmp(line, "-gr", 3 ) == 0 ) {
+     line+=3;
+     groups = strdup(line);
    } else
 
    printf("Invalid option: %s\n", line);
@@ -319,7 +334,7 @@ int main (int argc, char *argv[]) {
    int cont=1;
 
    printf("fconf2tornado\n");
-   printf("-------------\n\n");
+   printf("-------------\n");
 
    while ((cont<argc) && (*argv[cont]=='-')) {
         parseOptions(argv[cont]);
@@ -327,49 +342,43 @@ int main (int argc, char *argv[]) {
    }
 
    if (!(cont<argc)) {
-      printf("\nUsage: ");
-      printf("   fconf2tornado [options] <TornadoCtlFileName> [<default.ctl>]\n");
-      printf("    (you can read config defaults from default.ctl)\n");
-      printf("    -m  export mail areas:\n");
-      printf("      n   netmail areas\n");
-      printf("      e   echo areas\n");
-      printf("      l   local areas\n");
-      printf("    -f  export file areas\n");
-      printf("      f   file areas\n");
-      printf("      b   bbs areas\n");
-      printf("    -s  export security options\n");
-      printf("    -g  export groups\n");
-      printf("    -n  name type:\n");
-      printf("      t   use area tag as name\n");
-      printf("      d   use area description as name\n");
-      printf("      b   use both area tag and description as name\n");
-      printf("    -ss###  use ### as sysop security level (default=256)\n");
-      printf("    -cd     use CD-List as FList_Format (default=FilesBBS)\n");
-      printf("    -sc     export Scan_NewFiles and Scan_PrivMail\n");
-      printf("    -ul###  use ### as default UL_Path\n");
-      printf("\nExamples:\n");
-      printf("   fconf2tornado -mel -ss256 c:\\tornado\\msgarea.ctl\n");
-      printf("   fconf2tornado -ffb -g -ulc:\\bbs\\upload c:\\tornado\\filearea.ctl\n");
+      printf("\nUsage:\n");
+      printf("   fconf2tornado -[command [-command...]] <tornado.ctl> [<default.ctl>]\n");
+      printf("    (you may read config defaults from default.ctl)              \n");
+      printf("    -m[<flags>] exports mail areas:   n  netmail areas           \n");
+      printf("                                      e  echo areas              \n");
+      printf("                                      l  local areas             \n");
+      printf("    -f[<flags>] exports file areas:   f  file areas              \n");
+      printf("                                      b  bbs areas               \n");
+      printf("    -s        exports security options                           \n");
+      printf("    -g        exports groups                                     \n");
+      printf("    -nt       exports area tag as name                           \n");
+      printf("    -nd       exports description as name                        \n");
+      printf("    -nb       exports area tag and description as name           \n");
+      printf("    -ss<num>  sets sysop sequrity level (default=256)            \n");
+      printf("    -cd       uses CD-List as FList_Format (default id FilesBBS) \n");
+      printf("    -sc       exports Scan_NewFiles and Scan_PrivMail keywords   \n");
+      printf("    -ul<path> sets default UL_Path for all areas                 \n");
+      printf("    -gr<grps> exports areas with <grp> groups only (default all) \n");
+      printf("\nExamples:                                                      \n");
+      printf("   fconf2tornado -mel -ss256 c:\\tornado\\msgarea.ctl            \n");
+      printf("   fconf2tornado -ff -g -ulc:\\bbs\\upload filearea.ctl          \n\n");
+      printf("   fconf2tornado -ff -g -grFido temp.ctl                         \n");
+      printf("   fconf2tornado -ff -g -grLocal filearea.ctl temp.ctl           \n");
       return 1;
 
    }
-   printf("Reading fidoconfig ... ");
+   printf("Generating Config-file %s\n", argv[cont]);
 
    config = readConfig(NULL);
 
-   //   config = readConfig(NULL);
-   printf("done!\n");
+   config = readConfig(NULL);
    if (config!= NULL) {
-       if (argv[cont+1]!=NULL)
-           readDefaultConfig(argv[cont], argv[cont+1]);
-       else
-           remove (argv[cont]);
-       printf("Generating config-file %s ... ", argv[cont]);
-       generateBBSConfig(config, argv[cont]);
-       printf("done!\n");
-       disposeConfig(config);
-       printf("\n");
-       return 0;
-   }
-   return 1;
+    if (argv[cont+1]!=NULL) readDefaultConfig(argv[cont], argv[cont+1]);
+    else  remove (argv[cont]);
+     generateBBSConfig(config, argv[cont]);
+     disposeConfig(config);
+     return 0;
+   } return 1;
+
 }
