@@ -9,6 +9,7 @@ typedef struct arealisttiem {
 	int active;
         int rescanable;
 	char *tag;
+        char *grp;
 	char *desc;
 } s_arealistitem, *ps_arealistitem;
 
@@ -20,9 +21,9 @@ typedef struct arealist {
 
 HUSKYEXT ps_arealist newAreaList(void);
 HUSKYEXT void        freeAreaList(ps_arealist al);
-HUSKYEXT int         addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc);
+HUSKYEXT int         addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc, char *grp);
 HUSKYEXT void        sortAreaList(ps_arealist al);
 HUSKYEXT void        sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes);
-HUSKYEXT char        *formatAreaList(ps_arealist al, int maxlen, char *activechars);
+HUSKYEXT char        *formatAreaList(ps_arealist al, int maxlen, char *activechars, int grps);
 
 #endif

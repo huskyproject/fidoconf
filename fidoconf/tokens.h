@@ -297,6 +297,7 @@ enum {
     ID_AREAGROUP,
     ID_AREAGROUPDEFAULTS,
     ID_GRPDESC,
+    ID_LISTECHO,
     ID_NETMAILFLAVOUR
 };
 
@@ -560,6 +561,7 @@ token_t parseline_tokens[] =
     { "seqoutrun", ID_SEQOUTRUN },
     { "sessionpwd", ID_SESSIONPWD },
     { "setconsoletitle", ID_SETCONSOLETITLE },
+    { "sortecholist", ID_LISTECHO },
     { "splitdirs", ID_SPLITDIRS },
     { "statlog", ID_STATLOG },
     { "syslogfacility", ID_SYSLOG_FACILITY },

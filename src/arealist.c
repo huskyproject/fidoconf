@@ -51,6 +51,8 @@
 
 #define LIST_PAGE_SIZE  256
 
+extern s_fidoconfig *config;
+
 ps_arealist newAreaList(void)
 {
     ps_arealist al;
@@ -77,6 +79,7 @@ void freeAreaList(ps_arealist al)
             for(i = 0; i < al->count; i++) {
                 nfree(al->areas[i].tag);
                 nfree(al->areas[i].desc);
+                nfree(al->areas[i].grp);
             }
             nfree(al->areas);
         }
@@ -85,7 +88,7 @@ void freeAreaList(ps_arealist al)
     return;
 }
 
-int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc)
+int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc, char *grp)
 {
 	ps_arealistitem areas;
 	int l;
@@ -98,6 +101,7 @@ int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char 
     al->areas[al->count].active     = active;
     al->areas[al->count].rescanable = rescanable ? 2 : 0;
     al->areas[al->count].tag        = sstrdup(tag);
+    al->areas[al->count].grp        = sstrdup(grp ? grp : "");
     if(desc) {
     	l = strlen(desc);
     	al->areas[al->count].desc = smalloc(l+3);
@@ -116,13 +120,36 @@ int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char 
 	return 0;
 }
 
-static int compare_arealistitems(const void *a, const void *b)
-{ return sstricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag); }
+static int compare_bytag(const void *a, const void *b) {
+  return sstricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag); 
+}
+
+static int compare_bygrp(const void *a, const void *b) {
+  return strcmp(((ps_arealistitem)a)->grp,((ps_arealistitem)b)->grp); 
+}
+
+static int compare_bygrptag(const void *a, const void *b) {
+  register int r = strcmp(((ps_arealistitem)a)->grp,((ps_arealistitem)b)->grp);
+  return r ? r : sstricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag);
+}
 
 void sortAreaList(ps_arealist al)
 {
-	if(al && al->count && al->areas)
-		qsort(al->areas,al->count,sizeof(s_arealistitem),compare_arealistitems);
+  if (al && al->count && al->areas) 
+    switch (config->listEcho) {
+      case lemGroupName:
+        qsort(al->areas, al->count, sizeof(s_arealistitem), compare_bygrptag);
+        break;
+      case lemGroup:
+        qsort(al->areas, al->count, sizeof(s_arealistitem), compare_bygrp);
+        break;
+      case lemUnsorted:
+        break;
+      case lemName:
+      default:
+        qsort(al->areas, al->count, sizeof(s_arealistitem), compare_bytag);
+        break;
+    }
 }
 
 static int compare_arealistitems_and_desc(const void *a, const void *b) 
@@ -186,7 +213,7 @@ void sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes)
     ali = NULL;
     for(k=1; k<halcnt; k++)
     {
-      ali = bsearch(&(al->areas[i]), hal[k-1]->areas, hal[k-1]->count, sizeof(s_arealistitem), compare_arealistitems);
+      ali = bsearch(&(al->areas[i]), hal[k-1]->areas, hal[k-1]->count, sizeof(s_arealistitem), compare_bytag);
       if (ali)
         break;
     }
@@ -243,10 +270,20 @@ static char *addchars(char *text, char c, int count, int *pos, int *tlen)
 	return text;
 }
 
-char *formatAreaList(ps_arealist al, int maxlen, char *activechars)
+static char *find_grpdesc(char *grp) {
+  register int i;
+  if (*grp == 0) return NULL;
+  for (i = 0; i < config->groupCount; i++) {
+    if ( strcmp(grp, config->group[i].name) == 0 ) return config->group[i].desc;
+  }
+  return NULL;
+}
+
+char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int grps)
 {
 	char *text;
 	char *p;
+	char *cgrp = NULL;
 	int i;
 	int clen,wlen;
 	int tlen;
@@ -265,9 +302,21 @@ char *formatAreaList(ps_arealist al, int maxlen, char *activechars)
 			tlen += (maxlen+3) * 32;
 			if(NULL == (text = realloc(text,tlen))) return NULL;
 		}
+
+	/* val: add group description */
+	if ( grps && (!cgrp || strcmp(cgrp, al->areas[i].grp) != 0) ) {
+		char *dgrp = find_grpdesc(al->areas[i].grp);
+		if (dgrp) {
+			if (cgrp) { text[tpos++] = '\r'; text[tpos] = 0; }
+			if ( (text = addline(text, dgrp, &tpos, &tlen)) == NULL ) return NULL;
+			text[tpos++] = '\r'; text[tpos++] = '\r'; text[tpos] = 0;
+		}
+		cgrp = al->areas[i].grp;
+	}
+
 		if(activechars) {
 			text[tpos++] = activechars[al->areas[i].active];
-            text[tpos++] = activechars[al->areas[i].rescanable];
+			text[tpos++] = activechars[al->areas[i].rescanable];
 			clen++;
 		}
 		text[tpos++] = ' ';
@@ -280,7 +329,7 @@ char *formatAreaList(ps_arealist al, int maxlen, char *activechars)
         if(!al->areas[i].desc) {
 			text[tpos++] = '\r';
 			text[tpos] = '\x00';
-        	continue;
+			continue;
 		}
 
         clen += strlen(al->areas[i].tag);
@@ -300,10 +349,10 @@ char *formatAreaList(ps_arealist al, int maxlen, char *activechars)
 
 				text[tpos++] = ' ';
 				text[tpos] = '\x00';
-	    	    if(NULL == (text = addchars(text,'.',maxlen-(clen+2+wlen),&tpos,&tlen))) {
+			if(NULL == (text = addchars(text,'.',maxlen-(clen+2+wlen),&tpos,&tlen))) {
 	        		*p = ' ';
 	        		return NULL;
-				}
+			}
 				text[tpos++] = ' ';
 				text[tpos] = '\x00';
 	        	if(NULL == (text = addline(text,al->areas[i].desc,&tpos,&tlen))) {

@@ -366,6 +366,8 @@ typedef struct savetictype {
 
 typedef enum linkWithImportLog { lwiNo, lwiYes, lwiKill } e_linkWithImportLog;
 typedef enum kludgeAreaNetmail { kanKill, kanIgnore, kanEcho } e_kludgeAreaNetmail;
+/* val: mode to sort echolist by (as-is, by name, by group, by group and name ) */
+typedef enum listEchoMode { lemUndef=0, lemUnsorted, lemName, lemGroup, lemGroupName } e_listEchoMode;
 
 typedef enum filelistType { flDir, flGlobal, flDirList } e_filelistType;
 
@@ -473,6 +475,7 @@ typedef struct fidoconfig {
 
    e_linkWithImportLog LinkWithImportlog;
    e_kludgeAreaNetmail kludgeAreaNetmail;
+   e_listEchoMode      listEcho;
 
    unsigned int   carbonCount;
    ps_carbon carbons;

@@ -3494,6 +3494,34 @@ int parseGroupDesc(s_fidoconfig *config, char *line) {
   return 0;
 }
 
+/* parse SoftEchoList <none|name|group|group,name> */
+int parseListEcho(char *line, e_listEchoMode *value) {
+  char *iLine;
+
+  if (line == NULL) {
+	  prErr("Parameter missing after %s!", actualKeyword);
+	  return 1;
+  }
+
+  if (*value) {
+	  prErr("%s redefinition", actualKeyword);
+	  return 2;
+  }
+
+  iLine = strLower(sstrdup(line));
+  if (strcmp(iLine, "none") == 0) *value = lemUnsorted;
+  else if (strcmp(iLine, "name") == 0) *value = lemName;
+  else if (strcmp(iLine, "group") == 0) *value = lemGroup;
+  else if (strcmp(iLine, "group,name") == 0) *value = lemGroupName;
+  else {
+	  prErr("Unknown %s value %s!", actualKeyword, line);
+	  nfree(iLine);
+	  return 2;
+  }
+  nfree(iLine);
+  return 0;
+}
+
 
 /* Parse fidoconfig line
  * Return 0 if success.
@@ -4575,6 +4603,9 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_GRPDESC:
             rc = parseGroupDesc(config, getRestOfLine());
+            break;
+        case ID_LISTECHO:
+            rc = parseListEcho( getRestOfLine(), &(config->listEcho) );
             break;
 
         default:

@@ -6,6 +6,7 @@ Changes after FIDOCONFIG 1.4
      for all areas;
 
 2. CONFIG changes:
+   - new token grpDesc: group descriptions for -g groups in echoArea
 
 3. IMPORTANT bugfixes:
 

@@ -1111,6 +1111,15 @@ void printSeqOutrun(unsigned long seqOutrun)
 	printf("seqOutrun: %lu\n", seqOutrun);
 }
 
+char *printListEcho(e_listEchoMode mode) {
+   switch (mode) {
+     case lemUnsorted:  return "unsorted";
+     case lemName:      return "name";
+     case lemGroup:     return "group";
+     case lemGroupName: return "group,name";
+     default:           return "unknown (try to update tparser)";
+   }
+}
 
 static int dumpcfg(char *fileName)
 {
@@ -1381,6 +1390,7 @@ int main(int argc, char **argv) {
   	  if (config->tearline) printf("--- %s\n", config->tearline);
   	  if (config->origin) printf("* Origin: %s (%s)\n", config->origin, aka2str(config->addr[0]));
   	  printf("AutoPassive: %s\n", config->autoPassive ? "on" : "off");
+          printf("sortEchoList: %s\n", printListEcho(config->listEcho));
   	  printf("packNetMailOnScan: %s\n", config->packNetMailOnScan ? "on" : "off");
   	  printf("NotValidFileNameChars: %s\n", config->notValidFNChars ?
   		 config->notValidFNChars : "\"*/:;<=>?\\|%`'&+");
