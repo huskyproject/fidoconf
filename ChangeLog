@@ -1,3 +1,8 @@
+2003-01-25 Saturday 16:39  stas_degteff
+
+	* common.c (1.163): Bugfix: copy_file() overwrite file now
+	correctly
+
 2003-01-24 Friday 06:47  stas_degteff
 
 	* Makefile (1.57): make clean: remove fidoconf/version.h
