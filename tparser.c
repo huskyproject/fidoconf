@@ -152,7 +152,7 @@ void printFileArea(s_filearea area) {
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
        if(area.downlinks[i]->export || area.downlinks[i]->import)
-           printf(" ");
+           printf(" "); else printf(" no access");
        if(area.downlinks[i]->export)
            printf("receive");
        if(area.downlinks[i]->export && area.downlinks[i]->import)
