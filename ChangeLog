@@ -1,6 +1,12 @@
 fidoconfig 0.7
 --------------
 
+Sun Apr 11 17:00
+Antonio:
++ '-a' option added to fconf2golded. Export areas only.
++ fidoconfig now supports descriptions for fileareas.
++ update tparser.
+
 ----- cvs ci ------
 Sat Apr  10 22:25:12
 Max:
