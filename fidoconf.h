@@ -496,7 +496,7 @@ typedef struct fidoconfig {
    char *filefixFromName;
    unsigned int forwardRequestTimeout;
    unsigned int killedRequestTimeout;
-   unsigned int idlePassthruTimeout;
+   int idlePassthruTimeout;
    char *areafixSplitStr, *areafixOrigin, *robotsArea;
    char *areafixQueueFile;
 

@@ -377,7 +377,7 @@ void setConfigDefaults(s_fidoconfig *config)
    if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"AreaFix AreaMgr hpt");
    if (config->filefixNames==NULL) xstrcat(&config->filefixNames,"FileFix FileMgr AllFix FileScan htick");
    if (config->forwardRequestTimeout==0) config->forwardRequestTimeout = 7;
-   if (config->idlePassthruTimeout==0)   config->idlePassthruTimeout   = 4;
+   if (config->idlePassthruTimeout<0)    config->idlePassthruTimeout   = 4;
    if (config->killedRequestTimeout==0)  config->killedRequestTimeout  = 3;
    RebuildEchoAreaTree(config);
    if (!config->tempDir) {
