@@ -52,13 +52,13 @@ All symbols are @strong{not} case-sensitive.
 
 @{<whiteSpace>@} at the start of the line will be ignored.
 
-All keywords are evaluated as occurring, the first matching 
-keyword found is valid. If there are more then one keywords of the 
+All keywords are evaluated as occurring, the first matching
+keyword found is valid. If there are more then one keywords of the
 same type allowed, the @strong{last} line matching the situation is
 valid. Another words: second definition overwrite the previous one.
 If no match is found, a default-value will be used.
 
-"#" at the start of a line or <whiteSpace>#<whiteSpace> within the 
+"#" at the start of a line or <whiteSpace>#<whiteSpace> within the
 line starts a comment. The comment ends with the line.
 
 If the first word in a line is an undefined keyword, program exits
@@ -76,7 +76,7 @@ text string
 may be set to "1", "0", "yes", "no", "on", "off", and also without
 parameters (it means "on").
 @item <addr>
-address string like zone:net/node[.point]
+address string like zone:net/node[.point][@@domain]
 @item
 example: @code{2:5000/117}
 @item <file>
@@ -95,9 +95,11 @@ set basedir=/home/user/fido/
 @code{[OS]} variable automatically setting up for following opetaring systems:
 @table @asis
 @item UNIX
+All unix-like OS: Linux, *BSD, BeOS, ...
 @item OS/2
 @item WIN
 @item MSDOS
+
 @end table
 
 You can set something like:
@@ -170,12 +172,14 @@ you can find in the documentation of the individual programs.
 * inbound::                     inbound path
 * logfiledir::                  path for log files
 * syslogfacility::              facility to use for syslogging
+* loglevels::			set level of log output
+* screenloglevels::             set level of log output to screen
 
 * link::                        adding a link to your config
 * linkdefaults::                start/end/destroy links default definitions
 * aka::                         links adress
 * ouraka::                      our aka for link
-* password::                    links default password 
+* password::                    links default password
 * pktpwd::                      pktpassword for this link
 * ticpwd::                      ticker password for this link
 * areafixpwd::                  areafix password for this link
@@ -365,7 +369,9 @@ be stored.
 
 This statement cannot be repeated.
 
-@node syslogfacility, link, logfiledir, Keywords
+Some programs use logFileDir for persistent temporary/work files.
+
+@node syslogfacility, loglevels, logfiledir, Keywords
 @subsection syslogfacility
 @table @asis
 @item Syntax:
@@ -388,7 +394,76 @@ used by @file{herp}, but not by any other Husky program. If a Husky program
 logs via log file or via syslog or both depends on the program and not on
 your fidoconfig file. Consult the individual program's documentation.
 
-@node link, linkdefaults, syslogfacility, Keywords
+@node loglevels, screenloglevels, syslogfacility, Keywords
+@subsection LogLevels
+@findex LogLevels
+@table @asis
+@item Syntax:
+@code{loglevels <string>}
+@item Example:
+@code{loglevels 345789}
+@end table
+
+In example we output to log messages with levels 3,4,5,7,8,9.
+The log levels are following:
+
+@table @asis
+@item 1 - Program start, end;
+@item 2 - dupecheck
+@item 3 - linking messages
+@item 4 - scanning messages
+@item 5 - posting messages
+@item 6 - execute strings
+@item 7 - bundles, pkts, links, freqs, file routing, file attachs, msg packing
+@item 8 - areafix, relink, autocreate
+@item 9 - error messages (critical: exit on error)
+@item 0 - creation of file-flags
+@item A - (reserved for) trivial error messages (print message and continue execution)
+@item B - warnings & alerts
+@item C - informational messages
+@item D - (reserved for) statistics
+@item E - summary
+@item F - print program name & version
+@item G - message send/sent
+@item H - (reserved for) recoding operations & recoding tables read/write
+@item I - Generate or check MSGID
+@item J - Echomail phase
+@item K - Filebox phase
+@item L - Netmail phase
+@item M - File create
+@item N - File delete
+@item O - operations with opened file (read, write, seek, ...)
+@item P - reserved
+@item R - Truncate file
+@item S - File send/sent
+@item T - Test files (exist, permittions, etc.)
+@item U - Functions calls (enter to func & leave from it)
+@item V - reserved
+@item W - reserved
+@item X - Filenames construct
+@item Y - reserved
+@item Z - debug messages: source lines (functions control points).
+@item a-z - debug messages
+@end table
+
+This statement cannot be repeated.
+
+@node screenloglevels, link, loglevels, Keywords
+@subsection ScreenLogLevels
+@findex ScreenLogLevels
+@table @asis
+@item Syntax:
+@code{screenloglevels <string>}
+@item Example:
+@code{screenloglevels 2345789}
+@end table
+
+Set level of log output to screen. See loglevels for details.
+
+This statement cannot be repeated.
+
+
+@node link, linkdefaults, screenloglevels, Keywords
 @subsection link
 @table @asis
 @item Syntax:
@@ -438,7 +513,7 @@ This statement can be repeated. New definitions overwrite old ones.
 @code{aka 2:2433/1245}
 @end table
 
-This statement sets the aka for the current link. 
+This statement sets the aka for the current link.
 
 This statement can only be repeated for different links.
 
@@ -839,7 +914,7 @@ This statement can only be repeated for different links.
 @code{emailSubj Fido over EMail message in UUE format}
 @end table
 
-This keyword is used to set the subject for emails to and from this 
+This keyword is used to set the subject for emails to and from this
 link. It may be ignored by some encodings (e.g. SEAT).
 
 This statement can only be repeated for different links.
@@ -853,7 +928,7 @@ This statement can only be repeated for different links.
 @code{emailEncoding MIME}
 @end table
 
-This keyword is used to set the encoding for outgoing emails to this 
+This keyword is used to set the encoding for outgoing emails to this
 link.
 
 This statement can only be repeated for different links.
