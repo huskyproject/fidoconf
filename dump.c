@@ -348,7 +348,6 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
     if (area->nopack) fprintf(f, "-nopack ");
     if (area->purge != 0) fprintf(f, "-p %d ", area->purge);
     if (area->max != 0) fprintf(f, "-$m %d ", area->max);
-    if (area->dupeSize != 0) fprintf(f, "-dupeSize %d ", area->dupeSize);
     if (area->dupeHistory != 0) fprintf(f, "-dupeHistory %d ", area->dupeHistory);
 
     switch (area->dupeCheck)

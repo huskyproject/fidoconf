@@ -160,7 +160,7 @@ typedef struct area {
    ps_arealink *downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
 
-   unsigned purge, max, dupeSize, dupeHistory;
+   unsigned purge, max, dupeHistory;
    char keepUnread, killRead;
 
    e_dupeCheck dupeCheck;

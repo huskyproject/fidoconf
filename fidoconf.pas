@@ -158,7 +158,6 @@ interface
           downlinkCount : dword;
           purge : dword;
           max : dword;
-          dupeSize : dword;
           dupeHistory : dword;
           dupeCheck : e_dupeCheck;
           tinySB : char;

@@ -616,6 +616,8 @@ HashDupesWMsgId same as HashDupes, but stores also msgid as text.
 CommonDupeBase - stores hashes of from + to + subj + areatag + msgid in
 one file (hpt_base.dpa)
 
+Default is HashDupesWMsgId.
+
 This statement cannot be repeated.
 
 @node areasMaxDupeAge, magic, dupeBaseType, Keywords

@@ -144,6 +144,7 @@ void initConfig(s_fidoconfig *config) {
    config -> loguid = config -> loggid = config -> logperm = -1;
    config -> tossingExt = "tos";
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
+   config -> typeDupeBase = hashDupesWmsgid;
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)
