@@ -1,3 +1,22 @@
+2002-09-23 Monday 08:34  stas_degteff
+
+	* temp.c (1.12): Fix temporary file name generation (prevent bug
+	with strange file name template)
+
+2002-09-23 Monday 06:26  stas_degteff
+
+	* fidoconf.c (1.85): Fix previous fix (fix condition compilation)
+
+2002-09-23 Monday 06:18  stas_degteff
+
+	* fidoconf.c (1.84), doc/proposal.texi (1.143): Fix use enviroment
+	variables to default tempdir value set (for win32 version)
+
+2002-09-23 Monday 05:03  stas_degteff
+
+	* doc/proposal.texi (1.142): Document use TEMP, TMP or TMPDIR
+	enviroment variables (for '2002-09-21 Saturday 07:29  pgul' patch)
+
 2002-09-21 Saturday 12:53  pgul
 
 	* afixcmn.c (1.12): htick makes PID, not TID kludge
