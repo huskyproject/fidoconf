@@ -1,0 +1,28 @@
+CC = wcl386
+CFLAGS = -zq -wx -bt=nt -j -l=nt -i=..\smapi
+COPT = -oneatx -5
+LIB = wlib
+LIBS = ..\smapi\smapiwcw.lib
+
+OBJS =  patmat.obj line.obj fidoconfig.obj fconf2msged.obj fconf2golded.obj fconf2aquaed.obj tparser.obj dir.obj common.obj
+
+.c.obj:
+        $(CC) $(CFLAGS) $(COPT) -c $<
+        $(LIB) -b -q fidoconfig.lib -+$@
+
+all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe
+
+tparser.exe:
+        $(CC) $(CFLAGS) $(COPT) tparser.c fidoconfig.lib $(LIBS)
+
+fconf2golded.exe:
+        $(CC) $(CFLAGS) $(COPT) fconf2golded.c fidoconfig.lib $(LIBS)
+
+fconf2msged.exe:
+        $(CC) $(CFLAGS) $(COPT) fconf2msged.c fidoconfig.lib $(LIBS)
+
+fconf2aquaed.exe:
+        $(CC) $(CFLAGS) $(COPT) fconf2aquaed.c fidoconfig.lib $(LIBS)
+
+clean:
+        del *.exe *.obj *.bak *.lib

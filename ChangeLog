@@ -2,6 +2,13 @@ fidoconfig 0.7
 --------------
 
 ----- cvs ci ------
+Mon Mar  15 20:50
+Max:
++ win32 port by Edgar Chupit (chupit@mail.lv)
++ logEchoToScreen
++ update tparser
+	
+----- cvs ci ------
 Wed Mar  10 15:37
 Max:
 + "availableareas" changed to "forwardRequestFile"

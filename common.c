@@ -36,6 +36,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#if defined ( __WATCOMC__ )
+#include <dos.h>
+#endif
+
 #ifdef UNIX
 #include <pwd.h>
 #endif

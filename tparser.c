@@ -41,9 +41,9 @@
 void printAddr(const s_addr addr)
 {
   if (addr.domain != NULL)
-    printf("%d:%d/%d.%d@%s", addr.zone, addr.net, addr.node, addr.point, addr.domain);
+    printf("%d:%d/%d.%d@%s ", addr.zone, addr.net, addr.node, addr.point, addr.domain);
   else
-    printf("%d:%d/%d.%d", addr.zone, addr.net, addr.node, addr.point);
+    printf("%d:%d/%d.%d ", addr.zone, addr.net, addr.node, addr.point);
 }
 
 void printArea(s_area area) {
@@ -161,9 +161,12 @@ int main() {
       for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
       
       printf("\n=== AREA CONFIG ===\n");
-      printArea(config->netMailArea);
-      printArea(config->dupeArea);
-      printArea(config->badArea);
+      if (config->netMailArea.areaName != NULL) printArea(config->netMailArea);
+	else { printf("you must define NetmailArea!\n"); return 1; }
+      if (config->dupeArea.areaName != NULL) printArea(config->dupeArea);
+	else { printf("you must define DupeArea!\n"); return 1; }
+      if (config->badArea.areaName != NULL) printArea(config->badArea);
+	else { printf("you must define BadArea!\n"); return 1; }
       for (i = 0; i< config->echoAreaCount; i++) {
          printArea(config->echoAreas[i]);
       }

@@ -1278,7 +1278,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "areafixfrompkt")==0) config->areafixFromPkt = 1;
    else if (stricmp(token, "areafixkillreports")==0) config->areafixKillReports = 1;
    else if (stricmp(token, "publicgroup")==0) rc = copyString(getRestOfLine(), &(config->PublicGroup));
-
+   else if (stricmp(token, "logechotoscreen")==0) config->logEchoToScreen = 1;
+             
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
 
    if (rc != 0) {
