@@ -373,6 +373,7 @@ char *configline(void)
     if (strncasecmp(str, "include", 7)==0)
     { 
       for (p=str+7; (*p==' ') || (*p=='\t'); p++);
+      for (p1=p+strlen(p)-1; isspace(*p1); *p1--=0);
       for (i=0; i<sp; i++)
         if (strcmp(incstack[i].confname, p) == 0)
         { fprintf(stderr, "Line %d: WARNING: recursive include of file %s detected and fixed!\n", actualLineNr, p);
