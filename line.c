@@ -449,24 +449,28 @@ void setEchoLinkAccess( const s_fidoconfig *config, s_area *area, s_arealink *ar
     s_link *link=arealink->link;
 
     if (link->numOptGrp > 0) {
-        // default set export on, import on, mandatory off
+        // default set export on, import on, mandatory off, manual off
 	arealink->export = 1;
 	arealink->import = 1;
 	arealink->mandatory = 0;
+	arealink->manual = 0;
 
 	if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
             arealink->export = link->export;
 	    arealink->import = link->import;
 	    arealink->mandatory = link->mandatory;
+	    arealink->manual = link->manual;
         }
 
     } else {
         arealink->export = link->export;
 	arealink->import = link->import;
 	arealink->mandatory = link->mandatory;
+	arealink->manual = link->manual;
     }
 
     if (area->mandatory) arealink->mandatory = 1;
+    if (area->manual) arealink->manual = 1;
     if (e_readCheck(config, area, link)) arealink->export = 0;
     if (e_writeCheck(config, area, link)) arealink->import = 0;
 
@@ -477,15 +481,17 @@ void setFileLinkAccess( s_filearea *area, s_arealink *arealink) {
     s_link *link=arealink->link;
 
     if (link->numOptGrp > 0) {
-        // default set export on, import on, mandatory off
+        // default set export on, import on, mandatory off, manual off
 	arealink->export = 1;
 	arealink->import = 1;
 	arealink->mandatory = 0;
+	arealink->manual = 0;
 
         if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
             arealink->export = link->export;
 	    arealink->import = link->import;
 	    arealink->mandatory = link->mandatory;
+	    arealink->manual = link->manual;
 
         }
 
@@ -493,9 +499,11 @@ void setFileLinkAccess( s_filearea *area, s_arealink *arealink) {
         arealink->export = link->export;
 	arealink->import = link->import;
 	arealink->mandatory = link->mandatory;
+	arealink->manual = link->manual;
     }
 
     if (area->mandatory) arealink->mandatory = 1;
+    if (area->manual) arealink->manual = 1;
     if (link->level < area->levelread)  arealink->export=0;
     if (link->level < area->levelwrite) arealink->import=0;
     // paused link can't receive mail
@@ -644,7 +652,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    else if (strcmp(iOption, "keepunread")==0) area->keepUnread = 1;
    else if (strcmp(iOption, "killread")==0) area->killRead = 1;
    else if (strcmp(iOption, "h")==0) area->hide = 1;
-   else if (strcmp(iOption, "manual")==0) area->mandatory = 1;
+   else if (strcmp(iOption, "manual")==0) area->manual = 1;
    else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
    else if (strcmp(iOption, "nolink")==0) area->nolink = 1;
    else if (strcmp(iOption, "mandatory")==0) area->mandatory = 1;
@@ -797,7 +805,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
         setFileLinkAccess( area, area->downlinks[i]);
   }
   else if (strcmp(iOption, "h")==0) area->hide = 1;
-  else if (strcmp(iOption, "manual")==0) area->mandatory = 1;
+  else if (strcmp(iOption, "manual")==0) area->manual = 1;
   else if (strcmp(iOption, "sendorig")==0) area->sendorig = 1;
   else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
   else if (strcmp(iOption, "nocrc")==0) area->noCRC = 1;
@@ -995,6 +1003,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
         else if ((isdigit(*tok) || (*tok=='*')) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
 
             if (strchr(tok, '*')) {
+	        /* link mask present: set mandatory for all links matched. */
                 for (i=0; i<config->linkCount; i++) {
                     strcpy(addr, aka2str(config->links[i].hisAka));
                     if (patmat(addr, tok)) {
@@ -1031,10 +1040,10 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
         }
         tok = strtok(NULL, " \t");
     }
-    
+
     if(area->description==NULL && config->EchoAreaDefault.description!=NULL)
         area->description=sstrdup(config->EchoAreaDefault.description);
-    
+
     return rc;
 }
 
@@ -1277,15 +1286,18 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 		 arealink = area->downlinks[area->downlinkCount];
 
 		 if (link->numOptGrp > 0) {
-			 // default set export on, import on, mandatory off
+			 /* default set export on, import on,
+                            mandatory off, manual off */
 			 arealink->export = 1;
 			 arealink->import = 1;
 			 arealink->mandatory = 0;
+			 arealink->manual = 0;
 
 			 if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
 				 arealink->export = link->export;
 				 arealink->import = link->import;
 				 arealink->mandatory = link->mandatory;
+				 arealink->manual = link->manual;
 			 }
 
 
@@ -1293,8 +1305,10 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 			 arealink->export = link->export;
 			 arealink->import = link->import;
 			 arealink->mandatory = link->mandatory;
+			 arealink->manual = link->manual;
 		 }
 		 if (area->mandatory) arealink->mandatory = 1;
+		 if (area->manual) arealink->manual = 1;
 		 if (link->level < area->levelread)	arealink->export=0;
 		 if (link->level < area->levelwrite) arealink->import=0;
 		 // paused link can't receive mail
@@ -1589,7 +1603,7 @@ int parseLink(char *token, s_fidoconfig *config)
       clink->AreaFix = 1;
       clink->FileFix = 1;
 
-      // set defaults to export, import, mandatory
+      // set defaults to export, import, mandatory (0), manual (0)
       clink->export = 1;
       clink->import = 1;
       clink->ourAka = &(config->addr[0]);
@@ -1640,7 +1654,7 @@ int parseAnnDefAddres(char *token, s_fidoconfig *config, int i)
        cAnnDef->annadrto = addr;
    if( i == 2)
        cAnnDef->annadrfrom = addr;
-   
+
    return 0;
 }
 
@@ -1714,7 +1728,7 @@ int parsePause(char *token, unsigned *Pause)
       *Pause |= EPAUSE;
    else if(stricmp(token,"farea") == 0)
       *Pause |= FPAUSE;
-   else if (stricmp(token,"off") == 0) 
+   else if (stricmp(token,"off") == 0)
       *Pause = NOPAUSE;
    else {
       prErr("Wrong Pause parameter!");
@@ -2171,7 +2185,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 			return 1;
 		}
 
-	if (i != 2) 
+	if (i != 2)
         link    = getDescrLink(config);
     if (i == 6 || i == 7)
         cAnnDef = getDescrAnnDef(config);
@@ -2224,7 +2238,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		cAnnDef->numbI       = 0;
 		parseGrp(token, &(cAnnDef->annInclude), &(cAnnDef->numbI));
 		break;
-    
+
     case 7:
 		if (cAnnDef->annExclude) freeGroups(cAnnDef->annExclude, cAnnDef->numbE);
 		cAnnDef->annExclude = NULL;
@@ -2725,7 +2739,7 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
       config->linkDefaults->AreaFix = 1;
       config->linkDefaults->FileFix = 1;
 
-      // set defaults to export, import, mandatory
+      // set defaults to export, import, mandatory (0), manual (0)
       config->linkDefaults->export = 1;
       config->linkDefaults->import = 1;
       config->linkDefaults->ourAka = &(config->addr[0]);
@@ -2733,7 +2747,6 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
       // set defaults maxUnpackedNetmail
       config->linkDefaults->maxUnpackedNetmail = 100;
    }
-
 
    return 0;
 }
@@ -3018,7 +3031,7 @@ int parseSyslog(char *line, int *value)
     }
     else
     {
-        
+
                /* | if you get an error about undefined symbol "facilitynames"
                   | add your operating system after "sun" to the ifdef line
                   | in syslogp.h which comes below the
@@ -3033,7 +3046,7 @@ int parseSyslog(char *line, int *value)
                 break;
             }
         }
-        
+
         if (facilitynames[i].c_name == NULL)
         {
             prErr("%s: %s is an unknown syslog facility on this system.",
@@ -3041,7 +3054,7 @@ int parseSyslog(char *line, int *value)
             rv=1;
         }
     }
-#endif  
+#endif
   return rv;
 }
 
@@ -3091,19 +3104,19 @@ int parseLine(char *line, s_fidoconfig *config)
     s_link   *clink = NULL;
     static token_list_t tl;
     static token_list_t *ptl = NULL;
-    
+
     temp = (char *) smalloc(strlen(line)+1);
     strcpy(temp, line);
     actualLine = temp = vars_expand(temp);
-    
+
     if (ptl == NULL)
     {
         ptl = &tl;
         make_token_list(ptl, parseline_tokens);
     }
-    
+
     actualKeyword = token = strtok(temp, " \t");
-    
+
     /* printf("Parsing: %s\n", line);
        printf("token: %s - %s\n", line, strtok(NULL, "\0")); */
 
@@ -3442,9 +3455,15 @@ int parseLine(char *line, s_fidoconfig *config)
             }
             break;
         case ID_MANDATORY:
-        case ID_MANUAL:
             if( (clink = getDescrLink(config)) != NULL ) {
                 rc = parseBool (getRestOfLine(), &clink->mandatory);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_MANUAL:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->manual);
             } else {
                 rc = 1;
             }
@@ -4076,7 +4095,7 @@ int parseLine(char *line, s_fidoconfig *config)
         prErr( "error %d in: %s", rc, line);
         wasError = 1;
     }
-    
+
     nfree(actualLine);
     return rc;
 }

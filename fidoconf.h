@@ -49,10 +49,10 @@ extern "C" {
 #       else
 #           define FCONF_EXT __declspec(dllexport)
 #       endif //_FCONF_EXT
-#   else 
+#   else
 #       define FCONF_EXT
 #   endif
-#else 
+#else
 #   define FCONF_EXT
 #endif
 
@@ -140,7 +140,7 @@ typedef struct link {
     unsigned int forwardFileRequests;  // 0 if not allowed forward requests for file areas
     unsigned int denyFRA; // denyFwdReqAccess
     unsigned int denyUFRA; // denyUncondFwdReqAccess
-    
+
     int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
     //   PKT files found in the protected inbound
     int  allowPktAddrDiffer;   // 1 if you want to allow the originating address
@@ -179,7 +179,7 @@ typedef struct link {
                                  // bundle. Default 100 (used in bsopack)
     unsigned int packNetmail;    // allows to pack outbound
                                  // netmail. Default no (used in bsopack)
-    unsigned int export, import, mandatory; // Default link's options
+    unsigned int export, import, mandatory, manual; // Default link's options
     char **optGrp; // groups for this options
     unsigned int numOptGrp;
     unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
@@ -191,9 +191,9 @@ typedef struct link {
     unsigned int numFrMask;
     char **dfMask; // don't forward this
     unsigned int numDfMask;
-    
+
     unsigned int afixEchoLimit;
-    
+
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;
     char  *fileBox;
@@ -228,6 +228,7 @@ typedef struct arealink {
    unsigned int export;		// 1 - export yes, 0 - export no
    unsigned int import;		// 1 - import yes, 0 - import no
    unsigned int mandatory;	// 1 - mandatory yes, 0 - mandatory no
+   unsigned int manual;		// 1 - manual yes, 0 - manual no
    unsigned int defLink;	// 1 - default uplink
 } s_arealink, *ps_arealink;
 
@@ -247,7 +248,7 @@ typedef struct area {
    char keepUnread, killRead;
 
    e_dupeCheck dupeCheck;
-   char tinySB, killSB, hide, noPause, mandatory, DOSFile, debug;
+   char tinySB, killSB, hide, noPause, mandatory, manual, DOSFile, debug;
 
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535
@@ -295,7 +296,7 @@ typedef struct fileareatype {
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535
 
-   char mandatory, hide, noPause;
+   char mandatory, manual, hide, noPause;
 
    char *group;                      // used by reader (and areafix soon)
 } s_filearea, *ps_filearea;
@@ -339,7 +340,7 @@ typedef struct remap {
 } s_remap, *ps_remap;
 
 /* FTS5000 is the standard nodelist format,
-   POINTS24 is the German Pointlist format 
+   POINTS24 is the German Pointlist format
    POINTS4D is a full 4D pointlist (with 3d "boss" entries) */
 
 typedef enum nodelistFormat { fts5000, points24, points4d } e_nodelistFormat;
@@ -365,7 +366,7 @@ typedef struct savetictype {
    int  fileAction;            /* 0 - do nothing */
                                /* 1 - copy file    -  save tic with ticked file */
                                /* 2 - link file  */
-                                
+
 } s_savetic, *ps_savetic;
 
 typedef enum linkWithImportLog { lwiNo, lwiYes, lwiKill } e_linkWithImportLog;
@@ -554,7 +555,7 @@ typedef struct fidoconfig {
    unsigned int keepTrsFiles; // Keep Transit Files
    unsigned int createFwdNonPass;
    unsigned int autoPassive;
-   
+
    ps_filelist filelists;
    unsigned int filelistCount;
 
@@ -587,11 +588,11 @@ typedef struct fidoconfig {
    /*  htick announcer */
    ps_anndef AnnDefs;
    unsigned int ADCount;
-   
+
 } s_fidoconfig, *ps_fidoconfig;
 
 struct message {
-   //Address block 
+   //Address block
    s_addr destAddr, origAddr;
 
 //   UINT16 attributes;
@@ -639,7 +640,7 @@ typedef struct {
 //  module = 1 - hpt
 //  module = 2 - htick
 //  module = 3 - all other
-    ps_fidoconfig config; 
+    ps_fidoconfig config;
     // for future usage
 } sApp;
 
