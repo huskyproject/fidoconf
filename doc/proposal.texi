@@ -871,13 +871,35 @@ see the proper 5D point numbers instead of the fakenet numbers.
 @section EmailPkt keywords
 
 @menu
+Common tokens:
+* sendMailCmd::                 command line for send file via e-mail
+
+Link definition tokens:
 * email::                       email address of this link
 * emailSubj::                   subject of email
 * emailFrom::                   sender address used for outgoing emails
 * emailEncoding::               encoding of outgoing emails
 @end menu
 
-@node email, emailFrom, EmailPkt, EmailPkt
+
+@node sendMailCmd, email, EmailPkt, EmailPkt
+@subsection email
+@table @asis
+@item Syntax:
+@code{sendMailCmd string}
+@item Example:
+@code{sendMailCmd /usr/sbin/sendmail $a <$f}
+@end table
+
+This keyword is used to define send mail command & it's parameters. Macro '$a'
+specify position of the recipient e-mail address; macro '$f' specify position
+for name of file with message body. If '$f' omitted then message body 
+to be directed to stdin.
+
+This statement can't be repeated.
+
+
+@node email, emailFrom, sendMailCmd, EmailPkt
 @subsection email
 @table @asis
 @item Syntax:
@@ -932,6 +954,7 @@ This keyword is used to set the encoding for outgoing emails to this
 link.
 
 This statement can only be repeated for different links.
+
 
 @node BSOpack, herp, EmailPkt, config file
 @section BSOpack keywords
