@@ -102,10 +102,19 @@ char   *strUpper(char *str);
 
 char   *shell_expand(char *str);
 /*DOC
-   Input: str is a \0 terminated string
-   Ouput: a pointer to a \o terminated string is returned
+   Input: str is a \0 terminated string which must have been malloc'ed
+   Ouput: a pointer to a \0 terminated string is returned which must be free'd
    FZ:    shell_expand expands the strings just like ~/.msged to /home/mtt/.msged
           see sh(1) for further explanations
+*/
+
+char *makeUniqueDosFileName(const char *dir, const char *ext);
+/*DOC
+   Input:  dir: \0 terminated string designating the destination directory
+           ext: \0 terminated string designating the file extension w/o dot
+   Output: a pointer to a malloc'ed \0 terminated string is returned.
+   FZ:     Creates a unique DOS compatible file name inside the given directory.
+           See the comments in common.c for further explanations
 */
 
 #endif

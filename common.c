@@ -292,3 +292,91 @@ char *shell_expand(char *str)
     free(str);
     return ret;
 }
+
+
+/* This function creates a "unique" file with a name of 8 characters in
+   the given directory witht the given extension. The file is "unique" over
+   a period of 194 days, and the function can generate 256 filenames per
+   second. If it is called more frequently, it sleeps until a new second has
+   arrived.
+
+   This function does only guarrantee uniqueness if no two processes that
+   use the function are running at the same time. I.E., a Fidonet EDITOR
+   should NOT use it, because an editor runs parrallel to the tosser, while
+   Tosser, Ticker, Router, etc. can use it, because they are usually called
+   subsequently.
+
+   This is only a temporary solution. The function should be rewritten to
+   use a counter file (accessed via record locking serialization mechanisms),
+   which would also allow processes that run parallel to use it.
+   
+   Note that the file stem name is unique. I.e. if you want to create three
+   unique files with different extensions, you only need to call this
+   function once and then you can substitute arbitrary extensions safely.
+
+   Also note that the function does NOT test if a file of the generated name
+   might already exist. If you wish to prevent this case, you have to test it
+   on your own.
+*/
+
+char *makeUniqueDosFileName(const char *dir, const char *ext)
+{
+   char                *fileName;
+   static unsigned      counter  = 0x100;
+   static time_t        refTime  = 0x0;
+   time_t               oldTime;
+   int                  exists;
+
+#ifdef UNIX
+   char                 delim    = '/';
+#else
+   char                 delim    = '\\';
+#endif   
+
+   size_t               pathLen  = strlen(dir);
+
+   if ((fileName = malloc(pathLen + 1 + 8 + 1 + strlen(ext) + 1)) == NULL)
+   {                            /* delim file . ext null */
+       return NULL;
+   }
+                           
+   memcpy(fileName, dir, pathLen, pathLen + 1);
+
+   if (pathLen && fileName[pathLen - 1] != '\\' &&
+                  fileName[pathLen - 1] != '/')
+   {
+       fileName[pathLen + 1] = '\0';
+       fileName[pathLen] = delim;
+       pathLen++;
+   }
+
+   if (refTime == NULL)
+   {
+       time(&refTime);
+   }
+
+   do
+   {
+       if (counter >= 0xFF)
+       {
+	   counter = 0;
+	   oldTime = refTime;
+	   time (&refTime);
+	   
+	   while (oldTime == refTime)
+	   {
+	       sleep(1); /* wait to get a fresh time number */
+	       time(&refTime);
+	   }
+       }
+       else
+       {
+	   counter++;
+       }
+          
+       sprintf(fileName + pathLen, "%06lx%02x.%s", (unsigned long)refTime,
+	       counter, ext);
+   } while (0); /* too slow because of readdir: fexist(fileName) == TRUE */;
+
+   return fileName;
+}
