@@ -19,7 +19,10 @@ Changes after FIDOCONFIG 0.14
      annFileOrigin, fileAreaCreatePerms, filefixFromName, FileFixEchoLimit;
    - new tokens for hpt: newAreaRefuseFile, redusedSeenBy, areaFixFromName,
      disablePID;
-   - pause statement expanded to: Pause ON, Pause OFF, Pause FAREA, Pause EAREA.
+   - pause statement expanded to: Pause ON, Pause OFF, Pause FAREA, Pause EAREA;
+   - new tokens: AreafixReportsAttr and FilefixReportsAttr: set atributes for
+     areafix & filefix reports/replies;
+   - tokens areafixKillReports and filefixKillReports removed.
 
 3. IMPORTANT bugfixes:
    - fix line parsing if comment ends line.
