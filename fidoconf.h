@@ -293,6 +293,7 @@ typedef struct savetictype {
 } s_savetic, *ps_savetic;
 
 typedef enum linkWithImportLog { lwiNo, lwiYes, lwiKill } e_linkWithImportLog;
+typedef enum kludgeAreaNetmail { kanKill, kanIgnore, kanEcho } e_kludgeAreaNetmail;
 
 typedef enum filelistType { flDir, flGlobal, flDirList } e_filelistType;
 
@@ -365,6 +366,7 @@ typedef struct fidoconfig {
    char     *msgidfile;
 
    e_linkWithImportLog LinkWithImportlog;
+   e_kludgeAreaNetmail kludgeAreaNetmail;
 
    unsigned int   carbonCount;
    ps_carbon carbons;

@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Sat Dec  9 20:35:07 NOVT 2000
+max:
+* token kludgeAreaNetmail < kill | ignore | echomail >
+
+----- cvs ci ------
 Sat Dec  9 08:57:16 UTC 2000
 dmitry:
 + added docs about tokens packNetmail & maxUnpackedNetmail for bsopack

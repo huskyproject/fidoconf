@@ -705,6 +705,18 @@ int main(int argc, char **argv) {
       for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
       
       printf("\n=== AREA CONFIG ===\n");
+	  
+	  printf("kludgeAreaNetmail ");
+	  switch (config->kludgeAreaNetmail) {
+	  case kanKill: printf("kill");
+		  break;
+	  case kanIgnore: printf("ignore");
+		  break;
+	  case kanEcho: printf ("echomail");
+		  break;
+	  }
+	  printf("\n");
+
       if (config->netMailAreaCount == 0) { printf("you must define at least one NetmailArea!\n"); return 1; }
       printf("\n=== Net&EchoAreas ===\n");
       for (i = 0; i< config->netMailAreaCount; i++) {

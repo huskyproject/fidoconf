@@ -149,6 +149,17 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
     printf("Internal error: Unknown value #%d for LinkWithImportLog!\n", config->LinkWithImportlog);
   }
 
+  printf("kludgeAreaNetmail ");
+  switch (config->kludgeAreaNetmail) {
+  case kanKill: printf("kill");
+	  break;
+  case kanIgnore: printf("ignore");
+	  break;
+  case kanEcho: printf ("echomail");
+	  break;
+  }
+  printf("\n");
+  
   dumpString(f, "FileAreasLog        %s\n", config->fileAreasLog);
   dumpString(f, "FileNewAreasLog     %s\n", config->fileNewAreasLog);
   dumpString(f, "Lockfile            %s\n", config->lockfile);

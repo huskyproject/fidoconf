@@ -2243,7 +2243,7 @@ int parseLinkWithILogType(char *line, e_linkWithImportLog *value)
     return 2;
   }
 
-  iLine = strLower(strdup(line));
+  iLine = strLower(sstrdup(line));
   if (strcmp(iLine, "yes") == 0) *value = lwiYes;
   else if (strcmp(iLine, "no") == 0) *value = lwiNo;
   else if (strcmp(iLine, "kill") == 0) *value = lwiKill;
@@ -2252,6 +2252,33 @@ int parseLinkWithILogType(char *line, e_linkWithImportLog *value)
     free(iLine);
     return 2;
    }
+  free(iLine);
+  return 0;
+}
+
+int parseKludgeAreaNetmailType(char *line, e_kludgeAreaNetmail *value)
+{
+  char *iLine;
+
+  if (line == NULL) {
+	  printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+	  return 1;
+  }
+
+  if (*value) {
+	  printf("Line %d: kludgeAreaNetmail redefinition\n", actualLineNr);
+	  return 2;
+  }
+
+  iLine = strLower(sstrdup(line));
+  if (strcmp(iLine, "kill") == 0) *value = kanKill;
+  else if (strcmp(iLine, "ignore") == 0) *value = kanIgnore;
+  else if (strcmp(iLine, "echomail") == 0) *value = kanEcho;
+  else {
+	  printf("Line %d: Unknown klugdeAreaNetmail value %s!\n", actualLineNr, line);
+	  free(iLine);
+	  return 2;
+  }
   free(iLine);
   return 0;
 }
@@ -2708,6 +2735,7 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "statlog")==0) rc = copyString(getRestOfLine(), &(config->statlog));
      else if (strcmp(iToken, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
      else if (strcmp(iToken, "linkwithimportlog")==0) rc = parseLinkWithILogType(getRestOfLine(), &(config->LinkWithImportlog));
+     else if (strcmp(iToken, "kludgeareanetmail")==0) rc = parseKludgeAreaNetmailType(getRestOfLine(), &(config->kludgeAreaNetmail));
      else if (strcmp(iToken, "fileareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));
      else if (strcmp(iToken, "filenewareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog));
      else if (strcmp(iToken, "longnamelist")==0) rc = parseFileName(getRestOfLine(), &(config->longNameList));

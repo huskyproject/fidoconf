@@ -230,6 +230,7 @@ a comment and will be ignored.
 * tearline::                    add specified tearline to hpt messages
 * origin::                      add specified origin to hpt messages
 * keepTrsMail::                 keep transit netmail messages
+* kludgeAreaNetmail::           how to process netmail with kludge "AREA:NETMAIL"
 
 * filelist::                    filelist and templates
 @end menu
@@ -2582,7 +2583,7 @@ Add this tearline to hpt messages (post, reports about new areas created)
 Add this Origin to hpt messages: post, reports about new areas created,
 areafix (if no areafixOrigin defined)
 
-@node keepTrsMail, filelist, origin, Keywords
+@node keepTrsMail, kludgeAreaNetmail, origin, Keywords
 @subsection keepTrsMail
 @table @asis
 @item Syntax:
@@ -2596,7 +2597,26 @@ Save transit messages in NetmailArea.
 If this statement is ommitted. Transit messages wouldn't be kept in
 NetmailArea.
 
-@node filelist, , keepTrsMail, Keywords
+@node kludgeAreaNetmail, filelist, keepTrsMail, Keywords
+@subsection kludgeAreaNetmail
+@table @asis
+@item Syntax:
+@code{kludgeAreaNetmail <kill|ignore|echomail>}
+@item Example:
+@code{kludgeAreaNetmail kill}
+@end table
+
+Default is "kill"
+
+If message started with "AREA:NETMAIL" we have three ways:
+
+1. kill this kludge. process message as netmail.
+2. ignore this kludge. process message as netmail.
+3. process message as echomail.
+
+This statement cannot be repeated.
+
+@node filelist, , kludgeAreaNetmail, Keywords
 @subsection filelist
 @table @asis
 @item Syntax:
