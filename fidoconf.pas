@@ -258,8 +258,11 @@ interface
           areafixhelp : Pchar;
           filefixhelp : Pchar;
           tempOutbound : Pchar;
+          ticoutbound : Pchar;
           fileAreaBaseDir : Pchar;
           passFileAreaDir : Pchar;
+          semaDir : Pchar;
+          badFilesDir : Pchar;
           loglevels : Pchar;
           netMailArea : s_area;
           dupeArea : s_area;
@@ -288,6 +291,13 @@ interface
           importlog : Pchar;
           LinkWithImportlog : Pchar;
           lockfile : Pchar;
+          fileAreasLog : Pchar;
+          longNameList : Pchar;
+          fileNewAreasLog : Pchar;
+          fileArcList : Pchar;
+          filePassList : Pchar;
+          fileDupeList : Pchar;
+          msgidfile : Pchar;
           carbonCount : dword;
           carbons : Ps_carbon;
           carbonAndQuit : dword;
@@ -298,6 +308,7 @@ interface
           remaps : Ps_remap;
           areafixFromPkt : dword;
           areafixKillReports : dword;
+          areafixKillRequests : dword;
           areafixMsgSize : dword;
           areafixSplitStr : Pchar;
           PublicGroup : Pchar;
@@ -307,6 +318,21 @@ interface
           defarcmailSize : dword;
           afterUnpack : Pchar;
           beforePack : Pchar;
+          createDirs : dword;
+          longDirNames : dword;
+          splitDirs : dword;
+          addDLC : dword;
+          fileSingleDescLine : dword;
+          fileCheckDest : dword;
+          filefixKillReports : dword;
+          filefixKillRequests : dword;
+          fileDescPos : dword;
+          DLCDigits : dword;
+          fileMaxDupeAge : dword;
+          fileFileUMask : dword;
+          fileDirUMask : dword;
+          fileLocalPwd : Pchar;
+          fileLDescString : Pchar;
        end;
      Ps_fidoconfig = ^s_fidoconfig;
 

@@ -226,6 +226,7 @@ int main() {
       if (config->protInbound != NULL) printf("ProtInbound: %s\n", config->protInbound);
       if (config->localInbound != NULL) printf("LocalInbound: %s\n", config->localInbound);
       if (config->listInbound != NULL) printf("ListInbound: %s\n", config->listInbound);
+      if (config->ticOutbound != NULL) printf("TicOutbound: %s\n", config->ticOutbound);
       if (config->outbound != NULL) printf("Outbound: %s\n", config->outbound);
       if (config->tempOutbound != NULL) printf("tempOutbound: %s\n", config->tempOutbound);
       for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->publicDir[i]);
@@ -236,11 +237,41 @@ int main() {
       if (config->fileAreaBaseDir) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
       if (config->passFileAreaDir) printf("passFileAreaDir: %s\n", config->passFileAreaDir);
       if (config->magic) printf("Magic: %s\n", config->magic);
+      if (config->semaDir) printf("semaDir: %s\n", config->semaDir);
+      if (config->badFilesDir) printf("BadFilesDir: %s\n", config->badFilesDir);
+      if (config->msgidfile) printf("MsgIDFile: %s\n", config->msgidfile);
+      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
+      printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");
+      printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
+
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
 	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");
+	  printf("areafixKillRequests: %s\n",(config->areafixKillRequests)?"on":"off");
 	  if (config->areafixMsgSize) printf("areafixMsgSize - %u\n", config->areafixMsgSize);
 	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
+
+      printf("\n=== FILEFIX CONFIG ===\n");
+	  printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
+	  printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
+
+      printf("\n=== TICKER CONFIG ===\n");
+      if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
+      if (config->fileNewAreasLog) printf("FileNewAreasLog: %s\n", config->fileNewAreasLog);
+      if (config->fileArcList) printf("FileArcList: %s\n", config->fileArcList);
+      if (config->filePassList) printf("FileArcList: %s\n", config->filePassList);
+      if (config->fileDupeList) printf("FileArcList: %s\n", config->fileDupeList);
+      printf("AddDLC: %s\n",(config->addDLC) ? "on": "off");
+      printf("FileSingleDescLine: %s\n",(config->fileSingleDescLine) ? "on": "off");
+      printf("FileCheckDest: %s\n",(config->fileCheckDest) ? "on": "off");
+      printf("FileDescPos: %u\n", config->fileDescPos);
+      if (config->fileLDescString) printf("FileLDescString: %s\n", config->fileLDescString);
+      printf("DLCDigits: %u\n", config->DLCDigits);
+      printf("FileMaxDupeAge: %u\n", config->fileMaxDupeAge);
+      printf("FileFileUMask: %o\n", config->fileFileUMask);
+      printf("FileDirUMask: %o\n", config->fileDirUMask);
+      if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
+
       printf("\n=== LINKER CONFIG ===\n");
       if (config->LinkWithImportlog != NULL) printf("LinkWithImportlog: %s\n", config->LinkWithImportlog);
       printf("\n=== LINK CONFIG ===\n");

@@ -238,9 +238,10 @@ struct fidoconfig {
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
-   char     *magic, *areafixhelp, *filefixhelp, *tempOutbound;
+   char     *magic, *areafixhelp, *filefixhelp, *tempOutbound, *ticOutbound;
    char     *fileAreaBaseDir;
    char     *passFileAreaDir; //Passthrough File Area
+   char     *semaDir, *badFilesDir;
    char     *loglevels;
 
    s_area   netMailArea, dupeArea, badArea;
@@ -268,6 +269,9 @@ struct fidoconfig {
    
    char     *intab, *outtab;
    char     *echotosslog, *importlog, *LinkWithImportlog, *lockfile;
+   char     *fileAreasLog, *longNameList, *fileNewAreasLog;
+   char     *fileArcList, *filePassList, *fileDupeList;
+   char     *msgidfile;
 
    unsigned int   carbonCount;
    s_carbon *carbons;
@@ -280,10 +284,10 @@ struct fidoconfig {
    unsigned int  remapCount;
    s_remap  *remaps;
 
-   unsigned int areafixFromPkt, areafixKillReports, areafixMsgSize;
+   unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests, areafixMsgSize;
    char *areafixSplitStr;
 
-   char	    *PublicGroup;
+   char     *PublicGroup;
    char     *ReportTo;
 
    unsigned int logEchoToScreen;
@@ -291,6 +295,18 @@ struct fidoconfig {
    unsigned int defarcmailSize;
 
    char *afterUnpack, *beforePack;
+
+   unsigned int createDirs;
+   unsigned int longDirNames, splitDirs;
+
+   unsigned int addDLC, fileSingleDescLine, fileCheckDest;
+   unsigned int filefixKillReports, filefixKillRequests;
+
+   unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
+   unsigned int fileFileUMask, fileDirUMask;
+
+   char     *fileLocalPwd, fileLDescString;
+   
 };
 
 

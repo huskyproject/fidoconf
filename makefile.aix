@@ -17,6 +17,7 @@ LOPT = -L. -L $(LIBDIR)
 O = .o
 A = .a
 EXE =
+TPU = .ppu
 FIDOCONFIG = fidoconfig
 FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded

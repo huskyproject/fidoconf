@@ -318,6 +318,7 @@ void disposeConfig(s_fidoconfig *config)
 
    free(config->inbound);
    free(config->outbound);
+   free(config->ticOutbound);
    free(config->protInbound);
    free(config->listInbound);
    free(config->localInbound);
@@ -327,6 +328,8 @@ void disposeConfig(s_fidoconfig *config)
    free(config->nodelistDir);
    free(config->msgBaseDir);
    free(config->magic);
+   free(config->semaDir);
+   free(config->badFilesDir);
    free(config->areafixhelp);
    free(config->tempOutbound);
    free(config->fileAreaBaseDir);
@@ -377,6 +380,13 @@ void disposeConfig(s_fidoconfig *config)
    free(config->outtab);
    free(config->importlog);
    free(config->LinkWithImportlog);
+   free(config->fileAreasLog);
+   free(config->fileNewAreasLog);
+   free(config->longNameList);
+   free(config->fileArcList);
+   free(config->filePassList);
+   free(config->fileDupeList);
+   free(config->msgidfile);
    free(config->loglevels);
    free(config->echotosslog);
    free(config->lockfile);
@@ -389,6 +399,8 @@ void disposeConfig(s_fidoconfig *config)
    free(config->beforePack);
    free(config->afterUnpack);
    free(config->areafixSplitStr);
+   free(config->fileLocalPwd);
+   free(config->fileLDescString);
 
    free(config);
    config = NULL;

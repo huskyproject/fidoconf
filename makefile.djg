@@ -1,4 +1,4 @@
-#Settings for Linux 
+#Settings for DOS / DJGPP 
 
 #installation directires
 LIBDIR = c:\djgpp\lib
@@ -20,6 +20,7 @@ LOPT = -L. -L$(LIBDIR) -L../smapi -lc
 O = .o
 A = .a
 EXE = .exe
+TPU = .tpu
 FIDOCONFIG = fidoconfig
 FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded

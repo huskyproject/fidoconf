@@ -21,6 +21,9 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   
   dumpString(f, "LogLevels           %s\n\n", config->loglevels);
   if (config->logEchoToScreen != 0) fprintf(f, "logEchoToScreen\n");
+  if (config->createDirs != 0) fprintf(f, "CreateDirs\n");
+  if (config->longDirNames != 0) fprintf(f, "LongDirNames\n");
+  if (config->splitDirs != 0) fprintf(f, "SplitDirs\n");
   
   fprintf(f, "\n");
 }
@@ -77,12 +80,15 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
   dumpString(f, "LocalInbound        %s\n", config->localInbound);
 
   dumpString(f, "Outbound            %s\n", config->outbound);
+  dumpString(f, "TICOutbound         %s\n", config->ticOutbound);
   dumpString(f, "TempOutbound        %s\n", config->tempOutbound);
   
   dumpString(f, "LogFileDir          %s\n", config->logFileDir);
   dumpString(f, "DupeHistoryDir      %s\n", config->dupeHistoryDir);
   dumpString(f, "MsgBaseDir          %s\n", config->msgBaseDir);
   dumpString(f, "NodelistDir         %s\n", config->nodelistDir);
+  dumpString(f, "SemaDir             %s\n", config->semaDir);
+  dumpString(f, "BadFilesDir         %s\n", config->badFilesDir);
   dumpString(f, "Magic               %s\n", config->magic);
   for (i = 0; i < config->publicCount; i++)
     {
@@ -98,7 +104,14 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
   dumpString(f, "EchotossLog         %s\n", config->echotosslog);
   dumpString(f, "ImportLog           %s\n", config->importlog);
   dumpString(f, "LinkWithImportlog   %s\n", config->LinkWithImportlog);
+  dumpString(f, "FileAreasLog        %s\n", config->fileAreasLog);
+  dumpString(f, "FileNewAreasLog     %s\n", config->fileNewAreasLog);
   dumpString(f, "Lockfile            %s\n", config->lockfile);
+  dumpString(f, "LongNameList        %s\n", config->longNameList);
+  dumpString(f, "fileArcList         %s\n", config->fileArcList);
+  dumpString(f, "filePassList        %s\n", config->filePassList);
+  dumpString(f, "fileDupeList        %s\n", config->fileDupeList);
+  dumpString(f, "MsgIDFile           %s\n", config->msgidfile);
   
   fprintf(f, "\n");
 }
@@ -412,10 +425,35 @@ void dumpAreafix(s_fidoconfig *config, FILE *f)
 {
     if (config->areafixFromPkt != 0) fprintf(f, "areafixFromPkt\n");
     if (config->areafixKillReports != 0) fprintf(f, "areafixKillReports\n");
+    if (config->areafixKillRequests != 0) fprintf(f, "areafixKillRequests\n");
 
     dumpString(f, "ReportTo            %s\n", config->ReportTo);
 
     dumpString(f, "PublicGroup         %s\n", config->PublicGroup);
+
+    fprintf(f, "\n");
+}
+
+void dumpFilefix(s_fidoconfig *config, FILE *f)
+{
+    if (config->filefixKillReports != 0) fprintf(f, "filefixKillReports\n");
+    if (config->filefixKillRequests != 0) fprintf(f, "filefixKillRequests\n");
+
+    fprintf(f, "\n");
+}
+
+void dumpTicker(s_fidoconfig *config, FILE *f)
+{
+    if (config->fileSingleDescLine != 0) fprintf(f, "FileSingleDescLine\n");
+    if (config->fileCheckDest != 0) fprintf(f, "FileCheckDest\n");
+    fprintf(f, "FileDescPos        %u\n", config->fileDescPos);
+    dumpString(f, "FileLDescString    %s\n", config->fileLDescString);
+    if (config->addDLC != 0) fprintf(f, "AddDLC\n");
+    fprintf(f, "DLCDigits          %u\n", config->DLCDigits);
+    fprintf(f, "FileMaxDupeAge     %u\n", config->fileMaxDupeAge);
+    fprintf(f, "FileFileUMask      %o\n", config->fileFileUMask);
+    fprintf(f, "FileDirUMask       %o\n", config->fileDirUMask);
+    dumpString(f, "FileLocalPwd       %s\n", config->fileLocalPwd);
 
     fprintf(f, "\n");
 }
@@ -432,6 +470,8 @@ void dumpConfig(s_fidoconfig *config, FILE *f)
   dumpMsgAreas(config, f);
   dumpCarbons(config, f);
   dumpAreafix(config, f);
+  dumpFilefix(config, f);
+  dumpTicker(config, f);
 }
 
 int dumpConfigToFile(s_fidoconfig *config, char *fileName)

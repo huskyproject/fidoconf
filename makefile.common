@@ -58,6 +58,7 @@ dumpfcfg$(EXE): dumpfcfg$(O) $(LIBFIDOCONFIG)$(A)
 commonclean:
 	-$(RM) *~
 	-$(RM) *$(O)
+	-$(RM) *$(TPU)
 	-$(RM) core
 
 commondistclean: clean

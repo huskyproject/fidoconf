@@ -100,6 +100,12 @@ _Keyword definitions_
   # location of mailer
   Sysop <Text>
   # Sysop name
+  [CreateDirs]
+  # try to create nonexistant directories
+  [LongDirNames]
+  # allow long directory names
+  [SplitDirs]
+  # split directories on " ", ".", "_", "/" and "-"
   {
   include <file>
   }
@@ -119,9 +125,11 @@ _Keyword definitions_
   outbound <path>
   # outbound root path, followed by subdirectories in
   #   binkley-style
-  tempoutbound
+  tempoutbound <path>
   # if link is busy, then mail holded in this outbound
   # holded mail will toss to link in next hpt session
+  ticoutbound <path>
+  # TICs are stored here and killed after transmission
   protinbound <path>
   # inbound path for protected sessions
   listinbound <path>
@@ -130,6 +138,10 @@ _Keyword definitions_
   # inbound path for local generated mails
   MsgBaseDir <path>
   # path where autoareacreated msgbases are stored
+  SemaDir <path>
+  # path for semaphores
+  BadFilesDir <path>
+  # path where bad TICs and their associated files are stored
   Intab <file>
   # file for recoding incoming characters (used for example in russia)
   Outtab <file>
@@ -142,6 +154,10 @@ _Keyword definitions_
   # it containts the name of the areas in which have been new messages entered
   linkWithImportLog <yes|no|kill>
   # importlog will be used to determine which areas whould be linked.
+  FileAreasLog <file>
+  # list of fileareas with new files
+  FileNewAreasLog <file>
+  # list of autocreated fileareas
   {
   public <path>
   }
@@ -161,6 +177,16 @@ _Keyword definitions_
   lockfile <file>
   # if another HPT session will be started and found lockfile
   # they will be terminated
+  LongNameList <file>
+  # list of arrived files with a long name
+  fileArcList <file>
+  # list of files and TICs to be archived
+  filePassList <file>
+  # list of passthrough-files
+  fileDupeList <file>
+  # dupe database
+  msgidfile <file>
+  # file with the first unused MsgID
 
 /etc/fido/links
   {
@@ -414,6 +440,13 @@ _Keyword definitions_
   # to the group of the creator
   # ! NOT SUPPORTED YET.
 
+  FileFileUMask <octal permission mask>
+  # UMask used for files created by the ticker
+
+  FileDirUMask <octal permission mask>
+  # UMask used for directories created by the ticker
+
+
 /etc/fido/packer:
   # Packer definitions
   PackerDef zip|tgz|rar|arc|arj|..... 
@@ -476,7 +509,10 @@ _Keyword definitions_
 
   # Carbon copyes. This is case unsensitive, but you must write full name!
   # If no CarbonArea specified message goes to BadArea.
-  # Note! Carbon area must be local. Each message carbons only one time.
+  # Note! Carbon area must be local.
+
+  [CarbonAndQuit]
+  # Each message carbons only one time.
   
   # Example:
 
@@ -508,6 +544,48 @@ _Keyword definitions_
 
   [areafixKillReports]
   # set kill/sent flag to areafix reports
+
+  [areafixKillRequests]
+  # kill areafix request after procession
+
+  #
+  # FileFix Options:
+  # 
+
+  [filefixKillReports]
+  # set kill/sent flag to filefix reports
+
+  [filefixKillRequests]
+  # kill filefix request after procession
+
+/etc/fido/ticker
+
+  [FileSingleDescLine]
+  # use a single, but long, line in files.bbs instead of multiple lines
+
+  [FileCheckDest]
+  # check destination of incoming TICs
+
+  FileDescPos <position>
+  # Indent descriptions in FILES.BBS by <DescPos> characters (not counting
+  # LDescString!).
+
+  FileLDescString <string>
+  # This string is put before long descriptions in FILES.BBS. If it is not
+  # set, it is set to a single space.
+
+  [AddDLC]
+  # add DownLoadCounter to new files in files.bbs
+
+  DLCDigits <num>
+  # number of digits for DownLoadCounter
+
+  FileMaxDupeAge <days>
+  # Entries in dupe database that are older than <MaxDupeAge> days are removed.
+
+  FileLocalPwd <password>
+  # This password is used for TICs directed to yourself (for hatching).
+
 
 _used notation_
 
