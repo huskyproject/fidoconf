@@ -18,7 +18,7 @@ The fidoconfig library searches the config file on different locations:
 @item linux:
 /etc/fido/config
 @item freebsd:
-/usr/local/fido/config
+/usr/local/etc/fido/config
 @item os2/win32/dos:
 c:\fido\config
 @end table
@@ -34,7 +34,7 @@ sexport FIDOCONFIG
 @end example
 
 The config file(s) must be readable. If you plan to use the autoareacreate
-feature the config file must be writeable.
+feature of HPT or HTick, the config file must be writeable.
 
 @node Syntax, Keywords, Location, config file
 @section Syntax
@@ -49,25 +49,17 @@ All symbols are @strong{not} case-sensitiv.
 
 All keywords are evaluated as occurring, the first matching 
 keyword found is valid. If there are more then one keywords of the 
-same type allowed, the first line matching the situation is valid. 
+same type allowed, the @strong{last} line matching the situation is
+valid. Another words: second definition overwrite the previous one.
 If no match is found, a default-value will be used.
 
 "#" at the start of a line or <whiteSpace>#<whiteSpace> within the 
 line starts a comment. The comment ends with the line.
 
 If the first word in a line is an undefined keyword, the line will 
-be ignored.
+be ignored, and error will be printed.
 
 Each keyword has to start a new line.
-
-Currently not supported:
-
-"\" at end of line means that "\" and the following new-line-
-character(s) will be ignored. (concatenating lines)
-
-"\" is used as escape-sequence. "\" has to be written as "\\".
-
-non-printable characters can be expressed as \<hexValue>
 
 @node Keywords, Example, Syntax, config file
 @section Keywords

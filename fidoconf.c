@@ -140,8 +140,12 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
 
 #ifdef CFGDIR
    char *osSpecificPrefix = CFGDIR;
-#elif   defined(__linux__)
+#elif defined(__linux__)
    char *osSpecificPrefix = "/etc/fido/";
+#elif defined(__FreeBSD__)
+   char *osSpecificPrefix = "/etc/local/fido/";
+#elif defined(__NT__) || defined(MSDOS) || defined(__OS2__)
+   char *osSpecificPrefix = "c:\fido\";
 #else
    char *osSpecificPrefix = "";
 #endif
