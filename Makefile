@@ -37,6 +37,7 @@ endif
 # filename settings
 ifeq ($(SHORTNAMES), 1)
   FIDOCONFIG     = fidoconf
+  FCONF2AREASBBS = fc2abbs
   FCONF2AQUAED   = fc2aed
   FCONF2GOLDED   = fc2ged
   FCONF2MSGED    = fc2msged
@@ -47,6 +48,7 @@ ifeq ($(SHORTNAMES), 1)
   CDEFS = $(CDEFS) -DSHORTNAMES
 else
   FIDOCONFIG = fidoconfig
+  FCONF2AREASBBS = fconf2areasbbs
   FCONF2AQUAED = fconf2aquaed
   FCONF2GOLDED = fconf2golded
   FCONF2MSGED  = fconf2msged
@@ -98,6 +100,7 @@ endif
 
 ifeq ($(DYNLIBS), 1)
 instdyn: $(LIBFIDOCONFIG).so.$(VER)
+	-$(MKDIR) $(MKDIROPT) $(LIBDIR)
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBDIR)
 # Removed path from symlinks.
 	cd $(LIBDIR) ;\
@@ -130,7 +133,10 @@ ifeq ($(CC), gcc)
 	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
 endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
-	$(INSTALL) $(ILOPT) linkedto $(BINDIR)
+ifeq (${OSTYPE}, UNIX)
+	$(INSTALL) linkedto                $(BINDIR)
+endif
+	$(INSTALL) $(FCONF2AREASBBS)       $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
@@ -144,6 +150,7 @@ endif
 	$(INSTALL) $(IIOPT) log.h          $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) recode.h       $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) tree.h         $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) temp.h         $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) afixcmd.h      $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) arealist.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
@@ -164,6 +171,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AREASBBS)
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)fidoconf.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)typesize.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)common.h
@@ -175,6 +183,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)log.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)recode.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)tree.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)temp.h
 	-$(RM) $(RMOPT) $(LIBDIR)$(DIRSEP)$(LIBFIDOCONFIG)$(LIB)
 	-(cd doc && $(MAKE) uninstall)
 	-(cd man && $(MAKE) uninstall)
