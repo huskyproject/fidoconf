@@ -256,7 +256,7 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
 // '\x0004' not linked
 
 /* 
-   safe malloc, realloc, calloc
+   safe malloc, realloc, calloc, strdup
    if no memory allocated -- abort()
 */
 FCONF_EXT void *smalloc(size_t size);
