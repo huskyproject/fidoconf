@@ -461,6 +461,10 @@ void adaptcase (char *str)
         *str = tolower(*str);
     }
 }
+
+void adaptcase_refresh_dir(char *directory)
+{
+}
 #endif  
 
 #if defined (TEST)
