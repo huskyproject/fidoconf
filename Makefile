@@ -6,6 +6,11 @@ else
 include ../huskymak.cfg
 endif
 
+ifndef ISOPT
+# install scripts options
+  ISOPT = -c -m 555
+endif
+
 # program settings
 
 ifeq ($(DEBUG), 1)
@@ -140,9 +145,9 @@ ifeq ($(CC), gcc)
 endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 ifeq (${OSTYPE}, UNIX)
-	$(INSTALL) $(ILOPT) linkedto                $(BINDIR)
+	$(INSTALL) $(ISOPT) linkedto                $(BINDIR)
 endif
-	$(INSTALL) $(ILOPT) $(FCONF2AREASBBS)       $(BINDIR)
+	$(INSTALL) $(ISOPT) $(FCONF2AREASBBS)       $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
