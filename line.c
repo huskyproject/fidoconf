@@ -3657,6 +3657,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_NOPROCESSBUNDLES:
             rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
             break;
+        case ID_NOTVALIDFILENAMECHARS:
+            rc = copyString(getRestOfLine(), &(config->notValidFNChars));
+            break;
         case ID_REPORTTO:
             rc = copyString(getRestOfLine(), &(config->ReportTo));
             break;

@@ -507,6 +507,7 @@ typedef struct fidoconfig {
    s_permissions *writeOnly;
    int writeOnlyCount;
    char *fileBoxesDir;
+   char *notValidFNChars;
 
 } s_fidoconfig, *ps_fidoconfig;
 

@@ -252,7 +252,8 @@ enum {
     ID_HPTPERLFILE,
     ID_READONLY,
     ID_WRITEONLY,
-    ID_AREAFIXQUERYREPORTS
+    ID_AREAFIXQUERYREPORTS,
+    ID_NOTVALIDFILENAMECHARS
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -439,6 +440,7 @@ token_t parseline_tokens[] =
     { "nodelistformat", ID_NODELISTFORMAT },
     { "noprocessbundles", ID_NOPROCESSBUNDLES },
     { "notic", ID_NOTIC },
+    { "notvalidfilenamechars", ID_NOTVALIDFILENAMECHARS },
     { "optgrp", ID_OPTGRP },
     { "origin", ID_ORIGIN },
     { "origininannounce", ID_ORIGININANNOUNCE },
