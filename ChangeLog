@@ -1,3 +1,26 @@
+2002-01-28 Monday 20:04  pavel.gulchouck
+
+	* cfg.c (1.20), tparser.c (1.163): Bugfix in yesterday changes with
+	vars_expand()
+
+2002-01-28 Monday 01:05  pavel.gulchouck
+
+	* fidoconf.c (1.64): Comments started after "\t#" now, not only "
+	#"
+
+2002-01-28 Monday 00:41  pavel.gulchouck
+
+	* cfg.c (1.19), line.c (1.280): move vars_expand() call into
+	parseLine()
+
+2002-01-28 Monday 00:02  pavel.gulchouck
+
+	* cfg.c (1.18), common.h (1.41): public function vars_expand()
+
+2002-01-27 Sunday 23:57  pavel.gulchouck
+
+	* line.c (1.279): Allow quoted areaname (included commentchar)
+
 2002-01-27 Sunday 22:33  stas
 
 	* log.c (1.3): Fix bug in writeLogEntry() (now screenloglevels
