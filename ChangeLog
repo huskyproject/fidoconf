@@ -1,3 +1,8 @@
+2003-04-02 Wednesday 09:48  val_khokhlov
+
+	* make/makefile.inc (1.10): makefile fix (errors when linking
+	progs)
+
 2003-03-31 Monday 21:17  d_sergienko
 
 	* fidoconf/fidoconf.h (1.8), src/common.c (1.10): fixed bug with
