@@ -4,13 +4,13 @@ COPT = -oneatx -5
 LIB = wlib
 LIBS = ..\smapi\smapiwcw.lib
 
-OBJS =  patmat.obj line.obj fidoconfig.obj fconf2msged.obj fconf2golded.obj fconf2aquaed.obj tparser.obj dir.obj common.obj fconf2squish.obj fecfg2fconf.obj
+OBJS =  patmat.obj line.obj fidoconfig.obj fconf2msged.obj fconf2golded.obj fconf2aquaed.obj tparser.obj dir.obj common.obj fconf2squish.obj
 
 .c.obj:
         $(CC) $(CFLAGS) $(COPT) -c $<
         $(LIB) -b -q fidoconfig.lib -+$@
 
-all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
+all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.obj fecfg2fconf.exe
 
 tparser.exe:
         $(CC) $(CFLAGS) $(COPT) tparser.c fidoconfig.lib $(LIBS)
@@ -27,8 +27,11 @@ fconf2aquaed.exe:
 fconf2squish.exe:
         $(CC) $(CFLAGS) $(COPT) fconf2squish.c fidoconfig.lib $(LIBS)
 
-fecfg2fconf.exe:
-        $(CC) $(CFLAGS) $(COPT) fecfg2fconf.c fidoconfig.lib $(LIBS)
+fecfg2fconf.obj: fecfg2fconf.c
+	$(CC) $(CFLAGS) $(COPT) fecfg2fconf.c -zp1 -5r
+
+fe2fconf.exe: fecfg2fconf.obj
+	wlink FILE fecfg2fconf.obj NAME fe2fconf.exe
 
 clean:
         del *.exe *.obj *.bak *.lib
