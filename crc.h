@@ -48,7 +48,7 @@ extern "C" {
    size: array size
    initcrc: initial value (start from 0xFFFFFFFFUL)
  */
-unsigned long memcrc32(char *str, int size, unsigned long initcrc);
+FCONF_EXT   unsigned long memcrc32(char *str, int size, unsigned long initcrc);
 
 /* Alias for memcrc32() */
 #define crc32(x,y,z) memcrc32(x,y,z)
