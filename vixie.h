@@ -65,10 +65,11 @@ extern  char    *APC_PROCS[MAXPROC];
 
 
                         /*--- why didn't k&r put these into stdio.h? ---*/
+#ifndef TRUE
 #define TRUE            1
+#endif
+#ifndef FALSE
 #define FALSE           0
-#if !defined(__TURBOC__) && !defined(__IBMC__) && !defined(_AIX)
-/* extern  char            *malloc(), *calloc(); */
 #endif
 
 

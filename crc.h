@@ -34,6 +34,7 @@
 extern "C" {
 #endif
 
+#include <smapi/compiler.h>
 #include "fidoconf.h"
 #include "typesize.h"
 
@@ -45,7 +46,7 @@ extern "C" {
 
 
 /* Define read() buffer */
-#if OSTYPE==UNIX
+#ifdef __FLAT__
 #define CRC_BUFFER_SIZE 80000
 #else
 /* DOS-like OS (64K memory segment) */

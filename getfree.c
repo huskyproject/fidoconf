@@ -189,13 +189,15 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
 #include <sys/param.h>
 #endif
-#if (defined(BSD) && (BSD >= 199103))
+#if defined(BSD)
+#if (BSD >= 199103)
   /* now we can be sure we are on BSD 4.4 */
 #include <sys/mount.h>
   /* fake the following code to think we had a sys/statfs.h so it uses
      the proper code segments */
 #ifndef _SYS_STATFS_H
 #define _SYS_STATFS_H
+#endif
 #endif
 #else
   /* we are not on any BSD-like OS */

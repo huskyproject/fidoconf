@@ -563,7 +563,7 @@ typedef struct fidoconfig {
    e_nameCase areasFileNameCase;
    char *tossingExt;
 
-#if defined ( __NT__ ) || defined(__MINGW32__) || defined(__CYGWIN__)
+#if defined ( __NT__ )
    unsigned int setConsoleTitle; /* change console title */
 #endif
 

@@ -36,9 +36,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#if defined(__TURBOC__) || (defined (_MSC_VER) && (_MSC_VER >= 1200))
+#include <smapi/compiler.h>
+
+#ifdef HAS_IO_H
 #  include <io.h>
-#else
+#endif
+#ifdef HAS_UNISTD_H
 #  include <unistd.h>
 #endif
 

@@ -18,7 +18,7 @@ are probably larger than their pendants in the binary file. You need to write
 portable reader functions for reading them from file. For those structures
 that are used by MsgEd, such reader functions can be found in fecfg145.c.
 
-#if defined(PACIFIC) || defined(MSC) || defined(__EMX__) || defined(__IBMC__) || defined(__HIGHC__) || defined(UNIX) || defined(__DJGPP__)
+#if defined(PACIFIC) || defined(_MSC_VER) || defined(__EMX__) || defined(__IBMC__) || defined(__HIGHC__) || defined(__UNIX__) || defined(__DJGPP__)
 #pragma pack(1)
 #endif
 

@@ -204,7 +204,7 @@ typedef signed   int        INT;                /*  2/4 byte */
 typedef unsigned int       UINT;                /*  2/4 byte */
 typedef signed   long       LONG;               /*  4 byte */
 typedef unsigned long      ULONG;               /*  4 byte */
-#if !defined(NT) && !defined(__NT__) && !defined(WINNT)
+#if !defined(__NT__)
 typedef          void       VOID;
 #endif
 #endif

@@ -103,7 +103,7 @@ int      closedir( DIR * dir)
    else return (-1);
 }
 
-#elif defined (_MSC_VER) && (_MSC_VER >= 1200)
+#elif defined (__MSVC__)
 #include "dirlayer.h"
 DIR* opendir(const char* mask)
 {

@@ -35,16 +35,20 @@
 
 #include <string.h>
 #include <stdlib.h>
-#if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
-#include <unistd.h>
+
+#include <smapi/compiler.h>
+
+#ifdef HAS_UNISTD_H
+#   include <unistd.h>
 #endif
+
+#include <smapi/progprot.h>
 
 #include "fidoconf.h"
 #include "xstr.h"
 #include "common.h"
 #include "log.h"
 #include "afixcmd.h"
-#include <smapi/progprot.h>
 
 #if 0
 static ULONG DoMakeMSGIDStamp(void)
@@ -238,7 +242,7 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 		if (outbounds[i] && *outbounds[i]) xstrcat(&subject, *outbounds[i]);
 		xstrcat (&subject, token);
 		if (fexist(subject)) break;
-#if defined(__linux__) || defined(UNIX)
+#if defined(__UNIX__)
 		subject = strLower(subject);
 		if (fexist(subject)) break;
 #endif

@@ -87,13 +87,13 @@ int init_conf(const char *conf_name)
   }
   curconfname=sstrdup(conf_name);
   actualLineNr=0;
-#if defined(UNIX)
+#if defined(__UNIX__)
   setvar("OS", "UNIX");
-#elif defined(OS2) || defined(__OS2__)
+#elif defined(__OS2__)
   setvar("OS", "OS/2");
-#elif defined(NT) || defined(WINNT) || defined(__NT__)
+#elif defined(__NT__)
   setvar("OS", "WIN");
-#elif defined(__DOS__) || defined(DOS) || defined(MSDOS)
+#elif defined(__DOS__)
   setvar("OS", "MSDOS");
 #endif
   setvar("[", "[");
@@ -190,12 +190,12 @@ char *vars_expand(char *line)
 {
   int  curlen;
   char *parsed, *src, *dest, *p, *p1, *newparsed;
-#if defined(UNIX) || (defined(OS2) && defined(__EMX__))
+#if defined(__UNIX__) || (defined(__OS2__) && defined(__EMX__))
   FILE *f;
   int  i;
 #endif
 
-#if defined(UNIX) || (defined(OS2) && defined(__EMX__))
+#if defined(__UNIX__) || (defined(__OS2__) && defined(__EMX__))
   if (strpbrk(line, "[`")==NULL)
 #else
   if (strchr(line, '[')==NULL)
@@ -216,7 +216,7 @@ char *vars_expand(char *line)
     }
     switch (*src)
     {
-#if defined(UNIX) || (defined(OS2) && defined(__EMX__))
+#if defined(__UNIX__) || (defined(__OS2__) && defined(__EMX__))
       case '`':
         p = strchr(src+1, '`');
         if (p == NULL)
@@ -489,7 +489,7 @@ char *configline(void)
   }
 }
 
-#if defined (UNIX)
+#if defined (__UNIX__)
 int cmpfnames(char *file1, char *file2)
 {
     struct stat st1, st2;
@@ -517,7 +517,7 @@ int cmpfnames(char *file1, char *file2)
     return sstricmp(path1, path2);
 }
 
-#elif defined (OS2)
+#elif defined (__OS2__)
 static int cmpfnames(char *file1, char *file2)
 {
   char path1[256], path2[256];
@@ -555,7 +555,7 @@ int cmpfnames(char *file1, char *file2)
     nfree(path2);
     return result;
 }
-#elif (defined(MSDOS) || defined(__MSDOS__)) && !defined(__FLAT__) && !defined(__DJGPP__)
+#elif defined(__DOS__) && !defined(__FLAT__)
 #include <dos.h>
 int cmpfnames(char *file1, char *file2)
 {
@@ -575,7 +575,7 @@ int cmpfnames(char *file1, char *file2)
     intr(0x21, &r);
     return sstricmp(path1, path2);
 }
-#elif defined(__WATCOMC__) && defined(__DOS__) && defined(__386__)
+#elif defined(__WATCOMC__) && defined(__DOS__) && defined(__FLAT__)
 #include <i86.h>
 /*
 struct REGPACKX {

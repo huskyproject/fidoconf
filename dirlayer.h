@@ -35,29 +35,30 @@
 #ifndef DIR_H
 /* all other include their own dirent.h */
 
-#include "fidoconf.h"
-
-#if !defined(__IBMC__) && !defined(__WATCOMC__)
-#ifdef __MINGW32__
-#include <dir.h>
-#endif
-#if defined(__EMX__) || defined(__FreeBSD__)
-#include <sys/types.h>
-#endif
-#if !(defined(_MSC_VER) && (_MSC_VER >= 1200))
-#include <dirent.h>
-#endif
-#endif
-
-#if defined(__WATCOMC__) || defined(__TURBOC__) || (defined(_MSC_VER) && (_MSC_VER >= 1200))
-#include <direct.h>  /* watcom and borland know this as direct.h */
-#endif
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1200)
 #include <io.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+
+#include <smapi/compiler.h>
+
+#ifdef HAS_DIR_H
+#include <dir.h>
+#endif
+
+#ifdef HAS_DIRENT_H
+#include <dirent.h>
+#endif
+
+#ifdef HAS_DIRECT_H
+#include <direct.h>
+#endif
+
+#include "fidoconf.h"
+
+#if defined (__MSVC_)
 #define NAME_MAX        _MAX_PATH
+
 
 typedef struct dirent {
    /*  char        d_dta[ 21 ]; */           /* disk transfer area */
@@ -80,10 +81,9 @@ FCONF_EXT DIR* readdir(DIR*);
 FCONF_EXT int  closedir(DIR*);
 #endif
 
-#if defined(__IBMC__) && !defined(UNIX)   /* only define it for IBM VisualAge C++ */
+#if defined(__IBMC__) && !defined(__UNIX__)   /* only define it for IBM VisualAge C++ */
 #define DIR_H
 
-#include <direct.h>   /* include the other things out of direct.h */
 #define INCL_DOSERRORS
 #define INCL_DOSFILEMGR
 #include <os2.h>

@@ -33,17 +33,22 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifdef UNIX
-#include <unistd.h>
-#else
-#include <io.h>
+
+#include <smapi/compiler.h>
+
+#ifdef HAS_UNISTD_H
+#   include <unistd.h>
 #endif
+
+#ifdef HAS_IO_H
+#   include <io.h>
+#endif
+
+#include <smapi/progprot.h>
 #include "afixcmd.h"
 #include "common.h"
 #include "log.h"
 #include "xstr.h"
-#include <smapi/compiler.h>
-#include <smapi/progprot.h>
 
 char* expandCfgLine(char* cfgline)
 {
@@ -200,7 +205,7 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
         nfree(line);
     } else {
         /* make new config-file and rename it */
-#ifdef UNIX
+#ifdef __UNIX__
         struct stat st;
         if (fstat(fileno(f_conf), &st) == 0)
             fchmod(fileno(f_newconf), (st.st_mode & 01777) | 0400);
@@ -243,7 +248,7 @@ errwriteconf:
         nfree(line);
         /* save old config as *.bak? */
 /*
-#ifndef UNIX
+#ifndef __UNIX__
         unlink(confName);                
 #endif
 */

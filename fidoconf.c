@@ -34,9 +34,11 @@
 #include <string.h>
 #include <ctype.h>
 
-#if defined(__BEOS__)
+#include <smapi/compiler.h>
+
+#ifdef HAS_SYS_SYSEXITS_H
 #include <sys/sysexits.h>
-#elif defined(UNIX)
+#elif defined(HAS_SYSEXITS_H)
 #include <sysexits.h>
 #endif
 

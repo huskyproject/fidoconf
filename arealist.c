@@ -32,11 +32,16 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#if !defined(__TURBOC__) && !(defined(_MSC_VER) && (_MSC_VER >= 1200))
-#include <unistd.h>
+#include <ctype.h>
+
+
+#include <smapi/compiler.h>
+
+#ifdef HAS_UNISTD_H
+#   include <unistd.h>
 #endif
 
-#include <ctype.h>
+
 #include "arealist.h"
 #include "common.h"
 

@@ -37,34 +37,47 @@
 #include <time.h>
 #include <errno.h>
 #include <stdarg.h>
-
-#ifdef UNIX
-#include <pwd.h>
-#include <grp.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#ifdef __BEOS__
-#include <sys/sysexits.h>
-#else
-#include <sysexits.h>
-#endif
-#else
 #include <process.h>
-#include <io.h>
-#endif
-
-#include "syslogp.h"
-
 #include <limits.h>
 
+#include <smapi/compiler.h>
+
+#ifdef HAS_UNISTD_H
+#   include <unistd.h>
+#endif
+
+#ifdef HAS_IO_H
+#   include <io.h>
+#endif
+
+#ifdef HAS_PWD_H
+#   include <pwd.h>
+#endif
+
+#ifdef HAS_GRP_H
+#   include <grp.h>
+#endif
+
+#ifdef HAS_SYSEXITS_H
+#include <sysexits.h>
+#endif
+#ifdef HAS_SYS_SYSEXITS_H
+#include <sys/sysexits.h>
+#endif
+
+#ifdef HAS_SYS_WAIT_H
+#include <sys/wait.h>
+#endif
+
+#include <smapi/progprot.h>
 #include <smapi/patmat.h>
 #include <smapi/unused.h>
 #include <smapi/compiler.h>
 #include <smapi/stamp.h>
-#include <smapi/progprot.h>
 
+#include "syslogp.h"
 #include "dirlayer.h"
 #include "fidoconf.h"
 #include "common.h"
@@ -455,7 +468,7 @@ int parsePublic(char *token, s_fidoconfig *config)
 
 int parseOwner(char *token, unsigned int *uid, unsigned int *gid)
 {
-#ifdef UNIX
+#ifdef __UNIX__
    struct passwd *pw;
    struct group *grp;
    char *name, *group, *p;
@@ -1125,7 +1138,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
         area->dupeHistory = 7;
 
    /*  set defaults for MS-DOS */
-#ifdef MSDOS
+#ifdef __DOS__
    area->DOSFile = 1;
 #endif
 
@@ -1282,7 +1295,7 @@ int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef)
    adef->dupeHistory = 7; /* 7 days */
 
    /*  set defaults for MS-DOS */
-#ifdef MSDOS
+#ifdef __DOS__
    adef->DOSFile = 1;
 #endif
 
@@ -2213,7 +2226,7 @@ static int f_accessable(char *token)
 /*        to see if the file is accessible */
 /*  BUT WE DON'T KNOW ABOUT DIRS! */
 
-#ifdef UNIX
+#ifdef __UNIX__
     struct stat sb;
 
     if (stat(token, &sb))
@@ -4314,7 +4327,7 @@ int parseLine(char *line, s_fidoconfig *config)
             else
                 config->tossingExt = NULL;
             break;
-#if defined ( __NT__ ) || defined(__MINGW32__) || defined(__CYGWIN__)
+#if defined ( __NT__ )
         case ID_SETCONSOLETITLE:
             rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
             break;

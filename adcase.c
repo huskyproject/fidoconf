@@ -4,22 +4,42 @@
  *  Written 1999 by Tobias Ernst and released to the public domain. *
  */
 
-#include "common.h"
-
-#ifdef UNIX
-
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <assert.h>
 #include <ctype.h>
-#include <unistd.h>
-#include <dirent.h>
 #include <sys/types.h>
 
-#if (defined(__unix__) || defined(unix)) && !defined(USG)
-#include <sys/param.h>          /* used to differentiate BSD from SYSV  */
+
+#include <smapi/compiler.h>
+
+#ifdef HAS_UNISTD_H
+#   include <unistd.h>
+#endif
+
+#ifdef HAS_IO_H
+#   include <io.h>
+#endif
+
+#ifdef HAS_DIRENT_H
+#include <dirent.h>
+#endif
+
+#include "common.h"
+
+#ifdef __UNIX__
+
+#ifdef HAS_SYS_PARAMS_H
+#   include <io.h>
+#endif
+
+#if 0
+  #if (defined(__unix__) || defined(unix)) && !defined(USG)
+  #include <sys/param.h>          /* used to differentiate BSD from SYSV  */
+  #endif                                
 #endif                                
 
 /* The adaptcase routine behaves as follows: It assumes that pathname
@@ -417,7 +437,6 @@ add_to_cache:
 /* Not UNIX - Just convert the file to lower case, it will work because
    the FS is case insensitive */
 
-#include <ctype.h>
 #include "adcase.h"
 
 void adaptcase (char *str)

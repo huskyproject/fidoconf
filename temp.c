@@ -29,15 +29,20 @@
 
 #include <errno.h>
 #include <string.h>
-#if defined(__TURBOC__) || (defined (_MSC_VER) && (_MSC_VER >= 1200))
-#  include <io.h>
-#else
-#  include <unistd.h>
-#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdlib.h>
+
+#include <smapi/compiler.h>
+
+#ifdef HAS_UNISTD_H
+#   include <unistd.h>
+#endif
+
+#ifdef HAS_IO_H
+#   include <io.h>
+#endif
 
 #include "common.h"
 #include "xstr.h"
@@ -49,7 +54,7 @@
 # define mktemp _mktemp
 #endif
 
-/* This includes commented for not create dependence from smapi
+/* This includes commented for not create dependence from smapi functions
    please don't use _createDirectoryTree()
  */
 /*#include <smapi/compiler.h>*/
@@ -175,7 +180,7 @@ FILE *createTempBinFile(const ps_fidoconfig pconfig, char **name)
 }
 
 
-#if 0
+#ifdef TEST_TEMP_C
 
 #include <string.h>
 #include <errno.h>
