@@ -128,7 +128,7 @@ void string2addr(const char *string, s_addr *addr)
       } /* endwhile */
       buffer[i] = '\0';
       free(addr->domain);
-      addr->domain = (CHAR *) malloc(strlen(buffer)+1);
+      addr->domain = (char *) malloc(strlen(buffer)+1);
       strcpy(addr->domain, buffer);
       addr->point = 0;
       break;
@@ -149,7 +149,7 @@ void string2addr(const char *string, s_addr *addr)
          } /* endwhile */
          buffer[i] = '\0';
          free(addr->domain);
-         addr->domain = (CHAR *) malloc(strlen(buffer)+1);
+         addr->domain = (char *) malloc(strlen(buffer)+1);
          strcpy(addr->domain, buffer);
       } else {
          free(addr->domain);
@@ -187,7 +187,7 @@ int fputUINT16(FILE *out, UINT16 word)
   return fputc(dummy, out);
 }
 
-INT   fgetsUntil0(CHAR *str, size_t n, FILE *f)
+INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f)
 {
    size_t i;
 
