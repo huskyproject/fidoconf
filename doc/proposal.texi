@@ -5,11 +5,12 @@ exist and where to put the file.
 
 @menu
 * Location:: Where to put the config file
+* Syntax::   Syntax
 * Keywords:: Keyword reference
 * Example::  Here is a sample configfile which works for me
 @end menu
 
-@node Location, Keywords, , config file
+@node Location, Syntax, , config file
 @section Configfile location
 The fidoconfig library searches the config file on different locations:
 
@@ -35,7 +36,40 @@ export FIDOCONFIG
 The config file(s) must be readable. If you plan to use the autoareacreate
 feature the config file must be writeable.
 
-@node Keywords, Example, Location, config file
+@node Syntax, Keywords, Location, config file
+@section Syntax
+
+The configfile must be readable to fidoconfig. If you plan to use
+the autoareacreate feature the writing process must have write-access
+to the configfile.
+
+All symbols are @strong{not} case-sensitiv.
+
+@{<whiteSpace>@} at the start of the line will be ignored.
+
+All keywords are evaluated as occurring, the first matching 
+keyword found is valid. If there are more then one keywords of the 
+same type allowed, the first line matching the situation is valid. 
+If no match is found, a default-value will be used.
+
+"\" is used as escape-sequence. "\" has to be written as "\\".
+
+non-printable characters can be expressed as \<hexValue>
+
+"#" at the start of a line or <whiteSpace>#<whiteSpace> within the 
+line starts a comment. The comment ends with the line.
+
+If the first word in a line is an undefined keyword, the line will 
+be ignored.
+
+Each keyword has to start a new line.
+
+Currently not supported:
+
+"\" at end of line means that "\" and the following new-line-
+character(s) will be ignored. (concatenating lines)
+
+@node Keywords, Example, Syntax, config file
 @section Keywords
 All statements are case-@strong{insensitive}. A line which starts with a # is
 a comment and will be ignored.
@@ -47,19 +81,28 @@ a comment and will be ignored.
 * sysop::          your Name
 * include::        include other files
 * address::        your system address
+
+Path and file definition:
 * outbound::       outbound path
 * inbound::        inbound path
 * protinbound::    protected inbound
 * listinbound::    listed inbound
 * localinbound::   local inbound
 * msgbasedir::     base directory of areas
+* intab::          file for recoding incoming msgs
+* outtab::         file for recoding outgoing msgs
+* importlog::      file which contains the names of the areas tossed in
+* echotosslog::    file which contains the names of the areas messaged entered
 * public::         path for requestable files
 * logfiledir::     path for log files
 * dupehistorydir:: path for dupe files
 * nodelistdir::    path for nodelists
 * magic::          path for magic-file requests
+
+link definition:
 * link::           adding a link to your config
 * aka::            links adress
+* ouraka::         our aka for link
 * password::       links session and default password 
 * pktpwd::         pktpassword for this link
 * ticpwd::         ticcer password for this link
@@ -72,6 +115,12 @@ a comment and will be ignored.
 * bbsgrp::         online groups which link belongs to
 * autoareacreate:: right to auto create areas on your system
 * packer::         default packer for link
+
+area definition:
+* netmailarea::    definition of netmailarea
+* badarea::	   definition of badarea
+* dupearea::       definition of dupearea
+* echoarea::       definition of echoarea
 @end menu
 
 @node version, name, , Keywords
@@ -282,7 +331,7 @@ your own system.
 
 This statement cannot be repeated.
 
-@node msgbasedir, public, localinbound, Keywords
+@node msgbasedir, intab, localinbound, Keywords
 @subsection msgBaseDir
 @table @asis
 @item Syntax:
@@ -301,7 +350,69 @@ te msgBaseDir is @code{/var/spool/fido/msgb} the resulting msgBaseName is
 
 This statement cannot be repeated.
 
-@node public, logfiledir, msgbasedir, Keywords
+@node intab, outtab, msgbasedir, Keywords
+@subsection intab
+@table @asis
+@item Syntax:
+@code{intab <file>}
+@item Example:
+@code{intab /var/spool/fido/recode/outaltkoi8}
+@end table
+
+This statement specifies the file which should be used to recode the
+characters of the incoming messages from transport to internal
+charset. It is useful in russia.
+If you do not use this statement no recoding will be done.
+
+This statement cannot be repeated.
+
+@node outtab, importlog, intab, Keywords
+@subsection outtab
+@table @asis
+@item Syntax:
+@code{outtab <file>}
+@item Example:
+@code{outtab /var/spool/fido/recode/outkoi8alt}
+@end table
+
+This statement specifies the file which should be used to recode the
+characters of the outgoing messages from internal to transport
+charset. It is useful in russia.
+If you do not use this statement no recoding will be done.
+
+This statement cannot be repeated.
+
+@node importlog, echotosslog, outtab, Keywords
+@subsection importlog
+@table @asis
+@item Syntax:
+@code{importlog <file>}
+@item Example:
+@code{importlog /var/spool/fido/import.log}
+@end table
+
+This statement specifies the file which a tosser fills with the names
+of the areas where echomails has been tossed in.
+
+This statement cannot be repeated.
+
+@node echotosslog, public, importlog, Keywords
+@subsection echotosslog 
+@table @asis
+@item Syntax:
+@code{echotosslog <file>}
+@item Example:
+@code{echotosslog /var/spool/fido/echotoss.log}
+@end table
+
+This statement specifies the file which is filled by a message editor
+with the names of the areas where new echomails have been entered.
+A tosser will only scan those areas which leads to a great speed-up.
+After scanning the tosser will remove the file.
+
+This statement cannot be repeated.
+
+@node public, logfiledir, echotosslog, Keywords
 @subsection public
 @table @asis
 @item Syntax:
@@ -391,8 +502,8 @@ The name is the name of this link.
 
 This statement can be repeated.
 
-@node aka, password, link, Keywords
-[[BBB@subsection aka
+@node aka, ouraka, link, Keywords
+@subsection aka
 @table @asis
 @item Syntax:
 @code{aka <aka>}
@@ -404,7 +515,20 @@ This statement sets the aka for the current link.
 
 This statement can only be repeated for different links.
 
-@node password, pktpwd, aka, Keywords
+@node ouraka, password, aka, Keywords
+@subsection ouraka
+@table @asis
+@item Syntax:
+@code{ouraka <aka>}
+@item Example:
+@code{ouraka 2:2433/1247}
+@end table
+
+This statement sets the aka which is used with this link.
+
+This statement can only be repeated for different links.
+
+@node password, pktpwd, ouraka, Keywords
 @subsection password
 @table @asis
 @item Syntax:
@@ -504,28 +628,213 @@ This statement can only be repeated for different links.
 @subsection handle
 @table @asis
 @item Syntax:
-@code{handle <string>}
+@code{handle <name>}
 @item Example:
 @code{handle eddie}
 @end table
 
-This statement sets the handle or nickname for the link.
+This statements gives a link a nickname. This statement is supposed for bbs
+systems.
 
 This statement can only be repeated for different links.
 
-@node tossgrp, ticgrp, tosspwd, Keywords
+@node tossgrp, ticgrp, handle, Keywords
 @subsection tossgrp
 @table @asis
 @item Syntax:
-@code{tossgrp {<group>}}
+@code{tossgrp @{<group>@}}
 @item Example:
-@code{tossgrp eddie}
+@code{tossgrp fido}
 @end table
 
-This statement sets the handle or nickname for the link.
+This statement connects a link to several echomails groups.
 
 This statement can only be repeated for different links.
 
+@strong{This statement is currently not supported.}
+
+@node ticgrp, bbsgrp, tossgrp, Keywords
+@subsection ticgrp
+@table @asis
+@item Syntax:
+@code{ticgrp @{<group>@}}
+@item Example:
+@code{ticgrp gfd}
+@end table
+
+This statement connects a link to several fileecho groups.
+
+This statement can only be repeated for different links.
+
+@strong{This statement is currently not supported.}
+
+@node bbsgrp, autoareacreate, ticgrp, Keywords
+@subsection bbsgrp
+@table @asis
+@item Syntax:
+@code{bbsgrp @{<group>@}}
+@item Example:
+@code{bbsgrp pay1}
+@end table
+
+This statement connects a link to several bbs groups.
+
+This statement can only be repeated for different links.
+
+@strong{This statement is currently not supported.}
+
+@node autoareacreate, packer, bbsgrp, Keywords
+@subsection autoareacreate
+@table @asis
+@item Syntax:
+@code{autoareacreate (on|off)}
+@item Example:
+@code{autoareacreate on}
+@end table
+
+This statement gives a link the permission to create areas on your system just
+by sending msgs in them.
+The echoarea is created using the following pattern:
+@example
+   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaka> Squish <linksAka> -dupeCheck move
+@end example
+
+This statement can only be repeated for different links.
+
+@strong{This statement is only a temporal solution for autoareacreating. It will
+be replaced by the group scheme, which is currently not implemented.}
+
+@node packer, netmailarea, autoareacreate, Keywords
+@subsection packer
+@table @asis
+@item Syntax:
+@code{packer <packer>}
+@item Example:
+@code{packer zip}
+@end table
+
+This statement sets the packer for the link. You can use the packer which you
+has set up using the pack statement.
+
+This statement can only be repeated for different links.
+
+@strong{This statement is currently not supported.}
+
+@node netmailarea, badarea, packer, Keywords
+@subsection netmailarea
+@table @asis
+@item Syntax:
+@code{NetmailArea <name> <file> [<msgbase>] @{Option@}}
+@item Example:
+@code{NetmailArea netmail /var/spool/fido/msgb/netmail Squish}
+@end table
+
+This statement specifies the netmailarea.
+@xref{echoarea}, for details on @code{Option}.
+
+This statement cannot be repeated.
+
+@node badarea, dupearea, netmailarea, Keywords
+@subsection badarea
+@table @asis
+@item Syntax:
+@code{badArea <name> <file> [<msgbase>] @{Option@}}
+@item Example:
+@code{BadArea badarea /var/spool/fido/msgb/bad Squish}
+@end table
+
+This statement specifies the badarea. Messages which have no area on your
+system go to the badArea.
+@xref{echoarea}, for details on @code{Option}.
+
+This statement cannot be repeated.
+
+@node dupearea, echoarea, badarea, Keywords
+@subsection dupeArea
+@table @asis
+@item Syntax:
+@code{dupeArea <name> <file> [<msgbase>] @{Option@}}
+@item Example:
+@code{dupeArea dupeArea  /var/spool/fido/msgb/dupes Squish}
+@end table
+
+This statement specifies the dupeArea. Messages which area dupes e.g. come
+to your system the second time, will be put in the dupearea.
+@xref{echoarea}, for details on @code{Option}.
+
+This statement cannot be repeated.
+
+@node echoarea, , dupearea, Keywords
+@subsection echoArea
+@table @asis
+@item Syntax:
+@code{EchoArea <name> <file> [<msgbase>] @{Option@} @{linkAka@} @{linkOption@}}
+@item Example:
+@code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 2:2433/1245}
+@end table
+
+This statement specifies the echoareas.
+@table @asis
+@item name:
+area-tag
+@item file:
+filename(s) for this area without extension; 
+should be the area-tag (as far as possible)
+if file == Passthrough then [<msgBase>] is skipped and msgarea is
+set as an passthrough area
+@item msgbase:
+*.msg is standard. Write Squish for an Squish-msgbase
+@item LinkAKA:
+aka's of up- and down links
+@end table
+
+Options:
+
+@table @asis
+@item -l @{<group>@}
+read/write access for group
+@item -r @{<group>@}
+read access for group 
+@item -w @{<group>@}
+write access for group
+if a group name is an unsignedInteger, it is
+interpreted as level, access rights are
+granted for links with equal or higher level
+@item -p <integer>
+purge after n days, 
+@item -m <integer>
+leave max n messages after purge in area
+@item -mandatory @{<group>@}
+area is mandatory for @{<group>@}
+if <group> is an unsignedInteger,  this area is mandatory 
+for levals <= <group>
+@item -a <aka>      
+aka to use
+@item -keepsb      
+keep seen-by's
+@item -tinysb     
+keep only seen-by's of links listed in @{link@}
+@item -manual      
+disallow remote changes (only manual connect/disconnect)
+@item -h           
+hide area
+@item -nopause        
+%PAUSE has no effect to this area
+@item -DupeCheck off|move|del
+toss in dupes, move dupes to dupeArea or delete dupes.
+@item -DupeHistory <unsignedInteger>
+size of dupecheck history file in days
+@end table
+
+LinkOption:
+@table @asis
+@item -imp
+import only for redundant echomail-supply
+@item -def
+default-uplink for redundant echomail-supply
+@end table
+
+This statement can be repeated.
 
 @node Example, , Keywords, config file
 @section Working sample config

@@ -160,6 +160,9 @@ _Keyword definitions_
   # name of down/uplink
   #   also default for bbs-login, if <handle> is not given
   Aka [<aka>]1*
+  # links aka
+  ourAka <aka>
+  # our aka which is used for link
   Password <pwd>
   #session- and default-Pwd
   # also default-password, if PktPwd, TicPwd, 
@@ -233,22 +236,23 @@ _Keyword definitions_
   # hide area
   # -nopause        
   # %PAUSE has no effect to this area
+    # -DupeCheck off|move|del
+  # toss in dupes, move dupes to dupeArea
+  #   or delete dupes.
+  # -DupeHistory <unsignedInteger>
+  # size of dupecheck history file 
+  #   in days
   # <LinkOption>:
   # -imp
   # import only for redundant echomail-supply
   # -def
   # default-uplink for redundant echomail-supply
+
   {
   domain <zone>[:<net>[/<node>[.<point>]]] <domain>
   }
   # default-domains for Zone
   # regular expressions may be used in <zone>
-  DupeCheck off|move|del
-  # toss in dupes, move dupes to dupeArea
-  #   or delete dupes.
-  DupeHisory <unsignedInteger>
-  # size of dupecheck hisory file 
-  #   in days
 
 /etc/fido/arealink:
   AreaDescription [<file>]1*
