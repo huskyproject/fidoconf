@@ -3,15 +3,15 @@ Please read the files (especially README.Makefiles) in the
 husky-common (huskybse) package FIRST!
 
 
-Instruction to build smapi
---------------------------
+Instruction to build fidoconfig
+-------------------------------
 
 0. The smapi package is required for the fidoconfig packages
 
 1. Put the fidoconfig package in the directory where the other packages of fido
    husky reside:
 
-   unix, beos, possible cygwin:
+   unix, beos, cygwin:
    -------------------
    /usr/src/packages/        -> huskybse/
                              -> smapi/
