@@ -148,8 +148,11 @@ static char *_configline(void)
   {
     if (dest-parsed >= curlen-2)
     {
+      size_t offset = (size_t) (dest - parsed);
+             /* we need this to fake around boundary checking */
+
       newparsed = srealloc(parsed, curlen+=80);
-      dest = newparsed+(unsigned)(dest-parsed);
+      dest = newparsed + offset;
       parsed = newparsed;
     }
     switch (*src)
@@ -371,7 +374,7 @@ char *configline(void)
       continue;
     }
     if (strncasecmp(str, "include", 7)==0)
-    { 
+    {
       for (p=str+7; (*p==' ') || (*p=='\t'); p++);
       for (p1=p+strlen(p)-1; isspace(*p1); *p1--=0);
       for (i=0; i<sp; i++)

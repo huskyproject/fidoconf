@@ -113,7 +113,7 @@ char *striptwhite(char *str)
     }
     if (*str == 0)
     {
-        return str;   // strend is undefined for zero-length string! 
+        return str;   // strend is undefined for zero-length string!
     }
     p = strend(str);
     while (p > str && *p && isspace((unsigned char)*p))
@@ -127,19 +127,19 @@ char *striptwhite(char *str)
 char *stripComment(char *line)
 {
   char *aux;
-  
+
   if (line[0]==CommentChar) {
     line[0]='\0';
     return line;
   }
-  
+
   aux=strchr(line,CommentChar);
-  
+
   if (aux!=NULL) {
     if (*(aux-1)==' ')
       aux[0]='\0';
   }
-  
+
   return line;
 }
 
@@ -176,10 +176,10 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
 
    //try env-var fidoconfig
    if (envFidoConfig != NULL) f = fopen(envFidoConfig, "r");
-   
+
    if (f == NULL) {
       if (configName == NULL) return NULL;
-      
+
       //try osSpecificName
       osSpecificName = (char *) smalloc(strlen(osSpecificPrefix)+strlen(configName)+2); // +1 - for training delimiter
       strcpy(osSpecificName, osSpecificPrefix);
@@ -191,7 +191,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
       }
 
       strcat(osSpecificName, configName);
-      
+
       f = fopen(osSpecificName, "r");
       if (f==NULL) {
          if (NULL != (envFidoConfig = getenv("FIDOCONFIG"))) {
@@ -223,12 +223,15 @@ void carbonNames2Addr(s_fidoconfig *config)
    int i, found, narea;
    s_carbon *cb;
    char *aptr=NULL;
-   
+
    /* put areaname in every carbon[] */
-   cb=&(config->carbons[config->carbonCount-1]);
-   for(i=config->carbonCount-1; i>=0; i--,cb--) {
-       if (cb->areaName) aptr=cb->areaName;
-       else if (aptr) copyString(aptr, &(cb->areaName));
+   if (config->carbonCount > 0)
+   {
+       cb=&(config->carbons[config->carbonCount-1]);
+       for(i=config->carbonCount-1; i>=0; i--,cb--) {
+           if (cb->areaName) aptr=cb->areaName;
+           else if (aptr) copyString(aptr, &(cb->areaName));
+       }
    }
 
    for (i=0; i<config->carbonCount; i++) {
@@ -278,7 +281,7 @@ void carbonNames2Addr(s_fidoconfig *config)
 void fixRoute(s_fidoconfig *config)
 {
 	int i;
-	
+
 	for (i = 0; i < config->routeCount; i++) {
 		if (config->route[i].viaStr != NULL)
 			config->route[i].target = getLink(*config, config->route[i].viaStr);
@@ -455,7 +458,7 @@ void disposeConfig(s_fidoconfig *config)
    for (i = 0; i < config->routeMailCount; i++) nfree(config->routeMail[i].pattern);
    nfree(config->routeMail);
 */
-   for (i = 0; i < config->remapCount; i++) 
+   for (i = 0; i < config->remapCount; i++)
        if (config->remaps[i].toname!=NULL)
           nfree(config->remaps[i].toname);
    nfree(config->remaps);
@@ -576,42 +579,42 @@ s_link *getLinkFromAddr(s_fidoconfig config, s_addr aka)
 s_link *getLinkForArea(s_fidoconfig config, char *addr, s_area *area) {
 	s_addr aka;
 	UINT i;
-	
+
 	string2addr(addr, &aka);
-	
+
 	// we must find "right" link
 	for (i = 0; i< config.linkCount; i++) {
 		if (addrComp(aka, config.links[i].hisAka)==0 &&
 			addrComp(*area->useAka, *config.links[i].ourAka)==0)
 			return &(config.links[i]);
 	}
-	
+
 	// backward compatibility
 	for (i = 0; i< config.linkCount; i++) {
 	    if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
 	}
-	
+
 	return NULL;
 }
 
 s_link *getLinkForFileArea(s_fidoconfig config, char *addr, s_filearea *area) {
 	s_addr aka;
 	UINT i;
-	
+
 	string2addr(addr, &aka);
-	
+
 	// we must find "right" link
 	for (i = 0; i< config.linkCount; i++) {
 		if (addrComp(aka, config.links[i].hisAka)==0 &&
 			addrComp(*area->useAka, *config.links[i].ourAka)==0)
 			return &(config.links[i]);
 	}
-	
+
 	// backward compatibility
 	for (i = 0; i< config.linkCount; i++) {
 	    if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
 	}
-	
+
 	return NULL;
 }
 
@@ -721,6 +724,6 @@ int grpInArray(char *group, char **strarray, unsigned int len)
 	for (i=0; i < len; i++) {
 		if (strarray[i] && strcmp(group, strarray[i])==0) return 1;
 	}
-	
+
 	return 0;
 }
