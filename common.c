@@ -43,6 +43,7 @@
 
 #if ((defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__DJGPP__)) || defined(__MINGW32__) || defined(__CYGWIN__)
 #  include <io.h>
+int cmpfnames(char *file1, char *file2);
 #endif
 
 #include <signal.h>
@@ -777,7 +778,10 @@ int copy_file(const char *from, const char *to)
     ut.modtime = st.st_mtime;
     utime(to, &ut);
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
-    int rc = CopyFile(from, to, FALSE);
+    int rc = 0;
+    if ( cmpfnames((char*)from,(char*)to) == 0 )
+        return 0;
+    rc = CopyFile(from, to, FALSE);
     if (rc == FALSE) {
       remove(to);
       return -1;
