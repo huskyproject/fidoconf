@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Thu Nov 16 12:23:56 MSK 2000
+Fedor:
++ Added new token CommentChar (in tparser too)
+
+----- cvs ci ------
 Tue Nov 14 11:23:22 MSK 2000
 max (patch from Serguei Revtov):
 * BundleNameStyle: addrDiffAlways in tparser

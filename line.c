@@ -65,6 +65,7 @@
 char *actualKeyword, *actualLine;
 int  actualLineNr;
 char wasError = 0;
+char CommentChar = '#';
 
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
@@ -99,6 +100,28 @@ char *getDescription(void) {
             strcpy(tmp,desc+1);
   }
   return tmp;
+}
+
+int parseComment(char *token, s_fidoconfig *config)
+{
+    char *ptr;
+    
+   // if there is no token return error...
+   if (token==NULL) {
+      printf("Line %d: There is a version number missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+   
+   ptr = strchr(TRUE_COMMENT, *token);
+   
+   if (!ptr) {
+       printf("CommentChar - '%c' is not valid comment characters!\n", *token);
+   } else {
+       CommentChar = *token;
+       config->CommentChar = *token;
+   }
+   
+   return 0;
 }
 
 int parseVersion(char *token, s_fidoconfig *config)
@@ -2177,6 +2200,7 @@ int parseLine(char *line, s_fidoconfig *config)
    //printf("Parsing: %s\n", line);
    //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
    if (token == NULL);
+   else if (stricmp(token, "commentchar")==0) rc = parseComment(getRestOfLine(), config);
    else if (stricmp(token, "version")==0) rc = parseVersion(getRestOfLine(), config);
    else if (stricmp(token, "name")==0) rc = copyString(getRestOfLine(), &(config->name));
    else if (stricmp(token, "location")==0) rc = copyString(getRestOfLine(), &(config->location));

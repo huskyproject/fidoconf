@@ -51,6 +51,9 @@ extern "C" {
 extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
 extern char wasError;
+#define TRUE_COMMENT	"!#$%;"
+extern char CommentChar;
+   
 
 char *striptwhite(char *str);
 
@@ -417,6 +420,10 @@ typedef struct fidoconfig {
    e_bundleFileNameStyle bundleNameStyle;
 
    unsigned int keepTrsMail; // Keep Transit Netmail
+   
+#define TRUE_COMMENT	"!#$%;"
+   char CommentChar;
+   
 
 } s_fidoconfig, *ps_fidoconfig;
 

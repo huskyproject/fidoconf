@@ -466,6 +466,7 @@ int main(int argc, char **argv) {
    if (config != NULL) {
 	  checkLogic(config);
       printf("=== MAIN CONFIG ===\n");
+      printf("Comment character: '%c'\n", config->CommentChar);
       printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
       if (config->name != NULL)	printf("Name: %s\n", config->name);
       if (config->sysop != NULL) printf("Sysop: %s\n", config->sysop);
