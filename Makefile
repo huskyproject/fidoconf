@@ -156,6 +156,7 @@ endif
 	$(INSTALL) $(IIOPT) log.h          $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) recode.h       $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) tree.h         $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) temp.h         $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) afixcmd.h      $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) arealist.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
@@ -190,6 +191,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)log.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)recode.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)tree.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)temp.h
 	-$(RM) $(RMOPT) $(LIBDIR)$(DIRSEP)$(LIBFIDOCONFIG)*
 	-(cd doc && $(MAKE) uninstall)
 	-(cd man && $(MAKE) uninstall)
