@@ -1,1482 +1,2066 @@
-Sun Apr 29 05:00:00 CET 2001
-kees:
-* changed default carbonRule to AND
-
------------
-Wed Apr 25 00:17:41 NOVST 2001
-max (patch from kees):
-* fixed CarbonRule NOT
-* changed default behaviour of carbonrule, see hpt.texi
-
------ cvs ci ------
-Wed Apr 18 23:24:50 CEST 2001
-tobi:
-* new keywords: autofilecreatesubdirs and autoareacreatesubdirs
-  for creating /filebase/gfd/app/comm/ instead of /filebase/gdb.app.comm/
-
------ cvs ci ------
-Sat Apr 14 12:44:20 NOVST 2001
-max (patch from Alex Bronin):
-* fixed core dump while parsing filearea
-
------ cvs ci ------
-Thu Apr 12 12:12:34 NOVST 2001
-max (patch from kees):
-* added CarbonRule, CarbonGroups, CarbonFromArea
-
------ cvs ci ------
-Sat Apr  7 17:41:59 NOVST 2001
-max (patch from Kees Bergwerf):
-* echoareadefaults, fileareadefaults
-
------ cvs ci ------
-Thu Apr  5 22:58:02 NOVST 2001
-max (patches from Kostya Krasavin):
-* fc2aed, fc2ged, fc2msged new command line parameners
-
------ cvs ci ------
-Sat Mar 31 16:12:27 NOVST 2001
-max:
-* it is possible to set several Carbon(To|From|Subj|etc) before
-  CarbonCopy or CarbonMove (Kees Bergwerf)
-
------ cvs ci ------
-Wed Mar 28 18:02:13 NOVST 2001
-max:
-* fix deleting last char of the last line while parsing under win32
-* remove dumpfcfg
-
------ cvs ci ------
-Thu Mar 22 21:04:53 NOVT 2001
-max:
-* readLine() & trimLine() clean up (thanx to Kees Bergwerf)
-
------ cvs ci ------
-Sun Mar 18 21:54:57 NOVT 2001
-max:
-* fixed fconf2golded: set "0" group if not exist
-
------ cvs ci ------
-Fri Mar 16 13:18:46 NOVT 2001
-max:
-* fixed segfault of fconf2golded on areas with no area group
-
------ cvs ci ------
-Tue Mar 13 00:07:22 NOVT 2001
-max:
-* fixed segfault when parsing unknown echoarea link
-
------ cvs ci ------
-Sun Mar 11 15:31:48 NOVT 2001
-max:
-* minDiskFreeSpace token for hpt
-
------ cvs ci ------
-Sat Mar 10 23:09:47 MEZ 2001
-tobi:
-* Rewrote the parser core function parseLine. Replaced the endless
-  if/elseif chain with a bsearch lookup and a consecutive switch/case
-  construct. This should give a performance gain both in terms of
-  compile time as well as in terms of run time.
-  The comments in the new file tokens.h describe how to add new
-  keywords to fidoconfig now.
-
------ cvs ci ------
-Sat Mar 10 16:28:13 NOVT 2001
-max:
-* fixed arealinks masks: now *:*/* is possible
-
------ cvs ci ------
-Fri Mar  9 14:11:02 NOVT 2001
-max:
-* new string2addr()
-* routeMail, route, routeFile is "the same"
-
------ cvs ci ------
-Mon Mar  5 22:51:20 NOVT 2001
-max (patch from Alex Bronin):
-* dirlayer.c: d_size for MSVC
-
------ cvs ci ------
-Sun Mar  4 12:05:20 NOVT 2001
-max:
-* fix "0" groups (to NULL)
-* add to doc: set, if, if not, else, elseif, ifdef, ifndef, endif,
-  what is [module], etc...
-
------ cvs ci ------
-Sun Feb 25 19:41:44 NOVT 2001
-max:
-* FRequestFromUpLink changed to denyFwdReqAccess !!!
-* new token for hpt denyUncondFwdReqAccess
-
------ cvs ci ------
-Sun Feb 18 14:36:51 NOVT 2001
-max:
-* keepTrsFiles token for hpt
-* [link]BundleNameStyle Amiga
-
------ cvs ci ------
-Sat Feb 17 23:51:48 NOVT 2001
-max (patch from Serguei Revtov):
-* exit on unrecognized line in config
-* unifying of error messages printing in line.c
-
------ cvs ci ------
-Tue Feb 13 22:38:28 NOVT 2001
-max:
-* doc updates
-* change default path to config (rtfm)
-
------ cvs ci ------
-Mon Feb 12 23:51:23 MSK 2001
-Nestyurkin Nikolay:
-* fix esc. sequent
-
------ cvs ci ------
-Fri Feb  9 22:23:17 NOVT 2001
-max:
-* removed CarbonArea keyword, use CarbonCopy.
-
------ cvs ci ------
-Sun Jan 28 17:15:41 NOVT 2001
-max:
-* netmailFlag, autoAreaCreateFlag, areafixEchoLimit
-
------ cvs ci ------
-Sat Jan 27 15:22:41 NOVT 2001
-max:
-* forwardRequestMask, denyFwdMask, denyFwdFile tokens
-
------ cvs ci ------
-Sat Jan 20 21:56:54 NOVT 2001
-max:
-+ autopassive token
-
------ cvs ci ------
-Mon Jan 15 14:19:26 NOVT 2001
-max:
-+ linkmsgbasedir token
-+ mask support in echoArea links (auto-mandatory users)
-+ -sbadd() -sbign() echoArea options
-+ createFwdNonPass
-
------ cvs ci ------
-Wed Jan  3 15:40:56 UTC 2001
-sms:
-- fixed some typos in the docs
-
------ cvs ci ------
-Tue Jan  2 12:06:15 UTC 2001
-sms:
-+ dumping packNetmail and maxUnpackedNetmail
-
------ cvs ci ------
-Mon Dec 25 19:15:50 EET 2000
-dmitry:
-+ added processing of tokens packNetmail & maxUnpackedNetmail in tparser
-
------ cvs ci ------
-Mon Dec 18 23:54:19 NOVT 2000
-max (patch from Serguei Revtov):
-* compilation fidoconf.c with Watcom/W32
-
------ cvs ci ------
-Fri Dec 15 14:06:20 NOVT 2000
-max:
-* getDescription() code clean up
-
------ cvs ci ------
-Wed Dec 13 18:34:56 UTC 2000
-sms:
-+ support for long area descriptions
-
------ cvs ci ------
-Sat Dec  9 20:35:07 NOVT 2000
-max:
-* token kludgeAreaNetmail < kill | ignore | echomail >
-
------ cvs ci ------
-Sat Dec  9 08:57:16 UTC 2000
-dmitry:
-+ added docs about tokens packNetmail & maxUnpackedNetmail for bsopack
-
------ cvs ci ------
-Fri Dec  8 04:41:07 UTC 2000
-sms:
-* string2addr: check if string is non-NULL first
-
------ cvs ci ------
-Fri Dec  8 02:39:38 UTC 2000
-sms:
-* fixed typo in tparser.c
-
------ cvs ci ------
-Fri Dec  8 01:20:34 UTC 2000
-sms:
-+ added dirlist option to keyword filelist
-
------ cvs ci ------
-Thu Dec  7 22:21:25 UTC 2000
-sms:
-+ added keyword filelist
-
------ cvs ci ------
-Thu Dec  7 21:12:01 UTC 2000
-sms:
-* fixed memory hole in freeLink
-
------ cvs ci ------
-Tue Dec  5 05:54:22 UTC 2000
-sms:
-+ dumping fileareas and bbsareas
-
------ cvs ci ------
-Tue Dec  5 03:17:40 UTC 2000
-sms:
-! replaced most stricmp-calls with strcmp-calls on the lower case variant
-  of the variable (parsing should be significantly faster now)
-! using enum for linkWithImportLog instead of strings
-
------ cvs ci ------
-Tue Dec  5 01:48:22 UTC 2000
-sms:
-+ added emailSubj, emailFrom, emailEncoding
-
------ cvs ci ------
-Sat Dec  2 02:13:10 UTC 2000
-sms:
-* temporarily deactivated commentChar support in dump.c
-
------ cvs ci ------
-Sat Dec  2 01:59:28 UTC 2000
-sms:
-* fixed error message for commentChar
-* fixed commentChar output in dump.c
-
------ cvs ci ------
-Sat Dec  2 01:28:45 UTC 2000
-sms:
-* using strdup for string constants on init, so copyString can free them
-  safely
-
------ cvs ci ------
-Thu Nov 30 15:20:17 NOVT 2000
-max:
-* dublicate strings safely overwrites the old ones
-
------ cvs ci ------
-Thu Nov 23 23:27:53 NOVT 2000
-max (patch from Serguei Revtov):
-* using of overString instead of copyString for linkDefaults data copying
-
------ cvs ci ------
-Thu Nov 16 12:23:56 MSK 2000
-Fedor:
-+ Added new token CommentChar (in tparser too)
-
------ cvs ci ------
-Tue Nov 14 11:23:22 MSK 2000
-max (patch from Serguei Revtov):
-* BundleNameStyle: addrDiffAlways in tparser
-
------ cvs ci ------
-Mon Nov 13 22:56:43 NOVT 2000
-max:
-* fixed parsing excludePassthroughCarbon
-
------ cvs ci ------
-Sun Nov 12 13:34:40 NOVT 2000
-max:
-* dublicates checking in copyString()
-
------ cvs ci ------
-Wed Nov  8 19:30:56 NOVT 2000
-max:
-* default password from linkdefaults can be changed (report from Ivan Prokudin)
-
------ cvs ci ------
-Sun Oct 29 00:20:09 NOVST 2000
-max:
-* fixed packNetmail parsing
-
------ cvs ci ------
-Mon Oct 23 18:09:53 MET 2000
-  Michael Haase:
-+ added statlog for hpt
-
-Fri Oct 27 00:45:05 NOVST 2000
-max:
-* add tokens maxUnpackedNetmail, packNetmail for bsopack
-
-Sun Oct 22 15:38:35 NOVST 2000
-max:
-* fixed version parsing
-
-Sat Oct 21 19:41:45 NOVST 2000
-max:
-* noPause works for echoAreas & fileAreas
-
-Mon Oct 16 21:44:12 NOVST 2000
-max:
-* -debug echoarea token
-
-Sun Oct 15 15:06:03 NOVST 2000
-max:
-* exit(1) to printLinkError()
-
-Mon Oct  9 17:29:40 NOVST 2000
-max:
-* bugfix for last patch from yesterday
-
-Mon Oct  9 01:38:41 NOVST 2000
-max (patch from Alex Bronin):
-* allowing to use any length passwords.
-  pktPwd will stripped to 8 symbols, others remains unchanged.
-
-Sat Oct  7 16:58:58 MSZ 2000
-tobi:
-* fecfg2fconf is now platform independent
-* -> included fecfg2fconf into standard makefile.
-
------ cvs ci ------
-Wed Sep 27 20:24:45 NOVST 2000
-max:
-* robotsArea token
-
------ cvs ci ------
-Tue Sep 26 00:25:41 NOVST 2000
-max (patch from Serguei Revtov):
-* addrDiffAlways value for BundleNameStyle & linkBundleNameStyle
-
------ cvs ci ------
-Sun Sep 24 15:14:00 NOVST 2000
-max (patch from Serguei Revtov):
-* some dumb checks in tparser
-
------ cvs ci ------
-Sat Sep 23 17:52:53 NOVST 2000
-max (patch from Serguei Revtov):
-* token linkBundleNameStyle
-* additional checks with LinkWithImportLog
-
------ cvs ci ------
-Fri Sep 15 15:47:22 NOVST 2000
-max:
-* choose "right" link for filearea
-  (if exist... echo->useAka & link->ourAka must be the same)
-
------ cvs ci ------
-Fri Sep  8 17:11:07 NOVST 2000
-max (patch from PG):
-* fixed include parsing
-
------ cvs ci ------
-Sat Sep  2 20:48:59 NOVST 2000
-max (patch from Michael Kulinich):
-* token keepTrsMail
-
------ cvs ci ------
-Sat Aug 27 19:31:04 NOVST 2000
-max:
-* "tparser -Dmodule=hpt" prints only hpt keywords
-* excludePassthroughCarbon token
-* packer none (no pack mail)
-
------ cvs ci ------
-Fri Aug 25 12:37:46 NOVST 2000
-max (patch from Serguei Revtov):
-* token BundleNameStyle
-
------ cvs ci ------
-Mon Aug 14 12:07:14 NOVST 2000
-max (patch from PG):
-* tparser show deflink
-* stripping spaces before if, endif, etc...
-
------ cvs ci ------
-Tue Aug 06 20:36:01 CEST 2000
-tobi:
-* support for BeOS
-
------ cvs ci ------
-Sat Aug  5 12:53:03 NOVST 2000
-max:
-* parsePath() modifications, see also docs about msgBaseDir.
-
------ cvs ci ------
-Mon Jul 31 12:18:23 NOVST 2000
-max (patch from Pavel Gulchouk):
-* dumpcfg put "advancedAreafix" and "-def" now
-
------ cvs ci ------
-Thu Jul 27 18:17:50 NOVST 2000
-max:
-* added cfg.c to source tree
-
------ cvs ci ------
-Thu Jul 26 18:17:50 NOVST 2000
-max (patch from Pavel Gulchouk):
-* set, if, else, elseif, ifdef, ifndef, endif
-* arealink option -def
-* -Dvar=value in tparser parameters (example: "tparser -Dmodule=hpt")
-* link option advancedAreaFix
-
------ cvs ci ------
-Tue Jul 18 22:51:16 NOVST 2000
-max:
-* fgetsUntil0 modification
-
------ cvs ci ------
-Sun Jul  9 20:01:16 NOVST 2000
-max:
-* added ignoreSeen
-
-
-
-fidoconfig 0.10
-===============
-(released on Tue Jul 18 22:39:07 CEST 2000)
-
------ cvs ci ------
-Tue Jul  4 22:36:41 NOVST 2000
-max:
-* add -killsb to echoarea options
-
------ cvs ci ------
-Fri Jul  3 22:10:40 NOVST 2000
-max:
-* [envvar] supported under all platforms, `cmd` in UNIX & OS/2+EMX
-
------ cvs ci ------
-Sun Jul  2 16:13:24 NOVST 2000
-max:
-* fixed broken fidoconf (`cmd` & [envvar] parses only in UNIX & OS/2)
-
------ cvs ci ------
-Sat Jul  1 12:44:09 NOVST 2000
-max:
-* fixed core dump when -a <addr> in echoarea not found (Alex Belozuerov)
-* parsePublic code cleanup
-
------ cvs ci ------
-Fri Jun 30 23:25:08 NOVST 2000
-max (patch from Pavel Gulchouk):
-* `cmd` & [envvar] parsing
-
------ cvs ci ------
-Tue Jun 27 22:54:18 NOVST 2000
-max:
-* parsePath() optimization
-
------ cvs ci ------
-Sat Jun 24 19:44:32 NOVST 2000
-max:
-* fixed firectory checking when parsing auto(area|file)createfile
-* fixed dublicated file parsing
-
------ cvs ci ------
-Thu Jun 22 15:40:00 MSK 2000
-Nestyurkin Nikolay:
-* changed Watcom makefiles to use makefile.inc
-* minor changes in makefile.inc
-
------ cvs ci ------
-Wed Jun 21 17:50:00 MSK 2000
-Nestyurkin Nikolay:
-* removed $(FECFG2FCONF)$(EXE) from makefile.inc
-
------ cvs ci ------
-Wed Jun 21 13:44:01 NOVST 2000
-max:
-* carbonOut token
-
------ cvs ci ------
-Wed Jun 21 01:21:00 MSK 2000
-Nestyurkin Nikolay:
-* added $(FECFG2FCONF)$(EXE) to makefile.inc
-
------ cvs ci ------
-Tue Jun 20 23:26:07 MSK 2000
-Nestyurkin Nikolay:
-* removed fecfg2fc.exe compiling under watcom (same as fecfg2fconf.exe)
-* added dumpfcfg.exe & fconf2fidogate.exe to watcom makefiles
-* fixed dumping of ExecOnFile
-
------ cvs ci ------
-Sun Jun 18 13:35:07 NOVST 2000
-max:
-* tearline, origin tokens
-
------ cvs ci ------
-Tue Jun  6 19:39:31 NOVST 2000
-max:
-* smalloc(), srealloc(), scalloc()
-
------ cvs ci ------
-Mon Jun 05 12:23:00 SAMST 2000
-Georgi:
-* added new token delNotRecievedTIC (in link section).
-  For htick - if file not recieved, then remove TIC
-* added new filearea option - noreplace
-
------ cvs ci ------
-Mon Jun  5 14:27:35 NOVST 2000
-max:
-* fixed carbonExtern parsing
-
------ cvs ci ------
-Sun Jun  4 14:19:57 NOVST 2000
-max:
-* readConfig(void) changed to readConfig(char *cfgFile)
-* tparser support command via cmdline (run tparser --help)
-* carbonAddr token
-* route flavour nopack ...
-* addToSeen token
-
------ cvs ci ------
-Sat Jun  3 21:57:51 NOVST 2000
-max:
-* fixed my yesterday bug in fgetsUntil0
-
------ cvs ci ------
-Thu Jun  2 12:04:42 NOVST 2000
-max:
-* fixed fgetsUntil0 function (thanx to Gena Makhomed)
-* added token setConsoleTitle for win32 platform
-* added xstr* functions from hpt
-* added token screenloglevels
-
------ cvs ci ------
-Thu Jun  1 11:51:34 NOVST 2000
-max (patch from Lev Serebryakov):
-* new link token ForwardAreaPriority <number> for hpt
-* new link token ForwardFilePriority <number> for htick
-* new link token RemoteFileRobot <string> for htick
-* new link token ForwardFileRequestFile <file> for htick
-* new link token forwardFileRequests <bool> for htick
-
------ cvs ci ------
-Sat May 27 10:21:30 NOVST 2000
-max:
-* dupe base type set to hashdupes with msgid as default
-* remove dupeSize (unused)
-* loglevels documentation
-
------ cvs ci ------
-Thu May 25 15:22:21 NOVST 2000
-max:
-* check if path already have been parsed (fix possible memory leaks)
-
------ cvs ci ------
-Wed May 24 00:15:52 CEST 2000
-mtt:
-* fixed fidoInst
-
------ cvs ci ------
-Tue May 23 22:36:28 NOVST 2000
-max (patch from Lev Serebryakov):
-* added tokens ConvertShortNames, ConvertLongNames for htick
-
------ cvs ci ------
-Mon May 22 14:03:38 CEST 2000
-mtt:
-* made some release adjustements
-* changed version to numer 0.10
-
------ cvs ci ------
-Mon May 22 11:40:00 NOVST 2000
-max:
-* autoPause added to docs
-* uppercase area's group for Golded (patch from Alex Bronin)
-
------ cvs ci ------
-Wed May 17 18:39:00 UTC 2000
-sms:
-* fixed double deallocation of viaStr in new routing code
-
------ cvs ci ------
-Wed May 17 21:40:28 NOVST 2000
-max (patch from Alex Bronin):
-* added token busyFileDir for htick
-* added -sendorig option to filearea
-
------ cvs ci ------
-Wed May 15 07:39:00 UTC 2000
-sms:
-* using direxist() from smapi instead of readdir in parsePath()
-
------ cvs ci ------
-Tue May 16 20:28:45 NOVST 2000
-max:
-* fix route parsing in the middle of the links
-
------ cvs ci ------
-Mon May  8 17:40:14 NOVST 2000
-max (patch from Alex Bronin):
-* MS Visual C porting
-
------ cvs ci ------
-Sun May  7 14:55:32 MSD 2000
-max (patch from Serguei Revtov):
-* add tossingExt token
-
------ cvs ci ------
-Tue Apr 25 19:04:15 NOVST 2000
-max:
-* backward compatibility for my last changes
-
------ cvs ci ------
-Mon Apr 24 16:35:03 NOVST 2000
-max:
-* small fix in e_writeCheck
-* now possible create two links with the same aka and
-  different our aka and link them to different areas.
-  if own useAka of area and ourAka used for link not
-  the same -- there is no export & import...
-
------ cvs ci ------
-Sun Apr 23 22:12:26 NOVST 2000
-max:
-* changes with e_readCheck & e_writeCheck (fixed optgrp operations)
-
------ cvs ci ------
-Sat Apr 21 2:44:00 MSK 2000
-Nestyurkin Nikolay:
-* bugfix of previous fix (int->uint)
-
------ cvs ci ------
-Wed Apr 19 16:52:16 MSD 2000
-max (patch from Serguei Revtov):
-* unifying some boolean tokens parsing
-
------ cvs ci ------
-Sat Apr 15 14:16:00 MSK 2000
-nn:
-* disableTID small fix
-
------ cvs ci ------
-Sat Apr 15 10:47:38 NOVST 2000
-max:
-* add disableTID token
-
------ cvs ci ------
-Sun Apr 10 16:40:00 CET 2000
-sms:
-* some changes to fidoconfig.h and affected files needed to automatically
-  convert fidoconfig.h to fidoconf.pas with h2pas
-
------ cvs ci ------
-Sun Apr  9 22:41:43 NOVST 2000
-max:
-* add e_readCheck & e_writeCheck
-* now export, import & mandatory dispayed by tparser correctly
-
------ cvs ci ------
-Tue Apr  4 12:51:02 MSD 2000
-max (patch from Serguei Revtov):
-* createAreasCase & areasFileNameCase tokens
-
------ cvs ci ------
-Mon Apr  3 17:39:30 NOVST 2000
-max (patch from Serguei Revtov):
-* additional checks on carbons
-
------ cvs ci ------
-Sat Apr  1 20:45:39 NOVST 2000
-max:
-* document tokens LinkGrp & NetArea
-
------ cvs ci ------
-Mon Mar 27 13:28:49 MSD 2000
-max (patch from Serguei Revtov):
-* pktsize token
-
------ cvs ci ------
-Thu Mar 23 16:10:45 NOVT 2000
-max:
-* exit to shell after printing error when passthrough + sqush (jam, sdm) used
-patch from Serguei:
-* -nopack token
-
------ cvs ci ------
-Mon Mar 20 08:56:28 MSK 2000
-max (patch from Serguei Revtov):
-* change legacy SUN & Win makefiles to compile with new includes, simplifying
-* return back default config for "other unixes"
-
------ cvs ci ------
-Sun Mar 19 21:26:41 NOVT 2000
-max:
-* document areafixkillrequests & frequestfromuplink
-
------ cvs ci ------
-Fri Mar 17 11:52:37 NOVT 2000
-max (patch from Serguei Revtov):
-* added linkDefaults
-
------ cvs ci ------
-Thu Mar 9 2000 17:42:30 CET
-sms:
-* installing header files to $INCDIR/fidoconfig
-
------ cvs ci ------
-Thu Mar 9 2000 17:22:10 CET
-sms:
-* fixed segfault caused by new CFGDIR-code
-
------ cvs ci ------
-Thu Mar  9 10:38:34 NOVT 2000
-max:
-* dupeBaseType & araesMaxDupeAge in doc
-
------ cvs ci ------
-Mi   8 Mar 2000 00:23:16 CET
-tobi:
-* the default path of the config file now is not hardwired any more,
-  but taken from the CFGDIR huskymak.cfg variable (if set).
-  Of course, if using legacy makefiles (makefile.lnx etc.), the default
-  is still hardcoded
-* changed default for OS/2 etc from c:\\fido to current directory.
-
------ cvs ci ------
-Sun Feb 27 23:17:16 CET 2000
-hjk:
-* fixed a bug in dump.c and some cosmetical changes
-
------ cvs ci ------
-Mon Feb 25 07:39:41 NOVT 2000
-max:
-* area->dosfile set under ms-dos now
-patch from Alexander Vernigora:
-* DupeBaseType { TextDupes | HashDupes | HashDupesWMsgId | CommonDupeBase }
-* AreasMaxDupeAge 5 (default) - days limit for common dupe base
-
------ cvs ci ------
-Wed Feb 23 15:00:00 IZH 2000
-Georgi:
-* added new token MaxTicLineLength for htick
-
------ cvs ci ------
-Sun Feb 13 15:59:24 NOVT 2000
-max (patch from Nestyurkin Nikolay):
-* fconf2squish: passthrough areas & groups fixes
-
------ cvs ci ------
-Sat Feb 12 19:40:00 IZH 2000
-Georgi:
-* added new token originInAnnounce for htick
-
------ cvs ci ------
-Sat Feb 12 20:50:26 NOVT 2000
-max:
-* print error if LinkGrp, OptGrp & AccessGrp parsed before Link definition
-
------ cvs ci ------
-Sat Feb 12 16:45:00 IZH 2000
-Georgi (patch from Nestyurkin Nikolay, 2:5020/3600):
-* added new keyword for htick:
-  SaveTic <FileEchoMask> <DirToSaveTic>
-
------ cvs ci ------
-Mon Feb  7 22:37:12 NOVT 2000
-max:
-* fconf2squish: don't write "-$g0" for "0" groups
-* "grep -i" in linkedto script
-patch from Alex Bronin (2:5049/36):
-* using system copy/move functions in win32 and os2 (ifdef USE_SYSTEM_COPY)
-* added ExecOnFile keyword
-
------ cvs ci ------
-Sun Jan  6 01:24:10 NOVT 2000
-max:
-* add token noProcessBundles
-
------ cvs ci ------
-Sat Feb  5 02:36:03 NOVT 2000
-max:
-* bugfix for groups: allocation memory for \0 (patch from Serguei)
-* export, import, mandatory makes as unsigned int
-
------ cvs ci ------
-Tue Feb  1 22:19:01 NOVT 2000
-max:
-* added getEchoArea()
-* getArea() returns echo & local areas
-* added autoAreaCreateDefaults & autoFileCreateDefaults to tparser
-* added PublicGroup to tparser
-* changes in documentation
-* do not transtale groups to lowercase - we have case unsensitive _tokens_
-
------ cvs ci ------
-Sun Jan 30 17:06:45 NOVT 2000
-max:
-* added token areafixOrigin
-
------ cvs ci ------
-Sun Jan 30 13:09:29 NOVT 2000
-max:
-* moved proposal to husky-common
-* change doc file (escape sequences)
-
------ cvs ci ------
-Fri Jan 28 21:40:00 CET 2000
-sms:
-* changed groups from chars to strings
-
------ cvs ci ------
-Sat Jan 29 00:32:51 NOVT 2000
-max:
-* change makefiles to compile with $(LIB) & $(OBJ)
-patch from Serguei Revtov:
-* make fidoconfig compiling on sun (makefile.sun) again
-
------ cvs ci ------
-Thu Jan 27 20:59:22 CET 2000
-mtt:
-* changed in makefile.common $(A) to $(LIB)
-
------ cvs ci ------
-Thu Jan 27 18:42:50 CET 2000
-mtt (patch from Alex Semyanka)
-* added NetmailExtern (carbonExtern for netmails)
-* added processPkt for calling pktdate etc.
-
------ cvs ci ------
-Tue Jan 25 13:46:13 NOVT 2000
-max (patch from Serguei Revtov):
-* linkedto: read config file in current directory
-
------ cvs ci ------
-Tue Jan 25 00:43:18 NOVT 2000
-max (patch from Serguei Revtov):
-* make fidoconfig compiling on sun (makefile.sun)
-
------ cvs ci ------
-Sat Jan 22 11:16:22 NOVT 2000
-max:
-* delete old level access code
-
------ cvs ci ------
-Sat  22 Jan 2000 00:36:55 CET
-tobi (patch from Eduard Dulich)
-* improved linkedto srcipt (now also searches include files, and finds
-  exact matches)
-
------ cvs ci ------
-Fri Jan 21 19:53:20 NOVT 2000
-max (patch from Serguei Revtov):
-* carbonDelete bugfix
-* normal print carbonDelete in tparser
-* init netMail field in carbons
-* "off" in autoareacreate & autofilecreate tokens
-
------ cvs ci ------
-Thu Jan 20 15:10:29 NOVT 2000
-max (patch from Serguei Revtov):
-* fecf2fconf: added wthitespace before "-b msgbasetype"
-* check second parameter in parseFileName
-* carbonDelete don't movin' messages to BadArea now
-
------ cvs ci ------
-Sun Jan 16 14:10:00 CET 2000
-sms:
-* added warning if dupeHistoryDir is not set
-* added "-I../smapi" to husky.lnx
-
------ cvs ci ------
-Mon Jan  3 17:45:54 NOVT 2000
-max (patch from Kolya Nesterov):
-* added carbonDelete token (this is really a twit feature)
-
------ cvs ci ------
-Mon Dec 27 23:03:29 NOVT 1999
-max:
-* manual means mandatory
-
------ cvs ci ------
-Sat Dec 25 19:27:26 NOVT 1999
-max (patch from Kolya Nesterov):
-* added memdup()
-
------ cvs ci ------
-Sun Dec 19 22:33:07 CET 1999
-mtt:
-* fixed -b documentation bug
-
------ cvs ci ------
-Sun Dec 12 22:36:57 CET 1999
-mtt:
-* added fconf2areabbs (hacked by Grischa Brockhaus)
-
------ cvs ci ------
-Sat Dec 11 19:27:40 1999
-Georgi (patch from Nestyurkin Nikolay, 2:5020/3600):
-* added token fileEchoFlavour (flavour for fileecho)
-  Warning, please put this token in config, if you use htick!
-
------ cvs ci ------
-Wed Dec  8 11:05:56 MET 1999
-mtt
-* added new fidoInst script developed by Stefano Zano
-
------ cvs ci ------
-Tue Dec  7 20:57:05 NOVT 1999
-max:
-* add token ignoreCapWord
-
------ cvs ci ------
-Tue Nov 30 23:06:25 CET 1999
-mtt:
-* all areanames are now converted to lowercase during reading
-
------ cvs ci ------
-Tue Nov 30 22:07:07 CET 1999
-sms:
-* fixed some misuses of ++ in fecfg2fconf.c
-
------ cvs ci ------
-Mon Nov 29 01:01:03 CET 1999
-sms:
-* another bugfix for string2addr: missing backslash before 0
-
------ cvs ci ------
-Mon Nov 29 00:29:07 CET 1999
-sms:
-* fixed some misuses of ++ in common.c
-
------ cvs ci ------
-Thu Nov  4 23:10:31 NOVT 1999
-max:
-* moved patimat() to common.c
-
------ cvs ci ------
-Thu Oct 28 13:09:52 CEST 1999
-mtt:
-* fixed some documentation problems
-
------ cvs ci ------
-Thu Oct 28 12:27:40 CEST 1999
-mtt:
-- added email information to link structure (for the upcoming pkt2mail)
-
------ cvs ci ------
-Sun Oct 24 23:25:00 CEST 1999
-mtt:
-* fixed coredump when -a is not followed by a number
-* some changes from config to const *config
-
------ cvs ci ------
-Sun Oct  3 22:04:23 CEST 1999
-mtt:
-* applied patch by Matthias Duesterhoeft for fidoInst
-
------ cvs ci ------
-Sun Oct 24 16:58:04 NOVST 1999
-max (patch from Kolya Nesterov):
-- killRead & keepUnread documented and support added to tparse & dumpfcfg
-- support for multiple netmail areas added
-- carbonCopy, carbonMove tokens added
-- carbonExtern token added
-- linkedto script enchanted to use $FIDOCONFIG variable
-
------ cvs ci ------
-Thu Oct 16 13:40:00 MET DST 1999
-sms:
-- reorganized Makefiles, please read README.Makefiles in the husky-common
-  package!
-
------ cvs ci ------
-Tue Oct 12 19:21:43 NOVST 1999
-max (patch from Kolya Nesterov & my fixes):
-* fecfg2fconf: print squish and jam echoareas to fidoconfig
-
------ cvs ci ------
-Mon Oct 11 01:14:27 NOVST 1999
-max (patch from Kolya Nesterov):
-- str2attr function added
-- coredump in string2addr fixed
-- echoareas file permissions (broken for now, will fix soon)
-- new EchoArea tokens : -keepUnread, -killRead -0 (for use with golded).
-- replaced parseLevel with parseNumber (allows to specify radix)
-
------ cvs ci ------
-Fri Oct  8 16:11:26 MET DST 1999
-tobi:
-* added nodelist specific keywords for the new nltools project
-  fidouserlist
-  nodelist
-  diffupdate
-  fullupdate
-  defaultzone
-  nodelistformat
-
------ cvs ci ------
-Thu Sep 30 20:20:36 NOVST 1999
-max:
-* fixed one more bug in string2addr() // core dumps on some msg's
-
------ cvs ci ------
-Tue Sep 28 16:42:08 NOVST 1999
-max:
-* fixed bug in string2addr() // core dumps on some msg's
-
-
-fidoconfig 0.9
---------------
-(released on Thu Sep 23 23:05:24 CEST 1999)
-
------ cvs ci ------
-Sat Sep 18 20:16:07 NOVST 1999
-max: (patch from Serguei Revtov)
-* fixed bug when parsing carbon areas
-* added fclose after parsing config
-
------ cvs ci ------
-Wed Sep 15 15:18:50 MET DST 1999
-mtt:
-* new example config
-
------ cvs ci ------
-Wed Sep 15 15:18:50 MET DST 1999
-mtt:
-+ added sun makefiles
-* dumpCfg puts address out now
-
------ cvs ci ------
-Sat Sep 11 13:00:16 NOVST 1999
-max:
-* added carbonReason token (patch from Serguei Revtov)
-* described "-g <char>" if documentation
-
------ cvs ci ------
-Fri Sep 10  11:05:00
-sms:
-+ added keyword sessionPwd
-
------ cvs ci ------
-Thu Sep 02  16:25:00
-Fedor:
-* fixed type in fileLDescString
-
------ cvs ci ------
-Wed Sep 01 22:06:21 CEST 1999
-sms:
-+ added the following keywords:
-
-  ticOutbound
-  semaDir
-  badFilesDir
-  areafixKillRequests
-  filefixKillReports
-  filefixKillRequests
-  fileAreasLog
-  fileNewAreasLog
-  longNameList
-  fileArcList
-  filePassList
-  fileDupeList
-  msgidfile
-  createDirs
-  longDirNames
-  splitDirs
-  addDLC
-  fileSingleDescLine
-  fileCheckDest
-  fileDescPos
-  DLCDigits
-  fileMaxDupeAge
-  fileFileUMask
-  fileDirUMask
-  fileLocalPwd
-  fileLDescString
-
------ cvs ci ------
-Sun Aug 29 22:14:49 CEST 1999
-sms:
-+ added '#' to patmat()
-
------ cvs ci ------
-Sat Aug 28 02:03:49 CEST 1999
-Antonio:
-+ added -b option for message base type.
-
------ cvs ci ------
-Thu Aug 26  20:26:50
-Fedor:
-+ added AreaOption - Jam (adapted smapi for JAM). Need check and test.
-
------ cvs ci ------
-Fri Aug 20 14:42:16 NOVST 1999
-max:
-+ added token areafixSplitStr
-* changes in tparser (print all new tokens)
-
------ cvs ci ------
-Mon Aug 16 12:33:46 NOVST 1999
-max:
-+ added echoarea token -manual. same as -mandatory.
-+ added tokens beforePack & afterUnpack
-* small changes in docmentation.
-
------ cvs ci ------
-Sat Aug 14 23:34:49 NOVST 1999
-max:
-+ added token areafixmsgSize
-
------ cvs ci ------
-Fri Aug 13 13:30:54 NOVST 1999
-max:
-+ added token carbonKeepSb
-+ added token -keepsb in echoarea option
-
-Thu Aug 12
-sms:
-+ some work on dump.c
-+ added dumpfcfg (simply calls dumpConfig())
-
------ cvs ci ------
-Wed Aug 11 02:20:37 NOVST 1999
-max:
-+ added carbonSubj and carbonText tokens
-+ added carbonAndQuit token
-
------ cvs ci ------
-Mon Aug  9 15:34:24 NOVST 1999
-max:
-+ added token for Hash Dupes by Oleg Zrozhevsky
-
------ cvs ci ------
-Thu Aug 03 11:38:30 1999
-Georgi:
-+ Added "-lw <level>" and "-lr <level>" in filearea options
-
------ cvs ci ------
-Mon Aug 02 18:20:50 1999
-Georgi:
-+ Added token BbsArea <name> <directory> "<description>"
-
------ cvs ci ------
-Thu Jul 29 10:43:22 CEST 1999
-mtt:
-+ added logEchoToScreen to tparser
-
------ cvs ci ------
-Sun Jul 18 15:21:25 1999
-Georgi:
-+ Added token passFileAreaDir (directory for Passthrough fileareas)
-+ Added token Passthrough in FileArea
-
------ cvs ci ------
-Sat Jul 10 17:08:44 CEST 1999
-mtt:
-* changed void main to int main (fecfg2fconf.c)
-* futher work on dump.c
-
------ cvs ci ------
-Sat Jul 10 00:11:58 CEST 1999
-mtt:
-+ started working on that dumpConfig code (quite boring :-( )
-
------ cvs ci ------
-Mon Jun 28  16:43:00
-Fedor:
-+ Added compiling fecfg2fconf (fastecho.cfg -> fidoconfig) for Linux
-
------ cvs ci ------
-Sun Jun 27  15:02:00
-Fedor:
-+ Added copy_file() function in common.c
-* Fixed problem with compiling for OS/2 and Watcom
-
------ cvs ci ------
-Thu Jun 24 17:24:42 CEST 1999
-mtt:
-* fixed tparser while displaying forwardPkts
-
------ cvs ci ------
-Tue Jun 22 22:10:45 CEST 1999
-mtt:
-* version number updated
-
------ cvs ci ------
-Thu Jun 17 12:38:26 NOVST 1999
-max:
-+ add tokens defArcmailSize and arcmailSize
-
------ cvs ci ------
-Wed Jun  16 18:20:00
-Fedor:
-* change token AutoCreateFile to AutoAreaCreateFile (from link)
-+ added token AutoFileCreateFile
-* change token AutoCreateDefaults to AutoAreaCreateDefaults
-* moved global AutoFileCreateDefaults to link
-  Do it for used htick in future
-
------ cvs ci ------
-Tue Jun  8 20:53:03
-Fedor:
-+ added token AutoPause for links
-
-fidoconfig 0.8
-(released on Mon Jun  7 22:37:09 CEST 1999)
---------------
-
------ cvs ci ------
-Mon Jun  7 20:43:29 CEST 1999
-mtt:
-* fixed some null-pointer issues.
-
------ cvs ci ------
-Sun May 30 22:26:26 CEST 1999
-mtt:
-* fixed a bug in (2)
-
------ cvs ci ------
-Sun May 23  18:50:01
-Fedor:
-+ added tokens RemoteRobotName - Areafix (default) or another
-  and fRequestFromUpLink - link's access for Forward Requests.
-
------ cvs ci ------
-Tue May 18 17:54:01 CEST 1999
-mtt:
-* added fconf2squish which can be used for squish config based programs
-  like sqLink
-* (2) fidoconfig now adds .0 to the pattern of a route when there is no . and no * in it.
-
------ cvs ci ------
-Sun May 16 23:26:39 CEST 1999
-mtt:
-+ fidoInst for new config adapted
-
------ cvs ci ------
-Wed May 12 13:05:10 NOVST 1999
-Max:
-+ update documentation
-
------ cvs ci ------
-Tue May 11 21:55:03 CEST 1999
-mtt:
-+ netmailarea can now also be netarea, and if you have $ in your squish area definition,
-  golded may read the fidoconfig file directly. (kolya)
-
-fidoconfig 0.7
-(released on Wed Apr 21 18:44:22 CEST 1999)
---------------
-
------ cvs ci ------
-Sun Apr 25 21:37:29 CEST 1999
-Antonio:
-+ Fixed bug in stripComment() if comment line had more than one '#'.
-  New stripComment(). Test it please!.
-+ Some fixes in tparser.
-
------ cvs ci ------
-Sun Apr 18 20:36:56 CEST 1999
-Mtt:
-+ fixed wrong Documentation. Please do a make next time.
-
------ cvs ci ------
-Sun Apr 18 15:45:09 NOVST 1999
-Max:
-+ add separateBundles option
-
-Fri Apr 16 21:27:53 NOVST 1999
-Max:
-+ update proposal.texi
-
------ cvs ci ------
-Wed Apr 14 14:54:14 CEST 1999
-mtt:
-+ Comments are now removed from the line before the parsing.
-  If the # is between two " it is no comment.
-  Take a look at the state-machine in stripComment() if it is correct.
-+ if you use a statement which specifies information about a link (ourAka,
-  autocreateDefaults...) it is first tested now, if a link exists.
-+ if in an area Option the string msg is recognized the area is a *.msg area.
-
------ cvs ci ------
-Sun Apr 11 17:00
-Antonio:
-+ '-a' option added to fconf2golded. Export areas only.
-+ fidoconfig now supports descriptions for fileareas.
-+ update tparser.
-
------ cvs ci ------
-Sat Apr  10 22:25:12
-Max:
-removed $f from unpack code
-
------ cvs ci ------
-Tue Apr  6 18:23:17 CEST 1999
-Antonio: (applied by mtt)
-+ Fidoconfig and hpt now supports descriptions for areas. See docs for
-  more info and examples. fconf2golded supports too.
-+ fconf2golded export localareas too. dupe and bad areas are local type now.
-+ fidoconfig supports filenames with one or more spaces on it. Should be
-  between double quotes.
-+ fidoconfig and hpt supports create and read filenames of areas in dos
-  style (8+3). Useful when you use Linux and want to store your message base
-  on a DOS partition.
-+ Modifications in tparser.
-
-
------ cvs ci ------
-Mon Mar  29 16:02
-Fedor:
-+ token "ReportTo" added to s_fidoconfig for report to echoarea or netmail
-
------ cvs ci ------
-Thu Mar  18 22:21
-Max:
-+ carbons to echoarea (not only to localarea)
-
------ cvs ci ------
-Wed Mar  17 20:50
-Max:
-+ changed -m <integer> to -$m <integer> in echoarea options
-- -m changed to -mn (mandatory to link in echoarea options)
-
------ cvs ci ------
-Mon Mar  15 20:50
-Max:
-+ win32 port by Edgar Chupit (chupit@mail.lv)
-+ logEchoToScreen
-+ update tparser
-
------ cvs ci ------
-Wed Mar  10 15:37
-Max:
-+ "availableareas" changed to "forwardRequestFile"
-+ "areafixKillReports"
-+ update proposal
-+ update tparser
-
------ cvs ci ------
-Mon Mar  8 21:42
-Max:
-- fixed a bug when found unknown link in echoarea
-
-Mon, Mar 1 22:00
-  Gabriel Plutzar
-+ included new keywords & features needed by Husky Tick:
-  * FileAreaBaseDir <directory>
-    Where the directories for all File areas shall be made at autocreate
-    Same as MsgBaseDir
-  * AutoFileCreateDefaults <string>
-    Defaults for File Area Autocreate
-  * FileFixHelp <file>
-    Help file for FileFix  (Same as AreaFixHelp for AreaFix)
-  * FileArea <name> <fileareapath> <uplink> [options] <downlinks>
-    Same as EchoArea, most options are valid
-+ included generic new keyword fpr HPT & HTICK
-  * LogLevels <string>
-    You can specify all Loglevels you want in your log
-    Default is 123456789, use 23456789 if you don't want all the IDLE
-    sessions in your logfile (eg when you start hpt once a minute)
-- Minor Bugfixes
-
-fidoconfig 0.6
-(released on Mon Mar  1 19:49:03 CET 1999)
---------------
-
-Mon Mar  1 19:47:36 CET 1999
-- applied work when i staid in Austria
-- djgpp port
-
------ cvs ci ------
-Thu Feb 25
-  Gabriel Plutzar
-* Rewrote patimat, changed priority of include file directories in hpt to
-  include the new patimat funktion correctly, included missing include
-  files.
-+ Added patimat to fconf2fidogate for better config-file interpretation
-
------ cvs ci ------
-Mon Feb 22 11:09:53 MET 199
-  Tobias Ernst:
-+ Added patimat for case insensitive pattern matching
-
-Sat Feb 20 21:18:51 MET 1999
-  Tobias Ernst:
-+ Wrote documentation for the packet forwarding feature.
-- Removed some things from the link structure that I did not need any
-  longer for the PKT forwarder.
-
-Sat Feb 20 19:26:54 MET 1999
-  Tobias Ernst:
-- Added the move_file routine. Use it to move files instead of rename,
-  because it can also move across file system boundaries.
-- Some changes to the structures required by the PKT forwarding feature.
-
------ cvs ci ------
-Wed Feb 17 20:07:00 CET 1999
-  Gabriel Plutzar:
-- added a new remap statment. It takes the parameters
-  ToName,OldAddr,NewAddr, seperated by commas. ToName or OldAddr may be *.
-  If a Netmail meets the ToName and OldAddr Criteria, it is sent to NewAddr.
-
------ cvs ci ------
-Mon Feb 15 18:28:21 CET 1999
-- included sergeys patch for a correct readLine()
-  Max Levenkov:
-- forwardRequests option supported by fidoconfig and tparser
-- changed the name of some enumerations
-- added forwardPkt statement (on, secure, off) it will be implemented by tobi
-- added autoCreateFile statement
-
------ cvs ci ------
-Sun Feb 14 12:57:04 CET 1999
-- included new fconf2fidogate from Gabriel
-- applied patches from Antonio Perez so there is
-  no need for the system calls in fconf2*
-
------ cvs ci ------
-Fr  12 Feb 1999 14:02:37 CET [tobi]
-- Revised makeUniqueDosFilename. It does not have to sleep before
-  returning a file name now and is even more unique than previously :-)
-
------ cvs ci ------
-Thu Feb 11 15:33:36 CET 1999
-- fixed a small warning, where a time was compared to a NULL Pointer
-
------ cvs ci ------
-Wed Feb 10 16:04:46 MET 1999
-- fixed a null pointer bug in tparser
-
------ cvs ci ------
-Wed Feb 10 14:50:04 MET 1999 [tobi]
-- added makeUniqueDosFilename() which can be used to create more or
-  less unique PKT file names. See the comments in common.c for details.
-
------ cvs ci ------
-Thu Feb  4 00:34:55 CET 1999
-- fixed a bug in makefile.lnx which leads to the behaviour that
-  libfidoconfig.so.$(VER) is not newly generated.
-Wed Feb  3 23:23:06 CET 1999
-- added isLinkOfArea()
-Wed Feb  3 12:32:56 CET 1999
-- added getConfigFileNameForPogram() which can be used to search for
-  config-files in a way similar to fidoconfig. See header file for exact
-  description.
-
------ cvs ci ------
-Wed Jan 27 18:36:53 CET 1999
-- fixed many null pointer seg-faults
------ cvs ci ------
-Fri Jan 22 00:00:04 CET 1999
-- added LinkWithImportLog added (gerald)
-- tailing spaces will be killed in every line (gerald)
-
------ cvs ci ------
-Tue Jan 19 19:46:05 CET 1999
-- changed makefile for use without installing the libraries
------ cvs ci ------
-- changed public to publicDir
-
------ cvs ci ------
-Mon Jan 18 17:16:24 CET 1999
-- fixed makefile.lnx to have fconf2aquaed
-Wed Jan 13 20:12:00 CET 1999
-- applied Kolyas memory bug fixes
+2001-05-03 Thursday 21:40  ml
+
+	* fidoconf.c (1.48), line.c (1.244), tparser.c (1.141): patch from
+	kees: changed default carbonRule to AND
+
+2001-05-03 Thursday 13:25  ml
+
+	* .cvs2cl (1.1): added .cvs2cl file
+
+2001-04-21 Saturday 17:34  joerg.jaspert
+
+	* debian/control (1.5): Changed priority
+
+2001-04-21 Saturday 17:21  joerg.jaspert
+
+	* debian/: huskymak.cfg (1.6), rules (1.4): Turned debug on
+
+2001-04-21 Saturday 17:21  joerg.jaspert
+
+	* debian/doc-base (1.2): Changed section
+
+2001-04-21 Saturday 17:19  joerg.jaspert
+
+	* debian/changelog (1.6): Changed it so it compiles now with debug
+	enabled. From now on i compile only stable versions without debug.
+
+2001-04-18 Wednesday 23:40  tobi
+
+	* fidoconf.h (1.65), line.c (1.242), tokens.h (1.6),
+	doc/keywords.hpt (1.7): ----- cvs ci ------ Wed Apr 18 23:24:50
+	CEST 2001 tobi: * new keywords: autofilecreatesubdirs and
+	autoareacreatesubdirs	for creating /filebase/gfd/app/comm/
+	instead of /filebase/gdb.app.comm/
+
+2001-04-14 Saturday 16:53  joerg.jaspert
+
+	* debian/: changelog (1.5), control (1.4): Changed dependencys,
+	newest cvs-fix applied.
+
+2001-04-14 Saturday 14:48  tobi
+
+	* debian/huskymak.cfg (1.5): fixed DEBLFLAGS
+
+2001-04-13 Friday 15:12  joerg.jaspert
+
+	* debian/: changelog (1.4), control (1.3), huskymak.cfg (1.4),
+	rules (1.3): Recompiled. Change to smapi-version made it neccessary
+	for right Dependencys (I hope apt-get/dselect like it now!)
+
+2001-04-13 Friday 15:11  joerg.jaspert
+
+	* Makefile (1.27): Removed path from symlinks.
+
+2001-04-12 Thursday 13:16  joerg.jaspert
+
+	* debian/: changelog (1.3), huskymak.cfg (1.3), rules (1.2):
+	Changed cleantarget in rules. Changed to newest cvs version.
+
+2001-04-12 Thursday 13:15  joerg.jaspert
+
+	* Makefile (1.26): Deleted most of my changes yesterday. They are
+	now in debian/rules
+
+2001-04-11 Wednesday 22:31  joerg.jaspert
+
+	* debian/README.BUILD-DEB (1.1): Some words for package-building on
+	Debian Systems.
+
+2001-04-10 Tuesday 21:55  joerg.jaspert
+
+	* debian/: changelog (1.2), control (1.2), huskymak.cfg (1.2):
+	Error in huskymak. *grumpf*
+
+2001-04-10 Tuesday 17:42  joerg.jaspert
+
+	* Makefile (1.25), doc/Makefile (1.13): Debian-specific changes.
+
+2001-04-10 Tuesday 17:42  joerg.jaspert
+
+	* debian/: README.Debian (1.1), changelog (1.1), control (1.1),
+	copyright (1.1), dirs (1.1), doc-base (1.1), docs (1.1), dumpfcfg.1
+	(1.1), fconf2.1 (1.1), huskymak.cfg (1.1), linkedto.1 (1.1), rules
+	(1.1), shlibs (1.1), tparser.1 (1.1): Files needed for
+	Package-Building on Debian-Systems.
+
+2001-04-09 Monday 01:13  tobi
+
+	* tparser.c (1.137): fixed crash in tparser
+
+2001-04-05 Thursday 14:07  joerg.jaspert
+
+	* man/: README (1.1), dumpfcfg.1 (1.1), fconf2.1 (1.1), linkedto.1
+	(1.1), tparser.1 (1.1): Small manpages for the binaries in
+	Fidoconf. Please check for errors.
+
+2001-04-03 Tuesday 01:05  tobi
+
+	* cfg.c (1.7), fidoconf.c (1.44): fixed out-of-bounds error in
+	fidoconf.c and rewrote code in cfg.c to be compatbile with gnu
+	boundary checking
+
+2001-03-10 Saturday 23:58  tobi
+
+	* findtok.c (1.2), line.c (1.234), makefile.inc (1.11), tokens.h
+	(1.1): Rewrote the parser core function parseLine. Replaced the
+	endless if/elseif chain with a bsearch lookup and a consecutive
+	switch/case construct. This should give a performance gain both in
+	terms of compile time as well as in terms of run time.	The
+	comments in the new file tokens.h describe how to add new keywords
+	to fidoconfig now.
+
+2001-03-09 Friday 12:28  tobi
+
+	* Makefile (1.23), findtok.c (1.1), findtok.h (1.1), makefile.inc
+	(1.10): added "findtok.c" and "findtok.h"
+
+2001-03-09 Friday 09:10  ml
+
+	* TODO (1.53), common.c (1.65), common.h (1.30): new string2addr()
+
+2001-02-12 Monday 21:55  nestyurkin.nikolay
+
+	* fidoconf.c (1.38): "fix/update"
+
+2001-01-28 Sunday 20:29  d.sergienko
+
+	* Makefile (1.22): 
+	Makefile (ldconfig) fixes.
+
+2001-01-27 Saturday 17:32  ml
+
+	* common.c (1.63), dump.c (1.64), fidoconf.h (1.53), line.c
+	(1.221), tparser.c (1.125), doc/proposal.texi (1.113): new tokens
+
+2001-01-20 Saturday 16:54  ml
+
+	* dump.c (1.62), fidoconf.h (1.51), line.c (1.219), tparser.c
+	(1.123), doc/proposal.texi (1.111): new feature
+
+2001-01-15 Monday 17:00  ml
+
+	* common.c (1.62), dump.c (1.61), fidoconf.c (1.35), fidoconf.h
+	(1.50), line.c (1.218), tparser.c (1.122), doc/proposal.texi
+	(1.110): new features
+
+2001-01-15 Monday 09:31  ml
+
+	* TODO (1.45), dump.c (1.60), fidoconf.h (1.49), line.c (1.217),
+	tparser.c (1.121), doc/proposal.texi (1.109): new features
+
+2001-01-03 Wednesday 16:44  sms
+
+	* doc/fidoconfig.texi (1.15): - fixed some typos in the docs
+
+2001-01-02 Tuesday 13:07  sms
+
+	* dump.c (1.59): + dumping packNetmail and maxUnpackedNetmail
+
+2000-12-25 Monday 18:18  d.sergienko
+
+	* Makefile (1.21), tparser.c (1.120): 
+	Mon Dec 25 19:15:50 EET 2000 dmitry: + added processing of tokens
+	packNetmail & maxUnpackedNetmail in tparser
+
+2000-12-13 Wednesday 22:10  sms
+
+	* line.c (1.215): removed uninitialised-warning for clink in
+	parseLine()
+
+2000-12-13 Wednesday 19:35  sms
+
+	* line.c (1.214): + support for long area descriptions
+
+2000-12-12 Tuesday 15:41  sms
+
+	* line.c (1.213), tparser.c (1.119): removed warnings about flDir
+	not being handled in switch
+
+2000-12-09 Saturday 07:26  d.sergienko
+
+	* doc/proposal.texi (1.107): 
+	dmitry: + added docs about tokens packNetmail and
+	maxUnpackedNetmail for bsopack
+
+2000-12-08 Friday 05:41  sms
+
+	* common.c (1.61): * string2addr: check if string is non-NULL first
+
+2000-12-08 Friday 03:40  sms
+
+	* tparser.c (1.115): fixed typo in tparser.c
+
+2000-12-08 Friday 02:21  sms
+
+	* dump.c (1.57), fidoconf.c (1.33), fidoconf.h (1.47), line.c
+	(1.210), tparser.c (1.114), doc/proposal.texi (1.106): + added
+	dirlist option to keyword filelist
+
+2000-12-07 Thursday 23:22  sms
+
+	* common.c (1.60), common.h (1.29), dump.c (1.56), fidoconf.c
+	(1.32), fidoconf.h (1.46), line.c (1.209), tparser.c (1.113),
+	doc/proposal.texi (1.105): + added keyword filelist
+
+2000-12-07 Thursday 22:12  sms
+
+	* common.c (1.59): * fixed memory hole in freeLink
+
+2000-12-05 Tuesday 16:01  sms
+
+	* TODO (1.44), dump.c (1.55): + dumping fileareas and bbsareas
+
+2000-12-05 Tuesday 04:18  sms
+
+	* dump.c (1.54), fidoconf.h (1.45), line.c (1.208), tparser.c
+	(1.112): ! replaced most stricmp-calls with strcmp-calls on the
+	lower case variant   of the variable (parsing should be
+	significantly faster now) ! using enum for linkWithImportLog
+	instead of strings
+
+2000-12-05 Tuesday 02:48  sms
+
+	* dump.c (1.53), fidoconf.h (1.44), line.c (1.207), tparser.c
+	(1.111), doc/proposal.texi (1.104): + added emailSubj, emailFrom,
+	emailEncoding
+
+2000-12-03 Sunday 18:59  sms
+
+	* Makefile (1.20), doc/Makefile (1.11): using RMOPT from
+	huskymak.cfg
+
+2000-12-02 Saturday 03:13  sms
+
+	* dump.c (1.52): temporarily deactivated commentChar support in
+	dump.c
+
+2000-12-02 Saturday 03:00  sms
+
+	* dump.c (1.51), line.c (1.206): fixed error message for
+	commentChar, fixed commentChar output in dump.c
+
+2000-12-02 Saturday 02:28  sms
+
+	* fidoconf.c (1.31): using strdup for string constants on init, so
+	copyString can free it safely
+
+2000-11-30 Thursday 10:22  ml
+
+	* cfg.c (1.6), common.c (1.58), common.h (1.28), fidoconf.c (1.30),
+	line.c (1.205): see changelog 30-nov-2000
+
+2000-11-17 Friday 05:25  sms
+
+	* dump.c (1.50): added CommentChar to dump.c
+
+2000-11-15 Wednesday 19:25  sms
+
+	* doc/proposal.texi (1.103): linkgrp only takes a single group as
+	argument
+
+2000-11-14 Tuesday 18:19  ml
+
+	* tparser.c (1.109): addrDiffAlways in tparser
+
+2000-11-13 Monday 20:11  ml
+
+	* line.c (1.202): excludepassthroughcarbon fix
+
+2000-11-12 Sunday 11:52  ml
+
+	* common.c (1.56), common.h (1.26), line.c (1.201),
+	doc/proposal.texi (1.102): see ChangeLog Nov 12
+
+2000-11-08 Wednesday 19:35  ml
+
+	* line.c (1.200), doc/proposal.texi (1.101): see ChangeLog Nov 09
+
+2000-10-28 Saturday 19:38  ml
+
+	* line.c (1.199): see changelog oct 29
+
+2000-10-27 Friday 21:52  mhaase
+
+	* tparser.c (1.108): * added entry in changelog (hpt and fidoconf)
+	and tparser for statlog
+
+2000-10-26 Thursday 20:26  mhaase
+
+	* dump.c (1.49), fidoconf.c (1.27), fidoconf.h (1.42), line.c
+	(1.198), doc/proposal.texi (1.100): * New optional keyword: statlog
+	  After tossing (hpt toss), it is checked if there is new personal
+	mail   (netmail or personal echo mail). If that's true, it is
+	checked if   statlog is defined in config. If yes, then it is
+	checked if the log file   exists. If not, then it is created and
+	the number of received netmails   or/and personal echo mails is
+	written to the log file. Otherwise, if the   file exists, the old
+	counter will be read, added to the new counter and   written the
+	actual counter.    The log file looks like this:     netmail: x    
+	CC: x	 Whereas x is the number of mails.    If the log file
+	exists, one of the two or both lines exist.
+	
+	  This is for utils, which can show you how many personal mail you
+	got.
+	  The log file is not removed by hpt, only by the util that uses
+	it.
+	  Or you could write in your toss script something like this:
+	   if exist stat.log type stat.log
+	   if exist stat.log del stat.log>nul
+
+2000-10-26 Thursday 19:45  ml
+
+	* TODO (1.43), fidoconf.h (1.41), line.c (1.197): add tokens
+	maxUnpackedNetmail, packNetmail for bsopack
+
+2000-10-22 Sunday 11:11  ml
+
+	* line.c (1.196): see ChangeLog Oct 22
+
+2000-10-21 Saturday 18:17  ml
+
+	* common.c (1.55), line.c (1.195): see ChangeLog Oct 21
+
+2000-10-16 Monday 16:43  ml
+
+	* dump.c (1.48), fidoconf.h (1.40), line.c (1.194), tparser.c
+	(1.107), doc/proposal.texi (1.99): see ChangeLog Oct 16
+
+2000-10-15 Sunday 14:17  ml
+
+	* makefile.emo (1.12): see ChangeLog Oct 15
+
+2000-10-15 Sunday 10:04  ml
+
+	* line.c (1.193): exit(1) when link Error
+
+2000-10-09 Monday 19:36  tobi
+
+	* fecfg146.c (1.3): fix for fastecho routines
+
+2000-10-09 Monday 12:25  ml
+
+	* fecfg146.h (1.4), fidoconf.c (1.26): bugfix for last patch from
+	yesterday
+
+2000-10-08 Sunday 20:35  ml
+
+	* fidoconf.c (1.25), line.c (1.192): long passwds
+
+2000-10-07 Saturday 16:55  tobi
+
+	* Makefile (1.19), fecfg146.c (1.1), fecfg146.h (1.3), fecfg2fc.c
+	(1.2), makefile.inc (1.9), makefile.wco (1.18), makefile.wcw
+	(1.25): * fecfg2fconf is now platform independent * -> included
+	fecfg2fconf into standard makefile.
+
+2000-09-27 Wednesday 15:26  ml
+
+	* dump.c (1.47), fidoconf.c (1.24), fidoconf.h (1.39), line.c
+	(1.191), tparser.c (1.106), doc/proposal.texi (1.98): robotsArea
+
+2000-09-25 Monday 19:26  ml
+
+	* dump.c (1.46), fidoconf.h (1.38), line.c (1.190), tparser.c
+	(1.105), doc/proposal.texi (1.97): addrDiffAlways
+
+2000-09-24 Sunday 12:44  ml
+
+	* tparser.c (1.104): tparser dumb checks
+
+2000-09-23 Saturday 16:22  ml
+
+	* dump.c (1.45), fidoconf.c (1.23), fidoconf.h (1.37), line.c
+	(1.189), tparser.c (1.103), doc/proposal.texi (1.96): see ChangeLog
+	Sep 23
+
+2000-09-15 Friday 10:45  ml
+
+	* TODO (1.42), fidoconf.c (1.22), fidoconf.h (1.36), line.c
+	(1.188): choose right link for filearea
+
+2000-09-08 Friday 19:52  ml
+
+	* dump.c (1.44), doc/proposal.texi (1.95): dump.c update
+
+2000-09-08 Friday 16:56  ml
+
+	* cfg.c (1.5): includes fix
+
+2000-09-02 Saturday 15:54  ml
+
+	* common.c (1.54), dump.c (1.43), fidoconf.h (1.35), line.c
+	(1.187), tparser.c (1.102), doc/proposal.texi (1.94): see changelog
+	Sep 02
+
+2000-08-29 Tuesday 17:58  ml
+
+	* TODO (1.41), dump.c (1.42), tparser.c (1.101): see ChangeLog Aug
+	29
+
+2000-08-27 Sunday 16:29  ml
+
+	* fidoconf.h (1.34), line.c (1.186), tparser.c (1.100),
+	doc/proposal.texi (1.93): see changelog Aug 27
+
+2000-08-27 Sunday 16:19  sms
+
+	* Makefile (1.17), Makefile (1.18): fixed missing TAB
+
+2000-08-27 Sunday 16:16  sms
+
+	* Makefile (1.16): using seperate make process for programs because
+	ranlib changes libfidoconfig.a
+
+2000-08-27 Sunday 15:15  sms
+
+	* Makefile (1.15): removed ranlib run from install target
+	(conflicted with installing from NFS homedirs)
+
+2000-08-25 Friday 08:16  ml
+
+	* TODO (1.40), fidoconf.h (1.33), line.c (1.185), doc/proposal.texi
+	(1.92): see changelog Aug 25
+
+2000-08-24 Thursday 12:16  sms
+
+	* doc/Makefile (1.10): fixed missing targets if xxxDIR not defined
+
+2000-08-22 Tuesday 00:51  sms
+
+	* Makefile (1.14), doc/Makefile (1.9): added documentation to
+	target all
+
+2000-08-22 Tuesday 00:23  sms
+
+	* doc/: Makefile (1.7), Makefile (1.8): fixed missing ifdef INFODIR
+
+2000-08-21 Monday 15:15  sms
+
+	* Makefile (1.13), doc/Makefile (1.6): added target uninstall
+
+2000-08-21 Monday 13:18  sms
+
+	* Makefile (1.12): always calling clean/distclean in doc subdir,
+	not only if INFODIR defined
+
+2000-08-15 Tuesday 12:46  sms
+
+	* cfg.c (1.4), fidoconf.h (1.32): renamed var to name in get/setvar
+	because var is a protected keyword in Pascal
+
+2000-08-11 Friday 00:54  tobi
+
+	* dump.c (1.41), fidoconf.h (1.31), line.c (1.184), tparser.c
+	(1.97): introduced "points4d" nodelist format type
+
+2000-08-07 Monday 01:24  tobi
+
+	* Makefile (1.11): beos adaptions
+
+2000-08-06 Sunday 21:46  tobi
+
+	* makefile.be (1.2): fixed UNIXID for BE makefile
+
+2000-07-27 Thursday 13:28  ml
+
+	* cfg.c (1.1): cfg.c
+
+2000-07-20 Thursday 23:11  tobi
+
+	* makefile.wcw (1.24): fixed wcw makefile
+
+2000-07-20 Thursday 01:31  tobi
+
+	* doc/makefile.os2 (1.2): fixed os/2 docs makefile
+
+2000-07-14 Friday 00:55  tobi
+
+	* VERSION (1.1): file VERSION was initially added on branch
+	fidoconf-0_10.
+
+2000-07-13 Thursday 21:30  tobi
+
+	* dump.c (1.39): merged fix from stable
+
+2000-07-07 Friday 23:49  tobi
+
+	* makefile.mgw (1.5): Adapted MINGW32 code to the latest mingw32
+	version available at www.mingw.org.
+
+2000-07-07 Friday 03:15  tobi
+
+	* makefile.wco (1.17): migrated fix from -stable
+
+2000-07-07 Friday 01:57  tobi
+
+	* typesize.h (1.18): Mingw32 fix
+
+2000-07-05 Wednesday 21:56  tobi
+
+	* tlib_sup.bat (1.4): Re-added tlib_sup.bat
+
+2000-06-28 Wednesday 01:21  nestyurkin.nikolay
+
+	* makefile.wco (1.16), makefile.wcw (1.23): update
+
+2000-06-22 Thursday 13:43  nestyurkin.nikolay
+
+	* makefile.inc (1.7), makefile.wco (1.15), makefile.wcw (1.22):
+	changed Watcom makefiles to use makefile.inc
+
+2000-06-21 Wednesday 15:49  nestyurkin.nikolay
+
+	* makefile.inc (1.6): fix
+
+2000-06-20 Tuesday 23:23  nestyurkin.nikolay
+
+	* makefile.inc (1.5): fix
+
+2000-06-20 Tuesday 22:26  nestyurkin.nikolay
+
+	* makefile.wco (1.14), makefile.wcw (1.21): fix
+
+2000-06-20 Tuesday 21:25  nestyurkin.nikolay
+
+	* dump.c (1.37), makefile.wco (1.13), makefile.wcw (1.20): fix
+
+2000-06-08 Thursday 19:22  tobi
+
+	* typesize.h (1.16): Fixes to make fidoconfig work on HPUX
+
+2000-05-24 Wednesday 00:10  mt
+
+	* fidoInst (1.6, fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release): fixed fidoInst
+
+2000-05-23 Tuesday 18:51  tobi
+
+	* doc/Makefile (1.4): fixed doc makefile
+
+2000-05-22 Monday 14:54  mt
+
+	* README (1.6, fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release), makefile.inc (1.3), doc/config (1.14,
+	fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release), doc/fidoconfig.texi (1.14,
+	fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release): changed version number
+
+2000-05-20 Saturday 03:24  sms
+
+	* fidoconf.h (1.13): replaced host = 1 by route_zero, host because
+	gpc does not support it
+
+2000-05-20 Saturday 03:21  sms
+
+	* fidoconf.h (1.12): renamed forward to _forward to because forward
+	a reserved name in pascal
+
+2000-05-20 Saturday 03:13  sms
+
+	* fidoconf.h (1.11): removed no longer necessary #ifndef PASCAL
+
+2000-05-20 Saturday 02:58  sms
+
+	* fidoconf.h (1.10): changed FPC to PASCAL
+
+2000-05-18 Thursday 17:50  sms
+
+	* doc/Makefile (1.3): deactivated proposal in Makefile
+
+2000-05-18 Thursday 17:44  sms
+
+	* doc/Makefile (1.2): added proposal to Makefile
+
+2000-05-17 Wednesday 20:30  sms
+
+	* common.h (1.23), fidoconf.c (1.9), line.c (1.155): fixed double
+	deallocation of viaStr in new routing code
+
+2000-05-17 Wednesday 09:30  sms
+
+	* TODO (1.27), dump.c (1.30), line.c (1.153): using direxist() from
+	smapi instead of readdir in parsePath()
+
+2000-05-16 Tuesday 12:12  sms
+
+	* dump.c (1.29): did some work on dump.c
+
+2000-05-15 Monday 23:31  sms
+
+	* TODO (1.25), dump.c (1.28): updated dump.c
+
+2000-05-15 Monday 22:50  sms
+
+	* TODO (1.24): updated TODO
+
+2000-04-24 Monday 20:32  sms
+
+	* doc/: Makefile (1.1), makefile (1.6), makefile.husky (1.2),
+	makefile.lnx (1.1, fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release): renamed makefile to makefile.lnx and
+	makefile.husky to Makefile
+
+2000-04-24 Monday 18:12  sms
+
+	* Makefile (1.3): installing linkedto with include-opts. Its a
+	script, not an elf binary!!!
+
+2000-04-21 Friday 13:14  sms
+
+	* Makefile (1.1), makefile.husky (1.26): renamed makefile.husky to
+	Makefile
+
+2000-04-21 Friday 00:51  nestyurkin.nikolay
+
+	* fidoconf.h (1.4): bugfix prev. fix
+
+2000-04-17 Monday 14:37  sms
+
+	* TODO (1.22): updated TODO
+
+2000-04-16 Sunday 19:17  tobi
+
+	* makefile.mgw (1.4): fixed makefile.mgw. oops!
+
+2000-04-16 Sunday 18:05  tobi
+
+	* makefile.bsd (1.13), makefile.in2 (1.1), makefile.lnx (1.47),
+	makefile.sun (1.11) (utags: fidoconf-0_10a-release,
+	fidoconf-0_10b-release, fidoconf-0_10c-release): legacy makefile
+	fixes
+
+2000-04-16 Sunday 16:29  tobi
+
+	* makefile.emo (1.10): legacy makefile fixes
+
+2000-04-16 Sunday 16:12  tobi
+
+	* makefile.bcd (1.9), makefile.rxw (1.4, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release): makefile fixes
+
+2000-04-16 Sunday 01:20  nestyurkin.nikolay
+
+	* makefile.wco (1.11), makefile.wcw (1.18): fix for watcom
+
+2000-04-15 Saturday 22:50  tobi
+
+	* makefile.husky (1.25): fixed installation dir
+
+2000-04-15 Saturday 22:27  tobi
+
+	* makefile.husky (1.24): small fixes
+
+2000-04-15 Saturday 22:15  tobi
+
+	* fc2aed.c (1.3), fidoconf.h (1.2): small compilation fixes
+
+2000-04-15 Saturday 19:43  tobi
+
+	* fc2aed.c (1.2), fconf2aquaed.c (1.6): renamed to 8.3
+
+2000-04-15 Saturday 19:42  tobi
+
+	* common.c (1.42), common.h (1.20), dump.c (1.26), dumpfcfg.c
+	(1.4), fc2aed.c (1.1), fc2fgate.c (1.1), fc2ged.c (1.1), fc2msged.c
+	(1.1), fc2sq.c (1.1), fconf2fidogate.c (1.7), fconf2golded.c
+	(1.19), fconf2msged.c (1.18), fconf2squish.c (1.8), fecfg2fc.c
+	(1.1, fidoconf-0_10a-release), fecfg2fconf.c (1.11), fidoconf.c
+	(1.1), fidoconf.h (1.1), fidoconfig.c (1.78), fidoconfig.h (1.103),
+	line.c (1.145), makefile.husky (1.23), makefile.inc (1.2),
+	makefile.mgw (1.3), makefile.wco (1.10), makefile.wcw (1.17),
+	tparser.c (1.77): renamed everything to 8.3
+
+2000-04-15 Saturday 19:16  tobi
+
+	* makefile.common (1.33): renamed to makefile.inc
+
+2000-04-15 Saturday 19:16  tobi
+
+	* makefile.bcd (1.8), makefile.bco (1.4, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release), makefile.bcw (1.8,
+	fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release), makefile.djg (1.8, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release), makefile.emo
+	(1.9), makefile.emx (1.6, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release), makefile.husky
+	(1.22), makefile.ibo (1.7, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release), makefile.inc
+	(1.1), makefile.lnx (1.46), makefile.rxw (1.3), makefile.unx (1.3,
+	fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release): Renamed common makefile to makefile.inc
+
+2000-04-15 Saturday 12:18  nestyurkin.nikolay
+
+	* fidoconfig.h (1.102), line.c (1.144): disableTID small fix
+
+2000-04-14 Friday 14:02  nestyurkin.nikolay
+
+	* makefile.wcw (1.16), makefile.wco (1.9): -zp=1 remove
+
+2000-04-14 Friday 13:56  nestyurkin.nikolay
+
+	* makefile.wcw (1.15): -zp=1 remove
+
+2000-04-13 Thursday 00:39  tobi
+
+	* makefile.rxw (1.2): added -Zsys
+
+2000-04-13 Thursday 00:35  tobi
+
+	* makefile.rxw (1.1), typesize.h (1.14): rsxnt makefile added
+
+2000-04-13 Thursday 00:32  tobi
+
+	* typesize.h (1.13): fix for rsxnt
+
+2000-04-12 Wednesday 22:36  tobi
+
+	* makefile.wco (1.8), makefile.wcw (1.14): Watcom C makefile
+	changes
+
+2000-04-12 Wednesday 22:36  tobi
+
+	* dirlayer.h (1.2): Borland C fix
+
+2000-04-12 Wednesday 17:05  tobi
+
+	* makefile.bcd (1.7), makefile.bco (1.3), makefile.bcw (1.7),
+	makefile.ibo (1.6), makefile.osf (1.14), tlib_sup.bat (1.2): legacy
+	makefile things
+
+2000-04-11 Tuesday 11:48  tobi
+
+	* common.c (1.41): fixed data corruption
+
+2000-04-11 Tuesday 11:15  tobi
+
+	* makefile.lnx (1.45): fixed linux os id
+
+2000-04-10 Monday 19:49  tobi
+
+	* makefile.lnx (1.44): fix for solaris
+
+2000-04-10 Monday 16:40  sms
+
+	* dump.c (1.24), fidoconfig.c (1.77), fidoconfig.h (1.100), line.c
+	(1.142), makefile.husky (1.21), tparser.c (1.74): some changes to
+	fidoconfig.h and affected files needed to automatically convert
+	fidoconfig.h to fidoconf.pas with h2pas
+
+2000-04-10 Monday 00:35  tobi
+
+	* line.c (1.141): some magic line shuffling for IBM C
+
+2000-04-10 Monday 00:19  tobi
+
+	* common.c (1.40): Fix for IBM C
+
+2000-04-09 Sunday 22:49  tobi
+
+	* makefile.djg (1.7), makefile.emo (1.8), makefile.emx (1.5): djgpp
+	fixes
+
+2000-04-09 Sunday 21:12  tobi
+
+	* makefile.emo (1.7), makefile.emx (1.4), makefile.lnx (1.43),
+	makefile.unx (1.2): worked on the unixish makefiles
+
+2000-04-09 Sunday 20:51  tobi
+
+	* makefile.aix (1.10, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release), makefile.bcd
+	(1.6), makefile.bco (1.2), makefile.bcw (1.6), makefile.bsd (1.12),
+	makefile.common (1.32), makefile.lnx (1.42), makefile.sun (1.10),
+	makefile.unx (1.1): legacy makefile stuff
+
+2000-04-09 Sunday 20:06  tobi
+
+	* makefile.bco (1.1): added borland c OS/2 makefile
+
+2000-04-09 Sunday 20:05  tobi
+
+	* adcase.c (1.6, fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release), common.c (1.39), dumpfcfg.c (1.3),
+	fconf2fidogate.c (1.6), fconf2golded.c (1.18), fconf2msged.c
+	(1.17), fconf2squish.c (1.7), fidoconfig.c (1.76), line.c (1.140),
+	makefile.bcd (1.5), makefile.bcw (1.5), makefile.husky (1.20),
+	makefile.lnx (1.41), tparser.c (1.73): mostly borland c fixes
+	(warnings removed etc.)
+
+2000-04-09 Sunday 19:03  tobi
+
+	* makefile.bcw (1.4): legacy makefile
+
+2000-04-09 Sunday 19:00  tobi
+
+	* makefile.aix (1.9): no support for aix any more
+
+2000-04-09 Sunday 18:58  tobi
+
+	* tlib_sup.bat (1.1): add batch file for using makefile.common with
+	borland c
+
+2000-04-09 Sunday 18:31  tobi
+
+	* dumpfcfg.c (1.2), line.c (1.138), makefile.bcd (1.4),
+	makefile.common (1.31), makefile.husky (1.19): Borland C fixes
+
+2000-04-09 Sunday 17:55  hjk
+
+	* makefile.husky (1.18): * Makefile.husky fix
+
+2000-04-09 Sunday 17:44  hjk
+
+	* makefile.husky (1.17): * Makefile.husky fix
+
+2000-04-08 Saturday 23:11  tobi
+
+	* makefile.common (1.30), makefile.husky (1.16): Made
+	makefile.common for portable (no gmake'isms)
+
+2000-04-07 Friday 08:47  tobi
+
+	* makefile.emo (1.6), makefile.emx (1.3): Legacy makefile fixes
+
+2000-04-07 Friday 08:47  tobi
+
+	* fecfg146.h (1.2, fidoconf-0_10a-release): Removed warnings.
+
+2000-04-05 Wednesday 05:15  nestyurkin.nikolay
+
+	* common.h (1.18), fidoconfig.h (1.98): Fixes to compile with C++
+
+2000-03-30 Thursday 16:49  tobi
+
+	* makefile.husky (1.15): corrected a typo
+
+2000-03-30 Thursday 16:48  tobi
+
+	* makefile.husky (1.14), doc/fidoconfig.texi (1.13),
+	doc/makefile.husky (1.1), doc/proposal.texi (1.64): makefile.husky
+	now builds and installs the texinfo documentation if INFODIR is
+	set.
+
+2000-03-30 Thursday 09:33  tobi
+
+	* makefile.common (1.29), makefile.husky (1.13): makefile fixes by
+	max and others
+
+2000-03-26 Sunday 14:01  tobi
+
+	* makefile.husky (1.12): Fixed missing "-c" that caused removal of
+	linkedto on BSD
+
+2000-03-19 Sunday 23:19  tobi
+
+	* makefile.common (1.28): Bugfixes
+
+2000-03-19 Sunday 23:16  tobi
+
+	* makefile.common (1.27), makefile.husky (1.11): Makefile fixes
+
+2000-03-19 Sunday 23:02  tobi
+
+	* makefile.husky (1.10): Fixes for DYNLIBS=0
+
+2000-03-19 Sunday 22:04  tobi
+
+	* makefile.husky (1.9): Husky Makefile fixes
+
+2000-03-13 Monday 23:46  sms
+
+	* makefile.aix (1.8), makefile.lnx (1.40), makefile.osf (1.13),
+	makefile.sun (1.8), makefile.wcw (1.11): updated legacy makefiles
+
+2000-03-09 Thursday 17:27  sms
+
+	* common.c (1.36), fconf2fidogate.c (1.5), fecfg2fconf.c (1.10),
+	fidoconfig.h (1.93), line.c (1.129), makefile.husky (1.8): moved
+	smapi and fidoconfig headers to INCDIR/smapi and INCDIR/fidoconfig
+
+2000-03-09 Thursday 17:23  sms
+
+	* fidoconfig.c (1.72): fixed segfault caused by new CFGDIR-code
+
+2000-03-08 Wednesday 00:22  tobi
+
+	* fidoconfig.c (1.71), makefile.husky (1.7): Override hard coded
+	/etc/fido with CFGDIR huskymak.cfg variable.
+
+2000-03-07 Tuesday 16:24  tobi
+
+	* makefile.common (1.26), makefile.husky (1.6): More makefile fixes
+
+2000-03-07 Tuesday 16:04  tobi
+
+	* makefile.husky (1.5): fixes to Husky makefile
+
+2000-03-05 Sunday 21:30  tobi
+
+	* makefile.lnx (1.39): Fixed missing TAB
+
+2000-03-02 Thursday 09:23  mt
+
+	* doc/proposal.texi (1.57): made it working again :-(
+
+2000-02-27 Sunday 23:20  henk-jan.krueger
+
+	* dump.c (1.20): CVS: * fixed a bug in dump.c and some cosmetical
+	changes
+
+2000-02-25 Friday 20:41  henk-jan.krueger
+
+	* tparser.c (1.67): no message
+
+2000-02-25 Friday 20:35  henk-jan.krueger
+
+	* tparser.c (1.66), doc/proposal.texi (1.56): CVS: * Added config
+	keyword noTIC to tparser & docs
+
+2000-02-22 Tuesday 09:45  edi
+
+	* .cvsignore (1.2, fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release), dump.c (1.19), fidoconf.pas (1.7),
+	fidoconfig.h (1.90), line.c (1.126), tparser.c (1.64),
+	doc/proposal.texi (1.55): 
+	edi: * new token `allowPktAddrDiffer' - for hpt * manual updated
+	for token `allowPktAddrDiffer'
+
+2000-02-18 Friday 15:23  sms
+
+	* makefile.husky (1.4): corrected missing TAB in makefile.husky
+
+2000-02-10 Thursday 09:24  sms
+
+	* makefile.husky (1.3), makefile.lnx (1.38): added ldconfig to
+	makefile.husky and makefile.lnx of smapi and fidoconfig
+
+2000-02-09 Wednesday 08:33  sms
+
+	* TODO (1.15): Updated TODO
+
+2000-02-01 Tuesday 19:43  simon.soltek
+
+	* doc/proposal.texi (1.50): new keywords: noCRC in filearea
+	section, noTIC in link section
+
+2000-02-01 Tuesday 19:42  simon.soltek
+
+	* fidoconfig.h (1.84), line.c (1.118): new keywords: noTIC in link
+	section, noCRC in filearea section
+
+2000-01-28 Friday 21:42  sms
+
+	* dump.c (1.16), fconf2aquaed.c (1.5), fconf2golded.c (1.17),
+	fconf2squish.c (1.4), fecfg2fconf.c (1.9), fidoconfig.c (1.65),
+	fidoconfig.h (1.81), line.c (1.114), tparser.c (1.58): changed
+	groups from chars to strings
+
+2000-01-28 Friday 14:57  sms
+
+	* makefile.lnx (1.36): removed huskymak.cfg dependency from
+	makefile.lnx, created/updated makefile.husky for pascal programs
+
+2000-01-27 Thursday 21:03  mt
+
+	* makefile.common (1.25): fixed makefile.common
+
+2000-01-27 Thursday 18:56  mt
+
+	* fidoconfig.c (1.64), fidoconfig.h (1.80), line.c (1.113),
+	doc/proposal.texi (1.47): patch by Alex Semyanka
+
+2000-01-27 Thursday 12:47  henk-jan.krueger
+
+	* makefile.common (1.24): - Updated makefile.common to make it work
+
+2000-01-23 Sunday 00:42  sms
+
+	* makefile.common (1.21), makefile.husky (1.2): Updated
+	makefile.husky and huskymak.cfg
+
+2000-01-22 Saturday 12:00  sms
+
+	* makefile.common (1.20), makefile.husky (1.1): Created/Updated
+	makefile.husky and huskymak.cfg
+
+2000-01-22 Saturday 00:38  tobi
+
+	* linkedto (1.3), makefile.common (1.19), doc/makefile (1.5):
+	improved linkedto srcipt (now also searches include files, and
+	finds	exact matches), patch by Eduard Dulich
+
+2000-01-16 Sunday 14:10  sms
+
+	* INSTALL (1.12, fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release), fidoconfig.c (1.60), husky.lnx (1.2): *
+	added warning if dupeHistoryDir is not set * added "-I../smapi" to
+	husky.lnx
+
+2000-01-01 Saturday 22:05  tobi
+
+	* fecfg2fconf.c (1.7): Removed a warning.
+
+1999-12-20 Monday 09:56  mt
+
+	* doc/proposal.texi (1.45): fixed doku
+
+1999-12-15 Wednesday 15:09  tobi
+
+	* doc/proposal.texi (1.44): Added docs for fileechoflavour
+
+1999-12-13 Monday 20:55  mt
+
+	* fconf2areasbbs (1.1, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release): added
+	fconf2areabbs
+
+1999-12-12 Sunday 20:27  paul.merdin
+
+	* fidoconfig.c (1.57): mrd: Fixed little bug with memory release.
+
+1999-12-08 Wednesday 11:11  mt
+
+	* fidoInst (1.5): new fidoInst
+
+1999-12-06 Monday 14:43  tobi
+
+	* dir.c (1.5), dir.h (1.7), dirlayer.c (1.1), dirlayer.h (1.1),
+	line.c (1.106), makefile.aix (1.6), makefile.bcd (1.3),
+	makefile.bcw (1.3), makefile.bsd (1.10), makefile.common (1.18),
+	makefile.emo (1.5), makefile.emx (1.2), makefile.ibo (1.5),
+	makefile.lnx (1.31), makefile.mgw (1.2), makefile.osf (1.11),
+	makefile.sun (1.3), makefile.wco (1.7), makefile.wcw (1.8): Renamed
+	dir.* to dirlayer.* and fixed makefiles
+
+1999-12-06 Monday 14:28  tobi
+
+	* fconf2msged.c (1.16): resolved conflicts
+
+1999-12-06 Monday 14:27  tobi
+
+	* makefile.osf (1.10): fixed osf makefile
+
+1999-12-06 Monday 14:26  tobi
+
+	* fidoconfig.h (1.75): changed uid, gid, fperm to unsigned
+
+1999-12-01 Wednesday 09:35  mt
+
+	* common.c (1.33), common.h (1.15), line.c (1.105): all
+	echoareanames are converted to lowercase now during reading
+
+1999-11-30 Tuesday 22:10  sms
+
+	* fecfg2fconf.c (1.6): fixed some misuses of ++ in fecfg2fconf.c
+
+1999-11-29 Monday 01:04  sms
+
+	* line.c (1.104): removed debug output in line.c :)
+
+1999-11-29 Monday 01:03  sms
+
+	* common.c (1.32), line.c (1.103), makefile.lnx (1.30): another
+	bugfix for string2addr: missing backslash before 0
+
+1999-11-29 Monday 00:32  sms
+
+	* common.c (1.31): fixed some misuses of ++ in common.c
+
+1999-11-28 Sunday 23:52  sms
+
+	* adcase.c (1.5): fixed trashed line 422 in adcase.c
+
+1999-11-28 Sunday 13:07  tobi
+
+	* dos2long (1.2), dos2long.bat (1.2), long2dos (1.2), long2dos.bat
+	(1.2), makefile.djd (1.2), makefile.djg (1.5): Fixes for building
+	with DJGPP
+
+1999-11-28 Sunday 12:50  tobi
+
+	* makefile.emx (1.1), makefile.mgw (1.1): new makefiles
+
+1999-11-28 Sunday 01:40  tobi
+
+	* dir.h (1.6), typesize.h (1.11): Portability fixes
+
+1999-11-28 Sunday 00:43  tobi
+
+	* common.c (1.30): fixed data corruption
+
+1999-11-28 Sunday 00:14  tobi
+
+	* line.c (1.102): Removed dependency on fexist.c from fidoconfig.
+
+1999-11-28 Sunday 00:01  tobi
+
+	* common.c (1.29): Removed carriage returns
+
+1999-11-27 Saturday 13:22  tobi
+
+	* line.c (1.101): Fix for Borland C (workaround ...)
+
+1999-11-27 Saturday 13:14  tobi
+
+	* adcase.c (1.4), makefile.bcw (1.2): Small fixes
+
+1999-11-27 Saturday 12:29  tobi
+
+	* makefile.bcw (1.1), typesize.h (1.10): Makefile for Borland C for
+	Windows
+
+1999-10-28 Thursday 13:29  mt
+
+	* doc/proposal.texi (1.41): docu fixes
+
+1999-10-28 Thursday 12:50  mt
+
+	* fidoconfig.h (1.74), line.c (1.100), tparser.c (1.54),
+	doc/proposal.texi (1.40): added email
+
+1999-10-25 Monday 10:54  mt
+
+	* fidoInst (1.4), line.c (1.99), patmat.c (1.6), patmat.h (1.3):
+	bugfix for missing address after -a, and some pointer changes
+
+1999-10-25 Monday 01:12  sms
+
+	* fidoconf.pas (1.5): updated fidoconf.pas (carbon copies and
+	multiple netmail areas)
+
+1999-10-15 Friday 13:09  tobi
+
+	* fconf2msged.c (1.14), makefile.bsd (1.9): More JAM support.
+
+1999-10-14 Thursday 18:08  sms
+
+	* makefile.aix (1.5), makefile.bsd (1.8), makefile.djg (1.4),
+	makefile.dos (1.3), makefile.emo (1.3), makefile.ibo (1.3),
+	makefile.lnx (1.28), makefile.osf (1.8), makefile.static (1.6),
+	makefile.sun (1.2), makefile.wco (1.5), makefile.wcw (1.6),
+	makefile.bcd (1.1), makefile.djd (1.1): reorganized Makefiles, read
+	husky-common/README.Makefiles \!\!\!
+
+1999-10-12 Tuesday 20:35  tobi
+
+	* adcase.c (1.3): fix for OS/2
+
+1999-10-11 Monday 19:55  tobi
+
+	* adcase.c (1.2), adcase.h (1.2, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release): Added a cash
+	expiry routine for adaptcase.
+
+1999-10-09 Saturday 23:16  tobi
+
+	* common.c (1.26), line.c (1.95), typesize.h (1.9): Compatibility
+	changes for Borland C
+
+1999-10-09 Saturday 22:54  tobi
+
+	* typesize.h (1.8): Fixed typesize.h for Linux/alpha
+
+1999-10-08 Friday 16:28  tobi
+
+	* dump.c (1.11), fidoconf.pas (1.4), fidoconfig.c (1.53),
+	fidoconfig.h (1.71), line.c (1.94), makefile.osf (1.7), tparser.c
+	(1.52), doc/proposal.texi (1.38): added nodelist specific keywords
+	for the new nltools project   fidouserlist   nodelist	diffupdate 
+	 fullupdate   defaultzone   nodelistformat
+
+1999-09-30 Thursday 13:30  tobi
+
+	* adcase.c (1.1), adcase.h (1.1), makefile.common (1.16),
+	makefile.dos (1.2), makefile.emo (1.2), makefile.ibo (1.2),
+	makefile.lnx (1.27), makefile.osf (1.6), makefile.static (1.5),
+	makefile.wco (1.4), makefile.wcw (1.5): Added adaptive case
+	matching routines for UNIX
+
+1999-09-26 Sunday 00:12  mt
+
+	* INSTALL (1.11): fidoconfig release
+
+1999-09-24 Friday 11:57  mt
+
+	* doc/: config (1.13), proposal.texi (1.37): bugfix
+
+1999-09-23 Thursday 05:16  sms
+
+	* proposal (1.25), doc/proposal.texi (1.36): updated description
+	for password
+
+1999-09-15 Wednesday 21:34  mt
+
+	* makefile.lnx (1.26), doc/config (1.12): new example config
+
+1999-09-15 Wednesday 15:31  mt
+
+	* dump.c (1.10), makefile.static (1.4), makefile.sun (1.1): sun
+	makefile and dumpCfg
+
+1999-09-11 Saturday 01:58  sms
+
+	* dump.c (1.9), fidoconf.pas (1.3), fidoconfig.h (1.68), line.c
+	(1.91), proposal (1.23), tparser.c (1.49): added sessionPwd
+
+1999-09-07 Tuesday 16:02  tobi
+
+	* doc/proposal.texi (1.34): Fixed doc: The keyword is
+	autoareacreatefile, not autocreatefile!
+
+1999-09-02 Thursday 00:16  sms
+
+	* .cvsignore (1.1): added .cvsignore
+
+1999-09-02 Thursday 00:15  sms
+
+	* dump.c (1.8), fidoconf.pas (1.2), fidoconfig.c (1.50),
+	fidoconfig.h (1.66), line.c (1.90), makefile.aix (1.4),
+	makefile.bsd (1.7), makefile.common (1.15), makefile.djg (1.3),
+	makefile.lnx (1.24), makefile.osf (1.5), proposal (1.22), tparser.c
+	(1.48): Added the following keywords:
+	
+	ticOutbound semaDir badFilesDir areafixKillRequests
+	filefixKillReports filefixKillRequests fileAreasLog fileNewAreasLog
+	longNameList fileArcList filePassList fileDupeList msgidfile
+	createDirs longDirNames splitDirs addDLC fileSingleDescLine
+	fileCheckDest fileDescPos DLCDigits fileMaxDupeAge fileFileUMask
+	fileDirUMask fileLocalPwd fileLDescString
+
+1999-09-01 Wednesday 01:15  sms
+
+	* fidoconf.pas (1.1): added pascal unit fidoconf.pas
+
+1999-08-30 Monday 00:24  sms
+
+	* patmat.c (1.5): sms: + added '#' (single decimal figure) to
+	patmat()
+
+1999-08-25 Wednesday 23:42  sms
+
+	* dump.c (1.7), makefile.lnx (1.23): sms: + did some work on
+	dumpcfg.c + changes LOPT in makefile.lnx
+
+1999-08-13 Friday 14:39  tobi
+
+	* dump.c (1.6), line.c (1.84), tparser.c (1.44): Purely aesthetic
+	changes.
+
+1999-08-12 Thursday 12:49  tobi
+
+	* dump.c (1.5), fidoconfig.h (1.60), line.c (1.82), makefile.osf
+	(1.4), tparser.c (1.43), doc/proposal.texi (1.27): Implemented
+	fidoconfig part of the "allowEmptyPktPwd" feature.  Attention: You
+	must rebuild your applications, the link structure has changed!
+
+1999-08-12 Thursday 02:33  sms
+
+	* dumpfcfg.c (1.1): sms: + added dumpfcfg (simply calls
+	dumpConfig())
+
+1999-08-12 Thursday 02:29  sms
+
+	* dump.c (1.4), makefile.common (1.13), makefile.lnx (1.20): sms: +
+	did some work on dump.c
+
+1999-08-11 Wednesday 19:02  sms
+
+	* INSTALL (1.10), TODO (1.8): sms: + did some work on dump.c +
+	added dumpfcfg.c (simply calls dumpConfig())
+
+1999-08-03 Tuesday 13:29  georgi
+
+	* line.c (1.79): support -lr and -lw in filearea options
+
+1999-08-03 Tuesday 13:27  georgi
+
+	* fidoconfig.h (1.57): Added levelread and levelwrite in
+	fileareatype
+
+1999-08-02 Monday 15:27  georgi
+
+	* tparser.c (1.40): printBbsArea
+
+1999-08-02 Monday 15:24  georgi
+
+	* line.c (1.78): parseBbsArea
+
+1999-08-02 Monday 15:23  georgi
+
+	* fidoconfig.h (1.56): struct bbsareatype
+
+1999-07-30 Friday 17:51  tobi
+
+	* dump.c (1.3): Fixed a missing semicolon for ANSI C compliancy.
+
+1999-07-29 Thursday 11:00  mt
+
+	* tparser.c (1.39): logechotoscreen added to tparser
+
+1999-07-21 Wednesday 08:56  georgi
+
+	* fidoconfig.h (1.55), line.c (1.77), tparser.c (1.38): support
+	Passthrough fileareas
+
+1999-07-21 Wednesday 08:54  georgi
+
+	* fidoconfig.c (1.47): free(config->passFileAreaDir)
+
+1999-07-12 Monday 16:14  mt
+
+	* dump.c (1.2), fecfg2fconf.c (1.3), fidoconfig.h (1.54), line.c
+	(1.76): further work
+
+1999-07-09 Friday 23:58  mt
+
+	* common.c (1.22), common.h (1.11), dump.c (1.1), fidoconfig.c
+	(1.46), fidoconfig.h (1.53), makefile.common (1.12): started
+	working on dumpConfig code
+
+1999-06-24 Thursday 19:07  mt
+
+	* tparser.c (1.37): fixed tparser
+
+1999-06-23 Wednesday 21:05  mt
+
+	* makefile.common (1.9), doc/fidoconfig.texi (1.12): version
+	updated bugfix for dupe.c
+
+1999-06-07 Monday 22:05  mt
+
+	* line.c (1.71): null pointer patches
+
+1999-06-07 Monday 19:20  mt
+
+	* fidoconfig.c (1.44), fidoconfig.h (1.49), line.c (1.70),
+	makefile.lnx (1.17), tparser.c (1.32): post patches
+
+1999-05-31 Monday 01:00  mt
+
+	* line.c (1.69): bug fixed twice
+
+1999-05-30 Sunday 23:40  mt
+
+	* line.c (1.68): fixed a bug with the .0 code
+
+1999-05-18 Tuesday 19:21  mt
+
+	* doc/makefile.os2 (1.1): forgot to add makefile.os2
+
+1999-05-18 Tuesday 19:21  mt
+
+	* fconf2squish.c (1.1): forgot to add fconf2squish.c
+
+1999-05-18 Tuesday 19:21  mt
+
+	* line.c (1.66), makefile.aix (1.3), makefile.bsd (1.6),
+	makefile.common (1.7), makefile.djg (1.2), makefile.lnx (1.16),
+	makefile.osf (1.3): update
+
+1999-05-17 Monday 01:23  mt
+
+	* fidoInst (1.3): updates
+
+1999-05-11 Tuesday 23:26  mt
+
+	* TODO (1.7), line.c (1.65), makefile.common (1.6),
+	doc/fidoconfig.texi (1.11): kolya patches
+
+1999-04-23 Friday 11:36  mt
+
+	* tparser.c (1.29): some null pointer fixes
+
+1999-04-18 Sunday 22:51  mt
+
+	* doc/: config (1.11), proposal.texi (1.23): docu fixes
+
+1999-04-14 Wednesday 22:43  mt
+
+	* TODO (1.6), fidoconfig.c (1.41), line.c (1.63): fixed some
+	fidoconfig parsing code
+
+1999-04-11 Sunday 17:50  antonio.perez
+
+	* fconf2golded.c (1.13): Antonio: + '-a' option added to
+	fconf2golded. Export areas only.  + fidoconfig now supports
+	descriptions for fileareas.  + update tparser
+
+1999-04-10 Saturday 23:45  antonio.perez
+
+	* fidoconfig.c (1.40), fidoconfig.h (1.46), line.c (1.62),
+	tparser.c (1.28): Antonio: + fidoconfig now supports descriptions
+	for FileAreas.	+ update tparser.
+
+1999-04-09 Friday 10:54  mt
+
+	* doc/proposal.texi (1.18): patches from antonio
+
+1999-04-08 Thursday 17:25  mt
+
+	* README (1.5), fidoconfig.c (1.39), fidoconfig.h (1.45), line.c
+	(1.60), tparser.c (1.27), doc/proposal.texi (1.17): new patches by
+	antonio
+
+1999-04-06 Tuesday 22:38  mt
+
+	* INSTALL (1.9), fconf2golded.c (1.12), fidoconfig.c (1.38),
+	fidoconfig.h (1.44), line.c (1.59), doc/proposal.texi (1.16):
+	applied antonios patches
+
+1999-03-08 Monday 12:48  ml
+
+	* line.c (1.53): Max: - fixed a bug when found unknown link in
+	echoarea
+
+1999-03-07 Sunday 19:31  ml
+
+	* fidoconfig.c (1.35), fidoconfig.h (1.40), line.c (1.52), proposal
+	(1.14), tparser.c (1.22): change echo access policy (see docs) by
+	Fedor Lizunkov 2:5020/960
+
+1999-03-04 Thursday 18:23  mt
+
+	* doc/fidoconfig.texi (1.10): fixed version number
+
+1999-03-04 Thursday 14:42  mt
+
+	* fidoconfig.h (1.39): fixed the wrong function-name in
+	fidoconfig.h
+
+1999-03-03 Wednesday 23:57  mt
+
+	* fidoconfig.c (1.34), fidoconfig.h (1.38), line.c (1.51),
+	makefile.common (1.5), makefile.static (1.3), doc/fidoconfig.texi
+	(1.9): applied max patch
+
+1999-03-01 Monday 23:19  gabriel
+
+	* fidoconfig.c (1.33), fidoconfig.h (1.37), line.c (1.50): Mon, Mar
+	1 22:00   Gabriel Plutzar + included new keywords & features needed
+	by Husky Tick:	 * FileAreaBaseDir <directory>	   Where the
+	directories for all File areas shall be made at autocreate     Same
+	as MsgBaseDir	* AutoFileCreateDefaults <string>     Defaults for
+	File Area Autocreate   * FileFixHelp <file>	Help file for
+	FileFix  (Same as AreaFixHelp for AreaFix)   * FileArea <name>
+	<fileareapath> <uplink> [options] <downlinks>	  Same as EchoArea,
+	most options are valid + included generic new keyword fpr HPT &
+	HTICK	* LogLevels <string>	 You can specify all Loglevels you
+	want in your log     Default is 123456789, use 23456789 if you
+	don't want all the IDLE     sessions in your logfile (eg when you
+	start hpt once a minute) - Minor Bugfixes
+
+1999-03-01 Monday 19:58  mt
+
+	* fconf2fidogate.c (1.4), fconf2golded.c (1.11), fconf2msged.c
+	(1.13), fidoconfig.c (1.32), line.c (1.49), makefile.djg (1.1),
+	tparser.c (1.21), typesize.h (1.6) (utags: fidoconfig-0_6): djgpp
+	port
+
+1999-02-25 Thursday 23:02  gabriel
+
+	* fconf2fidogate.c (1.3), fconf2fidogate.cfg.sample (1.2,
+	fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release, fidoconfig-0_6): + Added patimat to
+	fconf2fidogate for better config-file interpretation
+
+1999-02-25 Thursday 22:47  gabriel
+
+	* patmat.c (1.4, fidoconfig-0_6): new patimat version
+
+1999-02-25 Thursday 18:54  gabriel
+
+	* patmat.c (1.3): Gabriel Plutzar:    included forgotten include
+	file in parmat.c - no more errors produced
+
+1999-02-22 Monday 11:12  tobi
+
+	* patmat.c (1.2), patmat.h (1.2, fidoconfig-0_6): + Added patimat
+	for case insensitive pattern matching
+
+1999-02-21 Sunday 18:06  gabriel
+
+	* makefile.lnx (1.15, fidoconfig-0_6): Gabriel Plutzar	  Little
+	Change in makefile.lnx to supress strip error message when   
+	installing the linkedto script
+
+1999-02-20 Saturday 21:20  tobi
+
+	* fidoconfig.h (1.36), doc/proposal.texi (1.15) (utags:
+	fidoconfig-0_6): + Wrote documentation for the packet forwarding
+	feature.  - Removed some things from the link structure that I did
+	not need any   longer for the PKT forwarder.
+
+1999-02-20 Saturday 19:37  tobi
+
+	* common.c (1.18, fidoconfig-0_6): Fixed a silly bug in move_file.
+
+1999-02-20 Saturday 19:26  tobi
+
+	* common.c (1.17), common.h (1.9, fidoconfig-0_6): Added the
+	"move_file" routine. Use it instead of rename for moving files if
+	the possibility exists that the move will be across file system
+	boundaries.
+
+1999-02-20 Saturday 18:02  tobi
+
+	* fidoconfig.h (1.35): Removed the ifdefs for PACKET_FORWARDING
+	from fidoconfig. The fidoconfig structure has already changed, so
+	we can change it another time ...
+
+1999-02-19 Friday 20:33  tobi
+
+	* fidoconfig.h (1.34): Changes for the pkt forwarding feature. All
+	embraced in ifdefs because of the feature freeze.
+
+1999-02-17 Wednesday 21:53  gabriel
+
+	* linkedto (1.1, fidoconfig-0_6), makefile.lnx (1.14): A little
+	Shell script added, which shows you to which Areas a link of you is
+	connected
+
+1999-02-17 Wednesday 21:21  gabriel
+
+	* fidoconfig.c (1.31), fidoconfig.h (1.33), line.c (1.48): Wed Feb
+	17 20:07:00 CET 1999   Gabriel Plutzar: - added a new remap
+	statment. It takes the parameters   ToName,OldAddr,NewAddr,
+	seperated by commas. ToName or OldAddr may be *.    If a Netmail
+	meets the ToName and OldAddr Criteria, it is sent to NewAddr.
+
+1999-02-16 Tuesday 19:10  gabriel
+
+	* fidoconfig.c (1.30), fidoconfig.h (1.32), line.c (1.47): Gabriel
+	Plutzar:   I added a new keyword availableareas, which expects a
+	filename. This	 file should contain a list of all forwardable
+	Areas. It is used by   the %avail areafix command
+
+1999-02-15 Monday 20:27  mt
+
+	* makefile.lnx (1.13): fixed makefile.lnx
+
+1999-02-15 Monday 20:22  mt
+
+	* TODO (1.5, fidoconfig-0_6), fidoconfig.c (1.29), fidoconfig.h
+	(1.31), line.c (1.46), tparser.c (1.20), doc/proposal.texi (1.14):
+	applied readLine patch, applied max patch, added forwardPkts and
+	autoCreateFile
+
+1999-02-14 Sunday 14:15  mt
+
+	* fconf2fidogate.c (1.2), fconf2fidogate.cfg.sample (1.1),
+	fconf2golded.c (1.10): added patches and new fconf2fidogate
+
+1999-02-12 Friday 15:14  tobi
+
+	* common.c (1.16), makefile.bsd (1.5, fidoconfig-0_6): Revised the
+	makeUniqueDosFileName function. It now is totally unique over the
+	whole epoch and much more different for different origin AKAs.
+
+1999-02-11 Thursday 20:42  tobi
+
+	* common.c (1.15), common.h (1.8): Changed the makeUnique
+	DosFileName procedure to add a node specific offset to the pkt
+	numbers in order to try to work around a Fastecho bug.
+
+1999-02-10 Wednesday 22:04  tobi
+
+	* common.c (1.14), makefile.bsd (1.4): Fixed bug in memcpy call
+
+1999-02-10 Wednesday 17:18  mt
+
+	* tparser.c (1.19): fixed a bug in tparser with a NULL Pointer
+
+1999-02-10 Wednesday 16:04  tobi
+
+	* common.c (1.13), common.h (1.7): added makeUniqueDosFilename()
+	which can be used to create more or less unique PKT file names. See
+	the comments in common.c for details.
+
+1999-02-09 Tuesday 11:38  mt
+
+	* TODO (1.4), dos2long (1.1, fidoconfig-0_6), dos2long.bat (1.1,
+	fidoconfig-0_6), makefile.emo (1.1, fidoconfig-0_6), makefile.ibo
+	(1.1, fidoconfig-0_6), makefile.wco (1.1, fidoconfig-0_6): added
+	files i have forgotten :-(
+
+1999-02-08 Monday 10:04  mt
+
+	* fconf2fidogate.c (1.1), makefile.aix (1.2, fidoconfig-0_6),
+	makefile.bsd (1.3), makefile.common (1.4, fidoconfig-0_6),
+	makefile.lnx (1.12), makefile.osf (1.2, fidoconfig-0_6): added
+	fconf2fidogate and new makefiles
+
+1999-02-04 Thursday 11:21  mt
+
+	* fidoconfig.c (1.28), fidoconfig.h (1.30), makefile.lnx (1.11):
+	fixed makefile.lnx and added isLinkOfArea
+
+1999-02-03 Wednesday 13:46  mt
+
+	* TODO (1.3), fidoconfig.c (1.27), fidoconfig.h (1.29): added
+	getConfigFileNameForProgram()
+
+1999-02-02 Tuesday 21:41  mt
+
+	* TODO (1.2), common.c (1.12), makefile.lnx (1.10), tparser.c
+	(1.18), doc/config (1.9, fidoconfig-0_6): updates
+
+1999-01-29 Friday 00:38  fjoe
+
+	* makefile.bsd (1.2): Various cleanups and minor fixes.
+
+1999-01-27 Wednesday 19:15  mt
+
+	* tparser.c (1.17): fixed null pointer seg-faults
+
+1999-01-22 Friday 11:19  mt
+
+	* INSTALL (1.8, fidoconfig-0_6), fidoInst (1.2, fidoconfig-0_6),
+	fidoconfig.c (1.26), fidoconfig.h (1.28), line.c (1.45),
+	makefile.lnx (1.9), proposal (1.13, fidoconfig-0_6), tparser.c
+	(1.16), doc/fidoconfig.texi (1.8, fidoconfig-0_6),
+	doc/proposal.texi (1.13): added linkWithImportLog
+
+1999-01-19 Tuesday 20:51  mt
+
+	* makefile.lnx (1.8): fixed makefile.lnx
+
+1999-01-19 Tuesday 11:10  mt
+
+	* TODO (1.1): TODO added
+
+1999-01-18 Monday 18:32  mt
+
+	* fidoconfig.c (1.25), fidoconfig.h (1.27), line.c (1.44),
+	tparser.c (1.15): changed public to publicDir
+
+1999-01-18 Monday 18:24  mt
+
+	* makefile.lnx (1.7): changed makefile.lnx
+
+1999-01-17 Sunday 23:40  mt
+
+	* README (1.4, fidoconfig-0_6): readme update
+
+1999-01-17 Sunday 22:48  mt
+
+	* makefile.bsd (1.1), makefile.common (1.3): added makefile for bsd
+
+1999-01-14 Thursday 14:48  mt
+
+	* common.c (1.11), fidoconfig.c (1.24), line.c (1.43),
+	makefile.common (1.2), makefile.lnx (1.6), makefile.static (1.2,
+	fidoconfig-0_6): kolyas memory fixes
+
+1999-01-12 Tuesday 12:00  mt
+
+	* makefile.lnx (1.5): last minute fixes
+
+1999-01-12 Tuesday 00:13  mt
+
+	* makefile.lnx (1.4), doc/fidoconfig.texi (1.7), doc/makefile (1.3,
+	fidoconfig-0_6), doc/proposal.texi (1.12), makefile (1.24): fixes
+	for release
+
+1999-01-09 Saturday 11:53  mt
+
+	* INSTALL (1.7), common.c (1.10), common.h (1.6), dir.c (1.4,
+	fidoconfig-0_6), dir.h (1.5, fidoconfig-0_6), fconf2aquaed.c (1.3,
+	fidoconfig-0_6), fconf2golded.c (1.9), fconf2msged.c (1.12),
+	fidoconfig.c (1.23), fidoconfig.h (1.26), line.c (1.42), tparser.c
+	(1.14): fidoconfig updates
+
+1999-01-08 Friday 18:06  tobi
+
+	* dir.h (1.4), fconf2golded.c (1.8), fidoconfig.c (1.22),
+	makefile.aix (1.1), makefile.common (1.1), makefile.lnx (1.3),
+	makefile.osf (1.1), typesize.h (1.5): - fixes for OSF and AIX -
+	added makefiles for OSF and AIX - added a makefile with common
+	rules
+
+1999-01-02 Saturday 19:27  mt
+
+	* makefile (1.23), makefile.lnx (1.2): fixes
+
+1998-12-31 Thursday 15:13  mt
+
+	* line.c (1.41), doc/config (1.8): fixed a bug in parseRoute, there
+	it says noroute, but doku says no-route
+
+1998-12-29 Tuesday 20:34  mt
+
+	* tparser.c (1.13): changes
+
+1998-12-27 Sunday 18:43  mt
+
+	* dir.c (1.3), fidoconfig.c (1.21), line.c (1.40): ported
+	fidoconfig to OS/2 for ibm c-compiler and watcom c32
+
+1998-12-27 Sunday 01:46  mt
+
+	* fidoconfig.h (1.25): changes
+
+1998-12-17 Thursday 23:46  mt
+
+	* long2dos (1.1, fidoconfig-0_6), long2dos.bat (1.1,
+	fidoconfig-0_6), makefile.dos (1.1, fidoconfig-0_6), makefile.lnx
+	(1.1): added kolyas new files
+
+1998-12-17 Thursday 23:45  mt
+
+	* common.c (1.9), common.h (1.5), fconf2golded.c (1.7),
+	fconf2msged.c (1.11), fidoconfig.c (1.20), fidoconfig.h (1.24),
+	line.c (1.39), tparser.c (1.12), doc/config (1.7): fixes by me and
+	Kolya, unpack feature added by Kolya, and backporting to dos
+
+1998-12-16 Wednesday 23:58  mt
+
+	* COPYING (1.2, fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release, fidoconfig-0_6), common.c (1.8), common.h
+	(1.4), dir.c (1.2), dir.h (1.3), fconf2aquaed.c (1.2),
+	fconf2golded.c (1.6), fconf2msged.c (1.10), fidoconfig.c (1.19),
+	fidoconfig.h (1.23), line.c (1.38), tparser.c (1.11): changed
+	fidoconfig licence from gpl to lgpl
+
+1998-12-14 Monday 16:22  mtt
+
+	* makefile.static (1.1): added makefile.static so you can also use
+	the static libraries
+
+1998-12-14 Monday 16:21  mtt
+
+	* typesize.h (1.4): got it working on a ultrasparc
+
+1998-12-14 Monday 13:07  mt
+
+	* fidoconfig.h (1.22), makefile (1.22): made some minor changes
+
+1998-12-11 Friday 00:56  mt
+
+	* INSTALL (1.6), common.c (1.7), fidoconfig.c (1.18), fidoconfig.h
+	(1.21), line.c (1.37), makefile (1.21), doc/fidoconfig.texi (1.6),
+	doc/proposal.texi (1.11): changes
+
+1998-12-08 Tuesday 11:46  mt
+
+	* fconf2msged.c (1.9), line.c (1.36), makefile (1.20),
+	doc/proposal.texi (1.10): added passthrough for msgbasedir
+
+1998-12-02 Wednesday 00:48  mt
+
+	* README (1.3), common.c (1.6), common.h (1.3), fconf2aquaed.c
+	(1.1), fconf2msged.c (1.8), fidoconfig.c (1.17), fidoconfig.h
+	(1.20), line.c (1.35), makefile (1.19): changed some things, so
+	Michael can only put fidoconfig.h in /usr/local/include and added
+	fconf2aquaed
+
+1998-11-30 Monday 19:57  tobi
+
+	* fidoconfig.c (1.16): Fixed duplicate free's on passwords that
+	point to the default password.
+
+1998-11-30 Monday 18:13  mt
+
+	* fidoconfig.c (1.15), fidoconfig.h (1.19), line.c (1.34), proposal
+	(1.12), doc/config (1.6), doc/proposal.texi (1.9): applied max
+	diff.
+
+1998-11-28 Saturday 13:10  tobi
+
+	* dir.h (1.2), typesize.h (1.3): Added support for FreeBSD
+
+1998-11-28 Saturday 13:10  tobi
+
+	* common.c (1.5): Cosmetic fix (removed a warning)
+
+1998-11-24 Tuesday 23:51  mt
+
+	* fconf2golded.c (1.5), fidoconfig.c (1.14): added some portability
+	changes (from oleg)
+
+1998-11-17 Tuesday 10:37  mt
+
+	* line.c (1.33), tparser.c (1.10): fixes
+
+1998-11-16 Monday 17:06  mt
+
+	* line.c (1.32), proposal (1.11), doc/proposal.texi (1.8): included
+	max -ccoff patch
+
+1998-11-05 Thursday 11:23  mt
+
+	* README (1.2), fidoconfig.c (1.13), line.c (1.31), makefile
+	(1.18), doc/fidoconfig.texi (1.5), doc/makefile (1.2): added
+	disposeConfig patch from Max, changed makefiles
+
+1998-11-04 Wednesday 12:56  mt
+
+	* fconf2msged.c (1.7), doc/config (1.5), doc/proposal.texi (1.7):
+	added carbon Copies to docu
+
+1998-11-02 Monday 14:38  mt
+
+	* fidoconfig.h (1.18), line.c (1.30): incorporated carbon copy and
+	localarea patches by max
+
+1998-10-30 Friday 19:16  mt
+
+	* doc/: config (1.4), fidoconfig.texi (1.4), proposal.texi (1.6):
+	updated documentation
+
+1998-10-30 Friday 12:10  mt
+
+	* fconf2golded.c (1.4), fidoconfig.h (1.17), line.c (1.29),
+	makefile (1.17), proposal (1.10), doc/fidoconfig.texi (1.3),
+	doc/proposal.texi (1.5): incorporated max patches for groups and
+	autoAreaCreate and began with documentation
+
+1998-10-29 Thursday 09:51  mt
+
+	* fidoconfig.h (1.16), line.c (1.28), proposal (1.9): added
+	EchoMailFlavour
+
+1998-10-28 Wednesday 14:43  mt
+
+	* line.c (1.27), makefile (1.16), proposal (1.8), doc/config (1.3):
+	changed pack statement for arcmail
+
+1998-10-28 Wednesday 00:37  mt
+
+	* line.c (1.26): changed packerDef to packer according to proposal
+
+1998-10-27 Tuesday 23:13  mt
+
+	* fidoconfig.h (1.15), line.c (1.25), makefile (1.15), tparser.c
+	(1.9): implemented packerDef
+
+1998-10-26 Monday 16:53  mt
+
+	* fidoconfig.c (1.12), fidoconfig.h (1.14), line.c (1.24), makefile
+	(1.14): added Max patches for include, autoCreateDefaults and
+	areafix
+
+1998-10-19 Monday 15:29  mt
+
+	* line.c (1.23), tparser.c (1.8): fixed parsePack added displaying
+	of packstatements to tparser
+
+1998-10-19 Monday 15:21  mt
+
+	* makefile (1.13): killed install target from makefile/all:
+
+1998-10-18 Sunday 22:22  mt
+
+	* fidoconfig.c (1.11), fidoconfig.h (1.13), line.c (1.22), makefile
+	(1.12): changed makefile with option -fPIC fidoconfig exits after
+	displaying all errors
+
+1998-10-12 Monday 22:45  mt
+
+	* line.c (1.21): fixed small type araepktpassword
+
+1998-10-12 Monday 12:04  tobi
+
+	* typesize.h (1.2): Added preliminary AIX defines. They do only
+	work on 32 bit RS/6000, and I have not yet looked into the big
+	endian problematic.
+
+1998-10-05 Monday 14:56  mt
+
+	* fidoconfig.c (1.10), proposal (1.7), doc/config (1.2),
+	doc/fidoconfig.texi (1.2), doc/proposal.texi (1.4): docu work
+
+1998-10-03 Saturday 23:53  mt
+
+	* fconf2msged.c (1.6), fidoconfig.c (1.9), fidoconfig.h (1.12),
+	line.c (1.20), makefile (1.11), proposal (1.6): added support for
+	recoding / importlog / echotosslog changed proposal, makefile
+
+1998-10-03 Saturday 01:20  mt
+
+	* doc/proposal.texi (1.3): updated docs...
+
+1998-09-29 Tuesday 13:42  mt
+
+	* config (1.4): moved config to doc directory
+
+1998-09-28 Monday 14:13  mt
+
+	* fconf2golded.c (1.3), fconf2msged.c (1.5), proposal (1.5),
+	doc/proposal.texi (1.2): removed LF from fconf2* changed doku
+
+1998-09-24 Thursday 11:55  mt
+
+	* fconf2msged.c (1.4): fixed a bug in fconf2msged.c which means
+	that netmailareas has a tag and echoareas dont .-)
+
+1998-09-23 Wednesday 23:47  mt
+
+	* fconf2msged.c (1.3), makefile (1.10), doc/config (1.1),
+	doc/fidoconfig.texi (1.1), doc/makefile (1.1), doc/proposal.texi
+	(1.1): added p in netmailarea fconf2msged.c added documentation
+	changed makefile(s)
+
+1998-09-21 Monday 13:21  mt
+
+	* dir.c (1.1), dir.h (1.1): moved dir.h and dir.c (opendir etc. vor
+	ibm visualagec++) from hpt to fidoconfig
+
+1998-09-21 Monday 13:17  mt
+
+	* line.c (1.19), makefile (1.9): added dir to makefile added
+	testing of paths
+
+1998-09-20 Sunday 23:49  mt
+
+	* patmat.c (1.1), patmat.h (1.1): moved patmat from hpt to
+	fidoconfig
+
+1998-09-20 Sunday 23:48  mt
+
+	* common.c (1.4), fidoconfig.c (1.8), fidoconfig.h (1.11), line.c
+	(1.18), makefile (1.8): added useful errormessages fidoconfig now
+	exits when an error is detected changed makefile
+
+1998-09-20 Sunday 15:25  mt
+
+	* common.c (1.3), fidoconfig.c (1.7), fidoconfig.h (1.10), line.c
+	(1.17): fixed buf if line after a keyword was empty added line
+	number if there were an unrecognized keyword (daniel Schlenzig)
+
+1998-09-16 Wednesday 18:37  mt
+
+	* line.c (1.16), proposal (1.4): fixed proposal added errorline if
+	unrecognized areaOption
+
+1998-09-16 Wednesday 00:35  mt
+
+	* INSTALL (1.5), common.c (1.2), common.h (1.2), fidoInst (1.1),
+	fidoconfig.c (1.6), line.c (1.15): added shell like expanding of
+	strings (~) added small point install script fixed a bug if a null
+	string comes to parseLine()
+
+1998-09-15 Tuesday 14:54  mt
+
+	* line.c (1.14): fixes: bad areaOptions were not recognized
+
+1998-09-08 Tuesday 22:43  mt
+
+	* fidoconfig.c (1.5), fidoconfig.h (1.9): small change in getArea:
+	config parameter now as pointer
+
+1998-09-07 Monday 23:00  mt
+
+	* INSTALL (1.4), config (1.3), fconf2golded.c (1.2), fconf2msged.c
+	(1.2), fidoconfig.h (1.8), line.c (1.13), makefile (1.7), proposal
+	(1.3), tparser.c (1.7): Max Levenkov added autoareacreate and i
+	made some changes to his patch and here it is. Please look at the
+	diff of the proposal: In Short:    Add MsgBaseDir <path> to config
+	to say where to store the new msgbases.     Add for every link who
+	is allowed to create areas an autoareacreate on
+
+1998-09-04 Friday 22:45  mt
+
+	* line.c (1.12), proposal (1.2): changed parsing of
+	route-statements to fulfill proposal changed proposal: routeing
+	"direct" to "no-route"
+
+1998-09-01 Tuesday 16:53  mt
+
+	* line.c (1.11): changed behaviour:    if a passwordline contains
+	no password a empty password is used.	  example:	 password 
+	xya	  pktpassword	 sessionpassword = xya but pktpassword is
+	empty
+
+1998-08-22 Saturday 12:59  mt
+
+	* COPYING (1.1), fconf2golded.c (1.1), fconf2msged.c (1.1),
+	fidoconfig.h (1.7), line.c (1.10), makefile (1.6): added converter
+	for msged and golded added gpl changed makefile began support of
+	pack and unpack statements
+
+1998-08-13 Thursday 13:18  mt
+
+	* INSTALL (1.3), config (1.1), fidoconfig.c (1.4), fidoconfig.h
+	(1.6), line.c (1.8), proposal (1.1), tparser.c (1.6): added
+	proposal and my config deleted -nodc area option use instead
+	-dupeCheck off
+
+1998-07-23 Thursday 14:19  mt
+
+	* fidoconfig.h (1.5), tparser.c (1.5): minor update
+
+1998-07-17 Friday 22:57  mt
+
+	* INSTALL (1.2), fidoconfig.h (1.4), line.c (1.7), makefile (1.5):
+	updated to 0.2 and included PASSTHROUGH areas and made fidoconfig
+	to display error-lines
+
+1998-06-16 Tuesday 18:51  mt
+
+	* line.c (1.6): made line.c more robust
+
+1998-06-16 Tuesday 18:50  mt
+
+	* README (1.1): added README
+
+1998-06-07 Sunday 14:26  mt
+
+	* makefile (1.4): forgotten which changes i made :-)
+
+1998-06-07 Sunday 14:25  mt
+
+	* tparser.c (1.4): added displaying of routes
+
+1998-06-07 Sunday 14:25  mt
+
+	* line.c (1.5): fixed 2 bugs in parseRoute. patterns like * are not
+	recogniced and more than oneroute statements creates an seg-fault.
+
+1998-06-03 Wednesday 22:48  mt
+
+	* makefile (1.3): changed
+
+1998-06-03 Wednesday 22:47  mt
+
+	* line.c (1.4): ourAka points now to first aka if not specified
+
+1998-05-28 Thursday 18:20  mt
+
+	* tparser.c (1.3): added output
+
+1998-05-28 Thursday 18:19  mt
+
+	* line.c (1.3): bug fixes
+
+1998-05-28 Thursday 18:18  mt
+
+	* fidoconfig.h (1.3), fidoconfig.c (1.3): bug fixes & ourAka
+
+1998-05-27 Wednesday 18:29  mt
+
+	* tparser.c (1.2): many changes
+
+1998-05-27 Wednesday 18:27  mt
+
+	* makefile (1.2): added generating of shared library
+
+1998-05-27 Wednesday 18:24  mt
+
+	* line.c (1.2): many changes
+
+1998-05-27 Wednesday 18:21  mt
+
+	* fidoconfig.c (1.2), fidoconfig.h (1.2): many changes
+
+1998-05-27 Wednesday 18:19  mt
+
+	* fidoconfig (1.2): unimportant file
+
+1998-05-21 Thursday 18:20  mt
+
+	* INSTALL (1.1), common.c (1.1), common.h (1.1), fidoconfig (1.1),
+	fidoconfig.c (1.1), fidoconfig.h (1.1), line.c (1.1), makefile
+	(1.1), tparser.c (1.1), typesize.h (1.1): Initial revision
+
