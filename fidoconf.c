@@ -502,10 +502,17 @@ s_link *getLinkForArea(s_fidoconfig config, char *addr, s_area *area) {
 	UINT i;
 	
 	string2addr(addr, &aka);
+	
+	// we must find "right" link
 	for (i = 0; i< config.linkCount; i++) {
 		if (addrComp(aka, config.links[i].hisAka)==0 &&
 			addrComp(*area->useAka, *config.links[i].ourAka)==0)
 			return &(config.links[i]);
+	}
+	
+	// backward compatibility
+	for (i = 0; i< config.linkCount; i++) {
+	    if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
 	}
 	
 	return NULL;

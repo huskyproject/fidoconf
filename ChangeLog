@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Tue Apr 25 19:04:15 NOVST 2000
+max:
+* backward compatibility for my last changes
+
+----- cvs ci ------
 Mon Apr 24 16:35:03 NOVST 2000
 max:
 * small fix in e_writeCheck
