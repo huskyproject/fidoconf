@@ -5,8 +5,8 @@ fidoconfig 0.10
 ----- cvs ci ------
 Tue Jun 20 23:26:07 MSK 2000
 Nestyurkin Nikolay:
-* removed fecfg2fc.exe compiling under watcom (same as fe2fconf.exe)
-* added dumpfcfg.exe to watcom makefiles
+* removed fecfg2fc.exe compiling under watcom (same as fecfg2fconf.exe)
+* added dumpfcfg.exe & fconf2fidogate.exe to watcom makefiles
 * fixed dumping of ExecOnFile
 
 ----- cvs ci ------
