@@ -84,7 +84,7 @@ int testConfig(s_fidoconfig *config){
   return rc;
 }
 
-void printAddr(const s_addr addr)
+void printAddr(s_addr addr)
 {
   if (addr.domain != NULL)
     printf("%d:%d/%d.%d@%s ", addr.zone, addr.net, addr.node, addr.point, addr.domain);
