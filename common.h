@@ -129,4 +129,8 @@ int move_file(const char *from, const char *to);
 
 int copy_file(const char *from, const char *to);
 
+// this function returns the string representation of an address.
+// it returns a static array!!!
+char *aka2str(s_addr aka);
+
 #endif

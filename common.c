@@ -701,9 +701,11 @@ int copy_file(const char *from, const char *to)
     return 0;
 }
 
+char *aka2str(s_addr aka) {
+  static char straka[24];
 
-    
+    if (aka.point) sprintf(straka,"%u:%u/%u.%u",aka.zone,aka.net,aka.node,aka.point);
+    else sprintf(straka,"%u:%u/%u",aka.zone,aka.net,aka.node);
 	
-	
-    
-  
+    return straka;
+}

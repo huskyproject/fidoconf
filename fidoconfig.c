@@ -124,41 +124,6 @@ char *stripComment(char *line)
   return line;
 }
 
-/*
-char *stripComment(char *line)
-{
-  
-  char state = 0;
-  // state 0: normal state
-  //       1: between ""
-  //       2: end
-
-  int i = strlen(line)-1;
-  
-  while ((i >= 0) && (state!=2)) {
-    switch (state) {
-    case 0:
-      if (line[i]=='"') state = 1;
-      if (line[i]=='#')	{
-        if (line[0]=='#')
-          line[0]='\0';
-        else
-	  line[i] = '\0';
-	state = 2;
-      }
-      break;
-    case 1:
-      if (line[i]=='"') state = 0;
-      break;
-    }
-
-    i--;
-  }
-
-  return line;
-}
-*/
-
 void parseConfig(FILE *f, s_fidoconfig *config)
 {
    char *line;
@@ -504,4 +469,3 @@ int isLinkOfFileArea(s_link *link, s_filearea *area)
    }
    return 0;
 }
-

@@ -250,7 +250,7 @@ struct fidoconfig {
    s_unpack *unpack;
    
    char     *intab, *outtab;
-   char     *echotosslog, *importlog, *LinkWithImportlog ,*lockfile;
+   char     *echotosslog, *importlog, *LinkWithImportlog, *lockfile;
 
    unsigned int   carbonCount;
    s_carbon *carbons;
@@ -285,13 +285,24 @@ int    existAddr(s_fidoconfig config, s_addr aka);
 s_area *getArea(s_fidoconfig *config, char *areaName);
 
 /**
- * This method return 0 if the link is not linked to the area,
+ * This function return 0 if the link is not linked to the area,
  * else it returns 1.
  */
 int    isLinkOfArea(s_link *link, s_area *area);
 
+/**
+ * This function dumps the config to a file. The file is in fidoconfig format so,
+ * it is possible to change the config in memory and write it to disk.
+ * All formatting and comments are removed and the include structure of the config
+ * cannot be recreated. So be careful. A file called <fileName> which already exists
+ * will be overwritten.
+ * 1 if there were problems writing the config
+ * 0 else
+ */
+int dumpConfigToFile(s_fidoconfig *config, char *fileName);
+
 // the following functions are for internal use.
-// Only use them if you really know what you do
+// Only use them if you really know what you do.
 char *readLine(FILE *F);
 int parseLine(char *line, s_fidoconfig *config);
 void parseConfig(FILE *f, s_fidoconfig *config);
@@ -312,6 +323,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName);
 int isLinkOfFileArea(s_link *link, s_filearea *area);
 s_filearea *getFileArea(s_fidoconfig *config, char *areaName);
 
-
+// this function can be used to dump config to stdout or to an already opened file.
+void dumpConfig(s_fidoconfig *config, FILE *f);
 
 #endif
