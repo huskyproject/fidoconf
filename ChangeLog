@@ -1,3 +1,8 @@
+2002-08-15 Thursday 23:59  mche
+
+	* adcase.c (1.9), arealist.c (1.3), dirlayer.c (1.6): free()
+	function changed to macro nfree()
+
 2002-08-05 Monday 06:55  quetschke
 
 	* Makefile (1.41): Changed hardcoded options to OPTLFLAGS when not
