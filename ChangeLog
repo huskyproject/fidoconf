@@ -1,3 +1,14 @@
+2004-01-25 Sunday 17:41  d_sergienko
+
+	* doc/: proposal.texi, rus/proposal.texi
+	(fidoconf-1_4-stable.[5,2]): password is case insensitive
+
+2004-01-23 Friday 04:26  andr_lukyanov
+
+	* fc2aed.c, fc2binkd.c, fc2fgate.c, fc2ged.c, fc2msged.c, fc2sq.c,
+	fc2tor.c, fecfg2fc.c (fidoconf-1_4-stable.[1,4,1,1,1,1,1,1]): Fix
+	stdout version strings
+
 2004-01-21 Wednesday 20:03  d_sergienko
 
 	* line.c (fidoconf-1_4-stable.9): fix coredump if ourAka is not
