@@ -1,3 +1,12 @@
+2003-09-18 Thursday 10:25  sfpavel
+
+	* Makefile (fidoconf-1_4-stable.2): Fix static building
+
+2003-09-18 Thursday 05:52  sfpavel
+
+	* debian/changelog (fidoconf-1_4-stable.6): New stable version:
+	1.4-RC2
+
 2003-05-29 Thursday 17:30  d_sergienko
 
 	* doc/proposal.texi (fidoconf-1_4-stable.2): added info about
