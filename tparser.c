@@ -211,6 +211,8 @@ void printFilelist(s_filelist *fl)
 }
 
 void printLink(s_link link) {
+	unsigned int i;
+
   if ((link.hisAka.domain != NULL) && (link.ourAka->domain != NULL)) {
     printf("Link: %d:%d/%d.%d@%s (ourAka %d:%d/%d.%d@%s)\n",
 	   link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point, link.hisAka.domain,
@@ -261,20 +263,24 @@ void printLink(s_link link) {
    printf("Mandatory:  %s\n",(link.mandatory) ? "on" : "off");
    if (link.Pause) printf("Link in Pause, no export\n");
    if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
-   if (link.numOptGrp > 0)
-   {
-     unsigned int i;
-
-     printf("OptGrp       ");
-     for (i = 0; i < link.numOptGrp; i++)
-     {
-       if (i > 0) printf(",%s", link.optGrp[i]);
-       else printf("%s", link.optGrp[0]);
-     }
-     printf("\n");
+   if (link.numOptGrp > 0) {
+	   printf("OptGrp       ");
+	   for (i = 0; i < link.numOptGrp; i++) {
+		   if (i > 0) printf(",");
+		   printf("%s", link.optGrp[i]);
+	   }
+	   printf("\n");
    }
    printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
    if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
+   if (link.numAacMask > 0) {
+	   printf("AutoAreaCreateMask: ");
+	   for (i = 0; i < link.numAacMask; i++) {
+		   if (i > 0) printf(",");
+		   printf("%s", link.aacMask[i]);
+	   }
+	   printf("\n");
+   }
    if (link.autoAreaCreateDefaults) printf("AutoAreaCreateDefaults: %s\n", link.autoAreaCreateDefaults);
    printf("AutoFileCreate %s\n", (link.autoFileCreate) ? "on" : "off");
    if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);

@@ -148,6 +148,8 @@ typedef struct link {
    unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
    e_bundleFileNameStyle linkBundleNameStyle; // Style bundle filenames (timeStamp, addrDiff...
 	char *msgBaseDir;
+	char **aacMask; // autoAreaCreateMask groups
+	unsigned int numAacMask;
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;

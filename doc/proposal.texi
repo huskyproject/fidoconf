@@ -132,6 +132,7 @@ a comment and will be ignored.
 * mandatory::                   rules for echoarea access
 * level::                       definition of link access level
 * autoareacreate::              right to auto create areas on your system
+* autoareacreatemask::          masks for areas to creation by downlinks
 * autoareacreatedefaults::      set defaults to autocreated echoareas
 * packer::                      default packer for link
 * packNetmail::                 allow pack outgoing netmail
@@ -1144,7 +1145,7 @@ By default "level 0".
 
 This statement can only be repeated for different links.
 
-@node autoareacreate, autoareacreatedefaults, level, Keywords
+@node autoareacreate, autoareacreatemask, level, Keywords
 @subsection autoareacreate
 @table @asis
 @item Syntax:
@@ -1162,10 +1163,22 @@ The echoarea is created using the AutoCreateDef contents:
 
 This statement can only be repeated for different links.
 
-@strong{This statement is only a temporal solution for autoareacreating. It will
-be replaced by the group scheme, which is about to be implemented.}
+@node autoareacreatemask, autoareacreatedefaults, autoareacreate, Keywords
+@subsection autoareacreatemask
+@table @asis
+@item Syntax:
+@code{autoareacreatemask mask1,mask2,...}
+@item Example:
+@code{autoareacreatemask nsk.*}
+@end table
 
-@node autoareacreatedefaults, packer, autoareacreate, Keywords
+If area nsk.* (nsk.test for example) will be requested by downlink and
+forwardrequests to uplink are allowed, then it is created and request
+goes to uplink.
+
+This statement can only be repeated for different links.
+
+@node autoareacreatedefaults, packer, autoareacreatemask, Keywords
 @subsection autoareacreatedefaults
 @table @asis
 @item Syntax:

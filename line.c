@@ -1192,6 +1192,11 @@ int parseLink(char *token, s_fidoconfig *config)
           for ( i=0; i < deflink->numOptGrp; i++)
 			  clink->optGrp[i] = sstrdup (deflink->optGrp[i]);
       }
+      if (deflink->aacMask) {
+          clink->aacMask = smalloc(sizeof(char *) * clink->numAacMask);
+          for ( i=0; i < deflink->numAacMask; i++)
+			  clink->aacMask[i] = sstrdup (deflink->aacMask[i]);
+      }
 
    } else {
 
@@ -1689,6 +1694,21 @@ int parseFileEchoFlavour(char *line, e_flavour *flavour)
   return 0;
 }
 
+int parseGrp(char *token, char **grp[], unsigned int *count) {
+	char *tok;
+
+	tok = strtok(token, " \t,");
+
+	while (tok) {
+		*grp = srealloc(*grp, sizeof(char*)*(*count+1));
+		(*grp)[*count] = sstrdup(tok);
+		(*count)++;
+
+		tok = strtok(NULL, " \t,");
+	}
+
+	return 0;
+}
 
 //and the parseGroup:
 // i make some checking... maybe it is better check if the pointer exist from
@@ -1739,11 +1759,17 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 			link->numOptGrp = 0;
 			break;
 
+		case 4:
+			if (link->aacMask) freeGroups(link->aacMask, link->numAacMask);
+            link->aacMask = NULL;
+			link->numAacMask = 0;
+			break;
+
 		}
 
    switch (i) {
 	case 0:
-
+/* remove after 27-Feb-01
 		for (link->numAccessGrp = 0; *token != '\0'; link->numAccessGrp++) {
 			link->AccessGrp = srealloc (link->AccessGrp,
 									   (link->numAccessGrp+1)*sizeof(char *));
@@ -1781,6 +1807,8 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				token = cpos;
 			}
 		}
+*/
+		parseGrp(token, &(link->AccessGrp), &(link->numAccessGrp));
 		break;
 
 	case 1:
@@ -1788,6 +1816,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		break;
 
 	case 2:
+/* remove after 27-Feb-01
 		for (config->numPublicGroup = 0; *token != '\0'; config->numPublicGroup++) {
 			config->PublicGroup = srealloc(config->PublicGroup,
 										  (config->numPublicGroup+1)*sizeof(char *));
@@ -1824,10 +1853,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				token = cpos;
 			}
 		}
+*/
+		parseGrp(token, &(config->PublicGroup), &(config->numPublicGroup));
 		break;
 
 	case 3:
-
+/* remove after 27-Feb-01
 		for (link->numOptGrp = 0; *token != '\0'; link->numOptGrp++) {
 			link->optGrp = srealloc(link->optGrp, (link->numOptGrp+1)*sizeof(char *));
 
@@ -1863,10 +1894,16 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				token = cpos;
 			}
 		}
+*/
+		parseGrp(token, &(link->optGrp), &(link->numOptGrp));
 		break;
-
-	}
-	return 0;
+		
+   case 4:
+	   parseGrp(token, &(link->aacMask), &(link->numAacMask));
+	   break;
+	   
+   }
+   return 0;
 }
 
 int parseLocalArea(char *token, s_fidoconfig *config)
@@ -2721,6 +2758,7 @@ int parseLine(char *line, s_fidoconfig *config)
        }
      }
      else if (strcmp(iToken, "optgrp")==0) rc = parseGroup(getRestOfLine(), config, 3);
+     else if (strcmp(iToken, "autoareacreatemask")==0) rc = parseGroup(getRestOfLine(), config, 4);
      else if (strcmp(iToken, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->level));
 #ifdef __TURBOC__
      else unrecognised++;

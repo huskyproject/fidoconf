@@ -320,22 +320,38 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       }
 
       dumpString(f, "linkGrp             %s\n", link.LinkGrp);
-      if (link.numAccessGrp > 0)
-      {
-	fprintf(f, "accessGrp           ");
-	for (j = 0; j < link.numAccessGrp; j++)
-	{
-	  if (j > 0) fprintf(f, ", %s", link.AccessGrp[j]);
-	  else fprintf(f, "%s", link.AccessGrp[0]);
-	}
-	fprintf(f, "\n");
-      }
-      dumpString(f, "autoAreaCreateFile  %s\n", link.autoAreaCreateFile);
-      dumpString(f, "autoFileCreateFile  %s\n", link.autoFileCreateFile);
-      dumpString(f, "autoAreaCreateDefaults %s\n", link.autoAreaCreateDefaults);
-      dumpString(f, "autoFileCreateDefaults %s\n", link.autoFileCreateDefaults);
-      dumpString(f, "forwardRequestFile  %s\n", link.forwardRequestFile);
-      dumpString(f, "RemoteRobotName     %s\n", link.RemoteRobotName);
+
+      if (link.numAccessGrp > 0) {
+		  fprintf(f, "accessGrp ");
+		  for (j = 0; j < link.numAccessGrp; j++) {
+			  if (j > 0) fprintf(f, ", ");
+			  fprintf(f, "%s", link.AccessGrp[i]);
+		  }
+		  fprintf(f, "\n");
+	  }
+	  if (link.numOptGrp > 0) {
+		  printf("OptGrp ");
+		  for (i = 0; i < link.numOptGrp; i++) {
+			  if (i > 0) printf(", ");
+			  printf("%s", link.optGrp[i]);
+		  }
+		  printf("\n");
+	  }
+	  if (link.numAacMask > 0) {
+		  printf("AutoAreaCreateMask ");
+		  for (i = 0; i < link.numAacMask; i++) {
+			  if (i > 0) printf(", ");
+			  printf("%s", link.aacMask[i]);
+		  }
+		  printf("\n");
+	  }
+
+	  dumpString(f, "autoAreaCreateFile  %s\n", link.autoAreaCreateFile);
+	  dumpString(f, "autoFileCreateFile  %s\n", link.autoFileCreateFile);
+	  dumpString(f, "autoAreaCreateDefaults %s\n", link.autoAreaCreateDefaults);
+	  dumpString(f, "autoFileCreateDefaults %s\n", link.autoFileCreateDefaults);
+	  dumpString(f, "forwardRequestFile  %s\n", link.forwardRequestFile);
+	  dumpString(f, "RemoteRobotName     %s\n", link.RemoteRobotName);
       if (link.Pause != 0)
 	fprintf(f, "pause\n");
       if (link.autoPause != 0)
