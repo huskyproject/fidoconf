@@ -549,34 +549,43 @@ int cmpfnames(char *file1, char *file2)
 
 void checkIncludeLogic(ps_fidoconfig config)
 {
-    unsigned int i, j;
-
+    UINT i, j;
+    
     for (j=0; j<config->linkCount; j++) {
-	if (config->links[j].autoAreaCreateFile==NULL) continue;
-	for (i=0; i<cfgNamesCount; i++) {
-	    if (cmpfnames(cfgNames[i],config->links[j].autoAreaCreateFile)==0)
-		break;
-	}
-	// if not found include file - return error
-	if (i==cfgNamesCount) {
-	    printf("AutoAreaCreateFile %s has never been included in config!\n",
-		   config->links[j].autoAreaCreateFile);
-	    exit(EX_CONFIG);
-	}
+        if (config->links[j].autoAreaCreateFile==NULL) continue;
+        for (i=0; i<cfgNamesCount; i++) {
+            if (cmpfnames(cfgNames[i],config->links[j].autoAreaCreateFile)==0)
+                break;
+        }
+        // if not found include file - return error
+        if (i==cfgNamesCount) {
+            printf("AutoAreaCreateFile %s has never been included in config!\n",
+                config->links[j].autoAreaCreateFile);
+            exit(EX_CONFIG);
+        }
     }
-
+    
     for (j=0; j<config->linkCount; j++) {
-	if (config->links[j].autoFileCreateFile==NULL) continue;
-	for (i=0; i<cfgNamesCount; i++) {
-	    if (cmpfnames(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
-	}
-	// if not found include file - return error
-	if (i==cfgNamesCount) {
-	    printf("AutoFileCreateFile %s has never been included in config!\n",
-		   config->links[j].autoFileCreateFile);
-	    exit(EX_CONFIG);
-	}
+        if (config->links[j].autoFileCreateFile==NULL) continue;
+        for (i=0; i<cfgNamesCount; i++) {
+            if (cmpfnames(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
+        }
+        // if not found include file - return error
+        if (i==cfgNamesCount) {
+            printf("AutoFileCreateFile %s has never been included in config!\n",
+                config->links[j].autoFileCreateFile);
+            exit(EX_CONFIG);
+        }
     }
+    /* check for duplicate includes */
+    for( i = 0; i < cfgNamesCount - 1; i++ )
+        for ( j = i+1; j < cfgNamesCount;  j++ )
+            if (cmpfnames(cfgNames[i],cfgNames[j])==0)
+            {
+                printf("File %s is included in config more then one time!\n",cfgNames[i]);
+                exit(EX_CONFIG);
+            }
+
 }
 
 const char* getCurConfName()
