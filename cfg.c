@@ -512,7 +512,7 @@ static int cmpfnames(char *file1, char *file2)
     _truename(file1, path1);
     _truename(file2, path2);
     if( path1==NULL && path2==NULL )  /* if both filename is NULL return not eq */
-      result = -1;
+      return = -1;
     result = sstricmp(path1, path2);  /* sstricmp() compare NULL strings also */
     nfree(path1);
     nfree(path2);
