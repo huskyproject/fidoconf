@@ -965,11 +965,9 @@ int main(int argc, char **argv) {
         if (config->semaDir) printf("semaDir:         %s\n", config->semaDir);
         if (config->badFilesDir) printf("BadFilesDir:     %s\n", config->badFilesDir);
         if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
-        if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
+        if (config->advStatisticsFile) printf("advStatisticsFile:       %s\n", config->advStatisticsFile);
         if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
         if (config->newAreaRefuseFile) printf("NewAreaRefuseFile:     %s\n", config->newAreaRefuseFile);
-  /*       printf("Perl support: %s\n", config->perlSupport ? "on" : "off"); */
-  /*       printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off"); */
         if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
         if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
         if (config->afcFlag) printf("AutoFileCreateFlag: %s\n",config->afcFlag);

@@ -144,7 +144,6 @@ enum {
     ID_FILEARCLIST,
     ID_FILEPASSLIST,
     ID_FILEDUPELIST,
-    ID_MSGIDFILE,
     ID_LOGLEVELS,
     ID_SCREENLOGLEVELS,
     ID_ACCESSGRP,
@@ -292,7 +291,8 @@ enum {
     ID_FILEFIXFROMNAME,
     ID_SEQDIR,
     ID_SEQOUTRUN,
-    ID_AVAILLIST
+    ID_AVAILLIST,
+    ID_ADVSTATISTICSFILE
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -308,6 +308,7 @@ token_t parseline_tokens[] =
     { "addtoseen", ID_ADDTOSEEN },
     { "advancedareafix", ID_ADVANCEDAREAFIX },
     { "advisorylock", ID_ADVISORYLOCK },
+    { "advstatisticsfile", ID_ADVSTATISTICSFILE },
     { "afterunpack", ID_AFTERUNPACK },
     { "aka", ID_AKA },
     { "allowemptypktpwd", ID_ALLOWEMPTYPKTPWD },
@@ -496,7 +497,6 @@ token_t parseline_tokens[] =
     { "maxunpackednetmail", ID_MAXUNPACKEDNETMAIL },
     { "mindiskfreespace", ID_MINDISKFREESPACE },
     { "msgbasedir", ID_MSGBASEDIR },
-    { "msgidfile", ID_MSGIDFILE },
     { "name", ID_NAME },
     { "netarea", ID_NETAREA },
     { "netmailarea", ID_NETMAILAREA },

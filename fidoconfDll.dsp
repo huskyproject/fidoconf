@@ -160,6 +160,10 @@ SOURCE=.\typesize.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\version.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\vixie.h
 # End Source File
 # Begin Source File
@@ -238,6 +242,10 @@ SOURCE=.\temp.c
 # Begin Source File
 
 SOURCE=.\tree.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\version.c
 # End Source File
 # Begin Source File
 

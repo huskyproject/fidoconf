@@ -3952,9 +3952,6 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_FILEDUPELIST:
             rc = parseFileName(getRestOfLine(), &(config->fileDupeList), NULL);
             break;
-        case ID_MSGIDFILE:
-            rc = parseFileName(getRestOfLine(), &(config->fileDupeList), NULL);
-            break;
         case ID_LOGLEVELS:
             rc = parseLoglevels(getRestOfLine(), &(config->loglevels));
             break;
@@ -4340,6 +4337,9 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_HPTPERLFILE:
             rc = parseFileName(getRestOfLine(), &(config->hptPerlFile), NULL);
+            break;
+        case ID_ADVSTATISTICSFILE:
+            rc = parseFileName(getRestOfLine(), &(config->advStatisticsFile), NULL);
             break;
         case ID_READONLY:
             rc = parsePermissions (getRestOfLine(),  &(config->readOnly), &(config->readOnlyCount));

@@ -606,7 +606,8 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->fileArcList);
    nfree(config->filePassList);
    nfree(config->fileDupeList);
-   nfree(config->msgidfile);
+   nfree(config->newAreaRefuseFile);
+   nfree(config->advStatisticsFile);
    nfree(config->loglevels);
    nfree(config->screenloglevels);
    nfree(config->echotosslog);

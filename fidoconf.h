@@ -451,6 +451,7 @@ typedef struct fidoconfig {
    char     *semaDir, *badFilesDir;
    char     *loglevels, *screenloglevels;
    char     *hptPerlFile;
+   char     *advStatisticsFile;
    char     *newAreaRefuseFile;
    unsigned int fileAreaCreatePerms;
 
@@ -482,7 +483,6 @@ typedef struct fidoconfig {
    unsigned loguid, loggid, logperm;
    char     *fileAreasLog, *longNameList, *fileNewAreasLog;
    char     *fileArcList, *filePassList, *fileDupeList;
-   char     *msgidfile;
 
    e_linkWithImportLog LinkWithImportlog;
    e_kludgeAreaNetmail kludgeAreaNetmail;
