@@ -11,9 +11,9 @@ max:
 Thu Jul 26 18:17:50 NOVST 2000
 max (patch from Pavel Gulchouk):
 * set, if, else, elseif, ifdef, ifndef, endif
-* -def in link options
+* arealink option -def
 * -Dvar=value in tparser parameters (example: "tparser -Dmodule=hpt")
-* davancedAreaFix token
+* link option davancedAreaFix
 
 ----- cvs ci ------
 Tue Jul 18 22:51:16 NOVST 2000
