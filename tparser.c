@@ -838,6 +838,7 @@ int main(int argc, char **argv) {
       if (config->reqidxDir) printf ("ReqIdxDir:       %s\n", config->reqidxDir);
       if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir:  %s\n", config->dupeHistoryDir);
       if (config->logFileDir != NULL) printf("LogFileDir:      %s\n", config->logFileDir);
+      if (config->tempDir != NULL) printf("TempDir:      %s\n", config->tempDir);
       if (config->msgBaseDir != NULL) printf("MsgBaseDir:      %s\n", config->msgBaseDir);
       if (config->fileAreaBaseDir) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
       if (config->passFileAreaDir) printf("passFileAreaDir: %s\n", config->passFileAreaDir);
@@ -1166,6 +1167,7 @@ int main(int argc, char **argv) {
      printf( "sendMailCmd: %s\n", config->sendmailcmd );
    }else
      printf( "sendMailCmd:\n" );
+
 
       disposeConfig(config);
    } /* endif */

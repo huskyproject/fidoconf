@@ -22,6 +22,10 @@ endif
 
 CDEFS=-D$(OSTYPE) $(ADDCDEFS) -DCFGDIR=\"$(CFGDIR)\"
 
+ifdef DIRSEP
+CDEFS+= -DPATH_DELIM='$(DIRSEP)'
+endif
+
 LOPT = -L. -L$(LIBDIR)
 
 ifneq ($(OSTYPE), UNIX)

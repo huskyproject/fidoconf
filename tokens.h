@@ -267,7 +267,8 @@ enum {
     ID_UUEECHOGROUP,
     ID_TICKERPACKTOBOX,
     ID_LINKFILEBASEDIR,
-    ID_SENDMAILCMD
+    ID_SENDMAILCMD,
+    ID_TEMPDIR
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -504,6 +505,7 @@ token_t parseline_tokens[] =
     { "syslogfacility", ID_SYSLOG_FACILITY },
     { "sysop", ID_SYSOP },
     { "tearline", ID_TEARLINE },
+    { "tempdir", ID_TEMPDIR },
     { "tempinbound", ID_TEMPINBOUND },
     { "tempoutbound", ID_TEMPOUTBOUND },
     { "tickerpacktobox", ID_TICKERPACKTOBOX },

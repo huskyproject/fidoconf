@@ -3951,6 +3951,10 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseSendMailCmd( getRestOfLine(), &(config->sendmailcmd) );
             break;
 
+        case ID_TEMPDIR:
+            rc = parsePath(getRestOfLine(), &(config->tempDir));
+            break;
+
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

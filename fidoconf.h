@@ -405,6 +405,7 @@ typedef struct fidoconfig {
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
    char     *magic, *areafixhelp, *filefixhelp, *tempOutbound, *ticOutbound;
+   char     *tempDir;         /* Common temporary files directory */
    char     *fileAreaBaseDir;
    char     *passFileAreaDir; //Passthrough File Area
    char     *busyFileDir;
