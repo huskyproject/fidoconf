@@ -182,6 +182,7 @@ typedef struct area {
    // not set if:  uid = -1 , gid = -1 , fperm = -1
    unsigned int uid, gid, fperm;
 
+   int nolink;         // do not reply-link area
    int keepsb;         // keep seen-by's and path
    int scn;            // 1 if scanned
    int nopack;         // do not pack area

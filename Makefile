@@ -80,13 +80,13 @@ endif
 clean: commonclean
 	-$(RM) so_locations
 ifdef INFODIR
-	(cd doc && $(MAKE) -f makefile.husky clean)
+	(cd doc && $(MAKE) clean)
 endif
 
 distclean: commondistclean
 	-$(RM) $(LIBFIDOCONFIG).so.$(VER)
 ifdef INFODIR
-	(cd doc && $(MAKE) -f makefile.husky distclean)
+	(cd doc && $(MAKE) distclean)
 endif
 
 
@@ -142,5 +142,5 @@ endif
 	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/fidoconf
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 ifdef INFODIR
-	(cd doc && $(MAKE) -f makefile.husky install)
+	(cd doc && $(MAKE) install)
 endif

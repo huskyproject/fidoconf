@@ -520,6 +520,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    else if (stricmp(option, "h")==0) area->hide = 1;
    else if (stricmp(option, "manual")==0) area->mandatory = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
+   else if (stricmp(option, "nolink")==0) area->nolink = 1;
    else if (stricmp(option, "mandatory")==0) area->mandatory = 1;
    else if (stricmp(option, "dosfile")==0) area->DOSFile = 1;
    else if (stricmp(option, "dupeCheck")==0) {
@@ -546,7 +547,6 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    }
    else if (stricmp(option, "g")==0) {
           token = strtok(NULL, " \t");
-//        printf("group - '%s'\n",token);
       if (token == NULL) {
                  return 1;
       }
@@ -554,30 +554,6 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       area->group = strdup(token);
    }
    else if (stricmp(option, "nopack")==0) area->nopack = 1;
-/*   else if (stricmp(option, "r")==0) {
-          token = strtok(NULL, " \t");
-//        printf("rgrp - '%s'\n",token);
-      if (token == NULL) {
-                 return 1;
-      }
-      copyString(token, &(area->rgrp));
-   }
-   else if (stricmp(option, "w")==0) {
-          token = strtok(NULL, " \t");
-//        printf("wgrp - '%s'\n",token);
-      if (token == NULL) {
-                 return 1;
-      }
-      copyString(token, &(area->wgrp));
-   }
-   else if (stricmp(option, "l")==0) {
-          token = strtok(NULL, " \t");
-//        printf("rwgrp - '%s'\n",token);
-      if (token == NULL) {
-                 return 1;
-      }
-      copyString(token, &(area->rwgrp));
-   }*/
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
    else if (stricmp(option, "keepsb")==0) area->keepsb=1;
    else if (stricmp(option, "$")==0) ;
@@ -658,37 +634,12 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
    else if (stricmp(option, "nocrc")==0) area->noCRC = 1;
    else if (stricmp(option, "g")==0) {
           token = strtok(NULL, " \t");
-//        printf("group - '%s'\n",token);
       if (token == NULL) {
                  return 1;
       }
 	  free(area->group);
       area->group = strdup(token);
    }
-/*   else if (stricmp(option, "r")==0) {
-          token = strtok(NULL, " \t");
-//        printf("rgrp - '%s'\n",token);
-      if (token == NULL) {
-                 return 1;
-      }
-      copyString(token, &(area->rgrp));
-   }
-   else if (stricmp(option, "w")==0) {
-          token = strtok(NULL, " \t");
-//        printf("wgrp - '%s'\n",token);
-      if (token == NULL) {
-                 return 1;
-      }
-      copyString(token, &(area->wgrp));
-   }
-   else if (stricmp(option, "l")==0) {
-          token = strtok(NULL, " \t");
-//        printf("rwgrp - '%s'\n",token);
-      if (token == NULL) {
-                 return 1;
-      }
-      copyString(token, &(area->rwgrp));
-   }*/
    else if (stricmp(option, "d")==0) {
           if ((area->description=getDescription())==NULL)
             return 1;
@@ -747,7 +698,6 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
       return 1;         // if there is no areaname
    }
 
-//   tok = strLower(tok);
    area->areaName= (char *) malloc(strlen(tok)+1);
    strcpy(area->areaName, tok);
 

@@ -89,6 +89,7 @@ void printArea(s_area area) {
    if (area.noPause) printf("noPause ");
    if (area.tinySB) printf("tinySB ");
    if (area.mandatory) printf("mandatory ");
+   if (area.nolink) printf("nolink ");
    if (area.ccoff) printf("ccoff ");
    if (area.keepsb) printf("keepsb ");
    if (area.killRead) printf("killRead ");
