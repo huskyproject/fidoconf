@@ -1,3 +1,7 @@
+2002-02-22 Friday 13:19  ml
+
+	* tparser.c (1.155.2.1): add importlog
+
 2002-02-20 Wednesday 10:48  ml
 
 	* .cvsignore (1.2.4.2), cfg.c (1.15.2.3): elseif parse bugfix
