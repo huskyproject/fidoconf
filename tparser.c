@@ -626,7 +626,7 @@ void printCarbons(s_fidoconfig *config) {
             cbaName = cb->areaName;
             if(*cbaName=='*')
                 ++cbaName;
-        }
+        } else cbaName = "UNKNOWN";
         if (cb->extspawn)
             printf("CarbonExtern: \"%s\"", cbaName);
         else {
