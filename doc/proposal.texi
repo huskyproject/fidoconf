@@ -10,7 +10,7 @@ exist and where to put the file.
 * Example::  Here is a sample configfile which works for me
 @end menu
 
-@node Location, Syntax, , config file
+@node Location, Syntax, config file, config file
 @section Configfile location
 The fidoconfig library searches the config file on different locations:
 
@@ -75,82 +75,83 @@ All statements are case-@strong{insensitive}. A line which starts with a # is
 a comment and will be ignored.
 
 @menu
-* version::             version of fidoconfig
-* name::                your Systems Name
-* location::            your location
-* sysop::               your Name
-* include::             include other files
-* address::             your system address
+* version::                     version of fidoconfig
+* name::                        your Systems Name
+* location::                    your location
+* sysop::                       your Name
+* include::                     include other files
+* address::                     your system address
 
 Path and file definition:
-* outbound::            outbound path
-* tempoutbound::        temporary outbound path
-* inbound::             inbound path
-* protinbound::         protected inbound
-* listinbound::         listed inbound
-* localinbound::        local inbound
-* tempinbound::         temporary inbound path
-* msgbasedir::          base directory of areas
-* intab::               file for recoding incoming msgs
-* outtab::              file for recoding outgoing msgs
-* importlog::           file which contains the names of the areas tossed in
-* echotosslog::         file which contains the names of the areas messaged entered
-* linkWithImportLog::   determines if only the areas which are in importLog should be linked
-* public::              path for requestable files
-* logfiledir::          path for log files
-* dupehistorydir::      path for dupe files
-* nodelistdir::         path for nodelists
-* magic::               path for magic-file requests
+* outbound::                    outbound path
+* tempoutbound::                temporary outbound path
+* inbound::                     inbound path
+* protinbound::                 protected inbound
+* listinbound::                 listed inbound
+* localinbound::                local inbound
+* tempinbound::                 temporary inbound path
+* msgbasedir::                  base directory of areas
+* intab::                       file for recoding incoming msgs
+* outtab::                      file for recoding outgoing msgs
+* importlog::                   file which contains the names of the areas tossed in
+* echotosslog::                 file which contains the names of the areas messaged entered
+* linkWithImportLog::           determines if only the areas which are in importLog should be linked
+* public::                      path for requestable files
+* logfiledir::                  path for log files
+* dupehistorydir::              path for dupe files
+* nodelistdir::                 path for nodelists
+* magic::                       path for magic-file requests
 
 link definition:
-* link::                adding a link to your config
-* aka::                 links adress
-* ouraka::              our aka for link
-* password::            links session and default password 
-* pktpwd::              pktpassword for this link
-* ticpwd::              ticcer password for this link
-* areafixpwd::          areafix password for this link
-* filefixpwd::          filefix password for this link
-* bbspwd::              bbs password for this link (online user)
-* handle::              nickname or handle for link
-* tossgrp::             tosser groups which link belongs to
-* ticgrp::              ticcer groups which link belongs to
-* bbsgrp::              online groups which link belongs to
-* denygrp::             groups for echomail access
-* autoareacreate::      right to auto create areas on your system
-* packer::              default packer for link
-* echomailflavour::     flavour for outgoing echomail
-* autoCreateFile::      file where autoCreated Areas by this links are going
+* link::                        adding a link to your config
+* aka::                         links adress
+* ouraka::                      our aka for link
+* password::                    links session and default password 
+* pktpwd::                      pktpassword for this link
+* ticpwd::                      ticcer password for this link
+* areafixpwd::                  areafix password for this link
+* filefixpwd::                  filefix password for this link
+* bbspwd::                      bbs password for this link (online user)
+* handle::                      nickname or handle for link
+* tossgrp::                     tosser groups which link belongs to
+* ticgrp::                      ticcer groups which link belongs to
+* bbsgrp::                      online groups which link belongs to
+* denygrp::                     groups for echomail access
+* autoareacreate::              right to auto create areas on your system
+* packer::                      default packer for link
+* echomailflavour::             flavour for outgoing echomail
+* autoCreateFile::              file where autoCreated Areas by this links are going
+* forwardPkts::                 shall we forward inbound packets for this node?
 
 area definition:
-* netmailarea::         definition of netmailarea
-* badarea::	        definition of badarea
-* dupearea::            definition of dupearea
-* echoarea::            definition of echoarea
-* localarea::           definition of localarea
+* netmailarea::                 definition of netmailarea
+* badarea::                     definition of badarea
+* dupearea::                    definition of dupearea
+* echoarea::                    definition of echoarea
+* localarea::                   definition of localarea
 
 rights
-* GroupAutoAreaCreate:: right to autoareaCreate for a group
-* AutoCreateDefaults::  default area options for autocreated areas
-* GroupDefaults::       default area options for GroupAutoAreaCreated areas
+* GroupAutoAreaCreate::         right to autoareaCreate for a group
+* AutoCreateDefaults::          default area options for autocreated areas
+* GroupDefaults::               default area options for GroupAutoAreaCreated areas
 
 packer
-* pack::                definition for packer
-* unpack::              definition for unpacker
+* pack::                        definition for packer
+* unpack::                      definition for unpacker
 
 routing
-* route::               routing of netmails
-* routeMail::           routing of netmails without file attached
-* routeFile::           routing of netmails with file attached
+* route::                       routing of netmails
+* routeFile::                   routing of netmails with file attached
 
 carbon copy
-* carbonTo::            make carbonCopy using to-field of msg
-* carbonFrom::          make carbonCopy using from-field of msg
-* carbonKludge::        make carbonCopy using kludge lines of msg
-* carbonArea::          specify the area where the carbon copies go into
+* routeMail::                   routing of netmails without file attached
+* carbonTo::                    make carbonCopy using to-field of msg
+* carbonFrom::                  make carbonCopy using from-field of msg
+* carbonKludge::                make carbonCopy using kludge lines of msg
+* carbonArea::                  specify the area where the carbon copies go into
 @end menu
 
-@node version, name, , Keywords
+@node version, name, Keywords, Keywords
 @subsection version
 @table @asis
 @item Syntax:
@@ -827,7 +828,7 @@ For example set echomailFlavour for points to hold and for uplink crash.
 
 This statement can only be repeated for different links.
 
-@node autoCreateFile, netmailarea, echomailflavour, Keywords
+@node autoCreateFile, forwardPkts, echomailflavour, Keywords
 @subsection autoCreateFile
 @table @asis
 @item Syntax:
@@ -845,7 +846,35 @@ so these autocreated areas are found in subsequent tosser-runs.}
 
 This statement can only be repeated for different links.
 
-@node netmailarea, badarea, autoCreateFile, Keywords
+@node forwardPkts, netmailarea, autoCreateFile, Keywords
+@subsection forwardPkts
+@table @asis
+@item Syntax:
+@code{forwardPkts <no|secure|yes>}
+@item Example:
+@code{forwardPkts yes}
+@end table
+
+If we receive a PKT file that is not addressed to our system, but to this
+link of us, this flag controls if the PKT file should be binary
+forwarded to this link. The default behaviour is not to forward the pkt
+file, but to remain it to @code{<filename>.ntu} and leave it in the
+inbound. If you specify @code{<yes>}, the file will instead be forwarded
+to the destination link (i.E. put into his arcmail bundle). If you
+specify @code{<secure>}, the file will only be forwarded if we have
+received it in the secure inbound. You should specify @code{secure} if
+the destination link does not check packet passwords.
+
+PKT forwarding can be useful for tunneling purposes, for
+instance. Another example is if you are running two nodes, one IP node
+at your company and one PSTN node at your home. If you want to show both
+node numbers at both mailers, the tossers at each node must forward PKT
+files that are addressed to the other node, because they themselves
+cannot process it (each tosser has a different node number, because the
+systems operate on distinct outbound structures and distinct message
+base areas).
+
+@node netmailarea, badarea, forwardPkts, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:
@@ -1201,7 +1230,7 @@ arbonArea keyword.
 
 This statement can be repeated.
 
-@node carbonArea, , carbonKludge, Keywords
+@node carbonArea,  , carbonKludge, Keywords
 @subsection carbonArea
 @table @asis
 @item Syntax:
@@ -1217,7 +1246,7 @@ If this statement is ommitted. The carbon Copy goes to the badArea.
 This statement can be repeated for each different carbon@{To|From|Kludge@}
 statement.
 
-@node Example, , Keywords, config file
+@node Example,  , Keywords, config file
 @section Working sample config
 @example
 @include config

@@ -91,9 +91,6 @@ struct link {
    e_flavour echoMailFlavour;
    char *TossGrp, *DenyGrp;   // groups for areafix & echo access
    char *autoCreateFile;      // file where autocreated areas are written to
-
-   int    nPktFiles;          // used only internally by hpt
-   char **pktFiles;           // ", additional pkt files, from pkt forwarding
 };
 typedef struct link s_link;
 

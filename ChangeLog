@@ -1,6 +1,12 @@
 fidoconfig 0.6
 --------------
-Sat Feb 20 19:26:54 MET 199
+Sat Feb 20 21:18:51 MET 1999
+  Tobias Ernst:
++ Wrote documentation for the packet forwarding feature.	
+- Removed some things from the link structure that I did not need any
+  longer for the PKT forwarder.
+	
+Sat Feb 20 19:26:54 MET 1999
   Tobias Ernst:
 - Added the move_file routine. Use it to move files instead of rename,
   because it can also move across file system boundaries.
