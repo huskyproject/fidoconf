@@ -1,3 +1,14 @@
+2003-01-21 Tuesday 09:50  stas_degteff
+
+	* fecfg146.c (1.5), fecfg146.h (1.9), fecfg2fc.c (1.18): Fix
+	'RulesDir' output in fastecho -> fidoconfig converter. Patch from
+	Alexander Reznikov 2:4600/220
+
+2003-01-21 Tuesday 06:10  stas_degteff
+
+	* fidoconfDll.dsp (1.5), fidoconfStatic.dsp (1.2): 0x0a -->
+	0x0d0x0a for *.dsp
+
 2003-01-18 Saturday 22:08  i_zkh
 
 	* doc/proposal.texi (1.147): Fixed spelling, misprints etc
