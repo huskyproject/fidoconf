@@ -31,28 +31,38 @@
 
 #include "fidoconf.h"
 
+/*--- afixcmn.c ---*/
+
+/* Return string contents message kludges: AREA, @INTL, FMPT, TOPT, MSGID, TID */
 FCONF_EXT   char* createKludges    (int disableTID, const char *area,
-                                    const s_addr *ourAka, 
+                                    const s_addr *ourAka,
                                     const s_addr *destAka,
                                     const char* versionStr);
 
+/* Compose message into structure s_message & return it */
 FCONF_EXT   s_message* makeMessage (s_addr *origAddr, s_addr *destAddr,
-			                        char *fromName, char *toName, 
+			                        char *fromName, char *toName,
                                     char *subject,
                                     int netmail, int  killreport);
 
+/* Free memory allocated for s_message structure */
 FCONF_EXT   void       freeMsgBuffers(s_message *msg);
 
-FCONF_EXT   XMSG createXMSG        (ps_fidoconfig config, 
+/* Compose XMSG structure (used by smapi) */
+FCONF_EXT   XMSG createXMSG        (ps_fidoconfig config,
                                     s_message *msg, const s_pktHeader *header,
                                     dword forceattr, char* tossDir);
 
+/*--- afixcmd.c ---*/
+
+/* Change pause status (off|echo|feacho|on) */
 FCONF_EXT   int Changepause(char *confName, s_link *link, int opt, int type);
 
+/* Remove link address from area string */
 FCONF_EXT   int DelLinkFromString(char *line, s_addr linkAddr);
 
 FCONF_EXT   int testAddr(char *addr, s_addr hisAka);
 
 FCONF_EXT   int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd);
 
-#endif 
+#endif
