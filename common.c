@@ -149,6 +149,16 @@ long  str2attr(const char *str)
    return -1L;
 }
 
+char *attr2str(long attr)
+{
+    char *flags = NULL;
+    int  i;
+    for (i = 0; i < sizeof(attrStr) / sizeof(char *); i++)
+	if (attr & (1 << i))
+	    xstrscat(&flags, flags ? " " : "", attrStr[i], NULL);
+    return flags;
+}
+
 char *extattr(const char *line)
 {
     int i;

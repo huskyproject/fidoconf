@@ -163,6 +163,10 @@ void initConfig(s_fidoconfig *config) {
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
    config -> typeDupeBase = hashDupesWmsgid;
    config -> packNetMailOnScan = 1;
+   config -> areafixReportsAttr = config->filefixReportsAttr =
+       MSGPRIVATE | MSGKILL | MSGLOCAL;
+   config -> areafixReportsFlags = sstrdup("NPD");
+   config -> filefixReportsFlags = sstrdup("NPD");
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)

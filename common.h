@@ -74,6 +74,12 @@ FCONF_EXT long str2attr(const char *str);
   Output: value with corresponding bit set or -1L else
 */
 
+FCONF_EXT char *attr2str(long attr);
+/*DOC
+  Input:  Msg flag bitmask
+  Output: flags string, dynamic allocated, space separated
+*/
+
 FCONF_EXT char *extattr(const char *line);
 /*DOC
   Input:  Msg extended flag name

@@ -496,8 +496,10 @@ typedef struct fidoconfig {
    unsigned int  remapCount;
    ps_remap remaps;
 
-   unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests;
+   unsigned int areafixFromPkt, areafixKillRequests;
    unsigned int areafixMsgSize, areafixQueryReports;
+   long areafixReportsAttr;
+   char *areafixReportsFlags;
    char *areafixFromName;
    char *filefixFromName;
    unsigned int forwardRequestTimeout;
@@ -528,7 +530,9 @@ typedef struct fidoconfig {
    unsigned int longDirNames, splitDirs;
 
    unsigned int addDLC, fileSingleDescLine, fileCheckDest;
-   unsigned int filefixKillReports, filefixKillRequests;
+   unsigned int filefixKillRequests;
+   long filefixReportsAttr;
+   char *filefixReportsFlags;
    e_nameCaseConvertion convertLongNames, convertShortNames;
 
    char     *fileDescName;

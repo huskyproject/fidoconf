@@ -2327,6 +2327,34 @@ int parseFileEchoFlavour(char *line, e_flavour *flavour)
   return 0;
 }
 
+int parseAttr(char *token, char **attrs, long *bitattr) {
+    char *p, *flag, c;
+    long attr;
+
+    nfree(*attrs);
+    *bitattr = 0;
+    while (token && *token) {
+	while (*token && (isspace(*token) || *token==','))
+	    token++;
+	if (!*token) break;
+	for (p = token; *p && (isalnum(*p) || *p=='/'); p++);
+	c = *p;
+	*p = '\0';
+	if ((attr = str2attr(token)) != -1L)
+	    *bitattr |= attr;
+	else if ((flag = extattr(token)) != NULL)
+	    xstrscat(attrs, *attrs ? " " : "", flag, NULL);
+	else {
+	    prErr("Unknown flag %s!", token);
+	    nfree(*attrs);
+	    return 2;
+	}
+	*p = c;
+	token = p;
+    }
+    return 0;
+}
+
 int parseUUEechoAreas(char *token, char **grp[], unsigned int *count) {
 
     *grp = srealloc(*grp, sizeof(char*)*(*count+1));
@@ -3999,8 +4027,8 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AREAFIXQUEUEFILE:
             rc = parseFileName(getRestOfLine(), &(config->areafixQueueFile), NULL);
             break;
-        case ID_AREAFIXKILLREPORTS:
-            rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
+        case ID_AREAFIXREPORTSATTR:
+            rc = parseAttr(getRestOfLine(), &(config->areafixReportsFlags), &(config->areafixReportsAttr));
             break;
         case ID_AREAFIXKILLREQUESTS:
             rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));
@@ -4008,8 +4036,8 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AREAFIXQUERYREPORTS:
             rc = parseBool(getRestOfLine(), &(config->areafixQueryReports));
             break;
-        case ID_FILEFIXKILLREPORTS:
-            rc = parseBool(getRestOfLine(), &(config->filefixKillReports));
+        case ID_FILEFIXREPORTSATTR:
+            rc = parseAttr(getRestOfLine(), &(config->filefixReportsFlags), &(config->filefixReportsAttr));
             break;
         case ID_FILEFIXKILLREQUESTS:
             rc = parseBool(getRestOfLine(), &(config->filefixKillRequests));
