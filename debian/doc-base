@@ -3,7 +3,7 @@ Title: Debian fidoconf Manual
 Author: The Husky-Team
 Abstract: This manual describes what fidoconf is
  and all of its keywords.
-Section: devel
+Section: mail
 
 Format: HTML
 Index: /usr/share/doc/fidoconf/html/fidoconfig.html
