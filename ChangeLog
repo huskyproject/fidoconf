@@ -1,3 +1,13 @@
+2003-12-03 Wednesday 18:23  mche
+
+	* fidoconf/fidoconf.h (1.17), fidoconf/tokens.h (1.8), src/line.c
+	(1.22), src/tparser.c (1.13): added ability to automatically pause
+	area when all links but uplink (determined by "-def" flag) are in
+	pause (see description of "autoAreaPause" token in documentation
+	for details).
+	
+	patch by Andrew Ladutsko 2:450/210
+
 2003-11-24 Monday 15:52  val_khokhlov
 
 	* Makefile (1.67), makefile.in2 (1.9), makefile.inc (1.43): fix
