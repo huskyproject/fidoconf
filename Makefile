@@ -131,9 +131,9 @@ install: commonlibs ranlib progs instdyn
 ifeq ($(CC), gcc)
 	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
 endif
-	$(INSTALL) $(IIOPT) tparser$(EXE)           $(BINDIR)
-	$(INSTALL) $(IIOPT) dumpfcfg$(EXE)          $(BINDIR)
-	$(INSTALL) $(IIOPT) linkedto $(BINDIR)
+	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
+	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
+	$(INSTALL) $(IBOPT) linkedto $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconf.h   $(INCDIR)/fidoconf
 	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)/fidoconf
 	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/fidoconf
