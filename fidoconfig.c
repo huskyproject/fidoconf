@@ -161,7 +161,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
    char *osSpecificPrefix = "/etc/fido/";
 #elif __FreeBSD__
    char *osSpecificPrefix = "/usr/local/etc/fido/";
-#elif defined (OS2) || defined(MSDOS)
+#elif defined (OS2) || defined(MSDOS) || defined(_NT_)
    char *osSpecificPrefix = "c:\\fido\\";
 #else
    char *osSpecificPrefix = "";
@@ -211,7 +211,9 @@ void carbonNames2Addr(s_fidoconfig *config)
    s_carbon *cb;
 
    for (i=0; i<config->carbonCount; i++) {
-           /* Can't use getArea() - it doesn't say about export and doesn't look at localAreas */
+	   /* Can't use getArea() - it doesn't say about export and
+		  doesn't look at localAreas */
+	   /* now getArea can found local areas */
            found=0;
 	   cb = &(config->carbons[i]);
            if (cb->areaName && !(cb -> extspawn)) {
@@ -295,28 +297,22 @@ s_fidoconfig *readConfig()
 
 void freeArea(s_area area) {
     int i;
-        free(area.areaName);
-        free(area.fileName);
-        free(area.description);
+	free(area.areaName);
+	free(area.fileName);
+	free(area.description);
 	free(area.group);
-        /*free(area.rwgrp);
-        free(area.wgrp);
-        free(area.rgrp);*/
 	for (i=0; i < area.downlinkCount; i++) free(area.downlinks[i]);
-        free(area.downlinks);
+	free(area.downlinks);
 }
 
 void freeFileArea(s_filearea area) {
     int i;
-        free(area.areaName);
-        free(area.pathName);
-        free(area.description);
+	free(area.areaName);
+	free(area.pathName);
+	free(area.description);
 	free(area.group);
-        /*free(area.rwgrp);
-        free(area.wgrp);
-        free(area.rgrp);*/
 	for (i=0; i < area.downlinkCount; i++) free(area.downlinks[i]);
-        free(area.downlinks);
+	free(area.downlinks);
 }
 
 void freeBbsArea(s_bbsarea area) {
@@ -361,9 +357,6 @@ void disposeConfig(s_fidoconfig *config)
 	   for (j = 0; j < config->links[i].numAccessGrp; j++)
              free(config->links[i].AccessGrp[j]);
            free(config->links[i].AccessGrp);
-	   free(config->links[i].export);
-	   free(config->links[i].import);
-	   free(config->links[i].mandatory);
 	   for (j = 0; j < config->links[i].numOptGrp; j++)
              free(config->links[i].optGrp[j]);
 	   free(config->links[i].optGrp);
@@ -605,4 +598,15 @@ int isLinkOfFileArea(s_link *link, s_filearea *area)
       if (link == area->downlinks[i]->link) return 1;
    }
    return 0;
+}
+
+int grpInArray(char *group, char **array, unsigned int len)
+{
+	unsigned int i;
+
+	for (i=0; i < len; i++) {
+		if (strcmp(group, array[i])==0) return 1;
+	}
+	
+	return 0;
 }

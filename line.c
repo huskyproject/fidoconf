@@ -495,6 +495,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       if (token == NULL) {
                  return 1;
       }
+	  free(area->group);
       area->group = strdup(token);
    }
 /*   else if (stricmp(option, "r")==0) {
@@ -605,6 +606,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       if (token == NULL) {
                  return 1;
       }
+	  free(area->group);
       area->group = strdup(token);
    }
 /*   else if (stricmp(option, "r")==0) {
@@ -655,8 +657,9 @@ int parseLinkOption(s_arealink *alink, char *token)
 int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 {
    s_link *link;
+   s_arealink *arealink;
    char *tok;
-   int rc = 0;
+   unsigned int rc = 0;
 
    if (token == NULL) {
       printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
@@ -674,7 +677,8 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    area->dupeHistory = 7; /* 7 days */
 
    // set default group for reader
-   area->group="0";
+   area->group = (char*) malloc(sizeof(char)+1);
+   strcpy(area->group, "0");
 
    tok = strtok(token, " \t");
    if (tok == NULL) {
@@ -715,39 +719,32 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 	    return rc;
          }
 	 
-	 link = area->downlinks[area->downlinkCount]->link;
-	 if (link->numOptGrp > 0)
-	 {
-	   unsigned int i;
-
-	   tok = NULL;
-	   for (i = 0; i < link->numOptGrp; i++)
-	     if (strcmp(link->optGrp[i], area->group) == 0)
-	       tok = link->optGrp[i];
-	 }
- 
-	 // default set export on, import on, mandatory off
-	 area->downlinks[area->downlinkCount]->export = 1;
-    	 area->downlinks[area->downlinkCount]->import = 1;
-         area->downlinks[area->downlinkCount]->mandatory = 0;
-	 
-	 // check export for link
-	 if (link->export) if (*link->export == 0) {
-		 if (link->numOptGrp == 0 || (link->numOptGrp && tok))
-			 area->downlinks[area->downlinkCount]->export = 0;
-	 } 
+		 link = area->downlinks[area->downlinkCount]->link;
+		 arealink = area->downlinks[area->downlinkCount];
 		 
-		 // check import from link
-	 if (link->import) if (*link->import == 0) {
-		 if (link->numOptGrp == 0 || (link->numOptGrp && tok))
-			 area->downlinks[area->downlinkCount]->import = 0;
-	 }
+		 if (link->numOptGrp > 0) {
+			 // default set export on, import on, mandatory off
+			 arealink->export = 1;
+			 arealink->import = 1;
+			 arealink->mandatory = 0;
 		 
-	 // check mandatory to link
-	 if (link->mandatory) if (*link->mandatory == 1) {
-		 if (link->numOptGrp == 0 || (link->numOptGrp && tok))
-			 area->downlinks[area->downlinkCount]->mandatory = 1;
-	 }
+			 if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
+				 arealink->export = link->export;
+				 arealink->import = link->import;
+				 arealink->mandatory = link->mandatory;
+			 }
+			 
+		 } else {
+			 arealink->export = link->export;
+			 arealink->import = link->import;
+			 arealink->mandatory = link->mandatory;
+		 }
+		 if (area->mandatory) arealink->mandatory = 1;
+		 if (link->level < area->levelread)	arealink->export=0;
+		 if (link->level < area->levelwrite) arealink->import=0;
+		 // paused link can't receive mail
+		 if (link->Pause) arealink->export = 0;
+		 
          area->downlinkCount++;
 	 tok = strtok(NULL, " \t");
 	 while (tok) {
@@ -803,7 +800,8 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 {
    char *tok;
    s_link *link;
-   int rc = 0;
+   s_arealink *arealink;
+   unsigned int rc = 0;
 
    if (token == NULL) {
       printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
@@ -816,7 +814,8 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    area->useAka = &(config->addr[0]);
 
    // set default group for reader
-   area->group = "0";
+   area->group = (char*) malloc(sizeof(char)+1);
+   strcpy(area->group, "0");
 
    tok = strtok(token, " \t");
    if (tok == NULL) {
@@ -862,41 +861,31 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
             return rc;
          }
          link = area->downlinks[area->downlinkCount]->link;
-	 if (link->numOptGrp > 0)
-	 {
-	   unsigned int i;
+		 arealink = area->downlinks[area->downlinkCount];
 
-	   tok = NULL;
-	   for (i = 0; i < link->numOptGrp; i++)
-	     if (strcmp(link->optGrp[i], area->group) == 0)
-	       tok = link->optGrp[i];
-	 }
+		 if (link->numOptGrp > 0) {
+			 // default set export on, import on, mandatory off
+			 arealink->export = 1;
+			 arealink->import = 1;
+			 arealink->mandatory = 0;
+		 
+			 if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
+				 arealink->export = link->export;
+				 arealink->import = link->import;
+				 arealink->mandatory = link->mandatory;
+			 }
 
-         // default set export on, import on, mandatory off
-         area->downlinks[area->downlinkCount]->export = 1;
-         area->downlinks[area->downlinkCount]->import = 1;
-         area->downlinks[area->downlinkCount]->mandatory = 0;
+		 } else {
+			 arealink->export = link->export;
+			 arealink->import = link->import;
+			 arealink->mandatory = link->mandatory;
+		 }
+		 if (area->mandatory) arealink->mandatory = 1;
+		 if (link->level < area->levelread)	arealink->export=0;
+		 if (link->level < area->levelwrite) arealink->import=0;
+		 // paused link can't receive mail
+		 if (link->Pause) arealink->export = 0;
 
-         // check export to link
-         if (link->export) if (*link->export == 0) {
-            if (link->numOptGrp == 0 || (link->numOptGrp && tok)) {
-               area->downlinks[area->downlinkCount]->export = 0;
-            } /* endif */
-         } /* endif */
-
-         // check import from link
-         if (link->import) if (*link->import == 0) {
-            if (link->optGrp == 0 || (link->numOptGrp && tok)) {
-               area->downlinks[area->downlinkCount]->import = 0;
-            } /* endif */
-         } /* endif */
-
-         // check mandatory to link
-         if (link->mandatory) if (*link->mandatory == 1) {
-            if (link->numOptGrp == 0 || (link->numOptGrp && tok)) {
-               area->downlinks[area->downlinkCount]->mandatory = 1;
-            } /* endif */
-         } /* endif */
          area->downlinkCount++;
          tok = strtok(NULL, " \t");
          while (tok) {
@@ -1020,6 +1009,11 @@ int parseLink(char *token, s_fidoconfig *config)
    // set areafix default to on
    config->links[config->linkCount].AreaFix = 1;
    config->links[config->linkCount].FileFix = 1;
+
+   // set defaults to export, import, mandatory
+   config->links[config->linkCount].export = 1;
+   config->links[config->linkCount].import = 1;
+   config->links[config->linkCount].mandatory = 0;
    
    config->links[config->linkCount].fReqFromUpLink = 1;
 
@@ -1052,25 +1046,23 @@ int parseNodelist(char *token, s_fidoconfig *config)
    return 0;
 }
 
-int parseExport(char *token, char **export) {
+int parseExport(char *token, unsigned int *export) {
     if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
     }
-    *export = (char*)calloc(1, sizeof(char));
-    if (stricmp(token, "on")==0) **export = 1;
-    else **export = 0;
+    if (stricmp(token, "on")==0) *export = 1;
+    else *export = 0;
     return 0;
 }
 
-int parseImport(char *token, char **import) {
+int parseImport(char *token, unsigned int *import) {
     if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
     }
-    *import = (char*)calloc(1, sizeof(char));
-    if (stricmp(token, "on")==0) **import = 1;
-    else **import = 0;
+    if (stricmp(token, "on")==0) *import = 1;
+    else *import = 0;
     return 0;
 }
 
@@ -1095,17 +1087,17 @@ int parseAutoPause(char *token, unsigned *autoPause)
    return 0;
 }
 
-int parseMandatory(char *token, char **mandatory) {
+int parseMandatory(char *token, unsigned int *mandatory) {
     if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
     }
-    *mandatory = (char*)calloc(1, sizeof(char));
-    if (stricmp(token, "on")==0) **mandatory = 1;
-    else **mandatory = 0;
+    if (stricmp(token, "on")==0) *mandatory = 1;
+    else *mandatory = 0;
     return 0;
 }
 
+/*
 int parseOptGrp(char *token, char **optgrp) {
     if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
@@ -1114,7 +1106,7 @@ int parseOptGrp(char *token, char **optgrp) {
     copyString(token, optgrp);
     return 0;
 }
-
+*/
 
 int parseUInt(char *token, unsigned int *uint) {
 
@@ -1595,7 +1587,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 	      (cpos > token)) cpos--;
 
-	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token);
+	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token + 1);
 
 	for (j = 0; j < cpos - token; j++)
 	  link->AccessGrp[link->numAccessGrp][j] = token[j];
@@ -1611,7 +1603,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 	      (cpos > token)) cpos--;
 
-	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token);
+	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token + 1);
 
 	for (j = 0; j < cpos - token; j++)
 	  link->AccessGrp[link->numAccessGrp][j] = token[j];
@@ -1642,7 +1634,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 	      (cpos > token)) cpos--;
 
-	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token);
+	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token + 1);
 
 	for (j = 0; j < cpos - token; j++)
 	  config->PublicGroup[config->numPublicGroup][j] = token[j];
@@ -1658,7 +1650,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 	      (cpos > token)) cpos--;
 
-	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token);
+	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token + 1);
 
 	for (j = 0; j < cpos - token; j++)
 	  config->PublicGroup[config->numPublicGroup][j] = token[j];
@@ -1685,7 +1677,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 	      (cpos > token)) cpos--;
 
-	link->optGrp[link->numOptGrp] = malloc(cpos - token);
+	link->optGrp[link->numOptGrp] = malloc(cpos - token + 1);
 
 	for (j = 0; j < cpos - token; j++)
 	  link->optGrp[link->numOptGrp][j] = token[j];
@@ -1701,7 +1693,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 	      (cpos > token)) cpos--;
 
-	link->optGrp[link->numOptGrp] = malloc(cpos - token);
+	link->optGrp[link->numOptGrp] = malloc(cpos - token + 1);
 
 	for (j = 0; j < cpos - token; j++)
 	  link->optGrp[link->numOptGrp][j] = token[j];

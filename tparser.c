@@ -54,7 +54,7 @@ void printArea(s_area area) {
    printf("Description: ");
    if (area.description != NULL)
      printf("%s",area.description);
-   printf("\n-> %s\t", area.fileName);
+   printf("\n-> %s\t", area.fileName ? area.fileName : "");
    if (area.msgbType == MSGTYPE_SDM) printf("SDM");  
    else if (area.msgbType == MSGTYPE_SQUISH) printf("Squish");
    else if (area.msgbType == MSGTYPE_JAM) printf("Jam");
@@ -76,8 +76,8 @@ void printArea(s_area area) {
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
-       printf(" export %s,", ((area.levelread <= area.downlinks[i]->link->level) && area.downlinks[i]->export) ? "on" : "off");
-       printf(" import %s,", ((area.levelwrite <= area.downlinks[i]->link->level) && area.downlinks[i]->import) ? "on" : "off");
+       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
+       printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");
        printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
@@ -162,12 +162,13 @@ void printLink(s_link link) {
    if (link.fileFixPwd) printf("filefixPwd: %s\n", link.fileFixPwd);
    if (link.bbsPwd) printf("bbsPwd:     %s\n", link.bbsPwd);
    if (link.sessionPwd) printf("sessionPwd: %s\n", link.sessionPwd);
-   if (link.handle) printf("handle:     %s\n", link.handle);
+   if (link.handle!=link.name) printf("handle:     %s\n", link.handle);
    if (link.email) printf("email:      %s\n", link.email);
    printf("Level:      %u\n", link.level);
-   if (link.export) printf("Export:     %s\n",(link.export[0]) ? "on" : "off");
-   if (link.import) printf("Import:     %s\n",(link.import[0]) ? "on" : "off");
-   if (link.mandatory) printf("Mandatory:  %s\n",(link.mandatory[0]) ? "on" : "off");
+   printf("Export:     %s\n",(link.export) ? "on" : "off");
+   printf("Import:     %s\n",(link.import) ? "on" : "off");
+   printf("Mandatory:  %s\n",(link.mandatory) ? "on" : "off");
+   if (link.Pause) printf("Link in Pause, no export\n");
    if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
    if (link.numOptGrp > 0)
    {
@@ -176,7 +177,7 @@ void printLink(s_link link) {
      printf("OptGrp       ");
      for (i = 0; i < link.numOptGrp; i++)
      {
-       if (i > 0) printf(", %s", link.optGrp[i]);
+       if (i > 0) printf(",%s", link.optGrp[i]);
        else printf("%s", link.optGrp[0]);
      }
      printf("\n");

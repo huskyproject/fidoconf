@@ -133,7 +133,6 @@ a comment and will be ignored.
 * remoteRobotName::             remote "areafix" name
 * forwardPkts::                 shall we forward inbound packets for this node?
 * pause::                       don't export mail for this link
-* noTIC::                       don't create TIC files for this link
 * arcmailsize::			size of arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
 
@@ -867,8 +866,9 @@ This statement can only be repeated for different links.
 @code{optgrp py}
 @end table
 
-  Export, Import & Mandatory restrictions uses "optgrp" areas
-instead of "accessgrp".
+  Export, Import & Mandatory restrictions uses "optgrp" areas. If "optgrp"
+  not defined - the restrictions will be applied to _all_ areas.
+  the levels of echo & link ignored for "optgrp"
 
 This statement can only be repeated for different links.
 

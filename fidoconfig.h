@@ -81,9 +81,9 @@ struct link {
         *ticPwd,
         *areaFixPwd,
         *fileFixPwd,
-	*bbsPwd,
-	*sessionPwd;
-   char *handle;
+	    *bbsPwd,
+	    *sessionPwd;
+   char *handle;              // nickname
    char *email;
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
    int  autoFileCreate;       // 0 if not allowed for autofilecreate
@@ -98,7 +98,7 @@ struct link {
    char *floFile,*bsyFile;    // dito
    s_pack *packerDef;
    e_flavour echoMailFlavour,fileEchoFlavour;
-   char *LinkGrp;	      // link's group for autocreate areas
+   char *LinkGrp;	          // link's group for autocreate areas
    char **AccessGrp;	      // groups for echo access
    unsigned int numAccessGrp;
    char *autoAreaCreateFile;  // file where autocreated areas are written to
@@ -113,8 +113,8 @@ struct link {
    unsigned autoPause;        // in days
    unsigned level;	          // 0-65535
    unsigned arcmailSize;      // max arcmail size in kb
-   // Default link's options
-   char *export, *import, *mandatory, **optGrp;
+   unsigned int export, import, mandatory; // Default link's options
+   char **optGrp; // groups for this options
    unsigned int numOptGrp;
 };
 
@@ -137,9 +137,9 @@ typedef enum dupeCheck e_dupeCheck;
 
 struct arealink {
    s_link *link;
-   char export;		// 1 - export yes, 0 - export no
-   char import;		// 1 - import yes, 0 - import no
-   char mandatory;	// 1 - mandatory yes, 0 - mandatory no
+   unsigned int export;		// 1 - export yes, 0 - export no
+   unsigned int import;		// 1 - import yes, 0 - import no
+   unsigned int mandatory;	// 1 - mandatory yes, 0 - mandatory no
 };
 typedef struct arealink s_arealink;   
 
@@ -416,5 +416,8 @@ s_filearea *getFileArea(s_fidoconfig *config, char *areaName);
 
 // this function can be used to dump config to stdout or to an already opened file.
 void dumpConfig(s_fidoconfig *config, FILE *f);
+
+// return 1 if group found in array of strings, else return 0
+int grpInArray(char *group, char **array, unsigned int len);
 
 #endif

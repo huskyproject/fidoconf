@@ -234,22 +234,15 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       if (link.arcmailSize != 0)
 	fprintf(f, "arcmailSize          %u\n", link.arcmailSize);
 
-      if (link.export != NULL)
-      {
-	if (link.export[0] == 1) fprintf(f, "export              on\n");
-	else fprintf(f, "export              off\n");
-      }
-      if (link.import != NULL)
-      {
-	if (link.import[0] == 1) fprintf(f, "import              on\n");
-	else fprintf(f, "import              off\n");
-      }
-      if (link.mandatory != NULL)
-      {
-	if (link.mandatory[0] == 1) fprintf(f, "mandatory          on\n");
-	else fprintf(f, "mandatory             off\n");
-      }
+	  if (link.export) fprintf(f, "export              on\n");
+	  else fprintf(f, "export              off\n");
+	  
+	  if (link.import) fprintf(f, "import              on\n");
+	  else fprintf(f, "import              off\n");
 
+      if (link.mandatory) fprintf(f, "mandatory          on\n");
+	  else fprintf(f, "mandatory             off\n");
+	  
       fprintf(f, "\n");
     }
 }
