@@ -148,20 +148,6 @@ void freeGroups(char **grps, int numGroups);
 char **copyGroups(char **grps, int numGroups);
 void freeLink (s_link *link);
 
-HUSKYEXT int e_readCheck(s_fidoconfig *config, s_area *echo, s_link *link);
-/*  '\x0000' access o'k */
-/*  '\x0001' no access group */
-/*  '\x0002' no access level */
-/*  '\x0003' no access export */
-/*  '\x0004' not linked */
-
-HUSKYEXT int e_writeCheck(s_fidoconfig *config, s_area *echo, s_link *link);
-/*  '\x0000' access o'k */
-/*  '\x0001' no access group */
-/*  '\x0002' no access level */
-/*  '\x0003' no access import */
-/*  '\x0004' not linked */
-
 /* Select PackAka: link->hisPackAka if PackAka defined, link->hisAka otherwise. */
 HUSKYEXT hs_addr *SelectPackAka(s_link *link);
 

@@ -595,7 +595,6 @@ int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 
 void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
 {
-    
     s_link *link=arealink->link;
     
     if (link->numOptGrp > 0) {
@@ -621,9 +620,29 @@ void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
     
     if (area->mandatory) arealink->mandatory = 1;
     if (area->manual) arealink->manual = 1;
-    if (e_readCheck(config, area, link)) arealink->export = 0;
-    if (e_writeCheck(config, area, link)) arealink->import = 0;
-    
+    if ((area->levelread > link->level) || (link->Pause & area->areaType)) arealink->export = 0;
+    if (area->levelwrite > link->level) arealink->import = 0;
+
+    if (area->group) {
+        if (link->numAccessGrp) {
+            if (config->numPublicGroup) {
+                if (!grpInArray(area->group,link->AccessGrp,link->numAccessGrp) &&
+                    !grpInArray(area->group,config->PublicGroup,config->numPublicGroup)) {
+                    arealink->export = 0;
+                    arealink->import = 0;
+                }
+            } else if (!grpInArray(area->group,link->AccessGrp,link->numAccessGrp)) {
+                arealink->export = 0;
+                arealink->import = 0;
+            }
+        } else if (config->numPublicGroup) {
+            if (!grpInArray(area->group,config->PublicGroup,config->numPublicGroup)) {
+                arealink->export = 0;
+                arealink->import = 0;
+            }
+        }
+    }
+	
 }
 
 
