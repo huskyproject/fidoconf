@@ -139,14 +139,14 @@ int existAddr(s_fidoconfig config, s_addr aka) {
    return 0;
 }
 
-s_area *getArea(s_fidoconfig config, char *areaName)
+s_area *getArea(s_fidoconfig *config, char *areaName)
 {
    UINT i;
 
-   for (i=0; i < config.echoAreaCount; i++) {
-      if (stricmp(config.echoAreas[i].areaName, areaName)==0)
-         return &(config.echoAreas[i]);
+   for (i=0; i < config->echoAreaCount; i++) {
+      if (stricmp(config->echoAreas[i].areaName, areaName)==0)
+         return &(config->echoAreas[i]);
    }
 
-   return &(config.badArea); // if all else fails, return badArea :-)
+   return &(config->badArea); // if all else fails, return badArea :-)
 }

@@ -117,7 +117,7 @@ s_link *getLink(s_fidoconfig config, char *addr);
 s_link *getLinkFromAddr(s_fidoconfig, s_addr aka);
 s_addr *getAddr(s_fidoconfig config, char *addr);
 int    existAddr(s_fidoconfig config, s_addr aka);
-s_area *getArea(s_fidoconfig config, char *areaName);
+s_area *getArea(s_fidoconfig *config, char *areaName);
 
 // the following functions are for internal use.
 // Only use them if you really know what you do
