@@ -104,7 +104,7 @@ $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
 	    $(LOBJS) $(LOPT)
 else
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
-	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
+	$(CC) -shared -Wall,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
          -o $(LIBFIDOCONFIG).so.$(VER) $(LOBJS) $(LOPT)
 endif
 	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so.$(VERH) ;\
