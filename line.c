@@ -1272,28 +1272,31 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
 	   }
    }
 
-    toklen=strlen(tok); /* points to '\0' */
-    if (stricmp(tok, "passthrough") != 0) {
-        /* perhaps passthrough in default, so this does not have to be */
-        /* a filename */
+   toklen=strlen(tok); /* points to '\0' */
+   if (stricmp(tok, "passthrough") != 0) {
+       /* perhaps passthrough in default, so this does not have to be */
+       /* a filename */
+       
+       /* is it a filename? */
+       ptr=tok;
+       while(*ptr && *ptr != PATH_DELIM && !isspace(*ptr))
+           ++ptr;
+       if(*ptr==PATH_DELIM){
+           /* yes it is a filename :=) */
+           /*  msgbase on disk */
+           area->fileName = (char *) scalloc(1,toklen + 2);
+           strcpy(area->fileName, tok);
+           if((area->areaType == FILEAREA) && (tok[toklen-1]!=PATH_DELIM))
+           area->fileName[toklen] = PATH_DELIM;
 
-        /* is it a filename? */
-        ptr=tok;
-        while(*ptr && *ptr != PATH_DELIM && !isspace(*ptr))
-            ++ptr;
-        if(*ptr==PATH_DELIM){
-            /* yes it is a filename :=) */
-            /*  msgbase on disk */
-            area->fileName = (char *) smalloc(toklen + 1);
-            strcpy(area->fileName, tok);
-            tok = strtok(NULL, " \t");
-	}else if(area->msgbType!=MSGTYPE_PASSTHROUGH){
-		/* was not a filename, and default not passthrough */
-		prErr("There is a pathname missing %s!", actualLine);
-		return 2;         /*  if there is no filename */
-	}
-
-    }else{
+           tok = strtok(NULL, " \t");
+       }else if(area->msgbType!=MSGTYPE_PASSTHROUGH){
+           /* was not a filename, and default not passthrough */
+           prErr("There is a pathname missing %s!", actualLine);
+           return 2;         /*  if there is no filename */
+       }
+       
+   }else{
         /*  passthrough area */
         /*   area->fileName = NULL;  was copied from default */
         area->msgbType = MSGTYPE_PASSTHROUGH;
