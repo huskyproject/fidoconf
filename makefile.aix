@@ -55,5 +55,9 @@ install: commonlibs commonprogs
 	install $(IBOPT) fconf2squish $(BINDIR)
 	install $(IBOPT) tparser       $(BINDIR)
 	install $(IIOPT) fidoconfig.h $(INCDIR)
+	install $(IIOPT) dirlayer.h   $(INCDIR)
+	install $(IIOPT) typesize.h   $(INCDIR)
+	install $(IIOPT) adcase.h   $(INCDIR)
+	install $(IIOPT) common.h     $(INCDIR)
 	install $(IIOPT) fidoconf.pas $(INCDIR)
 

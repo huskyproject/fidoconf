@@ -37,8 +37,7 @@
 #ifndef __IBMC__     /* all other include their own dirent.h */
 #ifndef __WATCOMC__
 #ifdef __MINGW32__
-/* very very ugly hack around the file name clash problem */
-#include "/usr/local/i386--mingw32/include/nonansi/dir.h"
+#include <dir.h>
 #endif
 #if defined(__EMX__) || defined(__FreeBSD__)
 #include <sys/types.h>

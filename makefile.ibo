@@ -11,7 +11,7 @@ LIBS=  fidoconfig.lib
 ALLIBS= $(LIBS) $(LIBDIR)\smapiibo.lib
 
 HDRS=  common.h \
-       dir.h \
+       dirlayer.h \
        fidoconfig.h \
        adcase.h \
        typesize.h
@@ -19,10 +19,10 @@ HDRS=  common.h \
 OBJS=  adcase.obj \
        line.obj \
        fidoconfig.obj \
-       dir.obj \
+       dirlayer.obj \
        common.obj
 
-LOBJS=  -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj;
+LOBJS=  -+line.obj -+fidoconfig.obj -+dirlayer.obj -+common.obj;
 
 all:    fidoconfig.lib fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe
 
@@ -49,6 +49,10 @@ install: $(LIBS) tparser.exe fconf2golded.exe fconf2msged.exe fidoconfig.h fidoc
 	copy fconf2golded.exe $(BINDIR)
 	copy fconf2msged.exe $(BINDIR)
 	copy fidoconfig.h $(INCDIR)
+	copy common.h $(INCDIR)
+	copy typsize.h $(INCDIR)
+	copy dirlayer.h $(INCDIR)
+	copy adcase.h $(INCDIR)
 	copy fidoconf.pas $(INCDIR)
 
 .c.obj:

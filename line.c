@@ -46,7 +46,7 @@
 #include <limits.h>
 #include "patmat.h"
 
-#include "dir.h"
+#include "dirlayer.h"
 
 #if !defined(MSDOS) || defined(__DJGPP__)
 #include "fidoconfig.h"

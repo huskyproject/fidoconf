@@ -19,13 +19,13 @@ LIBS=  fidoconf.lib
 ALLIBS= $(LIBS) $(LIBDIR)\smapibcd.lib 
 
 HDRS=  common.h \
-       dir.h \
+       dirlayer.h \
        fidoconf.h \
        typesize.h 
 
 OBJS=  line.obj \
        fidoconf.obj \
-       dir.obj \
+       dirlayer.obj \
        common.obj
 
 LOBJS=  -+line.obj \
@@ -61,6 +61,10 @@ install: commonlibs commonprogs
 	copy fc2msged.exe $(BINDIR)
 	copy fc2ged.exe $(BINDIR)
 	copy fidoconf.h $(INCDIR)
+	copy dirlayer.h $(INCDIR)
+	copy adcase.h $(INCDIR)
+	copy common.h $(INCDIR)
+	copy typesize.h $(INCDIR)
 	copy fidoconf.pas $(INCDIR)
 
 .c.obj: 

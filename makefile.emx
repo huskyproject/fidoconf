@@ -8,7 +8,7 @@ LIBS=  fidoconfig.a
 SMLIB= ../smapi/smapiemx.lib
 
 HDRS=  common.h \
-       dir.h \
+       dirlayer.h \
        fidoconfig.h \
        adcase.h \
        typesize.h
@@ -16,7 +16,7 @@ HDRS=  common.h \
 OBJS=  adcase.o \
        line.o \
        fidoconfig.o \
-       dir.o \
+       dirlayer.o \
        common.o
 
 all:	fidoconfig.a fconf2msged.exe fconf2golded.exe tparser.exe

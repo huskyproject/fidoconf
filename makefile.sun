@@ -1,4 +1,4 @@
-#Settings for Digital UNIX
+#Settings for Solaris
 
 # include Husky-Makefile-Config
 include ../huskymak.cfg
@@ -53,10 +53,13 @@ install: commonlibs commonprogs
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
 	install $(IBOPT) fconf2msged  $(BINDIR)
 	install $(IBOPT) fconf2golded $(BINDIR)
-	install $(IBOPT) fconf2aquaed $(BINDIR)
-	install $(IBOPT) fconf2fidogate $(BINDIR)
+	install $(IBOPT) fconf2aquaed $(BINDIR)	install $(IBOPT) fconf2fidogate $(BINDIR)
 	install $(IBOPT) fconf2squish $(BINDIR)
 	install $(IBOPT) tparser      $(BINDIR)
 	install $(IIOPT) fidoconfig.h $(INCDIR)
+	install $(IIOPT) dirlayer.h   $(INCDIR)
+	install $(IIOPT) typesize.h   $(INCDIR)
+	install $(IIOPT) common.h     $(INCDIR)
+	install $(IIOPT) adcase.h     $(INCDIR)
 	install $(IIOPT) fidoconf.pas $(INCDIR)
 

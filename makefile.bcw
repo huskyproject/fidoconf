@@ -8,7 +8,7 @@ LIBS=  fidoconfig.lib
 ALLIBS= $(LIBS) ..\smapi\smapibcw.lib
 
 HDRS=  common.h \
-       dir.h \
+       dirlayer.h \
        fidoconfig.h \
        adcase.h \
        typesize.h
@@ -16,7 +16,7 @@ HDRS=  common.h \
 OBJS=  adcase.obj \
        line.obj \
        fidoconfig.obj \
-       dir.obj \
+       dirlayer.obj \
        common.obj
 
 LOBJS=  -+patmat.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj +-adcase.obj

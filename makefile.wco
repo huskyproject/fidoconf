@@ -1,3 +1,4 @@
+
 # include Husky-Makefile-Config
 !include ../huskymak.cfg
 
@@ -18,7 +19,7 @@ LIBS=  fidoconfig.lib
 ALLIBS= $(LIBS) $(LIBDIR)\smapiwco.lib
 
 HDRS=  common.h \
-       dir.h \
+       dirlayer.h \
        fidoconfig.h \
        adcase.h \
        typesize.h
@@ -26,10 +27,10 @@ HDRS=  common.h \
 OBJS=  adcase.obj \
        line.obj \
        fidoconfig.obj \
-       dir.obj \
+       dirlayer.obj \
        common.obj
 
-LOBJS=  -+adcase.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj
+LOBJS=  -+adcase.obj -+line.obj -+fidoconfig.obj -+dirlayer.obj -+common.obj
 
 all:    fidoconfig.lib fconf2squish.exe fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fe2fconf.exe
 
@@ -69,6 +70,10 @@ install: fidoconfig.lib fconf2golded.exe fconf2msged.exe tparser.exe \
 	copy tparser.exe $(BINDIR)
 	copy fconf2squish.exe $(BINDIR)
 	copy fidoconfig.h $(INCDIR)
+	copy typesize.h $(INCDIR)
+	copy dirlayer.h $(INCDIR)
+	copy adcase.h $(INCDIR)
+	copy common.h $(INCDIR)
 	copy fidoconf.pas $(INCDIR)
 
 .c.obj:

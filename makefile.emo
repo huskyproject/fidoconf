@@ -17,13 +17,13 @@ LIBS=  fidoconfig.lib
 SMLIB= $(LIBDIR)/smapiemo.lib
 
 HDRS=  common.h \
-       dir.h \
+       dirlayer.h \
        fidoconfig.h \
        typesize.h 
 
 OBJS=  line.obj \
        fidoconfig.obj \
-       dir.obj \
+       dirlayer.obj \
        common.obj
 
 all:	fidoconfig.lib fconf2msged.exe fconf2golded.exe tparser.exe
@@ -50,6 +50,10 @@ install: commonlibs commonprogs
 	copy fconf2msged.exe $(BINDIR)
 	copy fconf2golded.exe $(BINDIR)
 	copy fidoconfig.h $(INCDIR)
+	copy common.h $(INCDIR)
+	copy typesize.h $(INCDIR)
+	copy dirlayer.h $(INCDIR)
+	copy adcase.h $(INCDIR)
 	copy fidoconf.pas $(INCDIR)
 
 %.obj: %.c

@@ -45,8 +45,8 @@ clean: commonclean
 distclean: commondistclean
 	-$(RM) libfidoconfig.so.$(VER)
 
-libfidoconfig.so.$(VER): line$(O) common$(O) fidoconfig$(O) adcase$(O) dir$(O)
-	$(CC) -shared -Wl,-soname,libfidoconfig.so.$(VERH) -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) adcase$(O) dir$(O) $(LOPT) 
+libfidoconfig.so.$(VER): line$(O) common$(O) fidoconfig$(O) adcase$(O) dirlayer$(O)
+	$(CC) -shared -Wl,-soname,libfidoconfig.so.$(VERH) -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) adcase$(O) dirlayer$(O) $(LOPT) 
 
 %.o: %.c
 	$(CC) $(COPT) $*.c
@@ -61,5 +61,9 @@ install: commonlibs commonprogs
 	install $(IBOPT) tparser      $(BINDIR)
 	install $(IBOPT) dumpfcfg     $(BINDIR)
 	install $(IIOPT) fidoconfig.h $(INCDIR)
+	install $(IIOPT) typesize.h   $(INCDIR)
+	install $(IIOPT) common.h     $(INCDIR)
+	install $(IIOPT) dirlayer.h   $(INCDIR)
+	install $(IIOPT) adcase.h     $(INCDIR)
 	install $(IIOPT) fidoconf.pas $(INCDIR)
 

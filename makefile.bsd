@@ -64,5 +64,9 @@ install: commonlibs commonprogs
 	install -c $(ILOPT) libfidoconfig.so.$(VERH) $(LIBDIR)
 	ln -sf libfidoconfig.so.$(VERH) $(LIBDIR)/libfidoconfig.so
 	install -c $(IIOPT) fidoconfig.h $(INCDIR)
+	install -c $(IIOPT) typesize.h $(INCDIR)
+	install -c $(IIOPT) dirlayer.h $(INCDIR)
+	install -c $(IIOPT) common.h $(INCDIR)
+	install -c $(IIOPT) adcase.h $(INCDIR)
 	install -c $(IIOPT) fidoconf.pas $(INCDIR)
 

@@ -32,7 +32,7 @@
 /* source to implement dir.h for ibm VisualAge C++
 */
 #ifdef __IBMC__
-#include "dir.h"
+#include "dirlayer.h"
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
