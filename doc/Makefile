@@ -1,12 +1,18 @@
 include ../../huskymak.cfg
 
-default: info
+all: html info dvi
 
+ifdef HTMLDIR
 html: fidoconfig_toc.html
+endif
 
+ifdef DVIDIR
 dvi: fidoconfig.dvi
+endif
 
+ifdef INFODIR
 info: fidoconfig.info
+endif
 
 fidoconfig_toc.html: fidoconfig.texi
 	texi2html -number -menu fidoconfig.texi
@@ -44,15 +50,20 @@ distclean: clean
 	-$(RM) fidoconfig.doc
 	-$(RM) fidoconfig.info*
 
-install: info
+install: info html dvi
 	@echo .
 ifdef INFODIR
 	-$(MKDIR) $(MKDIROPT) $(INFODIR)
 	$(INSTALL)  fidoconfig.info $(INFODIR)
 	-install-info --info-dir=$(INFODIR)  $(INFODIR)$(DIRSEP)fidoconfig.info
 endif
+ifdef HTMLDIR
+	-$(MKDIR) $(MKDIROPT) $(HTMLDIR)
+	$(INSTALL)  fidoconfig*html $(HTMLDIR)
+endif
 
 uninstall:
 	-install-info --remove --info-dir=$(INFODIR) $(INFODIR)$(DIRSEP)fidoconfig.info
 	-$(RM) $(INFODIR)$(DIRSEP)fidoconfig.info
+	-$(RM) $(HTMLDIR)$(DIRSEP)fidoconfig*html
 

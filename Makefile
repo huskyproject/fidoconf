@@ -54,7 +54,7 @@ default: all
 
 include makefile.inc
 
-  fecfg2fc$(OBJ): fecfg2fc.c
+fecfg2fc$(OBJ): fecfg2fc.c
 	$(CC) $(COPT) $(CDEFS) -fpack-struct fecfg2fc.c
 
 ifeq ($(CC), gcc)
@@ -73,8 +73,10 @@ endif
 
 ifeq ($(DYNLIBS), 1)
   all: commonlibs ranlib $(LIBFIDOCONFIG).so.$(VER) progs
+	(cd doc && $(MAKE) all)
 else
   all: commonlibs ranlib progs
+	(cd doc && $(MAKE) all)
 endif
 
 clean: commonclean
@@ -113,7 +115,7 @@ instdyn: commonlibs
 
 endif
 
-ranlib:	commonlibs
+ranlib: commonlibs
 #	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)/patmat.o
 ifdef RANLIB
 	$(RANLIB) $(LIBFIDOCONFIG)$(LIB)
