@@ -276,7 +276,36 @@ int parseRemap(char *token, s_fidoconfig *config)
    return 0;
 }
 
+/* Parse and check/create directory
+ *
+ */
 int parsePath(char *token, char **var, char **alreadyDefined)
+{
+
+   if (*var != NULL) {
+      if (alreadyDefined==NULL || *alreadyDefined) {
+         prErr("Duplicate path!");
+         return 1;
+      }
+      nfree(*var);
+   }
+   if (token == NULL) {
+      prErr("There is a path missing after %s!", actualKeyword);
+      return 1;
+   }
+   if (*token && token[strlen(token)-1] == PATH_DELIM)
+	   Strip_Trailing(token, PATH_DELIM);
+   xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
+   if (alreadyDefined) *alreadyDefined=*var;
+
+   if (!direxist(*var)) {
+         prErr( "Path %s not found!", *var);
+         return 1;
+   }
+   return 0;
+}
+
+int parseAreaPath(char *token, char **var, char **alreadyDefined)
 {
 /*    char *p, *q, *osvar; */
 
@@ -308,7 +337,7 @@ int parsePath(char *token, char **var, char **alreadyDefined)
    return 0;
 }
 
-int parsePathExpand(char *token, char **var, char **alreadyDefined)
+int parseAreaPathExpand(char *token, char **var, char **alreadyDefined)
 {
    char *p;
 
@@ -3339,24 +3368,24 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parsePath(getRestOfLine(), &(config->nodelistDir), NULL);
             break;
         case ID_FILEAREABASEDIR:
-            rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir), NULL);
+            rc = parseAreaPath(getRestOfLine(), &(config->fileAreaBaseDir), NULL);
             break;
         case ID_PASSFILEAREADIR:
-            rc = parsePath(getRestOfLine(), &(config->passFileAreaDir), NULL);
+            rc = parseAreaPath(getRestOfLine(), &(config->passFileAreaDir), NULL);
             break;
         case ID_BUSYFILEDIR:
             rc = parsePath(getRestOfLine(), &(config->busyFileDir), NULL);
             break;
         case ID_MSGBASEDIR:
-            rc = parsePathExpand(getRestOfLine(), &(config->msgBaseDir), NULL);
+            rc = parseAreaPathExpand(getRestOfLine(), &(config->msgBaseDir), NULL);
             break;
         case ID_LINKMSGBASEDIR:
-            rc = parsePathExpand(getRestOfLine(),
+            rc = parseAreaPathExpand(getRestOfLine(),
                            &(getDescrLink(config)->msgBaseDir),
 			   &(linkDefined.msgBaseDir));
             break;
         case ID_LINKFILEBASEDIR:
-            rc = parsePath(getRestOfLine(),
+            rc = parseAreaPath(getRestOfLine(),
                            &(getDescrLink(config)->fileBaseDir),
 			   &(linkDefined.fileBaseDir));
             break;
@@ -3654,7 +3683,7 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_FILEFIXECHOLIMIT:
             rc = parseNumber(getRestOfLine(), 10,
                               &(getDescrLink(config)->ffixEchoLimit));
-            break;	    	   	    
+            break;	    	   	
         case ID_ARCMAILSIZE:
             rc = parseNumber(getRestOfLine(), 10,
                              &(getDescrLink(config)->arcmailSize));
