@@ -2320,6 +2320,11 @@ int parseLoglevels(char *line, char **loglevels) {
   char *p=line;
   int i,k;
 
+  if (line == NULL) {
+     prErr("Parameter missing after %s!", actualKeyword);
+     return 1;
+  }
+
   ll = calloc(256,sizeof(char));
   if( !ll ) {
     prErr( "Low memory!" );
