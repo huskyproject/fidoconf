@@ -104,6 +104,8 @@ typedef enum nameCase { eLower, eUpper} e_nameCase;
 typedef enum nameCaseConvertion { cLower, cUpper, cDontTouch } e_nameCaseConvertion;
 typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlways, eAmiga} e_bundleFileNameStyle;
 typedef enum emailEncoding { eeMIME, eeSEAT, eeUUE } e_emailEncoding;
+typedef enum pauses        { NOPAUSE, EPAUSE, FPAUSE } e_pauses;
+
 
 typedef struct link {
     s_addr hisAka, *ourAka;
@@ -157,6 +159,8 @@ typedef struct link {
    void *msg;                 // active msg to the link (used in areafix)
    unsigned int noTIC;        // 0 if TIC files should be generated
    unsigned int Pause;        // 0 if no pause (default)
+                              // 1 echo pause
+                              // 2 fecho pause
    unsigned autoPause;        // in days
    unsigned level;	          // 0-65535
    unsigned arcmailSize;      // max arcmail size in kb
@@ -631,6 +635,7 @@ FCONF_EXT long getCurConfPos();
 FCONF_EXT long get_hcfgPos();
 FCONF_EXT FILE *get_hcfg();
 FCONF_EXT const char *cfgEol();
+
 /**
  * This method can be used to get a program-specifically config-filename, in the same directories which are searched for fidoconfig.
  * envVar should be set to a string which resembles a environment-variable which should be checked if it includes the fileName.

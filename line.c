@@ -498,7 +498,7 @@ void setFileLinkAccess( s_filearea *area, s_arealink *arealink) {
     if (link->level < area->levelread)  arealink->export=0;
     if (link->level < area->levelwrite) arealink->import=0;
     // paused link can't receive mail
-    if (link->Pause && area->noPause==0) arealink->export = 0;
+    if (((link->Pause & EPAUSE) == EPAUSE) && area->noPause==0) arealink->export = 0;
 }
 
 int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
@@ -1290,7 +1290,8 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 		 if (link->level < area->levelread)	arealink->export=0;
 		 if (link->level < area->levelwrite) arealink->import=0;
 		 // paused link can't receive mail
-		 if (link->Pause && area->noPause==0) arealink->export = 0;
+		 if ( ((link->Pause & EPAUSE) == EPAUSE) && area->noPause==0)
+         arealink->export = 0;
 
          area->downlinkCount++;
          tok = strtok(NULL, " \t");
@@ -1655,6 +1656,24 @@ int parseAutoPause(char *token, unsigned *autoPause)
 
    *autoPause = (unsigned)atoi(token);
 
+   return 0;
+}
+
+int parsePause(char *token, unsigned *Pause)
+{
+   if ((token == NULL) || (stricmp(token,"on") == 0) ) {
+      *Pause = EPAUSE|FPAUSE;
+   }
+   else if(stricmp(token,"earea") == 0)
+      *Pause |= EPAUSE;
+   else if(stricmp(token,"farea") == 0)
+      *Pause |= FPAUSE;
+   else if (stricmp(token,"off") == 0) 
+      *Pause = NOPAUSE;
+   else {
+      prErr("Wrong Pause parameter!");
+      return 1; // error
+   }
    return 0;
 }
 
@@ -3273,7 +3292,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_PAUSE:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->Pause);
+                rc = parsePause (getRestOfLine(), &clink->Pause);
             } else {
                 rc = 1;
             }
