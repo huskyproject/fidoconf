@@ -1,3 +1,12 @@
+2002-12-20 Friday 22:52  d_sergienko
+
+	* Makefile (1.54), makefile.inc (1.38): install/uninstall linked
+
+2002-12-20 Friday 22:36  d_sergienko
+
+	* linked.c (1.2): search for includes in current directory (linked
+	is being compiled before fidoconf is being installed)
+
 2002-12-20 Friday 15:23  stas_degteff
 
 	* fidoconf.c (1.100): Update diagnostic in previous patch
