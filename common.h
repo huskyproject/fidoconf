@@ -295,6 +295,12 @@ FCONF_EXT char *sstrdup(const char *src);
 /* safe strncpy: if src==NULL or dst==NULL don't copy and return NULL */
 #define sstrncpy(dst,src,len) ( (src)&&(dst) ? strncpy(dst,src,len) : NULL )
 
+/* safe strstr: if str==NULL or find==NULL return NULL */
+#define sstrstr(str,find) ( (str)&&(find) ? strstr(str,find) : NULL )
+
+/* safe stristr: if str==NULL or find==NULL return NULL */
+#define sstristr(str,find) ( (str)&&(find) ? fc_stristr(str,find) : NULL )
+
 /* safe strcmp */
 FCONF_EXT int sstrcmp(const char *str1, const char *str2);
 
