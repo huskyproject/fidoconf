@@ -80,6 +80,13 @@ FCONF_EXT int  actualLineNr;
 FCONF_EXT char CommentChar;
 #endif
 
+#ifndef _MAKE_DLL_MVC_
+   extern int fc_trycreate;
+#else
+   FCONF_EXT int fc_trycreate;
+#endif
+
+
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"
 

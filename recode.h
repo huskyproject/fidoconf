@@ -54,8 +54,16 @@ FCONF_EXT VOID recodeToInternalCharset( CHAR *string);
 FCONF_EXT VOID recodeToTransportCharset( CHAR *string);
 FCONF_EXT void getctab(CHAR *dest,  UCHAR *charMapFileName);
 
-FCONF_EXT CHAR *intab;
-FCONF_EXT CHAR *outtab;
+
+#ifndef _MAKE_DLL_MVC_
+   extern CHAR *intab;
+   extern CHAR *outtab;
+#else
+   FCONF_EXT CHAR *intab;
+   FCONF_EXT CHAR *outtab;
+#endif
+
+
 
 #ifdef __cplusplus
 }

@@ -46,8 +46,6 @@
 #include "common.h"
 
 
-extern int fc_trycreate; /* Try to create nonexistant directories (defined in line.c) */
-
 /* Test for required tokens */
 int testConfig(s_fidoconfig *config){
   int rc=0;
