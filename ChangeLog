@@ -1,3 +1,7 @@
+2002-09-28 Saturday 08:42  pgul
+
+	* fidoconf.h (fidoconf-0_14-stable.2): correct previous patch
+
 2002-09-27 Friday 12:12  pgul
 
 	* fidoconf.h (fidoconf-0_14-stable.1): add 'extern' to theApp
