@@ -305,7 +305,7 @@ struct fidoconfig {
    unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
    unsigned int fileFileUMask, fileDirUMask;
 
-   char     *fileLocalPwd, fileLDescString;
+   char     *fileLocalPwd, *fileLDescString;
    
 };
 
