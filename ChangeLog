@@ -1,3 +1,18 @@
+2001-05-16 Wednesday 12:08  ml
+
+	* fidoconf.h (1.70), line.c (1.250): fixed parsing forwardpkts
+
+2001-05-11 Friday 16:38  wulf.krueger
+
+	* TODO (1.56), fidoconf.h (1.69), line.c (1.249), tokens.h (1.10),
+	tparser.c (1.146): 
+	Modified Files: 	TODO fidoconf.h line.c tokens.h tparser.c
+	-------------------------------------------------------------------
+	-- - Implemented keyword "FileFixFSC87Subset" for htick. Not yet
+	properly documented since IMHO there have to be major changes
+	regarding the whole htick documentation which I will do during the
+	next days.
+
 2001-05-08 Tuesday 00:42  tobi
 
 	* line.c (1.248), syslogp.h (1.1): fixed syslogging for sun
