@@ -329,6 +329,10 @@ int main(int argc, char **argv) {
 #endif
       if (config->processPkt != NULL) printf("processPkt: %s\n", config->processPkt);
       if (config->tossingExt != NULL) printf("tossingExt: %s\n", config->tossingExt);
+
+	  for (i=0; i<config->addToSeenCount; i++) {
+		  printf("AddToSeen: %s\n", aka2str(config->addToSeen[i]));
+	  }
       
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");

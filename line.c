@@ -2139,7 +2139,30 @@ int parseNamesCaseConversion(char *line, e_nameCaseConvertion *value)
    return 0;
 }
 
-   
+int parseAddToSeen(char *token, s_fidoconfig *config)
+{
+   char *aka;
+
+   if (token==NULL) {
+	   printf("Line %d: There is an address missing after %s!\n",
+			  actualLineNr, actualKeyword);
+	   return 1;
+   }
+
+   aka = strtok(token, " \t"); // only look at aka
+   if (aka == NULL) {
+	   printf("Line %d: There is an address missing after %s!\n",
+			  actualLineNr, actualKeyword);
+	   return 1;
+   }
+
+   config->addToSeen = realloc(config->addToSeen, 
+							   sizeof(s_addr)*(config->addToSeenCount+1));
+   string2addr(aka, &(config->addToSeen[config->addToSeenCount]));
+   config->addToSeenCount++;
+
+   return 0;
+}
    
 
 int parseLine(char *line, s_fidoconfig *config)
@@ -2545,6 +2568,7 @@ int parseLine(char *line, s_fidoconfig *config)
 #if defined ( __NT__ )
    else if (stricmp(token, "setconsoletitle")==0) rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
 #endif
+   else if (stricmp(token,"addtoseen")==0) rc = parseAddToSeen(getRestOfLine(),config);
 
 #ifdef __TURBOC__
    else unrecognised++;

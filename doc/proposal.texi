@@ -214,6 +214,7 @@ a comment and will be ignored.
 * noProcessBundles::            no unpack arcmail bundles
 * DisableTID::			disable adding TID to messages
 * SetConsoleTitle::             schange conesole title under win32
+* addToSeen::                   add addr to seen-by's
 
 @end menu
 
@@ -2305,7 +2306,7 @@ don't unpack arcmail bundles
 
 don't add TID-line to scanned messages
 
-@node SetConsoleTitle, , DisableTID, Keywords
+@node SetConsoleTitle, addToSeen, DisableTID, Keywords
 @subsection SetConsoleTitle
 @table @asis
 @item Syntax:
@@ -2317,6 +2318,19 @@ don't add TID-line to scanned messages
 Set hpt console title while tossing
 
 @strong{This statement is only for win32 platform.}
+
+@node addToSeen, , SetConsoleTitle, Keywords
+@subsection addToSeen
+@table @asis
+@item Syntax:
+@code{addToSeen <addr>}
+@item Example:
+@code{addToSeen 99:1/0}
+@end table
+
+Add aka to seen-by's. @strong{write full address with zone!}
+
+This statement can be repeated.
 
 @node Example,  , Keywords, config file
 @section Working sample config

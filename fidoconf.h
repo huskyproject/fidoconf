@@ -395,6 +395,9 @@ typedef struct fidoconfig {
    unsigned int setConsoleTitle; /* change console title */
 #endif
 
+   ps_addr      addToSeen;
+   unsigned int addToSeenCount;
+
 } s_fidoconfig, *ps_fidoconfig;
 
 

@@ -120,7 +120,7 @@ void string2addr(const char *string, s_addr *addr)
   char *buffer;
   int  i = 0;
 	
-  addr->domain = NULL;
+  memset(addr, '\0', sizeof(s_addr));
 
   if (strchr(start,':')==NULL || strchr(start,'/')==NULL) return;
 
