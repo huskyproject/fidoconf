@@ -53,7 +53,6 @@ tparser$(EXE): tparser$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)tparser$(EXE) tparser$(OBJ) $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
 
 commonclean: $(SYMBOLIC)
-	-$(RM) $(RMOPT) *~
 	-$(RM) $(RMOPT) *$(OBJ)
 	-$(RM) $(RMOPT) *$(TPU)
 	-$(RM) $(RMOPT) core
