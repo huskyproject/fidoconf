@@ -44,12 +44,20 @@
 #include "common.h"
 #include "xstr.h"
 
+static int wasCR=0;
+
+const char *cfgEof()
+{
+    return wasCR ? "\r\n" : "\n";
+}
+
 char *readLine(FILE *f)
 {
     char *line=NULL;
     int len=0, i=0, stop=0;
     int ch;
 
+    wasCR = 0;
     do {
 	ch = getc (f); 
         // not fgets() 'cause it concatenates lines without \r on Watcom C / WinDos
@@ -74,7 +82,7 @@ char *readLine(FILE *f)
 		line[i] = '\0';
 		stop++;
 	    } else if (ch=='\r') { // CR (must be before LF), ignore
-		// do nothing
+		wasCR = 1;
 	    } else { // other characters
 		line[i] = ch;
 		i++;

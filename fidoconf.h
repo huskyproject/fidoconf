@@ -63,7 +63,7 @@ extern "C" {
 
 #define strend(str) ((str) + strlen(str) - 1)
 
-extern char *actualLine, *actualKeyword, *curconfname;
+extern char *actualLine, *actualKeyword;
 
 #ifndef _MAKE_DLL_MVC_
 extern    int  actualLineNr;
@@ -590,6 +590,8 @@ void checkIncludeLogic(ps_fidoconfig config);
 FCONF_EXT const char* getCurConfName();
 FCONF_EXT long getCurConfPos();
 FCONF_EXT long get_hcfgPos();
+FCONF_EXT FILE *get_hcfg();
+FCONF_EXT const char *cfgEof();
 /**
  * This method can be used to get a program-specifically config-filename, in the same directories which are searched for fidoconfig.
  * envVar should be set to a string which resembles a environment-variable which should be checked if it includes the fileName.

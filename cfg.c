@@ -15,9 +15,9 @@
 
 #define setcond for (i=0, condition=1; i<=iflevel; condition=ifstack[i++].state && condition);
 
-char *curconfname=NULL;
-long curconfpos=0;
-FILE *hcfg;
+static char *curconfname=NULL;
+static long curconfpos=0;
+static FILE *hcfg;
 static short condition;
 static int  iflevel, nvars, sp;
 static int  maxnvars, maxsp, maxif;
@@ -562,4 +562,9 @@ long getCurConfPos()
 long get_hcfgPos()
 {
     return ftell(hcfg);
+}
+
+FILE *get_hcfg()
+{
+    return hcfg;
 }

@@ -85,7 +85,7 @@ void prErr ( char *string, ...)
 {
     va_list ap;
 
-    printf("\"%s\", line %d: ", curconfname, actualLineNr);
+    printf("\"%s\", line %d: ", getCurConfName(), actualLineNr);
     va_start(ap, string);
     vprintf(string, ap);
     va_end(ap);
