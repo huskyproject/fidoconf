@@ -460,6 +460,42 @@ void dumpTicker(s_fidoconfig *config, FILE *f)
     fprintf(f, "\n");
 }
 
+void dumpNodelists(s_fidoconfig *config, FILE *f)
+{
+  int i;
+
+  if (config->fidoUserList != NULL)
+    {
+      fprintf(f, "FidoUserList       %s\n", config->fidoUserList);
+      fprintf(f, "\n");
+    }
+
+  for (i = 0; i < config->nodelistCount; i++)
+    {
+      fprintf(f, "NodeList           %s\n",
+              config->nodelists[i].nodelistName);
+      if (config->nodelists[i].diffUpdateStem != NULL)
+        fprintf(f, "DiffUpdate         %s\n",
+                config->nodelists[i].diffUpdateStem);
+      if (config->nodelists[i].fullUpdateStem != NULL)
+        fprintf(f, "FullUpdate         %s\n",
+                config->nodelists[i].fullUpdateStem);
+      if (config->nodelists[i].defaultZone != 0)
+        fprintf (f, "DefaultZone        %d\n",
+                 config->nodelists[i].defaultZone);
+      switch (config->nodelists[i].format)
+        {
+        case fts5000:
+          fprintf (f, "NodelistFormat     Standard\n");
+          break;
+        case points24:
+          fprintf (f, "NodelistFormat     Points24\n");
+          break;
+        }
+      fprintf(f, "\n");
+    }
+}
+    
 void dumpConfig(s_fidoconfig *config, FILE *f)
 {
   dumpHeader(config, f);
@@ -475,6 +511,7 @@ void dumpConfig(s_fidoconfig *config, FILE *f)
   dumpAreafix(config, f);
   dumpFilefix(config, f);
   dumpTicker(config, f);
+  dumpNodelists(config, f);
 }
 
 int dumpConfigToFile(s_fidoconfig *config, char *fileName)

@@ -395,6 +395,18 @@ void disposeConfig(s_fidoconfig *config)
           free(config->remaps[i].toname);
    free(config->remaps);
 
+   for (i = 0; i < config->nodelistCount; i++)
+     {
+       if (config->nodelists[i].nodelistName != NULL)
+         free(config->nodelists[i].nodelistName);
+       if (config->nodelists[i].diffUpdateStem != NULL)
+         free(config->nodelists[i].diffUpdateStem);
+       if (config->nodelists[i].fullUpdateStem != NULL)
+         free(config->nodelists[i].fullUpdateStem);
+     }
+   free(config->nodelists);
+   free(config->fidoUserList);
+
    for (i = 0; i < config->packCount; i++) {
            free(config->pack[i].packer);
            free(config->pack[i].call);
@@ -460,7 +472,7 @@ s_link *getLinkFromAddr(s_fidoconfig config, s_addr aka)
 {
    UINT i;
 
-   for (i=0; i< config.linkCount; i++) {
+   for (i = 0; i <config.linkCount; i++) {
       if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
    }
 

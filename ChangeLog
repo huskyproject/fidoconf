@@ -2,6 +2,17 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Fri Oct  8 16:11:26 MET DST 1999
+tobi:
+* added nodelist specific keywords for the new nltools project     
+  fidouserlist
+  nodelist
+  diffupdate
+  fullupdate
+  defaultzone
+  nodelistformat
+
+----- cvs ci ------
 Thu Sep 30 20:20:36 NOVST 1999
 max:
 * fixed one more bug in string2addr() // core dumps on some msg's

@@ -40,14 +40,15 @@ clean: commonclean
 distclean: commondistclean
 	-$(RM) libfidoconfig.so.$(VER)
 
-libfidoconfig.so.$(VER): fidoconfig$(O) line$(O) common$(O) patmat$(O) dir$(O) adcase$(O)
-	$(LD) -shared -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) patmat$(O) adcase$(O) dir$(O) $(LOPT) $(LINKSMAPI) -lc
+libfidoconfig.so.$(VER): fidoconfig$(O) line$(O) common$(O) patmat$(O) dir$(O) adcase$(O) dump$(O)
+	$(LD) -shared -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) patmat$(O) adcase$(O) dir$(O) dump$(O) $(LOPT) $(LINKSMAPI) -lc
 	ln -sf libfidoconfig.so.$(VER) libfidoconfig.so
 
 %.o: %.c
 	$(CC) $(COPT) $*.c
 
-install: 
+install:
+	cp -f libfidoconfig.a $(LIBDIR)
 	cp -f libfidoconfig.so.$(VER) $(LIBDIR)
 	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
@@ -57,3 +58,4 @@ install:
 	cp -f  fconf2fidogate $(INSTDIR)/bin
 	cp -f  fconf2squish $(INSTDIR)/bin
 	cp -f  tparser      $(INSTDIR)/bin
+

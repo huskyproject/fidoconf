@@ -233,6 +233,16 @@ interface
        end;
      Ps_remap = ^s_remap;
 
+     s_nodelist = record
+          nodelistName	 : Pchar;
+          diffUpdateStem : Pchar;
+          fullUpdateStem : Pchar;
+          defaultZone    : dword;
+          format         : dword;
+       end;
+		     
+     Ps_nodelist = ^s_nodelist;
+
      s_fidoconfig = record
           cfgVersionMajor : dword;
           cfgVersionMinor : dword;
@@ -334,6 +344,9 @@ interface
           fileDirUMask : dword;
           fileLocalPwd : Pchar;
           fileLDescString : Pchar;
+          nodelistCount : dword;
+          nodelists : Ps_nodelist;
+          fidoUserList : Pchar;
        end;
      Ps_fidoconfig = ^s_fidoconfig;
 

@@ -226,6 +226,20 @@ struct remap {
 };
 typedef struct remap s_remap;
 
+/* FTS5000 is the standard nodelist format,
+   POINTS24 is the German Pointlist format */         
+
+enum nodelistFormat { fts5000, points24 };
+
+struct nodelist {
+   char *nodelistName;        /* name of unpacked nodelist w/o path */
+   char *diffUpdateStem;      /* with pathname */
+   char *fullUpdateStem;      /* with pathname */
+   unsigned int defaultZone;
+   int format;
+};
+typedef struct nodelist s_nodelist;
+
 struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop;
@@ -309,7 +323,11 @@ struct fidoconfig {
    unsigned int fileFileUMask, fileDirUMask;
 
    char     *fileLocalPwd, *fileLDescString;
-   
+
+   unsigned int nodelistCount;
+   s_nodelist *nodelists;
+
+   char     *fidoUserList; /* without path name - is in nodelistDir */
 };
 
 

@@ -98,7 +98,6 @@ a comment and will be ignored.
 * public::                      path for requestable files
 * logfiledir::                  path for log files
 * dupehistorydir::              path for dupe files
-* nodelistdir::                 path for nodelists
 * magic::                       path for magic-file requests
 * lockfile::                    file which lock hpt session
 
@@ -134,6 +133,16 @@ a comment and will be ignored.
 * pause::                       don't export mail for this link
 * arcmailsize::			size of arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
+
+* nodelistdir::                 path for nodelists
+* fidouserlist::                name of compiled fido user list file
+
+* nodelist::                    adding a nodelist definition
+* diffupdate::                  where nodediffs for this nodelist can be found
+* fullupdate::                  where complete updates for the nodelist are
+* defaultzone::                 specifying a zone number for a nodelist
+* nodelistformat::              is it a nodelist or a pointlist?
+
 
 * netmailarea::                 definition of netmailarea
 * badarea::                     definition of badarea
@@ -550,7 +559,7 @@ be stored.
 
 This statement cannot be repeated.
 
-@node dupehistorydir, nodelistdir, logfiledir, Keywords
+@node dupehistorydir, magic, logfiledir, Keywords
 @subsection dupeHistoryDir
 @table @asis
 @item Syntax:
@@ -564,22 +573,8 @@ The format and the names of the dupe-files are not standardized.
 
 This statement cannot be repeated.
 
-@node nodelistdir, magic, dupehistorydir, Keywords
-@subsection nodelistDir
-@table @asis
-@item Syntax:
-@code{nodelistDir <path>}
-@item Example:
-@code{nodelistDir /var/spool/fido/nodelist}
-@end table
 
-This command specifies the path where the actual nodelists are or should
-be written to.
-This path contains the raw nodelist as well as the compiled ones.
-
-This statement cannot be repeated.
-
-@node magic, lockfile, nodelistdir, Keywords
+@node magic, lockfile, dupehistorydir, Keywords
 @subsection magic
 @table @asis
 @item Syntax:
@@ -1085,7 +1080,7 @@ Stop export echomail for this link.
 maximum arcmail size in kb for this link.
 default is 500kb.
 
-@node allowEmptyPktPwd, netmailarea, arcmailsize, Keywords
+@node allowEmptyPktPwd, nodelistdir, arcmailsize, Keywords
 @subsection allowEmptyPktPwd
 @table @asis
 @item Syntax:
@@ -1113,7 +1108,133 @@ The setting @code{on} works like the @code{secure} setting, with the
 difference that packets without packet passwords are allowed even in the
 unprotected inbound directory. It is not recommended to use this setting.
 
-@node netmailarea, badarea, allowEmptyPktPwd, Keywords
+
+@node nodelistdir, fidouserlist, allowEmptyPktPwd, Keywords
+@subsection nodelistDir
+@table @asis
+@item Syntax:
+@code{nodelistDir <path>}
+@item Example:
+@code{nodelistDir /var/spool/fido/nodelist}
+@end table
+
+This command specifies the path where the actual nodelists are or should
+be written to. This path contains the raw nodelist (@pxref{nodelist}). Also,
+compiled nodelists like the @file{FIDOUSER.LST} will be stored here.
+
+This statement cannot be repeated.
+
+@node fidouserlist, nodelist, nodelistdir, Keywords
+@subsection fidoUserList
+@table @asis
+@item Syntax:
+@code{fidoUserList <filename>}
+@item Example:
+@code{fidoUserList fidouser.lst}
+@end table
+
+If this keyword is present, the nodelist compiler (e.g. @code{ulc}) is
+instructed to build a user list file with the given filename in the nodelist
+directory (@pxref{nodelistdir}). This is a simple text file with fixed line
+length that contains user names (nodes, points) and their corresponding node
+or pointnumbers. The file is sorted alphabetically by user name (case
+insensitive), so that it can be bsearched to implement a quick node numer
+lookup functinality. The fido user list file format is understood by
+@code{msged}, for example.
+
+@node nodelist, diffupdate, fidouserlist, Keywords
+@subsection nodelist
+@table @asis
+@item Syntax:
+@code{Nodelist <name>}
+@item Example:
+@code{Nodelist nodelist} or @code{Nodelist points24}
+@end table
+
+This statement starts a new nodelist definition. All the following
+nodelist-related stamtements change the configuration of this nodelist until
+a new @code{nodelist} statement is found.
+
+The name that you specify must match the base name (without extension and
+without pathname) of the raw, unpacked, nodelist file. The husky tools
+@code{ulc} and @code{nlupdate} math the file name case-insensitively, but
+other tools may need the exact spelling. The raw nodelist file is
+expected to reside in the nodelist directory (@pxref{nodelistdir}).
+
+@node diffupdate, fullupdate, nodelist, Keywords
+@subsection diffupdate
+@table @asis
+@item Syntax:
+@code{DiffUpdate <path_and_basname>}
+@item Example:
+@code{DiffUpdate /var/spool/filebase/nodediff/nodediff}
+@end table
+
+Here you can specify the base filename of nodelist difference files
+(nodediffs) that are used to keep the corresponding nodelist up to date. The
+argument to the DiffUpdate is the full file name with path of a difference
+file, without the file extension. For example, if you have a file area at
+@file{/var/spool/filebase/24000}, where your ticker places the updates for
+the German Pointlist, and those update files are called @file{points24.a26},
+@file{points24.a33}, and so on, you would use
+
+@example
+DiffUpdate /var/spool/filebase/24000/points24
+@end example
+
+The @code{Diffupdate} keyword is used by @code{nlupdate}, for example. The
+nodelist updater will unpack the difference file (if it is archived, of
+course, unpacked diffs are also supported), apply the diff to the
+corresponding nodelist, and delete the temporary unpacked diff again.
+
+
+@node fullupdate, defaultzone, diffupdate, Keywords
+@subsection fullupdate
+@table @asis
+@item Syntax:
+@code{FullUpdate <path_and_basname>}
+@item Example:
+@code{FullUpdate /var/spool/filebase/nodelist/nodelist}
+@end table
+
+This statement works like @code{DiffUpdate} (@pxref{diffupdate}). The
+difference is that here you don't specify the location of a nodelist
+difference file, but the locations where complete nodelist files/archives can
+be found. Some othernets do not (regularly) distribute a nodediff file, but
+just hatch a new nodelist every few weeks. In this case, you need the
+@code{FullUpdate} statement.
+
+@node defaultzone, nodelistformat, fullupdate,Keywords
+@subsection defaultzone
+@table @asis
+@item Syntax:
+@code{DefaultZone <zone>}
+@item Example:
+@code{DefaultZone 2}
+@end table
+
+Some nodelist files do not start with a @samp{Zone} entry. This is the case
+for the German Points24 list, for example, but could also happen for
+othernets that only have one zone. In this case, you can use the
+@code{DefaultZone} keyword to specify the default zone number for all nodes
+listed in this nodelist.
+
+@node nodelistformat, netmailarea, defaultzone, Keywords
+@subsection nodelistformat
+@table @asis
+@item Syntax:
+@code{Nodelistformat <format>}
+@item Example:
+@code{NodelistFormat standard} or @code{NodelistFormat Points24}
+@end table
+
+Here you can specify the format of the unpacked nodelist. The default is
+@samp{standard}; this is the normal Fidonet nodelist format. You can also
+specify @samp{points24}, which is needed for the nodelist compiler to
+recognise a point list in the German points24 format as such, so that it can
+see the proper 5D point numbers instead of the fakenet numbers.
+
+@node netmailarea, badarea, nodelistformat, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:

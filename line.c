@@ -901,6 +901,25 @@ int parseLink(char *token, s_fidoconfig *config)
    return 0;
 }
 
+int parseNodelist(char *token, s_fidoconfig *config)
+{
+   if (token == NULL) {
+      printf("Line %d: There is a name missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   config->nodelists = realloc(config->nodelists, sizeof(s_nodelist)*(config->nodelistCount+1));
+   memset(&(config->nodelists[config->nodelistCount]), 0, sizeof(s_nodelist));
+   config->nodelists[config->nodelistCount].nodelistName =
+     (char *) malloc (strlen(token)+1);
+   strcpy(config->nodelists[config->nodelistCount].nodelistName, token);
+
+   config->nodelists[config->nodelistCount].format = fts5000;
+
+   config->nodelistCount++;
+   return 0;
+}
+
 int parseExport(char *token, char **export) {
     if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
@@ -1455,9 +1474,30 @@ int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
    return 0;
 }
 
+int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
+{
+  if (token  == NULL) {
+    printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
+
+  if (stricmp(token, "fts5000") == 0 || stricmp(token, "standard") == 0)
+    nodelist->format = fts5000;
+  else if (stricmp(token, "points24") == 0)
+    nodelist->format = points24;
+  else return 2;
+
+  return 0;
+}
+
 void printLinkError()
 {
   printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
+}
+
+void printNodelistError()
+{
+  printf("Line %d: You must define a nodelist first before you use %s!\n", actualLineNr, actualKeyword);
 }
 
 int parseLine(char *line, s_fidoconfig *config)
@@ -1737,6 +1777,53 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
    else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
    else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
+   else if (stricmp(token, "fidouserlist") ==0)
+     rc = copyString(getRestOfLine(), &(config->fidoUserList));
+   else if (stricmp(token, "nodelist") ==0)
+     rc = parseNodelist(getRestOfLine(), config);
+   else if (stricmp(token, "diffupdate") ==0) {
+      rc = 0;
+      if (config->nodelistCount > 0) {
+        rc = copyString(getRestOfLine(),
+                &(config->nodelists[config->nodelistCount-1].diffUpdateStem));
+      }
+      else {
+	printNodelistError();
+	rc = 1;
+      }
+   }
+   else if (stricmp(token, "fullupdate") ==0) {
+      rc = 0;
+      if (config->nodelistCount > 0) {
+        rc = copyString(getRestOfLine(),
+                &(config->nodelists[config->nodelistCount-1].fullUpdateStem));
+      }
+      else {
+	printNodelistError();
+	rc = 1;
+      }
+   }
+   else if (stricmp(token, "defaultzone") ==0) {
+      rc = 0;
+      if (config->nodelistCount > 0) {
+        rc = parseUInt(getRestOfLine(),
+                &(config->nodelists[config->nodelistCount-1].defaultZone));
+      }
+      else {
+	printNodelistError();
+	rc = 1;
+      }
+   }
+   else if (stricmp(token, "nodelistformat") ==0) {
+     if (config->nodelistCount > 0) {
+      rc = parseNodelistFormat(getRestOfLine(), config,
+                               &(config->nodelists[config->nodelistCount-1]));
+     }
+     else {
+       printNodelistError();
+       rc = 1;
+     }
+   }
 
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
 

@@ -232,7 +232,6 @@ int main() {
       if (config->outbound != NULL) printf("Outbound: %s\n", config->outbound);
       if (config->tempOutbound != NULL) printf("tempOutbound: %s\n", config->tempOutbound);
       for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->publicDir[i]);
-      if (config->nodelistDir != NULL) printf("NodelistDir: %s\n", config->nodelistDir);
       if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir: %s\n", config->dupeHistoryDir);
       if (config->logFileDir != NULL) printf("LogFileDir: %s\n", config->logFileDir);
       if (config->msgBaseDir != NULL) printf("MsgBaseDir: %s\n", config->msgBaseDir);
@@ -341,11 +340,49 @@ int main() {
          }
       }
 
+      printf("\n=== NODELIST CONFIG ===\n");
+      if (config->nodelistDir != NULL)
+        {
+          printf("NodelistDir: %s\n", config->nodelistDir);
+        }
+      if (config->fidoUserList != NULL)
+        {
+          printf("Fidouser List File: %s\n", config->fidoUserList);
+        }
+      printf("-------\n");
+
+      for (i = 0; i < config->nodelistCount; i++)
+        {
+          printf("Nodelist %s\n", config->nodelists[i].nodelistName);
+          if (config->nodelists[i].diffUpdateStem != NULL)
+            printf("Nodediff Update File %s\n",
+                   config->nodelists[i].diffUpdateStem);
+          if (config->nodelists[i].fullUpdateStem != NULL)
+            printf("Full Nodelist Update File %s\n",
+                   config->nodelists[i].fullUpdateStem);
+          if (config->nodelists[i].defaultZone != 0)
+            printf("Zone Number %d\n",
+                   config->nodelists[i].defaultZone);
+          switch (config->nodelists[i].format)
+            {
+            case fts5000:
+              printf ("Standard nodelist format\n");
+              break;
+            case points24:
+              printf ("Points24 nodelist format\n");
+              break;
+            default:
+              printf ("Unknown nodelist format???\n");
+              break;
+            }
+          printf("-------\n");
+        }
+
       printf("\n=== PACK CONFIG ===\n");
       for (i = 0; i < config->packCount; i++) {
          printf("Packer: %s      Call: %s\n", config->pack[i].packer, config->pack[i].call);
       }
-	  if (config->defarcmailSize!=0) printf("\nDefault Arcmail Size - %u kb\n",config->defarcmailSize);
+      if (config->defarcmailSize!=0) printf("\nDefault Arcmail Size - %u kb\n",config->defarcmailSize);
       printf("\n=== UNPACK CONFIG ===\n");
       for (i = 0; i < config->unpackCount; i++) {
          printf("UnPacker:  Call: %s Offset %d Match code ", config->unpack[i].call, config->unpack[i].offset);
@@ -357,8 +394,8 @@ int main() {
          printf("\n");
       }
 	  
-	  if (config->beforePack) printf("Before Pack - \"%s\"\n",config->beforePack);
-	  if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
+      if (config->beforePack) printf("Before Pack - \"%s\"\n",config->beforePack);
+      if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
 
       if (config->ReportTo) printf("ReportTo\t%s\n", config->ReportTo);
       disposeConfig(config);
