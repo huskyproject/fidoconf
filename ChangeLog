@@ -1,3 +1,29 @@
+2002-07-13 Saturday 18:52  stas
+
+	* doc/makefile.unx (1.1): file makefile.unx was initially added on
+	branch fidoconf-0_14-stable.
+
+2002-07-13 Saturday 18:52  stas
+
+	* doc/makefile.cyg (1.1): file makefile.cyg was initially added on
+	branch fidoconf-0_14-stable.
+
+2002-07-13 Saturday 18:52  stas
+
+	* doc/makefile.bsd (1.1): file makefile.bsd was initially added on
+	branch fidoconf-0_14-stable.
+
+2002-07-13 Saturday 18:52  stas
+
+	* doc/: makefile.bsd (1.1.2.1), makefile.cyg (1.1.2.1),
+	makefile.lnx (1.1.6.1), makefile.unx (1.1.2.1): makefiles for
+	building documentation for *BSD and Cygwin
+
+2002-07-13 Saturday 18:50  stas
+
+	* doc/proposal.texi (1.134.2.1): Add description for tokens:
+	localarea, bbsarea and filearea. (MFC)
+
 2002-07-07 Sunday 11:57  pavel.gulchouck
 
 	* common.c (1.86.2.1): Save modification time in move_file() and
