@@ -537,6 +537,9 @@ typedef struct fidoconfig {
    unsigned int perlSupport;
    unsigned int packNetMailOnScan;
    unsigned int quickAreaSearch;
+
+   char**   uuEGrp; // uueEchoAreaGroups;
+   unsigned int numuuEGrp;
     
 } s_fidoconfig, *ps_fidoconfig;
 

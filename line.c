@@ -2065,6 +2065,14 @@ int parseFileEchoFlavour(char *line, e_flavour *flavour)
   return 0;
 }
 
+int parseUUEechoAreas(char *token, char **grp[], unsigned int *count) {
+
+    *grp = srealloc(*grp, sizeof(char*)*(*count+1));
+    (*grp)[*count] = sstrdup(token);
+    (*count)++;
+    return 0;
+}
+
 int parseGrp(char *token, char **grp[], unsigned int *count) {
 	char *tok;
 
@@ -3911,6 +3919,10 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_QUICKAREASEARCH:
             rc = parseBool(getRestOfLine(), &(config->quickAreaSearch));
             break;
+        case ID_UUEECHOGROUP:
+            rc = parseUUEechoAreas(getRestOfLine(), &(config->uuEGrp), &(config->numuuEGrp));
+            break;
+
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

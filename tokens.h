@@ -263,7 +263,8 @@ enum {
     ID_IDLEPASSTHRUTIMEOUT,
     ID_KILLEDREQUESTTIMEOUT,
     ID_PACKNETMAILONSCAN,
-    ID_QUICKAREASEARCH
+    ID_QUICKAREASEARCH,
+    ID_UUEECHOGROUP
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -506,6 +507,7 @@ token_t parseline_tokens[] =
     { "ticpwd", ID_TICPWD },
     { "tossingext", ID_TOSSINGEXT },
     { "unpack", ID_UNPACK },
+    { "uueechogroup", ID_UUEECHOGROUP },
     { "version", ID_VERSION },
     { "writeonly", ID_WRITEONLY },
     { NULL, -1 }
