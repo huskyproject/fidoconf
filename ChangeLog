@@ -1,3 +1,12 @@
+2001-07-08 Sunday 20:57  joerg.jaspert
+
+	* debian/: changelog (1.9), libfidoconf0.files (1.2), rules (1.6),
+	shlibs (1.3): Rebuild, its 0.12 now.
+
+2001-07-08 Sunday 20:45  joerg.jaspert
+
+	* debian/huskymak.cfg (1.8): Enabled Perl for Debian Packages
+
 2001-07-03 Tuesday 15:40  ml
 
 	* fidoconf.c (1.50), fidoconf.h (1.74), line.c (1.256),
