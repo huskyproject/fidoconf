@@ -44,7 +44,7 @@
 #   include <strings.h>
 #endif /* HAS_STRINGS_H */
 
-#define DLLEXPORT
+#define DLLIMPORT
 #include <huskylib/huskyext.h>
 #include <smapi/msgapi.h>
 
