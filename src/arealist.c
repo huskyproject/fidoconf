@@ -272,18 +272,22 @@ static char *addchars(char *text, char c, int count, int *pos, int *tlen)
 
 static char *find_grpdesc(char *grp) {
   register int i;
+  char *ddef;
   if (*grp == 0) return NULL;
+  ddef = NULL;
   for (i = 0; i < config->groupCount; i++) {
     if ( strcmp(grp, config->group[i].name) == 0 ) return config->group[i].desc;
+    else if (*config->group[i].name == '*') ddef = config->group[i].desc;
   }
-  return NULL;
+  if (ddef) return ddef;
+    else return "*** Other areas"/* NULL*/;
 }
 
 char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int grps)
 {
 	char *text;
 	char *p;
-	char *cgrp = NULL;
+	char *cgrp = NULL, *cgrpdesc = NULL;
 	int i;
 	int clen,wlen;
 	int tlen;
@@ -306,10 +310,11 @@ char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int grps)
 	/* val: add group description */
 	if ( grps && (!cgrp || strcmp(cgrp, al->areas[i].grp) != 0) ) {
 		char *dgrp = find_grpdesc(al->areas[i].grp);
-		if (dgrp) {
+		if (dgrp && dgrp != cgrpdesc) {
 			if (cgrp) { text[tpos++] = '\r'; text[tpos] = 0; }
 			if ( (text = addline(text, dgrp, &tpos, &tlen)) == NULL ) return NULL;
 			text[tpos++] = '\r'; text[tpos++] = '\r'; text[tpos] = 0;
+			cgrpdesc = dgrp;
 		}
 		cgrp = al->areas[i].grp;
 	}
