@@ -74,16 +74,6 @@ endif
 clean: commonclean
 	-$(RM) $(RMOPT) so_locations
 	(cd doc && $(MAKE) clean)
-ifeq ($(DEBIAN), 1)
-	-rm -f configure-stamp
-	-rm -f build-stamp
-	-rm -rf debian/fidoconf
-	-rm -f debian/postinst.debhelper
-	-rm -f debian/postrm.debhelper
-	-rm -f debian/prerm.debhelper
-	-rm -f debian/substvars
-	-rm -f debian/files
-endif
 
 distclean: commondistclean
 	-$(RM) $(RMOPT) $(LIBFIDOCONFIG).so.$(VER)
@@ -105,16 +95,11 @@ endif
 ifeq ($(DYNLIBS), 1)
 instdyn: $(LIBFIDOCONFIG).so.$(VER)
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBDIR)
-ifneq ($(DEBIAN), 1)
-# Not for Debian-Pakets ! This builds symlinks with FULL Path, thats bad.
-# Debian-Pakets just need the Link without a path. I made it in debian/rules
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.$(VER) \
           $(LIBDIR)/$(LIBFIDOCONFIG).so.0
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.0 $(LIBDIR)/$(LIBFIDOCONFIG).so
-# Calling ldconfig while building a .deb is bad. Unneccessary.
 ifneq (~$(LDCONFIG)~, ~~)
 	$(LDCONFIG)
-endif
 endif
 
 else
