@@ -1,4 +1,6 @@
-/* This file lists all fidoconfig keywords.
+/* $id$
+
+   This file lists all fidoconfig keywords.
 
    New keywords can be added to fidoconfig as follows:
    1. Define an ID for the keyword in the following enum. Place the new
@@ -264,7 +266,8 @@ enum {
     ID_PACKNETMAILONSCAN,
     ID_UUEECHOGROUP,
     ID_TICKERPACKTOBOX,
-    ID_LINKFILEBASEDIR
+    ID_LINKFILEBASEDIR,
+    ID_SENDMAILCMD
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -494,6 +497,7 @@ token_t parseline_tokens[] =
     { "semadir", ID_SEMADIR },
     { "separatebundles", ID_SEPARATEBUNDLES },
     { "sessionpwd", ID_SESSIONPWD },
+    { "sendmailcmd", ID_SENDMAILCMD },
     { "setconsoletitle", ID_SETCONSOLETITLE },
     { "splitdirs", ID_SPLITDIRS },
     { "statlog", ID_STATLOG },
@@ -512,5 +516,3 @@ token_t parseline_tokens[] =
     { "writeonly", ID_WRITEONLY },
     { NULL, -1 }
 };
-
-

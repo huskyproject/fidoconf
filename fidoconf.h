@@ -1,3 +1,4 @@
+/* $Id$ */
 /******************************************************************************
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
@@ -556,6 +557,9 @@ typedef struct fidoconfig {
 
    char**   uuEGrp; // uueEchoAreaGroups;
    unsigned int numuuEGrp;
+
+   /* for emailpkt */
+   char *sendmailcmd;   /* send e-mail command line*/
     
 } s_fidoconfig, *ps_fidoconfig;
 

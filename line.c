@@ -1,3 +1,4 @@
+/* $Id$ */
 /******************************************************************************
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
@@ -2785,6 +2786,23 @@ int parseKludgeAreaNetmailType(char *line, e_kludgeAreaNetmail *value)
   return 0;
 }
 
+int parseSendMailCmd( char *line, char *sendMailCmd )
+{
+  if (!line)
+  {
+    prErr("Parameter missing after %s!", actualKeyword);
+    return 1;
+  }
+
+  if (*sendMailCmd) {
+    prErr("sendMailCmd redefinition!");
+    return 2;
+  }
+
+  sendMailCmd = sstrdup(line);
+  return 0;
+}
+
 int parseEmailEncoding(char *line, e_emailEncoding *value)
 {
   char *iLine;
@@ -3924,6 +3942,9 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_UUEECHOGROUP:
             rc = parseUUEechoAreas(getRestOfLine(), &(config->uuEGrp), &(config->numuuEGrp));
+            break;
+        case ID_SENDMAILCMD:
+            rc = parseSendMailCmd( getRestOfLine(), &(config->sendmailcmd) );
             break;
 
         default:
