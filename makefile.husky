@@ -15,6 +15,13 @@ CDEFS=-D$(OSTYPE) $(ADDCDEFS) -DCFGDIR=\"$(CFGDIR)\"
 
 LOPT = -L. -L$(LIBDIR)
 
+ifneq ($(OSTYPE), UNIX)
+  LIBPREFIX=
+else
+  LIBPREFIX="lib"
+endif
+
+
 # filename settings
 ifeq ($(SHORTNAMES), 1)
   FIDOCONFIG     = fidoconf
@@ -33,7 +40,7 @@ else
   FCONF2FIDOGATE = fconf2fidogate
   FCONF2SQUISH = fconf2squish
   FECFG2FCONF = fecfg2fconf
-  LIBFIDOCONFIG = libfidoconfig
+  LIBFIDOCONFIG = $(LIBPREFIX)fidoconfig
 endif
 
 LINKSMAPI = -lsmapi
@@ -94,4 +101,6 @@ install: commonlibs commonprogs instdyn
 	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/$(FIDOCONFIG)
+	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
+
 
