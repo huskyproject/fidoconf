@@ -157,7 +157,7 @@ FCONF_EXT char   *stripLeadingChars(char *str, const char *chr);
   FZ:     all trailing characters which are in chr are deleted.
           str is changed and returned (not reallocated, simply shorted).
 */
-char *stripTrailingChars(char *str, const char *chr);
+FCONF_EXT char *stripTrailingChars(char *str, const char *chr);
 
 
 #define stripRoundingChars(str,chrs) (stripTrailingChars(stripLeadingChars((str),(chrs)),(chrs)))
