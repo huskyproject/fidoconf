@@ -162,6 +162,21 @@ typedef unsigned long      ULONG;               // 4 byte
 typedef          void       VOID;
 #endif
 
+#if defined(__hpux)
+typedef          char       CHAR;               // 1 byte
+typedef unsigned char      UCHAR;               // 1 byte
+typedef          short      INT16;              // 2 byte
+typedef unsigned short     UINT16;              // 2 byte
+typedef          int        INT32;              // 4 byte
+typedef unsigned int       UINT32;              // 4 byte
+// --------------------------------------------------------------------------
+typedef          int        INT;                // 4 byte
+typedef unsigned int       UINT;                // 4 byte
+typedef          long       LONG;               // 4 byte
+typedef unsigned long      ULONG;               // 4 byte
+typedef          void       VOID;
+#endif
+
 // the Borland compiler family - valid for DOS, OS/2 and Win32 versions
 
 #if defined(__BORLANDC__)
