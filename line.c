@@ -2840,7 +2840,6 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
    }
 
    copyString(token, &(cb->areaName));
-   printf("carbonextern paramaters: <%s>\n",token);
    cb->extspawn = 1;
    cb->move = 0;
    _carbonrule=CC_AND;
