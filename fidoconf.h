@@ -50,10 +50,10 @@ extern "C" {
 #           define FCONF_EXT __declspec(dllexport)
 #       endif /* _FCONF_EXT */
 #   else
-#       define FCONF_EXT
+#       define FCONF_EXT extern
 #   endif
 #else
-#   define FCONF_EXT
+#   define FCONF_EXT extern
 #endif
 
 #define MSGTYPE_PASSTHROUGH 0x04
