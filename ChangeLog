@@ -1,3 +1,18 @@
+2002-07-06 Saturday 23:25  pavel.gulchouck
+
+	* common.c (1.87): save modification time in copy_file() and
+	move_file()
+
+2002-07-06 Saturday 17:59  stas
+
+	* fidoconf.h (1.127), line.c (1.311): Mandatory now disallow
+	unsubscribe only; Manual disallow subscribe
+
+2002-07-06 Saturday 17:57  stas
+
+	* log.h (1.8): Add log levels: LL_EMAIL, LL_DEBUGA, LL_DEBUGB;
+	LL_BOX is alias for LL_FILEBOX
+
 2002-07-05 Friday 23:47  stas
 
 	* line.c (1.310): Implement quoted Origin; for empty origin use
