@@ -27,11 +27,16 @@
  * You should have received a copy of the GNU Library General Public
  * License along with this library; see file COPYING. If not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *****************************************************************************/
+ *****************************************************************************
+ *   $Id$
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include "fidoconf.h"
 #include "xstr.h"
@@ -459,7 +464,26 @@ void checkLogic(s_fidoconfig *config) {
 				exit(-1);
 			}
 		}
-	}	
+		/* Check file permissions */
+		if (config->links[i].autoAreaCreateFile){
+			k = open( config->links[i].autoAreaCreateFile, O_RDWR | O_APPEND );
+			if( k<0 ){
+				printf( "ERROR: link %s AutoAreaCreateFile '%s': %s\n",
+					aka2str(config->links[i].hisAka),
+					config->links[i].autoAreaCreateFile,
+					strerror(errno) );
+				exit(-1);
+			}else close(k);
+			k = open( config->links[i].autoFileCreateFile, O_RDWR | O_APPEND );
+			if( k<0 ){
+				printf( "ERROR: link %s AutoFileCreateFile '%s': %s\n",
+					aka2str(config->links[i].hisAka),
+					config->links[i].autoFileCreateFile,
+					strerror(errno) );
+				exit(-1);
+			}else close(k);
+		}
+	}
 
 	for (i=0; i<config->echoAreaCount; i++) {
 
