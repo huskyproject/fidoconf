@@ -157,7 +157,7 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       if (link.forwardRequests != 0)
 	fprintf(f, "forwardRequests     on\n");
       if (link.fReqFromUpLink != 0)
-	fprintf(f, "fReqFromUpLink      on\n");
+	fprintf(f, "fRequestFromUpLink  on\n");
 
       switch (link.forwardPkts) {
       case fSecure:
@@ -329,11 +329,11 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
     switch (area->msgbType)
     {
     case MSGTYPE_SDM:
-	fprintf(f, "Msg                 ");
+	fprintf(f, "-b Msg              ");
 	break;
 	
     case MSGTYPE_SQUISH:
-	fprintf(f, "Squish              ");
+	fprintf(f, "-b Squish           ");
 	break;
 
     case MSGTYPE_PASSTHROUGH:
@@ -403,7 +403,6 @@ void dumpMsgAreas(s_fidoconfig *config, FILE *f)
   {
     dumpMsgArea(&config->netMailAreas[i], "netMailArea        ", f);
   }
-  fprintf(f, "this");
   dumpMsgArea(&config->dupeArea, "dupeArea       ", f);
   dumpMsgArea(&config->badArea, "badArea            ", f);
 

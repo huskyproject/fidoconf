@@ -8,7 +8,6 @@
 - fix "0" groups (to NULL)
 - fix dumping of
   - Unpack
-  - fReqFromUplink
   - netMailArea
   - dupeArea
   - badArea
