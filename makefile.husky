@@ -115,7 +115,7 @@ install: commonlibs ranlib commonprogs instdyn
 	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 ifdef INFODIR
-	(cd doc && $(MAKE) -f makefile.huksy install)
+	(cd doc && $(MAKE) -f makefile.husky install)
 endif
 
 
