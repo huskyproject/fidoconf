@@ -31,7 +31,7 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
    f = fopen(fileName, "w");
    if (f!= NULL) {
 
-      fprintf(f, "Name %s\n\n", config->sysop);
+      fprintf(f, "Name \"%s\"\n\n", config->sysop);
       
       for (i=0; i<config->addrCount; i++)
          fprintf(f, "Address %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);

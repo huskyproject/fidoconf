@@ -30,6 +30,15 @@ char *getRestOfLine() {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
 
+int copyString(char **pmem, char *str, s_fidoconfig *config)
+{
+   if (str==NULL) return 1;
+   
+   *pmem = (char *) malloc(strlen(str)+1);
+   strcpy(*pmem, str);
+   return 0;
+}
+
 int parseVersion(char *token, s_fidoconfig *config)
 {
    char buffer[10], *temp = token;
@@ -61,15 +70,6 @@ int parseVersion(char *token, s_fidoconfig *config)
 
    config->cfgVersionMinor = atoi(buffer);
 
-   return 0;
-}
-
-int copyString(char **pmem, char *str, s_fidoconfig *config)
-{
-   if (str==NULL) return 1;
-   
-   *pmem = (char *) malloc(strlen(str)+1);
-   strcpy(*pmem, str);
    return 0;
 }
 
@@ -394,6 +394,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "logFileDir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
    else if (stricmp(token, "dupeHistoryDir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
    else if (stricmp(token, "nodelistDir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
+   else if (stricmp(token, "msgbasedir")==0) rc = parsePath(getRestOfLine(), &(config->msgBaseDir));
    else if (stricmp(token, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic));
    else if (stricmp(token, "netmailArea")==0) rc = parseArea(*config,getRestOfLine(),&(config->netMailArea));
    else if (stricmp(token, "dupeArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->dupeArea));
@@ -416,7 +417,12 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "ouraka")==0) {
       rc = 0;
       config->links[config->linkCount-1].ourAka = getAddr(*config, getRestOfLine());
-      if (config->links[config->linkCount-1].ourAka == NULL) rc = 1;
+      if (config->links[config->linkCount-1].ourAka == NULL) rc = 2;
+   }
+   else if (stricmp(token, "autoAreaCreate")==0) {
+      rc = 0;
+      if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].autoAreaCreate = 1;
+      else rc = 2;
    }
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));

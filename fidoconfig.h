@@ -16,6 +16,7 @@ struct link {
         *fileFixPwd,
         *bbsPwd;
    char *handle;
+   int  autoAreaCreate;       // 0 if not allowed for autoareacreate
    char *pktFile;             // used only internally by hpt
 };
 typedef struct link s_link;
@@ -84,7 +85,7 @@ struct fidoconfig {
    s_link   *links;
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound;
-   char     *logFileDir, *dupeHistoryDir, *nodelistDir;
+   char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
    char     *magic;
 
    s_area   netMailArea, dupeArea, badArea;
@@ -117,5 +118,9 @@ s_link *getLinkFromAddr(s_fidoconfig, s_addr aka);
 s_addr *getAddr(s_fidoconfig config, char *addr);
 int    existAddr(s_fidoconfig config, s_addr aka);
 s_area *getArea(s_fidoconfig config, char *areaName);
+
+// the following functions are for internal use.
+// Only use them if you really know what you do
+char *readLine(FILE *F);
 
 #endif

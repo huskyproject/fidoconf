@@ -32,6 +32,15 @@ void printArea(s_area area) {
    printf("-------\n");
 }
 
+void printLink(s_link link) {
+   printf("Link: %d:%d/%d.%d@%s (ourAddres %d:%d/%d.%d@%s)\n",
+          link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point, link.hisAka.domain,
+          link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point, link.ourAka->domain);
+   printf("Name: %s\n", link.name);
+   if (link.autoAreaCreate) printf("AutoAreaCreate\n");
+   printf("-------\n");
+}
+
 int main() {
    s_fidoconfig *config = readConfig();
    int i;
@@ -54,7 +63,11 @@ int main() {
       printf("NodelistDir: %s\n", config->nodelistDir);
       printf("DupeHistoryDir: %s\n", config->dupeHistoryDir);
       printf("LogFileDir: %s\n", config->logFileDir);
+      printf("MsgBaseDir: %s\n", config->msgBaseDir);
       printf("Magic: %s\n", config->magic);
+
+      printf("\n=== LINK CONFIG ===\n");
+      for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
       
       printf("\n=== AREA CONFIG ===\n");
       printArea(config->netMailArea);

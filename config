@@ -34,6 +34,9 @@ DupeHistoryDir	/home/mtt/fido/dupes
 NodelistDir	/home/mtt/fido/nodelist
 magic		/home/mtt/fido/magic
 
+msgbDir         /home/mtt/fido/msgb
+autocreate      on
+
 NetmailArea NetmailArea /home/mtt/fido/msgb/netmail 
 BadArea     BadArea     /home/mtt/fido/msgb/bad squish
 DupeArea    DupeArea    /home/mtt/fido/msgb/dupe squish

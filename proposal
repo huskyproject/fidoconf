@@ -2,7 +2,7 @@ LINUX FIDOSOFT PROJECT
 Definition of commonly used configuration files
 
 
-Version: 0.13pre (980809)
+Version: 0.13pre2 (980907)
 Status: proposal
 
 
@@ -30,6 +30,10 @@ the main configuration file should be searched in:
      c/c++ - programs should include a common config.h-file.
      scripts should evaluate $OSTYPE, $OS or any other environment
      variable that indicates the os.
+
+     The configfile must be readable to fidoconfig. If you plan to use
+     the autoareacreate feature the writing process must have write-access
+     to the configfile.
 
 All symbols are _not_ case-sensitiv.
 
@@ -121,6 +125,8 @@ _Keyword definitions_
   #inbound path for listed systems
   localinbound <path>
   #inbound path for local generated mails
+  MsgBaseDir <path>
+  #path where autoareacreated msgbases are stored
   {
   public <path>
   }
@@ -285,7 +291,9 @@ _Keyword definitions_
   [TossGrp {<group>}]
   # group(s) for areaFix
   [BBSGrp {<group>}]
-  # group(s) 
+  # group(s)
+  AutoAreaCreate (on|off)
+  # "on" means link is allowed to create an area
   Packer (zip|tgz|rar|arj|arc....)
   # packer to use for this Link
   }
