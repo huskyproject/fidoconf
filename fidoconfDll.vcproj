@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="fidoconfDll"
-	ProjectGUID="{DAB109A0-41C3-49A6-93D6-A895FD1109E6}"
+	ProjectGUID="{DAB109A0-41C3-49A6-93D6-A895FD1109E7}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
