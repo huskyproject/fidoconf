@@ -1461,7 +1461,7 @@ char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
     char buff[3];
     char *beginOfSuffix;
     char *newFileName=NULL;
-    int  length;
+    size_t  length;
 
     if(!(fileName && newSuffix)){
       w_log( LL_ERR, "changeFileSuffix() illegal call: %s parameter is NULL",

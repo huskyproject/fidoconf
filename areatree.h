@@ -35,7 +35,10 @@
 /* if returns 1 - All Ok                                           */
 /* if returns 0 - we have duplicate definition for area in config  */
 FCONF_EXT   int      RebuildEchoAreaTree(ps_fidoconfig config);
-            void     FreeAreaTree(ps_fidoconfig config);
+            void     FreeAreaTree();
             ps_area  FindAreaInTree(char* areaName);
+
+FCONF_EXT   int      RebuildFileAreaTree(ps_fidoconfig config);
+            ps_filearea  FindFileAreaInTree(char* areaName);
 
 #endif 

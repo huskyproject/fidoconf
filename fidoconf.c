@@ -379,7 +379,7 @@ void setConfigDefaults(s_fidoconfig *config)
    if (config->forwardRequestTimeout==0) config->forwardRequestTimeout = 7;
    if (config->idlePassthruTimeout<0)    config->idlePassthruTimeout   = 4;
    if (config->killedRequestTimeout==0)  config->killedRequestTimeout  = 3;
-   if (   RebuildEchoAreaTree(config) == 0) {
+   if ( RebuildEchoAreaTree(config) == 0 || RebuildFileAreaTree(config) == 0 ) {
       printf("Please correct above error(s) first!\n");
       fflush(stdout);
       exit(EX_CONFIG);
@@ -544,7 +544,7 @@ void disposeConfig(s_fidoconfig *config)
    for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
    nfree(config->localAreas);
 
-   FreeAreaTree(config);
+   FreeAreaTree();
 
    freeArea(config->EchoAreaDefault);
    freeFileArea(config->FileAreaDefault);
@@ -760,16 +760,9 @@ s_area *getNetMailArea(s_fidoconfig *config, char *areaName)
    return (NULL);
 }
 
-s_filearea *getFileArea(s_fidoconfig *config, char *areaName)
+s_filearea *getFileArea(char *areaName)
 {
-   UINT i;
-
-   for (i=0; i < config->fileAreaCount; i++) {
-      if (stricmp(config->fileAreas[i].areaName, areaName)==0)
-         return &(config->fileAreas[i]);
-   }
-
-   return (NULL); /*  if all else fails, return NULL */
+   return FindFileAreaInTree(areaName);
 }
 
 int isLinkOfArea(s_link *link, s_area *area)

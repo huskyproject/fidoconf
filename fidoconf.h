@@ -759,7 +759,7 @@ FCONF_EXT const char *cfgEol();
 char *getConfigFileNameForProgram(char *envVar, char *configName);
 
 int isLinkOfFileArea(ps_link link, ps_filearea area);
-FCONF_EXT ps_filearea getFileArea(ps_fidoconfig config, char *areaName);
+FCONF_EXT ps_filearea getFileArea(char *areaName);
 
 /*  this function can be used to dump config to stdout or to an already opened file. */
 void dumpConfig(ps_fidoconfig config, FILE *f);
