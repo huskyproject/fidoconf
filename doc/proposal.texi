@@ -455,16 +455,16 @@ The log levels are following:
 @item 6 - execute strings
 @item 7 - bundles, pkts, links, freqs, file routing, file attachs, msg packing
 @item 8 - areafix, relink, autocreate
-@item 9 - error messages (critical: exit on error)
+@item 9 - error messages (critical, usually exit on error)
 @item 0 - creation of file-flags
-@item A - (reserved for) trivial error messages (print message and continue execution)
+@item A - trivial error messages (print message and continue execution)
 @item B - warnings & alerts
 @item C - informational messages
-@item D - (reserved for) statistics
+@item D - statistics
 @item E - summary
 @item F - print program name & version
 @item G - message send/sent
-@item H - (reserved for) recoding operations & recoding tables read/write
+@item H - recoding operations & recoding tables read/write
 @item I - Generate or check MSGID
 @item J - Echomail phase
 @item K - Filebox phase
@@ -481,7 +481,7 @@ The log levels are following:
 @item V - reserved
 @item W - reserved
 @item X - Filenames construct
-@item Y - reserved
+@item Y - Link messagebase pass (some phase in hptlink & etc)
 @item Z - debug messages: source lines (functions control points).
 @item a-z - debug messages
 @end table
