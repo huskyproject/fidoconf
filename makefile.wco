@@ -4,7 +4,7 @@ COPT = -oneatx -5
 LIB = wlib
 LIBS = ..\smapi\smapiwco.lib
 
-OBJS =  adcase.obj line.obj fidoconf.obj fc2msged.obj fc2ged.obj fc2aed.obj tparser.obj dirlayer.obj common.obj fc2sq.obj
+OBJS =  adcase.obj line.obj fidoconf.obj fc2msged.obj fc2ged.obj fc2aed.obj tparser.obj dirlayer.obj common.obj fc2sq.obj xstr.obj
 
 .c.obj:
         $(CC) $(CFLAGS) $(COPT) -c $<

@@ -8,6 +8,7 @@ Thu Jun  2 12:04:42 NOVST 2000
 max:
 * fixed fgetsUntil0 function (thanx to Gena Makhomed)
 * added token setConsoleTitle for win32 platform
+* added xstr* functions from hpt
 
 ----- cvs ci ------
 Thu Jun  1 11:51:34 NOVST 2000

@@ -91,10 +91,10 @@ endif
 
 
 $(LIBFIDOCONFIG).so.$(VER): line$(OBJ) common$(OBJ) fidoconf$(OBJ) \
-                            adcase$(OBJ) dirlayer$(OBJ)
+                            adcase$(OBJ) dirlayer$(OBJ) xstr$(OBJ)
 	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
           -o $(LIBFIDOCONFIG).so.$(VER) line$(OBJ) common$(OBJ) \
-          fidoconf$(OBJ) adcase$(OBJ) dirlayer$(OBJ) $(LOPT)
+          fidoconf$(OBJ) adcase$(OBJ) dirlayer$(OBJ) xstr$(OBJ) $(LOPT)
 
 %$(OBJ): %.c
 	$(CC) $(CDEFS) $(COPT) $*.c
@@ -139,6 +139,7 @@ endif
 	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/fidoconf
 	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)/fidoconf
 	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)/fidoconf
+	$(INSTALL) $(IIOPT) xstr.h         $(INCDIR)/fidoconf
 	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/fidoconf
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 ifdef INFODIR
