@@ -37,7 +37,9 @@
 #ifdef __TURBOC__
 #include <dos.h>
 #else
+#ifndef __IBMC__
 #include <unistd.h>
+#endif
 #endif
 
 #if defined ( __WATCOMC__ )
