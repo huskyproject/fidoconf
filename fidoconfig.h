@@ -10,6 +10,12 @@ extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
 extern char wasError;
 
+struct pack {
+   char    *packer;
+   char    *call;
+};
+typedef struct pack s_pack;
+
 struct link {
    s_addr hisAka, *ourAka;
    char *name;
@@ -23,6 +29,7 @@ struct link {
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
    int  AreaFix;              // 0 if not allowed for areafix
    char *pktFile,*packFile;   // used only internally by hpt
+   s_pack *packerDef;
 };
 typedef struct link s_link;
 
@@ -70,12 +77,6 @@ struct unpack {
    char    *call;
 };
 typedef struct unpack s_unpack;
-
-struct pack {
-   char    *packer;
-   char    *call;
-};
-typedef struct pack s_pack;
 
 struct fidoconfig {
    UINT     cfgVersionMajor, cfgVersionMinor;

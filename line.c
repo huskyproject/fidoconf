@@ -315,6 +315,8 @@ int parseLink(char *token, s_fidoconfig *config)
    config->links = realloc(config->links, sizeof(s_link)*(config->linkCount+1));
    memset(&(config->links[config->linkCount]), 0, sizeof(s_link));
    config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
+   // set areafix default to on
+   config->links[config->linkCount].AreaFix = 1;
    strcpy(config->links[config->linkCount].name, token);
 
    // if handle not given use name as handle
@@ -471,11 +473,35 @@ int parseFileName(char *line, char **name) {
 int parseInclude(char *line, s_fidoconfig *config) {
    FILE *f;
 
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
    if ((f=fopen(line, "r")) == NULL) return 1;
 
    parseConfig(f, config);
    fclose(f);
    return 0;
+}
+
+int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
+
+   int i;
+
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   for(i = 0; i < config->packCount; i++)
+      if (stricmp(line, config->pack[i].packer)==0) {
+         (*packerDef) = &(config->pack[i]);
+         return 0;
+      }
+
+   printf("Line %d: Packer %s not found for packerDef statement!\n", actualLineNr, line);
+   return 2;
 }
 
 int parseLine(char *line, s_fidoconfig *config)
@@ -538,7 +564,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "autoCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoCreateDefaults));
    else if (stricmp(token, "AreaFix")==0) {
 	  rc = 0;
-	  if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].AreaFix = 1;
+	  if (stricmp(getRestOfLine(), "off")==0) config->links[config->linkCount-1].AreaFix = 0;
       else rc = 2;
    }
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
@@ -552,6 +578,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "routeMail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
 
    else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
+   else if (stricmp(token, "packerDef")==0) rc = parsePackerDef(getRestOfLine(), config, &(config->links[config->linkCount-1].packerDef));
 
    else if (stricmp(token, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));
    else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));

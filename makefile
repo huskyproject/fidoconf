@@ -1,6 +1,6 @@
 CC = gcc
 AR = ar
-COPT = -g -s -c -fPIC -O2 -Wall -I../smapi -DUNIX
+COPT = -ggdb -s -c -fPIC -O3 -Wall -I../smapi -DUNIX
 VER = 0.3
 LIBDIR = /usr/local/lib
 INSTDIR = $(HOME)/fido

@@ -37,7 +37,11 @@ void printLink(s_link link) {
           link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point, link.hisAka.domain,
           link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point, link.ourAka->domain);
    printf("Name: %s\n", link.name);
-   if (link.autoAreaCreate) printf("AutoAreaCreate\n");
+   if (link.autoAreaCreate) printf("AutoAreaCreate on    ");
+   if (link.AreaFix) printf("AreaFix on\n");
+   if (link.packerDef != NULL) printf("PackerDefault %s\n", link.packerDef->packer);
+   else printf("PackerDefault none\n");
+   
    printf("-------\n");
 }
 
