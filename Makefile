@@ -35,7 +35,7 @@ ifdef DIRSEP
 CDEFS+= -DPATH_DELIM=\'$(DIRSEP)\'
 endif
 
-LOPT = -L. -L$(LIBDIR) -lhuskylib
+LOPT = -L. -L$(LIBDIR) -lhusky
 
 ifneq ($(OSTYPE), UNIX)
 #  LIBPREFIX=
