@@ -1867,6 +1867,8 @@ int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
     nodelist->format = fts5000;
   else if (stricmp(token, "points24") == 0)
     nodelist->format = points24;
+  else if (stricmp(token, "points4d") == 0)
+    nodelist->format = points4d;
   else return 2;
 
   return 0;

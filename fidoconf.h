@@ -253,9 +253,10 @@ typedef struct remap {
 } s_remap, *ps_remap;
 
 /* FTS5000 is the standard nodelist format,
-   POINTS24 is the German Pointlist format */
+   POINTS24 is the German Pointlist format 
+   POINTS4D is a full 4D pointlist (with 3d "boss" entries) */
 
-typedef enum nodelistFormat { fts5000, points24 } e_nodelistFormat;
+typedef enum nodelistFormat { fts5000, points24, points4d } e_nodelistFormat;
 
 typedef struct nodelist {
    char *nodelistName;        /* name of unpacked nodelist w/o path */

@@ -527,6 +527,9 @@ int main(int argc, char **argv) {
             case points24:
               printf ("Points24 nodelist format\n");
               break;
+            case points4d:
+              printf ("Points4D nodelist format\n");
+              break;
             default:
               printf ("Unknown nodelist format???\n");
               break;

@@ -593,8 +593,10 @@ void dumpNodelists(s_fidoconfig *config, FILE *f)
         case points24:
           fprintf (f, "NodelistFormat      Points24\n");
           break;
+	case points4d:
+	  fprintf (f, "NodelistFormat      Points4D\n");
         }
-      fprintf(f, "\n");
+	fprintf(f, "\n");
     }
 }
     
