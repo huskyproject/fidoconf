@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Thu Mar 22 21:04:53 NOVT 2001
+max:
+* readLine() & trimLine() clean up (thanx to Kees Bergwerf)
+
+----- cvs ci ------
 Sun Mar 18 21:54:57 NOVT 2001
 max:
 * fixed fconf2golded: set "0" group if not exist

@@ -37,34 +37,48 @@
 #include "fidoconf.h"
 #include "typesize.h"
 #include "common.h"
+#include "xstr.h"
 
 char *readLine(FILE *f)
 {
    char *line = NULL, temp[81];
-   size_t size = 1024;
+   size_t l_end;
 
-   line = (char *) smalloc(size);
+   line = (char *) smalloc(81);
    if (fgets(line, 81, f) == NULL) {
       free(line);                      // end of file...
       return NULL;
    }
 
+/* remove after 22-Apr-01
    if (line[strlen(line)-1] != '\n') {
      while ((strlen(line) % 80) == 0) {
        if (fgets(temp, 81, f) == NULL) break; // eof encountered
        line = srealloc(line, strlen(line)+strlen(temp)+1);
        strcat(line, temp);
        if (temp[strlen(temp)-1] == '\n') {
-	 temp[strlen(temp)-1] = 0; // kill \n
-	 break;
+		   temp[strlen(temp)-1] = 0; // kill \n
+		   break;
        }
      }
    }
 
    if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = 0;
+*/
+   l_end = strlen(line)-1;
+   if (line[l_end] != '\n') {
+	   while(fgets(temp, 81, f) != NULL) { // not EOF
+		   l_end += strlen(temp);
+		   xstrcat(&line, temp);
+		   if (line[l_end] == '\n') break; // EOL
+       }
+   }
+   line[l_end] = '\0';
+
    return line;
 }
 
+/* remove after 22-Apr-01
 char *trimLine(char *line)
 {
    char *start = line, *temp;
@@ -73,6 +87,16 @@ char *trimLine(char *line)
    temp = (char *) smalloc(strlen(start)+1);
 //   strcpy(temp, start);
    strcpy(temp, striptwhite(start));
+   free(line);
+   return temp;
+}
+*/
+char *trimLine(char *line)
+{
+   char *start = line, *temp=NULL;
+
+   while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
+   xstrcat(&temp, striptwhite(start));
    free(line);
    return temp;
 }
@@ -479,9 +503,7 @@ void disposeConfig(s_fidoconfig *config)
 
    nfree(config->beforePack);
    nfree(config->afterUnpack);
-   /* +AS+ */
    nfree(config->processPkt);
-   /* -AS- */
    nfree(config->areafixSplitStr);
    nfree(config->areafixOrigin);
    nfree(config->fileLocalPwd);
