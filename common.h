@@ -99,11 +99,12 @@ int    fputUINT16(FILE *out, UINT16 word);
   FZ:     fputUINT16 writes word into the stream using the order lowByte, highByte.
 */
 
-INT    fgetsUntil0(UCHAR *str, size_t n, FILE *f);
+INT    fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter);
 /*DOC
   Input:  n-1 chars are read at most.
           str is a buffer with the length n.
           f is a file stream opened for reading.
+		  filter is a string with characters that shoudn't be reading
   Output: fgetsUntil0 returns the number of chars read including the last \0
   FZ:     fgetsUntil0 reads chars into the buffer until eof(f) || n-1 are read || a \0 is encountered.
 */

@@ -250,12 +250,15 @@ int fputUINT16(FILE *out, UINT16 word)
 #endif
 
 
-INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f)
+INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter)
 {
    size_t i;
 
    for (i=0;i<n-1 ;i++ ) {
-      str[i] = (UCHAR)getc(f);
+	   
+	  do {
+		  str[i] = (UCHAR)getc(f);
+	  } while (filter && *filter && str[i] && strchr(filter, str[i]) != NULL);
 
       // if end of file
       if (feof(f)) {
