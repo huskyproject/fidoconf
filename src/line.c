@@ -4695,10 +4695,14 @@ int parseLine(char *line, s_fidoconfig *config)
             }
             break;
         case ID_RULESDIR:
-            rc = parsePath(getRestOfLine(), &(config->rulesDir), NULL);
+            checkRobot();
+            rc = parsePath(getRestOfLine(), &(curRobot->rulesDir), NULL);
             break;
         case ID_NORULES:
-            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->noRules));
+            if (link_robot & 1)
+                rc = parseBool(getRestOfLine(), &(getDescrLink(config)->areafix.noRules));
+            if (link_robot & 2)
+                rc = parseBool(getRestOfLine(), &(getDescrLink(config)->filefix.noRules));
             break;
         case ID_PACKNETMAILONSCAN:
             rc = parseBool(getRestOfLine(), &(config->packNetMailOnScan));

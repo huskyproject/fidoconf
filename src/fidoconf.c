@@ -691,6 +691,7 @@ void disposeConfig(s_fidoconfig *config)
      nfree(config->robot[i]->fromName);
      nfree(config->robot[i]->origin);
      nfree(config->robot[i]->helpFile);
+     nfree(config->robot[i]->rulesDir);
      nfree(config->robot[i]->newAreaRefuseFile);
      nfree(config->robot[i]->autoCreateFlag);
      nfree(config->robot[i]->queueFile);

@@ -212,7 +212,6 @@ int testPathsAndFiles()
   rc+=testpath(config->fileDupeList,"fileDupeList",NULL,NULL );
   rc+=testpath(config->netmailFlag,"netmailFlag",NULL,NULL );
   rc+=testpath(config->reqidxDir,"reqidxDir",NULL,NULL );
-  rc+=testpath(config->rulesDir,"rulesDir",NULL,NULL );
   rc+=testpath(config->seqDir,"seqDir",NULL,NULL );
 
   rc+=testplainfile(config->fidoUserList,"fidoUserList",NULL,NULL );
@@ -276,6 +275,7 @@ int testPathsAndFiles()
   /* robots */
   for (i = 0; i < config->robotCount; i++) {
     rc+=testpath(config->robot[i]->helpFile,"helpFile",NULL,NULL );
+    rc+=testpath(config->robot[i]->rulesDir,"rulesDir",NULL,NULL );
     rc+=testpath(config->robot[i]->newAreaRefuseFile,"newAreaRefuseFile",NULL,NULL );
     rc+=testpath(config->robot[i]->autoCreateFlag,"autoCreateFlag",NULL,NULL );
     rc+=testpath(config->robot[i]->queueFile,"queueFile",NULL,NULL );
@@ -839,7 +839,8 @@ int printLink(ps_link link) {
    printf("netMailFlavour %s\n", cvtFlavour(link->netMailFlavour));
    printf("echoMailFlavour %s\n", cvtFlavour(link->echoMailFlavour));
    printf("fileEchoFlavour %s\n", cvtFlavour(link->fileEchoFlavour));
-   printf("noRules %s\n", (link->noRules) ? "on" : "off");
+   printf("areafixNoRules %s\n", (link->areafix.noRules) ? "on" : "off");
+   printf("filefixNoRules %s\n", (link->filefix.noRules) ? "on" : "off");
    printf("reducedSeenBy %s\n", (link->reducedSeenBy) ? "on" : "off");
    printf("sendNotifyMessages %s\n", (link->sendNotifyMessages) ? "on" : "off");
    printf("allowRemoteControl %s\n", (link->allowRemoteControl) ? "on" : "off");
@@ -871,6 +872,8 @@ int printRobot(ps_robot robot) {
      printf("  robotOrigin %s\n", robot->origin);
    if (robot->helpFile)
      printf("  helpFile %s\n", robot->helpFile);
+   if (robot->rulesDir)
+     printf("  rulesDir %s\n", robot->rulesDir);
    if (robot->newAreaRefuseFile)
      printf("  newAreaRefuseFile %s\n", robot->newAreaRefuseFile);
    if (robot->autoCreateFlag)
@@ -1389,7 +1392,6 @@ int main(int argc, char **argv) {
         if (config->magic) printf("Magic: %s\n", config->magic);
         if (config->semaDir) printf("semaDir:         %s\n", config->semaDir);
         if (config->badFilesDir) printf("BadFilesDir:     %s\n", config->badFilesDir);
-        if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
         if (config->advStatisticsFile) printf("advStatisticsFile:       %s\n", config->advStatisticsFile);
         if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
         if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);

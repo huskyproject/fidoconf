@@ -130,6 +130,7 @@ typedef struct link_robot {
     long reportsAttr;       /* (was: areafixReportsAttr) */
     char *reportsFlags;     /* (was: areafixReportsFlags) */
     unsigned int echoLimit; /* (was: afixEchoLimit) */
+    unsigned int noRules;   /* don't send rules on subscribe */
     unsigned int autoCreate;/*  0 if not allowed for autoareacreate (was: autoAreaCreate) */
     char *autoCreateFile;  /*  file where autocreated areas are written to (was: autoAreaCreateFile) */
     char *autoCreateDefaults;/*  add default string for autocreated area here (was: autoAreaCreateDefaults) */
@@ -209,7 +210,6 @@ typedef struct link {
     unsigned int arcNetmail; /*  1 if pack netmail into arcmail bundles */
     char useFileBox; /*  internal */
     char sb; /*  internal */
-    unsigned int noRules;
     FILE *pkt;  /*  for internal usage */
     unsigned int reducedSeenBy; /*  reduces Seen-BYs (fsc-0093) */
     eAvailList availlist;
@@ -449,6 +449,7 @@ typedef struct robot {
    char *fromName;          /* robot from: name (was: areafixFromName) */
    char *origin;            /* origin line, NULL to disable (was: areafixOrigin) */
    char *helpFile;          /* help file (was: areafixhelp ) */
+   char *rulesDir;          /* directory where area rules reside */
    char *newAreaRefuseFile; /* refuse to create areas from this list */
    char *autoCreateFlag;    /* auto-create flag (was: a[af]cFlag) */
    char *queueFile;         /* queue (was: areafixQueueFile) */
@@ -636,7 +637,6 @@ typedef struct fidoconfig {
    char *fileBoxesDir;
    char *announceSpool;
    char *notValidFNChars;
-   char *rulesDir;
    unsigned int packNetMailOnScan;
 
    char *seqDir;	/* for msgid generation */
