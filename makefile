@@ -33,8 +33,13 @@ tparser: tparser.o fidoconfig.a
 	$(CC) tparser.o -o tparser -lfidoconfig -lsmapilnx
 
 clean:
-	-rm -f *.o
 	-rm *~
+	-rm *.o
+
+distclean: clean
+	-rm tparser fconf2golded fconf2msged
+	-rm libfidoconfig.so.$(VER)
+	-rm fidoconfig.a
 
 install: 
 	cp -f libfidoconfig.so.$(VER) $(LIBDIR)

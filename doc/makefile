@@ -9,7 +9,7 @@ dvi fidoconfig.dvi:  fidoconfig.texi proposal.texi config
 html fidoconfig_toc.html: fidoconfig.texi proposal.texi config
 	texi2html -split_node -number -menu fidoconfig.texi
 
-almostclean:
+clean:
 	-rm *~
 	-rm fidoconfig.fns
 	-rm fidoconfig.aux
@@ -28,7 +28,7 @@ almostclean:
 	-rm fidoconfig.log
 	-rm fidoconfig.fns
 
-clean: almostclean
+distclean: clean
 	-rm fidoconfig.dvi
 	-rm fidoconfig.info
 	-rm fidoconfig*html

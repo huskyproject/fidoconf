@@ -109,7 +109,96 @@ s_fidoconfig *readConfig()
    }
 }
 
+void freeArea(s_area area) {
+	free(area.areaName);
+	free(area.fileName);
+	free(area.rwgrp);
+	free(area.wgrp);
+	free(area.rgrp);
+}
+
 void disposeConfig(s_fidoconfig *config)
+{
+   int i;
+
+   free(config->name);
+   free(config->sysop);
+   free(config->location);
+
+   free(config->addr);
+
+   free(config->public);
+
+   for (i = 0; i< config->linkCount; i++) {
+	   free(config->links[i].hisAka.domain);
+	   free(config->links[i].name);
+	   free(config->links[i].defaultPwd);
+	   free(config->links[i].pktPwd);
+	   free(config->links[i].ticPwd);
+	   free(config->links[i].areaFixPwd);
+	   free(config->links[i].fileFixPwd);
+	   free(config->links[i].bbsPwd);
+	   free(config->links[i].handle);
+	   free(config->links[i].pktFile);
+	   free(config->links[i].packFile);
+	   free(config->links[i].TossGrp);
+	   free(config->links[i].DenyGrp);
+   }
+   free(config->links);
+
+   free(config->inbound);
+   free(config->outbound);
+   free(config->protInbound);
+   free(config->listInbound);
+   free(config->localInbound);
+   free(config->logFileDir);
+   free(config->dupeHistoryDir);
+   free(config->nodelistDir);
+   free(config->msgBaseDir);
+   free(config->magic);
+   free(config->areafixhelp);
+   free(config->autoCreateDefaults);
+
+   freeArea(config->netMailArea);
+   freeArea(config->dupeArea);
+   freeArea(config->badArea);
+   for (i = 0; i< config->echoAreaCount; i++) freeArea(config->echoAreas[i]);
+   free(config->echoAreas);
+   for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
+   free(config->localAreas);
+
+   for (i = 0; i < config->routeCount; i++) free(config->route[i].pattern);
+   free(config->route);
+   for (i = 0; i < config->routeFileCount; i++) free(config->routeFile[i].pattern);
+   free(config->routeFile);
+   for (i = 0; i < config->routeMailCount; i++) free(config->routeMail[i].pattern);
+   free(config->routeMail);
+
+   for (i = 0; i < config->packCount; i++) {
+	   free(config->pack[i].packer);
+	   free(config->pack[i].call);
+   }
+   free(config->pack);
+
+   for (i = 0; i < config->unpackCount; i++) {
+	   free(config->unpack[i].matchCode);
+	   free(config->unpack[i].call);
+   }
+   free(config->unpack);
+
+   free(config->intab);
+   free(config->outtab);
+   free(config->importlog);
+   free(config->echotosslog);
+
+   for (i = 0; i< config->carbonCount; i++) free(config->carbons[i].str);
+   free(config->carbons);
+
+   free(config);
+   config = NULL;
+}
+
+/*void disposeConfig(s_fidoconfig *config)
 {
    free(config->name);
    free(config->sysop);
@@ -122,7 +211,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->echotosslog);
    free(config);
    config = NULL;
-}
+} */
 
 s_link *getLink(s_fidoconfig config, char *addr) {
    s_addr aka;

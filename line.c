@@ -132,7 +132,7 @@ int parsePublic(char *token, s_fidoconfig *config)
       printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
-   config->public = realloc(config->public, sizeof(char *)*config->publicCount);
+   config->public = realloc(config->public, sizeof(char *)*(config->publicCount+1));
 
 #ifdef UNIX
    limiter = '/';
