@@ -245,7 +245,7 @@ int read_fe_sysaddress(SysAddress *a, FILE *fp)
         return -1;
     }
 
-    if (fread(buffer, FE_SYS_ADDRESS_SIZE - FE_ADDRESS_SIZE, 1, fp) != 1)
+    if (fread(pbuf, FE_SYS_ADDRESS_SIZE - FE_ADDRESS_SIZE, 1, fp) != 1)
     {
         return -1;
     }

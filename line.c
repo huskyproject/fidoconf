@@ -2136,8 +2136,9 @@ static char *unquote(char *line)
   {
     if (dest-parsed >= curlen-2)
     {
+      unsigned long idx = dest - parsed;
       newparsed = srealloc(parsed, curlen+=80);
-      dest += newparsed-parsed;
+      dest = newparsed+idx;
       parsed = newparsed;
     }
     switch (*src)
@@ -2213,8 +2214,9 @@ pipefork:
             p1 = src;
           if (dest-parsed+strlen(p1) >= curlen-2)
           {
+            unsigned long idx = dest - parsed;
             newparsed = srealloc(parsed, curlen = dest-parsed+strlen(p1)+80);
-            dest += newparsed-parsed;
+            dest = newparsed+idx;
             parsed = newparsed;
           }
           strcpy(dest, p1);
