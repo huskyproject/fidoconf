@@ -286,7 +286,8 @@ enum {
     ID_FILEAREACREATEPERMS,
     ID_NEWAREAREFUSEFILE,
     ID_REDUCEDSEENBY,
-    ID_AREAFIXFROMNAME
+    ID_AREAFIXFROMNAME,
+    ID_FILEFIXFROMNAME
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -326,6 +327,7 @@ token_t parseline_tokens[] =
     { "areafix", ID_AREAFIX },
     { "areafixecholimit", ID_AREAFIXECHOLIMIT },
     { "areafixfromname", ID_AREAFIXFROMNAME },
+    { "filefixfromname", ID_FILEFIXFROMNAME },
     { "areafixfrompkt", ID_AREAFIXFROMPKT },
     { "areafixhelp", ID_AREAFIXHELP },
     { "areafixkillreports", ID_AREAFIXKILLREPORTS },

@@ -26,6 +26,7 @@ FileAreaDefaults
 FileDescName
 FileEchoFlavour
 FileLDescString
+FileFixFromName
 FileFixHelp
 FileFixKillReports
 FileFixKillRequests

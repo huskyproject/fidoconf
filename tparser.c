@@ -1031,6 +1031,7 @@ int main(int argc, char **argv) {
   	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
   	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
   	  if (config->areafixFromName) printf("areafixFromName - \"%s\"\n", config->areafixFromName);
+  	  if (config->filefixFromName) printf("filefixFromName - \"%s\"\n", config->filefixFromName);
   	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
   	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
   	  if (config->areafixQueueFile) printf("areafixQueueFile: %s\n",config->areafixQueueFile);

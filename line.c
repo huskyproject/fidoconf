@@ -4190,6 +4190,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AREAFIXFROMNAME:
             rc = copyString(getRestOfLine(), &(config->areafixFromName));
             break;
+        case ID_FILEFIXFROMNAME:
+            rc = copyString(getRestOfLine(), &(config->filefixFromName));
+            break;
 
 
         default:
