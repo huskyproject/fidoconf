@@ -35,7 +35,7 @@ LIBFIDOCONFIG = $(LIBPREFIX)fconfibo
 
 default: all
 
-!include makefile.common
+!include makefile.inc
 
 tlib_sup.cmd: tlib_sup.bat
 	copy tlib_sup.bat tlib_sup.cmd

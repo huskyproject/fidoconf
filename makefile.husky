@@ -52,7 +52,7 @@ LINKFIDOCONFIG = -l$(FIDOCONFIG)
 
 default: all
 
-include makefile.common
+include makefile.inc
 
 ifeq ($(CC), gcc)
   $(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(OBJ)

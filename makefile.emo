@@ -33,7 +33,7 @@ default: all
 .SUFFIXES:
 .SUFFIXES: .c .obj
 
-include makefile.common
+include makefile.inc
 
 all: commonlibs commonprogs
 

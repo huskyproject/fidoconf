@@ -35,7 +35,7 @@ LINKFIDOCONFIG = ./$(LIBPREFIX)$(FIDOCONFIG)$(LIB)
 
 default: all
 
-include makefile.common
+include makefile.inc
 
 all: commonlibs commonprogs
 
