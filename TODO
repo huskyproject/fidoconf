@@ -6,6 +6,13 @@
   address, leave them in the netmail area)
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
 - fix "0" groups (to NULL)
+- fix dumping of
+  - Unpack
+  - fReqFromUplink
+  - netMailArea
+  - dupeArea
+  - badArea
+  - echoArea
 
 - dump remaps, bbsareas and fileareas
 - for htick developers (add to doc & tparser):
