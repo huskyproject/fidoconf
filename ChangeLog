@@ -1,3 +1,13 @@
+2002-03-01 Friday 14:12  mche
+
+	* makefile.mvcdll (1.8), makeperl.mvcdll (1.3): makefile updates
+	(change optimization)
+
+2002-03-01 Friday 08:51  ml
+
+	* .cvsignore (1.3), makeperl.mvc (1.4), makeperl.mvcdll (1.2):
+	makefile updates (change optimization)
+
 2002-02-26 Tuesday 07:37  ml
 
 	* crc.h (1.4), makeperl.mvc (1.3), makeperl.mvcdll (1.1), recode.h
