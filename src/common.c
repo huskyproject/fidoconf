@@ -75,44 +75,6 @@
 #include "common.h"
 
 
-int copyString(char *str, char **pmem)
-{
-   if (str==NULL) {
-      printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
-
-   nfree(*pmem);
-   *pmem = (char *) sstrdup (str);
-
-   return 0;
-}
-
-int copyStringUntilSep(char *str, char *seps, char **dest)
-{
-  char *sepPos;
-
-  if ((!str) || (!(*str)))
-  {
-    printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
-    return 0;
-  }
-
-  nfree(*dest);
-  sepPos = strpbrk(str, seps);
-  if (sepPos)
-  {
-    *dest = malloc(sepPos - str + 1);
-    strnzcpy(*dest, str, sepPos - str);
-
-    return (sepPos - str);
-  }
-
-  *dest = (char *) sstrdup(str);
-  return strlen(str);
-}
-
-
 static char *attrStr[] = { "pvt", "crash", "read", "sent", "att",
                        "fwd", "orphan", "k/s", "loc", "hld",
                        "xx2",  "frq", "rrq", "cpt", "arq", "urq" };
