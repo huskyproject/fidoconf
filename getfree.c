@@ -41,6 +41,11 @@
 #include "common.h"
 #include "log.h"
 
+#if defined(__WATCOMC__) /* todo: move this & other 64-bit defines to compiler.h*/
+/* from wtypes.h */
+typedef unsigned __int64 ULONGLONG;
+#endif
+
 ULONG fc_GetDiskFreeSpace (const char *path)
 {
     FARPROC pGetDiskFreeSpaceEx = NULL;
