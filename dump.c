@@ -11,7 +11,8 @@ void dumpString(FILE *f, char *text, char *str)
 
 void dumpHeader(s_fidoconfig *config, FILE *f)
 {
-  fprintf(f, "# This config was created from a memory config by fidoconfig dumpConfigToFile()!\n\n"); 
+  fprintf(f, "commentChar %c\n", config->CommentChar);
+  fprintf(f, "%c This config was created from a memory config by fidoconfig dumpConfigToFile()!\n\n", config->CommentChar);
 
   fprintf(f,    "Version             %u.%02u\n", config->cfgVersionMajor,
 	  config->cfgVersionMinor);
