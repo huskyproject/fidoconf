@@ -1,3 +1,10 @@
+2003-03-18 Tuesday 12:53  val_khokhlov
+
+	* afixcmn.c (1.30), fidoconf.h (1.177), line.c (1.386),
+	makefile.mvc (1.28), makefile.mvcdll (1.28), tparser.c (1.248): new
+	option for *area: -scan; attaches processing changed (only delete
+	path here, seek for files in hpt/scan.c); mvc makefiles fix
+
 2003-03-15 Saturday 20:42  d_sergienko
 
 	* adcase.c (1.14), adcase.h (1.5), crc.c (1.8), crc.h (1.12),
