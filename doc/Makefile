@@ -33,31 +33,31 @@ fidoconfig.info: fidoconfig.texi
 	makeinfo --no-split  fidoconfig.texi
 
 clean:
-	-$(RM) fidoconfig.fns
-	-$(RM) fidoconfig.aux
-	-$(RM) fidoconfig.toc
-	-$(RM) fidoconfig.cp
-	-$(RM) fidoconfig.fn
-	-$(RM) fidoconfig.vr
-	-$(RM) fidoconfig.kr
-	-$(RM) fidoconfig.ke
-	-$(RM) fidoconfig.tp
-	-$(RM) fidoconfig.kes
-	-$(RM) fidoconfig.krs
-	-$(RM) fidoconfig.ky
-	-$(RM) fidoconfig.pg
-	-$(RM) fidoconfig.cps
-	-$(RM) fidoconfig.log
-	-$(RM) fidoconfig.fns
-	-$(RM) *~
+	-$(RM) $(RMOPT) fidoconfig.fns
+	-$(RM) $(RMOPT) fidoconfig.aux
+	-$(RM) $(RMOPT) fidoconfig.toc
+	-$(RM) $(RMOPT) fidoconfig.cp
+	-$(RM) $(RMOPT) fidoconfig.fn
+	-$(RM) $(RMOPT) fidoconfig.vr
+	-$(RM) $(RMOPT) fidoconfig.kr
+	-$(RM) $(RMOPT) fidoconfig.ke
+	-$(RM) $(RMOPT) fidoconfig.tp
+	-$(RM) $(RMOPT) fidoconfig.kes
+	-$(RM) $(RMOPT) fidoconfig.krs
+	-$(RM) $(RMOPT) fidoconfig.ky
+	-$(RM) $(RMOPT) fidoconfig.pg
+	-$(RM) $(RMOPT) fidoconfig.cps
+	-$(RM) $(RMOPT) fidoconfig.log
+	-$(RM) $(RMOPT) fidoconfig.fns
+	-$(RM) $(RMOPT) *~
 
 distclean: clean
-	-$(RM) fidoconfig.dvi
-	-$(RM) fidoconfig.inf
-	-$(RM) fidoconfig*html
-	-$(RM) fidoconfig.ps
-	-$(RM) fidoconfig.doc
-	-$(RM) fidoconfig.info*
+	-$(RM) $(RMOPT) fidoconfig.dvi
+	-$(RM) $(RMOPT) fidoconfig.inf
+	-$(RM) $(RMOPT) fidoconfig*html
+	-$(RM) $(RMOPT) fidoconfig.ps
+	-$(RM) $(RMOPT) fidoconfig.doc
+	-$(RM) $(RMOPT) fidoconfig.info*
 
 install: info html dvi
 	@echo .
@@ -73,6 +73,6 @@ endif
 
 uninstall:
 	-install-info --remove --info-dir=$(INFODIR) $(INFODIR)$(DIRSEP)fidoconfig.info
-	-$(RM) $(INFODIR)$(DIRSEP)fidoconfig.info
-	-$(RM) $(HTMLDIR)$(DIRSEP)fidoconfig*html
+	-$(RM) $(RMOPT) $(INFODIR)$(DIRSEP)fidoconfig.info
+	-$(RM) $(RMOPT) $(HTMLDIR)$(DIRSEP)fidoconfig*html
 
