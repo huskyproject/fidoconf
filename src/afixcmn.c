@@ -52,20 +52,20 @@
 #include "afixcmd.h"
 
 #if 0
-static ULONG DoMakeMSGIDStamp(void)
+static hUINT32 DoMakeMSGIDStamp(void)
 {
-    static ULONG lStampPrev;
-    ULONG lStamp, lSecs, lHund, lSecStart = (ULONG) time(NULL);
+    static hUINT32 lStampPrev;
+    hUINT32 lStamp, lSecs, lHund, lSecStart = (hUINT32) time(NULL);
 
     /*  Make up time stamp out of number of seconds since Jan 1, 1970 */
     /*  shifted 7 bits to the left OR'ed with current system clock and */
     /*  loop untill we get a new stamp */
 
     do {
-        lSecs = (ULONG) time(NULL);
-        lHund = (ULONG) clock();
+        lSecs = (hUINT32) time(NULL);
+        lHund = (hUINT32) clock();
         lStamp = (lSecs << 7) | (lHund & 0x07f);
-    } while ((lStampPrev >= lStamp) && ((ULONG) time(NULL) < lSecStart + 5));
+    } while ((lStampPrev >= lStamp) && ((hUINT32) time(NULL) < lSecStart + 5));
 
     /*  Check if we finally have unique ascending ^aMSGID kludge stamp and */
     /*  if not, use incremented largest stamp value */
@@ -80,7 +80,7 @@ char *createKludges(ps_fidoconfig config, const char *area, const hs_addr *ourAk
                     const hs_addr *destAka, const char* versionStr)
 {
    char *buff = NULL;
-   ULONG msgid = 0;
+   hUINT32 msgid = 0;
 
    if (area) xscatprintf(&buff, "AREA:%s\r", area);
    else {

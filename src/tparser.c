@@ -319,7 +319,7 @@ void printAddr(ps_addr addr)
 }
 
 void printArea(s_area area) {
-   UINT i;
+   unsigned i;
 
    printf("%s \n", area.areaName?area.areaName:"");
    printf("Description: ");
@@ -434,7 +434,7 @@ int printAreaGroup(char *group)
 }
 
 void printFileArea(s_area area) {
-   UINT i;
+   unsigned i;
 
    printf("%s \n", area.areaName);
    printf("Description: %s\n",(area.description) ? area.description : "");
@@ -801,8 +801,8 @@ int printLink(s_link link) {
 
 /*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
-	register UINT i,j;
-	register INT k;
+	register unsigned i,j;
+	register int k;
 	int robotsarea_ok;
 	s_link *link;
 	s_area *area;
@@ -988,7 +988,7 @@ void checkLogic(s_fidoconfig *config) {
 
 void printCarbons(s_fidoconfig *config) {
 
-    UINT i;
+    unsigned i;
     s_carbon *cb;
     char *crbKey="", *nspc, *cbaName, *tempc=NULL;
 
@@ -1169,7 +1169,7 @@ return cvs_date;
 
 int main(int argc, char **argv) {
 /*   s_fidoconfig *config = NULL;  use global variable */
-   UINT i, j, hpt=0, preproc=0, rc=0;
+   unsigned i, j, hpt=0, preproc=0, rc=0;
    int k;
    char *cfgFile=NULL, *module;
    #include "../cvsdate.h"

@@ -618,11 +618,11 @@ struct message {
    hs_addr destAddr, origAddr;
 
 /*    UINT16 attributes; */
-   dword  attributes;
-   UCHAR  datetime[22];
-   CHAR   netMail;
-   INT32  textLength;
-   INT    recode;
+   hINT32 attributes;
+   hUCHAR datetime[22];
+   hCHAR  netMail;
+   hINT32 textLength;
+   int    recode;
 
    char   *toUserName, *fromUserName, *subjectLine;
    char   *text;
@@ -632,20 +632,20 @@ struct pktHeader {
    /* Address block */
    hs_addr destAddr, origAddr;
 
-   UINT16 auxNet;
+   hUINT16 auxNet;
 
    /* product specific */
-   UCHAR  hiProductCode,
-          loProductCode;
-   UCHAR  majorProductRev,
-          minorProductRev;
+   hUCHAR  hiProductCode,
+           loProductCode;
+   hUCHAR  majorProductRev,
+           minorProductRev;
 
    /* date */
    time_t pktCreated;
 
-   UINT16 capabilityWord;
+   hUINT16 capabilityWord;
 
-   UINT32 prodData;
+   hUINT32 prodData;
 
    char  pktPassword[9]; /* password + \0 */
 };

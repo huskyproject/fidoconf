@@ -523,7 +523,7 @@ int parseNumber(char *token, int radix, unsigned *level) {
 
     result = strtoul(token, &end, radix);
 
-    if (!(*end == '\0' && *token != '\0') || result == ULONG_MAX) {
+    if (!(*end == '\0' && *token != '\0') || result == unsigned_long_max) {
 	prErr("Error in number representation : %s . %s!", token, end);
 	return 1;
     }
@@ -535,7 +535,7 @@ int parseNumber(char *token, int radix, unsigned *level) {
 int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 {
 	char buf[6];
-	UINT net=0,node=0,i;
+	unsigned net=0,node=0,i;
 
 	if (token==NULL) {
 		prErr("There is an address missing after %s!", actualKeyword);
@@ -678,10 +678,10 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;     /*  error occured; */
         }
         if(area->areaType == ECHOAREA) {
-            area->purge = il<0? config->EchoAreaDefault.purge : (UINT) il ;
+            area->purge = il<0? config->EchoAreaDefault.purge : (unsigned) il ;
         }
         else if(area->areaType == FILEAREA) {
-            area->purge = il<0? config->FileAreaDefault.purge : (UINT) il ;
+            area->purge = il<0? config->FileAreaDefault.purge : (unsigned) il ;
         }
     }
     else if (strcmp(iOption, "$m")==0) {
@@ -699,7 +699,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
                 nfree(iOption);
                 return 1;     /*  error */
             }
-            area->max = il<0? config->EchoAreaDefault.max : (UINT) il ;
+            area->max = il<0? config->EchoAreaDefault.max : (unsigned) il ;
         }else{
             prErr("Option '-$m' is allowed for echoareas and localareas only!");
             nfree(iOption);
@@ -747,7 +747,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             nfree(iOption);
             return 1;     /*  error occured; */
         }
-        area->levelread = (UINT) il ;
+        area->levelread = (unsigned) il ;
         
         /* if link was added before -lr setting it must be updated */
         for(i=0;i<area->downlinkCount;++i)
@@ -780,7 +780,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             nfree(iOption);
             return 1;     /*  error occured; */
         }
-        area->levelwrite = (UINT) il ;
+        area->levelwrite = (unsigned) il ;
         /* if link was added before -lw setting it must be updated */
         for(i=0;i<area->downlinkCount;++i)
             setLinkAccess( config, area, area->downlinks[i]);
@@ -1036,7 +1036,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             nfree(iOption);
             return 1;
         }
-        area->dupeHistory = (UINT) strtol(token, &error, 0);
+        area->dupeHistory = (unsigned) strtol(token, &error, 0);
         if ((error != NULL) && (*error != '\0')) {
             prErr("Number is wrong after -dupeHistory in areaOptions!");
             nfree(iOption);
@@ -1975,7 +1975,7 @@ int parseHandle(char *token, s_fidoconfig *config) {
 }
 
 int parseRoute(char *token, s_fidoconfig *config, s_route **route,
-			   UINT *count, e_id id) {
+			   unsigned *count, e_id id) {
   char *option;
   char *iOption;
   int  rc = 0;
@@ -2108,7 +2108,7 @@ int parseUnpack(char *line, s_fidoconfig *config) {
     char   *p, *c;
     char   *error;
     s_unpack *unpack;
-    UCHAR  code;
+    unsigned char  code;
     int    i;
 
     if (line == NULL) {
@@ -2156,20 +2156,20 @@ int parseUnpack(char *line, s_fidoconfig *config) {
           return 1;
        };
 
-       unpack->offset = (UINT) strtol(p, &error, 0);
+       unpack->offset = (unsigned) strtol(p, &error, 0);
 
        if ((error != NULL) && (*error != '\0')) {
           prErr("Number is wrong for offset in unpack!");
           return 1;     /*  error occured; */
        }
 
-       unpack->matchCode = (UCHAR *) smalloc(strlen(c) / 2 + 1);
-       unpack->mask      = (UCHAR *) smalloc(strlen(c) / 2 + 1);
+       unpack->matchCode = (unsigned char *) smalloc(strlen(c) / 2 + 1);
+       unpack->mask      = (unsigned char *) smalloc(strlen(c) / 2 + 1);
 
        /*  parse matchcode statement */
        /*  this looks a little curvy, I know. Remember, I programmed this at 23:52 :) */
        for (i = 0, error = NULL; c[i] != '\0' && error == NULL; i++) {
-          code = (UCHAR) toupper(c[i]);
+          code = (unsigned char) toupper(c[i]);
           /*  if code equals to '?' set the corresponding bits  of  mask[] to 0 */
           unpack->mask[i / 2] = i % 2  == 0 ? (code != '?' ? 0xF0 : 0) :
                                 unpack->mask[i / 2] | (code != '?' ? 0xF : 0);

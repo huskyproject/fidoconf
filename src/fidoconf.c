@@ -329,7 +329,7 @@ int carbonNames2Addr(s_fidoconfig *config)
 /* set link-area permissions stored in readOnly[], writeOnly[] */
 void processPermissions (s_fidoconfig *config)
 {
-    UINT i,narea, nalink;
+    unsigned i,narea, nalink;
     ps_area aptr;
     ps_arealink *dlink;
     char *ExclMask;
@@ -742,7 +742,7 @@ s_link *getLink(s_fidoconfig *config, char *addr) {
 
 s_link *getLinkFromAddr(s_fidoconfig *config, hs_addr aka)
 {
-   UINT i;
+   unsigned i;
 
    for (i = 0; i <config->linkCount; i++) {
       if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
@@ -753,7 +753,7 @@ s_link *getLinkFromAddr(s_fidoconfig *config, hs_addr aka)
 
 s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 	hs_addr aka;
-	UINT i;
+	unsigned i;
 
 	string2addr(addr, &aka);
 
@@ -775,7 +775,7 @@ s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 
 hs_addr *getAddr(const s_fidoconfig *config, char *addr) {
    hs_addr aka;
-   UINT i;
+   unsigned i;
 
    for (i = 0; i < config->addrCount; i++) {
       string2addr(addr, &aka);
@@ -786,7 +786,7 @@ hs_addr *getAddr(const s_fidoconfig *config, char *addr) {
 }
 
 int existAddr(s_fidoconfig *config, hs_addr aka) {
-   UINT i;
+   unsigned i;
 
    for (i=0; i< config->addrCount; i++) {
       if (addrComp(aka, config->addr[i])==0) return 1;
@@ -809,7 +809,7 @@ s_area *getArea(s_fidoconfig *config, char *areaName)
 
 s_area *getNetMailArea(s_fidoconfig *config, char *areaName)
 {
-   UINT i;
+   unsigned i;
 
    if (areaName==NULL) return (NULL);
 

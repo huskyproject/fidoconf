@@ -175,25 +175,25 @@ void string2addr(const char *string, hs_addr *addr) {
 	/*  zone */
 	if (NULL == strstr(str,":")) return;
 	t = strtoul(str,&endptr,10);
-	addr->zone = (UINT16) t;
+	addr->zone = (hUINT16) t;
 	if(!addr->zone) return; /*  there is no zero zones in practice */
 
 	/*  net */
 	str = endptr+1;
 	if (NULL == strstr(str,"/")) return;
 	t = strtoul(str,&endptr,10);
-	addr->net = (UINT16) t;
+	addr->net = (hUINT16) t;
 
 	/*  node */
 	str = endptr+1;
 	t = strtoul(str,&endptr,10);
-	addr->node = (UINT16) t;
+	addr->node = (hUINT16) t;
 
 	/*  point */
 	if (*endptr && !isspace( endptr[0] )) str = endptr+1;
 	else return; /*  end of string */
 	t = strtoul(str,&endptr,10);
-	addr->point = (UINT16) t;
+	addr->point = (hUINT16) t;
 	
 	return;
 }
@@ -301,8 +301,8 @@ int e_readCheck(s_fidoconfig *config, s_area *echo, s_link *link) {
     /*  rc == '\x0003' no access export */
     /*  rc == '\x0004' not linked */
 
-    UINT i, rc = 0;
-    UINT Pause = echo->areaType;
+    unsigned i, rc = 0;
+    unsigned Pause = echo->areaType;
     /* check for OurAka */
     if(!isOurAka(config,link->hisAka))
     {
