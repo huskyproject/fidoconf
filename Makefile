@@ -25,7 +25,7 @@ ifndef EXENAMEFLAG
   EXENAMEFLAG=-o
 endif
 
-CDEFS=-D$(OSTYPE) $(ADDCDEFS) -DCFGDIR=\"$(CFGDIR)\"
+CDEFS=-D$(OSTYPE) $(ADDCDEFS) -DCFGDIR=\"$(CFGDIR)\" -DCFGNAME=\"$(CFGNAME)\"
 
 # Use -DVSPRINTF_ONLY on systems without vsnprintf() and snprintf()
 # Use this for sunOs 2.5.1 (Thanks to Serguei Revtov)

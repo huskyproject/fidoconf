@@ -241,8 +241,10 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
 }
 
 char *getConfigFileName(void) {
-
-   return getConfigFileNameForProgram("FIDOCONFIG", "config");
+#ifndef CFGNAME
+#define CFGNAME "config"
+#endif
+   return getConfigFileNameForProgram("FIDOCONFIG", CFGNAME);
 }
 
 int carbonNames2Addr(s_fidoconfig *config)
