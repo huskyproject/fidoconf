@@ -146,10 +146,12 @@ int main (int argc, char *argv[]) {
    fprintf(stderr,"------------\n");
    if (argc < 2) {
       fprintf(stderr,"\nUsage:\n");
-      fprintf(stderr,"   fconf2squish <squish.cfg> [<default.cfg>]\n");
+      fprintf(stderr,"   fconf2squish <squish.cfg>|- [<default.cfg>]\n");
+      fprintf(stderr,"   (- as squish.cfg means stdout)\n");
       fprintf(stderr,"   (you may read config defaults from default.cfg)\n");
       fprintf(stderr,"\nExample:\n");
-      fprintf(stderr,"   fconf2squish ~/squish/squish.cfg\n\n");
+      fprintf(stderr,"   fconf2squish ~/squish/squish.cfg\n");
+      fprintf(stderr,"   fconf2squish - | sed \"\\/var\\/fido\\//u:\\\\\\/gi\" > /etc/fido/squish.cfg\n\n");
       return 1;
    }
 
