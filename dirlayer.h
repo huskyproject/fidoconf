@@ -56,7 +56,7 @@
 
 #include "fidoconf.h"
 
-#if defined (__MSVC_)
+#ifdef __MSVC__
 #define NAME_MAX        _MAX_PATH
 
 
@@ -79,6 +79,7 @@ typedef struct dirent {
 FCONF_EXT DIR* opendir(const char*);
 FCONF_EXT DIR* readdir(DIR*);
 FCONF_EXT int  closedir(DIR*);
+
 #endif
 
 #if defined(__IBMC__) && !defined(__UNIX__)   /* only define it for IBM VisualAge C++ */
