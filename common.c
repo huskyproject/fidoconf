@@ -53,14 +53,6 @@ int cmpfnames(char *file1, char *file2);
 #include <fcntl.h>
 #include <errno.h>
 
-#ifndef O_EXLOCK
-# ifdef FEXLOCK
-#  define O_EXLOCK FEXLOCK
-# else
-#  define O_EXLOCK 0    /* #define O_EXLOCK 0x0020 - from UNIX, compatibility unknown */
-# endif
-#endif
-
 #ifndef O_BINARY
 # define O_BINARY 0 /* If O_BINARY is not defined - we're under UNIX
                        where this flag has no effect */
@@ -825,7 +817,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     if (fin == NULL) { nfree(buffer); return -1; }
 
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
-    fh = open( to, (force_rewrite ? 0 : O_EXCL) | O_CREAT | O_RDWR | O_EXLOCK | O_BINARY, S_IREAD | S_IWRITE );
+    fh = open( to, (force_rewrite ? 0 : O_EXCL) | O_CREAT | O_RDWR | O_BINARY, S_IREAD | S_IWRITE );
     if( fh<0 ){
       fh=errno;
       fclose(fin);
@@ -833,6 +825,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
       return -1;
     }
 #ifdef UNIX
+//    flock(to,O_EXLOCK);
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
     /* try to save file ownership if it is possible */
     if (fchown(fh, st.st_uid, st.st_gid) != 0)
