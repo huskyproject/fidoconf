@@ -277,7 +277,7 @@ void disposeConfig(s_fidoconfig *config)
 	   free(config->links[i].import);
 	   free(config->links[i].mandatory);
 	   free(config->links[i].optGrp);
-	   free(config->links[i].available);
+	   free(config->links[i].forwardRequestFile);
 	   free(config->links[i].autoCreateDefaults);
 	   free(config->links[i].autoCreateFile);
    }

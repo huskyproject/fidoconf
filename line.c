@@ -1256,7 +1256,7 @@ int parseLine(char *line, s_fidoconfig *config)
 
    else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
    else if (stricmp(token, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
-   else if (stricmp(token, "availableareas")==0) rc = parseFileName(getRestOfLine(), &(config->links[config->linkCount-1].available));
+   else if (stricmp(token, "forwardRequestFile")==0) rc = parseFileName(getRestOfLine(), &(config->links[config->linkCount-1].forwardRequestFile));
    else if (stricmp(token, "autoCreateFile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateFile));
 
 
@@ -1275,10 +1275,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config);
    else if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
    else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
-   else if (stricmp(token, "areafixfrompkt")==0) {
-	   config->AreaFixFromPkt = 1;
-	   rc = 0;
-   }
+   else if (stricmp(token, "areafixfrompkt")==0) config->areafixFromPkt = 1;
+   else if (stricmp(token, "areafixkillreports")==0) config->areafixKillReports = 1;
    else if (stricmp(token, "publicgroup")==0) rc = copyString(getRestOfLine(), &(config->PublicGroup));
 
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);

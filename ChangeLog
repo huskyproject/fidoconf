@@ -2,6 +2,14 @@ fidoconfig 0.7
 --------------
 
 ----- cvs ci ------
+Wed Mar  10 15:37
+Max:
++ "availableareas" changed to "forwardRequestFile"
++ "areafixKillReports"
++ update proposal
++ update tparser
+	
+----- cvs ci ------
 Mon Mar  8 21:42
 Max:
 - fixed a bug when found unknown link in echoarea

@@ -93,7 +93,7 @@ struct link {
    char *AccessGrp;	      // groups for echo access
    char *autoCreateFile;      // file where autocreated areas are written to
    char *autoCreateDefaults;  // add default string for autocreated area here
-   char *available;           // list of available areas from this link
+   char *forwardRequestFile;  // list of available areas from this link
    void *msg;                 // active msg to the link (used in areafix)
    int  Pause;                // 0 if no pause (default)
    unsigned level;	      // 0-65535
@@ -247,7 +247,7 @@ struct fidoconfig {
    unsigned int  remapCount;
    s_remap  *remaps;
 
-   unsigned int AreaFixFromPkt;
+   unsigned int areafixFromPkt, areafixKillReports;
    char	    *PublicGroup;
 };
 

@@ -191,7 +191,7 @@ _Keyword definitions_
   [BBSGrp {<group>}]
   # group(s)
   [AccessGrp {<groups>}]
-  # this is a list of groups for echo acess
+  # this is a list of groups for echo acess (see also PublicGroup)
   [OptGrp {<groups>}]
   # this is personal groups for echo acess
   # Export, Import & Mandatory uses OptGrp areas
@@ -207,12 +207,18 @@ _Keyword definitions_
   # default off
   # do not allow the link to sunscribe/unsubscribe areas
   [Level {<integer>}]
-  # access level. used in echoareas to control read/write acess
+  # access level. used in echoareas to control read/write access
   AutoAreaCreate (on|off)
   # "on" means link is allowed to create an area
   Packer (zip|tgz|rar|arj|arc....)
   # packer to use for this Link
   EchoMailFlavour <flavour>
+?  # hold, crash, direct, normal
+  [ForwardRequests (on|off)]
+  # allow forward requests to this link
+  [ForwardRequestFile <file>]
+  # file for forward requests & available areas
+  # if no defined then forward requests unkonditional
   }
 
 /etc/fido/msgbase:
@@ -462,6 +468,21 @@ _Keyword definitions_
   # CarbonKludge	REPLY: 2:5000/117
   # CarbonArea		my.echomail
 
+  [PublicGroup {<groups>}]
+  # this is a list of groups for public echo acess
+  # to lazy sysops who don't want write AccessGrp for each link
+
+
+  #
+  # AreaFix Options:
+  # 
+
+  [areafixFromPkt]
+  # process areafix requests on the fly. check "areafix", "areamgr" &
+  # "hpt" keywords in toUserName field
+
+  [areafixKillReports]
+  # set kill/sent flag to areafix reports
 
 _used notation_
 

@@ -108,6 +108,7 @@ void printLink(s_link link) {
    if (link.autoAreaCreate) printf("AutoAreaCreate on    ");
    if (link.AreaFix) printf("AreaFix on\n"); else printf("AreaFix off\n");
    if (link.forwardRequests) printf("Forward Requests on\n");
+   if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
    if (link.packerDef != NULL) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
    printf("forwardPkts ");
@@ -148,6 +149,11 @@ int main() {
       if (config->logFileDir != NULL) printf("LogFileDir: %s\n", config->logFileDir);
       if (config->msgBaseDir != NULL) printf("MsgBaseDir: %s\n", config->msgBaseDir);
       if (config->magic != NULL) printf("Magic: %s\n", config->magic);
+      printf("\n=== AREAFIX CONFIG ===\n");
+	  printf("areafixFromPkt: ");
+	  if (config->areafixFromPkt) printf("on\n"); else printf("off\n");
+	  printf("areafixKillReports: ");
+	  if (config->areafixKillReports) printf("on\n"); else printf("off\n");
       printf("\n=== LINKER CONFIG ===\n");
       if (config->LinkWithImportlog != NULL) printf("LinkWithImportlog: %s\n", config->LinkWithImportlog);
       printf("\n=== LINK CONFIG ===\n");
