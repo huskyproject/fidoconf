@@ -448,6 +448,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        area->levelwrite = (unsigned)atoi(token);
    }
    else if (stricmp(option, "tinysb")==0) area->tinySB = 1;
+   else if (stricmp(option, "killsb")==0) area->killSB = 1;
    else if (stricmp(option, "keepUnread")==0) area->keepUnread = 1; 
    else if (stricmp(option, "killRead")==0) area->killRead = 1; 
    else if (stricmp(option, "h")==0) area->hide = 1;

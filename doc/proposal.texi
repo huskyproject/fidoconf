@@ -1590,6 +1590,8 @@ group for this echoarea
 @item -keepsb
 keep seen-by's (used in CarbonCopy)
 @item -tinysb
+no seen-by kludges stored to message base
+@item -killsb
 no seen-by & path kludges stored to message base
 @item -manual
 disallow remote changes (only manual connect/disconnect). same as mandatory.

@@ -170,7 +170,7 @@ typedef struct area {
    char keepUnread, killRead;
 
    e_dupeCheck dupeCheck;
-   char tinySB, hide, noPause, mandatory, DOSFile;
+   char tinySB, killSB, hide, noPause, mandatory, DOSFile;
 
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535
