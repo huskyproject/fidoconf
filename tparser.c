@@ -476,6 +476,8 @@ void checkLogic(s_fidoconfig *config) {
 					strerror(errno) );
 				exit(-1);
 			}else close(k);
+		}
+		if (config->links[i].autoFileCreateFile){
 			k = open( config->links[i].autoFileCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
 				printf( "ERROR: link %s AutoFileCreateFile '%s': %s\n",
@@ -831,7 +833,7 @@ int main(int argc, char **argv) {
       if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
       if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
       if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
-
+      printf("Perl support: %s\n", config->perlSupport ? "on" : "off");	
 //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
       if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
       if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);

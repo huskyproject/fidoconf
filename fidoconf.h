@@ -530,6 +530,7 @@ typedef struct fidoconfig {
    char *fileBoxesDir;
    char *notValidFNChars;
    char *rulesDir;
+   unsigned int perlSupport;
     
 } s_fidoconfig, *ps_fidoconfig;
 
