@@ -166,12 +166,24 @@ FCONF_EXT char   *strLower(char *str);
 */
 
 /* will be moved to huskylib */
-FCONF_EXT  char    *GetFilenameFromPathname(char* pathname);
+FCONF_EXT  char    *GetFilenameFromPathname(const char* pathname);
 /*   Get the object name from the end of a full or partial pathname.
     The GetFilenameFromPathname function gets the file (or directory) name
     from the end of a full or partial pathname. Returns The file (or directory)
     name
 */
+
+/* will be moved to huskylib */
+#define basename(f) GetFilenameFromPathname(f)
+
+/* will be moved to huskylib */
+/* Return directory part of pathname (without filename, '/' or '\\' present at end)
+ * Return value is pointer to malloc'ed string;
+ * if pathname is filenfme without directory return current directory (./ or .\)
+ */
+char    *GetDirnameFromPathname(const char* pathname);
+
+#define dirname(f) GetDirnameFromPathname(f)
 
 /* will be moved to huskylib */
 FCONF_EXT  char *makeMsgbFileName(ps_fidoconfig config, char *s);
@@ -332,12 +344,6 @@ FCONF_EXT char *strseparate(register char **stringp, register const char *delim)
 
 /* Converts decimal value to octal [useful for chmod()] */
 unsigned int dec2oct(unsigned int decimal);
-
-
-/*
- * Return pointer to base ('clean') filename in pathname
- */
-FCONF_EXT const char *basename(const char *pathname);
 
 
 #ifdef __cplusplus

@@ -1181,19 +1181,46 @@ int sstrnicmp(const char *str1, const char *str2, size_t length)
   return strnicmp(str1,str2, length);  /* compare strings */
 }
 
+/*   Get the object name from the end of a full or partial pathname.
+    The GetFilenameFromPathname function gets the file (or directory) name
+    from the end of a full or partial pathname. Returns The file (or directory)
+    name: pointer to part of all original pathname.
 
-char    *GetFilenameFromPathname(char* pathname)
+*/
+char    *GetFilenameFromPathname(const char* pathname)
 {
     char *fname = strrchr(pathname,PATH_DELIM);
     if(fname)
         fname++;
     else
-        fname = pathname;
+        return (char*)pathname;
     return fname;
 }
 
+/* Return directory part of pathname (without filename, '/' or '\\' present at end)
+ * Return value is pointer to malloc'ed string;
+ * if pathname is filenfme without directory return current directory (./ or .\)
+ */
+char    *GetDirnameFromPathname(const char* pathname)
+{
+  char *sp=NULL, *rp=NULL;
+
+  sp = strrchr(pathname,PATH_DELIM);
+  if( sp )
+    rp = sstrncpy(smalloc(++sp-pathname+1), pathname, sp-pathname);
+  else
+#if PATH_DELIM=='/'
+    rp = sstrdup("./");
+#else
+    rp = sstrdup(".\\");
+#endif
+
+  return rp;
+}
+
+
 char *makeMsgbFileName(ps_fidoconfig config, char *s) {
-    // allowed symbols: 0..9, a..z, A..Z, ".,!@#$^()~-_{}[]"
+    /* allowed symbols: 0..9, a..z, A..Z, ".,!@#$^()~-_{}[]" */
     static char defstr[]="\"*/:;<=>?\\|%`'&+"; // not allowed
     char *name=NULL, *str;
 
@@ -1499,22 +1526,6 @@ unsigned int dec2oct(unsigned int decimal)
     return mode;
 }
 
-
-/*
- * Return pointer to base ('clean') filename in pathname
- */
-const char *basename(const char *pathname)
-{
-  char *temp;
-
-  temp = strrchr(pathname, '/');
-  if(temp) temp++; /* skip directory separator */
-  else if( (temp = strrchr(pathname, '\\')) )
-        temp++; /* skip directory separator */
-  else  return pathname;
-
-  return temp;
-}
 
 #if defined(UNIX)
 /* this function should be moved to huskylib() */
