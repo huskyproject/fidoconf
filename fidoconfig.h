@@ -331,6 +331,7 @@ struct fidoconfig {
    unsigned int separateBundles;
    unsigned int defarcmailSize;
    unsigned int ignoreCapWord;
+   unsigned int noProcessBundles;
 
    char *afterUnpack, *beforePack;
    /* +AS+ */

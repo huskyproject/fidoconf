@@ -274,7 +274,8 @@ int main() {
       printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
 
       printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
-      
+	  printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
+
       if (config->numPublicGroup > 0) {
           printf("PublicGroups: ");
           for (i = 0; i < config->numPublicGroup; i++)

@@ -195,6 +195,7 @@ a comment and will be ignored.
 * SeparateBundles::             move echomail for each link to his own directory
 * defarcmailsize::		default size for arcmail bundle
 * ignoreCapWord::		ignore Capability Word in pkt files
+* noProcessBundles::            no unpack arcmail bundles
 
 @end menu
 
@@ -1991,7 +1992,7 @@ This statament move echomail for all links to his own directory.
 default arcmail size in kb for all links.
 500kb if not defined.
 
-@node ignoreCapWord, , defarcmailsize, Keywords
+@node ignoreCapWord, noProcessBundles, defarcmailsize, Keywords
 @subsection ignoreCapWord
 @table @asis
 @item Syntax:
@@ -2003,6 +2004,17 @@ default arcmail size in kb for all links.
 ignoring Capability Word in pkt files.
 if some pkt moved to bad. this may help, but not recommended.
 it is better to change old software.
+
+@node noProcessBundles, ,ignoreCapWord, Keywords
+@subsection noProcessBundles
+@table @asis
+@item Syntax:
+@code{noProcessBundles}
+@item Example:
+@code{noProcessBundles}
+@end table
+
+don't unpack arcmail bundles
 
 @node Example,  , Keywords, config file
 @section Working sample config
