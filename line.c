@@ -877,13 +877,13 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   char *error;
   char *token;
   char *iOption;
-  unsigned int i;
+  long i;
 
   iOption = strLower(sstrdup(option));
   if (strcmp(iOption, "a")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
-          prErr("Address is missing after -a in areaOptions!");
+          prErr("Address is missing after -a in fileareaOptions!");
           nfree(iOption);
           return 1;
       }
@@ -897,7 +897,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   else if (strcmp(iOption, "lr")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
-          prErr("Number is missing after -lr in areaOptions!");
+          prErr("Number is missing after -lr in fileareaOptions!");
           nfree(iOption);
           return 1;
       }
@@ -905,11 +905,17 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
           if (isdigit(token[i]) == 0) break;
       }
       if (i != strlen(token)) {
-          prErr("Number is wrong after -lr in areaOptions!");
+          prErr("Number is wrong after -lr in fileareaOptions!");
           nfree(iOption);
           return 1;
       }
-      area->levelread = (i = atoi(token))<0 ? config->FileAreaDefault.levelread : (UINT) i ;
+      i = strtol(token, &error, 0);
+      if ((error != NULL) && (*error != '\0')) {
+          prErr("Number is wrong after -lr in fileareaOptions!");
+          nfree(iOption);
+          return 1;     /*  error occured; */
+      }
+      area->levelread = i<0 ? config->FileAreaDefault.levelread : (UINT) i ;
       /* if link was added before -lr setting, it should be updated */
       for(i=0;i<area->downlinkCount;++i)
           setFileLinkAccess( area, area->downlinks[i]);
@@ -918,21 +924,22 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   else if (strcmp(iOption, "p")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
-          prErr("Number is missing after -p in areaOptions!");
+          prErr("Number is missing after -p in fileareaOptions!");
           nfree(iOption);
           return 1;
       }
-      area->purge = (UINT) strtol(token, &error, 0);
+      i = strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
-          prErr("Number is wrong after -p in areaOptions!");
+          prErr("Number is wrong after -p in fileareaOptions!");
           nfree(iOption);
           return 1;     /*  error occured; */
       }
+      area->purge = i<0? config->FileAreaDefault.purge : (UINT) i ;
   }
   else if (strcmp(iOption, "lw")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
-          prErr("Number is missing after -lw in areaOptions!");
+          prErr("Number is missing after -lw in fileareaOptions!");
           nfree(iOption);
           return 1;
       }
@@ -940,11 +947,17 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
           if (isdigit(token[i]) == 0) break;
       }
       if (i != strlen(token)) {
-          prErr("Number is wrong after -lw in areaOptions!");
+          prErr("Number is wrong after -lw in fileareaOptions!");
           nfree(iOption);
           return 1;
       }
-      area->levelwrite = (unsigned)atoi(token);
+      i = strtol(token, &error, 0);
+      if ((error != NULL) && (*error != '\0')) {
+          prErr("Number is wrong after -lw in fileareaOptions!");
+          nfree(iOption);
+          return 1;     /*  error occured; */
+      }
+      area->levelwrite = i<0? config->FileAreaDefault.levelwrite : (UINT) i ;
       /* if link was added before -lr setting, it should be updated */
       for(i=0;i<area->downlinkCount;++i)
           setFileLinkAccess( area, area->downlinks[i]);
