@@ -37,6 +37,12 @@ void printLink(s_link link) {
           link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point, link.hisAka.domain,
           link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point, link.ourAka->domain);
    printf("Name: %s\n", link.name);
+   printf("defaultPwd: %s\n", link.defaultPwd);
+   printf("pktPwd:     %s\n", link.pktPwd);
+   printf("ticPwd:     %s\n", link.ticPwd);
+   printf("areafixPwd: %s\n", link.areaFixPwd);
+   printf("filefixPwd: %s\n", link.fileFixPwd);
+   printf("bbsPwd:     %s\n", link.bbsPwd);
    if (link.autoAreaCreate) printf("AutoAreaCreate on    ");
    if (link.AreaFix) printf("AreaFix on\n");
    if (link.packerDef != NULL) printf("PackerDefault %s\n", link.packerDef->packer);
@@ -83,7 +89,17 @@ int main() {
 
       printf("\n=== ROUTE CONFIG ===\n");
       for (i = 0; i < config->routeCount; i++) {
-         printf("Route %s via %u:%u/%u.%u\n", config->route[i].pattern, config->route[i].target->hisAka.zone, config->route[i].target->hisAka.net, config->route[i].target->hisAka.node, config->route[i].target->hisAka.point);
+         if (config->route[i].routeVia == 0)
+            printf("Route %s via %u:%u/%u.%u\n", config->route[i].pattern, config->route[i].target->hisAka.zone, config->route[i].target->hisAka.net, config->route[i].target->hisAka.node, config->route[i].target->hisAka.point);
+         else {
+            printf("Route %s ", config->route[i].pattern);
+            switch (config->route[i].routeVia) {
+               case noroute:  printf("direct\n"); break;
+               case host:     printf("via host\n"); break;
+               case hub:      printf("via hub\n"); break;
+               case boss:     printf("via boss\n"); break;
+            }
+         }
       }
 
       printf("\n=== PACK CONFIG ===\n");

@@ -439,7 +439,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
             }
             
          }
-         if (actualRoute->target == NULL) {
+         if ((actualRoute->target == NULL) && (actualRoute->routeVia == 0)) {
             printf("Line %d: Link not found in Route statement!\n", actualLineNr);
             rc = 2;
          }
