@@ -251,7 +251,8 @@ enum {
     ID_CARBONEXCLUDEFWDFROM,
     ID_HPTPERLFILE,
     ID_READONLY,
-    ID_WRITEONLY
+    ID_WRITEONLY,
+    ID_AREAFIXQUERYREPORTS
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -282,6 +283,7 @@ token_t parseline_tokens[] =
     { "areafixnames", ID_AREAFIXNAMES },
     { "areafixorigin", ID_AREAFIXORIGIN },
     { "areafixpwd", ID_AREAFIXPWD },
+    { "areafixqueryreports", ID_AREAFIXQUERYREPORTS },
     { "areafixsplitstr", ID_AREAFIXSPLITSTR },
     { "areasfilenamecase", ID_AREASFILENAMECASE },
     { "areasmaxdupeage", ID_AREASMAXDUPEAGE },

@@ -3606,6 +3606,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AREAFIXKILLREQUESTS:
             rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));
             break;
+        case ID_AREAFIXQUERYREPORTS:
+            rc = parseBool(getRestOfLine(), &(config->areafixQueryReports));
+            break;
         case ID_FILEFIXKILLREPORTS:
             rc = parseBool(getRestOfLine(), &(config->filefixKillReports));
             break;

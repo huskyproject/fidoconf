@@ -414,8 +414,9 @@ typedef struct fidoconfig {
    unsigned int  remapCount;
    ps_remap remaps;
 
-   unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests, areafixMsgSize;
-	char *areafixSplitStr, *areafixOrigin, *robotsArea;
+   unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests;
+   unsigned int areafixMsgSize, areafixQueryReports;
+   char *areafixSplitStr, *areafixOrigin, *robotsArea;
 
    char     **PublicGroup;
    unsigned int numPublicGroup;
@@ -505,7 +506,7 @@ typedef struct fidoconfig {
    int readOnlyCount;
    s_permissions *writeOnly;
    int writeOnlyCount;
-    char *fileBoxesDir;
+   char *fileBoxesDir;
 
 } s_fidoconfig, *ps_fidoconfig;
 
