@@ -1,3 +1,22 @@
+2002-07-02 Tuesday 15:37  stas
+
+	* HISTORY (1.5), INSTALL (1.14): Change documentation
+
+2002-07-02 Tuesday 15:30  stas
+
+	* debian/: changelog (1.13), control (1.10),
+	fidoconf-runtime.postinst (1.2), fidoconf-runtime.postrm (1.2),
+	fidoconf-runtime.prerm (1.2), huskymak.cfg (1.11),
+	libfidoconf0-dev.postinst (1.2), libfidoconf0-dev.postrm (1.2),
+	libfidoconf0-dev.prerm (1.2), libfidoconf0.files (1.4),
+	libfidoconf0.postinst (1.2), libfidoconf0.postrm (1.2),
+	libfidoconf0.prerm (1.2), rules (1.9), shlibs (1.5): Change debian
+	control files like in -stable.
+
+2002-07-02 Tuesday 15:12  stas
+
+	* makefile.inc (1.27): Change version number
+
 2002-07-01 Monday 16:03  mche
 
 	* tokens.h (1.39): fix compilation warning
