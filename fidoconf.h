@@ -58,10 +58,14 @@ extern "C" {
 
 #define MSGTYPE_PASSTHROUGH 0x04
 
-#ifdef UNIX
-#define PATH_DELIM        '/'
-#else
-#define PATH_DELIM        '\\'
+/* PATH_DELIM used for consruct full pathname
+ */
+#ifndef PATH_DELIM
+#  if defined(SASC) || defined(UNIX)
+#    define PATH_DELIM  '/'
+#  else
+#    define PATH_DELIM  '\\'
+#  endif
 #endif
 
 #define strend(str) ((str) + strlen(str) - 1)
