@@ -40,6 +40,11 @@
 
 #include <huskylib/huskylib.h>
 
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
+#include <smapi/msgapi.h>
+
+
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
 #endif
@@ -166,7 +171,7 @@ int testplainfile(const char *s, const char *t1, const char *t2, const char *t3)
 /* check to file names and paths accuracy. Return zero if success. */
 int testPathsAndFiles()
 { int rc=0;
-  register int i;
+  register unsigned int i;
 
   rc+=testpath(config->inbound,"inbound",NULL,NULL );
   rc+=testpath(config->outbound,"outbound",NULL,NULL );
@@ -806,7 +811,7 @@ int printLink(s_link link) {
 
 /*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
-	register unsigned i,j;
+	register unsigned i,j,m;
 	register int k;
 	int robotsarea_ok;
 	s_link *link;
@@ -887,8 +892,8 @@ void checkLogic(s_fidoconfig *config) {
 		/*  Check for area link duplication */
 		for (j=0; j+1<area->downlinkCount; j++) {
 			link = area->downlinks[j]->link;
-			for (k=j+1;k<area->downlinkCount; k++) {
-				if (link == area->downlinks[k]->link) {
+			for (m=j+1;m<area->downlinkCount; m++) {
+				if (link == area->downlinks[m]->link) {
 					printf("ERROR: duplication of link ");
 					printAddr(&(link->hisAka));
 					printf(" in area %s\n", areaName);
@@ -931,8 +936,8 @@ void checkLogic(s_fidoconfig *config) {
 		/*  Check for area link duplication */
 		for (j=0; j+1<area->downlinkCount; j++) {
 			link = area->downlinks[j]->link;
-			for (k=j+1;k<area->downlinkCount; k++) {
-				if (link == area->downlinks[k]->link) {
+			for (m=j+1;m<area->downlinkCount; m++) {
+				if (link == area->downlinks[m]->link) {
 					printf("ERROR: duplication of link ");
 					printAddr(&(link->hisAka));
 					printf(" in area %s\n", areaName);
@@ -975,8 +980,8 @@ void checkLogic(s_fidoconfig *config) {
 		/*  Check for area link duplication */
 		for (j=0; j+1<area->downlinkCount; j++) {
 			link = area->downlinks[j]->link;
-			for (k=j+1;k<area->downlinkCount; k++) {
-				if (link == area->downlinks[k]->link) {
+			for (m=j+1;m<area->downlinkCount; m++) {
+				if (link == area->downlinks[m]->link) {
 					printf("ERROR: duplication of link");
 					printAddr(&(link->hisAka));
 					printf("in area %s\n", areaName);
@@ -1242,7 +1247,7 @@ int main(int argc, char **argv) {
 	return dumpcfg(cfgFile);
 
    config = readConfig(cfgFile);
-   nfree(cfgFile);
+   /* nfree(cfgFile); */
 
    if (config != NULL) {
 
