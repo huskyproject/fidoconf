@@ -1860,7 +1860,7 @@ This statement can be repeated for each different carbon@{To|From|Kludge@}
 statement.
 
 @node carbonCopy, carbonMove, carbonArea, Keywords
-@subsection carbonArea
+@subsection carbonCopy
 @table @asis
 @item Syntax:
 @code{carbonCopy <area-tag>}
@@ -1877,7 +1877,7 @@ statement.
 It's similiar to carbonArea, which I (KN) propose to remove
 
 @node carbonMove, carbonExtern, carbonCopy, Keywords
-@subsection carbonArea
+@subsection carbonMove
 @table @asis
 @item Syntax:
 @code{carbonMove <area-tag>}
@@ -1894,7 +1894,7 @@ statement.
 Unlike carbonArea and carbonCopy msg gets moved, not copied into this area
 
 @node carbonExtern, netmailExtern, carbonMove, Keywords
-@subsection carbonArea
+@subsection carbonExtern
 @table @asis
 @item Syntax:
 @code{carbonExtern <program name>}
