@@ -262,7 +262,11 @@ int parseLink(char *token, s_fidoconfig *config)
 
 int parsePWD(char *token, char **pwd) {
    
-   if (token == NULL) return 1;
+   if (token == NULL) {            // return empty password
+      *pwd = (char *) malloc(1);
+      (*pwd)[0] = '\0';
+      return 0;
+   }
    
    *pwd = (char *) malloc(9);
    strncpy(*pwd, token, 8);        // only use 8 characters of password
