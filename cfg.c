@@ -503,17 +503,22 @@ static int cmpfnames(char *file1, char *file2)
 static int cmpfnames(char *file1, char *file2)
 {
     char *path1 = NULL, *path2 = NULL;
-  /* _truename() call DOS FN 0x60 (undocumented) fro retrieve real file name
+    int result;
+
+  /* _truename() call DOS FN 0x60 (undocumented: return real file name)
      and store malloc'ed string into 2nd parameter.
-     Return value is pointer to this string.
+     Return value is pointer to this string or NULL.
      See c:\djgpp\src\libc\dos\dos\truename.c for details */
     _truename(file1, path1);
     _truename(file2, path2);
-    if( path1==NULL || path2==NULL )  /* if any filename is NULL return not eq */
-      return -1;
-    return sstricmp(path1, path2);
+    if( path1==NULL && path2==NULL )  /* if both filename is NULL return not eq */
+      result = -1;
+    result = sstricmp(path1, path2);  /* sstricmp() compare NULL strings also */
+    nfree(path1);
+    nfree(path2);
+    return result;
 }
-#elif defined(MSDOS) || defined(__MSDOS__) && !defined(__DJGPP__)
+#elif (defined(MSDOS) || defined(__MSDOS__)) && !defined(__DJGPP__)
 #include <dos.h>
 static int cmpfnames(char *file1, char *file2)
 {
