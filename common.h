@@ -40,14 +40,7 @@
 extern "C" {
 #endif
 
-#ifdef _MAKE_DLL_MVC_
-        FCONF_EXT void   ffree(void* ptr);
-#       define nfree(a)         { ffree(a); a = NULL; } 
-#else 
-#   define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
-#endif
-
-
+#define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
 
 /* common functions */
 

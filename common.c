@@ -944,69 +944,40 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 
 void *smalloc(size_t size)
 {
-	void *ptr = NULL;
-#ifndef _MAKE_DLL_MVC_
-    ptr = malloc(size);
+    void *ptr = malloc(size);
     if (ptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
-#else
-	ptr = HeapAlloc(GetProcessHeap(), HEAP_NO_SERIALIZE, size);
-#endif
     return ptr;
 }
 
 void *srealloc(void *ptr, size_t size)
 {
-    void *newptr;
-#ifndef _MAKE_DLL_MVC_
-	newptr = realloc(ptr, size);
+    void *newptr = realloc(ptr, size);
     if (newptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
-#else
-	if(ptr)
-		newptr = HeapReAlloc(GetProcessHeap(), HEAP_NO_SERIALIZE, ptr, size);
-	else
-		newptr = smalloc(size);
-#endif
     return newptr;
 }
 
 void *scalloc(size_t nmemb, size_t size)
 {
-	void *ptr = NULL;
-#ifndef _MAKE_DLL_MVC_
-    ptr = smalloc(size*nmemb);
+    void *ptr = smalloc(size*nmemb);
 	memset(ptr,'\0',size*nmemb);
-#else 
-    ptr = HeapAlloc(GetProcessHeap(), HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, size*nmemb);
-#endif
     return ptr;
 }
 
 char *sstrdup(const char *src)
 {
     char *ptr;
+    
     if (src == NULL) return NULL;
-#ifndef _MAKE_DLL_MVC_    
     ptr = strdup (src);
     if (ptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
-#else
-	ptr = smalloc(strlen(src)+1);
-	strcpy(ptr,src);
-#endif
     return ptr;
 }
-
-#ifdef _MAKE_DLL_MVC_
-void ffree(void* ptr) 
-{ 
-	if(ptr) HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, ptr);
-}
-#endif
