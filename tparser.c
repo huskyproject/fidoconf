@@ -500,6 +500,7 @@ void printLink(s_link link) {
    printf("echoMailFlavour %s\n", cvtFlavour(link.echoMailFlavour));
    printf("fileEchoFlavour %s\n", cvtFlavour(link.fileEchoFlavour));
    printf("noRules %s\n", (link.noRules) ? "on" : "off");
+   printf("reducedSeenBy %s\n", (link.reducedSeenBy) ? "on" : "off");
 
    printf("-------\n");
 }
