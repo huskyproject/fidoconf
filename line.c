@@ -1031,6 +1031,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
 
             if (strchr(tok, '*')) {
 	        /* link mask present: set mandatory for all links matched. */
+                j = area->downlinkCount;
                 for (i=0; i<config->linkCount; i++) {
                     strcpy(addr, aka2str(config->links[i].hisAka));
                     if (patmat(addr, tok)) {
@@ -1045,6 +1046,15 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
                     }
                 }
                 tok = strtok(NULL, " \t");
+                while (tok) {
+                    if (tok[0]!='-') break;
+                    for (i=j; i<area->downlinkCount; i++) {
+                        if (parseLinkOption(area->downlinks[i], tok+1))
+                            break;
+                    }
+                    if (i<area->downlinkCount) break;
+                    tok = strtok(NULL, " \t");
+                }
                 continue;
             }
 
