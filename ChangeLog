@@ -1,3 +1,12 @@
+2002-04-11 Thursday 09:20  pavel.gulchouck
+
+	* man/Makefile (1.2): Installation manpages bugfix
+
+2002-04-11 Thursday 08:36  pavel.gulchouck
+
+	* areatree.c (1.5), log.c (1.5): Fixed compiler warning -- no
+	newline at end of file
+
 2002-04-09 Tuesday 18:20  mche
 
 	* areatree.c (1.4), fidoconf.c (1.73), fidoconf.h (1.107), line.c
