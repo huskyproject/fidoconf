@@ -538,6 +538,10 @@ _Keyword definitions_
   # this is a list of groups for public echo acess
   # to lazy sysops who don't want write AccessGrp for each link
 
+  [ignoreCapWord]
+  # ignoring Capability Word in pkt files.
+  # if some pkt moved to bad. this may help, but not recommended.
+  # it is better to change old software.
 
   #
   # AreaFix Options:

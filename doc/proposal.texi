@@ -188,6 +188,7 @@ a comment and will be ignored.
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
 * defarcmailsize::		default size for arcmail bundle
+* ignoreCapWord::		ignore Capability Word in pkt files
 
 @end menu
 
@@ -1900,7 +1901,7 @@ Remap mail to other address.
 
 This statament move echomail for all links to his own directory.
 
-@node defarcmailsize, , SeparateBundles, Keywords
+@node defarcmailsize, ignoreCapWord, SeparateBundles, Keywords
 @subsection defarcmailsize
 @table @asis
 @item Syntax:
@@ -1911,6 +1912,19 @@ This statament move echomail for all links to his own directory.
 
 default arcmail size in kb for all links.
 500kb if not defined.
+
+@node ignoreCapWord, , defarcmailsize, Keywords
+@subsection ignoreCapWord
+@table @asis
+@item Syntax:
+@code{ignoreCapWord}
+@item Example:
+@code{ignoreCapWord}
+@end table
+
+ignoring Capability Word in pkt files.
+if some pkt moved to bad. this may help, but not recommended.
+it is better to change old software.
 
 @node Example,  , Keywords, config file
 @section Working sample config
