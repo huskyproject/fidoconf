@@ -1,3 +1,7 @@
+2001-08-24 Friday 15:20  ml
+
+	* syslogp.h (1.5): syslog under BeOS it turned off
+
 2001-08-08 Wednesday 21:41  joerg.jaspert
 
 	* debian/: rules (1.7), fidoconf-runtime.dirs (1.2): Newest Build.
