@@ -21,6 +21,10 @@ else
   LFLAGS = $(OPTLFLAGS)
 endif
 
+ifneq ($(DYNLIBS), 1)
+  LFLAGS += -static -lc
+endif
+
 ifndef EXENAMEFLAG
   EXENAMEFLAG=-o
 endif
@@ -100,7 +104,7 @@ distclean: commondistclean
 
 ifeq (~$(MKSHARED)~, ~ld~)
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
-	$(LD) $(OPTLFLAGS) -o $(LIBFIDOCONFIG).so.$(VER) \
+	$(LD) $(LFLAGS) -o $(LIBFIDOCONFIG).so.$(VER) \
 	    $(LOBJS) $(LOPT)
 else
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
