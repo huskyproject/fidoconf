@@ -135,6 +135,7 @@ a comment and will be ignored.
 * pause::                       don't export mail for this link
 * arcmailsize::			size of arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
+* allowPktAddrDiffer::          allow addresses in PKT and MSG differ for areafix request
 
 * nodelistdir::                 path for nodelists
 * fidouserlist::                name of compiled fido user list file
@@ -1123,7 +1124,7 @@ Stop export echomail for this link.
 maximum arcmail size in kb for this link.
 default is 500kb.
 
-@node allowEmptyPktPwd, nodelistdir, arcmailsize, Keywords
+@node allowEmptyPktPwd, allowPktAddrDiffer, arcmailsize, Keywords
 @subsection allowEmptyPktPwd
 @table @asis
 @item Syntax:
@@ -1152,7 +1153,24 @@ difference that packets without packet passwords are allowed even in the
 unprotected inbound directory. It is not recommended to use this setting.
 
 
-@node nodelistdir, fidouserlist, allowEmptyPktPwd, Keywords
+@node allowPktAddrDiffer, nodelistdir, allowEmptyPktPwd, Keywords
+@subsection allowPktAddrDiffer
+@table @asis
+@item Syntax:
+@code{allowPktAddrDiffer <off|on>}
+@item Example:
+@code{allowPktAddrDiffer on}
+@end table
+
+This keyword is useful if your link has more than one addresses, and therefore
+the address in PKT header of his areafix request may be different from the
+address in MSG header.
+
+The default state if @code{off}: in this case such letters won't be processed
+by your areafix. The state @code{on} makes areafix ignore this error.
+
+
+@node nodelistdir, fidouserlist, allowPktAddrDiffer, Keywords
 @subsection nodelistDir
 @table @asis
 @item Syntax:

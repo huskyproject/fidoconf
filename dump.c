@@ -172,6 +172,15 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	break;
       default:;
       }
+      switch (link.allowPktAddrDiffer) {
+      case pdOn:
+	fprintf (f, "allowPktAddrDiffer on\n");
+	break;
+      case pdOff:
+	break;
+      default:
+	fprintf (stderr, "Error in keyword allowPktAddrDiffer\n");
+      }
       
       if (link.packerDef != NULL)
 	fprintf(f, "packer              %s\n", link.packerDef->packer);

@@ -96,6 +96,7 @@ interface
           forwardRequests : longint;
           fReqFromUpLink : longint;
           allowEmptyPktPwd : longint;
+          allowPktAddrDiffer : longint;
           forwardPkts : e_forward;
           pktFile : Pchar;
           packFile : Pchar;

@@ -229,6 +229,14 @@ void printLink(s_link link) {
    case eOn : printf("on\n");
      break;
    }
+   printf("allowPktAddrDiffer ");
+   switch (link.allowPktAddrDiffer) {
+   case pdOff : printf("off\n");
+     break;
+   case pdOn : printf("on\n");
+     break;
+   default: fprintf(stderr, "Error in keyword allowPktAddrDiffer\n");
+   }
    
    printf("-------\n");
 }

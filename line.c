@@ -1023,6 +1023,9 @@ int parseLink(char *token, s_fidoconfig *config)
    if (config->links[config->linkCount].handle == NULL) config->links[config->linkCount].handle = config->links[config->linkCount].name;
    if (config->links[config->linkCount].ourAka == NULL) config->links[config->linkCount].ourAka = &(config->addr[0]);
 
+   // by default headers of PKT and MSG in areafix request must be equal
+   config->links[config->linkCount].allowPktAddrDiffer = 0;
+
    config->linkCount++;
    return 0;
 }
@@ -1826,6 +1829,20 @@ int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
    return 0;
 }
 
+int parseAllowPktAddrDiffer(char *token, s_fidoconfig *config, s_link *link)
+{
+   if (token == NULL) {
+	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+	   return 1;
+   }
+
+   if (stricmp(token, "on")==0) link->allowPktAddrDiffer = pdOn;
+   else if (stricmp(token, "off")==0) link->allowPktAddrDiffer = pdOff;
+   else return 2;
+
+   return 0;
+}
+
 int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
 {
   if (token  == NULL) {
@@ -2102,6 +2119,15 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "allowemptypktpwd")==0) {
      if (config->linkCount > 0) {
       rc = parseAllowEmptyPktPwd(getRestOfLine(), config, &(config->links[config->linkCount-1]));
+     }
+     else {
+       printLinkError();
+       rc = 1;
+     }
+   }
+   else if (stricmp(token, "allowpktaddrdiffer")==0) {
+     if (config->linkCount > 0) {
+      rc = parseAllowPktAddrDiffer(getRestOfLine(), config, &(config->links[config->linkCount-1]));
      }
      else {
        printLinkError();
