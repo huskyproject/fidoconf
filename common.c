@@ -445,7 +445,8 @@ The alogrithm for creating pkt file names works as follows:
       uniquenesses that we guranteed ... hexadezimal characters are not
       enough for this).
 
- - Step The last (eight) character in the generated file naE  (µó@ 3√&ÇaÅE¿Z	az}ŒÔallow for creating more than one filename per second.
+ - Step 4: The last (eigth') character in the generated file name is
+      a counter to allow for creating more than one filename per second.
       The initial value of the counter is:
 
             (net10 * 10 + net1 + point100) modulo 36
