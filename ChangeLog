@@ -4,9 +4,9 @@ fidoconfig 0.9
 ----- cvs ci ------
 Sat Sep 11 13:00:16 NOVST 1999
 max:
-* added carbonReason (patch from Serguei Revtov)
-* carbonCopy code cleanup
-
+* added carbonReason token (patch from Serguei Revtov)
+* described "-g <char>" if documentation
+	
 ----- cvs ci ------
 Fri Sep 10  11:05:00
 sms:
