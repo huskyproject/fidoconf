@@ -34,7 +34,7 @@ FCONF_EXT char *xstralloc(char **s, size_t add);
  * Adds to variable "s" "add" bytes (allocates or reallocates it)
  */
 
-FCONF_EXT char *xstrcat(char **s, char *add);
+FCONF_EXT char *xstrcat(char **s, const char *add);
 /*
  * Appends "add" to variable "s", reallocating it when it needs
  */
@@ -45,7 +45,7 @@ FCONF_EXT char *xstrscat(char **s, ...);
  * list is terminated with NULL value
  */
 
-FCONF_EXT char *xstrcpy(char **s, char *add);
+FCONF_EXT char *xstrcpy(char **s, const char *add);
 /*
  * Copys "add" to variable "s", reallocating it when it needs
  */

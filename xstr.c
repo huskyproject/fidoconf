@@ -53,12 +53,12 @@ char *xstralloc(char **s, size_t add)
     return *s + n;
 }
 
-char *xstrcat(char **s, char *add)
+char *xstrcat(char **s, const char *add)
 {
     return strcat(xstralloc(s, strlen(add)), add);
 }
 
-char *xstrcpy(char **s, char *add)
+char *xstrcpy(char **s, const char *add)
 {
     nfree(*s);
     return xstrcat(s, add);
