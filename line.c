@@ -323,6 +323,26 @@ int parsePath(char *token, char **var)
    return 0;
 }
 
+int parsePathNoCheck(char *token, char **var)
+{
+
+   if (*var != NULL) {
+      prErr("Dublicate path!");
+      return 1;
+   }
+
+   if (token == NULL) {
+      prErr("There is a path missing after %s!", actualKeyword);
+      return 1;
+   }
+
+   if (*token && token[strlen(token)-1] == PATH_DELIM)
+	   Strip_Trailing(token, PATH_DELIM);
+   xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
+
+   return 0;
+}
+
 int parsePublic(char *token, s_fidoconfig *config)
 {
    if (token == NULL) {
@@ -3831,7 +3851,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseSyslog(getRestOfLine(), &(config->syslogFacility));
             break;
         case ID_FILEBOXDIR:
-            rc = parsePath(getRestOfLine(), &(getDescrLink(config)->fileBox));
+            rc = parsePathNoCheck(getRestOfLine(), &(getDescrLink(config)->fileBox));
             break;
 	case ID_CARBONEXCLUDEFWDFROM:
 	    rc = parseBool(getRestOfLine(), &(config->carbonExcludeFwdFrom));
