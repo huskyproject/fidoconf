@@ -161,6 +161,10 @@ void printFilelist(s_filelist *fl)
     printf("type: global\n");
     break;
 
+  case flDirList:
+    printf("type: dirlist\n");
+    break;
+
   default:
     printf("internal error: unknown flType!\n");
     break;
