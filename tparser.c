@@ -384,10 +384,14 @@ int main(int argc, char **argv) {
       for (i = 0; i< config->netMailAreaCount; i++) {
          printArea(config->netMailAreas[i]);
       }
-      if (config->dupeArea.areaName != NULL) printArea(config->dupeArea);
-	else { printf("you must define DupeArea!\n"); return 1; }
-      if (config->badArea.areaName != NULL) printArea(config->badArea);
-	else { printf("you must define BadArea!\n"); return 1; }
+      if (config->dupeArea.areaName == NULL)
+	{ printf("you must define DupeArea!\n"); return 1; }
+      if (config->dupeArea.fileName != NULL) printArea(config->dupeArea);
+	else { printf("DupeArea can not be passthrough!\n"); return 1; }
+      if (config->badArea.areaName == NULL)
+	{ printf("you must define BadArea!\n"); return 1; }
+      if (config->badArea.fileName != NULL) printArea(config->badArea);
+	else { printf("BadArea can not be passthrough!\n"); return 1; }
       for (i = 0; i< config->echoAreaCount; i++) {
          printArea(config->echoAreas[i]);
       }
@@ -465,6 +469,7 @@ int main(int argc, char **argv) {
                case host:     printf("via host\n"); break;
                case hub:      printf("via hub\n"); break;
                case boss:     printf("via boss\n"); break;
+               case route_extern: break; /* internal only */
             }
          }
       }

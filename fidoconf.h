@@ -134,7 +134,7 @@ typedef struct link {
    unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
 } s_link, *ps_link;
 
-typedef enum routing {route_zero, host, hub, boss, noroute, nopack} e_routing;
+typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;
 
 typedef struct route {
    e_flavour flavour;

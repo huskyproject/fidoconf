@@ -316,6 +316,9 @@ void dumpRoute(s_route *route, int count, char *prefix, FILE *f)
 	  case nopack:
 	      fprintf(f, "nopack              ");
 	      break;
+	  case route_extern:
+	      /* internal only */
+	      break;
 	  }
       }
 

@@ -34,6 +34,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <errno.h>
 
 #ifdef UNIX
 #include <pwd.h>
@@ -41,6 +42,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#else
+#include <process.h>
+#include <io.h>
 #endif 
 
 #include <limits.h>
@@ -2147,6 +2152,117 @@ int parseAddToSeen(char *token, s_fidoconfig *config)
 	return 0;
 }
 
+static char *unquote(char *line)
+{
+  char *parsed, *src, *dest, *p, *p1, *newparsed;
+  int  curlen = strlen(line)+1;
+  int  i, pid, linepipe[2];
+  FILE *f;
+#ifndef UNIX
+  int  saveout;
+#endif
+
+  parsed = dest = smalloc(curlen);
+  for (src = line; *src; src++)
+  {
+    if (dest-parsed >= curlen-2)
+    {
+      newparsed = srealloc(parsed, curlen+=80);
+      dest += newparsed-parsed;
+      parsed = newparsed;
+    }
+    switch (*src)
+    {
+      case '`':
+        p = strchr(src+1, '`');
+        if (p == NULL)
+        {
+          *dest++ = *src;
+          continue;
+        }
+        *p = '\0';
+        pipe(linepipe);
+#if defined(UNIX)
+pipefork:
+        if ((pid = fork()) > 0)
+        {
+          close(linepipe[1]);
+        }
+        else if (pid == 0)
+        {
+          dup2(linepipe[1], fileno(stdout));
+          close(linepipe[1]);
+          close(linepipe[0]);
+          p1 = getenv("SHELL");
+          if (p1 == NULL) p1 = "/bin/sh";
+          execl(p1, p1, "-c", src, NULL);
+        }
+        else if (errno == EINTR)
+          goto pipefork;
+        else
+        { /* Can't fork */
+          *p = '`';
+          src = p;
+          continue;
+        }
+#else
+        saveout = dup(fileno(stdout));
+        dup2(linepipe[1], fileno(stdout));
+        close(linepipe[1]);
+        p1 = getenv("COMSPEC");
+        if (p1 == NULL) p1 = "cmd.exe";
+        pid = spawnl(P_NOWAIT, p1, p1, "-c", src, NULL);
+        dup2(saveout, fileno(stdout));
+        close(saveout);
+#endif
+        *p = '`';
+        src = p;
+        f = fdopen(linepipe[0], "r");
+        while ((i = fgetc(f)) != EOF)
+        {
+          if (i=='\n') i = ' ';
+          if (dest-parsed >= curlen-2)
+          {
+            newparsed = srealloc(parsed, curlen+=80);
+            dest += newparsed-parsed;
+            parsed = newparsed;
+          }
+          *dest++ = (char)i;
+        }
+        waitpid(pid, &i, 0);
+        fclose(f);
+        continue;
+      case '[':
+        p = strchr(src, ']');
+        if (p)
+        {
+          src++;
+          *p = '\0';
+          if ((p1 = getenv(src)) == NULL)
+            p1 = src;
+          if (dest-parsed+strlen(p1) >= curlen-2)
+          {
+            newparsed = srealloc(parsed, curlen = dest-parsed+strlen(p1)+80);
+            dest += newparsed-parsed;
+            parsed = newparsed;
+          }
+          strcpy(dest, p1);
+          dest += strlen(p1);
+          *p = ']';
+          src = p;
+          continue;
+        }
+      default:
+        *dest++ = *src;
+        continue;
+    }
+  }
+  *dest++ = '\0';
+  if (curlen != dest-parsed)
+    parsed = srealloc(parsed, dest-parsed);
+  return parsed;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -2157,8 +2273,7 @@ int parseLine(char *line, s_fidoconfig *config)
    int unrecognised = 0;
 #endif   
 
-   actualLine = temp = (char *) smalloc(strlen(line)+1);
-   strcpy(temp, line);
+   actualLine = temp = unquote(line);
 
    actualKeyword = token = strtok(temp, " \t");
 
