@@ -721,6 +721,9 @@ HUSKYEXT ps_area getEchoArea(ps_fidoconfig config, char *areaName);
 /* find netmail areas in config */
 HUSKYEXT ps_area getNetMailArea(ps_fidoconfig config, char *areaName);
 
+/* find RobotsArea in config. If not found - selects 1st netmail area */
+HUSKYEXT ps_area getRobotsArea(ps_fidoconfig config);
+
 /**
  * This function return 0 if the link is not linked to the area,
  * else it returns 1.

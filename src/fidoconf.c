@@ -847,6 +847,17 @@ s_area *getNetMailArea(s_fidoconfig *config, char *areaName)
    return (NULL);
 }
 
+s_area *getRobotsArea(s_fidoconfig *config)
+{
+    s_area *area = NULL;
+
+    if (config->robotsArea)
+        area = getNetMailArea(config, config->robotsArea);
+    if (area == NULL)
+        area = &(config->netMailAreas[0]);
+    return area;
+}
+
 s_area *getFileArea(char *areaName)
 {
    return FindFileAreaInTree(areaName);
