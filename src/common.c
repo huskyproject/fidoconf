@@ -248,6 +248,8 @@ void freeLink (s_link *link)
   freeGroups(link->filefix.frMask, link->filefix.numFrMask);
   freeGroups(link->areafix.dfMask, link->areafix.numDfMask);
   freeGroups(link->filefix.dfMask, link->filefix.numDfMask);
+  nfree(link->areafix.reportsFlags);
+  nfree(link->filefix.reportsFlags);
   nfree(link->areafix.fwdFile);
   nfree(link->filefix.fwdFile);
   nfree(link->areafix.denyFwdFile);
@@ -260,6 +262,7 @@ void freeLink (s_link *link)
   nfree(link->filefix.name);
   nfree(link->areafix.baseDir);
   nfree(link->filefix.baseDir);
+  nfree(link);
   return;
 }
 
