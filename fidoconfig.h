@@ -215,4 +215,15 @@ void parseConfig(FILE *f, s_fidoconfig *config);
 char *getConfigFileName(void);
 char *trimLine(char *line);
 
+/**
+ * This method can be used to get a program-specifically config-filename, in the same directories which are searched for fidoconfig.
+ * envVar should be set to a string which resembles a environment-variable which should be checked if it includes the fileName.
+ * configName is the filename of the config *without* any prefixes.
+ * e.g.
+ *      getConfigFileFotProgram("FIDOCONFIG", "config");
+ * is the call which is used for fidoconfig
+ */
+
+char *getConfigFileForProgram(char *envVar, char *configName);
+
 #endif

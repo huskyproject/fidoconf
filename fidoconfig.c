@@ -127,27 +127,35 @@ void initConfig(s_fidoconfig *config) {
    memset(config, 0, sizeof(s_fidoconfig));
 }
 
-char *getConfigFileName(void) {
-
-   char *envFidoConfig = getenv("FIDOCONFIG");
+char *getConfigFileNameForProgram(char *envVar, char *configName)
+{
+   char *envFidoConfig = getenv(envVar);
+   char *osSpecificName;
 
    FILE *f = NULL;
 
 #ifdef __linux__
-   char *osSpecificName = "/etc/fido/config";
+   char *osSpecificPrefix = "/etc/fido/";
 #elif __FreeBSD__
-   char *osSpecificName = "/usr/local/etc/fido/config";
+   char *osSpecificPrefix = "/usr/local/etc/fido/";
 #elif OS2
-   char *osSpecificName = "c:\\fido\\config";
+   char *osSpecificPrefix = "c:\\fido\\";
 #else
-   char *osSpecificName = "fidoconfig";
+   char *osSpecificPrefix = "";
 #endif
    char *ret;
 
    //try env-var fidoconfig
    if (envFidoConfig != NULL) f = fopen(envFidoConfig, "r");
+   
    if (f == NULL) {
+      if (configName == NULL) return NULL;
+      
       //try osSpecificName
+      osSpecificName = (char *) malloc(strlen(osSpecificPrefix)+strlen(configName)+1);
+      strcpy(osSpecificName, osSpecificPrefix);
+      strcat(osSpecificName, configName);
+      
       f = fopen(osSpecificName, "r");
       if (f==NULL) return NULL;
       else ret =  osSpecificName;
@@ -156,6 +164,11 @@ char *getConfigFileName(void) {
    fclose(f);
 
    return ret;
+}
+
+char *getConfigFileName(void) {
+
+   return getConfigFileNameForProgram("FIDOCONFIG", "config");;
 }
 
 s_fidoconfig *readConfig()

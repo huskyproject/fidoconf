@@ -2,6 +2,11 @@
 fidoconfig 0.6
 --------------
 
+Wed Feb  3 12:32:56 CET 1999
+- added getConfigFileNameForPogram() which can be used to search for
+  config-files in a way similar to fidoconfig. See header file for exact
+  description.
+
 ----- cvs ci ------
 Wed Jan 27 18:36:53 CET 1999
 - fixed many null pointer seg-faults
