@@ -81,6 +81,8 @@ int testConfig(s_fidoconfig *config){
     rc=1;
   }
 
+  if( rc ) putchar('\n');
+
   return rc;
 }
 
@@ -917,7 +919,8 @@ int main(int argc, char **argv) {
      nfree(cfgFile);
 
      if (config != NULL) {
-  	  checkLogic(config);
+        checkLogic(config);
+        rc = testConfig(config);
         printf("=== MAIN CONFIG ===\n");
         printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
         if (config->name != NULL)	printf("Name:     %s\n", config->name);
@@ -1367,9 +1370,10 @@ int main(int argc, char **argv) {
      }else
        printf( "sendMailCmd:\n" );
 
-     rc = testConfig(config);
-
      disposeConfig(config);
+
+     if( rc ) fprintf(stderr,"Errors or warnings found!");
    } /* endif */
+
    return rc;
 }
