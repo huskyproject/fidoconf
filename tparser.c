@@ -53,6 +53,7 @@
 #include "fidoconf.h"
 #include "xstr.h"
 #include "common.h"
+#include "grptree.h"
 
 #ifndef VERSION_H
 #define VERSION_H
@@ -321,7 +322,7 @@ void printAddr(ps_addr addr)
 void printArea(s_area area) {
    UINT i;
 
-   printf("%s \n", area.areaName);
+   printf("%s \n", area.areaName?area.areaName:"");
    printf("Description: ");
    if (area.description != NULL)
      printf("%s",area.description);
@@ -413,6 +414,15 @@ void printArea(s_area area) {
 	   printf("\n");
    }
    printf("-------\n");
+}
+
+int printAreaGroup(char *group)
+{
+    grp_t *g = (grp_t *) group;
+
+    if (!g) return;
+    printf("AreaGroup: %s -> %s \n", g->name, g->patternList);
+    printArea(*(g->area));
 }
 
 void printFileArea(s_filearea area) {
@@ -1540,7 +1550,12 @@ int main(int argc, char **argv) {
            printArea(config->dupeArea);
         printf("\n=== BadMailArea ===\n");
         if (config->badArea.areaName)
-           printArea(config->badArea);
+            printArea(config->badArea);
+
+        printf("\n=== AreaGroups ===\n");
+        tree_trav(&groupTree, &printAreaGroup);
+        printf("\n==================\n");
+
         printf("\n=== EchoAreas ===\n");
         for (i = 0; i< config->echoAreaCount; i++) {
            printArea(config->echoAreas[i]);

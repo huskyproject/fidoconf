@@ -30,18 +30,23 @@
 #define	_GRPTREE_H
 
 #include "fidoconf.h"
+#include "tree.h"
 
 /* if returns 1 - All Ok                                           */
 /* if returns 0 - we have duplicate definition for area in config  */
 
 typedef struct {
     char *name;
-    char *pattern;
+    char *patternList;
+    s_area *area;
 } grp_t;
 
+FCONF_EXT tree *groupTree;
+
 FCONF_EXT void initGroupTree();
-FCONF_EXT int addPatternListToGrpTree(char *grpname, char *plist);
+FCONF_EXT int addPatternToGrpTree(char *groupName, char *patternList);
 FCONF_EXT grp_t *findGroupForArea(char *areaName);
+FCONF_EXT grp_t *findGroupByName(char *groupName);
 FCONF_EXT void freeGrpTree();
 
 

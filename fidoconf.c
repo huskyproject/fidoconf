@@ -48,6 +48,7 @@
 #include "common.h"
 #include "xstr.h"
 #include "areatree.h"
+#include "grptree.h"
 
 static int wasCR=0;
 
@@ -169,6 +170,7 @@ void initConfig(s_fidoconfig *config) {
        MSGPRIVATE | MSGKILL | MSGLOCAL;
    config -> areafixReportsFlags = sstrdup("NPD");
    config -> filefixReportsFlags = sstrdup("NPD");
+   initGroupTree();
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)
@@ -610,6 +612,7 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->localAreas);
 
    FreeAreaTree();
+   freeGrpTree();
 
    fc_freeEchoArea(&(config->EchoAreaDefault));
    fc_freeFileArea(&(config->FileAreaDefault));

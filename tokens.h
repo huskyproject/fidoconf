@@ -293,7 +293,9 @@ enum {
     ID_SEQOUTRUN,
     ID_AVAILLIST,
     ID_ADVSTATISTICSFILE,
-    ID_PACKAKA
+    ID_PACKAKA,
+    ID_AREAGROUP,
+    ID_AREAGROUPDEFAULTS
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -345,6 +347,8 @@ token_t parseline_tokens[] =
     { "areafixqueuefile",    ID_AREAFIXQUEUEFILE },
     { "areafixreportsattr", ID_AREAFIXREPORTSATTR },
     { "areafixsplitstr", ID_AREAFIXSPLITSTR },
+    { "areagroup", ID_AREAGROUP },
+    { "areagroupdefaults", ID_AREAGROUPDEFAULTS },
     { "areasfilenamecase", ID_AREASFILENAMECASE },
     { "areasmaxdupeage", ID_AREASMAXDUPEAGE },
     { "autoareacreate", ID_AUTOAREACREATE },

@@ -86,6 +86,7 @@
 #include "xstr.h"
 #include "findtok.h"
 #include "tokens.h"
+#include "grptree.h"
 
 int fc_trycreate=0; /* Try to create nonexistant directories (defined in line.c) */
 char *actualKeyword, *actualLine;
@@ -1282,7 +1283,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
     return rc;
 }
 
-int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef)
+int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef, int cleanup)
 {
    char *tok, addr[24];
    unsigned int rc = 0, i;
@@ -1298,9 +1299,11 @@ int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef)
 
 
    /* cleanup */
-   fc_freeEchoArea(adef);
-   memset(adef, '\0', sizeof(s_area));
-   adef->useAka = config->addr;
+   if (cleanup) {
+       fc_freeEchoArea(adef);
+       memset(adef, '\0', sizeof(s_area));
+       adef->useAka = config->addr;
+   }
 
    if (token == NULL) /* all defaults off */
        return 0;
@@ -1368,6 +1371,84 @@ int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef)
    }
 
    return rc;
+}
+
+int parseAreaGroup(char *values)
+{
+    char *ptr = NULL;
+    char *name;
+    char *patternList;
+
+    if (!values || !strlen(values)) {
+        prErr("Error in areaGroup definition - no name specified!");
+        return 1;
+    }
+
+    ptr = strchr(values, ' ');
+    if (!ptr)
+        ptr = strchr(values, '\t');
+    if (!ptr) {
+        prErr("Error in areaGroup definition - no patterns specified!");
+        return 2;
+    }
+
+    name = scalloc(ptr - values + 1, 1);
+    sstrncpy(name, values, ptr - values);
+    while((*ptr == ' ') || (*ptr == '\t')) ptr++;
+
+    if (!strlen(ptr)) {
+        prErr("Error in areaGroup definition - no patterns specified!");
+        return 2;
+    }
+
+    patternList = sstrdup(ptr);
+    addPatternToGrpTree(name, patternList);
+
+    return 0;
+}
+
+int parseAreaGroupDefaults(s_fidoconfig *config, char *values)
+{
+    char *ptr = NULL;
+    char *name;
+    char *params;
+    grp_t *g;
+
+    if (!values || !strlen(values)) {
+        prErr("Error in areaGroup definition - no name specified!");
+        return 1;
+    }
+
+    ptr = strchr(values, ' ');
+    if (!ptr)
+        ptr = strchr(values, '\t');
+    if (!ptr) {
+        prErr("Error in areaGroupDefaults definition - no patterns specified!");
+        return 2;
+    }
+
+    name = scalloc(ptr - values + 1, 1);
+    sstrncpy(name, values, ptr - values);
+    while((*ptr == ' ') || (*ptr == '\t')) ptr++;
+
+    if (!strlen(ptr)) {
+        prErr("Error in areaGroupDefaults definition - no parameters specified!");
+        return 2;
+    }
+
+    g = findGroupByName(name);
+    if (!g) {
+        prErr("Group %s is undefined, please define it first using 'areaGroup' token!");
+        return 3;
+    }
+
+    params = sstrdup(ptr);
+    memcpy(g->area, &(config->EchoAreaDefault), sizeof(s_area));
+    parseEchoAreaDefault(config, params, g->area, 0);
+
+    nfree(params);
+    nfree(name);
+    return 0;
 }
 
 int parseEchoArea(char *token, s_fidoconfig *config)
@@ -3614,7 +3695,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseArea(config, getRestOfLine(), &(config->badArea), 1);
             break;
         case ID_ECHOAREADEFAULT:
-            rc = parseEchoAreaDefault(config, getRestOfLine(), &(config->EchoAreaDefault));
+            rc = parseEchoAreaDefault(config, getRestOfLine(), &(config->EchoAreaDefault), 1);
             break;
         case ID_FILEAREADEFAULT:
             rc = parseFileAreaDefault(config, getRestOfLine(), &(config->FileAreaDefault));
@@ -4552,7 +4633,12 @@ int parseLine(char *line, s_fidoconfig *config)
                 rc = 1;
             }
             break;
-
+        case ID_AREAGROUP:
+            rc = parseAreaGroup(getRestOfLine());
+            break;
+        case ID_AREAGROUPDEFAULTS:
+            rc = parseAreaGroupDefaults(config, getRestOfLine());
+            break;
 
         default:
             prErr( "unrecognized: %s", line);
