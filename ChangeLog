@@ -1,3 +1,8 @@
+2004-06-22 Tuesday 12:08  stas_degteff
+
+	* line.c (fidoconf-1_4-stable.11): Fix and expand the error message
+	about area and link definitions order
+
 2004-06-02 Wednesday 17:26  sfpavel
 
 	* debian/: changelog, control (fidoconf-1_4-stable.[8,5]): New
