@@ -1,3 +1,13 @@
+2003-01-11 Saturday 20:16  i_zkh
+
+	* fc2binkd.c (1.11): Corrected 'sysname', 'location', 'sysop'
+	keywords generation
+
+2003-01-11 Saturday 13:14  stas_degteff
+
+	* tparser.c (1.233): Fix diagnostics if robotsarea not defined in
+	config
+
 2003-01-10 Friday 11:30  sfpavel
 
 	* debian/: changelog (1.21), control (1.14), copyright (1.4),
