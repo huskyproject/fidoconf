@@ -1,3 +1,10 @@
+2004-01-10 Saturday 17:35  andrew_ladutsko
+
+	* HISTORY (1.26), fidoconf/fidoconf.h (1.21), fidoconf/tokens.h
+	(1.10), src/line.c (1.25), src/tparser.c (1.15): added
+	unsubscribeOnAreaDelete token to s_link structure; updated HISTORY
+	to recent changes
+
 2004-01-08 Thursday 16:02  andrew_ladutsko
 
 	* fidoconf/fidoconf.h (1.20), fidoconf/tokens.h (1.9), src/line.c
