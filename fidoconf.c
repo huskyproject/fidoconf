@@ -43,7 +43,7 @@
 char *readLine(FILE *f)
 {
    char *line = NULL, temp[81];
-   size_t l_end;
+   int l_end;
 
    line = (char *) smalloc(81);
    if (fgets(line, 81, f) == NULL) {
@@ -60,7 +60,7 @@ char *readLine(FILE *f)
        }
    }
    if (line[l_end]=='\n') line[l_end--]='\0';
-   if (line[l_end]=='\r') line[l_end]='\0';
+   if (l_end >= 0 && line[l_end]=='\r') line[l_end]='\0';
 
    return line;
 }
