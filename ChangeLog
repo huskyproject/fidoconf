@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Mon Nov 29 00:29:07 CET 1999
+sms:
+* fixed some misuses of ++ in line.c
+
+----- cvs ci ------
 Thu Nov  4 23:10:31 NOVT 1999
 max:
 * moved patimat() to common.c
