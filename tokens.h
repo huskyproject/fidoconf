@@ -258,7 +258,10 @@ enum {
     ID_RULESDIR,
     ID_NORULES,
     ID_AREAFIXQUEUEFILE,
-    ID_FILEDESCNAME
+    ID_FILEDESCNAME,
+    ID_FORWARDREQUESTTIMEOUT,
+    ID_IDLEPASSTHRUTIMEOUT,
+    ID_KILLEDREQUESTTIMEOUT
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -398,9 +401,11 @@ token_t parseline_tokens[] =
     { "forwardrequestfile", ID_FORWARDREQUESTFILE },
     { "forwardrequestmask", ID_FORWARDREQUESTMASK },
     { "forwardrequests", ID_FORWARDREQUESTS },
+    { "forwardrequesttimeout", ID_FORWARDREQUESTTIMEOUT },
     { "fullupdate", ID_FULLUPDATE },
     { "handle", ID_HANDLE },
     { "hptperlfile", ID_HPTPERLFILE },
+    { "idlepassthrutimeout" , ID_IDLEPASSTHRUTIMEOUT },
     { "ignorecapword", ID_IGNORECAPWORD },
     { "ignoreseen", ID_IGNORESEEN },
     { "import", ID_IMPORT },
@@ -409,6 +414,7 @@ token_t parseline_tokens[] =
     { "intab", ID_INTAB },
     { "keeptrsfiles", ID_KEEPTRSFILES },
     { "keeptrsmail", ID_KEEPTRSMAIL },
+    { "killedrequesttimeout", ID_KILLEDREQUESTTIMEOUT },
     { "kludgeareanetmail", ID_KLUDGEAREANETMAIL },
     { "level", ID_LEVEL },
     { "link", ID_LINK },

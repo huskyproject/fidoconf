@@ -438,6 +438,9 @@ typedef struct fidoconfig {
 
    unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests;
    unsigned int areafixMsgSize, areafixQueryReports;
+   unsigned int forwardRequestTimeout;
+   unsigned int killedRequestTimeout;
+   unsigned int idlePassthruTimeout;
    char *areafixSplitStr, *areafixOrigin, *robotsArea;
    char *areafixQueueFile;
 

@@ -940,6 +940,10 @@ int main(int argc, char **argv) {
 	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
 	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
 	  if (config->areafixQueueFile) printf("areafixQueueFile: %s\n",config->areafixQueueFile);
+	  printf("ForwardRequestTimeout: %d\n",config->forwardRequestTimeout);
+	  printf("IdlePassthruTimeout  : %d\n",config->idlePassthruTimeout);
+	  printf("KilledRequestTimeout : %d\n",config->killedRequestTimeout);
+
 
   if (hpt==0) {
       printf("\n=== FILEFIX CONFIG ===\n");

@@ -339,7 +339,7 @@ void processPermissions (s_fidoconfig *config)
 
 void fixRoute(s_fidoconfig *config)
 {
-	int i;
+	unsigned int i;
 
 	for (i = 0; i < config->routeCount; i++) {
 		if (config->route[i].viaStr != NULL)
@@ -350,7 +350,7 @@ void fixRoute(s_fidoconfig *config)
 
 void stripPktPwd(s_fidoconfig *config)
 {
-   int i;
+   unsigned int i;
    for (i = 0; i < config->linkCount; i++) {
       if (config->links[i].pktPwd && strlen(config->links[i].pktPwd) > 8) {
          if (config->links[i].pktPwd == config->links[i].defaultPwd) {
@@ -362,6 +362,13 @@ void stripPktPwd(s_fidoconfig *config)
    }
 }
 
+void setConfigDefaults(s_fidoconfig *config)
+{
+    if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"");
+    config->forwardRequestTimeout = config->forwardRequestTimeout == 0 ? 7 : config->forwardRequestTimeout;
+    config->idlePassthruTimeout = config->idlePassthruTimeout == 0 ? 4 : config->idlePassthruTimeout;
+    config->killedRequestTimeout = config->killedRequestTimeout == 0 ? 3 : config->killedRequestTimeout;
+}
 s_fidoconfig *readConfig(char *cfgFile)
 {
    s_fidoconfig *config;
@@ -403,12 +410,12 @@ s_fidoconfig *readConfig(char *cfgFile)
    processPermissions (config);
    fixRoute(config);
    stripPktPwd(config);
-   if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"");
+   setConfigDefaults(config);
    return config;
 }
 
 void freeArea(s_area area) {
-    int i;
+    unsigned int i;
 	nfree(area.areaName);
 	nfree(area.fileName);
 	nfree(area.description);
@@ -420,7 +427,7 @@ void freeArea(s_area area) {
 }
 
 void freeFileArea(s_filearea area) {
-    int i;
+    unsigned int i;
 	nfree(area.areaName);
 	nfree(area.pathName);
 	nfree(area.description);
@@ -442,7 +449,7 @@ void freeSaveTic(s_savetic savetic) {
 
 void disposeConfig(s_fidoconfig *config)
 {
-  int i;
+  unsigned int i;
   unsigned int j;
 
    nfree(config->name);
@@ -741,7 +748,7 @@ s_filearea *getFileArea(s_fidoconfig *config, char *areaName)
 
 int isLinkOfArea(s_link *link, s_area *area)
 {
-   int i;
+   unsigned int i;
 
    for (i = 0; i < area->downlinkCount; i++)
    {
@@ -752,7 +759,7 @@ int isLinkOfArea(s_link *link, s_area *area)
 
 int isLinkOfFileArea(s_link *link, s_filearea *area)
 {
-   int i;
+   unsigned int i;
 
    for (i = 0; i < area->downlinkCount; i++)
    {

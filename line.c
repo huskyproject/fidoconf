@@ -507,7 +507,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    char *token;
    char *iOption;
    char *iToken;
-   int i;
+   unsigned int i;
 
    iOption = strLower(sstrdup(option));
    if (strcmp(iOption, "b")==0) {
@@ -737,7 +737,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
 {
   char *token;
   char *iOption;
-  int i;
+  unsigned int i;
 
   iOption = strLower(sstrdup(option));
   if (strcmp(iOption, "a")==0) {
@@ -1156,7 +1156,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    s_arealink *arealink;
    ps_arealink *alink;
    unsigned int rc = 0;
-   int toklen,i;
+   unsigned int toklen,i;
 
    if (token == NULL) {
       prErr("There are parameters missing after %s!", actualKeyword);
@@ -1480,7 +1480,7 @@ int parseLink(char *token, s_fidoconfig *config)
 
    s_link   *clink;
    s_link   *deflink;
-   int i;
+   unsigned int i;
 
    if (token == NULL) {
       prErr("There is a name missing after %s!", actualKeyword);
@@ -1995,7 +1995,7 @@ int parseFileName(char *line, char **name) {
 
 int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
 
-   int i;
+   unsigned int i;
 
    if (line == NULL) {
       prErr("Parameter missing after %s!", actualKeyword);
@@ -3308,6 +3308,16 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseUInt(getRestOfLine(),
                            &(getDescrLink(config)->forwardAreaPriority));
             break;
+        case ID_FORWARDREQUESTTIMEOUT:
+            rc = parseUInt(getRestOfLine(), &(config->forwardRequestTimeout));
+            break;
+        case ID_IDLEPASSTHRUTIMEOUT:
+            rc = parseUInt(getRestOfLine(), &(config->idlePassthruTimeout));
+            break;
+        case ID_KILLEDREQUESTTIMEOUT:
+            rc = parseUInt(getRestOfLine(), &(config->killedRequestTimeout));
+            break;
+
         case ID_FORWARDFILEPRIORITY:
             rc = parseUInt(getRestOfLine(),
                            &(getDescrLink(config)->forwardFilePriority));
