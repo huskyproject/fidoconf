@@ -75,13 +75,14 @@ char *tree_srch(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_us
 	EXIT(NULL)
 }
 
-
-static void sprout(tree **ppr, char *pc_data, int *pi_balance,
+// return value = 1 new item added
+// return value = 0 item was replased
+static int sprout(tree **ppr, char *pc_data, int *pi_balance,
 		   int (*pfi_compare)(char *, char *), int (*pfi_delete)(char *))
 {
 	tree	*p1, *p2;
 	int	cmp;
-
+   int   nRet;
 	ENTER("sprout")
 
 	/* are we grounded?  if so, add the node "here" and set the rebalance
@@ -95,7 +96,7 @@ static void sprout(tree **ppr, char *pc_data, int *pi_balance,
 		(*ppr)->tree_b = 0;
 		(*ppr)->tree_p = pc_data;
 		*pi_balance = TRUE;
-		EXITV
+		EXIT(1)
 	}
 
 	/* compare the data using routine passed by caller.
@@ -106,7 +107,7 @@ static void sprout(tree **ppr, char *pc_data, int *pi_balance,
 	 */
 	if (cmp < 0) {
 		PRMSG("LESS. sprouting left.")
-		sprout(&(*ppr)->tree_l, pc_data, pi_balance,
+		nRet = sprout(&(*ppr)->tree_l, pc_data, pi_balance,
 			pfi_compare, pfi_delete);
 		if (*pi_balance) {	/* left branch has grown longer */
 			PRMSG("LESS: left branch has grown")
@@ -157,14 +158,14 @@ static void sprout(tree **ppr, char *pc_data, int *pi_balance,
 				*pi_balance = FALSE;
 			} /*switch*/
 		} /*if*/
-		EXITV
+		EXIT(nRet)
 	} /*if*/
 
 	/* if MORE, prepare to move to the right.
 	 */
 	if (cmp > 0) {
 		PRMSG("MORE: sprouting to the right")
-		sprout(&(*ppr)->tree_r, pc_data, pi_balance,
+		nRet = sprout(&(*ppr)->tree_r, pc_data, pi_balance,
 			pfi_compare, pfi_delete);
 		if (*pi_balance) {	/* right branch has grown longer */
 			PRMSG("MORE: right branch has grown")
@@ -213,7 +214,7 @@ static void sprout(tree **ppr, char *pc_data, int *pi_balance,
 				*pi_balance = FALSE;
 			} /*switch*/
 		} /*if*/
-		EXITV
+		EXIT(nRet)
 	} /*if*/
 
 	/* not less, not more: this is the same key!  replace...
@@ -223,19 +224,20 @@ static void sprout(tree **ppr, char *pc_data, int *pi_balance,
 	if (pfi_delete)
 		(*pfi_delete)((*ppr)->tree_p);
 	(*ppr)->tree_p = pc_data;
-	EXITV
+	EXIT(0)
 }
 
 
-void tree_add(tree **ppr_tree, int (*pfi_compare)(char *, char *),
+int tree_add(tree **ppr_tree, int (*pfi_compare)(char *, char *),
 	      char *pc_user, int (*pfi_delete)(char *))
 {
-	void	sprout();
+	int	sprout();
 	int	i_balance = FALSE;
+   int   nRet = 0;
 
 	ENTER("tree_add")
-	sprout(ppr_tree, pc_user, &i_balance, pfi_compare, pfi_delete);
-	EXITV
+	nRet = sprout(ppr_tree, pc_user, &i_balance, pfi_compare, pfi_delete);
+	EXIT(nRet)
 }
 
 
