@@ -1,2 +1,3 @@
 fidoconfig 0.12-stable
 cvs tag: fidoconf-0_12-stable
+required: smapi 2.0.x-stable
