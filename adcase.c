@@ -464,7 +464,11 @@ void adaptcase (char *str)
 }
 
 #ifndef unused
+#ifdef __GNUC__
+#define unused(x)
+#else
 #define unused(x) (x)
+#endif
 #endif
 
 void adaptcase_refresh_dir(char *directory)
