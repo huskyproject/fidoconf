@@ -243,14 +243,15 @@ typedef struct arealink {
 } s_arealink, *ps_arealink;
 
 typedef struct area {
+   int areaType;        /* ECHOAREA, FILEAREA */
+
    char *areaName;
-   char *fileName;
+   char *fileName;      /* messagebase file for echoarea, directory for filearea or "passthrough" for both */
    char *description;
 
    int msgbType;        /*  MSGTYPE_SDM or MSGTYPE_SQUISH or */
                         /*  MSGTYPE_JAM or MSGTYPE_PASSTHROUGH */
 
-   int areaType;         /* ECHOAREA, FILEAREA */
    ps_addr useAka;
 
    ps_arealink *downlinks;  /*  array of pointers to s_link */
@@ -298,31 +299,6 @@ typedef struct area {
 
 
 } s_area, *ps_area;
-
-//typedef struct fileareatype {
-//   char *areaName;
-//   char *pathName;
-//   char *description;
-//
-//   int sendorig;       /*  1 - Send Original */
-//   int pass;           /*  1 - Passthrough File Area */
-//   int noCRC;          /*  0 if CRC check should be done on incoming files */
-//   int noreplace;      /*  1 - no replace files in this filearea */
-//   int nodiz;          /*  1 - do not try to get description from <fileDescName> */
-//   ps_addr useAka;
-//
-//   unsigned purge;     /*  number of days to keep files. if 0 purging is disabled */
-//
-//   ps_arealink *downlinks;  /*  array of pointers to s_link */
-//   unsigned int downlinkCount;
-//
-//   unsigned levelread;	      /*  0-65535 */
-//   unsigned levelwrite;	      /*  0-65535 */
-//
-//   char mandatory, manual, hide, noPause;
-//
-//   char *group;                      /*  used by reader (and areafix soon) */
-//} s_filearea, *ps_filearea;
 
 typedef struct bbsareatype {
    char *areaName;
