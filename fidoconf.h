@@ -409,6 +409,8 @@ typedef struct fidoconfig {
    char *tearline, *origin;
 
    e_bundleFileNameStyle bundleNameStyle;
+   
+   unsigned int keepTrsMail; // Keep Transit Netmail
 
 } s_fidoconfig, *ps_fidoconfig;
 

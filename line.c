@@ -2549,7 +2549,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline));
    else if (stricmp(token, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
    else if (stricmp(token, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
-
+   else if (stricmp(token, "keeptrsmail")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
+   
 #ifdef __TURBOC__
    else unrecognised++;
    if (unrecognised == 5)

@@ -2,6 +2,10 @@ fidoconfig 0.10
 ---------------
 (released on Mon May 22 14:58:56 CEST 2000)
 
+----- cvs ci ------
+Sat Sep  2 20:48:59 NOVST 2000
+max (patch from Michael Kulinich):
+* token keepTrsMail
 
 ----- cvs ci ------
 Sat Aug 27 19:31:04 NOVST 2000

@@ -892,6 +892,7 @@ void freeLink (s_link *link)
   free(link->autoFileCreateFile);
   free(link->RemoteRobotName);
   free(link->RemoteFileRobotName);
+  return;
 }
 
 int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {

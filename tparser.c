@@ -363,6 +363,7 @@ int main(int argc, char **argv) {
       printf("createAreasCase: %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
       printf("areasFileNameCase: %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
       printf("DisableTID: %s\n", (config->disableTID) ? "on" : "off");
+      printf("keepTrsMail: %s\n", (config->keepTrsMail) ? "on" : "off");
 #if defined ( __NT__ )
       printf("SetConsoleTitle: %s\n", (config->setConsoleTitle) ? "on" : "off");
 #endif

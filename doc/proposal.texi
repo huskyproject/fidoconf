@@ -221,6 +221,7 @@ a comment and will be ignored.
 * ignoreSeen::                  ignore SEEN-BYs and pack mail for link
 * tearline::                    add specified tearline to hpt messages
 * origin::                      add specified origin to hpt messages
+* keepTrsMail::                 keep transit netmail messages
 
 @end menu
 
@@ -2413,7 +2414,7 @@ This statement can be repeated.
 
 Add this tearline to hpt messages (post, reports about new areas created)
 
-@node origin, , tearline, Keywords
+@node origin, keepTrsMail, tearline, Keywords
 @subsection origin
 @table @asis
 @item Syntax:
@@ -2424,6 +2425,20 @@ Add this tearline to hpt messages (post, reports about new areas created)
 
 Add this Origin to hpt messages: post, reports about new areas created,
 areafix (if no areafixOrigin defined)
+
+@node keepTrsMail, , origin, Keywords
+@subsection keepTrsMail
+@table @asis
+@item Syntax:
+@code{keepTrsMail [on|off|yes|no|1|0]}
+@item Example:
+@code{keepTrsMail}
+@end table
+
+Save transit messages in NetmailArea.
+
+If this statement is ommitted. Transit messages wouldn't be kept in
+NetmailArea.
 
 @node Example,  , Keywords, config file
 @section Working sample config
