@@ -96,25 +96,32 @@ void prErr ( char *string, ...)
 char *getDescription(void)
 {
   char *descBuf = NULL, *token;
-  int out=0, length;
+  int quoted=0, length;
 
-  while ((out==0) && ((token=strtok(NULL," "))!=NULL))
+  while ((token=strtok(NULL," "))!=NULL)
   {
     xstrscat (&descBuf, token, " ", NULL);
-    if (token[strlen(token)-1]=='\"') out=1;
+    if (*token=='\"' && !quoted)
+    {
+      quoted=1;
+      if (token[1] == '\0') continue;
+    }
+    if (quoted && token[strlen(token)-1]=='\"') break;
+    if (!quoted) break;
   }
 
-  switch (out)
+  if (descBuf == NULL)
   {
-  case 0:
     prErr( "Error in area description!");
-    nfree(descBuf);
-    break;
-    
-  case 1: // out. cut '" '
-    descBuf[length=(strlen(descBuf)-2)] = '\0';
+    return NULL;
+  }
+
+  descBuf[length=(strlen(descBuf)-1)] = '\0'; // remove trailing space
+  if (quoted)
+  {
+    // out. cut '"'
+    descBuf[--length] = '\0';
     memmove(descBuf, descBuf+1, length);
-    break;
   }
 
   return descBuf;
