@@ -27,9 +27,11 @@
  * $Id$
  */
 #include <stdlib.h>
+#include <string.h>
 #include "afixcmd.h"
 #include "common.h"
 #include "log.h"
+#include <smapi/compiler.h>
 #include <smapi/progprot.h>
 
 char* expandCfgLine(char* cfgline)
@@ -55,7 +57,7 @@ int findTokenPos4Link(char **confName, char* ftoken, s_link *link, long* start, 
       cfgline = expandCfgLine(cfgline);
       line = cfgline;
       token = strseparate(&line, " \t");
-      if (!token || stricmp(token, "link")) {
+      if (!token || strcasecmp(token, "link")) {
          nfree(cfgline);
          continue;
       }
