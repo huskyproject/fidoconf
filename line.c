@@ -2161,6 +2161,8 @@ int parseAddToSeen(char *token, s_fidoconfig *config)
 		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
 		buf[i]='\0'; node=atoi(buf);
 		
+		if (*token == '.') { token++; while(isdigit(*token)) token++; }
+		
 		config->addToSeen = realloc(config->addToSeen, 
 									sizeof(s_addr)*(config->addToSeenCount+1));
 		config->addToSeen[config->addToSeenCount].net  = net;
