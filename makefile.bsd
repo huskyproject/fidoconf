@@ -1,6 +1,6 @@
 #Settings for FreeBSD
 
-#installation directires
+#installation directories
 INSTBIN = /usr/local/bin
 INSTLIB = /usr/local/lib
 
@@ -10,11 +10,12 @@ ILOPT = -c -m 444 -o bin -g bin
 
 # program settings
 CC = cc
+LD = cc
 AR = ar
 AR_R = r
-RM = rm
+RM = rm -f
 
-COPT = -O2 -pipe -Wall -DUNIX -I../smapi
+COPT = -fpic -O2 -pipe -Wall -DUNIX -I../smapi
 LOPT = -L /usr/local/lib -L. -L../smapi
 
 # filename settings
@@ -26,8 +27,8 @@ FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded
 FCONF2MSGED  = fconf2msged
 LIBFIDOCONFIG = libfidoconfig
-LINKSMAPI = -L../smapi -lsmapibsd
-LINKFIDOCONFIG = -L. -l$(FIDOCONFIG)
+LINKSMAPI = -lsmapibsd
+LINKFIDOCONFIG = -l$(FIDOCONFIG)
 
 default: all
 
@@ -41,8 +42,8 @@ clean: commonclean
 distclean: commondistclean
 	-$(RM) libfidoconfig.so.$(VERH)
 
-libfidoconfig.so.$(VERH): fidoconfig$(O) line$(O) common$(O) patmat$(O) dir$(O)
-	$(LD) -shared -o $(LIBFIDOCONFIG).so.$(VERH) line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O) $(LOPT) $(LINKSMAPI)
+libfidoconfig.so.$(VERH): $(LOBJS)
+	$(LD) $(LOPT) -shared -o $(LIBFIDOCONFIG).so.$(VERH) $(LOBJS) $(LINKSMAPI)
 
 %.o: %.c
 	$(CC) -c $(COPT) $*.c
