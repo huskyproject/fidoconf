@@ -1231,3 +1231,38 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
     };
     strcat(cmd, tmp);
 }
+
+char *changeFileSuffix(char *fileName, char *newSuffix) {
+
+    int   i = 1;
+    char  buff[255];
+
+    char *beginOfSuffix = strrchr(fileName, '.')+1;
+    char *newFileName;
+    int  length = strlen(fileName)-strlen(beginOfSuffix)+strlen(newSuffix);
+
+    newFileName = (char *) smalloc((size_t) length+1+2);
+    memset(newFileName, '\0',length+1+2);
+    strncpy(newFileName, fileName, length-strlen(newSuffix));
+    strcat(newFileName, newSuffix);
+
+#ifdef DEBUG_HPT
+    printf("old: %s      new: %s\n", fileName, newFileName);
+#endif
+
+    while (fexist(newFileName) && (i<255)) {
+	sprintf(buff, "%02x", i);
+	beginOfSuffix = strrchr(newFileName, '.')+1;
+	strncpy(beginOfSuffix+1, buff, 2);
+	i++;
+    }
+
+    if (!fexist(newFileName)) {
+	rename(fileName, newFileName);
+	return newFileName;
+    } else {
+	w_log('9', "Could not change suffix for %s. File already there and the 255 files after", fileName);
+	nfree(newFileName);
+	return NULL;
+    }
+}
