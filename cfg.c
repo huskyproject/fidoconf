@@ -59,24 +59,24 @@ int init_conf(char *conf_name)
   return 0;
 }
 
-char *getvar(char *var)
+char *getvar(char *name)
 { int i;
 
   for (i=0; i<nvars; i++)
-    if (stricmp(var, set[i].var)==0)
+    if (stricmp(name, set[i].var)==0)
     { if (set[i].value[0]==0)
         return NULL;
       return set[i].value;
     }
-  return getenv(var);
+  return getenv(name);
 }
 
-void setvar(char *var, char *value)
+void setvar(char *name, char *value)
 { int i, j;
 
   /* find var */
   for (i=0; i<nvars; i++)
-    if (stricmp(set[i].var, var)==0)
+    if (stricmp(set[i].var, name)==0)
       break;
   if (i<nvars)
   { /* remove var */
@@ -93,9 +93,9 @@ void setvar(char *var, char *value)
       return;
   if (nvars==maxnvars)
     set = srealloc(set, (maxnvars+=10)*sizeof(*set));
-  set[nvars].var=smalloc(strlen(var)+strlen(value)+2);
-  strcpy(set[nvars].var, var);
-  set[nvars].value=set[nvars].var+strlen(var)+1;
+  set[nvars].var=smalloc(strlen(name)+strlen(value)+2);
+  strcpy(set[nvars].var, name);
+  set[nvars].value=set[nvars].var+strlen(name)+1;
   strcpy(set[nvars].value, value);
   nvars++;
   return;
