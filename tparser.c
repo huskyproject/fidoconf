@@ -234,6 +234,19 @@ void printFilelist(s_filelist *fl)
   printf("-------\n");
 }
 
+static char *cvtFlavour(e_flavour flavour)
+{
+   switch (flavour) {
+      case hold:      return "hold";
+      case normal:    return "normal";
+      case direct:    return "direct";
+      case crash:     return "crash";
+      case immediate: return "immediate";
+      default:        fprintf(stderr, "Unknown flavour, update tparser!\n");
+                      return "";
+   }
+}
+
 void printLink(s_link link) {
 	unsigned int i;
 
@@ -416,6 +429,8 @@ void printLink(s_link link) {
          break;
    }
    printf("arcNetmail %s\n", (link.arcNetmail) ? "on" : "off");
+   printf("echoMailFlavour %s\n", cvtFlavour(link.echoMailFlavour));
+   printf("fileEchoFlavour %s\n", cvtFlavour(link.fileEchoFlavour));
 
    printf("-------\n");
 }
