@@ -789,7 +789,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     if (fin == NULL) { nfree(buffer); return -1; }
 
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
-    fh = open( to, O_EXCL | (force_rewrite ? 0 : O_CREAT) | O_RDWR, S_IREAD | S_IWRITE );
+    fh = open( to, (force_rewrite ? 0 : O_EXCL) | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
     if( fh<0 ){
       fh=errno;
       fclose(fin);
