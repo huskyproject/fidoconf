@@ -384,6 +384,7 @@ typedef struct savetictype {
    int  fileAction;            /* 0 - do nothing */
                                /* 1 - copy file    -  save tic with ticked file */
                                /* 2 - link file  */
+   UINT days2save;
 
 } s_savetic, *ps_savetic;
 

@@ -2922,44 +2922,52 @@ int parseTypeDupes(char *line, e_typeDupeCheck *typeDupeBase, unsigned *DayAge)
 
 int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
 {
-   char *tok;
+    char *tok;
+    int rc;
 
-   unused(config);
+    unused(config);
 
-   if (token == NULL) {
-      prErr("There are parameters missing after %s!", actualKeyword);
-      return 1;
-   }
+    if (token == NULL) {
+        prErr("There are parameters missing after %s!", actualKeyword);
+        return 1;
+    }
 
-   memset(savetic, 0, sizeof(s_savetic));
+    memset(savetic, 0, sizeof(s_savetic));
 
-   tok = strtok(token, " \t");
-   if (tok == NULL) {
-      prErr("There is a areaname mask missing after %s!", actualKeyword);
-      return 1;         /* if there is no areaname mask */
-   }
+    tok = strtok(token, " \t");
+    if (tok == NULL) {
+        prErr("There is a areaname mask missing after %s!", actualKeyword);
+        return 1;         /* if there is no areaname mask */
+    }
 
-   savetic->fileAreaNameMask= (char *) smalloc(strlen(tok)+1);
-   strcpy(savetic->fileAreaNameMask, tok);
+    savetic->fileAreaNameMask = sstrdup(tok);
 
-   tok = strtok(NULL, " \t");
+    tok = strtok(NULL, " \t");
 
-   if (tok == NULL) {
-      prErr("There are parameters missing after %s!", token);
-      return 1;
-   }
+    if (tok == NULL) {
+        prErr("There are parameters missing after %s!", token);
+        return 1;
+    }
 
 
-   if(*tok == '-')
-   {
-      if       (tok[1] == 'l')
-         savetic->fileAction = 2;
-      else if  (tok[1] == 'c')
-         savetic->fileAction = 1;
-      tok = strtok(NULL, " \t");
-   }
+    if(*tok == '-')
+    {
+        if       (tok[1] == 'l')
+            savetic->fileAction = 2;
+        else if  (tok[1] == 'c')
+            savetic->fileAction = 1;
+        tok = strtok(NULL, " \t");
+    }
 
-   return  parsePath(tok, &savetic->pathName, NULL);
+
+    rc = parsePath(tok, &savetic->pathName, NULL);
+    if(rc==0) {
+        tok = strtok(NULL, " \t");
+        if (tok) {
+            parseNumber(tok, 10, &(savetic->days2save));
+        }
+    }
+    return rc;
 }
 
 int parseSaveTicStatement(char *token, s_fidoconfig *config)
