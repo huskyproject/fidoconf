@@ -3986,6 +3986,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_DISABLETID:
             rc = parseBool(getRestOfLine(), &(config->disableTID));
             break;
+        case ID_DISABLEPID:
+            rc = parseBool(getRestOfLine(), &(config->disablePID));
+            break;
         case ID_TOSSINGEXT:
             if ((temp=getRestOfLine()) != NULL)
                 rc = copyString(temp, &(config->tossingExt));

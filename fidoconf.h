@@ -511,6 +511,7 @@ typedef struct fidoconfig {
    unsigned int ignoreCapWord;
    unsigned int noProcessBundles;
    unsigned int disableTID;
+   unsigned int disablePID;
 
    char *afterUnpack, *beforePack;
    char *processPkt;

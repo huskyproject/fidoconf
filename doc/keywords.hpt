@@ -61,6 +61,7 @@ denyfwdmask
 denyfwdreqaccess
 denyuncondfwdreqaccess
 disabletid
+disablepid
 dupearea
 dupebasetype
 dupehistorydir
