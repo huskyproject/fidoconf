@@ -1,3 +1,34 @@
+2002-06-13 Thursday 19:31  stas
+
+	* fconf2dir (1.1): New script: generate fileareas directories
+	listing for FREQ-processors & bbslist tool.
+
+2002-06-13 Thursday 19:28  stas
+
+	* fconf2areasbbs (1.3): Fixes: passthrough areas recognition,
+	subscribed links list.
+
+2002-06-13 Thursday 19:28  stas
+
+	* fconf2areasbbs (1.2): Added JAM support (patch by Dmitry Pankov
+	2:5022/81)
+
+2002-06-13 Thursday 19:26  stas
+
+	* log.h (1.5): Fix 'alert' log level.
+
+2002-06-13 Thursday 06:45  stas
+
+	* log.h (1.4): Change log levels defines
+
+2002-06-13 Thursday 06:44  stas
+
+	* man/fconf2.1 (1.3): Add fconf2areasbbs and fconf2dir descriptions
+
+2002-06-13 Thursday 06:42  stas
+
+	* doc/proposal.texi (1.130): Add loglevels & screenloglevels nodes.
+
 2002-06-11 Tuesday 18:22  mche
 
 	* afixcmd.c (1.8): remove cygwin warning
