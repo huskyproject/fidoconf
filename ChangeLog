@@ -1032,11 +1032,11 @@
 
 2002-11-19 Tuesday 12:08  stas_degteff
 
-	* fidoconf.h (1.156): Fix Watcom C compilation errors
+	* arealist.c (1.6): Use safety string compare functions
 
 2002-11-19 Tuesday 12:08  stas_degteff
 
-	* arealist.c (1.6): Use safety string compare functions
+	* fidoconf.h (1.156): Fix Watcom C compilation errors
 
 2002-11-19 Tuesday 11:02  mche
 
@@ -2894,9 +2894,9 @@
 
 2002-04-11 Thursday 06:36  pavel.gulchouck
 
-	* areatree.c (1.5), log.c (1.5) (utags: fidoconf-0_14_2-release,
-	fidoconf-0_14_3-release, fidoconf-0_14-release,
-	fidoconf-0_14_4-release): Fixed compiler warning -- no newline at
+	* areatree.c (1.5), log.c (1.5) (utags: fidoconf-0_14_4-release,
+	fidoconf-0_14_2-release, fidoconf-0_14-release,
+	fidoconf-0_14_3-release): Fixed compiler warning -- no newline at
 	end of file
 
 2002-04-09 Tuesday 16:20  mche
@@ -4280,8 +4280,8 @@
 	* makefile.bsd (1.13), makefile.in2 (1.1), makefile.lnx (1.47,
 	fidoconf-0_14_4-release, fidoconf-0_14_3-release,
 	fidoconf-0_14_2-release, fidoconf-0_14-release), makefile.sun
-	(1.11) (utags: fidoconf-0_10a-release, fidoconf-0_10b-release,
-	fidoconf-0_10c-release): legacy makefile fixes
+	(1.11) (utags: fidoconf-0_10b-release, fidoconf-0_10c-release,
+	fidoconf-0_10a-release): legacy makefile fixes
 
 2000-04-16 Sunday 14:29  tobi
 
