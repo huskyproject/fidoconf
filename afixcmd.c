@@ -168,12 +168,13 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
     if (fexist(newname) || (f_newconf = fopen(newname, "wb")) == NULL) {
 	/* we have no write access to this directory? */
 	/* change config "in place" */
-	nfree(newname);
 	if (openro) {
 	    fprintf(stderr, "Cannot open temp file %s: %s\n", newname, strerror(errno));
+	    nfree(newname);
 	    fclose(f_conf);
 	    return 0;
 	}
+	nfree(newname);
 	line = (char*) smalloc((size_t) cfglen);
 	fseek(f_conf, curpos, SEEK_SET);
 	if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
