@@ -45,8 +45,9 @@ distclean: clean
 	-$(RM) fidoconfig.info*
 
 install: info
-	-$(MKDIR) $(MKDIROPT) $(INFODIR)
+	@echo .
 ifdef INFODIR
+	-$(MKDIR) $(MKDIROPT) $(INFODIR)
 	$(INSTALL)  fidoconfig.info $(INFODIR)
 	-install-info --info-dir=$(INFODIR)  $(INFODIR)$(DIRSEP)fidoconfig.info
 endif
