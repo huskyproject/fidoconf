@@ -886,7 +886,7 @@ int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
 }
 
 
-int parseArea(const s_fidoconfig *config, char *token, s_area *area)
+int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs)
 {
    char *tok, addr[24], *ptr;
    unsigned int rc = 0, i,j;
@@ -899,20 +899,22 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 
     /*   memset(area, '\0', sizeof(s_area)); */
 
-    /* copy defaults */
-    memcpy(area,&(config->EchoAreaDefault),sizeof(s_area));
+   if (useDefs) { /* copy defaults */
+       memcpy(area,&(config->EchoAreaDefault),sizeof(s_area));
+       /* default has perhaps groups        */
+       /*             perhaps a description */
+       /*             perhaps downlinks     */
+       /*             areaName==NULL        */
+       /*             fileName==NULL        */
+       /*             perhaps other settings*/
+       /*             allways an useAka     */
+   } else { /* netmail - don't copy defaults */
+       memset(area, 0, sizeof(s_area));
+   }
 
-    /* default has perhaps groups        */
-    /*             perhaps a description */
-    /*             perhaps downlinks     */
-    /*             areaName==NULL        */
-    /*             fileName==NULL        */
-    /*             perhaps other settings*/
-    /*             allways an useAka     */
 
-
-    /* not pointing to the group of the default --> freeArea() will cause
-     trouble :) */
+   /* not pointing to the group of the default --> freeArea() will cause
+      trouble :) */
     if(area->group!=NULL)
         area->group=sstrdup(area->group);
     area->description=NULL;
@@ -1144,7 +1146,7 @@ int parseEchoArea(char *token, s_fidoconfig *config)
    }
 
    config->echoAreas = srealloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
-   rc = parseArea(config, token, &(config->echoAreas[config->echoAreaCount]));
+   rc = parseArea(config, token, &(config->echoAreas[config->echoAreaCount]), 1);
    config->echoAreaCount++;
    return rc;
 }
@@ -1160,11 +1162,7 @@ int parseNetMailArea(char *token, s_fidoconfig *config)
 
    config->netMailAreas = srealloc(config->netMailAreas, sizeof(s_area)*(config->netMailAreaCount+1));
 
-   /* not all values for echoarea are valid for netmail, so.. */
-   freeArea(config->EchoAreaDefault);
-   memset(&(config->EchoAreaDefault), '\0', sizeof(s_area));
-
-   rc = parseArea(config, token, &(config->netMailAreas[config->netMailAreaCount]));
+   rc = parseArea(config, token, &(config->netMailAreas[config->netMailAreaCount]), 0);
    config->netMailAreaCount++;
    return rc;
 }
@@ -2175,7 +2173,7 @@ int parseLocalArea(char *token, s_fidoconfig *config)
    }
 
    config->localAreas = srealloc(config->localAreas, sizeof(s_area)*(config->localAreaCount+1));
-   rc = parseArea(config, token, &(config->localAreas[config->localAreaCount]));
+   rc = parseArea(config, token, &(config->localAreas[config->localAreaCount]), 1);
    config->localAreaCount++;
    return rc;
 }
@@ -3118,10 +3116,10 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseNetMailArea(getRestOfLine(), config);
             break;
         case ID_DUPEAREA:
-            rc = parseArea(config, getRestOfLine(), &(config->dupeArea));
+            rc = parseArea(config, getRestOfLine(), &(config->dupeArea), 1);
             break;
         case ID_BADAREA:
-            rc = parseArea(config, getRestOfLine(), &(config->badArea));
+            rc = parseArea(config, getRestOfLine(), &(config->badArea), 1);
             break;
         case ID_ECHOAREADEFAULT:
             rc = parseEchoAreaDefault(config, getRestOfLine(), &(config->EchoAreaDefault));
