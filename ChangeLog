@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Tue Nov 30 23:06:25 CET 1999
+mtt:
+* all areanames are now converted to lowercase during reading
+	
+----- cvs ci ------
 Tue Nov 30 22:07:07 CET 1999
 sms:
 * fixed some misuses of ++ in fecfg2fconf.c

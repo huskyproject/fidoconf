@@ -265,6 +265,17 @@ char *strUpper(char *str)
    return temp;
 }
 
+char *strLower(char *str)
+{
+   char *temp = str;
+   
+   while(*str != 0) {
+      *str = tolower(*str);
+      str++;
+   }
+   return temp;
+}
+
 char *shell_expand(char *str)
 {
     char *slash = NULL, *ret = NULL, c;

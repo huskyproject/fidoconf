@@ -107,6 +107,13 @@ char   *strUpper(char *str);
   FZ:     strUpper converts the string from lower case to upper case.
   */
 
+char   *strLower(char *str);
+/*DOC
+  Input:  str is a \0 terminated string
+  Output: a pointer to a \0 terminated string is returned.
+  FZ:     strLower converts the string from upper case to lower case.
+*/
+
 char   *shell_expand(char *str);
 /*DOC
    Input: str is a \0 terminated string which must have been malloc'ed
