@@ -1,3 +1,7 @@
+2002-10-27 Sunday 08:50  pgul
+
+	* fidoconf.c (1.89): fix new groups parsing
+
 2002-10-26 Saturday 13:03  mche
 
 	* cfg.c (1.52): added chak for duplicate includes
