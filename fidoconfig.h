@@ -168,7 +168,7 @@ struct fidoconfig {
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
-   char     *magic, *areafixhelp, *autoCreateDefaults, *tempOutbound;
+   char     *magic, *areafixhelp, *available, *autoCreateDefaults, *tempOutbound;
 
    s_area   netMailArea, dupeArea, badArea;
    unsigned int   echoAreaCount;

@@ -927,6 +927,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
 
    else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
+   else if (stricmp(token, "availableareas")==0) rc = parseFileName(getRestOfLine(), &(config->available));
    else if (stricmp(token, "autoCreateFile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateFile));
 
 

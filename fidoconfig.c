@@ -277,6 +277,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->msgBaseDir);
    free(config->magic);
    free(config->areafixhelp);
+   free(config->available);
    free(config->autoCreateDefaults);
    free(config->tempOutbound);
 
