@@ -2,6 +2,11 @@ fidoconfig 0.8
 --------------
 
 ----- cvs ci ------
+Mon Jun  7 20:43:29 CEST 1999
+mtt:
+* fixed some null-pointer issues.
+
+----- cvs ci ------
 Sun May 30 22:26:26 CEST 1999	
 mtt:
 * fixed a bug in (2)

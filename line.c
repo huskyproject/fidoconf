@@ -378,34 +378,34 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    else if (stricmp(option, "g")==0) {
           token = strtok(NULL, " \t");
 //        printf("group - '%s'\n",token);
-      area->group = token[0];
       if (token == NULL) {
                  return 1;
       }
+      area->group = token[0];
    }
    else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
 //        printf("rgrp - '%s'\n",token);
-      copyString(token, &(area->rgrp));
-      if (area->rgrp == NULL) {
+      if (token == NULL) {
                  return 1;
       }
+      copyString(token, &(area->rgrp));
    }
    else if (stricmp(option, "w")==0) {
           token = strtok(NULL, " \t");
 //        printf("wgrp - '%s'\n",token);
-      copyString(token, &(area->wgrp));
-      if (area->wgrp == NULL) {
+      if (token == NULL) {
                  return 1;
       }
+      copyString(token, &(area->wgrp));
    }
    else if (stricmp(option, "l")==0) {
           token = strtok(NULL, " \t");
 //        printf("rwgrp - '%s'\n",token);
-      copyString(token, &(area->rwgrp));
-      if (area->rwgrp == NULL) {
+      if (token == NULL) {
                  return 1;
       }
+      copyString(token, &(area->rwgrp));
    }
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
    else if (stricmp(option, "$")==0) ;
@@ -439,34 +439,34 @@ int parseFileAreaOption(s_fidoconfig config, char *option, s_filearea *area)
    else if (stricmp(option, "g")==0) {
           token = strtok(NULL, " \t");
 //        printf("group - '%s'\n",token);
-      area->group = token[0];
       if (token == NULL) {
                  return 1;
       }
+      area->group = token[0];
    }
    else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
 //        printf("rgrp - '%s'\n",token);
-      copyString(token, &(area->rgrp));
-      if (area->rgrp == NULL) {
+      if (token == NULL) {
                  return 1;
       }
+      copyString(token, &(area->rgrp));
    }
    else if (stricmp(option, "w")==0) {
           token = strtok(NULL, " \t");
 //        printf("wgrp - '%s'\n",token);
-      copyString(token, &(area->wgrp));
-      if (area->wgrp == NULL) {
+      if (token == NULL) {
                  return 1;
       }
+      copyString(token, &(area->wgrp));
    }
    else if (stricmp(option, "l")==0) {
           token = strtok(NULL, " \t");
 //        printf("rwgrp - '%s'\n",token);
-      copyString(token, &(area->rwgrp));
-      if (area->rwgrp == NULL) {
+      if (token == NULL) {
                  return 1;
       }
+      copyString(token, &(area->rwgrp));
    }
    else if (stricmp(option, "d")==0) {
           if ((area->description=getDescription())==NULL)
