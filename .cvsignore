@@ -1,6 +1,6 @@
-*.ppu
 *.exp
 *.dll
 *.lib
 *.obj
-tags
+*.dsp
+*.plg
