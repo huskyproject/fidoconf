@@ -1,3 +1,7 @@
+2004-02-17 Tuesday 09:29  mche
+
+	* src/line.c (1.27): fix parsing of SaveTic keyword
+
 2004-02-06 Friday 03:11  andr_lukyanov
 
 	* src/: fidoconf.c (1.15), tparser.c (1.18): Set advisoryLock
