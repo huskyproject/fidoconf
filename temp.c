@@ -65,13 +65,21 @@ int MKSTEMPS( char *tempfilename )
    if(pp){ /* suffix presents */
      do{
          *pp = 0;
+#if !defined(UNIX)
          if( !mktemp(ttt) )
+#else
+         if( !mkstemp(ttt) )
+#endif
            break;
          *pp = '.';
          fd = open( ttt, O_EXCL | O_CREAT );
      }while( fd==-1 && errno == EEXIST );
    }else{
+#if !defined(UNIX)
      while( fd==-1 && mktemp(ttt) ){
+#else
+     while( fd==-1 && mkstemp(ttt) ){
+#endif
        fd = open( ttt, O_EXCL | O_CREAT );
      };
    }
