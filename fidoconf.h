@@ -595,6 +595,9 @@ typedef struct fidoconfig {
    char *rulesDir;
    unsigned int packNetMailOnScan;
 
+   char *seqDir;	/* for msgid generation */
+   unsigned long seqOutrun;
+
    char**   uuEGrp; // uueEchoAreaGroups;
    unsigned int numuuEGrp;
 

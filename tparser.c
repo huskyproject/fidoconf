@@ -796,6 +796,22 @@ void printRemaps(s_fidoconfig *config)
     }
 }
 
+void printSeqOutrun(unsigned long seqOutrun)
+{
+    if (seqOutrun % (365l*24*60*60) == 0)
+	printf("seqOutrun: %luy\n", seqOutrun % (365l*24*60*60));
+    else if (seqOutrun % (31l*24*60*60) == 0)
+	printf("seqOutrun: %lum\n", seqOutrun % (31l*24*60*60));
+    else if (seqOutrun % (7l*24*60*60) == 0)
+	printf("seqOutrun: %luw\n", seqOutrun % (7l*24*60*60));
+    else if (seqOutrun % (24*60*60) == 0)
+	printf("seqOutrun: %lud\n", seqOutrun % (24*60*60));
+    else if (seqOutrun % (60*60) == 0)
+	printf("seqOutrun: %luh\n", seqOutrun % (60*60));
+    else
+	printf("seqOutrun: %lu\n", seqOutrun);
+}
+
 
 static int dumpcfg(char *fileName)
 {
@@ -999,6 +1015,9 @@ int main(int argc, char **argv) {
   #endif
         if (config->processPkt != NULL) printf("processPkt: %s\n", config->processPkt);
         if (config->tossingExt != NULL) printf("tossingExt: %s\n", config->tossingExt);
+
+        if (config->seqDir != NULL) printf("seqDir: %s\n", config->seqDir);
+        if (config->seqOutrun != 0) printSeqOutrun(config->seqOutrun);
 
   	  if (config->addToSeenCount) {
   		  printf("AddToSeen:");

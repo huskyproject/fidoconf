@@ -290,7 +290,9 @@ enum {
     ID_REDUCEDSEENBY,
     ID_AREAFIXFROMNAME,
     ID_FILEFIXECHOLIMIT,
-    ID_FILEFIXFROMNAME    
+    ID_FILEFIXFROMNAME,
+    ID_SEQDIR,
+    ID_SEQOUTRUN
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -544,6 +546,8 @@ token_t parseline_tokens[] =
     { "semadir", ID_SEMADIR },
     { "sendmailcmd", ID_SENDMAILCMD },
     { "separatebundles", ID_SEPARATEBUNDLES },
+    { "seqdir", ID_SEQDIR },
+    { "seqoutrun", ID_SEQOUTRUN },
     { "sessionpwd", ID_SESSIONPWD },
     { "setconsoletitle", ID_SETCONSOLETITLE },
     { "splitdirs", ID_SPLITDIRS },

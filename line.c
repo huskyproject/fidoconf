@@ -3177,6 +3177,37 @@ int parsePermissions (char *line,  s_permissions **perm, int *permCount)
     return 0;
 }
 
+int parseSeqOutrun(char *line, unsigned long *seqoutrun)
+{
+    char *p;
+    while (isspace(*line)) line++;
+    if (!isdigit(*line)) {
+	prErr("Bad SeqOutrun value %s", line);
+	return 1;
+    }
+    *seqoutrun = (unsigned long)atol(line);
+    p = line;
+    while (isdigit(*p)) p++;
+    if (*p == '\0') return 0;
+    if (p[1]) {
+	prErr("Bad SeqOutrun value %s", line);
+	return 1;
+    }
+    switch (tolower(*p)) {
+	case 'y':	*seqoutrun *= 365;
+	case 'd':	*seqoutrun *= 24;
+	case 'h':	*seqoutrun *= 60*60;
+			break;
+	case 'w':	*seqoutrun *= 7l*24*60*60;
+			break;
+	case 'm':	*seqoutrun *= 31l*24*60*60;
+			break;
+	default:	prErr("Bad SeqOutrun value %s", line);
+			return 1;
+    }
+    return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
     char *token, *temp;
@@ -4211,7 +4242,12 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_FILEFIXFROMNAME:
             rc = copyString(getRestOfLine(), &(config->filefixFromName));
             break;
-
+        case ID_SEQDIR:
+            rc = parsePath(getRestOfLine(), &(config->seqDir), NULL);
+            break;
+        case ID_SEQOUTRUN:
+            rc = parseSeqOutrun(getRestOfLine(), &(config->seqOutrun));
+            break;
 
         default:
             prErr( "unrecognized: %s", line);

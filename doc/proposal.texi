@@ -188,6 +188,9 @@ you can find in the documentation of the individual programs.
 * loglevels::			set level of log output
 * screenloglevels::             set level of log output to screen
 
+* seqdir::                      path for msgid sequence stamp
+* seqoutrun::                   max msgid seq outrun from current time
+
 * link::                        adding a link to your config
 * linkdefaults::                start/end/destroy links default definitions
 * aka::                         links adress
@@ -496,7 +499,7 @@ Default value: 1234567890ABCDEF
 
 This statement cannot be repeated.
 
-@node screenloglevels, link, loglevels, Keywords
+@node screenloglevels, seqdir, loglevels, Keywords
 @subsection ScreenLogLevels
 @findex ScreenLogLevels
 @table @asis
@@ -510,8 +513,51 @@ Set levels of log output to screen. See loglevels for details.
 
 This statement cannot be repeated.
 
+@node seqdir, seqoutrun, screenloglevels, Keywords
+@subsection seqdir
+@table @asis
+@item Syntax:
+@code{seqDir <path>}
+@item Example:
+@code{seqDir /var/spool/fido/seq}
+@end table
 
-@node link, linkdefaults, screenloglevels, Keywords
+Set path for current msgid sequence stamp.
+
+By default use environment variable SEQDIR.
+
+This statement cannot be repeated.
+
+@node seqoutrun, link, seqdir, Keywords
+@subsection seqoutrun
+@table @asis
+@item Syntax:
+@code{seqOutrun <string>}
+@item Example:
+@code{seqOutrun 1m}
+@end table
+
+Set maximum outrun for msgid sequence from current time.
+
+Use decimal number with optional suffix.
+
+Suffixes are:
+
+@table @asis
+@item y - year (365 days)
+@item m - month (31 days)
+@item w - week (7 days)
+@item d - day
+@item h - hour
+@end table
+
+Set seconds without suffix.
+
+By default use environment variable SEQOUT or 3y if unset.
+
+This statement cannot be repeated.
+
+@node link, linkdefaults, seqoutrun, Keywords
 @subsection link
 @table @asis
 @item Syntax:
