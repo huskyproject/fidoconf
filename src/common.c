@@ -603,7 +603,7 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
             strncat(cmd, tmp, (size_t) (start - tmp + 1));
             start--; continue;
         };
-        strnzcat(cmd, tmp, (size_t) (start - tmp));
+        strnzcat(cmd, tmp, (size_t) (start - tmp + 1));
         strcat(cmd, add);
     };
     strcat(cmd, tmp);

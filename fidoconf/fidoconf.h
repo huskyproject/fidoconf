@@ -633,10 +633,12 @@ struct message {
    hUCHAR datetime[22];
    hCHAR  netMail;
    hINT32 textLength;
+   hINT32 ctlLength;
    int    recode;
 
    char   *toUserName, *fromUserName, *subjectLine;
    char   *text;
+   char   *ctl;
 };
 
 struct pktHeader {
