@@ -1,3 +1,28 @@
+2005-02-25 Friday 00:12  nick_voronin
+
+	* src/tparser.c (1.30): DLLEXPORT define replaced with DLLIMPORT. 
+	FIXME: tparser doesn't export anything, on the contrary it import
+	from dlls. Am I wrong?
+
+2005-02-25 Friday 00:09  nick_voronin
+
+	* src/line.c (1.45): memory leak on parseAreaOption fixed
+
+2005-02-25 Friday 00:06  nick_voronin
+
+	* src/fidoconf.c (1.26): several memory leaks fixed, mainly in
+	disposeConfig
+
+2005-02-25 Friday 00:03  nick_voronin
+
+	* src/common.c (1.21): several small memory leaks in freeLink()
+	fixed
+
+2005-02-25 Friday 00:01  nick_voronin
+
+	* src/afixcmn.c (1.7): hs_addr.domain now initialized with NULL on
+	cvtAddr
+
 2005-02-02 Wednesday 16:59  val_khokhlov
 
 	* src/: line.c (1.44), tparser.c (1.29): new link token
