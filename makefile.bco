@@ -1,0 +1,45 @@
+# Makefile for Borland C (OS/2)
+# no support for huskymak.cfg
+
+CC=	bcc
+EXENAMEFLAG=-e
+CFLAGS=	-w -I.. -I../smapi -v -DOS2
+COPT=	-O2
+LFLAGS= 
+# we always enerate debug info with -v; the linker will strip it
+
+TPU=.tpu
+OBJ=.obj
+EXE=.exe
+RM=del
+LIB=.lib
+AR=tlib_sup
+AR_R=
+
+LINKFIDOCONFIG=fconfbco.lib
+LINKSMAPI=..\smapi\smapibco.lib
+LIBPREFIX=
+
+FIDOCONFIG = fidoconfig
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+FECFG2FCONF = fecfg2fconf
+LIBFIDOCONFIG = $(LIBPREFIX)fconfbco
+
+default: all
+
+!include makefile.common
+
+tlib_sup.cmd: tlib_sup.bat
+	copy tlib_sup.bat tlib_sup.cmd
+
+libs: tlib_sup.cmd commonlibs
+
+all: libs commonprogs
+
+clean: commonclean
+
+distclean: commondistclean
