@@ -60,5 +60,5 @@ install:
 	install linkedto $(INSTDIR)
 	install $(IBOPT) tparser      $(INSTDIR)
 	install $(IBOPT) dumpfcfg     $(INSTDIR)
-        $(LDCONFIG)
+	$(LDCONFIG)
 
