@@ -1,3 +1,7 @@
+2002-10-25 Friday 13:17  stas_degteff
+
+	* common.c (fidoconf-0_14-stable.6): Fix Watcom C win32 compilation
+
 2002-10-24 Thursday 13:13  stas_degteff
 
 	* Makefile, makefile.in2, makefile.sun, xstr.c
