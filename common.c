@@ -36,6 +36,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <smapi/compiler.h>
 
 #if ((!(defined(_MSC_VER) && (_MSC_VER >= 1200))) && (!defined(__TURBOC__)))
 #  include <unistd.h>
