@@ -53,7 +53,7 @@ else
   FCONF2MSGED  = fconf2msged
   FCONF2FIDOGATE = fconf2fidogate
   FCONF2SQUISH = fconf2squish
-  FCONF2TORNADO  = fc2tornadobbs
+  FCONF2TORNADO  = fconf2tornado
   FECFG2FCONF = fecfg2fconf
   LIBFIDOCONFIG = $(LIBPREFIX)fidoconfig
 endif
