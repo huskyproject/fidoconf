@@ -154,4 +154,7 @@ char *aka2str(s_addr aka);
 
 int patimat(char *raw, char *pat); /* case insensitive */
 
+void freeGroups(char **grps, int numGroups);
+void freeLink (s_link *link);
+
 #endif

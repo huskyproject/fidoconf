@@ -123,7 +123,7 @@ struct link {
    unsigned autoPause;        // in days
    unsigned level;	          // 0-65535
    unsigned arcmailSize;      // max arcmail size in kb
-   unsigned int export, import, mandatory; // Default link's options
+   int export, import, mandatory; // Default link's options
    char **optGrp; // groups for this options
    unsigned int numOptGrp;
 };
@@ -388,6 +388,9 @@ struct fidoconfig {
 
    e_typeDupeCheck typeDupeBase;
    unsigned int areasMaxDupeAge;
+
+   s_link   *linkDefaults;
+   int      describeLinkDefaults;
 };
 
 

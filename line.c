@@ -64,7 +64,6 @@ char *actualKeyword, *actualLine;
 int  actualLineNr;
 char wasError = 0;
 
-
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
@@ -143,6 +142,25 @@ int parseVersion(char *token, s_fidoconfig *config)
    config->cfgVersionMinor = atoi(buffer);
 
    return 0;
+}
+
+void printLinkError(void)
+{
+  printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
+}
+
+s_link *getDescrLink(s_fidoconfig *config)
+{
+   if (config->describeLinkDefaults) { // describing defaults for links
+      return config->linkDefaults;
+   } else {
+      if (config->linkCount) {
+         return &config->links[config->linkCount-1];
+      } else {
+         printLinkError();
+         return NULL;
+      }
+   }
 }
 
 int parseAddress(char *token, s_fidoconfig *config)
@@ -1034,33 +1052,102 @@ sizeof(s_bbsarea)*(config->bbsAreaCount+1));
 
 int parseLink(char *token, s_fidoconfig *config)
 {
+
+   s_link   *clink;
+   s_link   *deflink;
+   int i;
+
    if (token == NULL) {
       printf("Line %d: There is a name missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
 
+   config->describeLinkDefaults=0; // Stop describing of link defaults if it was
+
    config->links = realloc(config->links, sizeof(s_link)*(config->linkCount+1));
-   memset(&(config->links[config->linkCount]), 0, sizeof(s_link));
-   config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
-   // set areafix default to on
-   config->links[config->linkCount].AreaFix = 1;
-   config->links[config->linkCount].FileFix = 1;
 
-   // set defaults to export, import, mandatory
-   config->links[config->linkCount].export = 1;
-   config->links[config->linkCount].import = 1;
-   config->links[config->linkCount].mandatory = 0;
+   clink = &(config->links[config->linkCount]);
+
+   if (config->linkDefaults) {
+
+      memcpy ( clink, config->linkDefaults, sizeof(s_link));
+
+      deflink = config->linkDefaults;
+
+	  if (deflink->hisAka.domain) copyString(deflink->hisAka.domain, &clink->hisAka.domain);
+	  if (deflink->name) copyString(deflink->name, &clink->name);
+  	  if (deflink->defaultPwd) copyString(deflink->defaultPwd, &clink->defaultPwd);
+  	  if (deflink->pktPwd != deflink->defaultPwd ) {
+         copyString(deflink->pktPwd, &clink->pktPwd);
+      } else {
+		  clink->pktPwd = clink->defaultPwd;
+      }
+  	  if (deflink->ticPwd != deflink->defaultPwd ) {
+         copyString(deflink->ticPwd, &clink->ticPwd);
+      } else {
+		  clink->ticPwd = clink->defaultPwd;
+      }
+  	  if (deflink->areaFixPwd != deflink->defaultPwd ) {
+         copyString(deflink->areaFixPwd, &clink->areaFixPwd);
+      } else {
+         clink->areaFixPwd = clink->defaultPwd;
+	  }
+  	  if (deflink->fileFixPwd != deflink->defaultPwd ) {
+         copyString(deflink->fileFixPwd, &clink->areaFixPwd);
+	  } else {
+		  clink->fileFixPwd = clink->defaultPwd;
+	  }
+  	  if (deflink->bbsPwd != deflink->defaultPwd ) {
+         copyString(deflink->bbsPwd, &clink->bbsPwd);
+	  } else {
+		  clink->bbsPwd = clink->defaultPwd;
+	  }
+  	  if (deflink->sessionPwd != deflink->defaultPwd ) {
+         copyString(deflink->sessionPwd, &clink->sessionPwd);
+	  } else {
+		  clink->sessionPwd = clink->defaultPwd;
+	  }
+	  if (deflink->handle) copyString(deflink->handle, &clink->handle);
+	  if (deflink->email) copyString(deflink->email, &clink->email);
+	  if (deflink->LinkGrp) copyString(deflink->LinkGrp, &clink->LinkGrp);
+	  if (deflink->AccessGrp) {
+		  clink->AccessGrp = malloc(sizeof(char *) * clink->numAccessGrp);
+		  for ( i=0; i < deflink->numAccessGrp; i++)
+			  copyString(deflink->AccessGrp[i], &clink->AccessGrp[i]);
+	  }
+	  if (deflink->autoAreaCreateFile) copyString(deflink->autoAreaCreateFile, &clink->autoAreaCreateFile);
+	  if (deflink->autoFileCreateFile) copyString(deflink->autoFileCreateFile, &clink->autoFileCreateFile);
+	  if (deflink->autoAreaCreateDefaults) copyString(deflink->autoAreaCreateDefaults, &clink->autoAreaCreateDefaults);
+	  if (deflink->autoFileCreateDefaults) copyString(deflink->autoFileCreateDefaults, &clink->autoFileCreateDefaults);
+	  if (deflink->forwardRequestFile) copyString(deflink->forwardRequestFile, &clink->forwardRequestFile);
+	  if (deflink->RemoteRobotName) copyString(deflink->RemoteRobotName, &clink->RemoteRobotName);
+	  if (deflink->optGrp) {
+		  clink->optGrp = malloc(sizeof(char *) * clink->numOptGrp);
+		  for ( i=0; i < deflink->numOptGrp; i++)
+			  copyString(deflink->optGrp[i], &clink->optGrp[i]);
+	  }
+	  
+   } else {
+
+      memset(clink, 0, sizeof(s_link));
+
+	  // Set defaults like in parseLinkDefaults()
+
+      // set areafix default to on
+      clink->AreaFix = 1;
+      clink->FileFix = 1;
+
+      // set defaults to export, import, mandatory
+      clink->export = 1;
+      clink->import = 1;
+      clink->fReqFromUpLink = 1;
+      clink->ourAka = &(config->addr[0]);
    
-   config->links[config->linkCount].fReqFromUpLink = 1;
+   }
 
-   strcpy(config->links[config->linkCount].name, token);
-
-   // if handle not given use name as handle
-   if (config->links[config->linkCount].handle == NULL) config->links[config->linkCount].handle = config->links[config->linkCount].name;
-   if (config->links[config->linkCount].ourAka == NULL) config->links[config->linkCount].ourAka = &(config->addr[0]);
-
-   // by default headers of PKT and MSG in areafix request must be equal
-   config->links[config->linkCount].allowPktAddrDiffer = 0;
+   clink->name = (char *) malloc (strlen(token)+1);
+   strcpy(clink->name, token);
+   clink->handle = clink->name;
 
    config->linkCount++;
    return 0;
@@ -1085,23 +1172,15 @@ int parseNodelist(char *token, s_fidoconfig *config)
    return 0;
 }
 
-int parseExport(char *token, unsigned int *export) {
-    if (token == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-    }
-    if (stricmp(token, "on")==0) *export = 1;
-    else *export = 0;
-    return 0;
-}
+int parseBool (char *token, int *value) {
 
-int parseImport(char *token, unsigned int *import) {
     if (token == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
+       *value = 1;
+       return 0;
     }
-    if (stricmp(token, "on")==0) *import = 1;
-    else *import = 0;
+    if (stricmp(token, "on")==0 || stricmp(token, "yes")==0 || stricmp(token, "1")==0) *value = 1;
+    else if (stricmp(token, "off")==0 || stricmp(token, "no")==0 || stricmp(token, "0")==0) *value = 0;
+    else return 2;
     return 0;
 }
 
@@ -1125,27 +1204,6 @@ int parseAutoPause(char *token, unsigned *autoPause)
 
    return 0;
 }
-
-int parseMandatory(char *token, unsigned int *mandatory) {
-    if (token == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-    }
-    if (stricmp(token, "on")==0) *mandatory = 1;
-    else *mandatory = 0;
-    return 0;
-}
-
-/*
-int parseOptGrp(char *token, char **optgrp) {
-    if (token == NULL) {
-      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-    }
-    copyString(token, optgrp);
-    return 0;
-}
-*/
 
 int parseUInt(char *token, unsigned int *uint) {
 
@@ -1183,13 +1241,17 @@ int parsePWD(char *token, char **pwd) {
 }
 
 int parseHandle(char *token, s_fidoconfig *config) {
+   s_link   *clink; 
+
    if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
 
-   config->links[config->linkCount-1].handle = (char *) malloc (strlen(token)+1);
-   strcpy(config->links[config->linkCount-1].handle, token);
+   clink = getDescrLink(config);
+
+   clink->handle = (char *) malloc (strlen(token)+1);
+   strcpy(clink->handle, token);
    return 0;
 }
 
@@ -1556,9 +1618,12 @@ int parseFileEchoFlavour(char *line, e_flavour *flavour) {
    return 0;
 }
 
+
 //and the parseGroup:
 // i make some checking... maybe it is better check if the pointer exist from
 // copyString function?
+// i removed some checking... ;-)
+// groups may be copied from linkDefaults
 
 int parseGroup(char *token, s_fidoconfig *config, int i)
 {
@@ -1573,29 +1638,19 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 			return 1;
 		}
 	
-	if ((config->linkCount < 1) && (i != 2)) {
-		fprintf(stderr, "Line %d: You must define link before setting %s!\n",
-				actualLineNr, actualKeyword);
-		return 1;
-    }
-	if (i != 2) link = &config->links[config->linkCount-1];
+	if (i != 2) link = getDescrLink(config);
 
 	switch (i)
 		{
 		case 0:
-			if (link->numAccessGrp != 0) {
-				fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
-						actualLineNr, actualKeyword);
-				return 1;
-			}
+			if (link->AccessGrp) freeGroups(link->AccessGrp, link->numAccessGrp);
+            link->AccessGrp = NULL;
+			link->numAccessGrp = 0;
 			break;
 
 		case 1:
-			if (link->LinkGrp != NULL) {
-				fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
-						actualLineNr, actualKeyword);
-				return 1;
-			}
+			if (link->LinkGrp) free(link->LinkGrp);
+			link->LinkGrp = NULL;
 			break;
 
 		case 2:
@@ -1608,18 +1663,16 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 			break;
 
 		case 3:
-			if (link->numOptGrp != 0)
-				{
-					fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
-							actualLineNr, actualKeyword);
-					return 1;
-				}
+			if (link->optGrp) freeGroups(link->optGrp, link->numOptGrp);
+            link->optGrp = NULL;
+			link->numOptGrp = 0;
 			break;
+
 		}
 
-
-	switch (i) {
+   switch (i) {
 	case 0:
+
 		for (link->numAccessGrp = 0; *token != '\0'; link->numAccessGrp++) {
 			link->AccessGrp = realloc (link->AccessGrp,
 									   (link->numAccessGrp+1)*sizeof(char *));
@@ -1660,7 +1713,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		break;
 
 	case 1:
-		copyString(token, &(config->links[config->linkCount-1].LinkGrp));
+		copyString(token, &link->LinkGrp);
 		break;
 		
 	case 2:
@@ -1703,6 +1756,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		break;
 
 	case 3:
+
 		for (link->numOptGrp = 0; *token != '\0'; link->numOptGrp++) {
 			link->optGrp = realloc(link->optGrp, (link->numOptGrp+1)*sizeof(char *));
 
@@ -1979,11 +2033,6 @@ int parseSaveTicStatement(char *token, s_fidoconfig *config)
    return rc;
 }
 
-void printLinkError(void)
-{
-  printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
-}
-
 int parseExecOnFile(char *line, s_fidoconfig *config) {
    char   *a, *f, *c;
    s_execonfile *execonfile;
@@ -2023,10 +2072,51 @@ void printNodelistError(void)
   printf("Line %d: You must define a nodelist first before you use %s!\n", actualLineNr, actualKeyword);
 }
 
+int parseLinkDefaults(char *token, s_fidoconfig *config)
+{
+
+   if (token==NULL) {
+      config->describeLinkDefaults = 1;
+   } else {
+
+	   if (stricmp(token, "begin")==0) config->describeLinkDefaults = 1;
+       else if (stricmp(token, "end")==0) config->describeLinkDefaults = 0;
+       else if (stricmp(token, "destroy")==0) {
+		   config->describeLinkDefaults = 0;
+		   freeLink(config->linkDefaults);
+		   free(config->linkDefaults);
+		   config->linkDefaults = NULL;
+       }
+       else return 2;
+   }
+
+   if (config->describeLinkDefaults && config->linkDefaults==NULL) {
+
+	   config->linkDefaults = calloc(1, sizeof(s_link));
+
+      // Set defaults like in parseLink()
+
+      // set areafix default to on
+      config->linkDefaults->AreaFix = 1;
+      config->linkDefaults->FileFix = 1;
+
+      // set defaults to export, import, mandatory
+      config->linkDefaults->export = 1;
+      config->linkDefaults->import = 1;
+      config->linkDefaults->fReqFromUpLink = 1;
+      config->linkDefaults->ourAka = &(config->addr[0]);
+   }
+
+
+   return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
    int rc = 0;
+   s_link   *clink; 
+
 #ifdef __TURBOC__   
    int unrecognised = 0;
 #endif   
@@ -2079,202 +2169,190 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "remap")==0) rc = parseRemap(getRestOfLine(),config);
    else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
    else if (stricmp(token, "password")==0) {
-     if (config->linkCount > 0) {
-       rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].defaultPwd));
-       // if another pwd is not known (yet), make it point to the defaultPWD
-       if (config->links[config->linkCount-1].pktPwd == NULL) config->links[config->linkCount-1].pktPwd = config->links[config->linkCount-1].defaultPwd;
-       if (config->links[config->linkCount-1].ticPwd == NULL) config->links[config->linkCount-1].ticPwd = config->links[config->linkCount-1].defaultPwd;
-       if (config->links[config->linkCount-1].areaFixPwd == NULL) config->links[config->linkCount-1].areaFixPwd = config->links[config->linkCount-1].defaultPwd;
-       if (config->links[config->linkCount-1].fileFixPwd == NULL) config->links[config->linkCount-1].fileFixPwd = config->links[config->linkCount-1].defaultPwd;
-       if (config->links[config->linkCount-1].bbsPwd == NULL) config->links[config->linkCount-1].bbsPwd = config->links[config->linkCount-1].defaultPwd;
-       if (config->links[config->linkCount-1].sessionPwd == NULL) config->links[config->linkCount-1].sessionPwd = config->links[config->linkCount-1].defaultPwd;
-     }
-     else {
-       printLinkError();
-       rc = 1;
-     }
+	   if( (clink = getDescrLink(config)) != NULL ) {
+          rc = parsePWD(getRestOfLine(), &clink->defaultPwd);
+          // if another pwd is not known (yet), make it point to the defaultPWD
+          if (clink->pktPwd == NULL) clink->pktPwd = clink->defaultPwd;
+          if (clink->ticPwd == NULL) clink->ticPwd = clink->defaultPwd;
+          if (clink->areaFixPwd == NULL) clink->areaFixPwd = clink->defaultPwd;
+          if (clink->fileFixPwd == NULL) clink->fileFixPwd = clink->defaultPwd;
+          if (clink->bbsPwd == NULL) clink->bbsPwd = clink->defaultPwd;
+          if (clink->sessionPwd == NULL) clink->sessionPwd = clink->defaultPwd;
+	   } else {
+		   rc = 1;
+	   }
    }
    else if (stricmp(token, "aka")==0) {
-     if (config->linkCount > 0) {
-       string2addr(getRestOfLine(), &(config->links[config->linkCount-1].hisAka));
-       rc = 0;
+     if( (clink = getDescrLink(config)) != NULL ) {
+       string2addr(getRestOfLine(), &clink->hisAka);
      }
      else {
-       printLinkError();
        rc = 1;
      }
    }
    else if (stricmp(token, "ouraka")==0) {
       rc = 0;
-      if (config->linkCount > 0) {
-	config->links[config->linkCount-1].ourAka = getAddr(*config, getRestOfLine());
-	if (config->links[config->linkCount-1].ourAka == NULL) rc = 2;
-      }
-      else {
-	printLinkError();
-	rc = 1;
+      if( (clink = getDescrLink(config)) != NULL ) {
+		 clink->ourAka = getAddr(*config, getRestOfLine());
+		 if (clink->ourAka == NULL) rc = 2;
+      } else {
+		 rc = 1;
       }
    }
    else if (stricmp(token, "autoareacreate")==0) {
-      rc = 0;
-      if (config->linkCount > 0) {
-        temp = getRestOfLine();
-	if (temp && stricmp(temp, "on")==0) config->links[config->linkCount-1].autoAreaCreate = 1;
-	else if (!temp || stricmp(temp, "off")!=0) rc = 2;
-      }
-      else {
-	printLinkError();
-	rc = 1;
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->autoAreaCreate);
+      } else {
+		rc = 1;
       }
    }
    else if (stricmp(token, "autofilecreate")==0) {
-      rc = 0;
-      if (config->linkCount > 0) {
-        temp = getRestOfLine();
-	if (temp && stricmp(temp, "on")==0) config->links[config->linkCount-1].autoFileCreate = 1;
-	else if (!temp || stricmp(temp, "off")!=0) rc = 2;
-      }
-      else {
-	printLinkError();
-	rc = 1;
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->autoFileCreate);
+      } else {
+		rc = 1;
       }
    }
    else if (stricmp(token, "forwardrequests")==0) {
-      rc = 0;
-      if (config->linkCount > 0) {
-	if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].forwardRequests = 1;
-	else rc = 2;
-      } 
-      else {
-	printLinkError();
-	rc = 1;
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->forwardRequests);
+      } else {
+		rc = 1;
       }
    }
    else if (stricmp(token, "frequestfromuplink") == 0) {
-       rc = 0;
-       if (config->linkCount > 0) {
-           token = strtok(NULL, " \t");
-	   if (token == NULL) rc = 1;
-           else {
-	       if (stricmp(token, "on") == 0) config->links[config->linkCount-1].fReqFromUpLink = 1;
-	       else if (stricmp(token, "off") == 0) config->links[config->linkCount-1].fReqFromUpLink = 0;
-	       else rc = 2;
-	   }
-       } else {
-           printLinkError();
-	   rc = 1;
-       }
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->fReqFromUpLink);
+      } else {
+		rc = 1;
+      }
    }
    else if (stricmp(token, "forwardpkts")==0) {
-     if (config->linkCount > 0) {
-      rc = parseForwardPkts(getRestOfLine(), config, &(config->links[config->linkCount-1]));
+     if( (clink = getDescrLink(config)) != NULL ) {
+      rc = parseForwardPkts(getRestOfLine(), config, clink);
      }
      else {
-       printLinkError();
        rc = 1;
      }
    }
    else if (stricmp(token, "allowemptypktpwd")==0) {
-     if (config->linkCount > 0) {
-      rc = parseAllowEmptyPktPwd(getRestOfLine(), config, &(config->links[config->linkCount-1]));
+     if( (clink = getDescrLink(config)) != NULL ) {
+      rc = parseAllowEmptyPktPwd(getRestOfLine(), config, clink);
      }
      else {
-       printLinkError();
        rc = 1;
      }
    }
    else if (stricmp(token, "allowpktaddrdiffer")==0) {
-     if (config->linkCount > 0) {
-      rc = parseAllowPktAddrDiffer(getRestOfLine(), config, &(config->links[config->linkCount-1]));
+     if( (clink = getDescrLink(config)) != NULL ) {
+      rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);
      }
      else {
-       printLinkError();
        rc = 1;
      }
    }
    else if (stricmp(token, "autoareacreatedefaults")==0) {
-     if (config->linkCount > 0){
-       rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoAreaCreateDefaults));
+     if( (clink = getDescrLink(config)) != NULL ) {
+       rc = copyString(getRestOfLine(), &clink->autoAreaCreateDefaults);
      }
      else {
-       printLinkError();
        rc = 1;
      }
    }
    else if (stricmp(token, "autofilecreatedefaults")==0) {
-     if (config->linkCount > 0){
-       rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoFileCreateDefaults));
+     if( (clink = getDescrLink(config)) != NULL ) {
+       rc = copyString(getRestOfLine(), &clink->autoFileCreateDefaults);
      }
      else {
-       printLinkError();
        rc = 1;
      }
    }
-//   else if (stricmp(token, "autoFileCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoFileCreateDefaults));
    else if (stricmp(token, "areafix")==0) {
-          rc = 0;
-          if (stricmp(getRestOfLine(), "off")==0) config->links[config->linkCount-1].AreaFix = 0;
-      else rc = 2;
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->AreaFix);
+      } else {
+		rc = 1;
+      }
    }
    else if (stricmp(token, "filefix")==0) {
-          rc = 0;
-          if (stricmp(getRestOfLine(), "off")==0) config->links[config->linkCount-1].FileFix = 0;
-      else rc = 2;
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->FileFix);
+      } else {
+		rc = 1;
+      }
    }
-   else if (stricmp(token, "pause")==0) { /* what happens with linkCount = 0??? */
-     config->links[config->linkCount-1].Pause = 1;
-     rc = 0;
+   else if (stricmp(token, "pause")==0) {
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->Pause);
+      } else {
+		rc = 1;
+      }
    }
    else if (stricmp(token, "notic")==0) {
-     if (config->linkCount > 0) {
-       config->links[config->linkCount-1].noTIC = 1;
-       rc = 0;
-     } 
-     else {
-       printLinkError();
-       rc = 1;
-     }
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->noTIC);
+      } else {
+		rc = 1;
+      }
    }
-   else if (stricmp(token, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(config->links[config->linkCount-1].autoPause));
-   else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].RemoteRobotName));
-   else if (stricmp(token, "export")==0) rc = parseExport(getRestOfLine(), &(config->links[config->linkCount-1].export));
-   else if (stricmp(token, "import")==0) rc = parseImport(getRestOfLine(), &(config->links[config->linkCount-1].import));
-   else if (stricmp(token, "mandatory")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
-   else if (stricmp(token, "manual")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
+   else if (stricmp(token, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(getDescrLink(config)->autoPause));
+   else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName));
+
+   else if (stricmp(token, "export")==0) {
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->export);
+      } else {
+		rc = 1;
+      }
+   }
+   else if (stricmp(token, "import")==0) {
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->import);
+      } else {
+		rc = 1;
+      }
+   }
+   else if (stricmp(token, "mandatory")==0 || stricmp(token, "manual")==0) {
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->mandatory);
+      } else {
+		rc = 1;
+      }
+   }
    else if (stricmp(token, "optgrp")==0) rc = parseGroup(getRestOfLine(), config, 3);
-   else if (stricmp(token, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(config->links[config->linkCount-1].level));
+   else if (stricmp(token, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->level));
 #ifdef __TURBOC__
    else unrecognised++;
 #else   
    else
 #endif       
-       if (stricmp(token, "arcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->links[config->linkCount-1].arcmailSize));
-   else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
-   else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));
-   else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].areaFixPwd));
-   else if (stricmp(token, "filefixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].fileFixPwd));
-   else if (stricmp(token, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].bbsPwd));
-   else if (stricmp(token, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].sessionPwd));
+       if (stricmp(token, "arcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->arcmailSize));
+   else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->pktPwd));
+   else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->ticPwd));
+   else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->areaFixPwd));
+   else if (stricmp(token, "filefixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->fileFixPwd));
+   else if (stricmp(token, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->bbsPwd));
+   else if (stricmp(token, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->sessionPwd));
    else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
-       else if (stricmp(token, "email")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].email));
-   else if (stricmp(token, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(config->links[config->linkCount-1].echoMailFlavour));
-   else if (stricmp(token, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(config->links[config->linkCount-1].fileEchoFlavour));
+       else if (stricmp(token, "email")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
+   else if (stricmp(token, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(getDescrLink(config)->echoMailFlavour));
+   else if (stricmp(token, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(getDescrLink(config)->fileEchoFlavour));
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
    else if (stricmp(token, "routefile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
    else if (stricmp(token, "routemail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
 
    else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
    else if (stricmp(token, "unpack")==0) rc = parseUnpack(getRestOfLine(), config);
-   else if (stricmp(token, "packer")==0) rc = parsePackerDef(getRestOfLine(), config, &(config->links[config->linkCount-1].packerDef));
+   else if (stricmp(token, "packer")==0) rc = parsePackerDef(getRestOfLine(), config, &(getDescrLink(config)->packerDef));
 
    else if (stricmp(token, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));
    else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
 
    else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
    else if (stricmp(token, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
-   else if (stricmp(token, "forwardrequestfile")==0) rc = parseFileName(getRestOfLine(), &(config->links[config->linkCount-1].forwardRequestFile));
-   else if (stricmp(token, "autoareacreatefile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoAreaCreateFile));
-   else if (stricmp(token, "autofilecreatefile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoFileCreateFile));
+   else if (stricmp(token, "forwardrequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardRequestFile));
+   else if (stricmp(token, "autoareacreatefile")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
+   else if (stricmp(token, "autofilecreatefile")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));
 
 
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
@@ -2403,6 +2481,7 @@ int parseLine(char *line, s_fidoconfig *config)
    }
    else if (stricmp(token, "logowner")==0) rc = parseOwner(getRestOfLine(), &(config->loguid), &(config->loggid));
    else if (stricmp(token, "logperm")==0) rc = parseNumber(getRestOfLine(), 8, &(config->logperm));
+   else if (stricmp(token, "linkdefaults")==0) rc = parseLinkDefaults(getRestOfLine(), config);
 
 #ifdef __TURBOC__
    else unrecognised++;

@@ -104,6 +104,7 @@ a comment and will be ignored.
 * lockfile::                    file which lock hpt session
 
 * link::                        adding a link to your config
+* linkdefaults::                start/end/destroy links default definitions
 * aka::                         links adress
 * ouraka::                      our aka for link
 * password::                    links default password 
@@ -409,6 +410,8 @@ Only netmails are tossed from this path.
 
 This statement cannot be repeated.
 
+@strong{This statement is currently not supported.}
+
 @node localinbound, tempinbound, listinbound, Keywords
 @subsection localinbound
 @table @asis
@@ -651,7 +654,7 @@ another session of hpt will be terminated if found lockfile
 
 This statement cannot be repeated.
 
-@node link, aka, lockfile, Keywords
+@node link, linkdefaults, lockfile, Keywords
 @subsection link
 @table @asis
 @item Syntax:
@@ -666,7 +669,33 @@ The name is the name of this link.
 
 This statement can be repeated.
 
-@node aka, ouraka, link, Keywords
+@node linkdefaults, aka, link, Keywords
+@subsection linkdefaults
+@table @asis
+@item Syntax:
+@code{linkdefaults [begin | end | destroy]}
+@item Example:
+@code{linkdefaults}
+@end table
+
+This statement starts section of default definitions of links.
+All the following link-related statements change default configuration
+of link until a @code{'link'} or @code{'linkdefaults end'} or
+@code{'linkdefaults destroy'} statement is found.
+All parameters collected in linkdefaults sections are copied to link
+configuration every time when @code{'link'} statement found in
+configuration file. Link-related statements after @code{'linkdefaults end'} or
+@code{'linkdefaults destroy'} or before first @code{'link'} or
+@code{'linkdefaults'} statement are treated as error.
+@code{'linkdefaults'} statement without @code{'begin'} or @code{'end'} means
+@code{'linkdefaults begin'}
+@code{'linkdefaults destroy'} destroys all default definitions.
+
+Be careful with @code{Pause} @code{Export} etc. ;-)
+
+This statement can be repeated. New definitions overwrite old ones.
+
+@node aka, ouraka, linkdefaults, Keywords
 @subsection aka
 @table @asis
 @item Syntax:

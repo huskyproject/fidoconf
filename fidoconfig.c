@@ -346,38 +346,11 @@ void disposeConfig(s_fidoconfig *config)
    for (i=0; i < config->publicCount; i++) free(config->publicDir[i]);
    free(config->publicDir);
 
-   for (i = 0; i< config->linkCount; i++) {
-           free(config->links[i].hisAka.domain);
-           free(config->links[i].name);
-           if (config->links[i].pktPwd != config->links[i].defaultPwd)
-             free(config->links[i].pktPwd);
-           if (config->links[i].ticPwd != config->links[i].defaultPwd)
-             free(config->links[i].ticPwd);
-           if (config->links[i].areaFixPwd != config->links[i].defaultPwd)
-             free(config->links[i].areaFixPwd);
-           if (config->links[i].fileFixPwd != config->links[i].defaultPwd)
-             free(config->links[i].fileFixPwd);
-           if (config->links[i].bbsPwd != config->links[i].defaultPwd)
-             free(config->links[i].bbsPwd);
-           free(config->links[i].defaultPwd);
-           if (config->links[i].handle != config->links[i].name)
-              free(config->links[i].handle);
-           free(config->links[i].pktFile);
-           free(config->links[i].packFile);
-	   free(config->links[i].LinkGrp);
-	   for (j = 0; j < config->links[i].numAccessGrp; j++)
-             free(config->links[i].AccessGrp[j]);
-           free(config->links[i].AccessGrp);
-	   for (j = 0; j < config->links[i].numOptGrp; j++)
-             free(config->links[i].optGrp[j]);
-	   free(config->links[i].optGrp);
-	   free(config->links[i].forwardRequestFile);
-	   free(config->links[i].autoAreaCreateDefaults);
-	   free(config->links[i].autoAreaCreateFile);
-	   free(config->links[i].autoFileCreateDefaults);
-	   free(config->links[i].autoFileCreateFile);
-   }
+   for (i = 0; i< config->linkCount; i++) freeLink(&config->links[i]);
    free(config->links);
+
+   freeLink(config->linkDefaults);
+   free(config->linkDefaults);
 
    free(config->inbound);
    free(config->outbound);

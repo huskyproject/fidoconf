@@ -811,3 +811,43 @@ int patimat(char *raw,char *pat)
 
     return(i);
 }
+
+void freeGroups(char **grps, int numGroups)
+{
+	int i;
+
+	if ( grps == NULL) return;
+
+	for ( i = 0; i < numGroups; i++) {
+		free (grps[i]);
+	}
+
+	free (grps);
+}
+
+void freeLink (s_link *link)
+{
+
+  if (link == NULL) return;
+
+  free (link->hisAka.domain);
+  if (link->handle != link->name) free(link->handle);
+  free (link->name);
+  if (link->pktPwd != link->defaultPwd)free(link->pktPwd);
+  if (link->ticPwd != link->defaultPwd)free(link->ticPwd);
+  if (link->areaFixPwd != link->defaultPwd) free(link->areaFixPwd);
+  if (link->fileFixPwd != link->defaultPwd) free(link->fileFixPwd);
+  if (link->bbsPwd != link->defaultPwd) free(link->bbsPwd);
+  free(link->defaultPwd);
+  free(link->pktFile);
+  free(link->packFile);
+  free(link->LinkGrp);
+  freeGroups(link->AccessGrp, link->numAccessGrp);
+  freeGroups(link->optGrp, link->numOptGrp);
+  free(link->forwardRequestFile);
+  free(link->autoAreaCreateDefaults);
+  free(link->autoAreaCreateFile);
+  free(link->autoFileCreateDefaults);
+  free(link->autoFileCreateFile);
+}
+

@@ -262,6 +262,7 @@ int main() {
       printf("LogEchoToScreen %s\n", (config->logEchoToScreen) ? "on" : "off");
 
       if (config->inbound != NULL) printf("Inbound: %s\n", config->inbound);
+      if (config->tempInbound != NULL) printf("tempInbound: %s\n", config->tempInbound);
       if (config->protInbound != NULL) printf("ProtInbound: %s\n", config->protInbound);
       if (config->localInbound != NULL) printf("LocalInbound: %s\n", config->localInbound);
       if (config->listInbound != NULL) printf("ListInbound: %s\n", config->listInbound);
