@@ -935,7 +935,11 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    }
 
    area->areaName= (char *) smalloc(strlen(tok)+1);
-   strcpy(area->areaName, tok);
+   if (*tok=='\"' && tok[strlen(tok)-1]=='\"' && tok[1]) {
+      strcpy(area->areaName, tok+1);
+      area->areaName[strlen(area->areaName)-1] = '\0';
+   } else
+      strcpy(area->areaName, tok);
 
    tok = strtok(NULL, " \t");
 
