@@ -1,3 +1,8 @@
+2003-09-22 Monday 05:01  andr_lukyanov
+
+	* typesize.h (fidoconf-1_4-stable.1): Fixed OS/2 WatcomC
+	compilation
+
 2003-09-18 Thursday 10:25  sfpavel
 
 	* Makefile (fidoconf-1_4-stable.2): Fix static building
