@@ -1203,6 +1203,45 @@ int sstrnicmp(const char *str1, const char *str2, size_t length)
   return strnicmp(str1,str2, length);  /* compare strings */
 }
 
+/* From binkd sources (tools.c), modified by Stas Degteff
+ * Copyes not more than len chars from src into dst, but, unlike strncpy(),
+ * it appends '\0' even if src is longer than len.
+ * Return dst
+ * Prevent memory faults:
+ *  - if dst is NULL doing nothing and return NULL
+ *  - if src is NULL and dst not NULL store '\0' into dst[0] and return it.
+ */
+char *strnzcpy (char *dst, const char *src, size_t len)
+{
+  if (!dst) return NULL;
+  if (!src) {
+     dst[0]='\0';
+     return dst;
+  }
+  dst[len - 1] = 0;
+  return strncpy (dst, src, len - 1);
+}
+
+/* From binkd sources (tools.c), modified by Stas Degteff
+ * Concantenate not more than len chars from src into dst, but, unlike
+ * strncat(), it appends '\0' even if src is longer than len.
+ * Return dst
+ * Prevent memory faults:
+ *  - if dst is NULL doing nothing and return NULL
+ *  - if src is NULL doing nothing and return dst.
+ */
+char *strnzcat (char *dst, const char *src, size_t len)
+{
+  int x;
+
+  if (!dst) return NULL;
+  if (!src) return dst;
+  x = strlen (dst);
+  if (len <= x) return dst;
+  return strnzcpy (dst + x, src, len - x);
+}
+
+
 /*   Get the object name from the end of a full or partial pathname.
     The GetFilenameFromPathname function gets the file (or directory) name
     from the end of a full or partial pathname. Returns The file (or directory)
