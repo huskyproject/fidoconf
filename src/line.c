@@ -3997,6 +3997,13 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseEmailEncoding(getRestOfLine(),
                                     &(getDescrLink(config)->emailEncoding));
             break;
+        case ID_FLAVOUR:
+            rc = parseFlavour(getRestOfLine(),
+                              &(getDescrLink(config)->netMailFlavour));
+            if (rc == 0) getDescrLink(config)->echoMailFlavour =
+                         getDescrLink(config)->fileEchoFlavour =
+                         getDescrLink(config)->netMailFlavour;
+            break;
         case ID_NETMAILFLAVOUR:
             rc = parseFlavour(getRestOfLine(),
                               &(getDescrLink(config)->netMailFlavour));

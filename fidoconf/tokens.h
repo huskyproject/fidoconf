@@ -298,7 +298,8 @@ enum {
     ID_AREAGROUPDEFAULTS,
     ID_GRPDESC,
     ID_LISTECHO,
-    ID_NETMAILFLAVOUR
+    ID_NETMAILFLAVOUR,
+    ID_FLAVOUR
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -455,6 +456,7 @@ token_t parseline_tokens[] =
     { "filenewareaslog", ID_FILENEWAREASLOG },
     { "filepasslist", ID_FILEPASSLIST },
     { "filesingledescline", ID_FILESINGLEDESCLINE },
+    { "flavour", ID_FLAVOUR },
     { "forwardareapriority", ID_FORWARDAREAPRIORITY },
     { "forwardfilepriority", ID_FORWARDFILEPRIORITY },
     { "forwardfilerequestfile", ID_FORWARDFILEREQUESTFILE },
