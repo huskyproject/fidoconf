@@ -573,31 +573,33 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       }
    }
    else if (strcmp(iOption, "p")==0) {
-      token = strtok(NULL, " \t");
-      if (token == NULL) {
-         prErr("Number is missing after -p in areaOptions!");
-	 nfree(iOption);
-         return 1;
-      }
-      area->purge = (UINT) strtol(token, &error, 0);
-      if ((error != NULL) && (*error != '\0')) {
-         prErr("Number is wrong after -p in areaOptions!");
-	 nfree(iOption);
-         return 1;     // error occured;
-      }
+       token = strtok(NULL, " \t");
+       if (token == NULL) {
+           prErr("Number is missing after -p in areaOptions!");
+           nfree(iOption);
+           return 1;
+       }
+       area->nopack = 0;
+       area->purge = (UINT) strtol(token, &error, 0);
+       if ((error != NULL) && (*error != '\0')) {
+           prErr("Number is wrong after -p in areaOptions!");
+           nfree(iOption);
+           return 1;     // error occured;
+       }
    }
    else if (strcmp(iOption, "$m")==0) {
-      token = strtok(NULL, " \t");
-      if (token == NULL) {
-         prErr("Number is missing after -$m in areaOptions!");
-	 nfree(iOption);
-         return 1;
-      }
-      area->max = (UINT) strtol(token, &error, 0);
-      if ((error != NULL) && (*error != '\0')) {
-	 nfree(iOption);
-         return 1;     // error
-      }
+       token = strtok(NULL, " \t");
+       if (token == NULL) {
+           prErr("Number is missing after -$m in areaOptions!");
+           nfree(iOption);
+           return 1;
+       }
+       area->nopack = 0;
+       area->max = (UINT) strtol(token, &error, 0);
+       if ((error != NULL) && (*error != '\0')) {
+           nfree(iOption);
+           return 1;     // error
+       }
    }
    else if (strcmp(iOption, "a")==0) {
       token = strtok(NULL, " \t");
@@ -703,7 +705,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      nfree(area->group);
      area->group = sstrdup(token);
    }
-   else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
+   else if (strcmp(iOption, "nopack")==0 area->nopack = 1;
    else if (strcmp(iOption, "ccoff")==0) area->ccoff=1;
    else if (strcmp(iOption, "keepsb")==0) area->keepsb=1;
    else if (strcmp(iOption, "$")==0) ;
