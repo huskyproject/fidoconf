@@ -315,16 +315,17 @@ int carbonNames2Addr(s_fidoconfig *config)
    return rc;
 }
 
-/* set link-area permissions stored in readOnly[], writeOnly[] */
-void processPermissions (s_fidoconfig *config)
+/* Set link-area permissions stored in readOnly[] and writeOnly[]
+ * Call after echoes subscribe/unsubscribe!
+ */
+void processPermissions (const s_fidoconfig *config)
 {
-    int i;
+    unsigned i;
     unsigned int narea, nalink;
     ps_area aptr;
     ps_arealink *dlink;
     char *ExclMask;
-    
-    
+
     if (config->readOnlyCount) {
         for (i=0; i < config->readOnlyCount; i++) {
             if(config->readOnly[i].areaMask[0] != '!') {
@@ -352,12 +353,9 @@ void processPermissions (s_fidoconfig *config)
                     }
                 }
             }
-            nfree (config->readOnly[i].areaMask);
-            nfree (config->readOnly[i].addrMask);
         }
-        nfree (config->readOnly);
     }
-    
+
     if (config->writeOnlyCount) {
         for (i=0; i < config->writeOnlyCount; i++) {
             if(config->writeOnly[i].areaMask[0] != '!') {
@@ -385,11 +383,8 @@ void processPermissions (s_fidoconfig *config)
                     }
                 }
             }
-            nfree (config->writeOnly[i].areaMask);
-            nfree (config->writeOnly[i].addrMask);
         }
     }
-    nfree (config->writeOnly);
 }
 
 void fixRoute(s_fidoconfig *config)
@@ -668,6 +663,18 @@ void disposeConfig(s_fidoconfig *config)
 	   nfree(config->carbons[i].reason);
    }
    nfree(config->carbons);
+
+   for (i=0; i < config->readOnlyCount; i++) {
+       nfree (config->readOnly[i].areaMask);
+       nfree (config->readOnly[i].addrMask);
+   }
+   nfree (config->readOnly);
+
+   for (i=0; i < config->writeOnlyCount; i++) {
+       nfree (config->writeOnly[i].areaMask);
+       nfree (config->writeOnly[i].addrMask);
+   }
+   nfree (config->writeOnly);
 
    nfree(config->ReportTo);
 
