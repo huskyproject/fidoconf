@@ -71,33 +71,42 @@ char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
 
-char *getDescription(void) {
-  char desc[81];
+char *getDescription(void)
+{
+  char *descBuf;
+  unsigned int descBufLen;
   char *token;
   char *tmp=NULL;
   int out=0;
   int length=0;
 
-  desc[0]='\0';
-  while ((out==0) && ((token=strtok(NULL," "))!=NULL)) {
-    if ((length+=strlen(token))>80)
-      out=1;
-    else {
-      strcat (desc,token);
-      strcat (desc," ");
-      if (token[strlen(token)-1]=='\"')
-        out=2;
+  descBufLen = 81;
+  descBuf = malloc(descBufLen + 1);
+  descBuf[0]='\0';
+  while ((out==0) && ((token=strtok(NULL," "))!=NULL))
+  {
+    length += strlen(token);
+    if (length > descBufLen)
+    {
+      descBufLen = length + 40;
+      descBuf = realloc(descBuf, descBufLen);
     }
+
+    strcat (descBuf, token);
+    strcat (descBuf, " ");
+    if (token[strlen(token)-1]=='\"')
+      out=2;
   }
-  switch (out) {
-    case 0: printf ("Line %d: Error in area description!\n",actualLineNr);
-            return NULL;
-    case 1: printf ("Line %d: Area description too large!\n",actualLineNr);
-            return NULL;
-    case 2: /* '"' out... */
-            desc[strlen(desc)-2]='\0';
-            tmp=(char *) smalloc (strlen(desc));
-            strcpy(tmp,desc+1);
+  switch (out)
+  {
+  case 0:
+    printf ("Line %d: Error in area description!\n",actualLineNr);
+    return NULL;
+
+  case 2: /* '"' out... */
+    descBuf[length] = '\0';
+    tmp = strdup(descBuf + 1);
+    free(descBuf);
   }
   return tmp;
 }
