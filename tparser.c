@@ -86,10 +86,13 @@ int testConfig(s_fidoconfig *config){
 
 void printAddr(hs_addr addr)
 {
-  if (addr.domain != NULL)
-    printf("%d:%d/%d.%d@%s ", addr.zone, addr.net, addr.node, addr.point, addr.domain);
-  else
-    printf("%d:%d/%d.%d ", addr.zone, addr.net, addr.node, addr.point);
+  if (addr.domain != NULL) {
+    if(addr.point) printf(" %d:%d/%d.%d@%s ", addr.zone, addr.net, addr.node, addr.point, addr.domain);
+    else printf(" %d:%d/%d@%s ", addr.zone, addr.net, addr.node, addr.domain);
+  }else{
+    if(addr.point) printf(" %d:%d/%d.%d ", addr.zone, addr.net, addr.node, addr.point);
+    else printf(" %d:%d/%d ", addr.zone, addr.net, addr.node);
+  }
 }
 
 void printArea(s_area area) {
@@ -105,10 +108,8 @@ void printArea(s_area area) {
    else if (area.msgbType == MSGTYPE_JAM) printf("Jam");
    else printf("Passthrough");
 
-   if (area.useAka->domain != NULL)
-     printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);
-   else
-     printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
+   printf("\t Use ");
+   printAddr(*(area.useAka));
    printf("\n");
    printf("DOS Style File (8+3) - %s\n", (area.DOSFile) ? "on" : "off");
    printf("Level read  - %d\n", area.levelread);
@@ -185,14 +186,13 @@ void printFileArea(s_filearea area) {
    else
       printf("Passthrough filearea");
 
+   printf ("\t Use ");
    if (area.useAka == NULL)
-     printf ("\t Use ??? (not configured)");
-   else if (area.useAka->domain != NULL)
-     printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);
+     printf ("(not configured)");
    else
-     printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
+     printAddr(*(area.useAka));
    printf("\n");
-   if (area.group) printf("Group       - %s\n", area.group);
+   if (area.group)         printf("Group: %s\n", area.group);
    if (area.downlinkCount) printf("Links:\n");
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) {
@@ -300,17 +300,10 @@ static char *cvtFlavour(e_flavour flavour)
 void printLink(s_link link) {
   unsigned int i;
 
-  if ((link.hisAka.domain != NULL) && (link.ourAka->domain != NULL)) {
-    printf("Link: %d:%d/%d.%d@%s (ourAka %d:%d/%d.%d@%s)\n",
-	   link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point, link.hisAka.domain,
-	   link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point, link.ourAka->domain);
-  }
-    else
-    {
-      printf("Link: %d:%d/%d.%d (ourAddres %d:%d/%d.%d)\n",
-	   link.hisAka.zone, link.hisAka.net, link.hisAka.node, link.hisAka.point,
-	   link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point);
-    }
+   printf("Link: "); printAddr(link.hisAka);
+   printf(" (ourAka "); printAddr(*(link.ourAka));
+   printf(")\n");
+
    printf("Name: %s\n", link.name);
    if (link.defaultPwd) printf("defaultPwd: %s\n", link.defaultPwd);
    if (link.pktPwd) printf("pktPwd:     %s\n", link.pktPwd);
@@ -541,11 +534,9 @@ void checkLogic(s_fidoconfig *config) {
 				if (strcmp(config->links[i].name,
 						   config->links[j].name)!=0) continue;
 
-				printf("ERROR: duplication of link %d:%d/%d.%d\n",
-					   config->links[i].hisAka.zone,
-					   config->links[i].hisAka.net,
-					   config->links[i].hisAka.node,
-					   config->links[i].hisAka.point);
+				printf("ERROR: duplication of link ");
+				printAddr(config->links[i].hisAka);
+				printf("\n");
 				printf("remove it, or change the name!\n");
 				exit(-1);
 			}
@@ -554,8 +545,9 @@ void checkLogic(s_fidoconfig *config) {
 		if (config->links[i].autoAreaCreateFile){
 			k = open( config->links[i].autoAreaCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
-				printf( "ERROR: link %s AutoAreaCreateFile '%s': %s\n",
-					aka2str(config->links[i].hisAka),
+				printf( "ERROR: link " );
+				printAddr(config->links[i].hisAka);
+				printf( " AutoAreaCreateFile '%s': %s\n",
 					config->links[i].autoAreaCreateFile,
 					strerror(errno) );
 				exit(-1);
@@ -564,8 +556,9 @@ void checkLogic(s_fidoconfig *config) {
 		if (config->links[i].autoFileCreateFile){
 			k = open( config->links[i].autoFileCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
-				printf( "ERROR: link %s AutoFileCreateFile '%s': %s\n",
-					aka2str(config->links[i].hisAka),
+				printf( "ERROR: link " );
+				printAddr(config->links[i].hisAka);
+				printf( " AutoFileCreateFile '%s': %s\n",
 					config->links[i].autoFileCreateFile,
 					strerror(errno) );
 				exit(-1);
@@ -608,12 +601,9 @@ void checkLogic(s_fidoconfig *config) {
 			link = area->downlinks[j]->link;
 			for (k=j+1;k<area->downlinkCount; k++) {
 				if (link == area->downlinks[k]->link) {
-					printf("ERROR: duplication of link %d:%d/%d.%d in area %s\n",
-						   link->hisAka.zone,
-						   link->hisAka.net,
-						   link->hisAka.node,
-						   link->hisAka.point,
-						   areaName);
+					printf("ERROR: duplication of link ");
+					printAddr(link->hisAka);
+					printf(" in area %s\n", areaName);
 					exit(-1);
 				}
 			}
@@ -655,12 +645,9 @@ void checkLogic(s_fidoconfig *config) {
 			link = area->downlinks[j]->link;
 			for (k=j+1;k<area->downlinkCount; k++) {
 				if (link == area->downlinks[k]->link) {
-					printf("ERROR: duplication of link %d:%d/%d.%d in area %s\n",
-						   link->hisAka.zone,
-						   link->hisAka.net,
-						   link->hisAka.node,
-						   link->hisAka.point,
-						   areaName);
+					printf("ERROR: duplication of link ");
+					printAddr(link->hisAka);
+					printf(" in area %s\n", areaName);
 					exit(-1);
 				}
 			}
@@ -702,12 +689,9 @@ void checkLogic(s_fidoconfig *config) {
 			link = area->downlinks[j]->link;
 			for (k=j+1;k<area->downlinkCount; k++) {
 				if (link == area->downlinks[k]->link) {
-					printf("ERROR: duplication of link %d:%d/%d.%d in area %s\n",
-						   link->hisAka.zone,
-						   link->hisAka.net,
-						   link->hisAka.node,
-						   link->hisAka.point,
-						   areaName);
+					printf("ERROR: duplication of link");
+					printAddr(link->hisAka);
+					printf("in area %s\n", areaName);
 					exit(-1);
 				}
 			}
@@ -723,7 +707,7 @@ void printCarbons(s_fidoconfig *config) {
 
     int i;
     s_carbon *cb;
-    char *crbKey="", *nspc, *cbaName;
+    char *crbKey="", *nspc, *cbaName, *tempc=NULL;
 
     printf("\n=== CarbonCopy ===\n");
     printf("CarbonAndQuit %s\n", (config->carbonAndQuit) ? "on" : "off");
@@ -768,8 +752,9 @@ void printCarbons(s_fidoconfig *config) {
             break;
         }
 
-        printf("%sCarbon%s\"%s\"\n",
-	       nspc, crbKey, (cb->ctype==ct_addr) ? aka2str(cb->addr) : cb->str);
+        printf("%sCarbon%s\"%s\"\n", nspc, crbKey,
+	       (cb->ctype==ct_addr) ? (tempc=aka2str5d(cb->addr)) : cb->str);
+	nfree(tempc);
         if (cb->rule&CC_AND)
             continue;
 
@@ -816,17 +801,15 @@ void printCarbons(s_fidoconfig *config) {
 void printRemaps(s_fidoconfig *config)
 {
     unsigned i;
-    char *temp;
 
     printf("\n=== Remap config ===\n");
     for( i=0; i<config->remapCount; i++ ){
-      printf( "Remap %s,%s,",
-              sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "",
-              (temp=aka2str5d(config->remaps[i].oldaddr))
-            );
-      nfree(temp);
-      puts( (temp=aka2str5d(config->remaps[i].newaddr)) );
-      nfree(temp);
+      printf( "Remap %s,",
+            sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "" );
+      printAddr(config->remaps[i].oldaddr);
+      putchar(',');
+      printAddr(config->remaps[i].newaddr);
+      putchar('\n');
     }
 }
 
@@ -1173,14 +1156,25 @@ int main(int argc, char **argv) {
                  printf("AnnTo     : %s\n",config->AnnDefs[i].annto);
               if(config->AnnDefs[i].annfrom)
                  printf("AnnFrom   : %s\n",config->AnnDefs[i].annfrom);
-              if(config->AnnDefs[i].annaddrto)
-                 printf("AnnAddrTo : %s\n",aka2str(*(config->AnnDefs[i].annaddrto)));
-              if(config->AnnDefs[i].annaddrfrom)
-                 printf("AnnAddrFrom: %s\n",aka2str(*(config->AnnDefs[i].annaddrfrom)));
+              if(config->AnnDefs[i].annaddrto) {
+                 printf("AnnAddrTo : ");
+                 printAddr(*(config->AnnDefs[i].annaddrto));
+                 printf("\n");
+              }
+              if(config->AnnDefs[i].annaddrfrom) {
+                 printf("AnnAddrFrom: ");
+                 printAddr(*(config->AnnDefs[i].annaddrfrom));
+                 printf("\n");
+              }
               if(config->AnnDefs[i].annsubj)
                  printf("AnnSubj   : %s\n",config->AnnDefs[i].annsubj);
-              if(config->AnnDefs[i].annorigin)
-                 printf("AnnOrigin : %s\n",config->AnnDefs[i].annorigin);
+              if(config->AnnDefs[i].annorigin) {
+                 printf( "AnnOrigin : %s\n          \" * Origin: %s (",
+                         config->AnnDefs[i].annorigin,
+                         config->AnnDefs[i].annorigin );
+                 printAddr(*(config->AnnDefs[i].annaddrfrom));
+                 printf(")\"\n");
+              }
               if(config->AnnDefs[i].annorigin)
                  printf("AnnMessFlags : %s\n",config->AnnDefs[i].annmessflags);
 
@@ -1270,9 +1264,11 @@ int main(int argc, char **argv) {
 
         printf("\n=== ROUTE CONFIG ===\n");
         for (i = 0; i < config->routeCount; i++) {
-           if (config->route[i].routeVia == 0)
-              printf("Route %s via %u:%u/%u.%u\n", config->route[i].pattern, config->route[i].target->hisAka.zone, config->route[i].target->hisAka.net, config->route[i].target->hisAka.node, config->route[i].target->hisAka.point);
-           else {
+           if (config->route[i].routeVia == 0) {
+              printf("Route %s via ", config->route[i].pattern);
+              printAddr( config->route[i].target->hisAka);
+              printf("\n");
+           } else {
   			 printf("Route");
   			 switch (config->route[i].id) {
   			 case id_route : break;
