@@ -8,6 +8,11 @@ endif
 
 # program settings
 
+ifndef ISOPT
+# install scripts options
+  ISOPT = -c -m 555
+endif
+
 ifeq ($(DEBUG), 1)
   COPT = $(WARNFLAGS) $(DEBCFLAGS) -I. -I$(INCDIR)
   LFLAGS = $(DEBLFLAGS)
@@ -134,9 +139,9 @@ ifeq ($(CC), gcc)
 endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 ifeq (${OSTYPE}, UNIX)
-	$(INSTALL) linkedto                $(BINDIR)
+	$(INSTALL) $(ISOPT) linkedto                $(BINDIR)
 endif
-	$(INSTALL) $(FCONF2AREASBBS)       $(BINDIR)
+	$(INSTALL) $(ISOPT) $(FCONF2AREASBBS)       $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
