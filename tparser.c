@@ -81,6 +81,18 @@ int testConfig(s_fidoconfig *config){
     rc=1;
   }
 
+
+  if (config->netMailAreaCount == 0)
+    { printf("You must define at least one NetmailArea!\n"); rc=1; }
+  if (config->dupeArea.areaName == NULL)
+    { printf("You must define DupeArea!\n"); rc=1; }
+  else if (config->dupeArea.fileName == NULL)
+    { printf("DupeArea can not be passthrough!\n"); rc=1; }
+  if (config->badArea.areaName == NULL)
+    { printf("You must define BadArea!\n"); rc=1; }
+  else if (config->badArea.fileName == NULL)
+    { printf("BadArea can not be passthrough!\n"); rc=1; }
+
   if( rc ) putchar('\n');
 
   return rc;
@@ -1231,19 +1243,17 @@ int main(int argc, char **argv) {
   	  }
   	  printf("\n");
 
-        if (config->netMailAreaCount == 0) { printf("you must define at least one NetmailArea!\n"); return 1; }
-        printf("\n=== Net&EchoAreas ===\n");
+        printf("\n=== NetMailAreas ===\n");
         for (i = 0; i< config->netMailAreaCount; i++) {
            printArea(config->netMailAreas[i]);
         }
-        if (config->dupeArea.areaName == NULL)
-  	{ printf("you must define DupeArea!\n"); return 1; }
-        if (config->dupeArea.fileName != NULL) printArea(config->dupeArea);
-  	else { printf("DupeArea can not be passthrough!\n"); return 1; }
-        if (config->badArea.areaName == NULL)
-  	{ printf("you must define BadArea!\n"); return 1; }
-        if (config->badArea.fileName != NULL) printArea(config->badArea);
-  	else { printf("BadArea can not be passthrough!\n"); return 1; }
+        printf("\n=== DupeMailArea ===\n");
+        if (config->dupeArea.areaName)
+           printArea(config->dupeArea);
+        printf("\n=== BadMailArea ===\n");
+        if (config->badArea.areaName)
+           printArea(config->badArea);
+        printf("\n=== EchoAreas ===\n");
         for (i = 0; i< config->echoAreaCount; i++) {
            printArea(config->echoAreas[i]);
         }
@@ -1375,9 +1385,11 @@ int main(int argc, char **argv) {
      }else
        printf( "sendMailCmd:\n" );
 
+     if( rc ) { puts("============================"); testConfig(config); }
+
      disposeConfig(config);
 
-     if( rc ) fprintf(stderr,"Errors or warnings found!");
+     if( rc ) fprintf(stderr,"============================\nErrors or warnings found!");
    } /* endif */
 
    return rc;
