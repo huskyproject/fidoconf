@@ -868,7 +868,6 @@ int main(int argc, char **argv) {
 	  if (config->areafixNames) printf("AreafixNames: %s\n", config->areafixNames);
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
 	  printf("areafixQueryReports: %s\n",(config->areafixQueryReports)?"on":"off");
-          printf("areafixQueryRequests: %s\n",(config->areafixQueryRequests)?"on":"off");
 	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");
 	  printf("areafixKillRequests: %s\n",(config->areafixKillRequests)?"on":"off");
 	  if (config->areafixMsgSize) printf("areafixMsgSize - %u\n", config->areafixMsgSize);
@@ -876,6 +875,7 @@ int main(int argc, char **argv) {
 	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
 	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
 	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
+	  if (config->areafixQueueFile) printf("areafixQueueFile: %s\n",config->areafixQueueFile);
 
   if (hpt==0) {
       printf("\n=== FILEFIX CONFIG ===\n");

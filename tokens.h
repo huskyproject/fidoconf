@@ -257,7 +257,7 @@ enum {
     ID_ARCNETMAIL,
     ID_RULESDIR,
     ID_NORULES,
-    ID_AFIXQUEUEREQUESTS,
+    ID_AREAFIXQUEUEFILE,
     ID_FILEDESCNAME
 };
 
@@ -291,7 +291,7 @@ token_t parseline_tokens[] =
     { "areafixorigin", ID_AREAFIXORIGIN },
     { "areafixpwd", ID_AREAFIXPWD },
     { "areafixqueryreports", ID_AREAFIXQUERYREPORTS },
-    { "areafixqueryrequests", ID_AFIXQUEUEREQUESTS },
+    { "areafixqueuefile",    ID_AREAFIXQUEUEFILE },
     { "areafixsplitstr", ID_AREAFIXSPLITSTR },
     { "areasfilenamecase", ID_AREASFILENAMECASE },
     { "areasmaxdupeage", ID_AREASMAXDUPEAGE },
