@@ -1,11 +1,17 @@
-/*****************************************************************************
+/* $Id$
+******************************************************************************
+* Fastecho config to fidoconfig convertion program (main module).
+*
+* This file is part of FIDOCONFIG.
 *
 *       Copyright (C) 1999
-*
 *       Fedor Lizunkov
-*
 *       Fido: 2:5020/960
+*
+*       Copyright (C) Husky developers team
 ******************************************************************************/
+
+char Revision[] = "$Revision$";
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -81,6 +87,29 @@ char *aka2str(FEAddress addr)
    return aka;
 }
 
+/* return string: zone:net/node.point@domain */
+char *sysAddress2str(SysAddress sysaddr)
+{
+   static char aka[24+sizeof(sysaddr.domain)];
+
+   if (sysaddr.main.point && sysaddr.domain && sysaddr.domain[0] ) {
+      sprintf(aka, "%d:%d/%d.%d@%s", sysaddr.main.zone, sysaddr.main.net,
+                                     sysaddr.main.node, sysaddr.main.point,
+                                     sysaddr.domain);
+   } else if (sysaddr.main.point && (sysaddr.domain==NULL || sysaddr.domain[0]) ) {
+      sprintf(aka, "%d:%d/%d.%d", sysaddr.main.zone, sysaddr.main.net,
+                                  sysaddr.main.node, sysaddr.main.point);
+   } else if (sysaddr.main.point==0 && sysaddr.domain && sysaddr.domain[0] ) {
+      sprintf(aka, "%d:%d/%d@%s", sysaddr.main.zone, sysaddr.main.net,
+                                  sysaddr.main.node, sysaddr.domain);
+   } else {
+      sprintf(aka, "%d:%d/%d", sysaddr.main.zone, sysaddr.main.net,
+                               sysaddr.main.node);
+   } /* endif */
+
+   return aka;
+}
+
 char *strLwr(char *str)
 {
    char *ptr;
@@ -101,11 +130,13 @@ int main(int argc, char **argv)
    Area            **area;
    ExtensionHeader header;
    SysAddress      *sysaddr = NULL;
-   Packers         *packers = NULL;
+   Packers         *packers = NULL, *packers2 = NULL;
    GroupDefaults   **groupdef = NULL;
    Node            **node;
    ForwardAreaFix  *frequest = NULL;
    int             i, c, stop;
+   char            *pp;
+   int             packers_count = 0, packers2_count = 0;
 
    if (argc == 1) {
       printf("\nUse - [path]fastecho.cfg\n");
@@ -137,16 +168,24 @@ int main(int argc, char **argv)
          {
              read_fe_sysaddress(sysaddr+i, f_cfg);
          }
-             
+
          break;
       case EH_PACKERS2:
-         packers = (Packers*)calloc(header.offset / FE_PACKERS_SIZE, 
+         packers2 = (Packers*)calloc(header.offset / FE_PACKERS_SIZE,
                                     sizeof(Packers));
          for (i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
-             read_fe_packers(packers + i, f_cfg); 
+             read_fe_packers(packers2 + i, f_cfg);
+         packers2_count = i;
+         break;
+      case EH_PACKERS:
+         packers = (Packers*)calloc(header.offset / FE_PACKERS_SIZE,
+                                    sizeof(Packers));
+         for (i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
+             read_fe_packers(packers + i, f_cfg);
+         packers_count = i;
          break;
       case EH_GRPDEFAULTS:
-         groupdef = (GroupDefaults**)calloc(config.GDCnt, 
+         groupdef = (GroupDefaults**)calloc(config.GDCnt,
                                             sizeof(GroupDefaults*));
          for (i = 0; i < config.GDCnt; i++) {
             groupdef[i] = (GroupDefaults*)malloc(sizeof(GroupDefaults));
@@ -204,36 +243,74 @@ int main(int argc, char **argv)
    fprintf(f_hpt, "# fastecho.cfg 1.46 -> hpt_temp.cfg. (c) 2:5020/960@FidoNet\n\n");
    fprintf(f_hpt, "# Check this file, please!\n\n");
 
+   fprintf(f_hpt, "\nVersion %s\n\n", Revision+9);
+
    fprintf(f_hpt, "##################################################################\n");
    fprintf(f_hpt, "# System\n\n");
    fprintf(f_hpt, "Sysop %s\n", config.sysops[0].name);
    for (i = 0; i < config.AkaCnt; i++) {
       if (*(char*)&sysaddr[i]) {
-         fprintf(f_hpt, "Address %s\n", aka2str(sysaddr[i].main));
+/*         fprintf(f_hpt, "Address %s\n", aka2str(sysaddr[i].main)); */
+         fprintf(f_hpt, "Address %s\n", sysAddress2str(sysaddr[i]));
       } /* endif */
    } /* endfor */
 
    fprintf(f_hpt, "\n");
 
-   fprintf(f_hpt, "Inbound\t%s\n", config.UnprotInBound);
-   fprintf(f_hpt, "ProtInbound\t%s\n", config.InBound);
-   fprintf(f_hpt, "TempInbound\t%s\n", config.TempInBound);
-   fprintf(f_hpt, "Outbound\t%s\n", config.OutBound);
-   fprintf(f_hpt, "TempOutbound\t%s\n", config.TempPath);
+   fprintf(f_hpt, "Inbound \t%s\n", config.UnprotInBound);
+   fprintf(f_hpt, "ProtInbound \t%s\n", config.InBound);
+   fprintf(f_hpt, "TempInbound \t%s\n", config.TempInBound);
+   fprintf(f_hpt, "Outbound \t%s\n", config.OutBound);
+   fprintf(f_hpt, "TempOutbound \t%s\n", config.TempPath);
+   pp = strrchr(config.LogFile, 92);
+   if(pp){
+     *pp=0;
+     fprintf(f_hpt, "Logfiledir \t%s\n", config.LogFile);
+   }
 
+   if( packers_count ){
+     fprintf(f_hpt, "\n##################################################################\n");
+     fprintf(f_hpt, "# Packers (DOS)\n\n");
+     for (i = 0; i < packers_count; i++) {
+       if ( strlen(packers[i].tag) && strlen(packers[i].command) )
+         fprintf( f_hpt, "# Pack %s \t%s $a $f\n", packers[i].tag, packers[i].command );
+     }
+   }
+   if( packers2_count ){
+     fprintf(f_hpt, "\n##################################################################\n");
+     fprintf(f_hpt, "# Packers (OS/2)\n\n");
+     for (i = 0; i < packers2_count; i++) {
+       if ( strlen(packers2[i].tag) && strlen(packers2[i].command) )
+         fprintf( f_hpt, "# Pack %s \t%s $a $f\n", packers2[i].tag, packers2[i].command );
+     }
+   }
 
    fprintf(f_hpt, "\n##################################################################\n");
    fprintf(f_hpt, "# Nodes\n\n");
    for (i = 0; i < config.NodeCnt; i++) {
       fprintf(f_hpt, "Link %s\n", node[i]->name);
+      if ( node[i]->addr.zone == sysaddr[node[i]->aka].main.zone ) {
+      fprintf(f_hpt, "Aka %s@%s\n", aka2str(node[i]->addr),
+                                    sysaddr[node[i]->aka].domain);
+      }else{
       fprintf(f_hpt, "Aka %s\n", aka2str(node[i]->addr));
-      fprintf(f_hpt, "OurAka %s\n", aka2str(sysaddr[node[i]->aka].main));
-      if (stricmp(node[i]->password, node[i]->areafixpw) == 0) {
+      }
+/*      fprintf(f_hpt, "OurAka %s\n", aka2str(sysaddr[node[i]->aka].main));
+*/
+      fprintf( f_hpt, "OurAka %s\n", sysAddress2str(sysaddr[node[i]->aka]) );
+/*      if (stricmp(node[i]->password, node[i]->areafixpw) == 0) {
          fprintf(f_hpt, "Password %s\n", strLwr(node[i]->password));
       } else {
          fprintf(f_hpt, "Password %s\n", strLwr(node[i]->password));
          fprintf(f_hpt, "AreafixPWD %s\n", strLwr(node[i]->areafixpw));
-      } /* endif */
+      }
+*/
+      if ( node[i]->password && node[i]->password[0] ) {
+         fprintf(f_hpt, "pktPwd %s\n", strLwr(node[i]->password));
+      }
+      if ( node[i]->areafixpw && node[i]->areafixpw[0] ) {
+         fprintf(f_hpt, "AreafixPWD %s\n", strLwr(node[i]->areafixpw));
+      }
       fprintf(f_hpt, "Level %d\n", node[i]->sec_level);
       if (node[i]->newgroup <= 25) {
          fprintf(f_hpt, "LinkGrp %c\n", 'A'+node[i]->newgroup);
@@ -444,6 +521,7 @@ int main(int argc, char **argv)
    free(node);
    free(sysaddr);
    free(packers);
+   free(packers2);
    for (i = 0; i < config.GDCnt; i++) {
       free_fe_groupdefaults(groupdef[i]);
       free(groupdef[i]);
