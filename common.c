@@ -72,7 +72,8 @@ int cmpfnames(char *file1, char *file2);
 #endif
 
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2) || defined(__OS2__)))
-#if ( defined(__MINGW32__) || defined(__WATCOMC__) || defined(_MSC_VER) )
+#if ( defined(__MINGW32__) || defined(__WATCOMC__) || (defined(_MSC_VER) && (_MSC_VER >= 1200) )
+/* cygwin/mingw; Watcom C NT or OS/2; MS Visual C */
 #include <sys/utime.h>
 #else
 #include <utime.h>
