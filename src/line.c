@@ -2056,7 +2056,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
   }
   /* set flavour if it isn't specified in the statement */
   if (actualRoute->flavour == undef) {
-    if (actualRoute->target == NULL) prErr("Unknown flavour for route");
+    if (actualRoute->target == NULL) prErr("You must either specify flavour or use defined link as target");
     else actualRoute->flavour = actualRoute->target->netMailFlavour;
   }
 
