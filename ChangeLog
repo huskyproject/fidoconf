@@ -1,3 +1,21 @@
+2002-01-31 Thursday 22:07  nestyurkin.nikolay
+
+	* cfg.c (1.24): some fix for cmpfnames (WIN32)
+
+2002-01-31 Thursday 17:44  ml
+
+	* fidoconf.h (1.95), line.c (1.281): don't destroy areadefaults
+	when parsing netmailArea [patch by Serguei Revtov]
+
+2002-01-31 Thursday 16:09  mhaase
+
+	* cfg.c (1.23): bug fixed (spelling mistake and two missing
+	brackets) reported by Jesper Soerensen (mhaase)
+
+2002-01-31 Thursday 10:36  pavel.gulchouck
+
+	* cfg.c (1.22): cmpfnames() fix for MSDOS
+
 2002-01-30 Wednesday 19:57  ml
 
 	* fidoconf.c (1.65): readLine can read lines without \r on Watcom
