@@ -297,7 +297,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
    option = strtok(token, " \t");
 
    if (option == NULL) return 1;
-   
+
    while (option != NULL) {
       if (stricmp(option, "enc")==0) actualRoute->enc = 1;
       else if (stricmp(option, "noenc")==0) actualRoute->enc = 0;
@@ -314,16 +314,58 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
          if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL))
             actualRoute->target = getLink(*config, option);
          else {
-            actualRoute->pattern = (char *) malloc(strlen(option)+1);
-            strcpy(actualRoute->pattern, option);
+            if (actualRoute->pattern == NULL) {
+               actualRoute->pattern = (char *) malloc(strlen(option)+1);
+               strcpy(actualRoute->pattern, option);
+               (*count)++;
+            } else {
+               // add new Route for additional patterns
+               *route = realloc(*route, sizeof(s_route)*(*count+1));
+               actualRoute = &(*route)[*count];
+               memcpy(actualRoute, &(*route)[(*count)-1], sizeof(s_route));
+
+               actualRoute->pattern = (char *) malloc(strlen(option)+1);
+               strcpy(actualRoute->pattern, option);
+               (*count)++;
+            }
+            
          }
          if (actualRoute->target == NULL) rc = 2;
       }
       option = strtok(NULL, " \t");
    }
 
-   (*count)++;
    return rc;
+}
+
+int parsePack(char *line, s_fidoconfig *config) {
+
+   char   *p, *c;
+   s_pack pack;
+   
+   if (line == NULL) return 1;
+
+   p = strtok(line, " \t");
+   c = getRestOfLine();
+   if ((p != NULL) && (c != NULL)) {
+
+      // add new pack statement
+      config->packCount++;
+      realloc(config->pack, config->packCount * sizeof(s_pack));
+
+      // fill new pack statement
+      pack = config->pack[config->packCount-1];
+      pack.packer = (char *) malloc(strlen(p)+1);
+      strcpy(pack.packer, p);
+      pack.call   = (char *) malloc(strlen(c)+1);
+      strcpy(pack.call, c);
+
+      return 0;
+   } else return 1;
+}
+
+int parseUnpack(char *line, s_fidoconfig *config) {
+   
 }
 
 int parseLine(char *line, s_fidoconfig *config)
@@ -385,6 +427,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
    else if (stricmp(token, "routeFile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
    else if (stricmp(token, "routeMail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
+
+   else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
+   
    else printf("Unrecognized line: %s\n", line);
                                                           
    if (rc != 0) {

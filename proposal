@@ -339,7 +339,7 @@ _Keyword definitions_
   {
   route <flavour> [enc|noenc] <target> {<linkWW>}
   }
-  # <target> ::= <aka>|"host"|"hub"|"boss"|"direct"
+  # <target> ::= <aka>|"host"|"hub"|"boss"|"no-route"
   # enc: ecnodes msg's
   {
   routeFile <flavour> [enc|noenc] <target> {<linkWW>}
