@@ -418,7 +418,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
 int parsePack(char *line, s_fidoconfig *config) {
 
    char   *p, *c;
-   s_pack pack;
+   s_pack *pack;
    
    if (line == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
@@ -431,14 +431,14 @@ int parsePack(char *line, s_fidoconfig *config) {
 
       // add new pack statement
       config->packCount++;
-      realloc(config->pack, config->packCount * sizeof(s_pack));
+      config->pack = realloc(config->pack, config->packCount * sizeof(s_pack));
 
       // fill new pack statement
-      pack = config->pack[config->packCount-1];
-      pack.packer = (char *) malloc(strlen(p)+1);
-      strcpy(pack.packer, p);
-      pack.call   = (char *) malloc(strlen(c)+1);
-      strcpy(pack.call, c);
+      pack = &(config->pack[config->packCount-1]);
+      pack->packer = (char *) malloc(strlen(p)+1);
+      strcpy(pack->packer, p);
+      pack->call   = (char *) malloc(strlen(c)+1);
+      strcpy(pack->call, c);
 
       return 0;
    } else {
