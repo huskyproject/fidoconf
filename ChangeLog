@@ -1,3 +1,8 @@
+2003-01-30 Thursday 09:13  mche
+
+	* common.c (fidoconf-0_14-stable.8): fix passing arguments to
+	unpacker
+
 2003-01-10 Friday 14:56  stas_degteff
 
 	* fidoconf.c (fidoconf-0_14-stable.4): MFC: Warning about truncate
