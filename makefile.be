@@ -1,5 +1,5 @@
 # Linux makefile
 # (legacy makefile, no dynlibs, no huskymak support)
 
-UNIXID=lnx
+UNIXID=be
 include makefile.in2
