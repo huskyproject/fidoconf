@@ -265,6 +265,164 @@ void printLink(s_link link) {
    printf("-------\n");
 }
 
+// Some dumb checks ;-)
+void checkLogic(s_fidoconfig *config) {
+	int i,j,k;
+	s_link *link;
+	s_area *area;
+	char *areaName;
+
+	for (i=0; i+1<config->linkCount; i++) {
+		for (j=i+1; j<config->linkCount; j++) {
+			if (addrComp(config->links[i].hisAka, config->links[j].hisAka) == 0) {
+				
+				if (strcmp(config->links[i].name,
+						   config->links[j].name)!=0) continue;
+				
+				printf("ERROR: duplication of link %d:%d/%d.%d\n",
+					   config->links[i].hisAka.zone,
+					   config->links[i].hisAka.net,
+					   config->links[i].hisAka.node,
+					   config->links[i].hisAka.point);
+				printf("remove it, or change his name!\n");
+				exit(-1);
+			}
+		}
+	}	
+
+	for (i=0; i<config->echoAreaCount; i++) {
+
+		area = &(config->echoAreas[i]);
+		areaName = area->areaName;
+
+		//   j=i+1
+		for (j=i+1; j < config->echoAreaCount; j++) {
+			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+      
+		for (j=0; j < config->localAreaCount; j++) {
+			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+
+		for (j=0; j < config->netMailAreaCount; j++) {
+			if (stricmp(config->netMailAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+
+		// Check for area link duplication
+		for (j=0; j+1<area->downlinkCount; j++) {
+			link = area->downlinks[j]->link;
+			for (k=j+1;k<area->downlinkCount; k++) {
+				if (link == area->downlinks[k]->link) {
+					printf("ERROR: duplication of link %d:%d/%d.%d in area %s\n",
+						   link->hisAka.zone,
+						   link->hisAka.net,
+						   link->hisAka.node,
+						   link->hisAka.point,
+						   areaName);
+					exit(-1);
+				}
+			}
+		}
+	}
+
+	for (i=0; i<config->localAreaCount; i++) {
+
+		area = &(config->localAreas[i]);
+		areaName = config->localAreas[i].areaName;
+
+		for (j=0; j < config->echoAreaCount; j++) {
+			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+      
+		//   j=i+1
+		for (j=i+1; j < config->localAreaCount; j++) {
+			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+
+		for (j=0; j < config->netMailAreaCount; j++) {
+			if (stricmp(config->netMailAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+
+		// Check for area link duplication
+		for (j=0; j+1<area->downlinkCount; j++) {
+			link = area->downlinks[j]->link;
+			for (k=j+1;k<area->downlinkCount; k++) {
+				if (link == area->downlinks[k]->link) {
+					printf("ERROR: duplication of link %d:%d/%d.%d in area %s\n",
+						   link->hisAka.zone,
+						   link->hisAka.net,
+						   link->hisAka.node,
+						   link->hisAka.point,
+						   areaName);
+					exit(-1);
+				}
+			}
+		}
+	}
+
+	for (i=0; i<config->netMailAreaCount; i++) {
+	   
+		area = &(config->netMailAreas[i]);
+		areaName = config->netMailAreas[i].areaName;
+
+		for (j=0; j < config->echoAreaCount; j++) {
+			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+
+		for (j=0; j < config->localAreaCount; j++) {
+			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+
+		//   j=i+1
+		for (j=i+1; j < config->netMailAreaCount; j++) {
+			if (stricmp(config->netMailAreas[j].areaName, areaName)==0) {
+				printf("ERROR: duplication of area %s\n", areaName);
+				exit(-1);
+			}
+		}
+
+		// Check for area link duplication
+		for (j=0; j+1<area->downlinkCount; j++) {
+			link = area->downlinks[j]->link;
+			for (k=j+1;k<area->downlinkCount; k++) {
+				if (link == area->downlinks[k]->link) {
+					printf("ERROR: duplication of link %d:%d/%d.%d in area %s\n",
+						   link->hisAka.zone,
+						   link->hisAka.net,
+						   link->hisAka.node,
+						   link->hisAka.point,
+						   areaName);
+					exit(-1);
+				}
+			}
+		}
+	}
+}
+
 int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
    int i, j, hpt=0;
@@ -302,6 +460,7 @@ int main(int argc, char **argv) {
    nfree(cfgFile);
 
    if (config != NULL) {
+	  checkLogic(config);
       printf("=== MAIN CONFIG ===\n");
       printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
       if (config->name != NULL)	printf("Name: %s\n", config->name);
