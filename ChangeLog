@@ -1,3 +1,11 @@
+2003-02-24 Monday 17:54  pgul
+
+	* cfg.c (1.62): Fix previous patch
+
+2003-02-24 Monday 11:14  pgul
+
+	* cfg.c (1.61): elif is now synonym for elseif
+
 2003-02-22 Saturday 19:19  stas_degteff
 
 	* fecfg2fc.c (1.20): Fix FTN domain output. Patch from Alexander
