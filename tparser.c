@@ -520,6 +520,9 @@ int main(int argc, char **argv) {
 	  case eAddrDiff:
 		  printf("BundleNameStyle: addrDiff\n");
 		  break;
+	  case eAddrDiffAlways:
+	          printf("BundleNameStyle: addrDiffAlways\n");
+	          break;
 	  case eTimeStamp:
 		  printf("BundleNameStyle: timeStamp\n");
 		  break;
