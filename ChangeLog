@@ -1,3 +1,7 @@
+Sat Oct 21 19:41:45 NOVST 2000
+max:
+* noPause works for echoAreas & fileAreas
+
 Mon Oct 16 21:44:12 NOVST 2000
 max:
 * -debug echoarea token

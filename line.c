@@ -858,7 +858,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 		 if (link->level < area->levelread)	arealink->export=0;
 		 if (link->level < area->levelwrite) arealink->import=0;
 		 // paused link can't receive mail
-		 if (link->Pause) arealink->export = 0;
+		 if (link->Pause && area->noPause==0) arealink->export = 0;
 
          area->downlinkCount++;
          tok = strtok(NULL, " \t");
