@@ -1,5 +1,11 @@
 fidoconfig 0.6
 --------------
+Thu Feb 25
+  Gabriel Plutzar
+* Rewrote patimat, changed priority of include file directories in hpt to
+  include the new patimat funktion correctly, included missing include
+  files.
+
 Mon Feb 22 11:09:53 MET 199
   Tobias Ernst:
 + Added patimat for case insensitive pattern matching	
