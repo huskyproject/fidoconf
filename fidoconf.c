@@ -596,6 +596,8 @@ s_area *getNetMailArea(s_fidoconfig *config, char *areaName)
 {
    UINT i;
 
+   if (areaName==NULL) return (NULL);
+
    for (i=0; i < config->netMailAreaCount; i++) {
       if (stricmp(config->netMailAreas[i].areaName, areaName)==0)
          return &(config->netMailAreas[i]);

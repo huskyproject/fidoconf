@@ -345,7 +345,7 @@ typedef struct fidoconfig {
    ps_remap remaps;
 
    unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests, areafixMsgSize;
-   char *areafixSplitStr, *areafixOrigin;
+	char *areafixSplitStr, *areafixOrigin, *robotsArea;
 
    char     **PublicGroup;
    unsigned int numPublicGroup;

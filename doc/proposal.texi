@@ -205,6 +205,7 @@ a comment and will be ignored.
 * areafixMsgSize::              maximum areafix report size
 * areafixSplitStr::             set split string for splitted areafix messages
 * areafixOrigin::		set origin for areafix reports
+* robotsArea::                  area for areafix scanning
 
 * logEchoToScreen::             set output to screen log information
 * loglevels::			set level of log output
@@ -2218,7 +2219,7 @@ if not defined, areafix reports will be not splitted...
 
 this string added after splitted araefix message.
 
-@node areafixOrigin, logEchoToScreen, areafixSplitStr, Keywords
+@node areafixOrigin, robotsArea, areafixSplitStr, Keywords
 @subsection areafixOrigin
 @table @asis
 @item Syntax:
@@ -2230,7 +2231,19 @@ this string added after splitted araefix message.
 the origin string in areafix reports will be:
  * Origin: c0()1 $tAt10n (<your aka>)
 
-@node logEchoToScreen, loglevels, areafixOrigin, Keywords
+@node robotsArea, logEchoToScreen, areafixOrigin, Keywords
+@subsection robotsArea
+@table @asis
+@item Syntax:
+@code{robotsArea <string>}
+@item Example:
+@code{robotsArea SecondNetMail}
+@end table
+
+This area used for areafix scanning. Replyes from areafix will be also
+stored here.
+
+@node logEchoToScreen, loglevels, robotsArea, Keywords
 @subsection logEchoToScreen
 @table @asis
 @item Syntax:

@@ -549,18 +549,22 @@ void dumpAreafix(s_fidoconfig *config, FILE *f)
     if (config->areafixFromPkt != 0) fprintf(f, "areafixFromPkt\n");
     if (config->areafixKillReports != 0) fprintf(f, "areafixKillReports\n");
     if (config->areafixKillRequests != 0) fprintf(f, "areafixKillRequests\n");
+    if (config->areafixMsgSize != 0) fprintf(f, "areafixMsgSize %i\n", config->areafixMsgSize);
 
     dumpString(f, "ReportTo            %s\n", config->ReportTo);
+	dumpString(f, "robotsArea          %s\n", config->robotsArea);
+	dumpString(f, "areafixSplitStr     %s\n", config->areafixSplitStr);
+	dumpString(f, "areafixOrigin       %s\n", config->areafixOrigin);
 
     if (config->numPublicGroup > 0)
-    {
-      fprintf(f, "PublicGroup         ");
-      for (i = 0; i < config->numPublicGroup; i++)
-      {
-	if (i > 0) fprintf(f, ", %s", config->PublicGroup[i]);
-	else fprintf(f, "%s", config->PublicGroup[0]);
-      }
-    }
+		{
+			fprintf(f, "PublicGroup         ");
+			for (i = 0; i < config->numPublicGroup; i++)
+				{
+					if (i > 0) fprintf(f, ", %s", config->PublicGroup[i]);
+					else fprintf(f, "%s", config->PublicGroup[0]);
+				}
+		}
 
     fprintf(f, "\n");
 }
