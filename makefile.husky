@@ -51,9 +51,9 @@ default: all
 include makefile.common
 
 ifeq ($(DYNLIBS), 1)
-  all: commonlibs $(LIBFIDOCONFIG).so.$(VER) commonprogs
+  all: commonlibs ranlib $(LIBFIDOCONFIG).so.$(VER) commonprogs
 else
-  all: commonlibs commonprogs
+  all: commonlibs ranlib commonprogs
 endif
 
 clean: commonclean
@@ -73,7 +73,7 @@ $(LIBFIDOCONFIG).so.$(VER): line$(OBJ) common$(OBJ) fidoconfig$(OBJ) \
 	$(CC) $(CDEFS) $(COPT) $*.c
 
 ifeq ($(DYNLIBS), 1)
-instdyn:
+instdyn: $(LIBFIDOCONFIG).so.$(VER)
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBDIR)
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.$(VER) \
           $(LIBDIR)/$(LIBFIDOCONFIG).so.0
@@ -85,7 +85,13 @@ instdyn: commonlibs
 
 endif
 
-install: commonlibs commonprogs instdyn
+ranlib:	commonlibs
+	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)/patmat.o
+ifdef RANLIB
+	$(RANLIB) $(LIBFIDOCONFIG)$(LIB)
+endif
+
+install: commonlibs ranlib commonprogs instdyn
 	-$(MKDIR) $(MKDIROPT) $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(EXE)   $(BINDIR)
