@@ -1113,9 +1113,14 @@ int parseLink(char *token, s_fidoconfig *config)
    }
 
    if (config->fileAreas || config->echoAreas) {
-       prErr("Can't define links after EchoArea of FileArea statements!");
+       prErr("Unable to define links after EchoArea of FileArea statements!");
        return 1;
    }
+   if (config->addrCount == 0) {
+       prErr("Unable to define links before our address!");
+       return 1;
+   }
+
    config->describeLinkDefaults=0; /*  Stop describing of link defaults if it was */
 
    config->links = srealloc(config->links, sizeof(s_link)*(config->linkCount+1));
@@ -3745,8 +3750,11 @@ int parseLine(char *line, s_fidoconfig *config)
                 char *l = getRestOfLine();
                 clink->ourAka = getAddr(config, l);
                 if (clink->ourAka == NULL) {
-                  prErr( "Address %s is not our aka!", l );
-                  rc = 2;
+                    if (config->addrCount) {
+                        prErr( "Address %s is not our aka!", l);
+                        clink->ourAka = &config->addr[0];
+                    }
+                    rc = 2;
                 }
             } else {
                 rc = 1;
