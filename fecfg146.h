@@ -265,7 +265,8 @@ typedef struct CONFIGURATION
     char OutBound[_MAXPATH];
     char Unpacker[_MAXPATH];    /* DOS default decompression program */
     char LogFile[_MAXPATH];
-    char unused2[336];
+    char unused2[280];
+    char RulesDir[_MAXPATH];
     char Unpacker2[_MAXPATH];   /* OS/2 default decompression program */
     char UnprotInBound[_MAXPATH];
     char StatFile[_MAXPATH];

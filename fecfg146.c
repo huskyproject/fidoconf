@@ -85,7 +85,8 @@ int read_fe_config(CONFIG *c, FILE *fp)
     memcpy(c->OutBound, pbuf, _MAXPATH); pbuf += _MAXPATH;
     memcpy(c->Unpacker, pbuf, _MAXPATH); pbuf += _MAXPATH;
     memcpy(c->LogFile, pbuf, _MAXPATH); pbuf += _MAXPATH;
-    memcpy(c->unused2, pbuf, 336); pbuf += 336;
+    memcpy(c->unused2, pbuf, 280); pbuf += 280;
+    memcpy(c->RulesDir, pbuf, _MAXPATH); pbuf += _MAXPATH;
     memcpy(c->Unpacker2, pbuf, _MAXPATH); pbuf += _MAXPATH;
     memcpy(c->UnprotInBound, pbuf, _MAXPATH); pbuf += _MAXPATH;
     memcpy(c->StatFile, pbuf, _MAXPATH); pbuf += _MAXPATH;

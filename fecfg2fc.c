@@ -798,7 +798,7 @@ int main(int argc, char **argv)
    if( config.RulesPrefix && *config.RulesPrefix )
      fprintf(f_hpt, "%sRulesDir                 %s\n",
                     config.AreaFixFlags & SENDCONFERENCERULES? "": "# ",
-                    config.RulesPrefix);
+                    config.RulesDir);
    pp = strrchr(config.LogFile, '\\');
    if(pp){
      *pp=0;
