@@ -61,9 +61,6 @@
  *   tempfilename = "/path/prefixXXXXX"
  *  "XXXXX" replaced with random char sequence
  */
-#ifdef HAVE_MKSTEMP
-#define MKSTEMPS mkstemp
-#else
 int MKSTEMPS( char *tempfilename )
 {  char *ttt;
    int fd=-1;
@@ -88,7 +85,6 @@ int MKSTEMPS( char *tempfilename )
    nfree(ttt);
    return fd;
 }
-#endif
 
 /* Create new file with random name & specified suffix in specified directory.
  * path = temporary directory
