@@ -97,6 +97,7 @@ instdyn: $(LIBFIDOCONFIG).so.$(VER)
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.$(VER) \
           $(LIBDIR)/$(LIBFIDOCONFIG).so.0
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.0 $(LIBDIR)/$(LIBFIDOCONFIG).so
+ifneq (~$(LDCONFIG)~, ~~)
 	$(LDCONFIG)
 
 else
@@ -119,7 +120,7 @@ install: commonlibs ranlib commonprogs instdyn
 	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(EXE) $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
 ifeq ($(CC), gcc)
-	$(INSTALL) $(IBOPT) $(FECFG2FCONV)$(EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
 endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
