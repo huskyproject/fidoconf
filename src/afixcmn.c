@@ -148,6 +148,14 @@ s_message *makeMessage (hs_addr *origAddr, hs_addr *destAddr,
     return msg;
 }
 
+void cvtAddr(const NETADDR aka1, hs_addr *aka2)
+{
+  aka2->zone = aka1.zone;
+  aka2->net  = aka1.net;
+  aka2->node = aka1.node;
+  aka2->point = aka1.point;
+}
+
 XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
                 dword forceattr, char* tossDir)
 {

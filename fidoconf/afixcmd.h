@@ -59,6 +59,8 @@ HUSKYEXT   s_message* makeMessage (hs_addr *origAddr, hs_addr *destAddr,
 /* Free memory allocated for s_message structure */
 HUSKYEXT   void       freeMsgBuffers(s_message *msg);
 
+HUSKYEXT   void cvtAddr(const NETADDR aka1, ps_addr aka2);
+
 /* Compose XMSG structure (used by smapi) */
 HUSKYEXT   XMSG createXMSG        (ps_fidoconfig config,
                                     s_message *msg, const s_pktHeader *header,
