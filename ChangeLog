@@ -1,3 +1,8 @@
+2002-04-09 Tuesday 18:20  mche
+
+	* areatree.c (1.4), fidoconf.c (1.73), fidoconf.h (1.107), line.c
+	(1.288), tparser.c (1.172): new token "quickAreaSearch" removed
+
 2002-04-08 Monday 18:07  mche
 
 	* fidoconf.h (1.106), line.c (1.287), tokens.h (1.29): token
