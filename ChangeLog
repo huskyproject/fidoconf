@@ -1,3 +1,12 @@
+2002-12-20 Friday 15:23  stas_degteff
+
+	* fidoconf.c (1.100): Update diagnostic in previous patch
+
+2002-12-20 Friday 14:42  stas_degteff
+
+	* fidoconf.c (1.99), fidoconf.h (1.163): Bugfix: trap if defined
+	carbonto into nonexistent area and badarea not specified
+
 2002-12-18 Wednesday 06:03  stas_degteff
 
 	* afixcmd.c (1.23): Fix errors on renaming config: use move_file()
