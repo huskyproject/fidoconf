@@ -64,7 +64,7 @@ int  addGrpToTree(grp_t *grp)
 
 void freeGrpTree()
 {
-    tree_deinit(&groupTree, grp_deleteEntry);
+    tree_mung(&groupTree, grp_deleteEntry);
 }
 
 void addPatternToGrpTree(char *grpname, char *pattern)

@@ -506,6 +506,9 @@ void tree_mung_real(tree **ppr_tree, int (*pfi_uar)(char *))
 void tree_mung(tree **ppr_tree, int (*pfi_uar)(char *))
 {
     tree_mung_real(&(**ppr_tree).tree_r, pfi_uar);
+    if (pfi_uar)
+        (*pfi_uar)((**ppr_tree).tree_p);
+    nfree(*ppr_tree);
 }
 
 int countEach(char *pc_data)
@@ -549,12 +552,4 @@ void tree_init(tree **ppr_tree, char need_balance)
         *ppr_tree = NULL;
         sprout(ppr_tree, NULL, NULL, NULL, NULL, need_balance);
 	EXITV
-}
-
-void tree_deinit(tree **ppr_tree, int (*pfi_uar)(char *))
-{
-    tree_mung_real(&(**ppr_tree).tree_r, pfi_uar);
-    if (pfi_uar)
-        (*pfi_uar)((**ppr_tree).tree_p);
-    nfree(*ppr_tree);
 }
