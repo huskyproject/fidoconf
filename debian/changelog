@@ -1,3 +1,12 @@
+fidoconf (0.13-1) unstable; urgency=low
+
+  * Hey, im back. A new Debian Package is built and available for
+    download at my ftp-server. It is *NOT* in Debian -> licence of smapi
+    is much to bad. I will see if i get it into, but not the next weeks.
+  * Wow, a new Upstream Version.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Sun,  3 Mar 2002 23:34:08 +0100
+
 fidoconf (0.12-4) unstable; urgency=low
 
   * Newest cvs checkout.
@@ -97,6 +106,4 @@ fidoconf (0.11-1) unstable; urgency=low
 
  -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Tue, 10 Apr 2001 17:12:57 +0200
 
-Local variables:
-mode: debian-changelog
-End:
+
