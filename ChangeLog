@@ -1,3 +1,10 @@
+2002-12-26 Thursday 12:33  stas_degteff
+
+	* Makefile, makefile.aix, makefile.bco, makefile.emo, makefile.emx,
+	makefile.ibo, makefile.in2, makefile.unx, makefile.wco
+	(fidoconf-0_14-stable.[6,2,1,1,4,1,2,1,1]): compile with 
+	-DNOSEMAPHORES
+
 2002-12-20 Friday 14:54  stas_degteff
 
 	* fidoconf.c (fidoconf-0_14-stable.3): Bugfix: trap if defined
