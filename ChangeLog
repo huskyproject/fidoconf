@@ -2,6 +2,12 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Sat Dec 11 19:27:40 1999 
+Georgi (patch from Nestyurkin Nikolay, 2:5020/3600):
+* added token fileEchoFlavour (flavour for fileecho)
+  Warning, please put this token in config, if you use htick!
+
+----- cvs ci ------
 Wed Dec  8 11:05:56 MET 1999 
 mtt
 * added new fidoInst script developed by Stefano Zano

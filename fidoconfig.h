@@ -97,7 +97,7 @@ struct link {
    char *pktFile,*packFile;   // used only internally by hpt   
    char *floFile,*bsyFile;    // dito
    s_pack *packerDef;
-   e_flavour echoMailFlavour;
+   e_flavour echoMailFlavour,fileEchoFlavour;
    char *LinkGrp;	      // link's group for autocreate areas
    char *AccessGrp;	      // groups for echo access
    char *autoAreaCreateFile;  // file where autocreated areas are written to

@@ -103,6 +103,7 @@ interface
           bsyFile : Pchar;
           packerDef : Ps_pack;
           echoMailFlavour : e_flavour;
+          fileEchoFlavour : e_flavour;
           LinkGrp : Pchar;
           AccessGrp : Pchar;
           autoAreaCreateFile : Pchar;

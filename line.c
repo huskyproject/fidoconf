@@ -1484,6 +1484,25 @@ int parseEchoMailFlavour(char *line, e_flavour *flavour) {
    return 0;
 }
 
+int parseFileEchoFlavour(char *line, e_flavour *flavour) {
+
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (stricmp(line, "hold")==0) *flavour = hold;
+   else if (stricmp(line, "normal")==0) *flavour = normal;
+   else if (stricmp(line, "direct")==0) *flavour = direct;
+   else if (stricmp(line, "crash")==0) *flavour = crash;
+   else if (stricmp(line, "immediate")==0) *flavour = immediate;
+   else {
+      printf("Line %d: Unknown fileecho flavour %s!\n", actualLineNr, line);
+      return 2;
+   }
+   return 0;
+}
+
 //and the parseGroup:
 // i make some checking... maybe it is better check if the pointer exist from
 // copyString function?
@@ -1859,6 +1878,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
        else if (stricmp(token, "email")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].email));
    else if (stricmp(token, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(config->links[config->linkCount-1].echoMailFlavour));
+   else if (stricmp(token, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(config->links[config->linkCount-1].fileEchoFlavour));
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
    else if (stricmp(token, "routefile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
    else if (stricmp(token, "routemail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));

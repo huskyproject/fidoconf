@@ -192,6 +192,22 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       default:;
       }
 
+      switch (link.fileEchoFlavour) {
+      case hold:
+	fprintf(f, "fileEchoFlavour     hold\n");
+	break;
+      case crash:
+	fprintf(f, "fileEchoFlavour     crash\n");
+	break;
+      case direct:
+	fprintf(f, "fileEchoFlavour     direct\n");
+	break;
+      case immediate:
+	fprintf(f, "fileEchoFlavour     immediate\n");
+	break;
+      default:;
+      }
+
       dumpString(f, "linkGrp             %s\n", link.LinkGrp);
       dumpString(f, "accessGrp           %s\n", link.AccessGrp);
       dumpString(f, "autoAreaCreateFile  %s\n", link.autoAreaCreateFile);
