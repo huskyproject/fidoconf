@@ -11,6 +11,7 @@
 #include "fidoconf.h"
 #include "typesize.h"
 #include "common.h"
+#include "xstr.h"
 
 #define setcond for (i=0, condition=1; i<=iflevel; condition=ifstack[i++].state && condition);
 
@@ -30,11 +31,15 @@ static struct {
         char *confname;
       } *incstack;
 
+static unsigned int cfgNamesCount;
+static char **cfgNames;
+
 int init_conf(char *conf_name)
 {
   iflevel=-1;
   condition=1;
   sp=0;
+  cfgNamesCount=0;
   hcfg=fopen(conf_name, "r");
   if (hcfg==NULL)
   {
@@ -126,6 +131,9 @@ void close_conf(void)
   nfree(curconfname);
   nfree(incstack);
   sp=maxsp=0;
+  for (i=0; i<cfgNamesCount; i++) nfree(cfgNames[i]);
+  nfree(cfgNames);
+  cfgNamesCount=0;
 }
 
 static char *_configline(void)
@@ -257,22 +265,25 @@ char *configline(void)
 { int  i;
   char *p, *p1, *p2, *str, *line;
 
-  for (;;free(line))
-  {
-    line=str=_configline();
-    if (str==NULL)
-    { if (sp)
-      { fclose(hcfg);
-        nfree(curconfname);
-        hcfg=incstack[--sp].farr;
-        actualLineNr=incstack[sp].curline;
-        curconfname=incstack[sp].confname;
-        continue;
+  for (;;free(line)) {
+      line=str=_configline();
+      if (str==NULL) {
+	  // save parsed config name
+	  cfgNames = srealloc(cfgNames, sizeof(char*)*(cfgNamesCount+1));
+	  cfgNames[cfgNamesCount] = NULL;
+	  xstrcat(&cfgNames[cfgNamesCount], curconfname);
+	  cfgNamesCount++;
+	  if (sp) {
+	      fclose(hcfg);
+	      nfree(curconfname);
+	      hcfg=incstack[--sp].farr;
+	      actualLineNr=incstack[sp].curline;
+	      curconfname=incstack[sp].confname;
+	      continue;
+	  }
+	  return NULL;
       }
-      return NULL;
-    }
-    while (*str && isspace(*str))
-      str++;
+      while (*str && isspace(*str)) str++;
     if (strncasecmp(str, "if ", 3)==0)
     {
       iflevel++;
@@ -409,16 +420,26 @@ void checkIncludeLogic(ps_fidoconfig config)
 
     for (j=0; j<config->linkCount; j++) {
 	if (config->links[j].autoAreaCreateFile==NULL) continue;
-	printf("%u\n",sp);
-	for (i=0; i<sp; i++) {
-	    printf("%s\n",incstack[i].confname);
-	    if (strcmp(incstack[i].confname,config->links[j].autoAreaCreateFile)==0)
-		break;
+	for (i=0; i<cfgNamesCount; i++) {
+	    if (strcmp(cfgNames[i],config->links[j].autoAreaCreateFile)==0) break;
 	}
 	// if not found include file - return error
-	if (i==sp) {
+	if (i==cfgNamesCount) {
 	    printf("AutoAreaCreateFile %s has never been included in config!\n",
 		   config->links[j].autoAreaCreateFile);
+	    exit(EX_CONFIG);
+	}
+    }
+
+    for (j=0; j<config->linkCount; j++) {
+	if (config->links[j].autoFileCreateFile==NULL) continue;
+	for (i=0; i<cfgNamesCount; i++) {
+	    if (strcmp(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
+	}
+	// if not found include file - return error
+	if (i==cfgNamesCount) {
+	    printf("AutoFileCreateFile %s has never been included in config!\n",
+		   config->links[j].autoFileCreateFile);
 	    exit(EX_CONFIG);
 	}
     }

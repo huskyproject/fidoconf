@@ -67,7 +67,6 @@ extern int  actualLineNr;
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"
 extern char CommentChar;
-   
 
 FCONF_EXT char *striptwhite(char *str);
 
@@ -522,7 +521,7 @@ typedef struct fidoconfig {
    int writeOnlyCount;
    char *fileBoxesDir;
    char *notValidFNChars;
-
+    
 } s_fidoconfig, *ps_fidoconfig;
 
 
