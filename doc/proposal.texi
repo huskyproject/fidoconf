@@ -133,6 +133,8 @@ a comment and will be ignored.
 * autoareacreate::              right to auto create areas on your system
 * autoareacreatedefaults::      set defaults to autocreated echoareas
 * packer::                      default packer for link
+* packNetmail::                 allow pack outgoing netmail
+* maxUnpackedNetmail::          set size of outgoing netmail to leave unpacked
 * echomailflavour::             flavour for outgoing echomail
 * fileechoflavour::             flavour for outgoing files in fileechos
 * autoAreaCreateFile::          file where autoCreated Areas by this links are going
@@ -1158,7 +1160,7 @@ Set defaults to autocreated echoareas.
 
 This statement can only be repeated for different links.
 
-@node packer, echomailflavour, autoareacreatedefaults, Keywords
+@node packer, packNetmail, autoareacreatedefaults, Keywords
 @subsection packer
 @table @asis
 @item Syntax:
@@ -1174,7 +1176,43 @@ packed. The pkt´s will be put in the outbound.
 
 This statement can only be repeated for different links.
 
-@node echomailflavour, fileechoflavour, packer, Keywords
+@node packNetmail, maxUnpackedNetmail, packer, Keywords
+@subsection packNetmail
+@table @asis
+@item Syntax:
+@code{packNetmail <on|off>}
+@item Example:
+@code{packNetmail on}
+@end table
+
+This statement allows you to pack outgoing netmail packets into arcmail bundles
+You also need bsopack to do this.
+
+Attention: If you use @code{packNetmail on} - you must define packer for this
+link.
+
+This statement can only be repeated for different links.
+
+@node maxUnpackedNetmail, echomailflavour, packNetmail, Keywords
+@subsection maxUnpackedNetmail
+@table @asis
+@item Syntax:
+@code{maxUnpackedNetmail <integer>}
+@item Example:
+@code{maxUnpackedNetmail 20}
+@end table
+
+This statement defines how much unpacked netmail in kb we should leave for link
+in outbound. If we have more outgoing netmail - it will be packed into bundles.
+You also can have packed &  unpacked netmail in your outbound
+simultaneously - packet, which had had size more than @code{maxUnpackedNetmail}
+was packed into bundle and new packed with size less than
+@code{maxUnpackedNetmail} was created.
+If you select 0 kb - all netmail will be packed.
+
+This statement can only be repeated for different links.
+
+@node echomailflavour, fileechoflavour, maxUnpackedNetmail, Keywords
 @subsection echomailflavour
 @table @asis
 @item Syntax:
