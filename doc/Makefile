@@ -9,7 +9,7 @@ dvi: fidoconfig.dvi
 info: fidoconfig.info
 
 fidoconfig_toc.html: fidoconfig.texi
-	texi2html -split_node -number -menu fidoconfig.texi
+	texi2html -number -menu fidoconfig.texi
 
 fidoconfig.dvi: fidoconfig.texi
 	texi2dvi fidoconfig.texi

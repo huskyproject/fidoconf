@@ -7,6 +7,7 @@ Sat May 27 10:21:30 NOVST 2000
 max:
 * dupe base type set to hashdupes with msgid as default
 * remove dupeSize (unused)
+* loglevels documentation
 
 ----- cvs ci ------
 Thu May 25 15:22:21 NOVST 2000

@@ -1,4 +1,3 @@
-- document loglevels
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
 - fix "0" groups (to NULL)
 - fix dumping of

@@ -204,6 +204,7 @@ a comment and will be ignored.
 * areafixOrigin::		set origin for areafix reports
 
 * logEchoToScreen::             set output to screen log information
+* loglevels::			set level of log output
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
 * defarcmailsize::		default size for arcmail bundle
@@ -2163,7 +2164,7 @@ this string added after splitted araefix message.
 the origin string in areafix reports will be:
  * Origin: c0()1 $tAt10n (<your aka>)
 
-@node logEchoToScreen, Remap, areafixOrigin, Keywords
+@node logEchoToScreen, loglevels, areafixOrigin, Keywords
 @subsection logEchoToScreen
 @table @asis
 @item Syntax:
@@ -2174,7 +2175,37 @@ the origin string in areafix reports will be:
 
 Set output to screen log messages.
 
-@node Remap, SeparateBundles, logEchoToScreen, Keywords
+@node loglevels, Remap, logEchoToScreen, Keywords
+@subsection loglevels
+@table @asis
+@item Syntax:
+@code{loglevels 123456789}
+@item Example:
+@code{loglevels 345789}
+@end table
+
+In example we output to log messages with levels 3,4,5,7,8,9.
+The log levels are following:
+
+1 - start, end
+
+2 - dupecheck, recoding tables
+
+3 - linking messages
+
+4 - scanning messages
+
+5 - posting messages
+
+6 - linking errors, execute strings
+
+7 - bundles, pkts, links, freqs, file routing, file attachs, msg packing
+
+8 - areafix, relink, autocreate
+
+9 - error messages
+
+@node Remap, SeparateBundles, loglevels, Keywords
 @subsection Remap
 @table @asis
 @item Syntax:
