@@ -1666,6 +1666,7 @@ int parseLink(char *token, s_fidoconfig *config)
       deflink = config->linkDefaults;
 
 	  clink->hisAka.domain = sstrdup(deflink->hisAka.domain);
+	  clink->hisPackAka.domain = sstrdup(deflink->hisPackAka.domain);
 	  clink->name = sstrdup(deflink->name);
 
 	  clink->defaultPwd = sstrdup(deflink->defaultPwd);
@@ -3577,6 +3578,15 @@ int parseLine(char *line, s_fidoconfig *config)
             } else {
                 rc = 1;
             }
+            break;
+        case ID_PACKAKA:
+            rc = 0;
+            if((clink = getDescrLink(config)) != NULL)
+            {
+                string2addr(getRestOfLine(), &clink->hisPackAka);
+            }
+            else
+              rc = 1;
             break;
         case ID_AUTOAREACREATE:
             if( (clink = getDescrLink(config)) != NULL ) {

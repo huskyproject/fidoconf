@@ -292,7 +292,8 @@ enum {
     ID_SEQDIR,
     ID_SEQOUTRUN,
     ID_AVAILLIST,
-    ID_ADVSTATISTICSFILE
+    ID_ADVSTATISTICSFILE,
+    ID_PACKAKA
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -517,6 +518,7 @@ token_t parseline_tokens[] =
     { "outbound", ID_OUTBOUND },
     { "outtab", ID_OUTTAB },
     { "pack", ID_PACK },
+    { "packaka", ID_PACKAKA },
     { "packer", ID_PACKER },
     { "packnetmail", ID_PACKNETMAIL },
     { "packnetmailonscan", ID_PACKNETMAILONSCAN },

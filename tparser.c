@@ -305,6 +305,11 @@ void printLink(s_link link) {
    printf("Link: "); printAddr(link.hisAka);
    printf(" (ourAka "); printAddr(*(link.ourAka));
    printf(")\n");
+   if (link.hisPackAka.zone!=0)
+   {
+     printf("PackAka: "); printAddr(link.hisPackAka);
+     printf("\n");
+   }
 
    printf("Name: %s\n", link.name);
    if (link.defaultPwd) printf("defaultPwd: %s\n", link.defaultPwd);

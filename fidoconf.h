@@ -124,7 +124,7 @@ typedef enum pauses        { NOPAUSE, EPAUSE, FPAUSE } e_pauses;
 
 
 typedef struct link {
-    hs_addr hisAka, *ourAka;
+    hs_addr hisAka, *ourAka, hisPackAka;
     char *name;
     char *defaultPwd,               /*  8 byte passwords */
         *pktPwd,

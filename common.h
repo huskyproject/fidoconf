@@ -242,6 +242,7 @@ FCONF_EXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoco
 */
 /* will be moved to huskylib */
 FCONF_EXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ);
+FCONF_EXT int  NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ, hs_addr *aka);
 /*DOC
   Input:  link is the link whose OutboundFileName should be created.
           prio is some kind of CRASH, HOLD, NORMAL
@@ -256,8 +257,10 @@ FCONF_EXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_fla
 
 /* will be moved to huskylib */
 FCONF_EXT int needUseFileBoxForLink (ps_fidoconfig config, s_link *link);
+FCONF_EXT int needUseFileBoxForLinkAka (ps_fidoconfig config, s_link *link, hs_addr *aka);
 /* will be moved to huskylib */
 FCONF_EXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
+FCONF_EXT char *makeFileBoxNameAka  (ps_fidoconfig config, s_link *link, hs_addr *aka);
 /* will be moved to huskylib */
 FCONF_EXT void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path);
 
@@ -393,6 +396,8 @@ FCONF_EXT char *strseparate(register char **stringp, register const char *delim)
 /* Converts decimal value to octal [useful for chmod()] */
 unsigned int dec2oct(unsigned int decimal);
 
+/* Select PackAka: link->hisPackAka if PackAka defined, link->hisAka otherwise. */
+FCONF_EXT hs_addr *SelectPackAka(s_link *link);
 
 #ifdef __cplusplus
 }

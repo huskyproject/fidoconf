@@ -1011,6 +1011,7 @@ void freeLink (s_link *link)
   if (link == NULL) return;
 
   nfree (link->hisAka.domain);
+  nfree (link->hisPackAka.domain);
   if (link->handle != link->name) nfree(link->handle);
   nfree (link->name);
   if (link->pktPwd != link->defaultPwd)nfree(link->pktPwd);
@@ -1321,7 +1322,7 @@ char *makeMsgbFileName(ps_fidoconfig config, char *s) {
     return name;
 }
 
-int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ)
+int NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ, hs_addr *aka)
 {
    int fd; /*  bsy file for current link */
    int nRet = 0;
@@ -1332,11 +1333,11 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
    else if (config->bundleNameStyle!=eUndef) bundleNameStyle=config->bundleNameStyle;
 
    if (bundleNameStyle != eAmiga) {
-	   if (link->hisAka.point) xscatprintf(&name, "%08x.", link->hisAka.point);
-	   else xscatprintf(&name, "%04x%04x.", link->hisAka.net, link->hisAka.node);
+	   if (aka->point) xscatprintf(&name, "%08x.", aka->point);
+	   else xscatprintf(&name, "%04x%04x.", aka->net, aka->node);
    } else {
-	   xscatprintf(&name, "%u.%u.%u.%u.", link->hisAka.zone,
-				   link->hisAka.net, link->hisAka.node, link->hisAka.point);
+	   xscatprintf(&name, "%u.%u.%u.%u.", aka->zone,
+				   aka->net, aka->node, aka->point);
    }
 
    if (typ != REQUEST) {
@@ -1367,14 +1368,14 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
    xstrcat(&link->floFile, config->outbound);
 
    /*  add suffix for other zones */
-   if (link->hisAka.zone != config->addr[0].zone && bundleNameStyle != eAmiga) {
+   if (aka->zone != config->addr[0].zone && bundleNameStyle != eAmiga) {
 	   link->floFile[strlen(link->floFile)-1]='\0';
-	   xscatprintf(&link->floFile, ".%03x%c", link->hisAka.zone, limiter);
+	   xscatprintf(&link->floFile, ".%03x%c", aka->zone, limiter);
    }
 
-   if (link->hisAka.point && bundleNameStyle != eAmiga)
+   if (aka->point && bundleNameStyle != eAmiga)
 	   xscatprintf(&link->floFile, "%04x%04x.pnt%c",
-				   link->hisAka.net, link->hisAka.node, limiter);
+				   aka->net, aka->node, limiter);
 
    _createDirectoryTree(link->floFile); /*  create directoryTree if necessary */
    xstrcat(&link->bsyFile, link->floFile);
@@ -1387,12 +1388,12 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
        xstrcat(&sepDir, link->bsyFile);
        if (bundleNameStyle==eAmiga)
 	   xscatprintf(&sepDir, "%u.%u.%u.%u.sep%c",
-		       link->hisAka.zone, link->hisAka.net,
-		       link->hisAka.node ,link->hisAka.point, limiter);
-       else if (link->hisAka.point) xscatprintf(&sepDir, "%08x.sep%c",
-						link->hisAka.point, limiter);
-       else xscatprintf(&sepDir, "%04x%04x.sep%c", link->hisAka.net,
-			link->hisAka.node, limiter);
+		       aka->zone, aka->net,
+		       aka->node ,aka->point, limiter);
+       else if (aka->point) xscatprintf(&sepDir, "%08x.sep%c",
+						aka->point, limiter);
+       else xscatprintf(&sepDir, "%04x%04x.sep%c", aka->net,
+			aka->node, limiter);
 
        _createDirectoryTree(sepDir);
        nfree(sepDir);
@@ -1409,12 +1410,12 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
 	   int save_errno = errno;
 	
 	   if (save_errno != EEXIST) {
-		   w_log('7', "cannot create *.bsy file \"%s\" for %s (errno %d)\n", link->bsyFile, link->name, (int)save_errno);
+		   w_log('7', "cannot create *.bsy file \"%s\" for %s (errno %d)\n", link->bsyFile, aka2str(*aka), (int)save_errno);
          nRet = -1;
 		
 	   } else {
 #endif
-		   w_log('7', "link %s is busy.", aka2str(link->hisAka));
+		   w_log('7', "link %s is busy.", aka2str(*aka));
 		   nfree(link->floFile);
 		   nfree(link->bsyFile);
 		   nRet = 1;
@@ -1428,7 +1429,12 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
    return nRet;
 }
 
-int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
+int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ)
+{
+  return NCreateOutboundFileNameAka(config, link, prio, typ, &(link->hisAka));
+}
+
+int needUseFileBoxForLinkAka(ps_fidoconfig config, s_link *link, hs_addr *aka)
 {
     char limiter=PATH_DELIM;
     char *bsyFile = NULL;
@@ -1462,14 +1468,14 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
     xstrcat(&bsyFile, config->outbound);
 
     /*  add suffix for other zones */
-    if (link->hisAka.zone != config->addr[0].zone && bundleNameStyle != eAmiga) {
+    if (aka->zone != config->addr[0].zone && bundleNameStyle != eAmiga) {
 	bsyFile[strlen(bsyFile)-1]='\0';
-	xscatprintf(&bsyFile, ".%03x%c", link->hisAka.zone, limiter);
+	xscatprintf(&bsyFile, ".%03x%c", aka->zone, limiter);
     }
 
-    if (link->hisAka.point && bundleNameStyle != eAmiga)
+    if (aka->point && bundleNameStyle != eAmiga)
 	xscatprintf(&bsyFile, "%04x%04x.pnt%c",
-		    link->hisAka.net, link->hisAka.node, limiter);
+		    aka->net, aka->node, limiter);
 
     _createDirectoryTree(bsyFile); /*  create directoryTree if necessary */
 
@@ -1477,11 +1483,11 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
     else if (config->bundleNameStyle!=eUndef) bundleNameStyle=config->bundleNameStyle;
 
     if (bundleNameStyle != eAmiga) {
-	if (link->hisAka.point) xscatprintf(&bsyFile, "%08x", link->hisAka.point);
-	else xscatprintf(&bsyFile, "%04x%04x", link->hisAka.net, link->hisAka.node);
+	if (aka->point) xscatprintf(&bsyFile, "%08x", aka->point);
+	else xscatprintf(&bsyFile, "%04x%04x", aka->net, aka->node);
     } else {
-	xscatprintf(&bsyFile, "%u.%u.%u.%u", link->hisAka.zone,
-		    link->hisAka.net, link->hisAka.node, link->hisAka.point);
+	xscatprintf(&bsyFile, "%u.%u.%u.%u", aka->zone,
+		    aka->net, aka->node, aka->point);
     }
 
     xstrscat(&bsyFile, ".bsy", NULL);
@@ -1498,19 +1504,29 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
     return link->useFileBox - 1;
 }
 
-char *makeFileBoxName (ps_fidoconfig config, s_link *link)
+int needUseFileBoxForLink(ps_fidoconfig config, s_link *link)
+{
+  return needUseFileBoxForLinkAka(config, link, &(link->hisAka));
+}
+
+char *makeFileBoxNameAka (ps_fidoconfig config, s_link *link, hs_addr *aka)
 {
     char *name=NULL;
 
     xscatprintf (&name, "%s%d.%d.%d.%d%s%c",
 		 config->fileBoxesDir,
-		 link->hisAka.zone,
-		 link->hisAka.net,
-		 link->hisAka.node,
-		 link->hisAka.point,
+		 aka->zone,
+		 aka->net,
+		 aka->node,
+		 aka->point,
 		 (link->echoMailFlavour==hold) ? ".h" : "",
 		 PATH_DELIM);
     return name;
+}
+
+char *makeFileBoxName (ps_fidoconfig config, s_link *link)
+{
+  return makeFileBoxNameAka(config, link, &(link->hisAka));
 }
 
 void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path)
@@ -1695,4 +1711,12 @@ int FreelockFile(const char *lockfile, int fh)
 	    remove(lockfile);
     
     return 0;   
+}
+
+hs_addr *SelectPackAka(s_link *link)
+{
+ if (link->hisPackAka.zone != 0)
+   return &(link->hisPackAka);
+ else
+   return &(link->hisAka);
 }
