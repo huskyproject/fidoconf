@@ -2,7 +2,7 @@
 CC=     cl
 CFLAGS= -nologo -Zp1 -I..
 CDEFS=  -D__NT__ -DNT -DWINNT -D_CONSOLE -DUSE_STAT_MACROS -DNDEBUG -DWIN32 -DNO_STRICT -DHAVE_DES_FCRYPT -DPERL_IMPLICIT_CONTEXT -DPERL_IMPLICIT_SYS -DPERL_MSVCRT_READFIX
-COPT=   -O1 -MD -DNDEBUG
+COPT=   -O2 -MD -DNDEBUG
 #TLIB=    lib -nologo -nodefaultlib -libpath:"D:\Perl\lib\CORE;D:\Progra~1\Micros~3\vc98\lib"  -machine:x86
 TLIB=    lib -nologo -nodefaultlib  -machine:x86
 
