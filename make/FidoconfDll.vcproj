@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="fidoconfDll"
+	Name="FidoconfDll"
 	ProjectGUID="{DAB109A0-41C3-49A6-93D6-A895FD1109E7}"
 	SccProjectName=""
 	SccLocalPath="">
@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\nd_d\bin"
-			IntermediateDirectory=".\..\nd_d\obj\fidoconf"
+			OutputDirectory="..\..\nd_d\bin"
+			IntermediateDirectory="..\..\nd_d\obj\fidoconf"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -22,14 +22,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;.\fidoconf;..\huskylib;..\smapi"
+				AdditionalIncludeDirectories="..;..\fidoconf;..\..\smapi;..\..\huskylib"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DLL;_CONSOLE;_MAKE_DLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\..\nd_d\obj\fidoconf/fidoconfDll.pch"
-				AssemblerListingLocation=".\..\nd_d\obj\fidoconf"
-				ObjectFile=".\..\nd_d\obj\fidoconf"
-				ProgramDataBaseFileName=".\..\nd_d\obj\fidoconf"
+				PrecompiledHeaderFile=""
+				AssemblerListingLocation=""
+				ObjectFile="..\..\nd_d\obj\fidoconf"
+				ProgramDataBaseFileName="..\..\nd_d\obj\fidoconf"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -41,14 +41,14 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="msvcrtd.lib Kernel32.lib huskylib.lib"
-				OutputFile="..\nd_d\bin/fidoconf.dll"
+				OutputFile="..\..\nd_d\bin/fidoconf.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\nd_d\lib"
+				AdditionalLibraryDirectories="..\..\nd_d\lib"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\nd_d\bin/fidoconfmvc.pdb"
-				ImportLibrary="..\nd_d\lib/fidoconf.lib"/>
+				ProgramDatabaseFile="..\..\nd_d\bin/fidoconfmvc.pdb"
+				ImportLibrary="..\..\nd_d\lib/fidoconf.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -73,24 +73,27 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\nd_r\bin"
-			IntermediateDirectory=".\..\nd_r\obj\fidoconf"
+			OutputDirectory="..\..\nd_r\bin"
+			IntermediateDirectory="..\..\nd_r\obj\fidoconf"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="0">
+			CharacterSet="0"
+			WholeProgramOptimization="TRUE">
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="1"
+				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="..;.\fidoconf;..\huskylib;..\smapi"
+				AdditionalIncludeDirectories="..;..\fidoconf;..\..\smapi;..\..\huskylib"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_DLL;_CONSOLE;_MAKE_DLL"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				PrecompiledHeaderFile=".\..\nd_r\obj\fidoconf/fidoconfDll.pch"
-				AssemblerListingLocation=".\..\nd_r\obj\fidoconf"
-				ObjectFile=".\..\nd_r\obj\fidoconf"
-				ProgramDataBaseFileName=".\..\nd_r\obj\fidoconf"
+				PrecompiledHeaderFile="..\..\nd_r\obj\fidoconf/fidoconfDll.pch"
+				AssemblerListingLocation=""
+				ObjectFile="..\..\nd_r\obj\fidoconf"
+				ProgramDataBaseFileName="..\..\nd_r\obj\fidoconf"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -100,13 +103,13 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="msvcrt.lib Kernel32.lib huskylib.lib"
-				OutputFile="..\nd_r\bin/fidoconf.dll"
+				OutputFile="..\..\nd_r\bin/fidoconf.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\nd_r\lib"
+				AdditionalLibraryDirectories="..\..\nd_r\lib"
 				IgnoreAllDefaultLibraries="TRUE"
-				ProgramDatabaseFile="..\nd_r\obj/fidoconf.pdb"
-				ImportLibrary="..\nd_r\lib/fidoconf.lib"/>
+				ProgramDatabaseFile="..\..\nd_r\obj/fidoconf.pdb"
+				ImportLibrary="..\..\nd_r\lib/fidoconf.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -131,43 +134,43 @@
 	<Files>
 		<Filter
 			Name="headerz"
-			Filter="">
+			Filter="*.h">
 			<File
-				RelativePath="fidoconf\afixcmd.h">
+				RelativePath="..\fidoconf\afixcmd.h">
 			</File>
 			<File
-				RelativePath="fidoconf\arealist.h">
+				RelativePath="..\fidoconf\arealist.h">
 			</File>
 			<File
-				RelativePath="fidoconf\areatree.h">
+				RelativePath="..\fidoconf\areatree.h">
 			</File>
 			<File
-				RelativePath="fidoconf\common.h">
+				RelativePath="..\fidoconf\common.h">
 			</File>
 			<File
-				RelativePath="fidoconf\fidoconf.h">
+				RelativePath="..\fidoconf\fidoconf.h">
 			</File>
 			<File
-				RelativePath="fidoconf\findtok.h">
+				RelativePath="..\fidoconf\findtok.h">
 			</File>
 			<File
-				RelativePath="fidoconf\grptree.h">
+				RelativePath="..\fidoconf\grptree.h">
 			</File>
 			<File
-				RelativePath="fidoconf\syslogp.h">
+				RelativePath="..\fidoconf\syslogp.h">
 			</File>
 			<File
-				RelativePath="fidoconf\tokens.h">
+				RelativePath="..\fidoconf\tokens.h">
 			</File>
 			<File
-				RelativePath="fidoconf\version.h">
+				RelativePath="..\fidoconf\version.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="src"
-			Filter="">
+			Filter="*.c">
 			<File
-				RelativePath="src\afixcmd.c">
+				RelativePath="..\src\afixcmd.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -182,7 +185,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\afixcmn.c">
+				RelativePath="..\src\afixcmn.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -197,7 +200,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\arealist.c">
+				RelativePath="..\src\arealist.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -212,7 +215,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\areatree.c">
+				RelativePath="..\src\areatree.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -227,7 +230,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\cfg.c">
+				RelativePath="..\src\cfg.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -242,7 +245,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\common.c">
+				RelativePath="..\src\common.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -257,7 +260,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\fidoconf.c">
+				RelativePath="..\src\fidoconf.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -272,7 +275,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\findtok.c">
+				RelativePath="..\src\findtok.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -287,7 +290,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\grptree.c">
+				RelativePath="..\src\grptree.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -302,7 +305,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\line.c">
+				RelativePath="..\src\line.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -317,7 +320,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\version.c">
+				RelativePath="..\src\version.c">
 			</File>
 		</Filter>
 	</Files>
