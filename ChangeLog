@@ -1,3 +1,7 @@
+2003-02-26 Wednesday 12:52  stas_degteff
+
+	* log.h (1.11): Add loglevels LL_TIC & LL_SECURITY
+
 2003-02-25 Tuesday 11:02  mche
 
 	* afixcmd.c (1.27), fidoconf.c (1.109), fidoconf.h (1.174): fix
