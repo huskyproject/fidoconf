@@ -228,26 +228,36 @@ int parseRemap(char *token, s_fidoconfig *config)
 
 int parsePath(char *token, char **var)
 {
-   char limiter;
+/*   char limiter = PATH_DELIM; */
 /*   DIR  *dirent; */
 
+   if (*var != NULL) {
+      printf("Line %d: Dublicate path!\n", actualLineNr);
+      return 1;
+   }
    if (token == NULL) {
       printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
+   if (stricmp(token, "passthrough")==0) {
+      copyString(token, &(*var));
+      return 0;
+   }
 
+/*
 #ifdef UNIX
    limiter = '/';
 #else
    limiter = '\\';
-#endif
-   if (token[strlen(token)-1] == limiter) {
+#endif */
+
+   if (token[strlen(token)-1] == PATH_DELIM) {
       *var = (char *) malloc(strlen(token)+1);
       strcpy(*var, token);
    } else {
       *var = (char *) malloc(strlen(token)+2);
       strcpy(*var, token);
-      (*var)[strlen(token)] = limiter;
+      (*var)[strlen(token)] = PATH_DELIM;
       (*var)[strlen(token)+1] = '\0';
    }
 
@@ -268,7 +278,7 @@ int parsePath(char *token, char **var)
 /*   closedir(dirent); */
    return 0;
 }
-
+/*
 int parseFileareaBaseDirPath(char *token, char **var)
 {
    DIR  *dirent;
@@ -299,7 +309,7 @@ int parseFileareaBaseDirPath(char *token, char **var)
 
    return 0;
 }
-
+*/
 int parsePublic(char *token, s_fidoconfig *config)
 {
    char limiter;
@@ -2162,16 +2172,10 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "logfiledir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
    else if (stricmp(token, "dupehistorydir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
    else if (stricmp(token, "nodelistdir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
-   else if (stricmp(token, "fileareabasedir")==0) rc = parseFileareaBaseDirPath(getRestOfLine(), &(config->fileAreaBaseDir));
+   else if (stricmp(token, "fileareabasedir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir));
    else if (stricmp(token, "passfileareadir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir));
    else if (stricmp(token, "busyfiledir")==0) rc = parsePath(getRestOfLine(), &(config->busyFileDir));
-   else if (stricmp(token, "msgbasedir")==0) {
-      temp = getRestOfLine();
-      if (stricmp(temp, "passthrough")==0)
-         copyString(temp, &(config->msgBaseDir));
-      else
-         rc = parsePath(temp, &(config->msgBaseDir));
-   }
+   else if (stricmp(token, "msgbasedir")==0) rc = parsePath(getRestOfLine(), &(config->msgBaseDir));
    else if (stricmp(token, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic));
    else if (stricmp(token, "semadir")==0) rc = parsePath(getRestOfLine(), &(config->semaDir));
    else if (stricmp(token, "badfilesdir")==0) rc = parsePath(getRestOfLine(), &(config->badFilesDir));

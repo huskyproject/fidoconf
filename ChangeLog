@@ -3,6 +3,11 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Thu May 25 15:22:21 NOVST 2000
+max:
+* check if path already have been parsed (fix possible memory leaks)
+
+----- cvs ci ------
 Wed May 24 00:15:52 CEST 2000
 mtt:
 * fixed fidoInst
