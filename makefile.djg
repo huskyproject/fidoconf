@@ -11,8 +11,8 @@ SHORTNAMES=1
 CC=	gcc
 # the space after the o is important!
 EXENAMEFLAG=-o 
-CDEFS=	-DMSDOS -I.. -Wall -c -Wno-char-subscripts
-COPT=	-O3
+CDEFS=	-DMSDOS -I.. -Wall -c -Wno-char-subscripts -DNOSEMAPHORES
+COPT=	-O3 -mcpu=i486
 LFLAGS=-s
 
 OBJ=.o
