@@ -459,8 +459,9 @@ s_fidoconfig *readConfig(const char *fileName)
    checkIncludeLogic(config);
    close_conf();
    if(carbonNames2Addr(config)) { /* Can't use carbon copy/move/delete */
-     disposeConfig(config);
-     return NULL;
+      printf("Please correct above error(s) first!\n");
+      fflush(stdout);
+      exit(EX_CONFIG);
    }
    processPermissions (config);
    fixRoute(config);
