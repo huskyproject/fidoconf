@@ -37,6 +37,11 @@ extern "C" {
 
 #include "fidoconf.h"
 
+#define FC_VER_MAJOR 0
+#define FC_VER_MINOR 15
+#define FC_VER_PATCH 0
+#define FC_VER_BRANCH BRANCH_CURRENT
+
 /* values for 5th parameter of GenVersionStr() */
 #define BRANCH_CURRENT 1
 #define BRANCH_STABLE  2
