@@ -2,4 +2,4 @@
 # (legacy makefile, no dynlibs, no huskymak support)
 
 UNIXID=sun
-include makefile.lnx
+include makefile.in2
