@@ -1,3 +1,30 @@
+2002-08-30 Friday 14:35  stas_degteff
+
+	* fidoconf.h (1.136), line.c (1.322), tparser.c (1.193): Update
+	win32 conditions (compilation-time)
+
+2002-08-30 Friday 14:33  stas_degteff
+
+	* makefile.bco (1.8), makefile.cyg (1.7): Fix previous patch
+
+2002-08-30 Friday 14:24  stas_degteff
+
+	* makefile.bcd (1.13), makefile.bco (1.7), makefile.bcw (1.11),
+	makefile.cyg (1.6), makefile.djg (1.11), makefile.emo (1.15),
+	makefile.emx (1.9), makefile.ibo (1.10), makefile.in2 (1.4),
+	makefile.inc (1.29), makefile.mgw (1.9), makefile.mvc (1.14),
+	makefile.mvcdll (1.15), makefile.rxw (1.7), makefile.unx (1.6),
+	makefile.wco (1.21), Makefile (1.45), makefile.wcw (1.29): Compile
+	rules for fconf2binkd (fc2binkd)
+
+2002-08-30 Friday 14:16  stas_degteff
+
+	* fc2binkd.c (1.1): Fidoconfig to binkd config converter
+
+2002-08-30 Friday 12:14  mche
+
+	* makefile.mgw (1.8): minGW makefiles corrected
+
 2002-08-29 Thursday 10:16  sfpavel
 
 	* debian/libfidoconf0-dev.preinst (1.1): Update debian version
