@@ -2125,6 +2125,13 @@ int parsePack(char *line, s_fidoconfig *config) {
       prErr("Parameter missing after %s!", actualKeyword);
       return 1;
    }
+   
+   /* check for no link definition was before */
+   if(config->linkCount > 0)
+   {
+       prErr("Unable to add commandline for packer after link definition!");
+       return 2;
+   }
 
    /* check for no link definition was before */
    if(config->linkCount > 0)
