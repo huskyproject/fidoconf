@@ -1,3 +1,17 @@
+2002-01-25 Friday 17:22  pavel.gulchouck
+
+	* cfg.c (1.17), fidoconf.c (1.63), fidoconf.h (1.94), line.c
+	(1.278), tokens.h (1.24), tparser.c (1.162): move CommentChar token
+	parsing to preprocessor level
+
+2002-01-25 Friday 16:16  pavel.gulchouck
+
+	* tparser.c (1.161): added -E switch - run preprocessor only
+
+2002-01-25 Friday 10:41  d.sergienko
+
+	* log.c (1.2): added "\n" to error message in openLog()
+
 2002-01-23 Wednesday 18:59  mche
 
 	* crc.h (1.3): fixed bug with compilation under MCVS compiler
