@@ -41,8 +41,8 @@ HEADERS	= $(HEADERS1) $(HEADERS2)
 
 # Binary files to build from sources
 # 1) $(PROGRAMS) - build one binary from one source
-PROGS1	= fc2aed$(_EXE) fc2binkd$(_EXE) fc2fgate$(_EXE) fc2ged$(_EXE)
-PROGS2	= fc2msged$(_EXE) fc2sq$(_EXE) linked$(_EXE) tparser$(_EXE)
+PROGS1	= fc2aed fc2binkd fc2fgate fc2ged
+PROGS2	= fc2msged fc2sq linked tparser$
 PROGRAMS= $(PROGS1) $(PROGS2)
 # 2) $(FC2TOR) - fc2tor build from two sources
 FC2TOR	= fc2tor$(_EXE)
@@ -90,7 +90,7 @@ $(TARGETLIB): $(LOBJS)
 
 
 $(PROGRAMS): $(OBJS)
-	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $(LIBS) $<
+	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@$(_EXE) $(LIBS) $@$(_OBJ)
 
 $(FC2TOR): $(TOROBJS)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $(LIBS) $?
@@ -103,5 +103,8 @@ commonclean: $(SYMBOLIC)
 	-$(RM) $(RMOPT) *$(_OBJ)
 
 commondistclean: commonclean $(SYMBOLIC)
-	-$(RM) $(RMOPT) $(PROGRAMS) $(LPROGRAMS) $(FC2TOR) $(FECFG2FC)
+	$(foreach prog,$(PROGRAMS),$(shell $(RM) $(RMOPT) $(prog)))
+	$(foreach prog,$(LPROGRAMS),$(shell $(RM) $(RMOPT) $(prog)))
+	-$(RM) $(RMOPT) $(FC2TOR) $(FECFG2FC)
+	-$(RM) $(RMOPT) $(FECFG2FC)
 	-$(RM) $(RMOPT) $(TARGETLIB)
