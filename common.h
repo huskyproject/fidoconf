@@ -177,6 +177,15 @@ FCONF_EXT  char    *GetFilenameFromPathname(const char* pathname);
 #define basename(f) GetFilenameFromPathname(f)
 
 /* will be moved to huskylib */
+/*  Get the object name from the end of a full or partial pathname (OS-independed).
+    This function gets the file (or directory) name from the end of a full
+    or partial pathname for any path style: UNIX, DOS or mixed (mixed style
+    may be used in Windows NT OS family).
+    Returns the file (or directory) name: pointer to part of all original pathname.
+*/
+char *OS_independed_basename(const char *pathname);
+
+/* will be moved to huskylib */
 /* Return directory part of pathname (without filename, '/' or '\\' present at end)
  * Return value is pointer to malloc'ed string;
  * if pathname is filenfme without directory return current directory (./ or .\)

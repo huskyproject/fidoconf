@@ -1197,6 +1197,26 @@ char    *GetFilenameFromPathname(const char* pathname)
     return fname;
 }
 
+
+/*  Get the object name from the end of a full or partial pathname (OS-independed).
+    This function gets the file (or directory) name from the end of a full
+    or partial pathname for any path style: UNIX, DOS or mixed (mixed style
+    may be used in Windows NT OS family).
+    Returns the file (or directory) name: pointer to part of all original pathname.
+*/
+char *OS_independed_basename(const char *pathname)
+{ register char *fname=NULL, *pname=(char*)pathname;
+
+  /* Process Unix-style, result to pathname */
+  if( (fname = strrchr(pname,'/')) ) pname = ++fname;
+
+  /* Process DOS-style */
+  if( (fname = strrchr(pname,'\\')) ) ++fname;
+  else fname = pname;
+
+  return fname;
+}
+
 /* Return directory part of pathname (without filename, '/' or '\\' present at end)
  * Return value is pointer to malloc'ed string;
  * if pathname is filenfme without directory return current directory (./ or .\)
