@@ -1,18 +1,18 @@
-# Makefile for Mingw32 CPD to cross-compile NT executables
 
-CC=i386-mingw32-gcc
+CC=gcc
+RM=del
+AR=ar
+
 # the space after the o is important!
 EXENAMEFLAG=-o 
-CDEFS=	-DNT -D__NT__ -DWINNT -I.. -Wall -pedantic -c -Wno-char-subscripts
-COPT=	-O2
+CDEFS=-D__NT__  -I.. -Wall -c
+COPT=-O3
 LFLAGS=
 
 OBJ=.o
 EXE=.exe
 TPU=.tpu
-RM=rm
 LIB=.a
-AR=i386-mingw32-ar
 AR_R=rs
 
 LINKSMAPI=../smapi/libsmapimgw.a
