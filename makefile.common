@@ -4,7 +4,7 @@ VER = 0.9
 VERH = 0
 
 LOBJS = common$(O) dir$(O) fidoconfig$(O) line$(O) patmat$(O) dump$(O)
-OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O) dumpfcfg$(O)
+OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O) $(FECFG2FCONF)$(O) dumpfcfg$(O)
 
 commonlibs: $(LIBFIDOCONFIG)$(A)
 
@@ -14,7 +14,7 @@ commonprogs:    tparser$(EXE) \
 		$(FCONF2FIDOGATE)$(EXE) \
 	        $(FCONF2GOLDED)$(EXE) \
 		$(FCONF2SQUISH)$(EXE) \
-		fecfg2fconf$(EXE) \
+		$(FECFG2FCONF)$(EXE) \
                 dumpfcfg$(EXE)
 
 $(LIBFIDOCONFIG)$(A): $(LOBJS)
@@ -43,9 +43,8 @@ $(FCONF2SQUISH)$(EXE): $(FCONF2SQUISH)$(O) $(LIBFIDOCONFIG)$(A)
 	$(CC) $(LOPT) $(FCONF2SQUISH)$(O) -o $(FCONF2SQUISH)$(EXE) \
 	          $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-fecfg2fconf$(EXE): fecfg2fconf$(O)
-	$(CC) -fpack-struct fecfg2fconf$(O) -o fecfg2fconf$(EXE)
-	         
+$(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(O)
+	$(CC) -fpack-struct $(FECFG2FCONF)$(O) -o $(FECFG2FCONF)$(EXE)
 
 
 tparser$(EXE): tparser$(O) $(LIBFIDOCONFIG)$(A)
@@ -62,6 +61,6 @@ commonclean:
 	-$(RM) core
 
 commondistclean: clean
-	-$(RM) tparser$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2SQUISH)$(EXE) fecfg2fconf$(EXE) dumpfcfg$(EXE)
+	-$(RM) tparser$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2SQUISH)$(EXE) $(FECFG2FCONF)$(EXE) dumpfcfg$(EXE)
 	-$(RM) $(LIBFIDOCONFIG)$(A)
 
