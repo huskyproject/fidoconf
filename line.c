@@ -624,7 +624,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    char *token;
    char *iOption;
    char *iToken;
-   long i;
+   size_t i;
 
    iOption = strLower(sstrdup(option));
    if (strcmp(iOption, "b")==0) {
@@ -895,7 +895,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   char *error;
   char *token;
   char *iOption;
-  long i;
+  size_t i;
 
   iOption = strLower(sstrdup(option));
   if (strcmp(iOption, "a")==0) {
