@@ -1,3 +1,8 @@
+2003-03-30 Sunday 19:54  d_sergienko
+
+	* make/makefile.inc (1.9): make makefile.inc more comfortable and
+	less buggy
+
 2003-03-29 Saturday 20:33  d_sergienko
 
 	* make/makefile.inc (1.8): add $(LIBDIR) to libraries search path
