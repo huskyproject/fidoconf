@@ -562,7 +562,7 @@ char *getvar(char *name);
 void closeall(void);
 char *configline(void);
 char *stripComment(char *line);
-void checkIncludeLogic(s_fidoconfig *config);
+void checkIncludeLogic(ps_fidoconfig config);
 
 /**
  * This method can be used to get a program-specifically config-filename, in the same directories which are searched for fidoconfig.

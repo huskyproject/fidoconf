@@ -2192,22 +2192,22 @@ int parseCarbonRule(char *token, s_fidoconfig *config)
    /* rules are valid for the expressions that follow */
    /* but carbonRule AND also involves cb */
    /* expressions can start with NOT, but not with AND */
-   if(!stricmp(token,"NOT")){
-       _carbonrule= CC_NOT|CC_AND;
+   if (stricmp(token,"NOT")==0) {
+       _carbonrule = CC_NOT|CC_AND;
        if(config->carbonCount>0 && (cb->areaName==NULL && cb->move!=2)) /* no action */
-           cb->rule|=CC_AND; /* AND NOT .. with next expr */
+           cb->rule |= CC_AND; /* AND NOT .. with next expr */
    }
 
-   else if(!stricmp(token,"OR")){
-       _carbonrule=CC_OR; /* =0 */
-       if(config->carbonCount>0)
-           cb->rule&=CC_NOT;
+   else if (stricmp(token,"OR")==0) {
+       _carbonrule = CC_OR; /* =0 */
+       if (config->carbonCount)
+	   cb->rule &= CC_NOT;
    }
 
-   else if(!stricmp(token,"AND")){
-       _carbonrule=CC_AND;
+   else if (stricmp(token,"AND")==0) {
+       _carbonrule = CC_AND;
        if(config->carbonCount>0 && (cb->areaName==NULL && cb->move!=2)) /* no action */
-           cb->rule|=CC_AND;
+           cb->rule |= CC_AND;
    }
 
    else {

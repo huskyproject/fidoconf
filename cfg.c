@@ -403,15 +403,15 @@ char *configline(void)
   }
 }
 
-void checkIncludeLogic(s_fidoconfig *config)
+void checkIncludeLogic(ps_fidoconfig config)
 { 
     int i, j;
 
     for (j=0; j<config->linkCount; j++) {
 	if (config->links[j].autoAreaCreateFile==NULL) continue;
-//	printf("%u\n",sp);
+	printf("%u\n",sp);
 	for (i=0; i<sp; i++) {
-//	    printf("%s\n",incstack[i].confname);
+	    printf("%s\n",incstack[i].confname);
 	    if (strcmp(incstack[i].confname,config->links[j].autoAreaCreateFile)==0)
 		break;
 	}
