@@ -1,1 +1,2 @@
-fidoconfig 0.13-current
+fidoconfig 0.15-current
+required: smapi 2.3-current
