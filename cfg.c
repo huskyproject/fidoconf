@@ -43,7 +43,7 @@ int init_conf(char *conf_name)
     wasError = 1;
     return -1;
   }
-  curconfname=strdup(conf_name);
+  curconfname=sstrdup(conf_name);
   actualLineNr=0;
 #if defined(UNIX)
   setvar("OS", "UNIX");
@@ -106,7 +106,7 @@ void close_conf(void)
   char *module;
 
   module = getvar("module");
-  if (module) module = strdup(module);
+  if (module) module = sstrdup(module);
   for(i=0; i<nvars; i++)
     nfree(set[i].var);
   maxnvars=nvars=0;
@@ -392,7 +392,7 @@ char *configline(void)
       incstack[sp].confname=curconfname;
       incstack[sp].curline=actualLineNr;
       sp++;
-      curconfname=strdup(p);
+      curconfname=sstrdup(p);
       actualLineNr=0;
       continue;
     }

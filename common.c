@@ -60,20 +60,16 @@
 #include "common.h"
 #include <smapi/patmat.h>
 
-int copyString(char *str, char **pmem, const s_fidoconfig *config)
+int copyString(char *str, char **pmem)
 {
    if (str==NULL) {
       printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
-   
-   if (config->linkDefaults==NULL && *pmem != NULL) {
-      printf("Line %d: dublicate keyword \"%s\"!\n", actualLineNr, actualKeyword);
-      return 1;
-   }
-   
-   *pmem = (char *) smalloc(strlen(str)+1);
-   strcpy(*pmem, str);
+
+   nfree(*pmem);
+   *pmem = (char *) sstrdup (str);
+
    return 0;
 }
 
@@ -848,8 +844,8 @@ int patimat(char *raw,char *pat)
     char *upraw,*uppat;
     int i;
 
-    upraw=strUpper(strdup(raw));
-    uppat=strUpper(strdup(pat));
+    upraw=strUpper(sstrdup(raw));
+    uppat=strUpper(sstrdup(pat));
     i=patmat(upraw,uppat);
     free(upraw);
     free(uppat);
@@ -1005,5 +1001,18 @@ void *scalloc(size_t nmemb, size_t size)
 {
     void *ptr = smalloc(size*nmemb);
 	memset(ptr,'\0',size*nmemb);
+    return ptr;
+}
+
+char *sstrdup(const char *src)
+{
+    char *ptr;
+    
+    if (src == NULL) return NULL;
+    ptr = strdup (src);
+    if (ptr == NULL) {
+		fprintf(stderr, "out of memory");
+		abort();
+    }
     return ptr;
 }

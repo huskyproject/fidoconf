@@ -44,10 +44,10 @@ extern "C" {
 
 /* common functions */
 
-int copyString(char *str, char **pmem, const s_fidoconfig *config);
+int copyString(char *str, char **pmem);
 /*DOC
  * Copy string from *str to *pmem
-   NOTE! *pmem must be NULL (not checked with described link defaults)
+   NOTE! *pmem must be NULL, if not NULL, it will be free().
  */
 
 void *memdup(void *p, size_t size);
@@ -191,6 +191,7 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
 void *smalloc(size_t size);
 void *srealloc(void *ptr, size_t size);
 void *scalloc(size_t nmemb, size_t size);
+char *sstrdup(const char *src);
 
 #ifdef __cplusplus
 }

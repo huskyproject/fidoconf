@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Thu Nov 30 15:20:17 NOVT 2000
+max:
+* dublicate strings safely overwrites the old ones
+
+----- cvs ci ------
 Thu Nov 23 23:27:53 NOVT 2000
 max (patch from Serguei Revtov):
 * using of overString instead of copyString for linkDefaults data copying

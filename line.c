@@ -220,7 +220,7 @@ int parseRemap(char *token, s_fidoconfig *config)
 
    if (strcmp(param,"*")!=0)
       { // Name for rerouting
-      config->remaps[config->remapCount].toname=strdup(param);
+      config->remaps[config->remapCount].toname=sstrdup(param);
       } 
      else
       config->remaps[config->remapCount].toname=NULL;
@@ -269,7 +269,7 @@ int parsePath(char *token, char **var, const s_fidoconfig *config)
       return 1;
    }
    if (stricmp(token, "passthrough")==0) {
-      copyString(token, &(*var), config);
+      copyString(token, &(*var));
       return 0;
    }
 
@@ -528,7 +528,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
                  return 1;
       }
 	  free(area->group);
-      area->group = strdup(token);
+      area->group = sstrdup(token);
    }
    else if (stricmp(option, "nopack")==0) area->nopack = 1;
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
@@ -617,7 +617,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
                  return 1;
       }
 	  free(area->group);
-      area->group = strdup(token);
+      area->group = sstrdup(token);
    }
    else if (stricmp(option, "d")==0) {
           if ((area->description=getDescription())==NULL)
@@ -995,13 +995,6 @@ int parseBbsAreaStatement(char *token, s_fidoconfig *config)
    return rc;
 }
 
-void overString(char *str, char **pmem, const s_fidoconfig *config)
-{
-	if(!str) return;
-	*pmem=NULL;
-	copyString(str, pmem, config);
-}
-
 int parseLink(char *token, s_fidoconfig *config)
 {
 
@@ -1023,62 +1016,63 @@ int parseLink(char *token, s_fidoconfig *config)
    if (config->linkDefaults) {
 
       memcpy ( clink, config->linkDefaults, sizeof(s_link));
-
       deflink = config->linkDefaults;
-      overString(deflink->hisAka.domain, &clink->hisAka.domain, config);
 
-      overString(deflink->name, &clink->name, config);
-      overString(deflink->defaultPwd, &clink->defaultPwd, config);
+	  clink->hisAka.domain = sstrdup(deflink->hisAka.domain);
+	  clink->name = sstrdup(deflink->name);
+
+	  clink->defaultPwd = sstrdup(deflink->defaultPwd);
+
       if (deflink->pktPwd != deflink->defaultPwd ) {
-         overString(deflink->pktPwd, &clink->pktPwd, config);
+		  clink->pktPwd = sstrdup (deflink->pktPwd);
       } else {
-         clink->pktPwd = clink->defaultPwd;
+		  clink->pktPwd = clink->defaultPwd;
       }
       if (deflink->ticPwd != deflink->defaultPwd ) {
-         overString(deflink->ticPwd, &clink->ticPwd, config);
+		  clink->ticPwd = sstrdup (deflink->ticPwd);
       } else {
-         clink->ticPwd = clink->defaultPwd;
+		  clink->ticPwd = clink->defaultPwd;
       }
   	  if (deflink->areaFixPwd != deflink->defaultPwd ) {
-         overString(deflink->areaFixPwd, &clink->areaFixPwd, config);
+		  clink->areaFixPwd = sstrdup (deflink->areaFixPwd);
       } else {
-         clink->areaFixPwd = clink->defaultPwd;
+		  clink->areaFixPwd = clink->defaultPwd;
       }
   	  if (deflink->fileFixPwd != deflink->defaultPwd ) {
-         overString(deflink->fileFixPwd, &clink->areaFixPwd, config);
+		  clink->fileFixPwd = sstrdup (deflink->fileFixPwd);
       } else {
-         clink->fileFixPwd = clink->defaultPwd;
+		  clink->fileFixPwd = clink->defaultPwd;
       }
   	  if (deflink->bbsPwd != deflink->defaultPwd ) {
-         overString(deflink->bbsPwd, &clink->bbsPwd, config);
+		  clink->bbsPwd = sstrdup(deflink->bbsPwd);
       } else {
-         clink->bbsPwd = clink->defaultPwd;
+		  clink->bbsPwd = clink->defaultPwd;
       }
   	  if (deflink->sessionPwd != deflink->defaultPwd ) {
-         overString(deflink->sessionPwd, &clink->sessionPwd, config);
+		  clink->sessionPwd = sstrdup (deflink->sessionPwd);
       } else {
-         clink->sessionPwd = clink->defaultPwd;
+		  clink->sessionPwd = clink->defaultPwd;
       }
-      overString(deflink->handle, &clink->handle, config);
-      overString(deflink->email, &clink->email, config);
-      overString(deflink->LinkGrp, &clink->LinkGrp, config);
+	  clink->handle = sstrdup (deflink->handle);
+	  clink->email = sstrdup (deflink->email);
+	  clink->LinkGrp = sstrdup (deflink->LinkGrp);
       if (deflink->AccessGrp) {
           clink->AccessGrp = smalloc(sizeof(char *) * clink->numAccessGrp);
           for ( i=0; i < deflink->numAccessGrp; i++)
-             overString(deflink->AccessGrp[i], &clink->AccessGrp[i], config);
+			  clink->AccessGrp[i] = sstrdup (deflink->AccessGrp[i]);
       }
-      overString(deflink->autoAreaCreateFile, &clink->autoAreaCreateFile, config);
-      overString(deflink->autoFileCreateFile, &clink->autoFileCreateFile, config);
-      overString(deflink->autoAreaCreateDefaults, &clink->autoAreaCreateDefaults, config);
-      overString(deflink->autoFileCreateDefaults, &clink->autoFileCreateDefaults, config);
-      overString(deflink->forwardRequestFile, &clink->forwardRequestFile, config);
-      overString(deflink->RemoteRobotName, &clink->RemoteRobotName, config);
-      overString(deflink->forwardFileRequestFile, &clink->forwardFileRequestFile, config);
-      overString(deflink->RemoteFileRobotName, &clink->RemoteFileRobotName, config);
+	  clink->autoAreaCreateFile = sstrdup (deflink->autoAreaCreateFile);
+	  clink->autoFileCreateFile = sstrdup (deflink->autoFileCreateFile);
+	  clink->autoAreaCreateDefaults = sstrdup (deflink->autoAreaCreateDefaults);
+	  clink->autoFileCreateDefaults = sstrdup (deflink->autoFileCreateDefaults);
+	  clink->forwardRequestFile = sstrdup (deflink->forwardRequestFile);
+	  clink->RemoteRobotName = sstrdup (deflink->RemoteRobotName);
+	  clink->forwardFileRequestFile = sstrdup (deflink->forwardFileRequestFile);
+	  clink->RemoteFileRobotName = sstrdup (deflink->RemoteFileRobotName);
       if (deflink->optGrp) {
           clink->optGrp = smalloc(sizeof(char *) * clink->numOptGrp);
           for ( i=0; i < deflink->numOptGrp; i++)
-             overString(deflink->optGrp[i], &clink->optGrp[i], config);
+			  clink->optGrp[i] = sstrdup (deflink->optGrp[i]);
       }
 
    } else {
@@ -1190,7 +1184,7 @@ int parsePWD(char *token, char **pwd) {
       return 0;
    }
 
-   *pwd = strdup(token);
+   *pwd = sstrdup(token);
    if (*pwd == NULL) return 1;
    else return 0;
 }
@@ -1268,7 +1262,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
 				  actualRoute = &(*route)[*count];
 				  memcpy(actualRoute,&(*route)[(*count)-1],sizeof(s_route));
 				  if ((*route)[(*count)-1].viaStr != NULL)
-				    actualRoute->viaStr = strdup((*route)[(*count)-1].viaStr);
+				    actualRoute->viaStr = sstrdup((*route)[(*count)-1].viaStr);
 
 				  //2 for additional .0 if needed
 				  actualRoute->pattern = (char *) smalloc(strlen(option)+2+1);
@@ -1651,7 +1645,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		break;
 
 	case 1:
-		copyString(token, &link->LinkGrp, config);
+		copyString(token, &link->LinkGrp);
 		break;
 		
 	case 2:
@@ -1764,7 +1758,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
    memset(&(config->carbons[config->carbonCount-1]), 0, sizeof(s_carbon));
 
    config->carbons[config->carbonCount-1].ctype = ctype;
-   copyString(token, &(config->carbons[config->carbonCount-1].str), config);
+   copyString(token, &(config->carbons[config->carbonCount-1].str));
 
    if (ctype == ct_addr) {
 	   string2addr(token, &(config->carbons[config->carbonCount-1].addr));
@@ -1785,7 +1779,7 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
           printf("Line %d: No carbon codition specified before %s\n", actualLineNr, actualKeyword);
           return 1;
    }   
-   copyString(token, &(config->carbons[config->carbonCount-1].areaName), config);
+   copyString(token, &(config->carbons[config->carbonCount-1].areaName));
    config->carbons[config->carbonCount-1].extspawn = 0;
    config->carbons[config->carbonCount-1].move = move;
    return 0;
@@ -1818,7 +1812,7 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
           return 1;
    }   
    
-   copyString(token, &(config->carbons[config->carbonCount-1].areaName), config);
+   copyString(token, &(config->carbons[config->carbonCount-1].areaName));
    config->carbons[config->carbonCount-1].extspawn = 1;
    config->carbons[config->carbonCount-1].move = 0;
    /* +AS+ */
@@ -1841,7 +1835,7 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
           return 1;
    }   
    
-   copyString(token, &(config->carbons[config->carbonCount-1].reason), config);
+   copyString(token, &(config->carbons[config->carbonCount-1].reason));
    return 0;
 }
 
@@ -2209,9 +2203,9 @@ int parseLine(char *line, s_fidoconfig *config)
    if (token == NULL);
    else if (stricmp(token, "commentchar")==0) rc = parseComment(getRestOfLine(), config);
    else if (stricmp(token, "version")==0) rc = parseVersion(getRestOfLine(), config);
-   else if (stricmp(token, "name")==0) rc = copyString(getRestOfLine(), &(config->name), config);
-   else if (stricmp(token, "location")==0) rc = copyString(getRestOfLine(), &(config->location), config);
-   else if (stricmp(token, "sysop")==0) rc = copyString(getRestOfLine(), &(config->sysop), config);
+   else if (stricmp(token, "name")==0) rc = copyString(getRestOfLine(), &(config->name));
+   else if (stricmp(token, "location")==0) rc = copyString(getRestOfLine(), &(config->location));
+   else if (stricmp(token, "sysop")==0) rc = copyString(getRestOfLine(), &(config->sysop));
    else if (stricmp(token, "address")==0) rc = parseAddress(getRestOfLine(), config);
    else if (stricmp(token, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound), config);
    else if (stricmp(token, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound), config);
@@ -2355,7 +2349,7 @@ int parseLine(char *line, s_fidoconfig *config)
    }
    else if (stricmp(token, "autoareacreatedefaults")==0) {
      if( (clink = getDescrLink(config)) != NULL ) {
-       rc = copyString(getRestOfLine(), &clink->autoAreaCreateDefaults, config);
+       rc = copyString(getRestOfLine(), &clink->autoAreaCreateDefaults);
      }
      else {
        rc = 1;
@@ -2363,7 +2357,7 @@ int parseLine(char *line, s_fidoconfig *config)
    }
    else if (stricmp(token, "autofilecreatedefaults")==0) {
      if( (clink = getDescrLink(config)) != NULL ) {
-       rc = copyString(getRestOfLine(), &clink->autoFileCreateDefaults, config);
+       rc = copyString(getRestOfLine(), &clink->autoFileCreateDefaults);
      }
      else {
        rc = 1;
@@ -2412,8 +2406,8 @@ int parseLine(char *line, s_fidoconfig *config)
       }
    }
    else if (stricmp(token, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(getDescrLink(config)->autoPause));
-   else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName), config);
-   else if (stricmp(token, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName), config);
+   else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName));
+   else if (stricmp(token, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName));
    else if (stricmp(token, "forwardareapriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardAreaPriority));
    else if (stricmp(token, "forwardfilepriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardFilePriority));
 
@@ -2455,7 +2449,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->bbsPwd));
    else if (stricmp(token, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->sessionPwd));
    else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
-       else if (stricmp(token, "email")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->email), config);
+       else if (stricmp(token, "email")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
    else if (stricmp(token, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(getDescrLink(config)->echoMailFlavour));
    else if (stricmp(token, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(getDescrLink(config)->fileEchoFlavour));
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
@@ -2478,9 +2472,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "linkbundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(getDescrLink(config)->linkBundleNameStyle));
 
 
-   else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog), config);
-   else if (stricmp(token, "statlog")==0) rc = copyString(getRestOfLine(), &(config->statlog), config);
-   else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog), config);
+   else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
+   else if (stricmp(token, "statlog")==0) rc = copyString(getRestOfLine(), &(config->statlog));
+   else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
    else if (stricmp(token, "linkwithimportlog")==0) rc = parseLinkWithILogType(getRestOfLine(), &(config->LinkWithImportlog));
    else if (stricmp(token, "fileareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));
    else if (stricmp(token, "filenewareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog));
@@ -2489,8 +2483,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filepasslist")==0) rc = parseFileName(getRestOfLine(), &(config->filePassList));
    else if (stricmp(token, "filedupelist")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
    else if (stricmp(token, "msgidfile")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
-   else if (stricmp(token, "loglevels")==0) rc = copyString(getRestOfLine(), &(config->loglevels), config);
-   else if (stricmp(token, "screenloglevels")==0) rc = copyString(getRestOfLine(), &(config->screenloglevels), config);
+   else if (stricmp(token, "loglevels")==0) rc = copyString(getRestOfLine(), &(config->loglevels));
+   else if (stricmp(token, "screenloglevels")==0) rc = copyString(getRestOfLine(), &(config->screenloglevels));
 
    else if (stricmp(token, "accessgrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
    else if (stricmp(token, "linkgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
@@ -2516,7 +2510,7 @@ int parseLine(char *line, s_fidoconfig *config)
 #else   
    else
 #endif       
-        if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile), config);
+        if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
    else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound), config);
    else if (stricmp(token, "areafixfrompkt")==0) rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
    else if (stricmp(token, "areafixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
@@ -2537,16 +2531,16 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonout")==0) rc = parseBool(getRestOfLine(), &(config->carbonOut));
    else if (stricmp(token, "ignorecapword")==0) rc = parseBool(getRestOfLine(), &(config->ignoreCapWord));
    else if (stricmp(token, "noprocessbundles")==0) rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
-   else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo), config);
+   else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
    else if (stricmp(token, "execonfile")==0) rc = parseExecOnFile(getRestOfLine(), config);
    else if (stricmp(token, "defarcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
    else if (stricmp(token, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
-   else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack), config);
-   else if (stricmp(token, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack), config);
-   else if (stricmp(token, "processpkt")==0) rc = copyString(getRestOfLine(), &(config->processPkt), config);
-   else if (stricmp(token, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr), config);
-   else if (stricmp(token, "areafixorigin")==0) rc = copyString(getRestOfLine(), &(config->areafixOrigin), config);
-   else if (stricmp(token, "robotsarea")==0) rc = copyString(getRestOfLine(), &(config->robotsArea), config);
+   else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
+   else if (stricmp(token, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
+   else if (stricmp(token, "processpkt")==0) rc = copyString(getRestOfLine(), &(config->processPkt));
+   else if (stricmp(token, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
+   else if (stricmp(token, "areafixorigin")==0) rc = copyString(getRestOfLine(), &(config->areafixOrigin));
+   else if (stricmp(token, "robotsarea")==0) rc = copyString(getRestOfLine(), &(config->robotsArea));
    else if (stricmp(token, "filedescpos")==0) rc = parseUInt(getRestOfLine(), &(config->fileDescPos));
    else if (stricmp(token, "dlcdigits")==0) rc = parseUInt(getRestOfLine(), &(config->DLCDigits));
    else if (stricmp(token, "filemaxdupeage")==0) rc = parseUInt(getRestOfLine(), &(config->fileMaxDupeAge));
@@ -2554,8 +2548,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
    else if (stricmp(token, "origininannounce")==0) rc = parseBool(getRestOfLine(), &(config->originInAnnounce));
    else if (stricmp(token, "maxticlinelength")==0) rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
-   else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd), config);
-   else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString), config);
+   else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
+   else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
    else if (stricmp(token, "savetic")==0) rc = parseSaveTicStatement(getRestOfLine(), config);
    else if (stricmp(token, "areasmaxdupeage")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areasMaxDupeAge));
    else if (stricmp(token, "dupebasetype")==0) rc = parseTypeDupes(getRestOfLine(), &(config->typeDupeBase), &(config->areasMaxDupeAge));
@@ -2565,14 +2559,14 @@ int parseLine(char *line, s_fidoconfig *config)
    else
 #endif       
    if (stricmp(token, "fidouserlist") ==0)
-     rc = copyString(getRestOfLine(), &(config->fidoUserList), config);
+     rc = copyString(getRestOfLine(), &(config->fidoUserList));
    else if (stricmp(token, "nodelist") ==0)
      rc = parseNodelist(getRestOfLine(), config);
    else if (stricmp(token, "diffupdate") ==0) {
       rc = 0;
       if (config->nodelistCount > 0) {
         rc = copyString(getRestOfLine(),
-                &(config->nodelists[config->nodelistCount-1].diffUpdateStem), config);
+                &(config->nodelists[config->nodelistCount-1].diffUpdateStem));
       }
       else {
 	printNodelistError();
@@ -2583,7 +2577,7 @@ int parseLine(char *line, s_fidoconfig *config)
       rc = 0;
       if (config->nodelistCount > 0) {
         rc = copyString(getRestOfLine(),
-                &(config->nodelists[config->nodelistCount-1].fullUpdateStem), config);
+                &(config->nodelists[config->nodelistCount-1].fullUpdateStem));
       }
       else {
 	printNodelistError();
@@ -2621,7 +2615,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "disabletid")==0) rc = parseBool(getRestOfLine(), &(config->disableTID));
    else if (stricmp(token, "tossingext")==0) {
       if ((temp=getRestOfLine()) != NULL)
-         rc = copyString(temp, &(config->tossingExt), config);
+         rc = copyString(temp, &(config->tossingExt));
         else config->tossingExt = NULL;
    }
 
@@ -2630,8 +2624,8 @@ int parseLine(char *line, s_fidoconfig *config)
 #endif
    else if (stricmp(token,"addtoseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->addToSeen), &(config->addToSeenCount));
    else if (stricmp(token,"ignoreseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->ignoreSeen), &(config->ignoreSeenCount));
-   else if (stricmp(token, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline), config);
-   else if (stricmp(token, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin), config);
+   else if (stricmp(token, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline));
+   else if (stricmp(token, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
    else if (stricmp(token, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
    else if (stricmp(token, "keeptrsmail")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
    
