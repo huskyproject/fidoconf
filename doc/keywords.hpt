@@ -131,6 +131,7 @@ processpkt
 protinbound
 publicgroup
 readonly
+reducedseenby
 remap
 remoterobotname
 reportto
