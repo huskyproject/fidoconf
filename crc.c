@@ -116,7 +116,7 @@ unsigned long strcrc32(char *str, unsigned long initcrc)
 {
   unsigned long crc;
 
-  for (crc = initcrc; *str; str++) 
+  for (crc = initcrc; *str; str++)
     crc = crc32tab[((int) crc ^ (*str)) & 0xff] ^ ((crc >> 8) & 0x00ffffffUL);
 
   return crc;
@@ -143,7 +143,7 @@ unsigned long filecrc32(const char *filename)
   {
     got = fread(buffer, 1, CRC_BUFFER_SIZE, fd);
     if( got )
-      crc = memcrc32(buffer, got, crc);
+      crc = memcrc32((char*)buffer, got, crc);
     if (got != CRC_BUFFER_SIZE)
       break;
   }
