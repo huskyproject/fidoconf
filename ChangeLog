@@ -1,3 +1,8 @@
+2003-11-24 Monday 15:52  val_khokhlov
+
+	* Makefile (1.67), makefile.in2 (1.9), makefile.inc (1.43): fix
+	makefiles to compile with huskymak.cfg (unix'es mostly)
+
 2003-11-12 Wednesday 15:44  mche
 
 	* src/line.c (1.21): fixed core on empty origin
