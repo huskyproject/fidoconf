@@ -83,7 +83,6 @@ enum {
     ID_FILEFIX,
     ID_PAUSE,
     ID_NOTIC,
-    ID_DELNOTRECIEVEDTIC,
     ID_DELNOTRECEIVEDTIC,
     ID_ADVANCEDAREAFIX,
     ID_AUTOPAUSE,
@@ -390,7 +389,6 @@ token_t parseline_tokens[] =
     { "defarcmailsize", ID_DEFARCMAILSIZE },
     { "defaultzone", ID_DEFAULTZONE },
     { "delnotreceivedtic", ID_DELNOTRECEIVEDTIC },
-    { "delnotrecievedtic", ID_DELNOTRECIEVEDTIC }, /* wrong spelling - supported for downwards compatiblity */
     { "denyfwdfile", ID_DENYFWDFILE },
     { "denyfwdmask", ID_DENYFWDMASK },
     { "denyfwdreqaccess", ID_DENYFWDREQACCESS },

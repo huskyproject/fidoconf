@@ -3556,10 +3556,9 @@ int parseLine(char *line, s_fidoconfig *config)
                 rc = 1;
             }
             break;
-        case ID_DELNOTRECIEVEDTIC:
         case ID_DELNOTRECEIVEDTIC:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->delNotRecievedTIC);
+                rc = parseBool (getRestOfLine(), &clink->delNotReceivedTIC);
             } else {
                 rc = 1;
             }

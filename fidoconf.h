@@ -182,7 +182,7 @@ typedef struct link {
     unsigned int export, import, mandatory, manual; /*  Default link's options */
     char **optGrp; /*  groups for this options */
     unsigned int numOptGrp;
-    unsigned int delNotRecievedTIC; /* 1 - if file not recieved, then remove TIC */
+    unsigned int delNotReceivedTIC; /* 1 - if file not recieved, then remove TIC */
     unsigned int advancedAreafix;  /*  1 - send ~areatag when area delete */
     e_bundleFileNameStyle linkBundleNameStyle; /*  Style bundle filenames (timeStamp, addrDiff... */
     char *msgBaseDir;
