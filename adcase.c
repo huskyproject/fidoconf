@@ -1,8 +1,7 @@
 /*
  *  ADCASE.C
  *  Provides case insensitive file name matching on UNIX filesystems. 
- *  Written 1999 by Tobias Ernst and released to the public domain.
- *
+ *  Written 1999 by Tobias Ernst and released to the public domain. *
  */
 
 #ifdef UNIX
@@ -39,6 +38,13 @@
    problem is that opendir / readdir is very slow ...). If you ever
    have to fix something in this routine, you'd better rewrite it from
    scratch.
+ 
+ *  ATTENTION: The adaptcase routine builds an internal cache which never
+ *  expires. If you ever add files to or remove files to a subdirectory and
+ *  later want to have adaptcase map this particular file name properly,
+ *  you must call adaptcase_refresh_dir() with the subdirectory path name
+ *  as argument!
+
 */
 
 /* the cache will take  about 30 * 4192 + 30 * 512 * 4 bytes in this
@@ -79,6 +85,48 @@ static int cache_find_cmp(const void *a, const void *b)
 #define DIRENTLEN(x) (strlen((x)->d_name))
 #endif
 
+void adaptcase_refresh_dir(char *directory)
+{
+    int k = strlen(directory), l;
+    
+    if (k && directory[k-1] == '/')
+    {
+        k--;
+    }
+    
+    if (k != 0)
+    {
+        l = adaptcase_cache_position;
+        do
+        {
+            if (adaptcase_cache[l].query != NULL)
+            {
+                if ((!memcmp(adaptcase_cache[l].query,directory,k)) &&
+                    (adaptcase_cache[l].query[k] == '\0'))
+                {
+                    if (adaptcase_cache[l].query != NULL)
+                    {
+                        free(adaptcase_cache[l].query);
+                        adaptcase_cache[l].query = NULL;
+                    }
+                    if (adaptcase_cache[l].result != NULL)
+                    {
+                        free(adaptcase_cache[l].result);
+                        adaptcase_cache[l].result = NULL;
+                    }
+                    if (adaptcase_cache[l].raw_cache != NULL)
+                    {
+                        free(adaptcase_cache[l].raw_cache);
+                        adaptcase_cache[l].raw_cache = NULL;
+                    }
+                }
+            }
+
+            l = (l == 0) ? adaptcase_cachesize - 1 : l - 1;
+        } while (l != adaptcase_cache_position);
+    }
+}
+
 void adaptcase(char *pathname)
 {
     int i,j,k,l,n,nmax, found=1, addresult=0;
@@ -108,6 +156,7 @@ void adaptcase(char *pathname)
     }
     
     k = strlen(pathname);
+
     if (k > 2)
     {
         for (k = k - 2; k>0 && pathname[k] != '/'; k--);
@@ -417,13 +466,31 @@ void adaptcase (char *str)
 #if defined (TEST)
 int main(int argc, char **argv)
 {
-        if (argc < 2)
-                return 0;
+    char cmdbuf[64];
+    char fnbuf[128];
 
-        adaptcase(argv[1]);
-        printf ("%s\n", argv[1]);
-
-        return 0;
+    do
+    {
+        printf ("(L)ookup, (I)nvalidate, (Q)uit? "); fflush(stdout);
+        gets(cmdbuf);
+        switch (*cmdbuf)
+        {
+        case 'q':
+        case 'Q':
+            return 0;
+        case 'I':
+        case 'i':
+            gets(fnbuf);
+            adaptcase_refresh_dir(fnbuf);
+            break;
+        case 'L':
+        case 'l':
+            gets(fnbuf);
+            adaptcase(fnbuf);
+            printf ("%s\n", fnbuf);
+            break;
+        }
+    } while (1);
 }
 #endif
 
