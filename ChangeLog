@@ -1,3 +1,12 @@
+2002-09-11 Wednesday 18:15  stas_degteff
+
+	* tparser.c (1.197): Add remap section in tparser's output
+
+2002-09-11 Wednesday 11:57  mche
+
+	* dirlayer.c (1.7), dirlayer.h (1.8), makefile.aix (1.11),
+	syslogp.h (1.7): make fidoconf compilable under AIX
+
 2002-09-10 Tuesday 14:30  stas_degteff
 
 	* makefile.in2 (1.7): Revert invalid patch (-2)
