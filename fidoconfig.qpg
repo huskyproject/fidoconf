@@ -25,7 +25,7 @@
       <QPG:Files>
          <QPG:Add file="./COPYING" install="LicenseUrl/" handling="repdata"/>
          <QPG:Add permissions="0755" file="./make/libfidoconfigqnx-1.9.0.so" install="/opt/lib/"/>
-         <QPG:Add filetype="symlink" file="libfidoconfig.so" install="/opt/lib/" linkto="libfidoconfigqnx-1.9.0.so"/>
+         <QPG:Add filetype="symlink" file="libfidoconfigqnx.so" install="/opt/lib/" linkto="libfidoconfigqnx-1.9.0.so"/>
          <QPG:Add permissions="0644" file="./make/libfidoconfigqnx.a" install="/opt/lib/"/>
          <QPG:Add permissions="0644" file="./fidoconf/*.h" install="/opt/include/fidoconf/"/>
          <QPG:Add permissions="0644" file="./COPYING" install="/usr/doc/husky/fidoconfig/"/>
