@@ -166,7 +166,6 @@ a comment and will be ignored.
 
 * PublicGroup::                 this is a list of groups for public echo acess
 * GroupAutoAreaCreate::         right to autoareaCreate for a group
-* AutoCreateDefaults::          default area options for autocreated areas
 * GroupDefaults::               default area options for GroupAutoAreaCreated areas
 
 * pack::                        definition for packer
@@ -1638,7 +1637,7 @@ This statement can be repeated.
 
 Tis is a list of groups for public echo acess.
 
-@node GroupAutoAreaCreate, AutoCreateDefaults, PublicGroup, Keywords
+@node GroupAutoAreaCreate, GroupDefaults, PublicGroup, Keywords
 @subsection GroupAutoAreaCreate
 @table @asis
 @item Syntax:
@@ -1653,20 +1652,7 @@ If no group is given, this is default for all groups.
 
 @strong{This statement is currently not supported.}
 
-@node AutoCreateDefaults, GroupDefaults, GroupAutoAreaCreate, Keywords
-@subsection AutoCreateDefaults
-@table @asis
-@item Syntax:
-@code{AutoCreateDefaults <string> }
-@item Example:
-@code{AutoCreateDefaults -$m 200 -dupeCheck move -dosfile -d "Autocreated area"}
-@end table
-
-Area options defaults for autoCreated Areas.
-
-@strong{This will be replaced by the more flexible group definition.}
-
-@node GroupDefaults, pack, AutoCreateDefaults, Keywords
+@node GroupDefaults, pack, GroupAutoAreaCreate, Keywords
 @subsection GroupDefaults
 @table @asis
 @item Syntax:
