@@ -220,6 +220,7 @@ typedef struct link {
     unsigned int sendNotifyMessages; /* send netmail messages about */
                                      /* forward request timeout etc... */
     unsigned int allowRemoteControl; /* allow %from command for link */
+    unsigned int unsubscribeOnAreaDelete; /* send "-area" request on area delete */
 
 } s_link, *ps_link;
 

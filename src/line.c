@@ -3812,6 +3812,12 @@ int parseLine(char *line, s_fidoconfig *config)
             }
             else rc = 1;
             break;
+        case ID_UNSUBSCRIBEONAREADELETE:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool(getRestOfLine(), &clink->unsubscribeOnAreaDelete);
+            }
+            else rc = 1;
+            break;
         case ID_ALLOWPKTADDRDIFFER:
             if( (clink = getDescrLink(config)) != NULL ) {
                 rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);

@@ -305,7 +305,8 @@ enum {
     ID_CREATEADDUPLINK,
     ID_SENDNOTIFYMESSAGES,
     ID_AUTOAREAPAUSE,
-    ID_ALLOWREMOTECONTROL
+    ID_ALLOWREMOTECONTROL,
+    ID_UNSUBSCRIBEONAREADELETE
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -589,6 +590,7 @@ token_t parseline_tokens[] =
     { "ticpwd", ID_TICPWD },
     { "tossingext", ID_TOSSINGEXT },
     { "unpack", ID_UNPACK },
+    { "unsubscribeonareadelete", ID_UNSUBSCRIBEONAREADELETE },
     { "uueechogroup", ID_UUEECHOGROUP },
     { "version", ID_VERSION },
     { "writeonly", ID_WRITEONLY },
