@@ -1,3 +1,8 @@
+2001-11-18 Sunday 20:34  ml
+
+	* line.c (1.265): fixed some strtok() calls [patch by Alexander
+	Aganichev]
+
 2001-11-08 Thursday 15:40  ml
 
 	* fidoconf.c (1.56), fidoconf.h (1.78), line.c (1.264): define exit
