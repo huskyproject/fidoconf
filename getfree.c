@@ -211,6 +211,13 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 #endif /* BEOS */
 #endif /* svr4 or linux */
 
+#if defined (__BEOS__)
+#  include <sys/statvfs.h>
+#  ifndef _SYS_STATVFS_H
+#    define _SYS_STATVFS_H
+#  endif
+#endif
+
 #if defined (__linux__) && !defined(__GLIBC__)
 #include <sys/vfs.h>
 #ifndef _SYS_STATFS_H
@@ -219,12 +226,6 @@ ULONG fc_GetDiskFreeSpace (const char *path)
 #endif /* linux &! GLIBC */
 
 #endif /* not BSD-like OS */
-
-/*
-#if !(defined(_SYS_STATFS_H) || defined(_SYS_STATVFS_H))
-#error no statfs() or statvfs() in your system!
-#endif
-*/
 
 #if defined(_SYS_STATFS_H) || defined(_SYS_STATVFS_H)
 ULONG fc_GetDiskFreeSpace (const char *path)
