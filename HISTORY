@@ -11,7 +11,8 @@ Changes after FIDOCONFIG 0.14
      in "if" expressions in the config;
    - fconf2binkd, fconf2tornado and fconf2na converters;
    - use TEMP, TMP or TMPDIR enviroment variables to point to directory for
-     create temporary files, also use system-default temporary directory.
+     create temporary files, also use system-default temporary directory;
+   - new MSGID generation algorithm
 
 2. CONFIG changes:
    - new tokens for htick: annAddrFrom, annAddrTo, annFrom, annTo, annSubj,
@@ -20,7 +21,8 @@ Changes after FIDOCONFIG 0.14
    - new tokens for hpt: newAreaRefuseFile, redusedSeenBy, areaFixFromName,
      disablePID;
    - pause statement expanded to: Pause ON, Pause OFF, Pause FAREA, Pause EAREA;
-   - new tokens: AreafixReportsAttr and FilefixReportsAttr: set atributes for
+   - new tokens: seqDir and seqOutrun; used for MSGID generation;
+   - new tokens: AreafixReportsAttr and FilefixReportsAttr: set attributes for
      areafix & filefix reports/replies;
    - tokens areafixKillReports and filefixKillReports removed.
 
