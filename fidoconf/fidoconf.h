@@ -221,6 +221,7 @@ typedef struct link {
     unsigned int denyRescan;  /* denies or allows link to rescan areas */
     char **RescanGrp;         /* specifies which area groups allow/deny to rescan */
     unsigned int numRescanGrp;
+    int rescanLimit;          /* absolute max of msgs link can ask for rescan */
 
 } s_link, *ps_link;
 

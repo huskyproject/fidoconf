@@ -297,7 +297,8 @@ enum {
     ID_DENYRESCAN,
     ID_RESCANGRP,
     ID_DAILYBUNDLES,
-    ID_REPORTREQUESTER
+    ID_REPORTREQUESTER,
+    ID_RESCANLIMIT
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -539,6 +540,7 @@ token_t parseline_tokens[] =
     { "reportto", ID_REPORTTO },
     { "reqidxdir", ID_REQIDXDIR },
     { "rescangrp", ID_RESCANGRP },
+    { "rescanlimit", ID_RESCANLIMIT },
     { "robot", ID_ROBOT },
     { "robotnames", ID_NAMES },
     { "robotorigin", ID_ROBOTORIGIN },
