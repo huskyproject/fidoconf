@@ -1149,15 +1149,15 @@ int main(int argc, char **argv) {
 				FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
    nfree(module); /* used as a temporary variable */
 
-   if( !CheckFidoconfigVersion(1,3,0,BRANCH_CURRENT,cvs_date) ) {
-     printf("Incompatible version of FIDOCONFIG library: require fidoconfig-1.3.0-current at %s\n",cvs_date);
+   if( !CheckFidoconfigVersion(1,4,0,BRANCH_STABLE,0) ) {
+     printf("Incompatible version of FIDOCONFIG library: require fidoconfig-1.4.0-stable at %s\n",cvs_date);
      exit(255);
    }
-   if( !CheckSmapiVersion(2,3,0,smapi_cvs_date()) ) {
-     printf("Incompatible version of SMAPI: require smapi-2.3.0-current at %s\n",smapi_cvs_date());
+   if( !CheckSmapiVersion(2,4,0,smapi_cvs_date()) ) {
+     printf("Incompatible version of SMAPI: require smapi-2.4.0-stable at %s\n",smapi_cvs_date());
      exit(255);
    }
-   printf("using smapi-2.3.0-current at %s and fidoconfig-1.3.0-current at %s\n\n",smapi_cvs_date(),cvs_date);
+   printf("using smapi-2.4.0-stable at %s and fidoconfig-1.4.0-stable at %s\n\n",smapi_cvs_date(),cvs_date);
 
    for (k=1; k<argc; k++)
    {
