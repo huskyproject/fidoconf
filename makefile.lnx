@@ -46,9 +46,6 @@ distclean: commondistclean
 libfidoconfig.so.$(VER): line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O)
 	$(CC) -shared -Wl,-soname,libfidoconfig.so.$(VERH) -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O) $(LOPT) 
 
-fecfg2fconf.o: fecfg2fconf.c
-	$(CC) $(COPT) -fpack-struct fecfg2fconf.c
-
 %.o: %.c
 	$(CC) $(COPT) $*.c
 
