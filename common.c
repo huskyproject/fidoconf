@@ -764,8 +764,10 @@ int copy_file(const char *from, const char *to)
     }
 #ifdef UNIX
     // try to save file ownership if it is possible
-    fchown(fh, st.st_uid, st.st_gid);
-    fchmod(fh, st.st_mode);
+    if (fchown(fh, st.st_uid, st.st_gid) != 0)
+        fchmod(fh, st.st_mode & 01777);
+    else
+        fchmod(fh, st.st_mode);
 #endif
     fout = fdopen(fh, "wb");
     if (fout == NULL) { fh=errno; nfree(buffer); fclose(fin); errno=fh; return -1; }
