@@ -457,14 +457,14 @@ static int cmpfnames(char *file1, char *file2)
 	return 1;
     return 0;
 }
-#elif defined (WINNT)
+#elif defined(NT) || defined(WINNT) || defined(__NT__)
 #include <windows.h>
 static int cmpfnames(char *file1, char *file2)
 {
     char buf[256], path1[256], path2[256], *p;
-    if (!GetLongPathName(file1, buf, sizeof(buf))) return 1;
+/*    if (!GetLongPathName(file1, buf, sizeof(buf))) return 1; */
     if (!GetFullPathName(buf, sizeof(path1), path1, &p)) return 1;
-    if (!GetLongPathName(file2, buf, sizeof(buf))) return 1;
+/*    if (!GetLongPathName(file2, buf, sizeof(buf))) return 1; */
     if (!GetFullPathName(buf, sizeof(path2), path2, &p)) return 1;
     return stricmp(path1, path2);
 }
@@ -500,7 +500,9 @@ static int cmpfnames(char *file1, char *file2)
 }
 #else // Unknown OS
 static int cmpfnames(char *file1, char *file2)
-{   return stricmp(path1, path2);
+{
+    char path1[128], path2[128];
+    return stricmp(path1, path2);
 }
 #endif
 
