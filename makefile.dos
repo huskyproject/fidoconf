@@ -1,0 +1,60 @@
+CC=	bcc
+CFLAGS=	-v -w -ml
+CDEFS=	-DMSDOS
+COPT=	-O2 -I..\smapi
+LIB=	tlib
+ASM=	tasm
+LINK=	tlink.exe
+
+LIBS=  fidoconf.lib 
+ALLIBS= $(LIBS) ..\smapi\smapibcd.lib 
+
+HDRS=  common.h \
+       dir.h \
+       fidoconf.h \
+       patmat.h \
+       typesize.h 
+
+OBJS=  patmat.obj \
+       line.obj \
+       fidoconf.obj \
+       dir.obj \
+       common.obj
+
+LOBJS=  -+patmat.obj \
+        -+line.obj \
+        -+fidoconf.obj \
+        -+dir.obj \
+        -+common.obj 
+
+all:	fidoconf.lib fc2msged.exe fc2ged.exe tparser.exe
+
+fidoconf.lib: $(OBJS)
+	$(LIB) $(LIBS) @&&!
+$(LOBJS)
+!
+        del fidoconf.bak >NUL
+	
+
+fc2msged.exe: $(LIBS) $(HDRS) fc2msged.c
+
+fc2ged.exe: $(LIBS) $(HDRS) fc2ged.c
+
+tparser.exe: $(LIBS) $(HDRS) tparser.c
+
+# Thunderbirds are go!
+
+clean:
+        del $(OBJS)
+        del $(OBLS)
+        del fidoconf.bak
+        del fc2ged.obj fc2msged.obj fc2ged.exe fc2msged.exe tparser.obj tparser.exe
+
+.c.obj: 
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
+
+.asm.obj:
+	$(ASM) -ml $<
+
+.c.exe: 
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) $< $(ALLIBS)

@@ -1,0 +1,4 @@
+mv fconf2golded.c fc2ged.c
+mv fconf2msged.c fc2msged.c
+mv fidoconfig.c fidoconf.c
+mv fidoconfig.h fidoconf.h
