@@ -46,27 +46,45 @@
 
 char *readLine(FILE *f)
 {
-   char *line = NULL, temp[81];
-   int l_end;
+    char *line=NULL;
+    int len=0, i=0, stop=0;
+    int ch;
 
-   line = (char *) smalloc(81);
-   if (fgets(line, 81, f) == NULL) {
-      nfree(line);                      // end of file...
-      return NULL;
-   }
+    do {
+	ch = getc (f); 
+        // not fgets() 'cause it concatenates lines without \r on Watcom C / WinDos
+	if (ch < 0) { // EOF
+	    if (i==0) {
+		return NULL;
+	    } else { // EOF without EOL
+		if (i >= len) {
+		    len += 128;
+		    line = srealloc (line, len);
+		}
+		line[i] = '\0';
+		stop++;
+	    }
+	} else {
+	    if (i >= len) {
+		len += 128;
+		line = srealloc (line, len);
+	    }
 
-   l_end = strlen(line)-1;
-   if (line[l_end] != '\n') {
-	   while(fgets(temp, 81, f) != NULL) { // not EOF
-		   l_end += strlen(temp);
-		   xstrcat(&line, temp);
-		   if (line[l_end] == '\n') break; // EOL
-       }
-   }
-   if (line[l_end]=='\n') line[l_end--]='\0';
-   if (l_end >= 0 && line[l_end]=='\r') line[l_end]='\0';
+	    if (ch=='\n') { // EOL
+		line[i] = '\0';
+		stop++;
+	    } else if (ch=='\r') { // CR (must be before LF), ignore
+		// do nothing
+	    } else { // other characters
+		line[i] = ch;
+		i++;
+	    }
+	}
+    } while (!stop);
 
-   return line;
+    line = srealloc (line, strlen(line)+1);
+
+    return line;
 }
 
 char *trimLine(char *line)
