@@ -29,11 +29,11 @@
  *  independent manner
  */
 
-#define get_dword(ptr)            \
-   ((unsigned long)((ptr)[0]) |           \
+#define get_dword(ptr) \
+   ((unsigned long)((ptr)[0]) | \
     (((unsigned long)((ptr)[1])) << 8)  | \
     (((unsigned long)((ptr)[2])) << 16) | \
-    (((unsigned long)((ptr)[3])) << 24))  \
+    (((unsigned long)((ptr)[3])) << 24))
 
 /*
  *  get_word
@@ -43,10 +43,9 @@
  *  independent manner
  */
 
-#define get_word(ptr)         \
-    ((unsigned short)(ptr)[0] |         \
+#define get_word(ptr) \
+    ((unsigned short)(ptr)[0] | \
      (((unsigned short)(ptr)[1]) << 8 ))
-
 
 /*
  * read_setup_ge
