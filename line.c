@@ -904,11 +904,6 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
     if(!area->dupeHistory)
         area->dupeHistory = 7;
 
-   // remove after 03-Apr-01
-   // set default group for reader
-   //area->group = (char*) smalloc(sizeof(char)+1);
-   //strcpy(area->group, "0");
-
    // set defaults for MS-DOS
 #ifdef MSDOS
    area->DOSFile = 1;
