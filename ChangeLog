@@ -1,3 +1,7 @@
+Sun Oct 15 15:06:03 NOVST 2000
+max:
+* exit(1) to printLinkError()
+
 Mon Oct  9 17:29:40 NOVST 2000
 max:
 * bugfix for last patch from yesterday

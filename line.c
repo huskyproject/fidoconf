@@ -137,6 +137,7 @@ int parseVersion(char *token, s_fidoconfig *config)
 void printLinkError(void)
 {
   printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
+  exit(1);
 }
 
 s_link *getDescrLink(s_fidoconfig *config)
