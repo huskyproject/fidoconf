@@ -1,40 +1,5 @@
-# Fidoconfig makefile for SUN Solaris
+# Fidoconfig makefile for SUN Solaris with gcc
+# (legacy makefile, no dynlibs, no huskymak support)
 
-# program settings
-CC = gcc
-AR = ar
-AR_R = r
-RM = rm
-
-COPT = -g -c -O3 -DUNIX -I..
-LOPT = -L.
-
-# filename settings
-OBJ = .o
-LIB = .a
-EXE =
-TPU = .ppu
-FIDOCONFIG = fidoconfig
-FCONF2AQUAED = fconf2aquaed
-FCONF2GOLDED = fconf2golded
-FCONF2MSGED  = fconf2msged
-FCONF2FIDOGATE = fconf2fidogate
-FCONF2SQUISH = fconf2squish
-LIBFIDOCONFIG = libfidoconfig
-LINKSMAPI = -L../smapi -lsmapisun
-LINKFIDOCONFIG = -L. -l$(FIDOCONFIG)
-
-default: all
-
-include makefile.common
-
-all: commonlibs commonprogs
-
-clean: commonclean
-	-$(RM) so_locations
-
-distclean: commondistclean
-	-$(RM) libfidoconfig.so.$(VER)
-
-%.o: %.c
-	$(CC) $(COPT) $*.c
+UNIXID=sun
+include makefile.lnx

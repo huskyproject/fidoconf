@@ -20,8 +20,8 @@ commonprogs:    tparser$(EXE) \
 $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
 	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LOBJS)
 
-%$(OBJ): %.c
-	$(CC) $(COPT) $(CDEFS) $*.c
+.c$(OBJ):
+	$(CC) $(COPT) $(CDEFS) $<
 
 $(FCONF2MSGED)$(EXE): $(FCONF2MSGED)$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)$(FCONF2MSGED)$(EXE) $(FCONF2MSGED)$(OBJ) \

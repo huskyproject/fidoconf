@@ -3,7 +3,7 @@
 # There is no makefile for AIX any more as we don't have a AIX machine to
 # test things any more.
 
-# To build husky on AIX with gcc, try to use makefile.unx, but if you
+# To build husky on AIX with gcc, try to use makefile.lnx, but if you
 # are using IBM's C compiler, add the following parameter to the CFLAGS:
 #
 #     -qcpluscmt

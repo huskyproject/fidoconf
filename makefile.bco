@@ -3,7 +3,7 @@
 
 CC=	bcc
 EXENAMEFLAG=-e
-CFLAGS=	-w -I.. -I../smapi -v -DOS2
+CDEFS=	-w -I.. -I../smapi -v -DOS2 -c
 COPT=	-O2
 LFLAGS= 
 # we always enerate debug info with -v; the linker will strip it

@@ -1,14 +1,13 @@
-# Generic makefile for Unix with GNU C for building fidoconfig
+# Generic UNIX makefile for building fidoconfig
 # (legacy makefile, no dynlibs, no huskymak support)
 
-CC   = gcc
+CC = cc
 EXENAMEFLAG = -o
-AR   = ar
+AR = ar
 AR_R = rs
-RM   = rm
+RM = rm
 
-CDEFS  = -c -fPIC -Wall -ggdb -DUNIX -I..
-COPT   = -O3
+COPT = -c -DUNIX -I..
 LFLAGS = -L.
 
 # filename settings
@@ -17,20 +16,15 @@ LIB = .a
 EXE =
 TPU = .ppu
 
-# the questionmark is important because this file is included by
-# the BSD and possibly other Unix makefiles
-
-UNIXID ?= linux
-
 LIBPREFIX = lib
-FIDOCONFIG = fidoconfig$(UNIXID)
+FIDOCONFIG = fidoconfigunix
 FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded
 FCONF2MSGED  = fconf2msged
 FCONF2FIDOGATE = fconf2fidogate
 FCONF2SQUISH = fconf2squish
 LIBFIDOCONFIG = $(LIBPREFIX)$(FIDOCONFIG)
-LINKSMAPI = ../smapi/libsmapi$(UNIXID)$(LIB)
+LINKSMAPI = ../smapi/libsmapiunix$(LIB)
 LINKFIDOCONFIG = ./$(LIBPREFIX)$(FIDOCONFIG)$(LIB)
 
 default: all
