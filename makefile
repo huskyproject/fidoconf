@@ -5,7 +5,7 @@ VER = 0.3
 LIBDIR = /usr/local/lib
 INSTDIR = /usr/local/bin
 
-OBJS    = patmat.o line.o fidoconfig.o fconf2msged.o fconf2golded.o tparser.o
+OBJS    = patmat.o line.o fidoconfig.o fconf2msged.o fconf2golded.o tparser.o dir.o
 
 ALL: $(OBJS) \
      fidoconfig.a \
@@ -15,11 +15,11 @@ ALL: $(OBJS) \
      fconf2golded \
      install
 
-fidoconfig.a: fidoconfig.o line.o common.o patmat.o
-	$(AR) r fidoconfig.a fidoconfig.o line.o common.o patmat.o
+fidoconfig.a: fidoconfig.o line.o common.o patmat.o dir.o
+	$(AR) r fidoconfig.a fidoconfig.o line.o common.o patmat.o dir.o
 
-libfidoconfig.so.$(VER): fidoconfig.o line.o common.o patmat.o
-	$(CC) -shared -Wl,-soname,libfidoconfig.so.0 -o libfidoconfig.so.$(VER) line.o common.o fidoconfig.o patmat.o
+libfidoconfig.so.$(VER): fidoconfig.o line.o common.o patmat.o dir.o
+	$(CC) -shared -Wl,-soname,libfidoconfig.so.0 -o libfidoconfig.so.$(VER) line.o common.o fidoconfig.o patmat.o dir.o
 
 %.o: %.c
 	$(CC) $(COPT) $*.c

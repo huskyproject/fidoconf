@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <patmat.h>
+#include "patmat.h"
+
+#include "dir.h"
 
 #include "fidoconfig.h"
 
@@ -84,6 +86,7 @@ int parseAddress(char *token, s_fidoconfig *config)
 int parsePath(char *token, char **var)
 {
    char limiter;
+   DIR  *dirent;
 
    if (token == NULL) {
       printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
@@ -105,12 +108,20 @@ int parsePath(char *token, char **var)
       (*var)[strlen(token)+1] = '\0';
    }
 
+   dirent = opendir(*var);
+   if (dirent == NULL) {
+      printf("Line %d: Path %s not found!\n", actualLineNr, *var);
+      return 1;
+   }
+
+   closedir(dirent);
    return 0;
 }
 
 int parsePublic(char *token, s_fidoconfig *config)
 {
    char limiter;
+   DIR  *dirent;
    
    if (token == NULL) {
       printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
@@ -133,6 +144,15 @@ int parsePublic(char *token, s_fidoconfig *config)
       (config->public[config->publicCount])[strlen(token)] = limiter;
       (config->public[config->publicCount])[strlen(token)+1] = '\0';
    }
+
+   dirent = opendir(token);
+
+   if (dirent == NULL) {
+      printf("Line %d: Path %s not found!\n", actualLineNr, token);
+      return 1;
+   }
+
+   closedir(dirent);
 
    config->publicCount++;
    return 0;
