@@ -904,7 +904,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     return rc;
 }
 
-int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_addr *aka) {
+int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 
     // rc == '\x0000' access o'k
     // rc == '\x0001' no access group
@@ -914,13 +914,6 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_addr *aka) {
 
     int i, rc = 0;
 
-    s_link *link;
-    
-    if (!addrComp(*aka,*echo->useAka)) return 0;
-    
-    link = getLinkFromAddr (*config,*aka);
-    if (link == NULL) return 4;
-    
     for (i=0; i<echo->downlinkCount; i++) {
 		if (link == echo->downlinks[i]->link) break;
     }
@@ -946,5 +939,5 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_addr *aka) {
 	
     if (echo->levelwrite > link->level) return 2;
     
-    return 0;
+    return rc;
 }

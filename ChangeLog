@@ -2,6 +2,15 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Mon Apr 24 16:35:03 NOVST 2000
+max:
+* small fix in e_writeCheck
+* now possible create two links with the same aka and
+  different our aka and link them to different areas.
+  if own useAka of area and ourAka used for link not
+  the same -- there is no export & import...
+
+----- cvs ci ------
 Sun Apr 23 22:12:26 NOVST 2000
 max:
 * changes with e_readCheck & e_writeCheck (fixed optgrp operations)
