@@ -1,3 +1,12 @@
+2005-03-20 Sunday 01:46  sfpavel
+
+	* debian/changelog (fidoconf-1_4-stable.9): 1.4-RC3 release
+
+2005-03-20 Sunday 00:09  sfpavel
+
+	* common.c (fidoconf-1_4-stable.7): Fix bsy creation for ASO and
+	fileboxes (patch from Dmitry Pankov)
+
 2004-12-08 Wednesday 22:18  d_sergienko
 
 	* afixcmd.c, line.c (fidoconf-1_4-stable.[1,12]): fixes from Nick
