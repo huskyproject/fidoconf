@@ -13,7 +13,11 @@
 # _SRC_DIR  sources dir
 
 # Library name
-LIBNAME	= fidoconf
+ifneq ($(SHORTNAMES), 1)
+    LIBNAME = fidoconf
+else
+    LIBNAME = fconf
+endif
 
 # Version
 VERMAJOR= 1
@@ -67,7 +71,7 @@ commonlibs: $(TARGETLIB) $(SYMBOLIC)
 	$(NULL)
 
 commonprogs: $(PROGRAMS) $(FC2TOR) $(FECFG2FC) $(SYMBOLIC)
-	ifdef LONGNAMES
+	ifneq ($(SHORTNAMES), 1)
 	    $(MV) fc2aed$(_EXE) fconf2aquaed$(_EXE)
 	    $(MV) fc2binkd$(_EXE) fconf2binkd$(_EXE)
 	    $(MV) fc2fgate$(_EXE) fconf2fidogate$(_EXE)
