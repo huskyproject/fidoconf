@@ -376,6 +376,7 @@ int main(int argc, char **argv)
             fprintf(f_hpt, "CarbonTo");
             break;
          case CC_SUBJECT:
+            fprintf(f_hpt, "CarbonSubj");
             break;
          case CC_KLUDGE:
             fprintf(f_hpt, "CarbonKludge");
