@@ -1,5 +1,6 @@
 - if (( a && b ) || c) by Pavel Golchouk
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
+- speedup getArea by using b-tree
 - fix "-manual" vs. "-mandatory": 
   manual means: subscription/unsubscription not allowed
   mandatory means: subscription allowed, unsubscription not allowed
