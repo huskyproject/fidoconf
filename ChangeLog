@@ -1,6 +1,27 @@
-2002-06-19 Wednesday 17:19  mche
+2002-06-20 Thursday 15:17  stas
 
-	* temp.c (1.2), temp.h (1.3): make it compilable by MSVC
+	* temp.c (1.4): Include fix.
+
+2002-06-20 Thursday 15:10  stas
+
+	* Makefile (1.39): Fix CDEFS.
+
+2002-06-20 Thursday 13:53  stas
+
+	* temp.c (1.3): Change logic in MKSTEMP, rename it to MKSTEMPS.
+
+2002-06-20 Thursday 13:01  stas
+
+	* temp.h (1.3): Fix for non-unix platform.
+
+2002-06-20 Thursday 09:47  stas
+
+	* fidoconf.h (1.124): Prevent redefine PATH_DELIM (if this macro
+	already defined)
+
+2002-06-20 Thursday 09:45  stas
+
+	* compiler.h (1.2): Remove compiler.h (this file exist in smapi).
 
 2002-06-19 Wednesday 16:49  stas
 
