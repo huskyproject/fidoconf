@@ -64,7 +64,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMSG
 #define NOGDI
-#ifndef __EMX__
+#if !defined(__EMX__) && !defined(__MINGW32__)
 #include <windows.h>
 #endif
 #endif
