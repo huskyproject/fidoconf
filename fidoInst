@@ -2,8 +2,7 @@
 echo ""
 echo ""
 echo "FidoConfig point Setup Tool to be used with Bash shell  (v.0.0.1 by Zano)"
-echo
-"-------------------------------------------------------------------------"
+echo "-------------------------------------------------------------------------"
 echo "This setup tool has been modified to meet Bash shell requirements and some"
 echo "token have been added"
 echo ""
@@ -111,9 +110,8 @@ echo "Sysop ${NAME}"
 echo "Location ${LOCATION}"
 echo "Address ${AKA}"
 echo ""
-echo "AutoCreateDefaults -p14 -dupeCheck move -dupeHistory 11"
 echo 'Unpack "unzip -j -Loqq $a $f -d $p" 0 504b0304'
-echo "Pack zip zip -9 -j -q $a $f"
+echo "Pack zip zip -9 -j -q \$a \$f"
 echo " "
 echo "Link ${UPLINK_NAME}"
 echo "AKA ${UPLINK_AKA}"
@@ -121,6 +119,7 @@ echo "ourAka ${AKA}"
 echo "Password ${PASSWORD}"
 echo "EchoMailFlavour Direct"
 echo "autoAreaCreate on"
+echo "autoAreaCreateDefaults -p14 -dupeCheck move -dupeHistory 11"
 echo "Packer zip"
 echo ""
 echo "route Crash ${UPLINK_AKA} *"
@@ -142,16 +141,15 @@ echo " "
 echo "NetMailArea NetMailArea ${MSGBASEDIR}/netmail -b squish"
 echo "BadArea     Badarea     ${MSGBASEDIR}/bad     -b squish"
 echo "DupeArea    DupeArea    ${MSGBASEDIR}/dupe    -b squish"
-echo "EchoArea    Test        ${MSGBASEDIR}/test    -a ${AKA} -b squish
-${UPLINK_AKA} -p 30"
+echo "EchoArea    Test        ${MSGBASEDIR}/test    -a ${AKA} -b squish ${UPLINK_AKA} -p 30"
      ) > ${BASEDIR}/config
 echo " "
 echo "Creating necessary directories..."
-mkdir -p ${SPOOLDIR}/inbound
-mkdir -p ${SPOOLDIR}/inbound.sec
-mkdir -p ${SPOOLDIR}/inbound.tmp
-mkdir -p ${SPOOLDIR}/outbound
-mkdir -p ${SPOOLDIR}/outbound.tmp
+mkdir -p ${SPOOLDIR}/in
+mkdir -p ${SPOOLDIR}/in.sec
+mkdir -p ${SPOOLDIR}/in.tmp
+mkdir -p ${SPOOLDIR}/out
+mkdir -p ${SPOOLDIR}/out.tmp
 mkdir -p ${LOGDIR}
 mkdir -p ${SPOOLDIR}/dupes
 mkdir -p ${SPOOLDIR}/nodelist
@@ -160,5 +158,5 @@ echo " "
 echo "******** FINISHED!!! *******"
 echo "You can now adapt "$BASEDIR"/config to meet your preferences"
 echo "Please, refer to ~/fidoconfig/doc/ files  for any doubt"
-echo"                                            Thank by Zano"
+echo "                                            Thank by Zano"
 exit 0;
