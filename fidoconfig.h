@@ -36,6 +36,10 @@
 
 // #include "common.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MSGTYPE_PASSTHROUGH 0x04
 
 #ifdef UNIX
@@ -462,5 +466,9 @@ void dumpConfig(s_fidoconfig *config, FILE *f);
 
 // return 1 if group found in array of strings, else return 0
 int grpInArray(char *group, char **array, unsigned int len);
+
+#ifdef __cplusplus
+ }
+#endif
 
 #endif

@@ -36,6 +36,10 @@
 #include "fidoconfig.h"
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* common functions */
 
 void *memdup(void *p, size_t size);
@@ -156,5 +160,9 @@ int patimat(char *raw, char *pat); /* case insensitive */
 
 void freeGroups(char **grps, int numGroups);
 void freeLink (s_link *link);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
