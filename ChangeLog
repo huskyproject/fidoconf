@@ -1,3 +1,9 @@
+2004-05-09 Sunday 15:47  andrew_ladutsko
+
+	* fidoconf/common.h (1.5), src/common.c (1.13), src/line.c (1.30):
+	functions e_readCheck() and e_writeCheck() moved to htick, their
+	functionality is now carried out by setLinkAccess()
+
 2004-04-13 Tuesday 10:25  sfpavel
 
 	* debian/fidoconf-runtime.install (1.1): file
