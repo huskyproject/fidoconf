@@ -698,10 +698,13 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
                 nfree(iOption);
                 return 1;
             }
-            if ( area->msgbType == MSGTYPE_PASSTHROUGH )
+            if ( area->msgbType == MSGTYPE_PASSTHROUGH ) {
                 /*  MsgBase type is already defined */
+                nfree(iOption);
                 return 0;
-            iToken = strLower(sstrdup(token));
+            }
+
+			iToken = strLower(sstrdup(token));
             if (strcasecmp(iToken, "squish")==0) {
                 area->msgbType = MSGTYPE_SQUISH;
             }
@@ -718,6 +721,8 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
                 nfree(iToken);
                 return 1;
             }
+			nfree(iToken);
+			iToken = NULL;
         } else {
             prErr("Option '-b' is allowed for echoareas and localareas only!");
             nfree(iOption);
