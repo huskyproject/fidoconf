@@ -32,11 +32,6 @@ char Revision[] = "$Revision$";
 #include "version.h"
 #include "cvsdate.h"
 
-#define VER_MAJOR 0
-#define VER_MINOR 15
-#define VER_PATCH 0
-#define VER_BRANCH BRANCH_CURRENT
-
 #endif
 
 /* #define INC_FE_TYPES */
@@ -157,8 +152,8 @@ char *sysAddress2str(SysAddress sysaddr)
 void Usage(const char *program)
 {
   char *temp;
-  printf("%s\n", temp=GenVersionStr( "fecfg2fconf", VER_MAJOR,
-		VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+  printf("%s\n", temp=GenVersionStr( "fecfg2fconf", FC_VER_MAJOR,
+		FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
   nfree(temp);
   
   printf("\nUsage:\n"

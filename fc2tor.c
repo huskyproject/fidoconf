@@ -348,8 +348,8 @@ int main (int argc, char *argv[]) {
    int cont=1;
 
    { char *temp;
-     printf("%s\n", temp=GenVersionStr( "fconf2tornado", VER_MAJOR,
-			VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+     printf("%s\n", temp=GenVersionStr( "fconf2tornado", FC_VER_MAJOR,
+			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
      nfree(temp);
    }
 
