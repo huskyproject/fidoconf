@@ -85,8 +85,8 @@ typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlway
 typedef enum emailEncoding { eeMIME, eeSEAT, eeUUE } e_emailEncoding;
 
 typedef struct link {
-   s_addr hisAka, *ourAka;
-   char *name;
+    s_addr hisAka, *ourAka;
+    char *name;
    char *defaultPwd,               // 8 byte passwords
         *pktPwd,
         *ticPwd,
@@ -150,13 +150,18 @@ typedef struct link {
    unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
    unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
    e_bundleFileNameStyle linkBundleNameStyle; // Style bundle filenames (timeStamp, addrDiff...
-	char *msgBaseDir;
-	char **frMask; // forwardRequestMask groups
-	unsigned int numFrMask;
-	char **dfMask; // don't forward this
-	unsigned int numDfMask;
+    char *msgBaseDir;
+    char **frMask; // forwardRequestMask groups
+    unsigned int numFrMask;
+    char **dfMask; // don't forward this
+    unsigned int numDfMask;
 
-	unsigned int afixEchoLimit;
+    unsigned int afixEchoLimit;
+
+    unsigned int autoAreaCreateSubdirs;
+    unsigned int autoFileCreateSubdirs;
+
+                                       
 
 } s_link, *ps_link;
 

@@ -1,4 +1,10 @@
 ----- cvs ci ------
+Wed Apr 18 23:24:50 CEST 2001
+tobi:
+* new keywords: autofilecreatesubdirs and autoareacreatesubdirs
+  for creating /filebase/gfd/app/comm/ instead of /filebase/gdb.app.comm/
+
+----- cvs ci ------
 Sat Apr 14 12:44:20 NOVST 2001
 max (patch from Alex Bronin):
 * fixed core dump while parsing filearea

@@ -23,6 +23,7 @@ autoareacreate
 autoareacreatedefaults
 autoareacreatefile
 autoareacreateflag
+autoareacreatesubdirs
 autopassive
 autopause
 badarea

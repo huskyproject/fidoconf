@@ -3025,7 +3025,10 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_LINK:
             rc = parseLink(getRestOfLine(), config);
-			if (rc) exit(1); // 'cause of parsing aka and overriding prev. aka
+            if (rc)
+            {
+                exit(1); /* 'cause of parsing aka and overriding prev. aka */
+            }
             break;
         case ID_PASSWORD:
             if( (clink = getDescrLink(config)) != NULL ) {
@@ -3716,10 +3719,15 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AUTOAREACREATEFLAG:
             rc = copyString(getRestOfLine(), &(config->aacFlag));
             break;
-		case ID_MINDISKFREESPACE:
-			rc = parseNumber(getRestOfLine(), 10, &(config->minDiskFreeSpace));
-			break;
-
+        case ID_MINDISKFREESPACE:
+            rc = parseNumber(getRestOfLine(), 10, &(config->minDiskFreeSpace));
+            break;
+        case ID_AUTOAREACREATESUBDIRS:
+            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateSubdirs));
+            break;
+        case ID_AUTOFILECREATESUBDIRS:
+            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->autoFileCreateSubdirs));
+            break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

@@ -237,8 +237,9 @@ enum {
     ID_FILEAREADEFAULT,
     ID_CARBONRULE,
     ID_CARBONFROMAREA,
-    ID_CARBONGROUPS
-
+    ID_CARBONGROUPS,
+    ID_AUTOAREACREATESUBDIRS,
+    ID_AUTOFILECREATESUBDIRS
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -274,9 +275,11 @@ token_t parseline_tokens[] =
     { "autoareacreatedefaults", ID_AUTOAREACREATEDEFAULTS },
     { "autoareacreatefile", ID_AUTOAREACREATEFILE },
     { "autoareacreateflag", ID_AUTOAREACREATEFLAG },
+    { "autoareacreatesubdirs", ID_AUTOAREACREATESUBDIRS },
     { "autofilecreate", ID_AUTOFILECREATE },
     { "autofilecreatedefaults", ID_AUTOFILECREATEDEFAULTS },
     { "autofilecreatefile", ID_AUTOFILECREATEFILE },
+    { "autofilecreatesubdirs", ID_AUTOFILECREATESUBDIRS },
     { "autopassive", ID_AUTOPASSIVE },
     { "autopause", ID_AUTOPAUSE },
     { "badarea", ID_BADAREA },
