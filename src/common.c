@@ -41,7 +41,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <process.h>
 
 #include <huskylib/compiler.h>
 
@@ -590,8 +589,8 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
     if(*path)
     GetFullPathName(path, sizeof(fullpath), fullpath, &p);
 #else
-    strnzcpy(fullpath,path);
-    strnzcpy(fullarch,archiv);
+    strnzcpy(fullpath,path, 255);
+    strnzcpy(fullarch,archiv, 255);
 #endif
 
     *cmd = '\0';  start = NULL;

@@ -41,11 +41,21 @@ extern "C" {
 #endif
 
 #include <huskylib/compiler.h>
+#include <huskylib/huskyext.h>
 /*#include <smapi/msgapi.h>*/
 
 
+#ifndef MSGTYPE_SDM /* see smapi/msgapi.h */
+#define MSGTYPE_SDM 0x01
+#endif
+#ifndef MSGTYPE_SQUISH /* see smapi/msgapi.h */
+#define MSGTYPE_SQUISH 0x02
+#endif
 #ifndef MSGTYPE_PASSTHROUGH /* see smapi/msgapi.h */
 #define MSGTYPE_PASSTHROUGH 0x04
+#endif
+#ifndef MSGTYPE_JAM /* see smapi/msgapi.h */
+#define MSGTYPE_JAM 0x08
 #endif
 
 #define AREANAMELEN     60
