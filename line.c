@@ -431,18 +431,21 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       if (stricmp(token, "Squish")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            printf("Line %d: Logical Defect!! You could not make a Squish Area Passthrough!\n", actualLineNr);
+           return 1;
         }
         area->msgbType = MSGTYPE_SQUISH;
       }
       else if (stricmp(token, "Jam")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            printf("Line %d: Logical Defect!! You could not make a Jam Area Passthrough!\n", actualLineNr);
+           return 1;
         }
         area->msgbType = MSGTYPE_JAM;
       }
       else if (stricmp(token, "Msg")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            printf("Line %d: Logical Defect!! You could not make a *.msg Area Passthrough!\n", actualLineNr);
+           return 1;
         }
         area->msgbType = MSGTYPE_SDM;
       }
