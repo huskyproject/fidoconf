@@ -1,3 +1,17 @@
+2002-06-25 Tuesday 17:40  stas
+
+	* HISTORY (1.4), INSTALL (1.13), VERSION (1.4): Begin 0.14-stable &
+	change current version number to 0.15
+
+2002-06-25 Tuesday 17:23  stas
+
+	* README.TXT (1.1): Begin 0.14-stable branch. (Change description
+	files).
+
+2002-06-25 Tuesday 16:16  stas
+
+	* doc/.cvsignore (1.1): Add auxiliary file.
+
 2002-06-24 Monday 15:19  stas
 
 	* log.h (1.7): New log level LL_LINKPASS ('Y'); add some aliases
