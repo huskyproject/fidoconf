@@ -194,7 +194,7 @@ s_link *getDescrLink(s_fidoconfig *config)
       return config->linkDefaults;
    } else {
       if (config->linkCount) {
-         return &config->links[config->linkCount-1];
+         return config->links[config->linkCount-1];
       } else {
          printLinkError();
          return NULL;
@@ -1343,11 +1343,11 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
 	        /* link mask present: set mandatory for all links matched. */
                 j = area->downlinkCount;
                 for (i=0; i<config->linkCount; i++) {
-                    strcpy(addr, aka2str(config->links[i].hisAka));
+                    strcpy(addr, aka2str(config->links[i]->hisAka));
                     if (patmat(addr, tok)) {
                         parseAreaLink(config,area,addr);
                         area->downlinks[area->downlinkCount-1]->mandatory = 1;
-                    } else if (config->links[i].hisAka.point==0) {
+                    } else if (config->links[i]->hisAka.point==0) {
                         strcat(addr, ".0");
                         if (patmat(addr, tok)) {
                             parseAreaLink(config,area,addr);
@@ -1458,7 +1458,7 @@ int parseAreaDefault(s_fidoconfig *config, char *token, s_area *adef, int cleanu
        }else if ((isdigit(*tok) || (*tok=='*')) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
            if (strchr(tok, '*')) {
                for (i=0; i<config->linkCount; i++) {
-                   sprintf(addr, aka2str(config->links[i].hisAka));
+                   sprintf(addr, aka2str(config->links[i]->hisAka));
                    if (patmat(addr, tok)) {
                        parseAreaLink(config,adef,addr);
                        adef->downlinks[adef->downlinkCount-1]->mandatory = 1;
@@ -1708,9 +1708,11 @@ int parseLink(char *token, s_fidoconfig *config)
 
    config->describeLinkDefaults=0; /*  Stop describing of link defaults if it was */
 
-   config->links = srealloc(config->links, sizeof(s_link)*(config->linkCount+1));
+   config->links = srealloc(config->links, sizeof(ps_link)*(config->linkCount+1));
 
-   clink = &(config->links[config->linkCount]);
+   config->links[config->linkCount] = scalloc(1,sizeof(s_link));
+
+   clink = config->links[config->linkCount];
 
    if (config->linkDefaults) {
 

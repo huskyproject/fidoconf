@@ -277,22 +277,22 @@ int testPathsAndFiles()
   /* test links */
 
   for (i=0;i<config->linkCount;i++){
-    rc+=testpath( config->links[i].autoAreaCreateFile, "Link",
-                  config->links[i].name, "autoAreaCreateFile" );
-    rc+=testpath( config->links[i].autoFileCreateFile, "Link",
-                  config->links[i].name, "autoFileCreateFile" );
-    rc+=testpath( config->links[i].forwardRequestFile, "Link",
-                  config->links[i].name, "forwardRequestFile" );
-    rc+=testpath( config->links[i].denyFwdFile, "Link",
-                  config->links[i].name, "denyFwdFile" );
-    rc+=testpath( config->links[i].forwardFileRequestFile, "Link",
-                  config->links[i].name, "forwardFileRequestFile" );
-    rc+=testpath( config->links[i].msgBaseDir, "Link",
-                  config->links[i].name, "msgBaseDir" );
-    rc+=testpath( config->links[i].fileBaseDir, "Link",
-                  config->links[i].name, "fileBaseDir" );
-    rc+=testpath( config->links[i].fileBox, "Link",
-                  config->links[i].name, "fileBox" );
+    rc+=testpath( config->links[i]->autoAreaCreateFile, "Link",
+                  config->links[i]->name, "autoAreaCreateFile" );
+    rc+=testpath( config->links[i]->autoFileCreateFile, "Link",
+                  config->links[i]->name, "autoFileCreateFile" );
+    rc+=testpath( config->links[i]->forwardRequestFile, "Link",
+                  config->links[i]->name, "forwardRequestFile" );
+    rc+=testpath( config->links[i]->denyFwdFile, "Link",
+                  config->links[i]->name, "denyFwdFile" );
+    rc+=testpath( config->links[i]->forwardFileRequestFile, "Link",
+                  config->links[i]->name, "forwardFileRequestFile" );
+    rc+=testpath( config->links[i]->msgBaseDir, "Link",
+                  config->links[i]->name, "msgBaseDir" );
+    rc+=testpath( config->links[i]->fileBaseDir, "Link",
+                  config->links[i]->name, "fileBaseDir" );
+    rc+=testpath( config->links[i]->fileBox, "Link",
+                  config->links[i]->name, "fileBox" );
   }
 
 /*
@@ -569,38 +569,38 @@ static char *cvtFlavour(e_flavour flavour)
    }
 }
 
-int printLink(s_link link) {
+int printLink(ps_link link) {
   unsigned int i, rc=0;
 
-   printf("Link: "); printAddr(&(link.hisAka));
-   printf(" (ourAka "); printAddr(link.ourAka);
+   printf("Link: "); printAddr(&(link->hisAka));
+   printf(" (ourAka "); printAddr(link->ourAka);
    printf(")\n");
-   if (link.hisPackAka.zone!=0)
+   if (link->hisPackAka.zone!=0)
    {
-     printf("PackAka: "); printAddr(&(link.hisPackAka));
+     printf("PackAka: "); printAddr(&(link->hisPackAka));
      printf("\n");
    }
 
-   printf("Name: %s\n", link.name);
-   if (link.defaultPwd) printf("defaultPwd: %s\n", link.defaultPwd);
-   if (link.pktPwd) printf("pktPwd:     %s\n", link.pktPwd);
-   if (link.ticPwd) printf("ticPwd:     %s\n", link.ticPwd);
-   if (link.areaFixPwd) printf("areafixPwd: %s\n", link.areaFixPwd);
-   if (link.fileFixPwd) printf("filefixPwd: %s\n", link.fileFixPwd);
-   if (link.bbsPwd) printf("bbsPwd:     %s\n", link.bbsPwd);
-   if (link.sessionPwd) {
-      printf("sessionPwd: %s\n", link.sessionPwd);
-      if(strlen(link.sessionPwd)>8) {
+   printf("Name: %s\n", link->name);
+   if (link->defaultPwd) printf("defaultPwd: %s\n", link->defaultPwd);
+   if (link->pktPwd) printf("pktPwd:     %s\n", link->pktPwd);
+   if (link->ticPwd) printf("ticPwd:     %s\n", link->ticPwd);
+   if (link->areaFixPwd) printf("areafixPwd: %s\n", link->areaFixPwd);
+   if (link->fileFixPwd) printf("filefixPwd: %s\n", link->fileFixPwd);
+   if (link->bbsPwd) printf("bbsPwd:     %s\n", link->bbsPwd);
+   if (link->sessionPwd) {
+      printf("sessionPwd: %s\n", link->sessionPwd);
+      if(strlen(link->sessionPwd)>8) {
         printf("WARNING: sessionPwd too long, should be not more what 8 chars usually.\nMore long password may cause error in some mailers.\n");
         fprintf(stderr,"WARNING: sessionPwd too long, should be not more what 8 chars usually.\n");
       }
    }
-   if (link.handle!=link.name) printf("handle:     %s\n", link.handle);
-   if (link.email)
+   if (link->handle!=link->name) printf("handle:     %s\n", link->handle);
+   if (link->email)
    {
-     printf("email:      %s\n", link.email);
+     printf("email:      %s\n", link->email);
 
-     switch (link.emailEncoding)
+     switch (link->emailEncoding)
      {
      case eeMIME:
        printf("emailEncoding: MIME\n");
@@ -615,18 +615,18 @@ int printLink(s_link link) {
        break;
 
      default:
-       printf("Internal error: Unknown encoding #%d!\n", link.emailEncoding);
+       printf("Internal error: Unknown encoding #%d!\n", link->emailEncoding);
      }
    }
-   if (link.emailFrom) printf("emailFrom:  %s\n", link.emailFrom);
-   if (link.emailSubj) printf("emailSubj:  %s\n", link.emailSubj);
-   printf("Level:      %u\n", link.level);
-   printf("Export:     %s\n",(link.export) ? "on" : "off");
-   printf("Import:     %s\n",(link.import) ? "on" : "off");
-   printf("Mandatory:  %s\n",(link.mandatory) ? "on" : "off");
+   if (link->emailFrom) printf("emailFrom:  %s\n", link->emailFrom);
+   if (link->emailSubj) printf("emailSubj:  %s\n", link->emailSubj);
+   printf("Level:      %u\n", link->level);
+   printf("Export:     %s\n",(link->export) ? "on" : "off");
+   printf("Import:     %s\n",(link->import) ? "on" : "off");
+   printf("Mandatory:  %s\n",(link->mandatory) ? "on" : "off");
 
    printf("AvailList: ");
-   switch(link.availlist)
+   switch(link->availlist)
    {
      case AVAILLIST_FULL:
        printf("Full\n");
@@ -642,110 +642,110 @@ int printLink(s_link link) {
        break;
    }
 
-   if ((link.Pause & ECHOAREA) == ECHOAREA)
+   if ((link->Pause & ECHOAREA) == ECHOAREA)
 	 printf("Link in paused for echoes, no export\n");
 
-   if ((link.Pause & FILEAREA) == FILEAREA)
+   if ((link->Pause & FILEAREA) == FILEAREA)
 	 printf("Link in paused for fileEchoes, no export\n");
 
-   if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
-   if (link.numOptGrp > 0) {
+   if (link->autoPause) printf("AutoPause over %u days\n", link->autoPause);
+   if (link->numOptGrp > 0) {
 	   printf("OptGrp       ");
-	   for (i = 0; i < link.numOptGrp; i++) {
+	   for (i = 0; i < link->numOptGrp; i++) {
 		   if (i > 0) printf(",");
-		   printf("%s", link.optGrp[i]);
+		   printf("%s", link->optGrp[i]);
 	   }
 	   printf("\n");
    }
-   printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
-   printf("AutoAreaCreateSubdirs %s\n", (link.autoAreaCreateSubdirs) ? "on" : "off");
-   if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
-   if (link.numFrMask > 0) {
+   printf("AutoAreaCreate %s\n", (link->autoAreaCreate) ? "on" : "off");
+   printf("AutoAreaCreateSubdirs %s\n", (link->autoAreaCreateSubdirs) ? "on" : "off");
+   if (link->autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link->autoAreaCreateFile);
+   if (link->numFrMask > 0) {
 	   printf("ForwardRequestMask: ");
-	   for (i = 0; i < link.numFrMask; i++) {
+	   for (i = 0; i < link->numFrMask; i++) {
 		   if (i > 0) printf(",");
-		   printf("%s", link.frMask[i]);
+		   printf("%s", link->frMask[i]);
 	   }
 	   printf("\n");
    }
-   if (link.numDfMask > 0) {
+   if (link->numDfMask > 0) {
 	   printf("DenyFwdMask: ");
-	   for (i = 0; i < link.numDfMask; i++) {
+	   for (i = 0; i < link->numDfMask; i++) {
 		   if (i > 0) printf(",");
-		   printf("%s", link.dfMask[i]);
+		   printf("%s", link->dfMask[i]);
 	   }
 	   printf("\n");
    }
 
-   if (link.autoAreaCreateDefaults) printf("AutoAreaCreateDefaults: %s\n", link.autoAreaCreateDefaults);
-   printf("delNotReceivedTIC: %s\n", link.delNotReceivedTIC ? "on" : "off");
-   printf("FileFixFSC87Subset %s\n", (link.FileFixFSC87Subset) ? "on" : "off");
-   printf("AutoFileCreate %s\n", (link.autoFileCreate) ? "on" : "off");
-   printf("AutoFileCreateSubdirs %s\n", (link.autoFileCreateSubdirs) ? "on" : "off");
-   if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);
-   if (link.autoFileCreateDefaults) printf("AutoFileCreateDefaults: %s\n", link.autoFileCreateDefaults);
-   if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
-   if (link.numAccessGrp)
+   if (link->autoAreaCreateDefaults) printf("AutoAreaCreateDefaults: %s\n", link->autoAreaCreateDefaults);
+   printf("delNotReceivedTIC: %s\n", link->delNotReceivedTIC ? "on" : "off");
+   printf("FileFixFSC87Subset %s\n", (link->FileFixFSC87Subset) ? "on" : "off");
+   printf("AutoFileCreate %s\n", (link->autoFileCreate) ? "on" : "off");
+   printf("AutoFileCreateSubdirs %s\n", (link->autoFileCreateSubdirs) ? "on" : "off");
+   if (link->autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link->autoFileCreateFile);
+   if (link->autoFileCreateDefaults) printf("AutoFileCreateDefaults: %s\n", link->autoFileCreateDefaults);
+   if (link->LinkGrp) printf("LinkGrp %s\n",link->LinkGrp);
+   if (link->numAccessGrp)
    {
      unsigned int i;
 
      printf("AccessGrp ");
-     for (i = 0; i < link.numAccessGrp; i++)
+     for (i = 0; i < link->numAccessGrp; i++)
      {
-       if (i > 0) printf(", %s", link.AccessGrp[i]);
-       else printf("%s", link.AccessGrp[0]);
+       if (i > 0) printf(", %s", link->AccessGrp[i]);
+       else printf("%s", link->AccessGrp[0]);
      }
      printf("\n");
    }
-   printf("AreaFix %s\n", (link.AreaFix) ? "on" : "off");
-   if (link.areafixReportsAttr || link.areafixReportsFlags) {
-     char *attrs = attr2str(link.areafixReportsAttr);
-     printf("areafixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", link.areafixReportsFlags ? link.areafixReportsFlags : "");
+   printf("AreaFix %s\n", (link->AreaFix) ? "on" : "off");
+   if (link->areafixReportsAttr || link->areafixReportsFlags) {
+     char *attrs = attr2str(link->areafixReportsAttr);
+     printf("areafixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", link->areafixReportsFlags ? link->areafixReportsFlags : "");
      nfree(attrs);
    }
-   if (link.afixEchoLimit) printf("AreaFixEchoLimit %u\n", link.afixEchoLimit);
-   if (link.ffixEchoLimit) printf("FileFixEchoLimit %u\n", link.ffixEchoLimit);
-   printf("FileFix %s\n", (link.FileFix) ? "on" : "off");
-   printf("Forward Requests to this link is %s\n",(link.forwardRequests)?"on":"off");
-   printf("File Forward Requests to this link is %s\n",(link.forwardFileRequests)?"on":"off");
-   if (link.forwardAreaPriority)
-	   printf("ForwardAreaPriority: %u\n", link.forwardAreaPriority);
-   if (link.forwardFilePriority)
-	   printf("ForwardFilePriority: %u\n", link.forwardFilePriority);
-   printf("Forward Requests Access: %s\n", (link.denyFRA) ? "off" : "on");
-   printf("Unconditional Forward Requests Access: %s\n",(link.denyUFRA)?"off":"on");
-   if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
+   if (link->afixEchoLimit) printf("AreaFixEchoLimit %u\n", link->afixEchoLimit);
+   if (link->ffixEchoLimit) printf("FileFixEchoLimit %u\n", link->ffixEchoLimit);
+   printf("FileFix %s\n", (link->FileFix) ? "on" : "off");
+   printf("Forward Requests to this link is %s\n",(link->forwardRequests)?"on":"off");
+   printf("File Forward Requests to this link is %s\n",(link->forwardFileRequests)?"on":"off");
+   if (link->forwardAreaPriority)
+	   printf("ForwardAreaPriority: %u\n", link->forwardAreaPriority);
+   if (link->forwardFilePriority)
+	   printf("ForwardFilePriority: %u\n", link->forwardFilePriority);
+   printf("Forward Requests Access: %s\n", (link->denyFRA) ? "off" : "on");
+   printf("Unconditional Forward Requests Access: %s\n",(link->denyUFRA)?"off":"on");
+   if (link->RemoteRobotName) printf("RemoteRobotName %s\n", link->RemoteRobotName);
    else printf("RemoteRobotName areafix\n");
-   if (link.RemoteFileRobotName) printf("RemoteFileRobotName %s\n", link.RemoteFileRobotName);
+   if (link->RemoteFileRobotName) printf("RemoteFileRobotName %s\n", link->RemoteFileRobotName);
    else printf("RemoteFileRobotName filefix\n");
-   if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
-   if (link.forwardFileRequestFile) printf("ForwardFileRequestFile %s\n",link.forwardFileRequestFile);
-   if (link.denyFwdFile) printf("DenyFwdFile %s\n",link.denyFwdFile);
-   if (link.msgBaseDir) printf("MsgBaseDir %s\n",link.msgBaseDir);
-   if (link.fileBaseDir) printf("LinkFileBaseDir %s\n",link.fileBaseDir);
-   if (link.packerDef) printf("PackerDefault %s\n", link.packerDef->packer);
+   if (link->forwardRequestFile) printf("ForwardRequestFile %s\n",link->forwardRequestFile);
+   if (link->forwardFileRequestFile) printf("ForwardFileRequestFile %s\n",link->forwardFileRequestFile);
+   if (link->denyFwdFile) printf("DenyFwdFile %s\n",link->denyFwdFile);
+   if (link->msgBaseDir) printf("MsgBaseDir %s\n",link->msgBaseDir);
+   if (link->fileBaseDir) printf("LinkFileBaseDir %s\n",link->fileBaseDir);
+   if (link->packerDef) printf("PackerDefault %s\n", link->packerDef->packer);
    else printf("PackerDefault none\n");
-   if (link.fileBox)  {
-       printf("fileBox %s\n", link.fileBox);
-       printf("fileBoxAlways: %s\n", link.fileBoxAlways ? "on": "off");
+   if (link->fileBox)  {
+       printf("fileBox %s\n", link->fileBox);
+       printf("fileBoxAlways: %s\n", link->fileBoxAlways ? "on": "off");
    }
-   printf("TickerPackToBox %s\n", (link.tickerPackToBox) ? "on" : "off");
-   if (link.pktSize != 0) printf("pktSize - %u kb\n",link.pktSize);
-   if (link.arcmailSize != 0) printf("arcmailSize - %u kb\n",link.arcmailSize);
+   printf("TickerPackToBox %s\n", (link->tickerPackToBox) ? "on" : "off");
+   if (link->pktSize != 0) printf("pktSize - %u kb\n",link->pktSize);
+   if (link->arcmailSize != 0) printf("arcmailSize - %u kb\n",link->arcmailSize);
 
-   if (link.packerDef)
+   if (link->packerDef)
    {
-       printf("packNetmail: %s\n",(link.packNetmail)?"on":"off");
-       if (link.packNetmail)
-           printf("maxUnpackedNetmail: %d kb\n", link.maxUnpackedNetmail);
+       printf("packNetmail: %s\n",(link->packNetmail)?"on":"off");
+       if (link->packNetmail)
+           printf("maxUnpackedNetmail: %d kb\n", link->maxUnpackedNetmail);
    }
    else
-       if (link.packNetmail)
+       if (link->packNetmail)
            printf("Packer not defined but packNetmail is on\n");
 
-   printf("TIC files %s\n", (link.noTIC == 0) ? "on" : "off");
+   printf("TIC files %s\n", (link->noTIC == 0) ? "on" : "off");
    printf("forwardPkts ");
-   switch (link.forwardPkts){
+   switch (link->forwardPkts){
    case fOff : printf("off\n");
      break;
    case fSecure : printf("secure\n");
@@ -754,7 +754,7 @@ int printLink(s_link link) {
      break;
    }
    printf("allowEmptyPktPwd ");
-   switch (link.allowEmptyPktPwd){
+   switch (link->allowEmptyPktPwd){
    case eOff : printf("off\n");
    break;
    case eSecure : printf("secure\n");
@@ -763,16 +763,16 @@ int printLink(s_link link) {
      break;
    }
    printf("allowPktAddrDiffer ");
-   switch (link.allowPktAddrDiffer) {
+   switch (link->allowPktAddrDiffer) {
    case pdOff : printf("off\n");
      break;
    case pdOn : printf("on\n");
      break;
    default: fprintf(stderr, "Error in keyword allowPktAddrDiffer\n");
    }
-   printf("AdvancedAreaFix %s\n", (link.advancedAreafix) ? "on" : "off");
+   printf("AdvancedAreaFix %s\n", (link->advancedAreafix) ? "on" : "off");
 
-   switch (link.linkBundleNameStyle) {
+   switch (link->linkBundleNameStyle) {
       case eUndef:
          /* Don't print senseless information... printf("linkBundleNameStyle: undefined (like BundleNameStyle)\n"); */
          break;
@@ -798,12 +798,12 @@ int printLink(s_link link) {
          printf("Warning: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
          break;
    }
-   printf("arcNetmail %s\n", (link.arcNetmail) ? "on" : "off");
-   printf("netMailFlavour %s\n", cvtFlavour(link.netMailFlavour));
-   printf("echoMailFlavour %s\n", cvtFlavour(link.echoMailFlavour));
-   printf("fileEchoFlavour %s\n", cvtFlavour(link.fileEchoFlavour));
-   printf("noRules %s\n", (link.noRules) ? "on" : "off");
-   printf("reducedSeenBy %s\n", (link.reducedSeenBy) ? "on" : "off");
+   printf("arcNetmail %s\n", (link->arcNetmail) ? "on" : "off");
+   printf("netMailFlavour %s\n", cvtFlavour(link->netMailFlavour));
+   printf("echoMailFlavour %s\n", cvtFlavour(link->echoMailFlavour));
+   printf("fileEchoFlavour %s\n", cvtFlavour(link->fileEchoFlavour));
+   printf("noRules %s\n", (link->noRules) ? "on" : "off");
+   printf("reducedSeenBy %s\n", (link->reducedSeenBy) ? "on" : "off");
 
    printf("-------\n");
    return rc;
@@ -822,37 +822,37 @@ void checkLogic(s_fidoconfig *config) {
 
 	for (i=0; i+1<config->linkCount; i++) {
 		for (j=i+1; j<config->linkCount; j++) {
-			if (addrComp(config->links[i].hisAka, config->links[j].hisAka) == 0) {
+			if (addrComp(config->links[i]->hisAka, config->links[j]->hisAka) == 0) {
 
-				if (strcmp(config->links[i].name,
-						   config->links[j].name)!=0) continue;
+				if (strcmp(config->links[i]->name,
+						   config->links[j]->name)!=0) continue;
 
 				printf("ERROR: duplication of link ");
-				printAddr(&(config->links[i].hisAka));
+				printAddr(&(config->links[i]->hisAka));
 				printf("\n");
 				printf("remove it, or change the name!\n");
 				exit(-1);
 			}
 		}
 		/* Check file permissions */
-		if (config->links[i].autoAreaCreateFile){
-			k = open( config->links[i].autoAreaCreateFile, O_RDWR | O_APPEND );
+		if (config->links[i]->autoAreaCreateFile){
+			k = open( config->links[i]->autoAreaCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
 				printf( "ERROR: link " );
-				printAddr(&(config->links[i].hisAka));
+				printAddr(&(config->links[i]->hisAka));
 				printf( " AutoAreaCreateFile '%s': %s\n",
-					config->links[i].autoAreaCreateFile,
+					config->links[i]->autoAreaCreateFile,
 					strerror(errno) );
 				exit(-1);
 			}else close(k);
 		}
-		if (config->links[i].autoFileCreateFile){
-			k = open( config->links[i].autoFileCreateFile, O_RDWR | O_APPEND );
+		if (config->links[i]->autoFileCreateFile){
+			k = open( config->links[i]->autoFileCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
 				printf( "ERROR: link " );
-				printAddr((&config->links[i].hisAka));
+				printAddr((&config->links[i]->hisAka));
 				printf( " AutoFileCreateFile '%s': %s\n",
-					config->links[i].autoFileCreateFile,
+					config->links[i]->autoFileCreateFile,
 					strerror(errno) );
 				exit(-1);
 			}else close(k);
@@ -1188,15 +1188,15 @@ int main(int argc, char **argv) {
 				FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
    nfree(module); /* used as a temporary variable */
 
-   if( !CheckFidoconfigVersion(1,9,0,BRANCH_CURRENT,cvs_date) ) {
-     printf("Incompatible version of FIDOCONFIG library: require fidoconfig-1.9.0-current at %s\n",cvs_date);
-     exit(255);
-   }
-   if( !CheckSmapiVersion(2,5,0,smapi_cvs_date()) ) {
-     printf("Incompatible version of SMAPI: require smapi-2.5.0-current at %s\n",smapi_cvs_date());
-     exit(255);
-   }
-   printf("using smapi-2.5.0-current at %s and fidoconfig-1.9.0-current at %s\n\n",smapi_cvs_date(),cvs_date);
+   //if( !CheckFidoconfigVersion(1,9,0,BRANCH_CURRENT,cvs_date) ) {
+   //  printf("Incompatible version of FIDOCONFIG library: require fidoconfig-1.9.0-current at %s\n",cvs_date);
+   //  exit(255);
+   //}
+   //if( !CheckSmapiVersion(2,5,0,smapi_cvs_date()) ) {
+   //  printf("Incompatible version of SMAPI: require smapi-2.5.0-current at %s\n",smapi_cvs_date());
+   //  exit(255);
+   //}
+   //printf("using smapi-2.5.0-current at %s and fidoconfig-1.9.0-current at %s\n\n",smapi_cvs_date(),cvs_date);
 
    for (k=1; k<argc; k++)
    {

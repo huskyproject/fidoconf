@@ -440,7 +440,7 @@ typedef struct fidoconfig {
    char     **publicDir;
 
    unsigned int  linkCount;
-   ps_link  links;
+   ps_link  *links;
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;

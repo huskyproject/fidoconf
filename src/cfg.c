@@ -496,28 +496,28 @@ void checkIncludeLogic(ps_fidoconfig config)
     UINT i, j;
 
     for (j=0; j<config->linkCount; j++) {
-        if (config->links[j].autoAreaCreateFile==NULL) continue;
+        if (config->links[j]->autoAreaCreateFile==NULL) continue;
         for (i=0; i<cfgNamesCount; i++) {
-            if (cmpfnames(cfgNames[i],config->links[j].autoAreaCreateFile)==0)
+            if (cmpfnames(cfgNames[i],config->links[j]->autoAreaCreateFile)==0)
                 break;
         }
         /*  if not found include file - return error */
         if (i==cfgNamesCount) {
             printf("AutoAreaCreateFile %s has never been included in config!\n",
-                config->links[j].autoAreaCreateFile);
+                config->links[j]->autoAreaCreateFile);
             exit(EX_CONFIG);
         }
     }
 
     for (j=0; j<config->linkCount; j++) {
-        if (config->links[j].autoFileCreateFile==NULL) continue;
+        if (config->links[j]->autoFileCreateFile==NULL) continue;
         for (i=0; i<cfgNamesCount; i++) {
-            if (cmpfnames(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
+            if (cmpfnames(cfgNames[i],config->links[j]->autoFileCreateFile)==0) break;
         }
         /*  if not found include file - return error */
         if (i==cfgNamesCount) {
             printf("AutoFileCreateFile %s has never been included in config!\n",
-                config->links[j].autoFileCreateFile);
+                config->links[j]->autoFileCreateFile);
             exit(EX_CONFIG);
         }
     }

@@ -428,14 +428,14 @@ void stripPktPwd(s_fidoconfig *config)
 {
    unsigned int i;
    for (i = 0; i < config->linkCount; i++) {
-      if (config->links[i].pktPwd && strlen(config->links[i].pktPwd) > 8) {
-         if (config->links[i].pktPwd == config->links[i].defaultPwd) {
-            config->links[i].pktPwd = (char *) smalloc(9);
-            memcpy(config->links[i].pktPwd, config->links[i].defaultPwd, 8);
+      if (config->links[i]->pktPwd && strlen(config->links[i]->pktPwd) > 8) {
+         if (config->links[i]->pktPwd == config->links[i]->defaultPwd) {
+            config->links[i]->pktPwd = (char *) smalloc(9);
+            memcpy(config->links[i]->pktPwd, config->links[i]->defaultPwd, 8);
          }
-         config->links[i].pktPwd[8] = '\0';
-/*         printf("WARNING: pktPwd too long! Truncated to 8 chars (%s)\n",aka2str(config->links[i].hisAka));
-         fprintf(stderr,"pktPwd too long! Truncated to 8 chars (%s)\n",aka2str(config->links[i].hisAka));
+         config->links[i]->pktPwd[8] = '\0';
+/*         printf("WARNING: pktPwd too long! Truncated to 8 chars (%s)\n",aka2str(config->links[i]->hisAka));
+         fprintf(stderr,"pktPwd too long! Truncated to 8 chars (%s)\n",aka2str(config->links[i]->hisAka));
 */
       }
    }
@@ -567,7 +567,7 @@ void disposeConfig(s_fidoconfig *config)
    for (i=0; i < config->publicCount; i++) nfree(config->publicDir[i]);
    nfree(config->publicDir);
 
-   for (i = 0; i< config->linkCount; i++) freeLink(&config->links[i]);
+   for (i = 0; i< config->linkCount; i++) freeLink(config->links[i]);
    nfree(config->links);
 
    freeLink(config->linkDefaults);
@@ -763,7 +763,7 @@ s_link *getLinkFromAddr(s_fidoconfig *config, hs_addr aka)
    unsigned i;
 
    for (i = 0; i <config->linkCount; i++) {
-      if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
+      if (addrComp(aka, config->links[i]->hisAka)==0) return config->links[i];
    }
 
    return NULL;
@@ -777,15 +777,15 @@ s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 
 	/*  we must find "right" link */
         for (i = 0; i< config->linkCount; i++) {
-                if (!config->links[i].ourAka) continue;
-		if (addrComp(aka, config->links[i].hisAka)==0 &&
-			addrComp(*area->useAka, *(config->links[i].ourAka))==0)
-			return &(config->links[i]);
+                if (!config->links[i]->ourAka) continue;
+		if (addrComp(aka, config->links[i]->hisAka)==0 &&
+			addrComp(*area->useAka, *(config->links[i]->ourAka))==0)
+			return config->links[i];
 	}
 
 	/*  backward compatibility */
 	for (i = 0; i< config->linkCount; i++) {
-	    if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
+	    if (addrComp(aka, config->links[i]->hisAka)==0) return config->links[i];
 	}
 
 	return NULL;
