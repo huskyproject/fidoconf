@@ -3,7 +3,7 @@
 # Object files lists for all platforms
 # include into makefile.inc (and other makefiles)
 
-LOBJS = common$(_OBJ) fidoconf$(_OBJ) line$(_OBJ) cfg$(_OBJ) findtok$(_OBJ) areatree$(_OBJ) afixcmd$(_OBJ) afixcmn$(_OBJ) arealist$(_OBJ) version$(_OBJ) grptree$(_OBJ)
+LOBJS = common$(_OBJ) fidoconf$(_OBJ) line$(_OBJ) cfg$(_OBJ) findtok$(_OBJ) areatree$(_OBJ) afixcmd$(_OBJ) afixcmn$(_OBJ) arealist$(_OBJ) version$(_OBJ) grptree$(_OBJ) stat$(_OBJ)
 
 OBJS = $(LOBJS) fc2binkd$(_OBJ) fc2msged$(_OBJ) fc2ged$(_OBJ) fc2aed$(_OBJ) fc2fgate$(_OBJ) fc2sq$(_OBJ) fc2tor$(_OBJ) fecfg146$(_OBJ) fecfg2fc$(_OBJ) linked$(_OBJ)
 

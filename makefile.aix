@@ -35,6 +35,7 @@ OBJS =  adcase.o      \
         afixcmd.o     \
         afixcmn.o     \
         arealist.o    \
+        stat.o        \
         temp.o
 
 all: tparser

@@ -13,7 +13,7 @@ SMAPIL=  ..\smapi\make\smapimvc.lib ..\huskylib\make\huskymvc.lib msvcrt.lib Ker
 LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
 OBJS1 = line.obj fidoconf.obj common.obj \
-        findtok.obj cfg.obj \
+        findtok.obj cfg.obj stat.obj \
         areatree.obj afixcmd.obj afixcmn.obj \
         arealist.obj version.obj grptree.obj
 
@@ -27,6 +27,7 @@ $(FCONFL):
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\common.c
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\findtok.c
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\cfg.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\stat.c
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\areatree.c
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\afixcmd.c
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c src\afixcmn.c

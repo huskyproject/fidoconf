@@ -26,7 +26,7 @@ VERH	= $(VERMAJOR).$(VERMINOR)
 VER	= $(VERH).0
 
 # Object files: library
-LOBJS1	= afixcmd$(_OBJ) afixcmn$(_OBJ) arealist$(_OBJ) areatree$(_OBJ)
+LOBJS1	= afixcmd$(_OBJ) afixcmn$(_OBJ) arealist$(_OBJ) areatree$(_OBJ) stat$(_OBJ)
 LOBJS2	= cfg$(_OBJ) common$(_OBJ) fidoconf$(_OBJ) findtok$(_OBJ) grptree$(_OBJ)
 LOBJS3	= line$(_OBJ) version$(_OBJ) 
 LOBJS	= $(LOBJS1) $(LOBJS2) $(LOBJS3)
@@ -39,7 +39,7 @@ TOROBJS	= fc2tor$(_OBJ) fc2tor_g$(_OBJ)
 FEOBJS	= fecfg146$(_OBJ) fecfg2fc$(_OBJ) 
 
 # Header files
-HEADERS1= afixcmd.h arealist.h areatree.h common.h grptree.h fidoconf.h
+HEADERS1= afixcmd.h arealist.h areatree.h stat.h common.h grptree.h fidoconf.h
 HEADERS2= fidoconf.pas findtok.h version.h
 HEADERS	= $(HEADERS1) $(HEADERS2)
 

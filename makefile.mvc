@@ -10,7 +10,7 @@ FCONFL=  fconfmvc.lib
 SMAPIL=  ..\smapi\make\smapimvc.lib ..\huskylib\make\huskymvc.lib
 
 OBJS =  line.obj fidoconf.obj common.obj \
-        findtok.obj cfg.obj \
+        findtok.obj cfg.obj stat.obj \
         areatree.obj afixcmd.obj afixcmn.obj \
         arealist.obj version.obj grptree.obj
 
