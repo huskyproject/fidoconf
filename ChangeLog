@@ -1,3 +1,7 @@
+2004-01-21 Wednesday 04:02  andr_lukyanov
+
+	* make/makefile.mvcdll (1.2): Fix MSVC compilation
+
 2004-01-14 Wednesday 22:18  i_zkh
 
 	* doc/rus/proposal.texi (1.4): Fixed doc about quoted strings
