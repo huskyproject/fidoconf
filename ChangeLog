@@ -1,3 +1,7 @@
+2004-03-04 Thursday 20:35  mche
+
+	* src/line.c (1.28): fix parsing AutoCreateDefaults
+
 2004-02-17 Tuesday 09:29  mche
 
 	* src/line.c (1.27): fix parsing of SaveTic keyword
