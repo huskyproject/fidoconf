@@ -349,10 +349,10 @@ void printLink(s_link link) {
    printf("Mandatory:  %s\n",(link.mandatory) ? "on" : "off");
 
    if ((link.Pause & EPAUSE) == EPAUSE)
-	 printf("Link in Pause for Echos, no export\n");
+	 printf("Link in paused for echoes, no export\n");
 
    if ((link.Pause & FPAUSE) == FPAUSE)
-	 printf("Link in Pause for fileEchos, no export\n");
+	 printf("Link in paused for fileEchoes, no export\n");
 
    if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
    if (link.numOptGrp > 0) {
@@ -364,7 +364,6 @@ void printLink(s_link link) {
 	   printf("\n");
    }
    printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
-   printf("FileFixFSC87Subset %s\n", (link.FileFixFSC87Subset) ? "on" : "off");
    printf("AutoAreaCreateSubdirs %s\n", (link.autoAreaCreateSubdirs) ? "on" : "off");
    if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
    if (link.numFrMask > 0) {
@@ -384,6 +383,8 @@ void printLink(s_link link) {
 	   printf("\n");
    }
    if (link.autoAreaCreateDefaults) printf("AutoAreaCreateDefaults: %s\n", link.autoAreaCreateDefaults);
+   printf("delNotReceivedTIC: %s\n", link.delNotReceivedTIC ? "on" : "off");
+   printf("FileFixFSC87Subset %s\n", (link.FileFixFSC87Subset) ? "on" : "off");
    printf("AutoFileCreate %s\n", (link.autoFileCreate) ? "on" : "off");
    printf("AutoFileCreateSubdirs %s\n", (link.autoFileCreateSubdirs) ? "on" : "off");
    if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);
