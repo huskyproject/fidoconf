@@ -95,18 +95,48 @@ int parseAddress(char *token, s_fidoconfig *config)
 
 int parsePath(char *token, char **var)
 {
-   *var = (char *) malloc(strlen(token)+1);
-   strcpy(*var, token);
+   char limiter;
+#ifdef UNIX
+   limiter = '/';
+#else
+   limiter = '\\';
+#endif
+   if (token[strlen(token)-1] == limiter) {
+      *var = (char *) malloc(strlen(token)+1);
+      strcpy(*var, token);
+   } else {
+      *var = (char *) malloc(strlen(token)+2);
+      strcpy(*var, token);
+      (*var)[strlen(token)] = limiter;
+      (*var)[strlen(token)+1] = '\0';
+   }
+      
    return 0;
 }
 
 int parsePublic(char *token, s_fidoconfig *config)
 {
+   char limiter;
+   
+   if (token == NULL) return 1;
    config->public = realloc(config->public, sizeof(char *)*config->publicCount);
-   
-   config->public[config->publicCount] = (char *) malloc(strlen(token)+1);
-   strcpy(config->public[config->publicCount], token);
-   
+
+#ifdef UNIX
+   limiter = '/';
+#else
+   limiter = '\\';
+#endif
+
+   if (token[strlen(token)-1] == limiter) {
+      config->public[config->publicCount] = (char *) malloc(strlen(token)+1);
+      strcpy(config->public[config->publicCount], token);
+   } else {
+      config->public[config->publicCount] = (char *) malloc(strlen(token)+2);
+      strcpy(config->public[config->publicCount], token);
+      (config->public[config->publicCount])[strlen(token)] = limiter;
+      (config->public[config->publicCount])[strlen(token)+1] = '\0';
+   }
+      
    config->publicCount++;
    return 0;
 }
@@ -203,6 +233,10 @@ int parseLink(char *token, s_fidoconfig *config)
    memset(&(config->links[config->linkCount]), 0, sizeof(s_link));
    config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
    strcpy(config->links[config->linkCount].name, token);
+
+   // if handle not given use name as handle
+   if (config->links[config->linkCount].handle == NULL) config->links[config->linkCount].handle = config->links[config->linkCount].name;
+   
    config->linkCount++;
    return 0;
 }
@@ -230,7 +264,9 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
    *route = realloc(*route, sizeof(s_route)*(*count+1));
    memset(route[*count], 0, sizeof(s_route));
 
-   while ((option = strtok(token, " \t"))!=NULL) {
+   option = strtok(token, " \t");
+   
+   while (option != NULL) {
       if (stricmp(option, "enc")==0) (*route)->enc = 1;
       else if (stricmp(option, "noenc")==0) (*route)->enc = 0;
       else if (stricmp(option, "hold")==0) (*route)->flavour = hold;
@@ -248,9 +284,10 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
          else strcpy((*route)->pattern, option);
          if ((*route)->target == NULL) rc = 2;
       }
+      option = strtok(NULL, " \t");
    }
 
-   count++;
+   (*count)++;
    return rc;
 }
 
@@ -286,10 +323,23 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "badArea")==0) rc = parseArea(*config, strtok(NULL, "\0"), &(config->badArea));
    else if (stricmp(token, "echoArea")==0) rc = parseEchoArea(strtok(NULL, "\0"), config);
    else if (stricmp(token, "link")==0) rc = parseLink(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "password")==0) rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].defaultPwd));
+   else if (stricmp(token, "password")==0) {
+      rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].defaultPwd));
+      // if another pwd is not known (yet), make it point to the defaultPWD
+      if (config->links[config->linkCount-1].pktPwd == NULL) config->links[config->linkCount-1].pktPwd = config->links[config->linkCount-1].defaultPwd;
+      if (config->links[config->linkCount-1].ticPwd == NULL) config->links[config->linkCount-1].ticPwd = config->links[config->linkCount-1].defaultPwd;
+      if (config->links[config->linkCount-1].areaFixPwd == NULL) config->links[config->linkCount-1].areaFixPwd = config->links[config->linkCount-1].defaultPwd;
+      if (config->links[config->linkCount-1].fileFixPwd == NULL) config->links[config->linkCount-1].fileFixPwd = config->links[config->linkCount-1].defaultPwd;
+      if (config->links[config->linkCount-1].bbsPwd == NULL) config->links[config->linkCount-1].bbsPwd = config->links[config->linkCount-1].defaultPwd;
+   }
    else if (stricmp(token, "aka")==0) {
       string2addr(strtok(NULL, "\0"), &(config->links[config->linkCount-1].hisAka));
       rc = 0;
+   }
+   else if (stricmp(token, "ouraka")==0) {
+      rc = 0;
+      config->links[config->linkCount].ourAka = getAddr(*config, strtok(NULL, "\0"));
+      if (config->links[config->linkCount].ourAka == NULL) rc = 1;
    }
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].ticPwd));
