@@ -424,7 +424,7 @@ int main(int argc, char **argv)
          fprintf(f_hpt, " %s\n", config.CC[i].object);
          for (c = 0; c < config.AreaCnt; c++) {
             if (config.CC[i].conference == area[c]->conference) {
-               fprintf(f_hpt, "CarbonArea %s\n\n", area[c]->name);
+               fprintf(f_hpt, "CarbonCopy %s\n\n", area[c]->name);
             } else {
             } /* endif */
          } /* endfor */
