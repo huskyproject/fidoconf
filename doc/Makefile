@@ -30,7 +30,10 @@ info:
 endif
 
 fidoconfig_toc.html: fidoconfig.texi proposal.texi
-	texi2html -split_node -number -menu fidoconfig.texi
+	export LC_ALL=C; \
+	makeinfo --html --no-split fidoconfig.texi
+# Old rules: build with texi2html
+#	texi2html -split_node -number -menu fidoconfig.texi
 
 fidoconfig.dvi: fidoconfig.texi proposal.texi
 	texi2dvi fidoconfig.texi
