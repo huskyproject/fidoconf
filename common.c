@@ -649,6 +649,7 @@ int move_file(const char *from, const char *to)
     fclose(fout);
     fclose(fin);
     free(buffer);
+    remove(from);
     return 0;
 }
 
