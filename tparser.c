@@ -135,6 +135,16 @@ void printFileArea(s_filearea area) {
    printf("-------\n");
 }
 
+void printBbsArea(s_bbsarea area) {
+   
+   printf("%s \n", area.areaName);
+   printf("Description: %s\n",area.description);
+   printf("Path: %s\t", area.pathName);
+
+   printf("\n");
+   printf("-------\n");
+}
+
 void printLink(s_link link) {
   if ((link.hisAka.domain != NULL) && (link.ourAka->domain != NULL)) {
     printf("Link: %d:%d/%d.%d@%s (ourAddres %d:%d/%d.%d@%s)\n",
@@ -268,6 +278,10 @@ int main() {
       printf("\n=== FileAreas ===\n");
       for (i=0; i<config->fileAreaCount; i++) {
         printFileArea(config->fileAreas[i]);
+      }
+      printf("\n=== BbsAreas ===\n");
+      for (i=0; i<config->bbsAreaCount; i++) {
+        printBbsArea(config->bbsAreas[i]);
       }
       printf("\n=== CarbonCopy ===\n");
       for (i = 0; i< config->carbonCount; i++) {
