@@ -1,3 +1,13 @@
+fidoconf (0.15-20020829-1) unstable; urgency=low
+
+  * Install linkedto and fconf2areasbbs into /usr/bin directory
+  * Remove installation of /etc/husky/config (now it was ship with hpt
+    package)
+  * Fix install of fidoconfig.info
+  * /usr/share/doc/libfidoconf0-dev is symlink now
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Thu, 29 Aug 2002 13:56:10 +0600
+
 fidoconf (0.15-20020826-1) unstable; urgency=low
 
   * New cvs version
