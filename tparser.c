@@ -34,6 +34,8 @@
 #include <string.h>
 
 #include "fidoconf.h"
+#include "xstr.h"
+#include "common.h"
 
 void printAddr(const s_addr addr)
 {
@@ -245,9 +247,20 @@ void printLink(s_link link) {
    printf("-------\n");
 }
 
-int main() {
-   s_fidoconfig *config = readConfig(NULL);
+int main(int argc, char **argv) {
+   s_fidoconfig *config = NULL;
    int i, j;
+   char *cfgFile=NULL;
+
+   if (argc>1) {
+       if (stricmp(argv[1], "--help")==0) {
+           printf("run: tparser [/path/to/config/file]\n");
+	   return 0;
+       } else xstrcat(&cfgFile, argv[1]);
+   }
+
+   config = readConfig(cfgFile);
+   nfree(cfgFile);
 
    if (config != NULL) {
       printf("=== MAIN CONFIG ===\n");
