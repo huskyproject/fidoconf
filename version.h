@@ -44,7 +44,7 @@ typedef enum {
 
 /* this is version number of FidoConfig */
 #define FC_VER_MAJOR 1
-#define FC_VER_MINOR 3
+#define FC_VER_MINOR 9
 #define FC_VER_PATCH 0
 #define FC_VER_BRANCH BRANCH_CURRENT
 
