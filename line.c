@@ -1533,6 +1533,7 @@ int parseLink(char *token, s_fidoconfig *config)
 	  clink->autoAreaCreateDefaults = sstrdup (deflink->autoAreaCreateDefaults);
 	  clink->autoFileCreateDefaults = sstrdup (deflink->autoFileCreateDefaults);
 	  clink->forwardRequestFile = sstrdup (deflink->forwardRequestFile);
+	  clink->denyFwdFile = sstrdup (deflink->denyFwdFile);
 	  clink->RemoteRobotName = sstrdup (deflink->RemoteRobotName);
 	  clink->forwardFileRequestFile = sstrdup (deflink->forwardFileRequestFile);
 	  clink->RemoteFileRobotName = sstrdup (deflink->RemoteFileRobotName);
