@@ -43,6 +43,12 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
       writeArea(f, &(config->netMailArea), 1);
       writeArea(f, &(config->dupeArea), 0);
       writeArea(f, &(config->badArea), 0);
+
+      for (i=0; i<config->localAreaCount; i++) {
+         area = &(config->localAreas[i]);
+         if (area->msgbType != MSGTYPE_PASSTHROUGH)
+             writeArea(f, area, 0);
+      }
       
       for (i=0; i<config->echoAreaCount; i++) {
          area = &(config->echoAreas[i]);

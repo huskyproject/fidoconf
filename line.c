@@ -681,7 +681,13 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "logFileDir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
    else if (stricmp(token, "dupeHistoryDir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
    else if (stricmp(token, "nodelistDir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
-   else if (stricmp(token, "msgbasedir")==0) rc = parsePath(getRestOfLine(), &(config->msgBaseDir));
+   else if (stricmp(token, "msgbasedir")==0) {
+      temp = getRestOfLine();
+      if (stricmp(temp, "passthrough")==0)
+         copyString(temp, &(config->msgBaseDir));
+      else
+         rc = parsePath(temp, &(config->msgBaseDir));
+   }
    else if (stricmp(token, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic));
    else if (stricmp(token, "netmailArea")==0) rc = parseArea(*config,getRestOfLine(),&(config->netMailArea));
    else if (stricmp(token, "dupeArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->dupeArea));

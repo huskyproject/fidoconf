@@ -363,11 +363,14 @@ This statement cannot be repeated.
 
 This command specifies the path where autoareacreated msgBases are stored.
 For example: If an area called @code{LINUX.GER} was autoareacreated and
-te msgBaseDir is @code{/var/spool/fido/msgb} the resulting msgBaseName is
+the msgBaseDir is @code{/var/spool/fido/msgb} the resulting msgBaseName is
 
 @example
 /var/spool/fido/msgb/linux.ger.sqd
 @end example
+
+If you specify the msgbasedir as PASSTHROUGH, the areas are created as
+passthrough areas.
 
 This statement cannot be repeated.
 
