@@ -1,3 +1,8 @@
+2001-06-03 Sunday 07:31  ml
+
+	* fidoconf.h (1.72): fixed adding aka to seen-bys for links from
+	ignoreseen or -sbign arrays
+
 2001-05-24 Thursday 15:25  ml
 
 	* fidoconf.h (1.71), line.c (1.252), tokens.h (1.11), tparser.c
