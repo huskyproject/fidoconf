@@ -356,6 +356,10 @@ typedef enum typeDupeCheck {
 typedef struct savetictype {
    char *fileAreaNameMask;
    char *pathName;
+   int  fileAction;            /* 0 - do nothing */
+                               /* 1 - copy file    -  save tic with ticked file */
+                               /* 2 - link file  */
+                                
 } s_savetic, *ps_savetic;
 
 typedef enum linkWithImportLog { lwiNo, lwiYes, lwiKill } e_linkWithImportLog;

@@ -2551,13 +2551,22 @@ int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
    tok = strtok(token, " \t");
    if (tok == NULL) {
       prErr("There is a areaname mask missing after %s!", actualKeyword);
-      return 1;         // if there is no areaname mask
+      return 1;         /* if there is no areaname mask */
    }
 
    savetic->fileAreaNameMask= (char *) smalloc(strlen(tok)+1);
    strcpy(savetic->fileAreaNameMask, tok);
 
    tok = strtok(NULL, " \t");
+
+   if(*tok == '-')
+   {
+      if       (tok[1] == 'l')
+         savetic->fileAction = 2;
+      else if  (tok[1] == 'c')
+         savetic->fileAction = 1;
+      tok = strtok(NULL, " \t");
+   }
 
    return  parsePath(tok, &savetic->pathName);
 }
