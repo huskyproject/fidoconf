@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 
 #include <smapi/typedefs.h>
 #include <smapi/compiler.h>
@@ -67,7 +68,7 @@ char *grp2str(dword bitmap)
    return buff;
 }
 
-char *aka2str(Address addr)
+char *aka2str(FEAddress addr)
 {
    static char aka[24];
 
@@ -83,9 +84,9 @@ char *aka2str(Address addr)
 char *strLwr(char *str)
 {
    char *ptr;
-   
+
    ptr = str;
-   
+
    while (*ptr) {
       *ptr = tolower(*ptr);
       ptr++;
@@ -117,6 +118,80 @@ int main(int argc, char **argv)
       exit(2);
    } /* endif */
 
+   read_fe_config(&config, f_cfg);
+
+   if (config.revision != REVISION) {
+      fprintf(stderr, "%s file is not fastecho.cfg 1.46\n", argv[1]);
+      fclose(f_cfg);
+      exit(4);
+   } /* endif */
+
+   c = 0;
+   while (c < config.offset) {
+      read_fe_extension_header(&header, f_cfg);
+      switch (header.type) {
+      case EH_AKAS:
+         sysaddr = (SysAddress*)calloc((header.offset / FE_SYS_ADDRESS_SIZE),
+                                       sizeof(SysAddress));
+         for (i = 0; i < header.offset / FE_SYS_ADDRESS_SIZE; i++)
+         {
+             read_fe_sysaddress(sysaddr+i, f_cfg);
+         }
+             
+         break;
+      case EH_PACKERS2:
+         packers = (Packers*)calloc(header.offset / FE_PACKERS_SIZE, 
+                                    sizeof(Packers));
+         for (i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
+             read_fe_packers(packers + i, f_cfg); 
+         break;
+      case EH_GRPDEFAULTS:
+         groupdef = (GroupDefaults**)calloc(config.GDCnt, 
+                                            sizeof(GroupDefaults*));
+         for (i = 0; i < config.GDCnt; i++) {
+            groupdef[i] = (GroupDefaults*)malloc(sizeof(GroupDefaults));
+            read_fe_groupdefaults(groupdef[i], f_cfg, config.GrpDefRecSize);
+         } /* endfor */
+         break;
+      case EH_AREAFIX: /* 0x000d */
+         frequest = (ForwardAreaFix*)calloc(header.offset /
+                                            FE_FORWARD_AREAFIX_SIZE,
+                                            sizeof(ForwardAreaFix));
+         for (i = 0; i < header.offset / FE_FORWARD_AREAFIX_SIZE; i++)
+             read_fe_frequest(frequest + i, f_cfg);
+         break;
+      default:
+         fseek(f_cfg, header.offset, SEEK_CUR);
+        break;
+      } /* endswitch */
+      c += header.offset+FE_EXTHEADER_SIZE;
+      if (ftell(f_cfg) != c + FE_CONFIG_SIZE)
+      {
+          fprintf(stderr, "%s file seems to be currupt (exp %ld, found %ld)\n",
+                  argv[1], (long)c + FE_CONFIG_SIZE, (long)ftell(f_cfg));
+          fclose(f_cfg);
+          exit(4);
+      }
+   } /* endwhile */
+
+   fseek(f_cfg, FE_CONFIG_SIZE+config.offset, SEEK_SET);
+
+   node = (Node**)calloc(config.NodeCnt, sizeof(Node*));
+   for (i = 0; i < config.NodeCnt; i++) {
+      node[i] = (Node*)malloc(sizeof(Node));
+      assert(!read_fe_node(node[i], f_cfg, config.NodeRecSize));
+   } /* endfor */
+
+   fseek(f_cfg, FE_CONFIG_SIZE+config.offset+
+         (config.NodeRecSize*config.NodeCnt), SEEK_SET);
+
+   area = (Area**)calloc(config.AreaCnt, sizeof(Area*));
+   for (i = 0; i < config.AreaCnt; i++) {
+      area[i] = (Area*)malloc(sizeof(Area));
+      read_fe_area(area[i], f_cfg);
+   } /* endfor */
+
+   fclose(f_cfg);
    f_hpt = fopen("hpt_temp.cfg", "wt");
    if (!f_hpt) {
       fprintf(stderr, "\nCan\'t open hpt_temp.cfg file\n");
@@ -124,63 +199,7 @@ int main(int argc, char **argv)
       exit(3);
    } /* endif */
 
-   fread(&config, sizeof(CONFIG), 1, f_cfg);
-
-   if (config.revision != REVISION) {
-      fprintf(stderr, "%s file is not fastecho.cfg 1.46\n", argv[1]);
-      fclose(f_cfg);
-      fclose(f_hpt);
-      exit(4);
-   } /* endif */
-
-   c = 0;
-   while (c < config.offset) {
-      fread(&header, sizeof(ExtensionHeader), 1, f_cfg);
-      switch (header.type) {
-      case EH_AKAS:
-//         sysaddr = (SysAddress*)calloc(config.AkaCnt, sizeof(SysAddress));
-         sysaddr = (SysAddress*)malloc(header.offset);
-         fread(sysaddr, header.offset, 1, f_cfg);
-         break;
-      case EH_PACKERS2:
-//         packers = (Packers*)calloc(config.PackerCnt, sizeof(Packers));
-         packers = (Packers*)malloc(header.offset);
-         fread(packers, header.offset, 1, f_cfg);
-         break;
-      case EH_GRPDEFAULTS:
-         groupdef = (GroupDefaults**)calloc(config.GDCnt, sizeof(GroupDefaults*));
-         for (i = 0; i < config.GDCnt; i++) {
-            groupdef[i] = (GroupDefaults*)malloc(config.GrpDefRecSize);
-            fread(groupdef[i], config.GrpDefRecSize, 1, f_cfg);
-         } /* endfor */
-         break;
-      case /*EH_AREAFIX*/  0x000d:
-//         frequest = (ForwardAreaFix*)calloc(config.FWACnt, sizeof(ForwardAreaFix));
-         frequest = (ForwardAreaFix*)malloc(header.offset);
-         fread(frequest, header.offset, 1, f_cfg);
-         break;
-      default: 
-         fseek(f_cfg, header.offset, SEEK_CUR);
-        break;
-      } /* endswitch */
-      c += header.offset+sizeof(ExtensionHeader);
-   } /* endwhile */
-
-   fseek(f_cfg, sizeof(CONFIG)+config.offset, SEEK_SET);
-
-   node = (Node**)calloc(config.NodeCnt, sizeof(Node*));
-   for (i = 0; i < config.NodeCnt; i++) {
-      node[i] = (Node*)malloc(config.NodeRecSize);
-      fread(node[i], config.NodeRecSize, 1, f_cfg);
-   } /* endfor */
-
-   fseek(f_cfg, sizeof(CONFIG)+config.offset+(config.NodeRecSize*config.NodeCnt), SEEK_SET);
-
-   area = (Area**)calloc(config.AreaCnt, sizeof(Area*));
-   for (i = 0; i < config.AreaCnt; i++) {
-      area[i] = (Area*)malloc(config.AreaRecSize);
-      fread(area[i], config.AreaRecSize, 1, f_cfg);
-   } /* endfor */
+   printf ("Writing hpt_temp.cfg. Please manually check this file!\n");
 
    fprintf(f_hpt, "# fastecho.cfg 1.46 -> hpt_temp.cfg. (c) 2:5020/960@FidoNet\n\n");
    fprintf(f_hpt, "# Check this file, please!\n\n");
@@ -297,7 +316,7 @@ int main(int argc, char **argv)
    fprintf(f_hpt, "# Areas\n\n");
    fprintf(f_hpt, "NetmailArea NetmailArea %s\n\n", config.NetMPath);
    for (i = stop = 0; i < config.AreaCnt; i++) {
-      if (area[i]->flags.storage == FIDO || area[i]->flags.storage == SQUISH || area[i]->flags.storage == JAM || area[i]->flags.storage == PASSTHRU) {
+      if (area[i]->flags.storage == FE_FIDO || area[i]->flags.storage == FE_SQUISH || area[i]->flags.storage == FE_JAM || area[i]->flags.storage == FE_PASSTHRU) {
          switch (area[i]->flags.atype) {
             case AREA_ECHOMAIL:
                fprintf(f_hpt, "EchoArea");
@@ -308,7 +327,7 @@ int main(int argc, char **argv)
             case AREA_LOCAL:
                fprintf(f_hpt, "LocalArea");
                break;
-            default: 
+            default:
                stop++;
               break;
          } /* endswitch */
@@ -318,13 +337,13 @@ int main(int argc, char **argv)
          } else {
          } /* endif */
          fprintf(f_hpt, " %s", area[i]->name);
-         if (area[i]->flags.storage == PASSTHRU) {
+         if (area[i]->flags.storage == FE_PASSTHRU) {
             fprintf(f_hpt, " Passthrough");
          } else {
             fprintf(f_hpt, " %s", area[i]->path);
-            if (area[i]->flags.storage == SQUISH) {
+            if (area[i]->flags.storage == FE_SQUISH) {
                fprintf(f_hpt, " -b Squish");
-            } else if (area[i]->flags.storage == JAM) {
+            } else if (area[i]->flags.storage == FE_JAM) {
                fprintf(f_hpt, " -b Jam");
             } /* endif */
 
@@ -418,18 +437,19 @@ int main(int argc, char **argv)
    }
    free(area);
    for (i = 0; i < config.NodeCnt; i++) {
-      free(node[i]);
+       free_fe_node(node[i]);
+       free(node[i]);
    } /* endfor */
    free(frequest);
    free(node);
    free(sysaddr);
    free(packers);
    for (i = 0; i < config.GDCnt; i++) {
+      free_fe_groupdefaults(groupdef[i]);
       free(groupdef[i]);
    } /* endfor */
    free(groupdef);
    fclose(f_hpt);
-   fclose(f_cfg);
 
    return 0;
 }

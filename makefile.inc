@@ -5,12 +5,12 @@ VERH = 0
 
 LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ) dump$(OBJ) xstr$(OBJ)
 
-OBJS = $(LOBJS) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) dumpfcfg$(OBJ)
+OBJS = $(LOBJS) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) fc2sq$(OBJ) dumpfcfg$(OBJ) fecfg2fc$(OBJ) fecfg146$(OBJ)
 
 commonlibs: $(LIBFIDOCONFIG)$(LIB) $(SYMBOLIC)
 	$(NULL)
 
-commonprogs: tparser$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) dumpfcfg$(EXE)	$(SYMBOLIC)
+commonprogs: tparser$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2SQUISH)$(EXE) dumpfcfg$(EXE) $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
 	$(NULL)
 
 $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
@@ -39,6 +39,9 @@ tparser$(EXE): tparser$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 
 dumpfcfg$(EXE): dumpfcfg$(OBJ) $(LIBFIDOCONFIG)$(LIB) dump$(OBJ)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)dumpfcfg$(EXE) dumpfcfg$(OBJ) dump$(OBJ) $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
+
+$(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ) fecfg146$(OBJ)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG)$(FECFG2FCONF)$(EXE) fecfg2fc$(OBJ) fecfg146$(OBJ)
 
 commonclean: $(SYMBOLIC)
 	-$(RM) *~

@@ -54,22 +54,7 @@ default: all
 
 include makefile.inc
 
-  fecfg2fc$(OBJ): fecfg2fc.c
-	$(CC) $(COPT) $(CDEFS) -fpack-struct fecfg2fc.c
-
-ifeq ($(CC), gcc)
-  $(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ)
-	$(CC) $(LFLAGS) -fpack-struct fecfg2fc$(OBJ) \
-	  -o $(FECFG2FCONF)$(EXE)
-endif
-
-
-
-ifeq ($(CC), gcc)
-  progs: commonprogs $(FECFG2FCONF)$(EXE)
-else
-  progs: commonprogs
-endif
+progs: commonprogs
 
 ifeq ($(DYNLIBS), 1)
   all: commonlibs ranlib $(LIBFIDOCONFIG).so.$(VER) progs
@@ -131,9 +116,7 @@ install: commonlibs ranlib progs instdyn
 	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(EXE) $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
-ifeq ($(CC), gcc)
 	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
-endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
 	$(INSTALL) $(ILOPT) linkedto $(BINDIR)

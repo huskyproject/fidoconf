@@ -1,7 +1,13 @@
+----- cvs ci ------
+Sat Oct  7 16:58:58 MSZ 2000
+tobi:
+* fecfg2fconf is now platform independent
+* -> included fecfg2fconf into standard makefile.
+
+
 fidoconfig 0.10a
 ================
 (released on Sun Sep 17 18:58:45 MEST 2000)
-
 
 ----- cvs ci ------
 Tue Aug 06 20:36:01 CEST 2000
@@ -12,7 +18,6 @@ tobi:
 fidoconfig 0.10
 ===============
 (released on Tue Jul 18 22:39:07 CEST 2000)
-
 
 ----- cvs ci ------
 Tue Jul 18 22:39:07 MEST 2000
