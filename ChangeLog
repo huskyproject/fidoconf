@@ -1,3 +1,15 @@
+2003-03-28 Friday 09:57  sfpavel
+
+	* Makefile (1.66), debian/libfidoconf1-dev.files (1.2),
+	debian/libfidoconf1.files (1.2), debian/rules (1.15), debian/shlibs
+	(1.8), make/makefile.inc (1.7): Rewrite Makefile for using with new
+	makefile.inc
+
+2003-03-28 Friday 07:05  sfpavel
+
+	* make/makefile.inc (1.6): Don't use 'ifdef' at common makefile -
+	this is not standart for all compilers
+
 2003-03-27 Thursday 21:09  d_sergienko
 
 	* fidoconf/fidoconf.h (1.7), src/common.c (1.9): fix compiling
