@@ -150,6 +150,7 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
     union stamp_combo dosdate;
     unsigned int i;
     char *subject=NULL, *newSubj=NULL, *token=NULL, *running=NULL, *p=NULL;
+    unsigned char intl=1,topt=1;
 
     //init outbounds
     outbounds[0] = &tossDir;
@@ -178,15 +179,26 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 		    msg->destAddr.net  =config->remaps[i].newaddr.net;
 		    msg->destAddr.node =config->remaps[i].newaddr.node;
 		    msg->destAddr.point=config->remaps[i].newaddr.point;
+                    if( !msg->destAddr.point ) topt=0;
                     /* synchronize 'INTL' kludge with new dest address */
                     for( running=msg->text; (p=strchr(running,'\r'))!=NULL; running=++p ){
                       *p = '\0';
-                      if( strlen(running)>5 && !memcmp(running, "\001INTL ",6) ) {
+                      if( intl && strlen(running)>5 && !memcmp(running, "\001INTL ",6) ) {
                           /*replace INTL to new*/
-                          xstrscat( &token, "\001INTL ", aka2str(msg->destAddr), NULL );
-                          xscatprintf( &token, " %s\r", aka2str(msg->origAddr) );
+                          xscatprintf( &token, "\001INTL %u:%u/%u %u:%u/%u\r",
+                                      msg->destAddr.zone, msg->destAddr.net, msg->destAddr.node,
+                                      msg->origAddr.zone,  msg->origAddr.net, msg->origAddr.node );
+                          intl=0;
+                      } else if( topt && strlen(running)>5 && !memcmp(running, "\00TOPT ",6) ) {
+                          /*replace IOPT to new*/
+                          xstrscat( &token, "\001TOPT %u\r", msg->destAddr.point, NULL );
+                          topt=0;
                       } else { /* copy kludge or line */
                           xscatprintf( &token, "%s\r", running );
+                      }
+                      if ( !(intl || topt) ) {       /* both kludge changed */
+                          xstrcat( &token, ++p ); /* copy rest text      */
+                          break; /*for(running...)*/
                       }
                     }
                     xscatprintf( &token, "\001Replace destaddr %s",
