@@ -5,7 +5,7 @@ CC=	gcc
 EXENAMEFLAG=-o 
 CDEFS=	-Zwin32 -DNT -D__NT__ -DWINNT -I.. -Wall -pedantic -c -Wno-char-subscripts
 COPT=	-O2 
-LFLAGS=-Zwin32 -s
+LFLAGS=-Zwin32 -Zsys -s
 
 OBJ=.o
 EXE=.exe
