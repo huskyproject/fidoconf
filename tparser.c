@@ -45,6 +45,18 @@
 #include "xstr.h"
 #include "common.h"
 
+#ifndef VERSION_H
+#define VERSION_H
+
+#include "version.h"
+#include "cvsdate.h"
+
+#define VER_MAJOR 0
+#define VER_MINOR 15
+#define VER_PATCH 0
+#define VER_BRANCH BRANCH_CURRENT
+
+#endif
 
 /* Test for required tokens */
 int testConfig(s_fidoconfig *config){
@@ -914,6 +926,8 @@ static int dumpcfg(char *fileName)
 
 void usage()
 {
+    printf("\tParses Fidoconfig checks your Fidoconfig for errors and gives");
+    printf("you some\n\thints to solve the problems.\n\n");
     printf("run: tparser [-Dvar=value] [-E] [-P] [/path/to/config/file]\n");
     exit(0);
 }
@@ -922,6 +936,9 @@ int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
    int i, j, hpt=0, preproc=0, rc=0;
    char *cfgFile=NULL, *module;
+
+   printf("%s\n\n", GenVersionStr( "tparser", VER_MAJOR, VER_MINOR,
+				VER_PATCH, VER_BRANCH, cvs_date ));
 
    for (i=1; i<argc; i++)
    {
@@ -957,17 +974,18 @@ int main(int argc, char **argv) {
    if (preproc)
 	return dumpcfg(cfgFile);
 
-   module = getvar("module");
-   printf("module: ");
-   if (module) {
-       printf("%s\n", module);
-       if (stricmp(module,"hpt")==0) hpt=1;
-   } else printf("all modules\n");
-
      config = readConfig(cfgFile);
      nfree(cfgFile);
 
      if (config != NULL) {
+
+	module = getvar("module");
+	printf("module: ");
+	if (module) {
+	printf("%s\n", module);
+	if (stricmp(module,"hpt")==0) hpt=1;
+	} else printf("all modules\n");
+
         checkLogic(config);
         rc = testConfig(config);
         printf("=== MAIN CONFIG ===\n");

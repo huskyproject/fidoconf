@@ -33,6 +33,19 @@
 #include "xstr.h"
 #include "common.h"
 
+#ifndef VERSION_H
+#define VERSION_H
+
+#include "version.h"
+#include "cvsdate.h"
+
+#define VER_MAJOR 0
+#define VER_MINOR 15
+#define VER_PATCH 0
+#define VER_BRANCH BRANCH_CURRENT
+
+#endif
+
 s_fidoconfig *cfg;
 
 #ifdef __cplusplus
@@ -82,8 +95,12 @@ int linked(s_link *link) {
 
 int main(int argc, char **argv) {
 
+   printf("%s\n\n", GenVersionStr( "linked", VER_MAJOR, VER_MINOR,
+				VER_PATCH, VER_BRANCH, cvs_date ));
+
     cfg = readConfig(NULL);
     if (argc <2) {
+	printf("\tlinked.exe Show linked areas for link\n\n");
 	printf(" Usage: linked <Address> [<Address> ... ]\n");
     } else
 	for(; --argc; ) {
