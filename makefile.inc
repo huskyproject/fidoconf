@@ -44,18 +44,18 @@ tparser$(EXE): tparser$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)tparser$(EXE) tparser$(OBJ) $(LOPT) $(LINKFIDOCONFIG) $(LINKSMAPI)
 
 commonclean: $(SYMBOLIC)
-	-$(RM) *~
-	-$(RM) *$(OBJ)
-	-$(RM) *$(TPU)
-	-$(RM) core
+	-$(RM) $(RMOPT) *~
+	-$(RM) $(RMOPT) *$(OBJ)
+	-$(RM) $(RMOPT) *$(TPU)
+	-$(RM) $(RMOPT) core
 
 commondistclean: clean $(SYMBOLIC)
-	-$(RM) tparser$(EXE)
-	-$(RM) $(FCONF2GOLDED)$(EXE)
-	-$(RM) $(FCONF2MSGED)$(EXE)
-	-$(RM) $(FCONF2AQUAED)$(EXE)
-	-$(RM) $(FCONF2FIDOGATE)$(EXE)
-	-$(RM) $(FCONF2SQUISH)$(EXE)
-	-$(RM) $(FECFG2FCONF)$(EXE)
-	-$(RM) $(LIBFIDOCONFIG)$(LIB)
+	-$(RM) $(RMOPT) tparser$(EXE)
+	-$(RM) $(RMOPT) $(FCONF2GOLDED)$(EXE)
+	-$(RM) $(RMOPT) $(FCONF2MSGED)$(EXE)
+	-$(RM) $(RMOPT) $(FCONF2AQUAED)$(EXE)
+	-$(RM) $(RMOPT) $(FCONF2FIDOGATE)$(EXE)
+	-$(RM) $(RMOPT) $(FCONF2SQUISH)$(EXE)
+	-$(RM) $(RMOPT) $(FECFG2FCONF)$(EXE)
+	-$(RM) $(RMOPT) $(LIBFIDOCONFIG)$(LIB)
 
