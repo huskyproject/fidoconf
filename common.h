@@ -294,6 +294,9 @@ FCONF_EXT ULONG fc_GetDiskFreeSpace(const char *path);
 /* returns filedescriptor of lockfile if success */
 FCONF_EXT int lockFile(const char *lockfile, int advisoryLock);
 
+/* close and remove lockfile */
+FCONF_EXT int FreelockFile(const char *lockfile, int fh);
+
 /*  this function returns the string representation of an address. */
 /*  it returns a static array!!! */
 FCONF_EXT char *aka2str(const hs_addr aka);

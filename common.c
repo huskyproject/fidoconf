@@ -1686,3 +1686,13 @@ int lockFile(const char *lockfile, int advisoryLock)
 	}
     return fh;    
 }
+
+int FreelockFile(const char *lockfile, int fh)
+{
+    if(fh > 0)
+    	close(fh);
+    if(lockfile)
+	    remove(lockfile);
+    
+    return 0;   
+}
