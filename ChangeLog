@@ -1,3 +1,9 @@
+2003-05-11 Sunday 17:41  mche
+
+	* src/cfg.c (1.3), src/fidoconf.c (1.6), src/line.c (1.10),
+	src/tparser.c (1.7), fidoconf/fidoconf.h (1.11): fix reallocation
+	array of links
+
 2003-05-07 Wednesday 17:11  mche
 
 	* src/afixcmd.c (1.3), src/fidoconf.c (1.5), fidoconf/afixcmd.h
