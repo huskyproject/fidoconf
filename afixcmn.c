@@ -39,7 +39,6 @@
 #endif
 
 #include "fidoconf.h"
-#include "crc.h"
 #include "xstr.h"
 #include "common.h"
 #include "log.h"
@@ -75,11 +74,7 @@ char *createKludges(int disablePID, const char *area, const s_addr *ourAka,
                     const s_addr *destAka, const char* versionStr)
 {
    char *buff = NULL;
-   static unsigned short msgno = 0;
-   struct {
-     unsigned short n; /*  2 bytes for message number */
-     unsigned long  t; /*  4 bytes for unix time      */
-   } msgids;
+   ULONG msgid = 0;
 
    if (area) xscatprintf(&buff, "AREA:%s\r", area);
    else {
@@ -89,13 +84,15 @@ char *createKludges(int disablePID, const char *area, const s_addr *ourAka,
       if (ourAka->point) xscatprintf(&buff, "\001FMPT %d\r", ourAka->point);
       if (destAka->point) xscatprintf(&buff, "\001TOPT %d\r", destAka->point);
    }
+   sleep(1);
+   msgid = time(NULL);
 
-   if(!msgno) sleep(1);  /* Wait one second to prevent generate equvalence msgid in two sequental program call */
-   msgids.n = msgno++;
-   msgids.t = time(NULL);
-
-   xscatprintf( &buff, "\001MSGID: %s %08lx\r", aka2str(*ourAka),
-        strcrc32(area, memcrc32((char*)&msgids, sizeof(msgids), CRC32INIT))^CRC32INIT );
+   if (ourAka->point)
+      xscatprintf(&buff, "\001MSGID: %u:%u/%u.%u %08lx\r",
+              ourAka->zone,ourAka->net,ourAka->node,ourAka->point,msgid);
+   else
+      xscatprintf(&buff, "\001MSGID: %u:%u/%u %08lx\r",
+              ourAka->zone,ourAka->net,ourAka->node,msgid);
 
    if (!disablePID) xscatprintf(&buff, "\001PID: %s\r", versionStr);
 
