@@ -229,7 +229,6 @@ int parseRemap(char *token, s_fidoconfig *config)
 
 int parsePath(char *token, char **var)
 {
-/*   char limiter = PATH_DELIM; */
 /*   DIR  *dirent; */
 
    if (*var != NULL) {
@@ -245,22 +244,18 @@ int parsePath(char *token, char **var)
       return 0;
    }
 
-/*
-#ifdef UNIX
-   limiter = '/';
-#else
-   limiter = '\\';
-#endif */
-
-   if (token[strlen(token)-1] == PATH_DELIM) {
-      *var = (char *) smalloc(strlen(token)+1);
-      strcpy(*var, token);
-   } else {
-      *var = (char *) smalloc(strlen(token)+2);
-      strcpy(*var, token);
-      (*var)[strlen(token)] = PATH_DELIM;
-      (*var)[strlen(token)+1] = '\0';
-   }
+   if (*token && token[strlen(token)-1] == PATH_DELIM)
+       Strip_Trailing(token, PATH_DELIM);
+//   {
+//      *var = (char *) smalloc(strlen(token)+1);
+//      strcpy(*var, token);
+//   } else {
+//      *var = (char *) smalloc(strlen(token)+2);
+//      strcpy(*var, token);
+//      (*var)[strlen(token)] = PATH_DELIM;
+//      (*var)[strlen(token)+1] = '\0';
+  // }
+    xstrcat(var, token);
 
 /*
    dirent = opendir(*var);

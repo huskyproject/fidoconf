@@ -3,6 +3,11 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Tue Jun 27 22:54:18 NOVST 2000
+max:
+* parsePath() optimization
+
+----- cvs ci ------
 Sat Jun 24 19:44:32 NOVST 2000
 max:
 * fixed firectory checking when parsing auto(area|file)createfile
