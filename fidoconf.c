@@ -379,7 +379,11 @@ void setConfigDefaults(s_fidoconfig *config)
    if (config->forwardRequestTimeout==0) config->forwardRequestTimeout = 7;
    if (config->idlePassthruTimeout<0)    config->idlePassthruTimeout   = 4;
    if (config->killedRequestTimeout==0)  config->killedRequestTimeout  = 3;
-   RebuildEchoAreaTree(config);
+   if (   RebuildEchoAreaTree(config) == 0) {
+      printf("Please correct above error(s) first!\n");
+      fflush(stdout);
+      exit(EX_CONFIG);
+   }
    if (!config->tempDir) {
       char *p=NULL;
       if ((p=getenv("TEMP")) != NULL ||

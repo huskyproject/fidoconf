@@ -33,45 +33,56 @@ static tree* echoAreaTree = NULL;
 
 int fc_compareEntries(char *p_e1, char *p_e2)
 {
-   ps_area e1 = (ps_area)p_e1;
-   ps_area e2 = (ps_area)p_e2;
-   if(stricmp(e1->areaName,e2->areaName) < 0)
-      return -1;
-   else if(stricmp(e1->areaName,e2->areaName) > 0)
-      return 1;
-   return 0;
+    ps_area e1 = (ps_area)p_e1;
+    ps_area e2 = (ps_area)p_e2;
+    if(stricmp(e1->areaName,e2->areaName) < 0)
+        return -1;
+    else if(stricmp(e1->areaName,e2->areaName) > 0)
+        return 1;
+    return 0;
 }
 
 int fc_deleteEntry(char *p_e1) {
-   return 1;
+    return 1;
 }
 
-void  addAreaToTree(ps_area areaPtr)
+int  addAreaToTree(ps_area areaPtr)
 {
-   tree_add(&echoAreaTree, fc_compareEntries, (char *)areaPtr, fc_deleteEntry);     
+    return tree_add(&echoAreaTree, fc_compareEntries, (char *)areaPtr, fc_deleteEntry);     
 }
 
 ps_area FindAreaInTree(char* areaName)
 {
-   static ps_area areaPtr = NULL;
-   static s_area areaSrc;
-   if(areaPtr && stricmp(areaPtr->areaName,areaName) == 0)
-      return areaPtr;
-   else
-      areaSrc.areaName = areaName;
-   areaPtr = (ps_area)tree_srch(&echoAreaTree, fc_compareEntries, (char *)(&areaSrc));
-   return areaPtr;
+    static ps_area areaPtr = NULL;
+    static s_area areaSrc;
+    if(areaPtr && stricmp(areaPtr->areaName,areaName) == 0)
+        return areaPtr;
+    else
+        areaSrc.areaName = areaName;
+    areaPtr = (ps_area)tree_srch(&echoAreaTree, fc_compareEntries, (char *)(&areaSrc));
+    return areaPtr;
 }
 
-void     RebuildEchoAreaTree(ps_fidoconfig config)
+int    RebuildEchoAreaTree(ps_fidoconfig config)
 {
-   unsigned int i = 0;
-
-   FreeAreaTree(config);
-   for (i=0; i < config->echoAreaCount; i++)
-       addAreaToTree(&(config->echoAreas[i]));
-   for (i=0; i < config->localAreaCount; i++) 
-       addAreaToTree(&(config->localAreas[i]));
+    unsigned int i = 0;
+    
+    FreeAreaTree(config);
+    for (i=0; i < config->echoAreaCount; i++)
+    {
+        if ( addAreaToTree(&(config->echoAreas[i])) == 0 )
+        {
+            fprintf(stderr, "\nArea [%s]  defined twice\n",config->echoAreas[i].areaName );
+            return 0;
+        }
+    }
+    for (i=0; i < config->localAreaCount; i++) 
+    {
+        if ( addAreaToTree(&(config->localAreas[i])) == 0 )
+            fprintf(stderr, "\nArea [%s]  defined twice\n",config->localAreas[i].areaName );
+            return 0;
+    }
+    return 1;
 }
 
 void     FreeAreaTree(ps_fidoconfig config)

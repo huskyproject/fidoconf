@@ -31,7 +31,9 @@
 #include "tree.h"
 #include "fidoconf.h"
 
-FCONF_EXT   void     RebuildEchoAreaTree(ps_fidoconfig config);
+/* if returns 1 - All Ok                                           */
+/* if returns 0 - we have duplicate definition for area in config  */
+FCONF_EXT   int      RebuildEchoAreaTree(ps_fidoconfig config);
             void     FreeAreaTree(ps_fidoconfig config);
             ps_area  FindAreaInTree(char* areaName);
 
