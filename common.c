@@ -1533,12 +1533,24 @@ char *makeFileBoxName (ps_fidoconfig config, s_link *link)
 void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path)
 {
     const char *start, *tmp, *add;
+    char *p;
+    char fullarch[256];
+    char fullpath[256];
+
+#ifdef __NT__
+    GetFullPathName(archiv, sizeof(fullarch), fullarch, &p);
+    if(*path)
+    GetFullPathName(path, sizeof(fullpath), fullpath, &p);
+#else
+    strcpy(fullpath,path);
+    strcpy(fullarch,archiv);
+#endif
 
     *cmd = '\0';  start = NULL;
     for (tmp = call; (start = strchr(tmp, '$')) != NULL; tmp = start + 2) {
         switch(*(start + 1)) {
-        case 'a': add = archiv; break;
-        case 'p': add = path; break;
+        case 'a': add = fullarch; break;
+        case 'p': add = fullpath; break;
         case 'f': add = file; break;
         default:
             strncat(cmd, tmp, (size_t) (start - tmp + 1));
