@@ -1,3 +1,20 @@
+2005-02-02 Wednesday 16:59  val_khokhlov
+
+	* src/: line.c (1.44), tparser.c (1.29): new link token
+	'rescanLimit' - to limit max rescan msgs count
+
+2005-02-02 Wednesday 16:27  val_khokhlov
+
+	* fidoconf/: fidoconf.h (1.34), tokens.h (1.19): new link token
+	'rescanLimit' - to limit max rescan msgs count
+
+2005-02-02 Wednesday 15:41  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.33), fidoconf/tokens.h (1.18),
+	src/fidoconf.c (1.25), src/line.c (1.43), src/tparser.c (1.28): new
+	token 'reportRequester' - if turned off, don't report who requested
+	area
+
 2005-01-30 Sunday 20:12  i_zkh
 
 	* doc/: proposal.texi (1.157), rus/proposal.texi (1.7): Moved
