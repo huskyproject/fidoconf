@@ -2,29 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-// #include <regex.h>
+#include <patmat.h>
 
 #include "fidoconfig.h"
 
-// #define USEREGEXP 1
+char *actualKeyword, *actualLine;
+int  actualLineNr;
 
-#define ADDREXPRESSION "[0-9]{1,5}:[0-9]{1,5]/[0-9]{1,5}(\\.[0-9]{0,5})?(@[a-z\\.])?"
-
-int testExpression(char *expr, char *str)
-{
-#ifdef USEREGEXP
-   regex_t cExpr;
-   int rc;
-   rc = regcomp(&cExpr, expr, REG_ICASE | REG_NOSUB);
-   if (rc!=0) return rc;
-   rc = regexec(&cExpr, str, 0, NULL, 0);
-
-   regfree(&cExpr);
-   return rc;
-#else
-   return 0;
-#endif
-}
 
 char *getRestOfLine() {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
@@ -32,7 +16,10 @@ char *getRestOfLine() {
 
 int copyString(char **pmem, char *str, s_fidoconfig *config)
 {
-   if (str==NULL) return 1;
+   if (str==NULL) {
+      printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
    
    *pmem = (char *) malloc(strlen(str)+1);
    strcpy(*pmem, str);
@@ -45,11 +32,10 @@ int parseVersion(char *token, s_fidoconfig *config)
    int i = 0;
 
    // if there is no token return error...
-   if (token==NULL) return 1;
-
-   // test
-   i = testExpression("[0-9]+\\.[0-9]+", token);
-   if (i!= 0 ) return i;
+   if (token==NULL) {
+      printf("Line %d: There is a version number missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
 
    while (isdigit(*temp)) {
       buffer[i] = *temp;
@@ -76,15 +62,17 @@ int parseVersion(char *token, s_fidoconfig *config)
 int parseAddress(char *token, s_fidoconfig *config)
 {
    char *aka;
-   int rc;
 
-   if (token==NULL) return 1;
+   if (token==NULL) {
+      printf("Line %d: There is an address missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
    
-   rc = testExpression(ADDREXPRESSION, token);
-   if (rc!=0) return rc;
-
    aka = strtok(token, " \t"); // only look at aka
-   if (aka == NULL) return 1;
+   if (aka == NULL) {
+      printf("Line %d: There is an address missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
 
    config->addr = realloc(config->addr, sizeof(s_addr)*(config->addrCount+1));
    string2addr(aka, &(config->addr[config->addrCount]));
@@ -97,7 +85,10 @@ int parsePath(char *token, char **var)
 {
    char limiter;
 
-   if (token == NULL) return 1;
+   if (token == NULL) {
+      printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
    
 #ifdef UNIX
    limiter = '/';
@@ -121,7 +112,10 @@ int parsePublic(char *token, s_fidoconfig *config)
 {
    char limiter;
    
-   if (token == NULL) return 1;
+   if (token == NULL) {
+      printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
    config->public = realloc(config->public, sizeof(char *)*config->publicCount);
 
 #ifdef UNIX
@@ -148,20 +142,27 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
 {
    char *error;
    char *token;
-   int rc;
    
    if (stricmp(option, "p")==0) {
-      area->purge = strtol(strtok(NULL, " \t"), &error, 0);
-      if ((error != NULL) && (*error != '\0')) return 1;     // error occured;
+      token = strtok(NULL, " \t");
+      if (token == NULL) {
+         printf("Line %d: Number is missing after -p in areaOptions!\n", actualLineNr);
+         return 1;
+      }
+      area->purge = strtol(token, &error, 0);
+      if ((error != NULL) && (*error != '\0')) {
+         printf("Line %d: Number is wrong after -p in areaOptions!\n", actualLineNr);
+         return 1;     // error occured;
+      }
    }
    else if (stricmp(option, "m")==0) {
       area->max = strtol(strtok(NULL, " \t"), &error, 0);
-      if ((error != NULL) && (*error != '\0')) return 1;     // error
+      if ((error != NULL) && (*error != '\0')) {
+         return 1;     // error
+      }
    }
    else if (stricmp(option, "a")==0) {
       token = strtok(NULL, " \t");
-      rc = testExpression(ADDREXPRESSION, token);
-      if (rc != 0) return rc;
       area->useAka = getAddr(config, token);
       if (area->useAka == NULL) {
 //         printf("!!! %s not found as address.\n", token);
@@ -174,16 +175,26 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
    else if (stricmp(option, "dupeCheck")==0) {
       token = strtok(NULL, " \t");
+      if (token == NULL) {
+         printf("Lind %d: Missing dupeCheck parameter!\n", actualLineNr);
+         return 1;
+      }
       if (stricmp(token, "off")==0) area->dupeCheck = off;
       else if (stricmp(token, "move")==0) area->dupeCheck = move;
       else if (stricmp(token, "del")==0) area->dupeCheck = del;
-      else return 1; // error
+      else {
+         printf("Line %d: Wrong dupeCheck parameter!\n", actualLineNr);
+         return 1; // error
+      }
    }
    else if (stricmp(option, "dupehistory")==0) {
       area->dupeHistory = strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) return 1;    // error
    }
-   else return 1;
+   else {
+      printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
+      return 1;
+   }
       
    return 0;
 }
@@ -193,7 +204,10 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
    char *tok;
    int rc = 0;
 
-   if (token == NULL) return 1;
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
    
    memset(area, 0, sizeof(s_area));
 
@@ -201,13 +215,19 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
    area->useAka = &(config.addr[0]);
 
    tok = strtok(token, " \t");
-   if (tok == NULL) return 1;         // if there is no areaname
+   if (tok == NULL) {
+      printf("Line %d: There is a areaname missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;         // if there is no areaname
+   }
 
    area->areaName= (char *) malloc(strlen(tok)+1);
    strcpy(area->areaName, tok);
 
    tok = strtok(NULL, " \t");
-   if (tok == NULL) return 2;         // if there is no filename
+   if (tok == NULL) {
+      printf("Line %d: There is a filename missing %s!\n", actualLineNr, actualLine);
+      return 2;         // if there is no filename
+   }
    if (stricmp(tok, "Passthrough") != 0) {
       // msgbase on disk
       area->fileName = (char *) malloc(strlen(tok)+1);
@@ -220,15 +240,25 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 
    while ((tok = strtok(NULL, " \t"))!= NULL) {
       if (stricmp(tok, "Squish")==0) {
-         if (area->msgbType == MSGTYPE_PASSTHROUGH) rc += 3;
+         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+            printf("Line %d: Logical Defect!! You could not make a Squish Area Passthrough!\n", actualLineNr);
+            rc += 1;
+         }
          area->msgbType = MSGTYPE_SQUISH;
       }
       else if(tok[0]=='-') rc += parseAreaOption(config, tok+1, area);
-      else if(isdigit(tok[0])) {
+      else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = realloc(area->downlinks, sizeof(s_link*)*(area->downlinkCount+1));
          area->downlinks[area->downlinkCount] = getLink(config, tok);
-         if (area->downlinks[area->downlinkCount] == NULL) rc += 1;
+         if (area->downlinks[area->downlinkCount] == NULL) {
+            printf("Line %d: Link for this area is not found!\n", actualLineNr);
+            rc += 1;
+         }
          area->downlinkCount++;
+      }
+      else {
+         printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
+         rc +=1;
       }
    }
    
@@ -239,7 +269,10 @@ int parseEchoArea(char *token, s_fidoconfig *config)
 {
    int rc;
 
-   if (token == NULL) return 1;
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
    
    config->echoAreas = realloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
    rc = parseArea(*config, token, &(config->echoAreas[config->echoAreaCount]));
@@ -249,7 +282,10 @@ int parseEchoArea(char *token, s_fidoconfig *config)
 
 int parseLink(char *token, s_fidoconfig *config)
 {
-   if (token == NULL) return 1;
+   if (token == NULL) {
+      printf("Line %d: There is a name missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
    
    config->links = realloc(config->links, sizeof(s_link)*(config->linkCount+1));
    memset(&(config->links[config->linkCount]), 0, sizeof(s_link));
@@ -280,7 +316,10 @@ int parsePWD(char *token, char **pwd) {
 }
 
 int parseHandle(char *token, s_fidoconfig *config) {
-   if (token == NULL) return 1;
+   if (token == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
 
    config->links[config->linkCount-1].handle = (char *) malloc (strlen(token)+1);
    strcpy(config->links[config->linkCount-1].handle, token);
@@ -292,7 +331,10 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
    int  rc = 0;
    s_route *actualRoute;
 
-   if (token == NULL) return 1;
+   if (token == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
 
    *route = realloc(*route, sizeof(s_route)*(*count+1));
    actualRoute = &(*route)[*count];
@@ -300,7 +342,10 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
 
    option = strtok(token, " \t");
 
-   if (option == NULL) return 1;
+   if (option == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
 
    while (option != NULL) {
       if (stricmp(option, "enc")==0) actualRoute->enc = 1;
@@ -334,7 +379,10 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
             }
             
          }
-         if (actualRoute->target == NULL) rc = 2;
+         if (actualRoute->target == NULL) {
+            printf("Line %d: Link not found in Route statement!\n", actualLineNr);
+            rc = 2;
+         }
       }
       option = strtok(NULL, " \t");
    }
@@ -347,7 +395,10 @@ int parsePack(char *line, s_fidoconfig *config) {
    char   *p, *c;
    s_pack pack;
    
-   if (line == NULL) return 1;
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
 
    p = strtok(line, " \t");
    c = getRestOfLine();
@@ -365,22 +416,25 @@ int parsePack(char *line, s_fidoconfig *config) {
       strcpy(pack.call, c);
 
       return 0;
-   } else return 1;
+   } else {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
 }
 
 int parseUnpack(char *line, s_fidoconfig *config) {
    
 }
 
-int parseLine(char *line, s_fidoconfig *config, int l)
+int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
    int rc = 0;
 
-   temp = (char *) malloc(strlen(line)+1);
+   actualLine = temp = (char *) malloc(strlen(line)+1);
    strcpy(temp, line);
       
-   token = strtok(temp, " \t");
+   actualKeyword = token = strtok(temp, " \t");
 
    //printf("Parsing: %s\n", line);
    //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
@@ -441,10 +495,13 @@ int parseLine(char *line, s_fidoconfig *config, int l)
 
    else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
    
-   else printf("Unrecognized line(%d): %s\n", l, line);
+   else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
                                                           
    if (rc != 0) {
-      printf("Error %d in: %s\n", rc, line);
+      printf("Error %d (line %d): %s\n", rc, actualLineNr, line);
+      printf("Please correct above error in config first!\n");
+      fflush(stdout);
+      exit(1);
       return rc;
    }
 

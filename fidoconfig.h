@@ -6,6 +6,9 @@
 
 #define MSGTYPE_PASSTHROUGH 0x04
 
+extern char *actualLine, *actualKeyword;
+extern  int  actualLineNr;
+
 struct link {
    s_addr hisAka, *ourAka;
    char *name;
@@ -107,7 +110,7 @@ struct fidoconfig {
 };
 typedef struct fidoconfig s_fidoconfig;
 
-int parseLine(char *line, s_fidoconfig *config, int l);
+int parseLine(char *line, s_fidoconfig *config);
 
 s_fidoconfig *readConfig();
 
