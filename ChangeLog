@@ -1,3 +1,33 @@
+2001-12-27 Thursday 16:12  mche
+
+	* common.c (1.70), fidoconf.c (1.60): - unified memory
+	(de-)allocation functions
+	
+	conversion from static library to dynamic under win32 with MSVC
+	compiler
+
+2001-12-27 Thursday 16:07  mche
+
+	* line.c (1.270), xstr.c (1.4): - unified memory (de-)allocation
+	functions
+	
+	conversion from static library to dynamic under win32 with MSVC
+	compiler
+
+2001-12-27 Thursday 15:57  mche
+
+	* cfg.c (1.13): - unified memory alocation functions
+	
+	conversion from static library to dynamic under win32 with MSVC
+	compiler
+
+2001-12-27 Thursday 15:23  mche
+
+	* fidoconf.h (1.87): - added define _MAKE_DLL_MVC_
+	
+	conversion from static library to dynamic under win32 with MSVC
+	compiler
+
 2001-12-26 Wednesday 18:33  mche
 
 	* common.c (1.69), common.h (1.34): moved functions fputUINT16,
