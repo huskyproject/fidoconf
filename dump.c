@@ -122,6 +122,24 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
   fprintf(f, "\n");
 }
 
+int nstricmp(char *s1, char *s2)
+{
+    if (s1 == NULL && s2 != NULL)
+    {
+        return -1;
+    }
+    if (s1 != NULL && s2 == NULL)
+    {
+        return 1;
+    }
+    if (s1 == NULL && s2 == NULL)
+    {
+        return 0;
+    }
+    return (stricmp(s1, s2));
+}
+        
+
 void dumpLinks(s_fidoconfig *config, FILE *f)
 {
   int i, j;
@@ -134,17 +152,17 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       fprintf(f, "Aka                 %s\n", aka2str(link.hisAka));
       fprintf(f, "ourAka              %s\n", aka2str(*link.ourAka));
       dumpString(f, "Password            %s\n", link.defaultPwd);
-      if (stricmp(link.defaultPwd, link.pktPwd)!=0)
+      if (nstricmp(link.defaultPwd, link.pktPwd)!=0)
 	fprintf(f, "pktPwd              %s\n", link.pktPwd);
-      if (stricmp(link.defaultPwd, link.ticPwd)!=0)
+      if (nstricmp(link.defaultPwd, link.ticPwd)!=0)
 	fprintf(f, "ticPwd              %s\n", link.ticPwd);
-      if (stricmp(link.defaultPwd, link.areaFixPwd)!=0)
+      if (nstricmp(link.defaultPwd, link.areaFixPwd)!=0)
 	fprintf(f, "areaFixPwd          %s\n", link.areaFixPwd);
-      if (stricmp(link.defaultPwd, link.fileFixPwd)!=0)
+      if (nstricmp(link.defaultPwd, link.fileFixPwd)!=0)
 	fprintf(f, "fileFixPwd          %s\n", link.fileFixPwd);
-      if (stricmp(link.bbsPwd, link.defaultPwd)!=0)
+      if (nstricmp(link.bbsPwd, link.defaultPwd)!=0)
 	fprintf(f, "bbsPwd              %s\n", link.bbsPwd);
-      if (stricmp(link.sessionPwd, link.defaultPwd)!=0)
+      if (nstricmp(link.sessionPwd, link.defaultPwd)!=0)
 	fprintf(f, "sessionPwd              %s\n", link.sessionPwd);
       dumpString(f, "handle              %s\n", link.handle);
       if (link.autoAreaCreate != 0)
