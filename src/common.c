@@ -430,6 +430,8 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour pri
 		   break;
 	   case normal :    xstrcat(&name, (typ==PKT) ? "o" : "f");
 		   break;
+	   default :    xstrcat(&name, (typ==PKT) ? "o" : "f");
+		   break;
 	   }
    } else xstrcat(&name, "req");
 

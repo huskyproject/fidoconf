@@ -154,7 +154,7 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
     time_t    currentTime;
     union stamp_combo dosdate;
     unsigned int i;
-    char *subject=NULL, *newSubj=NULL, *token=NULL, *running=NULL, *p=NULL;
+    char *newSubj=NULL, *token=NULL, *running=NULL, *p=NULL;
 
     /* init outbounds */
     outbounds[0] = &tossDir;
