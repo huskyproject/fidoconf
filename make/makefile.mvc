@@ -1,0 +1,125 @@
+# $Id$
+#
+# Microsoft Visual C++ Makefile for build static library and program(s)
+# No support for the Husky build environment.
+#
+# Tested on MS Visual C 6.0
+#
+
+# Version
+VERMAJOR= 1
+VERMINOR= 9
+VERPATCH= 0
+VERH	= $(VERMAJOR).$(VERMINOR)
+VER	= $(VERH).$(VERPATCH)
+
+LIBNAME   = fconf
+
+LIBPREFIX =
+LIBSUFFIX = mvc
+DLLPREFIX =
+DLLSUFFIX = mvc
+
+## file suffixes ##
+_C	  = .c
+_OBJ	  = .obj
+_EXP	  = .exp
+_LIB	  = .lib
+_DLL	  = .dll 
+_EXE	  = .exe
+
+TARGETLIB = $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
+TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
+
+_SRC_DIR= ../src/
+H_DIR	= ../fidoconf
+
+## programs ##
+CC	= cl
+CFLAGS	= -nologo -Zp1
+CINCL	= -I$(H_DIR) -I../../huskylib -I../../smapi
+CDEFS	= -D__NT__ -DWIN32 -D_CONSOLE
+COPT	= -Ob2
+
+LIBS	= ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) \
+	  ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB) \
+
+AR	= lib
+AR_R	= -nologo /out:"$(TARGETLIB)"
+
+EXENAMEFLAG = -Fe
+
+RM	= del
+
+OBJS	= line$(_OBJ) fidoconf$(_OBJ) common$(_OBJ) \
+          findtok$(_OBJ) cfg$(_OBJ) stat$(_OBJ) \
+          areatree$(_OBJ) afixcmd$(_OBJ) afixcmn$(_OBJ) \
+          arealist$(_OBJ) version$(_OBJ) grptree$(_OBJ)
+
+PROGRAMS = tparser$(_EXE) linked$(_EXE) fconf2msged$(_EXE) \
+	   fconf2golded$(_EXE) fconf2aquaed$(_EXE) fconf2squish$(_EXE) \
+	   fecfg2fconf$(_EXE) fconf2tornado$(_EXE) fconf2binkd$(_EXE) \
+	   fconf2fidogate$(_EXE)
+
+default:
+	@echo Run 'make static' to build dll version ($(TARGETLIB))
+	@echo Run 'make programs' to build dll version of programs ($(TARGETLIB))
+	@echo ($(PROGRAMS))
+	@echo Run 'make all' to build all above
+
+static:    $(TARGETLIB)
+programs: static $(PROGRAMS)
+all: programs
+
+{$(_SRC_DIR)}$(_C)$(_OBJ):
+	@$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(COPT) -c $<
+
+$(TARGETLIB): $(OBJS)
+	@$(AR) $(AR_R) $**
+
+tparser$(_EXE):
+	@echo Create tparser$(_EXE)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)tparser$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+linked$(_EXE):
+	@echo Create linked$(_EXE)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)linked$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+fconf2golded$(_EXE):
+	@echo Create fconf2golded$(_EXE)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2ged$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+fconf2msged$(_EXE):
+	@echo Create fconf2msged$(_EXE)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2msged$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+fconf2aquaed$(_EXE):
+	@echo Create fconf2aquaed$(_EXE)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2aed$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+fconf2squish$(_EXE):
+	@echo Create fconf2squish$(_EXE)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2sq$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+fconf2fidogate$(_EXE):
+	@echo Create fconf2fidogate$(_EXE)
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2fgate$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+fconf2tornado$(_EXE):
+	@echo Create fconf2tornado$(_EXE)... 
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2tor$(_C) $(_SRC_DIR)fc2tor_g$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+fconf2binkd$(_EXE):
+	@echo Create fconf2binkd$(_EXE)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2binkd$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+fecfg2fconf$(_EXE):
+	@echo Create fecfg2fconf$(_EXE)...
+	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fecfg2fc$(_C) $(_SRC_DIR)fecfg146$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+
+clean:
+	-$(RM) *$(_OBJ)
+	-$(RM) $(TARGETLIB)
+
+distclean: clean
+	-$(RM) *$(_EXE)
