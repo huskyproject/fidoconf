@@ -51,6 +51,19 @@
 #include "fidoconfig.h"
 #include "common.h"
 
+static char *attrStr[] = { "pvt", "crash", "read", "sent", "att", 
+                       "fwd", "orphan", "k/s", "loc", "hld", 
+                       "xx2",  "frq", "rrq", "cpt", "arq", "urq" };
+                                   
+long  str2attr(const char *str)
+{
+   int i;
+   for (i = 0; i < sizeof(attrStr) / sizeof(char *); i++) 
+           if (strncasecmp(str, attrStr[i], strlen(attrStr[i]))==0) 
+                   return 1 << i;
+   return -1L;
+}
+
 int  addrComp(const s_addr a1, const s_addr a2)
 {
    int rc = 0;
@@ -77,16 +90,18 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE)
 
 void string2addr(const char *string, s_addr *addr)
 {
+  /* FIXME: Better rewrite */
   const char *start = string;
-  char buffer[32];
+  char *buffer;
   int  i = 0;
-
+	
   addr->domain = NULL;
 
   if (strchr(start,':')==NULL || strchr(start,'/')==NULL) return;
 
-  while ((*start != ':')&&(*start != ' ')&&(i < 31)) {    // copy zone info or preceding domain
-      buffer[i] = *(start++);
+  buffer = malloc(strlen(string));
+  while ((*start != ':')&&(*start != ' ')&&(*start != '\0')) {    // copy zone info or preceding domain
+       buffer[i] = *(start++);
       i++;
    } /* endwhile */
    buffer[i] = '\0';
@@ -175,6 +190,7 @@ void string2addr(const char *string, s_addr *addr)
       };
    */
    
+   free(buffer);   
    return;
 }
 

@@ -34,6 +34,13 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+
+#ifdef UNIX
+#include <pwd.h>
+#include <grp.h>
+#endif 
+
+#include <limits.h>
 #include "patmat.h"
 
 #include "dir.h"
@@ -289,6 +296,70 @@ int parsePublic(char *token, s_fidoconfig *config)
    return 0;
 }
 
+int parseOwner(char *token, unsigned int *uid, unsigned int *gid)
+{
+#ifdef UNIX
+   struct passwd *pw;
+   struct group *grp;
+   char *name, *group, *p;
+    
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   p = strchr(token, '.');
+   if (p) {
+     *p = '\0';
+     name = token; group = p + 1;
+   } else {
+     name = token; group = NULL;
+   };
+
+   if (name != NULL) {
+	pw  = getpwnam(name);
+   
+  	if (*name && pw == NULL) {
+		printf("Line %d: User name %s is unknown to OS !\n", actualLineNr, name);
+		return 1;
+	}
+	*uid = pw ? pw -> pw_uid : -1 ;		
+
+   };
+
+   if (group != NULL) {
+	grp = getgrnam(group);  
+
+	if ((*group) && grp == NULL) {
+		printf("Line %d: Group name %s is unknown to OS !\n", actualLineNr, group);
+		return 1;
+	}
+	*gid = grp ? grp -> gr_gid : -1 ;		
+   }
+#endif   
+   return 0;
+}
+
+int parseNumber(char *token, int radix, unsigned *level) {
+    char *end = NULL;
+    unsigned long result;
+
+    if (token == NULL) {
+	printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+	return 1;
+    }
+
+    result = strtoul(token, &end, radix);
+
+    if (!(*end == '\0' && *token != '\0') || result == ULONG_MAX) {
+	printf("Line %d: Error in number representation : %s . %s!\n", actualLineNr, token, end);
+	return 1;
+    }
+	
+    *level = (unsigned) result;
+    return 0;
+}
+
 int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
 {
    char *error;
@@ -381,6 +452,9 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
        area->levelwrite = (unsigned)atoi(token);
    }
    else if (stricmp(option, "tinysb")==0) area->tinySB = 1;
+   else if (stricmp(option, "keepUnread")==0) area->keepUnread = 1; 
+   else if (stricmp(option, "killRead")==0) area->killRead = 1; 
+   else if (stricmp(option, "tinysb")==0) area->tinySB = 1; 
    else if (stricmp(option, "h")==0) area->hide = 1;
    else if (stricmp(option, "manual")==0) area->manual = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
@@ -389,7 +463,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    else if (stricmp(option, "dupeCheck")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
-         printf("Lind %d: Missing dupeCheck parameter!\n", actualLineNr);
+         printf("Line %d: Missing dupeCheck parameter!\n", actualLineNr);
          return 1;
       }
       if (stricmp(token, "off")==0) area->dupeCheck = dcOff;
@@ -443,10 +517,26 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
    else if (stricmp(option, "keepsb")==0) area->keepsb=1;
    else if (stricmp(option, "$")==0) ;
+   else if (stricmp(option, "0")==0) ;
    else if (stricmp(option, "d")==0) {
           if ((area->description=getDescription())==NULL)
             return 1;
    }
+	else if (stricmp(option, "fperm")==0) {
+			token = strtok(NULL, " \t");
+         if (token==NULL) {
+            printf("Line %d: Missing permission parameter!\n", actualLineNr);
+				return 1;	
+			} else
+				return parseNumber(token, 8, &(area->fperm));
+   }
+	else if (stricmp(option, "fowner")==0) {
+			token = strtok(NULL, " \t");
+         if (token==NULL) 
+            printf("Line %d: Missing ownership parameter!\n", actualLineNr);
+			else
+	   		return parseOwner(token, &(area->uid), &(area->gid));
+	}
    else {
       printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
       return 1;
@@ -566,6 +656,7 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
    }
 
    memset(area, 0, sizeof(s_area));
+   area->fperm = area->uid = area->gid = -1;
 
    area->msgbType = MSGTYPE_SDM;
    area->useAka = &(config.addr[0]);
@@ -615,40 +706,40 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 	    return rc;
          }
 	 
-		 link = area->downlinks[area->downlinkCount]->link;
-		 if (link->optGrp) tok = strchr(link->optGrp, area->group);
+	 link = area->downlinks[area->downlinkCount]->link;
+	 if (link->optGrp) tok = strchr(link->optGrp, area->group);
+ 
+	 // default set export on, import on, mandatory off
+	 area->downlinks[area->downlinkCount]->export = 1;
+    	 area->downlinks[area->downlinkCount]->import = 1;
+         area->downlinks[area->downlinkCount]->mandatory = 0;
 	 
-		 // default set export on, import on, mandatory off
-		 area->downlinks[area->downlinkCount]->export = 1;
-    		 area->downlinks[area->downlinkCount]->import = 1;
-                 area->downlinks[area->downlinkCount]->mandatory = 0;
-	 
-		 // check export for link
-		 if (link->export) if (*link->export == 0) {
-			 if (link->optGrp == NULL || (link->optGrp && tok))
-				 area->downlinks[area->downlinkCount]->export = 0;
-		 } 
+	 // check export for link
+	 if (link->export) if (*link->export == 0) {
+		 if (link->optGrp == NULL || (link->optGrp && tok))
+			 area->downlinks[area->downlinkCount]->export = 0;
+	 } 
 		 
 		 // check import from link
-		 if (link->import) if (*link->import == 0) {
-			 if (link->optGrp == NULL || (link->optGrp && tok))
-				 area->downlinks[area->downlinkCount]->import = 0;
-		 }
+	 if (link->import) if (*link->import == 0) {
+		 if (link->optGrp == NULL || (link->optGrp && tok))
+			 area->downlinks[area->downlinkCount]->import = 0;
+	 }
 		 
-		 // check mandatory to link
-		 if (link->mandatory) if (*link->mandatory == 1) {
-			 if (link->optGrp == NULL || (link->optGrp && tok))
-				 area->downlinks[area->downlinkCount]->mandatory = 1;
-		 }
-                 area->downlinkCount++;
-		 tok = strtok(NULL, " \t");
-		 while (tok) {
-			 if (tok[0]=='-') {
-				 if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1)) break;
-				 tok = strtok(NULL, " \t");
-			 } else break;
-		 }
-		 continue;
+	 // check mandatory to link
+	 if (link->mandatory) if (*link->mandatory == 1) {
+		 if (link->optGrp == NULL || (link->optGrp && tok))
+			 area->downlinks[area->downlinkCount]->mandatory = 1;
+	 }
+         area->downlinkCount++;
+	 tok = strtok(NULL, " \t");
+	 while (tok) {
+		 if (tok[0]=='-') {
+			 if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1)) break;
+			 tok = strtok(NULL, " \t");
+		 } else break;
+	 }
+	 continue;
       }
       else {
 		  printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
@@ -983,15 +1074,6 @@ int parseOptGrp(char *token, char **optgrp) {
     return 0;
 }
 
-int parseLevel(char *token, unsigned *level) {
-
-    if (token == NULL) {
-	printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-	return 1;
-    }
-    sscanf(token, "%u", level);
-    return 0;
-}
 
 int parseUInt(char *token, unsigned int *uint) {
 
@@ -1231,8 +1313,8 @@ int parseUnpack(char *line, s_fidoconfig *config) {
        }
 
        if (error) {
-          printf("Line %d:E  (÷ª@ 2ÈØÃ&‚aÁŸ%	aÁ¶).“Ý¹rin unpack statement %s!\n", actualLineNr, *error, actualLine);
-          return 1;
+          printf("Line %d: matchCode can\'t contain %c in in unpack statement %s!\n", actualLineNr, *error, actualLine);
+	            return 1;
        };
 
        if (i % 2 != 0)  {
@@ -1402,6 +1484,7 @@ int parseLocalArea(char *token, s_fidoconfig *config)
    config->localAreaCount++;
    return rc;
 }
+
 
 int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
 {
@@ -1698,13 +1781,13 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "mandatory")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
    else if (stricmp(token, "manual")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
    else if (stricmp(token, "optgrp")==0) rc = parseOptGrp(getRestOfLine(), &(config->links[config->linkCount-1].optGrp));
-   else if (stricmp(token, "level")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].level));
+   else if (stricmp(token, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(config->links[config->linkCount-1].level));
 #ifdef __TURBOC__
    else unrecognised++;
 #else   
    else
 #endif       
-       if (stricmp(token, "arcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].arcmailSize));
+       if (stricmp(token, "arcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->links[config->linkCount-1].arcmailSize));
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));
    else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].areaFixPwd));
@@ -1773,8 +1856,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonandquit")==0) config->carbonAndQuit = 1;
    else if (stricmp(token, "carbonkeepsb")==0) config->carbonKeepSb = 1;
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
-   else if (stricmp(token, "defarcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->defarcmailSize));
-   else if (stricmp(token, "areafixmsgsize")==0) rc = parseLevel(getRestOfLine(), &(config->areafixMsgSize));
+   else if (stricmp(token, "defarcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
+   else if (stricmp(token, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
    else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
    else if (stricmp(token, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
    else if (stricmp(token, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
@@ -1832,6 +1915,9 @@ int parseLine(char *line, s_fidoconfig *config)
        rc = 1;
      }
    }
+   else if (stricmp(token, "logowner")==0) rc = parseOwner(getRestOfLine(), &(config->loguid), &(config->loggid));
+   else if (stricmp(token, "logperm")==0) rc = parseNumber(getRestOfLine(), 8, &(config->logperm));
+
 #ifdef __TURBOC__
    else unrecognised++;
    if (unrecognised == 2)

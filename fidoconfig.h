@@ -113,6 +113,7 @@ struct link {
    // Default link's options
    char *export, *import, *mandatory, *optGrp;
 };
+
 typedef struct link s_link;
 
 enum routing {host = 1, hub, boss, noroute};
@@ -151,6 +152,8 @@ struct area {
    unsigned int downlinkCount;
 
    unsigned purge, max, dupeSize, dupeHistory;
+   char keepUnread, killRead;
+
    e_dupeCheck dupeCheck;
    char tinySB, manual, hide, noPause, mandatory, DOSFile;
 
@@ -158,15 +161,21 @@ struct area {
    unsigned levelwrite;	      // 0-65535
    void *dupes;        // used internally by hpt. pointer to dupeDataBase
    void *newDupes;     // dito
-   char imported;      // dito
+   unsigned int imported;      // dito
 
    char group;                      // used by reader (and areafix soon)
    char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
 
    int ccoff;          // 1 if carbon copy is not allowed from this area
+
+   // Owner and Group options, msgbase mode
+   // not set if:  uid = -1 , gid = -1 , fperm = -1
+   unsigned int uid, gid, fperm;
+
    int keepsb;         // keep seen-by's and path
    int scn;            // 1 if scanned
 };
+
 typedef struct area s_area;
 
 struct fileareatype {
@@ -286,6 +295,7 @@ struct fidoconfig {
    
    char     *intab, *outtab;
    char     *echotosslog, *importlog, *LinkWithImportlog, *lockfile;
+   int      loguid, loggid, logperm;     
    char     *fileAreasLog, *longNameList, *fileNewAreasLog;
    char     *fileArcList, *filePassList, *fileDupeList;
    char     *msgidfile;

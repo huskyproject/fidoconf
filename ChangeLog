@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Mon Oct 11 01:14:27 NOVST 1999
+max:
+* patch from Kolya Nesterov
+
+----- cvs ci ------
 Fri Oct  8 16:11:26 MET DST 1999
 tobi:
 * added nodelist specific keywords for the new nltools project     

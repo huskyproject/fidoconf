@@ -38,6 +38,12 @@
 
 /* common functions */
 
+long str2attr(const char *str);
+/*DOC
+  Input:  Msg flag name 
+  Output: value with corresponding bit set or -1L else
+*/
+
 int  addrComp(const s_addr a1, const s_addr a2);
 /*DOC
   Input:  two addresses
