@@ -597,6 +597,12 @@ $a will be replaced by the archive file.
 
 $f will be replaced by the file which should be packed into the archive.
 
+if some husky program is compiled with hptzip, you can use the following definition:
+@example
+
+@code{Pack zip zipInternal}
+@end example
+
 This statement can be repeated.
 
 See also hpt and htick documentation.
@@ -663,6 +669,12 @@ e.g.: unpack "unzip -joLqq $a -d $p $f" 0 504b0304
        they can be unpacked by htick using command
        "unzip -joLqq <filename> -d <path> <descrption_filename>"
 
+@end example
+
+if some husky program is compiled with hptzip, you can use the following definition:
+@example
+
+@code{Unpack zip 0 504b0304}
 @end example
 
 This statement can be repeated.
