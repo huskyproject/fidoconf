@@ -7,6 +7,12 @@
 
 #define MSGTYPE_PASSTHROUGH 0x04
 
+#ifdef UNIX
+#define PATH_DELIM        '/'
+#else
+#define PATH_DELIM        '\\'
+#endif
+
 extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
 extern char wasError;

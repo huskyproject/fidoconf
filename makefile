@@ -3,7 +3,7 @@ AR = ar
 COPT = -ggdb -s -c -fPIC -O3 -Wall -I../smapi -DUNIX
 VER = 0.5
 LIBDIR = /usr/local/lib
-INSTDIR = /usr/local/bin
+INSTDIR = /usr/local
 
 OBJS    = patmat.o line.o fidoconfig.o fconf2msged.o fconf2golded.o tparser.o dir.o common.o
 
@@ -50,6 +50,6 @@ install:
 	cp -f libfidoconfig.so.$(VER) $(LIBDIR)
 	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
-	install -s fconf2golded $(INSTDIR)
-	install -s fconf2msged $(INSTDIR)
-	install -s tparser $(INSTDIR)
+	install -s fconf2golded fconf2msged fconf2aquaed $(INSTDIR)/bin
+	install -s tparser $(INSTDIR)/bin
+	install -s fidoconfig.h $(INSTDIR)/include
