@@ -1,6 +1,6 @@
 2002-10-09 Wednesday 09:55  stas_degteff
 
-	* common.c (1.112): Implement file locking in cpoy_file()
+	* common.c (1.112): Implement file locking in copy_file()
 
 2002-10-09 Wednesday 09:36  stas_degteff
 
@@ -21,7 +21,7 @@
 
 2002-10-09 Wednesday 08:28  stas_degteff
 
-	* common.h (1.58): Safety string envelope
+	* common.h (1.58): Safety string envelope: str() macro
 
 2002-10-09 Wednesday 05:05  sfpavel
 
