@@ -64,7 +64,13 @@ extern "C" {
 #define strend(str) ((str) + strlen(str) - 1)
 
 extern char *actualLine, *actualKeyword, *curconfname;
-extern int  actualLineNr;
+
+#ifndef _MAKE_DLL_MVC_
+extern    int  actualLineNr;
+#else
+FCONF_EXT int  actualLineNr;
+#endif
+
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"
 extern char CommentChar;
