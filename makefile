@@ -1,6 +1,6 @@
 CC = gcc
 AR = ar
-COPT = -g -s -c -O2 -Wall -I../smapi -DUNIX
+COPT = -g -s -c -fPIC -O2 -Wall -I../smapi -DUNIX
 VER = 0.3
 LIBDIR = /usr/local/lib
 INSTDIR = /usr/local/bin

@@ -14,6 +14,7 @@
 
 char *actualKeyword, *actualLine;
 int  actualLineNr;
+char isError = 0;
 
 
 char *getRestOfLine() {
@@ -546,9 +547,7 @@ int parseLine(char *line, s_fidoconfig *config)
                                                           
    if (rc != 0) {
       printf("Error %d (line %d): %s\n", rc, actualLineNr, line);
-      printf("Please correct above error in config first!\n");
-      fflush(stdout);
-      exit(1);
+      isError = 1;
       return rc;
    }
 

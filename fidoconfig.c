@@ -83,6 +83,11 @@ s_fidoconfig *readConfig()
       config = (s_fidoconfig *) malloc(sizeof(s_fidoconfig));
       initConfig(config);
       parseConfig(f, config);
+      if (isError == 1) {
+         printf("Please correct above error(s) first!\n");
+         fflush(stdout);
+         exit(1);
+      }
       return config;
    } else {
       printf("Could not find config-file!\n");

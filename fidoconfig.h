@@ -7,7 +7,8 @@
 #define MSGTYPE_PASSTHROUGH 0x04
 
 extern char *actualLine, *actualKeyword;
-extern  int  actualLineNr;
+extern int  actualLineNr;
+extern char isError;
 
 struct link {
    s_addr hisAka, *ourAka;
