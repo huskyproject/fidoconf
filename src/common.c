@@ -41,6 +41,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <process.h>
 
 #include <huskylib/compiler.h>
 
@@ -487,23 +488,29 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour pri
    /*  maybe we have session with this link? */
    if ( (fd=open(link->bsyFile, O_CREAT | O_RDWR | O_EXCL, S_IREAD | S_IWRITE)) < 0 ) {
 #if !defined(__WATCOMC__)	
-	   int save_errno = errno;
-	
-	   if (save_errno != EEXIST) {
-		   w_log('7', "cannot create *.bsy file \"%s\" for %s (errno %d)\n", link->bsyFile, aka2str(*aka), (int)save_errno);
-         nRet = -1;
-		
-	   } else {
+     int save_errno = errno;
+     if (save_errno != EEXIST) {
+       w_log('7', "cannot create *.bsy file \"%s\" for %s (errno %d)\n", link->bsyFile, aka2str(*aka), (int)save_errno);
+       nRet = -1;
+       errno = save_errno;
+     } else
 #endif
-		   w_log('7', "link %s is busy.", aka2str(*aka));
-		   nfree(link->floFile);
-		   nfree(link->bsyFile);
-		   nRet = 1;
-#if !defined(__WATCOMC__)	
-	   }
-#endif
+     {
+       w_log('7', "link %s is busy.", aka2str(*aka));
+       nfree(link->floFile);
+       nfree(link->bsyFile);
+       nRet = 1;
+     }
    } else  {
+#ifdef HAS_getpid
+      FILE *fdd;
+      if((fdd = fdopen(fd,"w+"))) {
+        fprintf(fd,"%u",getpid());
+        fclose(fdd);
+      }
+#else
       close(fd);
+#endif
       nRet = 0;
    }
    return nRet;
