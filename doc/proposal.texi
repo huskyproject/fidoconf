@@ -191,6 +191,9 @@ you can find in the documentation of the individual programs.
 * seqdir::                      path for msgid sequence stamp
 * seqoutrun::                   max msgid seq outrun from current time
 
+* pack::                        definition for packer
+* unpack::                      definition for unpacker
+
 * link::                        adding a link to your config
 * linkdefaults::                start/end/destroy links default definitions
 * aka::                         links adress
@@ -528,7 +531,7 @@ By default use environment variable SEQDIR.
 
 This statement cannot be repeated.
 
-@node seqoutrun, link, seqdir, Keywords
+@node seqoutrun, pack, seqdir, Keywords
 @subsection seqoutrun
 @table @asis
 @item Syntax:
@@ -557,7 +560,100 @@ By default use environment variable SEQOUT or 3y if unset.
 
 This statement cannot be repeated.
 
-@node link, linkdefaults, seqoutrun, Keywords
+
+@node pack, unpack, seqoutrun, Keywords
+@subsection Pack
+@findex Pack
+@table @asis
+@item Syntax:
+@code{Pack zip|tgz|rar|arc|arj|..... <call>}
+@item Example:
+@code{Pack zip zip -9 -g -q $a $f}
+@end table
+
+This statement sets the command line call for the packer.
+The file will be moved into the archive, that means the file will be
+deleted on the harddisk. It only remains in the archive.
+
+$a will be replaced by the archive file.
+
+$f will be replaced by the file which should be packed into the archive.
+
+This statement can be repeated.
+
+See also hpt and htick documentation.
+
+@subsection Note
+On some OS, if called program can't be found (can't be run) result of pack
+command is undefined. (Example: DOS. Reason of this: command.com do not
+return error code if executable file not found.)
+To prevent dangerouses write full path name for packer program, please.
+
+@node unpack, link, pack, Keywords
+@subsection Unpack
+@findex Unpack
+@table @asis
+@item Syntax:
+@code{Unpack "<call>" <offset> <matchcode>}
+@item Example for DOS:
+@example
+Unpack  "c:\arc\pkunpak /r $a $p $f"              0 1a
+Unpack  "c:\arc\pak e /wn $a $p"                 -2 fe
+Unpack  "c:\arc\lha e /m $a $p $f"                2 2d6c68
+Unpack  "c:\arc\zoo e:O $a $p $f"                 0 5a4f4f
+Unpack  "c:\arc\jar e -y $a $p $f"               14 1a4a61721b
+Unpack  "c:\arc\unrar e -y -o+ -inul $a $p $f"    0 52617221
+@end example
+@item Example for Linux:
+@example
+Unpack  "/usr/bin/zoo e:O $a $p $f"                 0 5a4f4f
+Unpack  "/usr/bin/arc eno $a $p'*.*' $f"            0 1a
+Unpack  "/usr/bin/unzip -joLqq $a -d $p $f"         0 504b0304
+Unpack  "cd $p && /usr/bin/unarj e $a $f>/dev/null" 0 60ea
+Unpack  "/usr/bin/unrar e -y -o+ -inul $a $p $f"    0 52617221
+Unpack  "/usr/bin/jar e -y $a $p $f"               14 1a4a61721b
+Unpack  "cd $p && /usr/bin/ha eyq -e $a $f"         0 4841
+@end example
+@end table
+
+This statement sets the call of certain unpackers according to a id in the
+archive file
+
+@code{call} is the command line call for the packer (enclosed into quotes!);
+
+@code{offset} position of recognition string in packed file;
+
+@code{match code} hexdump of the recognition string for packed file, ?? can be used as any byte;
+
+@code{$a} will be replaced by the archive file to extract from archive;
+
+@code{$p} will be replaced by the path to unpack files (usualy tempoutbound);
+
+@code{$f} will be replaced by the description file name if any (used by htick, see 'FileDescName' token; possible other husky programs).
+
+@example
+
+e.g.: unpack "unzip -joLqq $a -d $p $f" 0 504b0304
+
+       files packed by zip can be recognized by
+         504b0304(hex) at offset 0(integer)
+       they can be unpacked by htick using command
+       "unzip -joLqq <filename> -d <path> <descrption_filename>"
+
+@end example
+
+This statement can be repeated.
+
+See also hpt and htick documentation.
+
+@subsection Note
+On some OS, if called program can't be found (can't be run) result of unpack
+command is undefined. (Example: MS DOS. Reason of this: command.com do not
+return error code if executable file not found.)
+To prevent dangerouses write full path name for unpacker program, please.
+
+
+@node link, linkdefaults, unpack, Keywords
 @subsection link
 @table @asis
 @item Syntax:
