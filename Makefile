@@ -173,7 +173,7 @@ endif
 	$(INSTALL) $(IIOPT) afixcmd.h      $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) arealist.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) version.h      $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
+	$(INSTALL) $(ISLOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 	(cd doc && $(MAKE) install)
 	@echo
 	@echo "*** For install man pages run 'gmake install-man' (unixes only)"
