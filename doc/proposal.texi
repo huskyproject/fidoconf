@@ -1,0 +1,269 @@
+@c this is the proposal info file
+
+This chapter describes how a fidoconfig config-file is written, which keywords
+exist and where to put the file.
+
+@menu
+* Location:: Where to put the config file
+* Keywords:: Which Keywords are recognized
+* Example::  Here is a sample configfile which works for me
+@end menu
+
+@node Location, Keywords, , config file
+@section Configfile location
+The fidoconfig library searches the config file on different locations:
+
+@table @asis
+@item linux:
+/etc/fido/config
+@item freebsd:
+/usr/local/fido/config
+@item os2/win32/dos:
+c:\fido\config
+@end table
+
+Additionally you can set an enviroment variable called @code{FIDOCONFIG} which
+points to the file:
+
+@example
+set FIDOCONFIG=e:\bbs\fidoconfig\config
+
+FIDOCONFIG=~/fidoconfig/config
+export FIDOCONFIG
+@end example
+
+The config file(s) must be readable. If you plan to use the autoareacreate
+feature the config file must be writeable.
+
+@node Keywords, Example, Location, config file
+@section Keywords
+All statements are case-@strong{insensitive}. A line which starts with a # is
+a comment and will be ignored.
+
+@menu
+* version::       version of fidoconfig
+* name::          your Systems Name
+* location::      your location
+* sysop::         your Name
+* include::       include other files
+* address::       your system address
+* outbound::      outbound path
+* inbound::       inbound path
+* protinbound::   protected inbound
+* listinbound::   listed inbound
+* localinbound::  local inbound
+@end menu
+
+@node version, name, , Keywords
+@subsection version
+@table @asis
+@item Syntax:
+@code{version <integer>.<integer>}
+@item Example:
+@code{version 0.13}
+@end table
+
+Here you specify to which version of fidoconfig your config belong.
+Currently this statement does nothing.
+
+This statement cannot be repeated.
+
+@node name, location, version, Keywords
+@subsection name
+@table @asis
+@item Syntax:
+@code{name <text>}
+@item Example:
+@code{name Leetebrok BBS}
+@end table
+
+Here you specify your Systems name.
+
+This statement cannot be repeated.
+
+@node location, sysop, name, Keywords
+@subsection location
+@table @asis
+@item Syntax:
+@code{location <text>}
+@item Example:
+@code{location Dusseldorf}
+@end table
+
+You specify your Location here.
+
+This statement cannot be repeated.
+
+@node sysop, include, location, Keywords
+@subsection sysop
+@table @asis
+@item Syntax:
+@code{sysop <text>}
+@item Example:
+@code{sysop Matthias Tichy}
+@end table
+
+You specify your name with this keyword.
+
+This statement cannot be repeated.
+
+@node include, address, sysop, Keywords
+@subsection include
+@table @asis
+@item Syntax:
+@code{include <file>}
+@item Example:
+@code{include /etc/fido/areas}
+@end table
+
+You can include other files into your config file. For example if you would like to
+have different config parts, you can include a file and (via cron job or manually)
+change the content of this file without changing the rest of the config.
+Additionally you can split your config in different parts. So you can
+have your fileareas definition in another file than your msgareas definition.
+This gives your the ability to have some survey about your config.
+
+This statement can be repeated. But dont make recursive includes. eg on file
+which includes another which includes the first.
+
+@strong{This statement is currently not supported.}
+
+@node address, outbound, include, Keywords
+@subsection address
+@table @asis
+@item Syntax:
+@code{Address <aka> [Line [unsignedInteger]1* ]}
+@item Example:
+@code{Address 2:2433/1245 Line 1 4 5}
+@end table
+
+This command specifies which akas your system has. This statement is full 5d
+compatible, which means you can have also addresses like @code{2:2433/1245.1@@fidonet.org}.
+If the Line options is empty this aka is displayed on all lines. In the above
+example this aka is displayed on line 1, 4 and 5.
+The first address statement is your main aka which will be used by tossers
+on different occasions, for example if zone number could not be taken from
+the @@INTL Kludge in netmails.
+
+This statement can be repeated.
+
+@strong{The Line option is not supported}
+@strong{The domain name is not full supported throughout fidoconfig}
+
+@node outbound, inbound, address, Keywords
+@subsection outbound
+@table @asis
+@item Syntax:
+@code{outbound <path>}
+@item Example:
+@code{outbound /var/spool/fido/out}
+@end table
+
+This command specifies your outbound path. This outbound path is binkley-style.
+A binkley style outbound consists of a base path and subdirectories. Each subdirectory
+represents a place for all the files for one zone. The base path is the zone path
+for your base zone.
+
+Example:
+
+@example
+@table @asis
+@item /var/spool/fido/out
+This directory contains the files for your base zone.
+@item /var/spool/fido/out.003
+This directory contains the files for zone 3.
+@item /var/spool/fido/out.00A
+This directory contains the files for zone 10.
+@end table
+@end example
+
+The zone directory contains the flow-files for each node. A Flow-file of a node
+has the name NNNNFFFF.?lo
+
+@example
+@table @asis
+@item NNNN
+The 4-digit hex-number of the nodes netnumber.
+@item FFFF
+The 4-digit hex-number of the nodes nodenumber.
+@item ?
+Here the flavour of the mails can be chosen. @strong{h}old, @strong{c}rash,
+@strong{f}normal.
+@end table
+@end example
+
+For points there is a subdirectory with nodes flowfilename with suffix.pnt. In
+this subdirectory the flowfiles have the names PPPPPPPP ( 8-digit point number
+in hex).
+
+For a deeper background on a binkley-style outbound see the binkley-term
+documentation and source code.
+
+@node inbound, protinbound, outbound, Keywords
+@subsection inbound
+@table @asis
+@item Syntax:
+@code{inbound <path>}
+@item Example:
+@code{inbound /var/spool/fido/in}
+@end table
+
+This command specifies where your inbound files are stored. This directory
+is the base directory which means if you have a connection which ist not
+protected and the other system is not listed. The files go in here.
+Only netmails are tossed from this inbound.
+
+This statement cannot be repeated.
+
+@node protinbound, listinbound, inbound, Keywords
+@subsection protinbound
+@table @asis
+@item Syntax:
+@code{protinbound <path>}
+@item Example:
+@code{protinbound /var/spool/fido/in.sec}
+@end table
+
+This command specifies where files should be stored which were received
+during a password-protected session.
+All types of mail are tossed from this path. But passwords are checked
+before.
+
+This statement cannot be repeated.
+
+@node listinbound, localinbound, protinbound, Keywords
+@subsection listinbound
+@table @asis
+@item Syntax:
+@code{listinbound <path>}
+@item Example:
+@code{listinbound /var/spool/fido/in.lst}
+@end table
+
+This command specifies where the files should be stored which were
+received during a non-password-protected session from a listed system.
+Only netmails are tossed from this path.
+
+This statement cannot be repeated.
+
+@node localinbound, , listinbound, Keywords
+@subsection localinbound
+@table @asis
+@item Syntax:
+@code{localinbound <path>}
+@item Example:
+@code{localinbound /var/spool/fido/in.loc}
+@end table
+
+This command specifies the path, from which all types of netmail and echomail
+are tossed @strong{without} any password checking. You can put pkt´s here
+which were created by a file tosser etc. So created by a you or a programm on
+your own system.
+
+This statement cannot be repeated.
+
+@node Example, , Keywords, config file
+@section Working sample config
+@example
+@include config
+@end example

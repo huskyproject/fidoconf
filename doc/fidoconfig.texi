@@ -1,0 +1,90 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename fidoconfig.info
+@settitle FidoConfig Manual
+@setchapternewpage odd
+@c %**end of header
+
+@ifinfo
+This file documents fidoconfig.
+
+Copyright 1998 Matthias Tichy
+
+@end ifinfo
+
+@titlepage
+@title FidoConfig Manual
+@subtitle a way to make your unix fido-capable
+@author Matthias Tichy
+
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 1998 Matthias Tichy
+
+@end titlepage
+
+@ifinfo
+@node Top, , , (dir)
+@top fidoconfig
+
+This document describes the use of fidoconfig to make fido work on your unix
+workstation.
+
+This document applies to version 0.3
+of fidoconfig.
+@end ifinfo
+
+@menu
+* design goals::  what we want to achieve
+* config file::   how does it look like
+* tparser::       testing your config
+* contact::       contacting the author
+@end menu
+
+@node design goals, config file, Top, Top
+@chapter Design goals
+The design goal of fidoconfig was to provide one config-file for several
+different fido software packages like editor, tosser etc.
+An additional aim was to have one library (fidoconfig) which can be used by
+all programs.
+The advantage is you only have to edit one config-file, so changing your
+system is much easier than with common software packages. Also bugs can only
+creep in one library and not in thousands over thousands libraries.
+The config definition can be used in all operating systems. Also the library
+should be quite portable.
+
+@node config file, tparser, design goals, Top
+@chapter Config file
+@include proposal.texi
+
+@node tparser, contact, config file, Top
+@chapter Testing the config
+You should run tparser everytime you have changed the config. If tparser
+crashes please correct your config file and send your config or the line which
+causes the crash. 
+
+@example
+./tparser | less
+@end example
+
+tparser (like any fidoconfig program) will display error messages if you have
+made an error in the config. It will grumble on every Keyword it does not
+know. It will stop after the first error to give you the ability to change
+your config.
+
+@node contact, , tparser, Top
+@chapter Contacting the author
+You can reach me at 
+
+@example
+mtt@@uni-paderborn.de
+2:2433/1245
+@end example
+
+and in the fido echoarea
+
+@example
+linux.develop.ger
+@end example
+
+@bye

@@ -34,7 +34,8 @@ tparser: tparser.o fidoconfig.a
 	$(CC) tparser.o -o tparser -lfidoconfig
 
 clean:
-	rm -f *.o
+	-rm -f *.o
+	-rm *~
 
 install: 
 	cp -f libfidoconfig.so.$(VER) $(LIBDIR)

@@ -1,0 +1,38 @@
+INFODIR = /usr/local/info
+
+info fidoconfig.info: fidoconfig.texi proposal.texi config
+	makeinfo --no-split fidoconfig.texi
+
+dvi fidoconfig.dvi:  fidoconfig.texi proposal.texi config
+	texi2dvi fidoconfig.texi
+
+html fidoconfig_toc.html: fidoconfig.texi proposal.texi config
+	texi2html -split_node -number -menu fidoconfig.texi
+
+almostclean:
+	-rm *~
+	-rm fidoconfig.fns
+	-rm fidoconfig.aux
+	-rm fidoconfig.toc
+	-rm fidoconfig.cp
+	-rm fidoconfig.fn
+	-rm fidoconfig.vr
+	-rm fidoconfig.kr
+	-rm fidoconfig.ke
+	-rm fidoconfig.tp
+	-rm fidoconfig.kes
+	-rm fidoconfig.krs
+	-rm fidoconfig.ky
+	-rm fidoconfig.pg
+	-rm fidoconfig.cps
+	-rm fidoconfig.log
+	-rm fidoconfig.fns
+
+clean: almostclean
+	-rm fidoconfig.dvi
+	-rm fidoconfig.info
+	-rm fidoconfig*html
+	-rm fidoconfig.ps
+
+install:
+	install fidoconfig.info ${INFODIR}
