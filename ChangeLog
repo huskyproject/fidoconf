@@ -1,3 +1,37 @@
+2002-10-14 Monday 18:25  d_sergienko
+
+	* common.c (1.115): open file in binary mode when copying it (in
+	copy_file())
+
+2002-10-14 Monday 10:42  stas_degteff
+
+	* line.c (1.330): Fix from -stable: negative values now invalid for
+	many tokens (before its prodused zero value)
+
+2002-10-14 Monday 10:42  stas_degteff
+
+	* fidoconf.c (1.88), fidoconf.h (1.146): Fix idlePassthruTimeout
+	default value set
+
+2002-10-14 Monday 10:08  stas_degteff
+
+	* common.c (1.114), common.h (1.59): Prevent compiler warnings in
+	fidostat module: use const modifier for 1st parameter of
+	string2addr()
+
+2002-10-14 Monday 06:32  sfpavel
+
+	* temp.c (1.15): Fix OS/2 EMX build
+
+2002-10-14 Monday 06:25  mche
+
+	* makefile.mvc (1.19), makefile.mvcdll (1.21): correct
+	HAS_VSNPRINTF defenition for MSVC
+
+2002-10-14 Monday 05:51  sfpavel
+
+	* common.c (1.113): Fix OS/2 EMX build
+
 2002-10-11 Friday 13:49  stas_degteff
 
 	* fidoconf.c (1.87): Fix previous patch
