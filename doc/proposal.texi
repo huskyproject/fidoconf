@@ -170,6 +170,7 @@ you can find in the documentation of the individual programs.
 
 * outbound::                    outbound path
 * inbound::                     inbound path
+* tempDir::                     path for temporary files (possible memory disk)
 * logfiledir::                  path for log files
 * syslogfacility::              facility to use for syslogging
 * loglevels::			set level of log output
@@ -339,7 +340,7 @@ documentation and source code.
 
 This statement cannot be repeated.
 
-@node inbound, logfiledir, outbound, Keywords
+@node inbound, tempDir, outbound, Keywords
 @subsection inbound
 @table @asis
 @item Syntax:
@@ -355,7 +356,25 @@ Only netmails are tossed from this inbound.
 
 This statement cannot be repeated.
 
-@node logfiledir, syslogfacility, inbound, Keywords
+
+@node tempDir, logfiledir, inbound, Keywords
+@subsection tempDir
+@table @asis
+@item Syntax:
+@code{tempDir <path>}
+@item Example:
+@code{tempDir /var/tmp}
+@end table
+
+This command specifies the path where the temporary files of the fido-programs should
+be stored. This directory can erase in boot time.
+
+Good idea is set it to memory disk.
+
+This statement cannot be repeated.
+
+
+@node logfiledir, syslogfacility, tempDir, Keywords
 @subsection logfiledir
 @table @asis
 @item Syntax:
