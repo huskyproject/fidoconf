@@ -120,28 +120,6 @@ char *getDescription(void)
   return descBuf;
 }
 
-int parseComment(char *token, s_fidoconfig *config)
-{
-    char *ptr;
-
-   // if there is no token return error...
-   if (token==NULL) {
-      prErr( "There is a comment character missing after %s!", actualKeyword);
-      return 1;
-   }
-
-   ptr = strchr(TRUE_COMMENT, *token);
-
-   if (!ptr) {
-       prErr( "CommentChar - '%c' is not valid comment characters!", *token);
-   } else {
-       CommentChar = *token;
-       config->CommentChar = *token;
-   }
-
-   return 0;
-}
-
 int parseVersion(char *token, s_fidoconfig *config)
 {
    char buffer[10], *temp = token;
@@ -3037,9 +3015,6 @@ int parseLine(char *line, s_fidoconfig *config)
 
         switch (id)
         {
-        case ID_COMMENTCHAR:
-            rc = parseComment(getRestOfLine(), config);
-            break;
         case ID_VERSION:
             rc = parseVersion(getRestOfLine(), config);
             break;

@@ -29,8 +29,7 @@
 */
 
 enum {
-    ID_COMMENTCHAR = 0,
-    ID_VERSION,
+    ID_VERSION = 0,
     ID_NAME,
     ID_LOCATION,
     ID_SYSOP,
@@ -331,7 +330,6 @@ token_t parseline_tokens[] =
     { "carbonsubj", ID_CARBONSUBJ },
     { "carbontext" , ID_CARBONTEXT },
     { "carbonto", ID_CARBONTO },
-    { "commentchar", ID_COMMENTCHAR },
     { "convertlongnames", ID_CONVERTLONGNAMES },
     { "convertshortnames", ID_CONVERTSHORTNAMES },
     { "createareascase", ID_CREATEAREASCASE },

@@ -411,6 +411,20 @@ char *configline(void)
       actualLineNr=0;
       continue;
     }
+    if ((strncasecmp(str, "commentchar", 11) == 0) && isspace(str[11]))
+    {
+      for (p=str+11; isspace(*p); p++);
+      if (!*p)
+      { printf("\"%s\", line %d: There is a comment character missing after CommentChar!\n", curconfname, actualLineNr);
+        continue;
+      }
+      if (!strchr(TRUE_COMMENT, *p))
+      { printf("\"%s\", line %d: CommentChar - '%c' is not valid comment characters!\n", curconfname, actualLineNr, *p);
+      } else
+      { CommentChar = *p;
+      }
+      continue;
+    }
     return line;
   }
 }

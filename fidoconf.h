@@ -503,9 +503,6 @@ typedef struct fidoconfig {
    unsigned int createFwdNonPass;
    unsigned int autoPassive;
    
-#define TRUE_COMMENT	"!#$%;"
-   char CommentChar;
-
    ps_filelist filelists;
    unsigned int filelistCount;
 

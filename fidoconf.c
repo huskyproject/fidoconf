@@ -124,7 +124,6 @@ char *stripComment(char *line)
 void initConfig(s_fidoconfig *config) {
    // set all to 0
    memset(config, 0, sizeof(s_fidoconfig));
-   config -> CommentChar = CommentChar;
    config -> loguid = config -> loggid = config -> logperm = -1;
    config -> tossingExt = strdup("tos");
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
