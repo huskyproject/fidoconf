@@ -2081,29 +2081,31 @@ int parsePack(char *line, s_fidoconfig *config) {
    c = getRestOfLine();
    if ((p != NULL) && (c != NULL)) {
 
-      /*  add new pack statement */
-      config->packCount++;
-      config->pack = srealloc(config->pack, config->packCount * sizeof(s_pack));
+       /*  add new pack statement */
+       config->packCount++;
+       config->pack = srealloc(config->pack, config->packCount * sizeof(s_pack));
 
-      /*  fill new pack statement */
-      pack = &(config->pack[config->packCount-1]);
-      pack->packer = (char *) smalloc(strlen(p)+1);
-      strcpy(pack->packer, p);
-      pack->call   = (char *) smalloc(strlen(c)+1);
-      strcpy(pack->call, c);
-      if (strstr(pack->call, "$a")==NULL) {
-         prErr("$a missing in pack statement %s!", actualLine);
-         return 2;
-      }
-      if (strstr(pack->call, "$f")==NULL) {
-         prErr("$f missing in pack statement %s!", actualLine);
-         return 2;
-      }
-
-      return 0;
+       /*  fill new pack statement */
+       pack = &(config->pack[config->packCount-1]);
+       pack->packer = (char *) smalloc(strlen(p)+1);
+       strcpy(pack->packer, p);
+       pack->call   = (char *) smalloc(strlen(c)+1);
+       strcpy(pack->call, c);
+       if( strncasecmp(pack->call,ZIPINTERNAL,strlen(ZIPINTERNAL)) )
+       {
+           if (strstr(pack->call, "$a")==NULL) {
+               prErr("$a missing in pack statement %s!", actualLine);
+               return 2;
+           }
+           if (strstr(pack->call, "$f")==NULL) {
+               prErr("$f missing in pack statement %s!", actualLine);
+               return 2;
+           }
+       }
+       return 0;
    } else {
-      prErr("Parameter missing after %s!", actualKeyword);
-      return 1;
+       prErr("Parameter missing after %s!", actualKeyword);
+       return 1;
    }
 }
 
@@ -2147,17 +2149,20 @@ int parseUnpack(char *line, s_fidoconfig *config) {
        unpack->call   = (char *) smalloc(strlen(p)+1);
        strcpy(unpack->call, p);
 
-       if (strstr(unpack->call, "$a")==NULL) {
-          prErr("$a missing in unpack statement %s!", actualLine);
-          return 2;
+       if( strncasecmp(unpack->call,ZIPINTERNAL,strlen(ZIPINTERNAL)) )
+       {
+           if (strstr(unpack->call, "$a")==NULL) {
+               prErr("$a missing in unpack statement %s!", actualLine);
+               return 2;
+           }
        }
 
        p = strtok(c, " \t"); /*  p is containing offset now */
        c = strtok(NULL, " \t"); /*  t is containing match code now */
 
        if ((p == NULL) || (c == NULL)) {
-          prErr("offset or match code missing in unpack statement %s!", actualLine);
-          return 1;
+           prErr("offset or match code missing in unpack statement %s!", actualLine);
+           return 1;
        };
 
        unpack->offset = (unsigned) strtol(p, &error, 0);
@@ -3455,7 +3460,8 @@ int parseAvailList(char *line, eAvailList *availlist)
 int parseGroupDesc(s_fidoconfig *config, char *line) {
   char *n, *d;
   register char *s = line;
-  register short l, i;
+  register short l;
+  register unsigned short i;
   /* parse line */
   while (*s && (*s == ' ' || *s == '\t')) s++;
   if (*s == '\0') { prErr("Missing group name, line %d!", actualLineNr); return 1; }

@@ -81,6 +81,8 @@ HUSKYEXT int  fc_trycreate;
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"
 
+#define ZIPINTERNAL "zipInternal"
+
 /* availlist values */
 enum _eAvailList
 {
