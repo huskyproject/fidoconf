@@ -2725,7 +2725,8 @@ int parseForwardPkts(char *token, s_link *link)
 }
 
 int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
-{
+{  unsigned t;
+
    unused(config);
 
    if (token == NULL) {
@@ -2734,8 +2735,12 @@ int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
    }
 
    if (stricmp(token, "secure")==0) link->allowEmptyPktPwd = eSecure;
-   else if (stricmp(token, "on")==0) link->allowEmptyPktPwd = eOn;
-   else return 2;
+/*   else if (stricmp(token, "on")==0) link->allowEmptyPktPwd = eOn;*/
+/*   else if (stricmp(token, "off")==0) link->allowEmptyPktPwd = eOff;*/
+   else if( !parseBool (token, &t) ){
+     if(t) link->allowEmptyPktPwd = eOn;
+     else  link->allowEmptyPktPwd = eOff;
+   }else return 2;
 
    return 0;
 }

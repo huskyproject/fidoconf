@@ -23,5 +23,6 @@ Changes after FIDOCONFIG 0.14
 
 3. IMPORTANT bugfixes:
    - fix line parsing if comment ends line.
+   - AllowEmptyPktPwd parsing: now enable 'off' and all boolean values
 
 $Id$
