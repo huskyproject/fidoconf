@@ -3756,8 +3756,12 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_OURAKA:
             rc = 0;
             if( (clink = getDescrLink(config)) != NULL ) {
-                clink->ourAka = getAddr(config, getRestOfLine());
-                if (clink->ourAka == NULL) rc = 2;
+                char *l = getRestOfLine();
+                clink->ourAka = getAddr(config, l);
+                if (clink->ourAka == NULL) {
+                  prErr( "Address %s is not our aka!", l );
+                  rc = 2;
+                }
             } else {
                 rc = 1;
             }
