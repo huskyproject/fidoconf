@@ -183,6 +183,13 @@ struct fileareatype {
 };
 typedef struct fileareatype s_filearea;
 
+struct bbsareatype {
+   char *areaName;
+   char *pathName;
+   char *description;
+};
+typedef struct bbsareatype s_bbsarea;
+
 enum carbonType {to, from, kludge};
 typedef enum carbonType e_carbonType;
 
@@ -237,6 +244,8 @@ struct fidoconfig {
    s_area   *localAreas;
    unsigned int   fileAreaCount;
    s_filearea   *fileAreas;
+   unsigned int   bbsAreaCount;
+   s_bbsarea   *bbsAreas;
 
    unsigned int   routeCount;
    s_route  *route;
