@@ -70,7 +70,7 @@ s_log *openLog(char *fileName, char *appN, s_fidoconfig *config)
    memset(husky_log, '\0', sizeof(s_log));
    husky_log->logFile = fopen(fileName, "a");
    if (NULL == husky_log->logFile) {
-      fprintf(stderr, "Cannot open log '%s': %s", fileName,  strerror(errno) );
+      fprintf(stderr, "Cannot open log '%s': %s\n", fileName,  strerror(errno) );
       nfree(husky_log);
       return NULL;
    } /* endif */
