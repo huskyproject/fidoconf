@@ -355,9 +355,9 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
 
     if (area->group != '0') fprintf(f, "-g %c ", area->group);
 
-    if (area->rgrp != NULL) fprintf(f, "-r %s ", area->rgrp);
+    /*if (area->rgrp != NULL) fprintf(f, "-r %s ", area->rgrp);
     if (area->wgrp != NULL) fprintf(f, "-w %s ", area->wgrp);
-    if (area->rwgrp != NULL) fprintf(f, "-l %s ", area->rwgrp);
+    if (area->rwgrp != NULL) fprintf(f, "-l %s ", area->rwgrp);*/
 
     if (area->ccoff != 0) fprintf(f, "-ccoff ");
     

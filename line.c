@@ -497,7 +497,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       }
       area->group = token[0];
    }
-   else if (stricmp(option, "r")==0) {
+/*   else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
 //        printf("rgrp - '%s'\n",token);
       if (token == NULL) {
@@ -520,7 +520,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
                  return 1;
       }
       copyString(token, &(area->rwgrp));
-   }
+   }*/
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
    else if (stricmp(option, "keepsb")==0) area->keepsb=1;
    else if (stricmp(option, "$")==0) ;
@@ -606,7 +606,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       }
       area->group = token[0];
    }
-   else if (stricmp(option, "r")==0) {
+/*   else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
 //        printf("rgrp - '%s'\n",token);
       if (token == NULL) {
@@ -629,7 +629,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
                  return 1;
       }
       copyString(token, &(area->rwgrp));
-   }
+   }*/
    else if (stricmp(option, "d")==0) {
           if ((area->description=getDescription())==NULL)
             return 1;

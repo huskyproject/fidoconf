@@ -298,9 +298,9 @@ void freeArea(s_area area) {
         free(area.areaName);
         free(area.fileName);
         free(area.description);
-        free(area.rwgrp);
+        /*free(area.rwgrp);
         free(area.wgrp);
-        free(area.rgrp);
+        free(area.rgrp);*/
 	for (i=0; i < area.downlinkCount; i++) free(area.downlinks[i]);
         free(area.downlinks);
 }
@@ -310,9 +310,9 @@ void freeFileArea(s_filearea area) {
         free(area.areaName);
         free(area.pathName);
         free(area.description);
-        free(area.rwgrp);
+        /*free(area.rwgrp);
         free(area.wgrp);
-        free(area.rgrp);
+        free(area.rgrp);*/
 	for (i=0; i < area.downlinkCount; i++) free(area.downlinks[i]);
         free(area.downlinks);
 }
