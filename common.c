@@ -72,7 +72,7 @@ int cmpfnames(char *file1, char *file2);
 #endif
 
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2) || defined(__OS2__)))
-#if ( defined(__MINGW32__) || defined(__WATCOMC__) )
+#if ( defined(__MINGW32__) || defined(__WATCOMC__) || defined(_MSC_VER) )
 #include <sys/utime.h>
 #else
 #include <utime.h>
