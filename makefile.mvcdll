@@ -11,8 +11,8 @@ FCONFL=	fconfmvc.lib
 SMAPIL=	..\smapi\smapimvc.lib msvcrt.lib Kernel32.lib 
 LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
-SRC1  =  adcase.c line.c fidoconf.c dirlayer.c common.c findtok.c xstr.c cfg.c
-OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj
+SRC1  =  adcase.c line.c fidoconf.c dirlayer.c common.c findtok.c xstr.c cfg.c log.c recode.c strsep.c crc.c
+OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj
 
 
 all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
@@ -26,6 +26,10 @@ $(FCONFL):
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c findtok.c 
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c xstr.c 
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c cfg.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c log.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c crc.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c strsep.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c recode.c
 		$(LINK) $(LINKOPTS) $(OBJS1)
 
 tparser.exe:

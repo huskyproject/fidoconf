@@ -203,7 +203,7 @@ FCONF_EXT char *sstrdup(const char *src);
 
 /* strsep.c
 */
-char *strseparate(register char **stringp, register const char *delim);
+FCONF_EXT char *strseparate(register char **stringp, register const char *delim);
 
 #ifdef __cplusplus
 }

@@ -41,6 +41,7 @@
 #define _LOG_H
 
 #include <stdio.h>
+#include "fidoconf.h"
 
 #define DefaultLogLevels "1234567890"
 #define DefaultScreenLogLevels DefaultLogLevels
@@ -116,7 +117,7 @@ struct _log {
 
 typedef struct _log s_log;
 
-s_log *openLog(char *fileName, char *appN, s_fidoconfig *config);
+FCONF_EXT s_log *openLog(char *fileName, char *appN, s_fidoconfig *config);
 /*DOC
   Input:  fileName is a valid name for a file.
           appN contains the name of the application.
@@ -124,14 +125,14 @@ s_log *openLog(char *fileName, char *appN, s_fidoconfig *config);
   FZ:     openLog fills the s_log struct, opens the logfile and returns the struct
 */
 
-void closeLog();
+FCONF_EXT void closeLog();
 /*DOC
   Input:  log is a pointer to a s_log
   Output: ./.
   FZ:     closes the logFile and frees all mem use by log.
 */
 
-void w_log(char key, char *logString, ...);
+FCONF_EXT void w_log(char key, char *logString, ...);
 /*DOC
   Input:  key is the key under which the log-entry will be stored
           logString is the logEntry
@@ -139,7 +140,7 @@ void w_log(char key, char *logString, ...);
   FZ:     if the key is in keysAllowed the logString will be written to the log.
 */
 
-void writeLogEntry(s_log *log, char key, char *logString, ...);
+FCONF_EXT void writeLogEntry(s_log *log, char key, char *logString, ...);
 
 #ifdef __cplusplus
 }

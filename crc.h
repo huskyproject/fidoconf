@@ -33,6 +33,7 @@
 extern "C" {
 #endif
 
+#include "fidoconf.h"
 
 /* Define read() buffer */
 #if OSTYPE==UNIX
@@ -56,7 +57,7 @@ unsigned long memcrc32(char *str, int size, unsigned long initcrc);
    str: string
    initcrc: initial value (start from 0xFFFFFFFFUL)
  */
-unsigned long strcrc32(char *str, unsigned long initcrc);
+FCONF_EXT   unsigned long strcrc32(char *str, unsigned long initcrc);
 
 /* Calculate CRC32 for file
    filename: file name for calculate CRC32

@@ -45,14 +45,20 @@ extern "C" {
 #endif
 
 #include "typesize.h"
+#include "fidoconf.h"
 
-VOID initCharsets(VOID);
-VOID doneCharsets(VOID);
-VOID recodeToInternalCharset( CHAR *string);
-VOID recodeToTransportCharset( CHAR *string);
-void getctab(CHAR *dest,  UCHAR *charMapFileName);
+FCONF_EXT VOID initCharsets(VOID);
+FCONF_EXT VOID doneCharsets(VOID);
+FCONF_EXT VOID recodeToInternalCharset( CHAR *string);
+FCONF_EXT VOID recodeToTransportCharset( CHAR *string);
+FCONF_EXT void getctab(CHAR *dest,  UCHAR *charMapFileName);
 
+#ifndef _MAKE_DLL_MVC_
 extern CHAR *intab, *outtab;
+#else
+FCONF_EXT CHAR *intab;
+FCONF_EXT CHAR *outtab;
+#endif
 
 #ifdef __cplusplus
 }
