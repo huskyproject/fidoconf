@@ -77,7 +77,7 @@ int linked(s_link *link) {
 	rc=subscribeCheck(cfg->echoAreas[i], link);
 	if (rc==0) {
 	    if(!n)
-              printf("\n%s areas on %s:\n\n",((link->Pause & EPAUSE) == EPAUSE) ? "Passive" : "Active", aka2str(link->hisAka));
+              printf("\n%s areas on %s:\n\n",((link->Pause & ECHOAREA) == ECHOAREA) ? "Passive" : "Active", aka2str(link->hisAka));
 	    printf("  %s\n", cfg->echoAreas[i].areaName);
 	    n++;
 	}
