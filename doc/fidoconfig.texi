@@ -67,7 +67,7 @@ should be quite portable.
 
 @node converting, tparser, config file, Top
 @chapter Converting fidoconfig to golded, msged and aquaed
-Since original GoldEd by Odin Sorensen does not support fidoconfig at
+Since original GoldEd by Odinn Sorensen does not support fidoconfig at
 all and msged and aquaed only in beta versions, we have developed three
 programs that convert your fidoconfig to these proprietary config file
 formats.

@@ -68,7 +68,7 @@ Copyright @copyright{} 1998-2002 Husky Development Team
 
 @node converting, tparser, config file, Top
 @chapter Конвертирование fidoconfig в конфиги golded, msged и aquaed
-Так как оригинальный GoldEd от Odin Sorensen совсем не поддерживает fidoconfig,
+Так как оригинальный GoldEd от Odinn Sorensen совсем не поддерживает fidoconfig,
 а msged и aquaed - только в бета версиях, мы разработали три программы, которые
 конвертируют ваш fidoconfig в эти собственные форматы конфигурационных файлов.
 
