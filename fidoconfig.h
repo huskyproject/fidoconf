@@ -31,8 +31,10 @@
 						    
 #ifndef FIDOCONFIG_H
 #define FIDOCONFIG_H
+#ifndef FPC
 #include <stdio.h>
 #include <smapi/msgapi.h>
+#endif
 
 // #include "common.h"
 
@@ -50,43 +52,39 @@ extern "C" {
 
 #define strend(str) ((str) + strlen(str) - 1)
 
+#ifndef FPC
 extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
 extern char wasError;
+#endif
+
 char *striptwhite(char *str);
 
-struct addr {
+typedef struct addr {
 
    unsigned int zone, net, node, point;
    char   *domain;
 
-};
+} s_addr, *ps_addr;
 
-typedef struct addr s_addr;
-
-struct pack {
+typedef struct pack {
    char    *packer;
    char    *call;
-};
-typedef struct pack s_pack;
+} s_pack, *ps_pack;
 
 typedef struct execonfile {
    char    *filearea;
    char    *filename;
    char    *command;
-} s_execonfile;
+} s_execonfile, *ps_execonfile;
 
-enum flavour {normal, hold, crash, direct, immediate};
-typedef enum flavour e_flavour;
-enum forward {fOff, fSecure, fOn};
-typedef enum forward e_forward;
-enum emptypktpwd {eOff, eSecure, eOn};
-enum pktheaderdiffer {pdOff, pdOn};
-typedef enum emptypktpwd e_emptypktpwd;
-enum nameCase { eLower, eUpper};
-typedef enum nameCase e_nameCase;
+typedef enum flavour {normal, hold, crash, direct, immediate} e_flavour;
+typedef enum forward {fOff, fSecure, fOn} e_forward;
+typedef enum emptypktpwd {eOff, eSecure, eOn} e_emptypktpwd;
+typedef enum pktheaderdiffer {pdOff, pdOn} e_pktheaderdiffer;
+typedef enum nameCase { eLower, eUpper} e_nameCase;
 
-struct link {
+typedef struct link {
    s_addr hisAka, *ourAka;
    char *name;
    char *defaultPwd,               // 8 byte passwords
@@ -94,8 +92,8 @@ struct link {
         *ticPwd,
         *areaFixPwd,
         *fileFixPwd,
-	    *bbsPwd,
-	    *sessionPwd;
+        *bbsPwd,
+        *sessionPwd;
    char *handle;              // nickname
    char *email;
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
@@ -106,14 +104,14 @@ struct link {
    int  fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
    int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
                               //   PKT files found in the protected inbound
-   int	allowPktAddrDiffer;   // 1 if you want to allow the originating address
+   int  allowPktAddrDiffer;   // 1 if you want to allow the originating address
                               //   in MSG differ from address in PKT
                               //   (only for areafix requests)
    e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
-   char *pktFile,*packFile;   // used only internally by hpt   
-   char *floFile,*bsyFile;    // dito
-   s_pack *packerDef;
-   e_flavour echoMailFlavour,fileEchoFlavour;
+   char *pktFile, *packFile;  // used only internally by hpt
+   char *floFile, *bsyFile;   // dito
+   ps_pack packerDef;
+   e_flavour echoMailFlavour, fileEchoFlavour;
    char *LinkGrp;	          // link's group for autocreate areas
    char **AccessGrp;	      // groups for echo access
    unsigned int numAccessGrp;
@@ -133,43 +131,37 @@ struct link {
    int export, import, mandatory; // Default link's options
    char **optGrp; // groups for this options
    unsigned int numOptGrp;
-};
+} s_link, *ps_link;
 
-typedef struct link s_link;
+typedef enum routing {host = 1, hub, boss, noroute} e_routing;
 
-enum routing {host = 1, hub, boss, noroute};
-typedef enum routing e_routing;
-
-struct route {
+typedef struct route {
    e_flavour flavour;
    char      enc;
-   s_link    *target;   // if target = NULL use
+   ps_link   target;   // if target = NULL use
    e_routing routeVia;  // this
    char      *pattern;
-};
-typedef struct route s_route;
+} s_route, *ps_route;
 
-enum dupeCheck {dcOff, dcMove, dcDel};
-typedef enum dupeCheck e_dupeCheck;
+typedef enum dupeCheck {dcOff, dcMove, dcDel} e_dupeCheck;
 
-struct arealink {
-   s_link *link;
+typedef struct arealink {
+   ps_link link;
    unsigned int export;		// 1 - export yes, 0 - export no
    unsigned int import;		// 1 - import yes, 0 - import no
    unsigned int mandatory;	// 1 - mandatory yes, 0 - mandatory no
-};
-typedef struct arealink s_arealink;   
+} s_arealink, *ps_arealink;
 
-struct area {
+typedef struct area {
    char *areaName;
    char *fileName;
    char *description;
    
    int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH or
                         // MSGTYPE_JAM or MSGTYPE_PASSTHROUGH
-   s_addr *useAka;
+   ps_addr useAka;
    
-   s_arealink **downlinks;  // array of pointers to s_link
+   ps_arealink *downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
 
    unsigned purge, max, dupeSize, dupeHistory;
@@ -195,20 +187,18 @@ struct area {
    int keepsb;         // keep seen-by's and path
    int scn;            // 1 if scanned
    int nopack;         // do not pack area
-};
+} s_area, *ps_area;
 
-typedef struct area s_area;
-
-struct fileareatype {
+typedef struct fileareatype {
    char *areaName;
    char *pathName;
    char *description;
    
    int pass;           // 1 - Passthrough File Area
    int noCRC;          // 0 if CRC check should be done on incoming files
-   s_addr *useAka;
+   ps_addr useAka;
    
-   s_arealink **downlinks;  // array of pointers to s_link
+   ps_arealink *downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
 
    unsigned levelread;	      // 0-65535
@@ -217,89 +207,79 @@ struct fileareatype {
    char mandatory, hide, noPause;
 
    char *group;                      // used by reader (and areafix soon)
-};
-typedef struct fileareatype s_filearea;
+} s_filearea, *ps_filearea;
 
-struct bbsareatype {
+typedef struct bbsareatype {
    char *areaName;
    char *pathName;
    char *description;
-};
-typedef struct bbsareatype s_bbsarea;
+} s_bbsarea, *ps_bbsarea;
 
-enum carbonType {to, from, kludge, subject, msgtext};
-typedef enum carbonType e_carbonType;
+typedef enum carbonType {ct_to, ct_from, ct_kludge, ct_subject, ct_msgtext} e_carbonType;
 
-struct carbon {
-   e_carbonType type;
+typedef struct carbon {
+   e_carbonType ctype;
    char         *str;     // string to compare
-   char        	*reason;  // reason of copy
-   s_area       *area;    // area to copy messages
+   char         *reason;  // reason of copy
+   ps_area      area;    // area to copy messages
    char         *areaName;// name of area to copy messages
    int          export;   // export copied msg?
-   int		netMail;  // do this in netmail, not echomail
-   int		move;	  // move (not copy) original msg
-   int		extspawn; // areaName is name of external program to exec
-};
+   int          netMail;  // do this in netmail, not echomail
+   int          move;	  // move (not copy) original msg
+   int          extspawn; // areaName is name of external program to exec
+} s_carbon, *ps_carbon;
 
-typedef struct carbon s_carbon;
-
-struct unpack {
+typedef struct unpack {
    int     offset;
    unsigned char *matchCode;
    unsigned char *mask;
    int     codeSize;
    char    *call;
-};
-typedef struct unpack s_unpack;
+} s_unpack, *ps_unpack;
 
-struct remap {
+typedef struct remap {
    s_addr  oldaddr;
    s_addr  newaddr;
    char   *toname;
-};
-typedef struct remap s_remap;
+} s_remap, *ps_remap;
 
 /* FTS5000 is the standard nodelist format,
    POINTS24 is the German Pointlist format */         
 
-enum nodelistFormat { fts5000, points24 };
+typedef enum nodelistFormat { fts5000, points24 } e_nodelistFormat;
 
-struct nodelist {
+typedef struct nodelist {
    char *nodelistName;        /* name of unpacked nodelist w/o path */
    char *diffUpdateStem;      /* with pathname */
    char *fullUpdateStem;      /* with pathname */
    unsigned int defaultZone;
    int format;
-};
-typedef struct nodelist s_nodelist;
+} s_nodelist, *ps_nodelist;
 
-enum typeDupeCheck {
+typedef enum typeDupeCheck {
                     hashDupes, /*Base bild from crc32*/
               hashDupesWmsgid, /*Base bild from crc32+MSGID*/
                     textDupes, /*Base bild from FromName+ToName+Subj+MSGID*/
                commonDupeBase  /*Common base for all areas bild from crc32*/
-};
-typedef enum typeDupeCheck e_typeDupeCheck;
+} e_typeDupeCheck;
 
-struct savetictype {
+typedef struct savetictype {
    char *fileAreaNameMask;
    char *pathName;
-};
-typedef struct savetictype s_savetic;
+} s_savetic, *ps_savetic;
 
-struct fidoconfig {
+typedef struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop;
 
    unsigned int   addrCount;
-   s_addr   *addr;
+   ps_addr  addr;
 
    unsigned int publicCount;
    char     **publicDir;
 
    unsigned int  linkCount;
-   s_link   *links;
+   ps_link  links;
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
@@ -311,28 +291,28 @@ struct fidoconfig {
 
    s_area   dupeArea, badArea;
    unsigned int   netMailAreaCount;
-   s_area   *netMailAreas;
+   ps_area  netMailAreas;
    unsigned int   echoAreaCount;
-   s_area   *echoAreas;
+   ps_area  echoAreas;
    unsigned int   localAreaCount;
-   s_area   *localAreas;
+   ps_area  localAreas;
    unsigned int   fileAreaCount;
-   s_filearea   *fileAreas;
+   ps_filearea  fileAreas;
    unsigned int   bbsAreaCount;
-   s_bbsarea   *bbsAreas;
+   ps_bbsarea  bbsAreas;
 
    unsigned int   routeCount;
-   s_route  *route;
+   ps_route route;
    unsigned int   routeFileCount;
-   s_route  *routeFile;
+   ps_route routeFile;
    unsigned int   routeMailCount;
-   s_route  *routeMail;
+   ps_route routeMail;
 
    unsigned int   packCount;
-   s_pack   *pack;
+   ps_pack  pack;
   //   s_pack   *packDefault;
    unsigned int   unpackCount;
-   s_unpack *unpack;
+   ps_unpack unpack;
    
    char     *intab, *outtab;
    char     *echotosslog, *importlog, *LinkWithImportlog, *lockfile;
@@ -342,7 +322,7 @@ struct fidoconfig {
    char     *msgidfile;
 
    unsigned int   carbonCount;
-   s_carbon *carbons;
+   ps_carbon carbons;
    unsigned int   carbonAndQuit;
    unsigned int   carbonKeepSb;  // keep SeenBy's and PATH in carbon area
 
@@ -350,7 +330,7 @@ struct fidoconfig {
    unsigned int includeCount;
 
    unsigned int  remapCount;
-   s_remap  *remaps;
+   ps_remap remaps;
 
    unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests, areafixMsgSize;
    char *areafixSplitStr, *areafixOrigin;
@@ -360,7 +340,7 @@ struct fidoconfig {
    char     *ReportTo;
 
    unsigned int   execonfileCount;
-   s_execonfile *execonfile;
+   ps_execonfile execonfile;
 
    unsigned int logEchoToScreen;
    unsigned int separateBundles;
@@ -387,48 +367,46 @@ struct fidoconfig {
    char     *fileLocalPwd, *fileLDescString;
 
    unsigned int   saveTicCount;
-   s_savetic    *saveTic;
+   ps_savetic    saveTic;
 
    unsigned int nodelistCount;
-   s_nodelist *nodelists;
+   ps_nodelist nodelists;
 
    char     *fidoUserList; /* without path name - is in nodelistDir */
 
    e_typeDupeCheck typeDupeBase;
    unsigned int areasMaxDupeAge;
 
-   s_link   *linkDefaults;
+   ps_link   linkDefaults;
    int      describeLinkDefaults;
    e_nameCase createAreasCase;
    e_nameCase areasFileNameCase;
-};
+} s_fidoconfig, *ps_fidoconfig;
 
 
-typedef struct fidoconfig s_fidoconfig;
+ps_fidoconfig readConfig(void);
 
-s_fidoconfig *readConfig(void);
+void disposeConfig(ps_fidoconfig config);
 
-void disposeConfig(s_fidoconfig *config);
-
-s_link *getLink(s_fidoconfig config, char *addr);
-s_link *getLinkFromAddr(s_fidoconfig config, s_addr aka);
-s_addr *getAddr(s_fidoconfig config, char *addr);
+ps_link getLink(s_fidoconfig config, char *addr);
+ps_link getLinkFromAddr(s_fidoconfig config, s_addr aka);
+ps_addr getAddr(s_fidoconfig config, char *addr);
 int    existAddr(s_fidoconfig config, s_addr aka);
 
 /* find echo & local areas in config */
-s_area *getArea(s_fidoconfig *config, char *areaName);
+ps_area getArea(ps_fidoconfig config, char *areaName);
 
 /* find only echo areas in config */
-s_area *getEchoArea(s_fidoconfig *config, char *areaName);
+ps_area getEchoArea(ps_fidoconfig config, char *areaName);
 
 /* find netmail areas in config */
-s_area *getNetMailArea(s_fidoconfig *config, char *areaName);
+ps_area getNetMailArea(ps_fidoconfig config, char *areaName);
 
 /**
  * This function return 0 if the link is not linked to the area,
  * else it returns 1.
  */
-int    isLinkOfArea(s_link *link, s_area *area);
+int    isLinkOfArea(ps_link link, s_area *area);
 
 /**
  * This function dumps the config to a file. The file is in fidoconfig format so,
@@ -439,13 +417,13 @@ int    isLinkOfArea(s_link *link, s_area *area);
  * 1 if there were problems writing the config
  * 0 else
  */
-int dumpConfigToFile(s_fidoconfig *config, char *fileName);
+int dumpConfigToFile(ps_fidoconfig config, char *fileName);
 
 // the following functions are for internal use.
 // Only use them if you really know what you do.
 char *readLine(FILE *F);
-int parseLine(char *line, s_fidoconfig *config);
-void parseConfig(FILE *f, s_fidoconfig *config);
+int parseLine(char *line, ps_fidoconfig config);
+void parseConfig(FILE *f, ps_fidoconfig config);
 char *getConfigFileName(void);
 char *trimLine(char *line);
 void carbonNames2Addr(s_fidoconfig *config);
@@ -462,14 +440,14 @@ void carbonNames2Addr(s_fidoconfig *config);
 
 char *getConfigFileNameForProgram(char *envVar, char *configName);
 
-int isLinkOfFileArea(s_link *link, s_filearea *area);
-s_filearea *getFileArea(s_fidoconfig *config, char *areaName);
+int isLinkOfFileArea(ps_link link, ps_filearea area);
+ps_filearea getFileArea(ps_fidoconfig config, char *areaName);
 
 // this function can be used to dump config to stdout or to an already opened file.
-void dumpConfig(s_fidoconfig *config, FILE *f);
+void dumpConfig(ps_fidoconfig config, FILE *f);
 
 // return 1 if group found in array of strings, else return 0
-int grpInArray(char *group, char **array, unsigned int len);
+int grpInArray(char *group, char **strarray, unsigned int len);
 
 #ifdef __cplusplus
  }

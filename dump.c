@@ -423,21 +423,21 @@ void dumpMsgAreas(s_fidoconfig *config, FILE *f)
 
 void dumpCarbon(s_carbon *carbon, FILE *f)
 {
-    switch (carbon->type)
+    switch (carbon->ctype)
     {
-    case to:
+    case ct_to:
 	fprintf(f, "CarbonTo            ");
 	break;
-    case from:
+    case ct_from:
 	fprintf(f, "CarbonFrom          ");
 	break;
-    case kludge:
+    case ct_kludge:
 	fprintf(f, "CarbonKludge        ");
 	break;
-    case subject:
+    case ct_subject:
 	fprintf(f, "CarbonSubj          ");
 	break;
-    case msgtext:
+    case ct_msgtext:
 	fprintf(f, "CarbonText          ");
 	break;
     }

@@ -592,12 +592,12 @@ int isLinkOfFileArea(s_link *link, s_filearea *area)
    return 0;
 }
 
-int grpInArray(char *group, char **array, unsigned int len)
+int grpInArray(char *group, char **strarray, unsigned int len)
 {
 	unsigned int i;
 
 	for (i=0; i < len; i++) {
-		if (strcmp(group, array[i])==0) return 1;
+		if (strcmp(group, strarray[i])==0) return 1;
 	}
 	
 	return 0;

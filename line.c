@@ -1823,7 +1823,7 @@ int parseLocalArea(char *token, s_fidoconfig *config)
 }
 
 
-int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
+int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
 {
    if (token == NULL) {
       printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
@@ -1834,7 +1834,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
    config->carbons = realloc(config->carbons,sizeof(s_carbon)*(config->carbonCount));
    memset(&(config->carbons[config->carbonCount-1]), 0, sizeof(s_carbon));
 
-   config->carbons[config->carbonCount-1].type = type;
+   config->carbons[config->carbonCount-1].ctype = ctype;
    copyString(token, &(config->carbons[config->carbonCount-1].str));
 
    return 0;
@@ -2426,11 +2426,11 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "accessgrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
    else if (stricmp(token, "linkgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
 
-   else if (stricmp(token, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, to);
-   else if (stricmp(token, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, from);
-   else if (stricmp(token, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, kludge);
-   else if (stricmp(token, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, subject);
-   else if (stricmp(token, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, msgtext);
+   else if (stricmp(token, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, ct_to);
+   else if (stricmp(token, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, ct_from);
+   else if (stricmp(token, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, ct_kludge);
+   else if (stricmp(token, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, ct_subject);
+   else if (stricmp(token, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, ct_msgtext);
    else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
    else if (stricmp(token, "carboncopy")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
    else if (stricmp(token, "carbonmove")==0) rc = parseCarbonArea(getRestOfLine(), config, 1);

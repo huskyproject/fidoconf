@@ -374,11 +374,11 @@ int main() {
       printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
 	  printf("\n");
       for (i = 0; i< config->carbonCount; i++) {
-		  if (config->carbons[i].type == to)      printf("CarbonTo:     ");
-		  if (config->carbons[i].type == from)    printf("CarbonFrom:   ");
-		  if (config->carbons[i].type == kludge)  printf("CarbonKludge: ");
-		  if (config->carbons[i].type == subject) printf("CarbonSubj:   ");
-		  if (config->carbons[i].type == msgtext) printf("CarbonText:   ");
+		  if (config->carbons[i].ctype == ct_to)      printf("CarbonTo:     ");
+		  else if (config->carbons[i].ctype == ct_from)    printf("CarbonFrom:   ");
+		  else if (config->carbons[i].ctype == ct_kludge)  printf("CarbonKludge: ");
+		  else if (config->carbons[i].ctype == ct_subject) printf("CarbonSubj:   ");
+		  else if (config->carbons[i].ctype == ct_msgtext) printf("CarbonText:   ");
 		  printf("%s\n",config->carbons[i].str);
 		  if (config->carbons[i].extspawn) {
 			  printf("CarbonExtern: \"%s\"", config->carbons[i].areaName);
