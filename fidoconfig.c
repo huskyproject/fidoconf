@@ -135,12 +135,17 @@ void disposeConfig(s_fidoconfig *config)
    for (i = 0; i< config->linkCount; i++) {
 	   free(config->links[i].hisAka.domain);
 	   free(config->links[i].name);
+	   if (config->links[i].pktPwd != config->links[i].defaultPwd)
+	     free(config->links[i].pktPwd);
+	   if (config->links[i].ticPwd != config->links[i].defaultPwd)	     
+	     free(config->links[i].ticPwd);
+	   if (config->links[i].areaFixPwd != config->links[i].defaultPwd)
+	     free(config->links[i].areaFixPwd);
+	   if (config->links[i].fileFixPwd != config->links[i].defaultPwd)
+	     free(config->links[i].fileFixPwd);
+	   if (config->links[i].bbsPwd != config->links[i].defaultPwd)
+	     free(config->links[i].bbsPwd);
 	   free(config->links[i].defaultPwd);
-	   free(config->links[i].pktPwd);
-	   free(config->links[i].ticPwd);
-	   free(config->links[i].areaFixPwd);
-	   free(config->links[i].fileFixPwd);
-	   free(config->links[i].bbsPwd);
 	   free(config->links[i].handle);
 	   free(config->links[i].pktFile);
 	   free(config->links[i].packFile);
