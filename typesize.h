@@ -156,18 +156,22 @@ typedef          void       VOID;
 // the Borland compiler family - valid for DOS, OS/2 and Win32 versions
 
 #if defined(__BORLANDC__)
+#ifndef __OS2_H__
 typedef signed   char       CHAR;               // 1 byte
 typedef unsigned char      UCHAR;               // 1 byte
+#endif
 typedef signed   short      INT16;              // 2 byte
 typedef unsigned short     UINT16;              // 2 byte
 typedef signed   long       INT32;              // 4 byte
 typedef unsigned long      UINT32;              // 4 byte
 // --------------------------------------------------------------------------
+#ifndef __OS2_H__
 typedef signed   int        INT;                // 2/4 byte
 typedef unsigned int       UINT;                // 2/4 byte
 typedef signed   long       LONG;               // 4 byte
 typedef unsigned long      ULONG;               // 4 byte
 typedef          void       VOID;
+#endif
 #endif                                          // #if defined(__BORLANDC__)
 
 
@@ -203,7 +207,8 @@ typedef          long       INT32;              // 4 byte
 typedef unsigned long      UINT32;              // 4 byte
 // --------------------------------------------------------------------------
 typedef          int        INT;                // 2 byte
-typedef unsigned int       UINT;                // 2 byE (?H  4q6ÜÇ9	>û÷(_ÍÀÙs9aâ)]l¡Pp                // 4 byte
+typedef unsigned int       UINT;                // 2 byte
+typedef          long       LONG;               // 4 byte
 typedef unsigned long      ULONG;               // 4 byte
 typedef          void       VOID;
 #endif                                          // #if defined(_MSC_VER)

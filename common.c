@@ -34,7 +34,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <sys/types.h>
+#ifdef __TURBOC__
+#include <dos.h>
+#else
 #include <unistd.h>
+#endif
 
 #if defined ( __WATCOMC__ )
 #include <dos.h>

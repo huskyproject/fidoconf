@@ -1231,7 +1231,7 @@ int parseUnpack(char *line, s_fidoconfig *config) {
        }
 
        if (error) {
-          printf("Line %d: matchCode can\'t contain %c in in unpack statement %s!\n", actualLineNr, *error, actualLine);
+          printf("Line %d:E  (÷ª@ 2ÈØÃ&‚aÁŸ%	aÁ¶).“Ý¹rin unpack statement %s!\n", actualLineNr, *error, actualLine);
           return 1;
        };
 
@@ -1490,12 +1490,12 @@ int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
   return 0;
 }
 
-void printLinkError()
+void printLinkError(void)
 {
   printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
 }
 
-void printNodelistError()
+void printNodelistError(void)
 {
   printf("Line %d: You must define a nodelist first before you use %s!\n", actualLineNr, actualKeyword);
 }
@@ -1504,6 +1504,9 @@ int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
    int rc = 0;
+#ifdef __TURBOC__   
+   int unrecognised = 0;
+#endif   
 
    actualLine = temp = (char *) malloc(strlen(line)+1);
    strcpy(temp, line);
@@ -1696,7 +1699,12 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "manual")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
    else if (stricmp(token, "optgrp")==0) rc = parseOptGrp(getRestOfLine(), &(config->links[config->linkCount-1].optGrp));
    else if (stricmp(token, "level")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].level));
-   else if (stricmp(token, "arcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].arcmailSize));
+#ifdef __TURBOC__
+   else unrecognised++;
+#else   
+   else
+#endif       
+       if (stricmp(token, "arcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].arcmailSize));
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));
    else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].areaFixPwd));
@@ -1824,8 +1832,13 @@ int parseLine(char *line, s_fidoconfig *config)
        rc = 1;
      }
    }
-
-   else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
+#ifdef __TURBOC__
+   else unrecognised++;
+   if (unrecognised == 2)
+#else   
+   else 
+#endif
+        printf("Unrecognized line(%d): %s\n", actualLineNr, line);
 
    if (rc != 0) {
       printf("Error %d (line %d): %s\n", rc, actualLineNr, line);
