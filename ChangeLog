@@ -1,6 +1,14 @@
 fidoconfig 0.91
 ---------------
 
+----- cvs ci ------
+Mi   8 Mar 2000 00:23:16 CET
+tobi:
+* the default path of the config file now is not hardwired any more,
+  but taken from the CFGDIR huskymak.cfg variable (if set).
+  Of course, if using legacy makefiles (makefile.lnx etc.), the default
+  is still hardcoded
+* changed default for OS/2 etc from c:\\fido to current directory.
 
 ----- cvs ci ------
 Sun Feb 27 23:17:16 CET 2000
