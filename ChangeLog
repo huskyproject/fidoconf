@@ -1,3 +1,33 @@
+2002-10-09 Wednesday 09:55  stas_degteff
+
+	* common.c (1.112): Implement file locking in cpoy_file()
+
+2002-10-09 Wednesday 09:36  stas_degteff
+
+	* common.c (1.111): Fix copy_file() patch
+
+2002-10-09 Wednesday 09:21  stas_degteff
+
+	* common.c (1.110): Debug output added
+
+2002-10-09 Wednesday 09:02  mche
+
+	* afixcmd.c (1.12), afixcmd.h (1.11): functions addlink and
+	removelink are moved to fidoconfig
+
+2002-10-09 Wednesday 08:30  stas_degteff
+
+	* cfg.c (1.41): DJGPP cmpfnames() probe. Test please!
+
+2002-10-09 Wednesday 08:28  stas_degteff
+
+	* common.h (1.58): Safety string envelope
+
+2002-10-09 Wednesday 05:05  sfpavel
+
+	* fc2binkd.c (1.7): Fix creation of the binkd.cfg [patch from Igor
+	Zakharoff 2:5030/49.30]
+
 2002-10-08 Tuesday 14:24  stas_degteff
 
 	* common.c (1.109), common.h (1.57): Fix move_file() and
