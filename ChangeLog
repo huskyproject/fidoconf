@@ -1,3 +1,13 @@
+2003-12-16 Tuesday 08:35  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.19), src/afixcmd.c (1.5): fix: use filefix
+	limit for htick (perviously areafix limit was used)
+
+2003-12-16 Tuesday 08:22  val_khokhlov
+
+	* fidoconf/afixcmd.h (1.4), src/afixcmn.c (1.6): yet another common
+	function moved from hpt: cvtAddr()
+
 2003-12-15 Monday 10:05  val_khokhlov
 
 	* fidoconf/: common.h (1.4), fidoconf.h (1.18): when detaching
