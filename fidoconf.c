@@ -605,14 +605,10 @@ void disposeConfig(s_fidoconfig *config)
 
 s_link *getLink(s_fidoconfig *config, char *addr) {
    s_addr aka;
-   UINT i;
-
+   
    string2addr(addr, &aka);
-   for (i = 0; i< config->linkCount; i++) {
-      if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
-   }
-
-   return NULL;
+ 
+   return getLinkFromAddr(config, aka);
 }
 
 s_link *getLinkFromAddr(s_fidoconfig *config, s_addr aka)
