@@ -226,9 +226,14 @@ FCONF_EXT int needUseFileBoxForLink (ps_fidoconfig config, s_link *link);
 FCONF_EXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
 /* will be moved to huskylib */
 FCONF_EXT void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path);
+
 /* will be moved to huskylib */
-/*  inc = 1 - increment filesufix until new file exist  */
-/*  inc = 0 - do not increment   */
+/*  Change file sufix (add if not present).
+    inc = 1 - increment suffix of file if new file exist;
+          rename file; return new file name or NULL; set errno
+    inc = 0 - do not increment suffix, do not rename file, return new suffix only
+    if 1st or 2nd parameter is NULL return NULL and set errno to EINVAL
+*/
 FCONF_EXT char* changeFileSuffix(char *fileName, char *newSuffix, int inc);
 
 /* will be moved to huskylib */

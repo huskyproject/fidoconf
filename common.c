@@ -1420,41 +1420,69 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
     strcat(cmd, tmp);
 }
 
-char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
-    
-    int   i = 1;
-    static char buff[255];
-    
-    char *beginOfSuffix = strrchr(fileName, '.')+1;
-    char *newFileName;
-    int  length = strlen(fileName)-strlen(beginOfSuffix)+strlen(newSuffix);
-    
-    newFileName = (char *) scalloc(1, (size_t)length+3);
 
-    strncpy(newFileName, fileName, length-strlen(newSuffix));
+/*  Change file sufix (add if not present).
+    inc = 1 - increment suffix of file if new file exist;
+          rename file; return new file name or NULL; set errno
+    inc = 0 - do not increment suffix, do not rename file, return new suffix only
+    if 1st or 2nd parameter is NULL return NULL and set errno to EINVAL
+*/
+char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
+
+    int  i;
+    char buff[3];
+    char *beginOfSuffix;
+    char *newFileName=NULL;
+    int  length;
+
+    if(!(fileName && newSuffix)){
+      w_log( LL_ERR, "changeFileSuffix() illegal call: %s parameter is NULL",
+             fileName? "2nd" : "1st" );
+      errno = EINVAL;
+      return NULL;
+    }
+
+    beginOfSuffix = strrchr(fileName, '.');
+    if(beginOfSuffix==NULL || beginOfSuffix<strrchr(fileName, '\\') || beginOfSuffix<strrchr(fileName, '/'))
+      beginOfSuffix = fileName+strlen(fileName)+1; /* point char not found in filename, pointed to end of string */
+    else beginOfSuffix++; /* pointed after point in 'name.suf' */
+
+    length = beginOfSuffix-fileName;      /* length "name." */
+    i=strlen(newSuffix);
+    newFileName = (char *) scalloc( 1, (size_t)(length+i+(i>3?1:4-i)) );
+
+    strncpy(newFileName, fileName, length);
+    if( length > strlen(newFileName) )
+      strcat(newFileName, ".");
     strcat(newFileName, newSuffix);
 
-
-#ifdef DEBUG_HPT
-    printf("old: %s      new: %s\n", fileName, newFileName);
-#endif
-
-    if(inc == 0)
+    if(inc == 0){
+        w_log(LL_DEBUGF, __FILE__ ":%u: old: '%s' new: '%s'",__LINE__, fileName, newFileName);
         return newFileName;
-
-    while (fexist(newFileName) && (i<255)) {
-        sprintf(buff, "%02x", i);
-        beginOfSuffix = strrchr(newFileName, '.')+1;
-        strncpy(beginOfSuffix+1, buff, 2);
-        i++;
     }
-    
+
+    beginOfSuffix = newFileName+length+1; /*last 2 chars*/
+    for (i=1; fexist(newFileName) && (i<255); i++) {
+#ifdef HAVE_SNPRINTF
+        snprintf(buff, 3, "%02x", i);
+#else
+        sprintf(buff, "%02x", i);
+#endif
+        strncpy(beginOfSuffix, buff, 2);
+    }
+
+    w_log(LL_DEBUGF, __FILE__ ":%u: old: '%s' new: '%s'",__LINE__, fileName, newFileName);
     if (!fexist(newFileName)) {
-        rename(fileName, newFileName);
+        if(rename(fileName, newFileName)){ /* -1 = error */
+          w_log(LL_ERR, "Could not rename '%s' to '%s': %s", fileName, newFileName, strerror (errno));
+          nfree(newFileName);
+          return NULL;
+        }
         return newFileName;
     } else {
-        w_log('9', "Could not change suffix for %s. File already there and the 255 files after", fileName);
+        w_log(LL_ERR, "Could not change suffix for %s. File already there and the 255 files after", fileName);
         nfree(newFileName);
+        errno = EEXIST;
         return NULL;
     }
 }
