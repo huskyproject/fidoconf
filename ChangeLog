@@ -1,3 +1,8 @@
+2002-01-30 Wednesday 19:58  ml
+
+	* fidoconf.c (1.61.2.1): readLine can read lines without \r on
+	Watcom C/WinDOs [patch by SR]
+
 2002-01-19 Saturday 08:48  ml
 
 	* cfg.c (1.15.2.1): checkIncludeLogic case sencitive for unix
