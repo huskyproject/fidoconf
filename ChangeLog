@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Sat Mar 10 16:28:13 NOVT 2001
+max:
+* fixed arealinks masks: now *:*/* is possible
+
+----- cvs ci ------
 Fri Mar  9 14:11:02 NOVT 2001
 max:
 * new string2addr()

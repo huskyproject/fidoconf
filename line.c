@@ -847,7 +847,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
           rc += parseAreaOption(config, tok+1, area);
 	  if (rc) return rc;
       }
-      else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
+      else if ((isdigit(*tok) || (*tok=='*')) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
 		  
 		  if (strchr(tok, '*')) {
 			  for (i=0; i<config->linkCount; i++) {
