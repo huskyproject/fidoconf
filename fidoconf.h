@@ -621,7 +621,7 @@ typedef struct {
     // for future usage
 } sApp;
 
-sApp theApp;
+extern sApp theApp;
 
 FCONF_EXT void SetAppModule(int mod); // setup struct sApp
 
