@@ -1,6 +1,10 @@
 fidoconfig 0.9
 --------------
-
+----- cvs ci ------
+Sun Jun 27  15:02:00
+Fedor:
++ Added copy_file() function in common.c
+* Fixed problem with compiling for OS/2 and Watcom
 
 ----- cvs ci ------
 Thu Jun 24 17:24:42 CEST 1999

@@ -127,4 +127,6 @@ int move_file(const char *from, const char *to);
            the destination file already exists.
 */
 
+int copy_file(const char *from, const char *to);
+
 #endif

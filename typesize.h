@@ -54,6 +54,12 @@
 //  the definitions for your compiler, if not already present.
 //
 
+#ifdef __OS2__
+#define INCL_DOSPROCESS
+#define INCL_DOSERRORS
+#include <os2.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
