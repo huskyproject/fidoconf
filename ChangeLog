@@ -1,3 +1,10 @@
+2001-07-21 Saturday 15:53  twm
+
+	* fidoconf.pas (1.9): Lots of changes to make fidoconf.pas actually
+	compile and work with Kylix.  This might have broken compatibility
+	with other Pascal compilers, but since there were half a million
+	bugs in this unit anyway, I doubt that anybody will mind.
+
 2001-07-15 Sunday 11:55  ml
 
 	* HISTORY (1.1), doc/fidoconfig.texi (1.17), doc/proposal.texi
