@@ -11,8 +11,6 @@ void dumpString(FILE *f, char *text, char *str)
 
 void dumpHeader(s_fidoconfig *config, FILE *f)
 {
-  int i;
-
   fprintf(f, "# This config was created from a memory config by fidoconfig dumpConfigToFile()!\n\n"); 
 
   fprintf(f, "Version %u.%02u\n", config->cfgVersionMajor, config->cfgVersionMinor);
@@ -21,6 +19,14 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   dumpString(f, "Location %s\n\n", config->location);
   
   dumpString(f, "LogLevels %s\n\n", config->loglevels);
+  if (config->logEchoToScreen != 0) fprintf(f, "logEchoToScreen\n");
+  
+  fprintf(f, "\n");
+}
+
+void dumpAddrs(s_fidoconfig *config, FILE *f)
+{
+  int i;
 
   for (i = 0; i < config->addrCount; i++)
     fprintf(f, "Address %s\n", aka2str(config->addr[i]));
@@ -45,12 +51,17 @@ void dumpPack(s_fidoconfig *config, FILE *f)
 	  fprintf(f, "Unpack \"%s\" %u", config->unpack[i].call, config->unpack[i].offset);
 	  for (j = 0; j < config->unpack[i].codeSize; j++)
 	    fprintf(f, "%02x", (int) config->unpack[i].matchCode[j]);
-	  printf(" ");
+	  fprintf(f, " ");
 	  for (j = 0; j < config->unpack[i].codeSize; j++)
 	    fprintf(f, "%02x", (int) config->unpack[i].mask[j]);
 	  fprintf(f, "\n");
 	}
     }
+
+  if (config->separateBundles != 0) fprintf(f, "separateBundles\n");
+  if (config->defarcmailSize != 0) fprintf(f, "defarcmailSize %d\n",
+					  config->defarcmailSize);
+  
   fprintf(f, "\n");
 }
 
@@ -77,6 +88,7 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
       fprintf(f, "Public %s\n", config->publicDir[i]);
     }
   dumpString(f, "FileAreaBaseDir %s\n", config->fileAreaBaseDir);
+  dumpString(f, "PassFileAreaDir %s\n", config->passFileAreaDir);
   
   dumpString(f, "AreaFixHelp %s\n", config->areafixhelp);
   dumpString(f, "FileFixHelp %s\n", config->filefixhelp);
@@ -86,6 +98,8 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
   dumpString(f, "ImportLog %s\n", config->importlog);
   dumpString(f, "LinkWithImportlog %s\n", config->LinkWithImportlog);
   dumpString(f, "Lockfile %s\n", config->lockfile);
+  
+  fprintf(f, "\n");
 }
 
 void dumpLinks(s_fidoconfig *config, FILE *f)
@@ -170,8 +184,22 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	fprintf(f, "level %u\n", link.level);
       if (link.arcmailSize != 0)
 	fprintf(f, "arcmailSize %u\n", link.arcmailSize);
-      
-      // just add the export import etc. dump code here...
+
+      if (link.export != NULL)
+      {
+	if (link.export[0] == 1) fprintf(f, "export on\n");
+	else fprintf(f, "export off\n");
+      }
+      if (link.import != NULL)
+      {
+	if (link.import[0] == 1) fprintf(f, "import on\n");
+	else fprintf(f, "import off\n");
+      }
+      if (link.mandatory != NULL)
+      {
+	if (link.mandatory[0] == 1) fprintf(f, "mandatory on\n");
+	else fprintf(f, "mandatory off\n");
+      }
 
       fprintf(f, "\n");
     }
@@ -183,10 +211,205 @@ void dumpRoute(s_route *route, int count, char *prefix, FILE *f)
   for (i = 0; i < count; i++)
     {
       fprintf(f, "%s ", prefix);
-      if (route->enc != 0)
-	fprintf(f, "enc ");
 
+      switch (route[i].flavour) {
+      case normal:
+	fprintf(f, "normal ");
+	break;
+      case hold:
+	fprintf(f, "hold ");
+	break;
+      case crash:
+	fprintf(f, "crash ");
+	break;
+      case direct:
+	fprintf(f, "direct ");
+	break;
+      case immediate:
+	fprintf(f, "immediate ");
+	break;
+      default:;
+      }
+      
+      if (route[i].enc != 0)
+	  fprintf(f, "enc ");
+      else fprintf(f, "noenc ");
+
+      if (route[i].target != NULL) fprintf(f, "%s ", aka2str(route[i].target->hisAka));
+      else
+      {
+	  switch(route[i].routeVia)
+	  {
+	  case host:
+	      fprintf(f, "host ");
+              break;
+	  case hub:
+	      fprintf(f, "hub ");
+	      break;
+	  case boss:
+	      fprintf(f, "boss ");
+	      break;
+	  case noroute:
+	      fprintf(f, "noroute ");
+	      break;
+	  }
+      }
+
+      fprintf(f, "%s\n", route[i].pattern);
     }
+  
+  fprintf(f, "\n");
+}
+
+void dumpMsgArea(s_area *area, char *prefix, FILE *f)
+{
+    int i;
+
+    fprintf(f, "%s %s ", prefix, area->areaName);
+
+    if (area->fileName != NULL) fprintf(f, "%s ", area->fileName);
+
+    switch (area->msgbType)
+    {
+    case MSGTYPE_SDM:
+	fprintf(f, "Msg ");
+	break;
+	
+    case MSGTYPE_SQUISH:
+	fprintf(f, "Squish ");
+	break;
+
+    case MSGTYPE_PASSTHROUGH:
+	fprintf(f, "Passthrough ");
+	break;
+    }
+
+    if (area->purge != 0) fprintf(f, "-p %d ", area->purge);
+    if (area->max != 0) fprintf(f, "-$m %d ", area->max);
+    if (area->dupeSize != 0) fprintf(f, "-dupeSize %d ", area->dupeSize);
+    if (area->dupeHistory != 0) fprintf(f, "-dupeHistory %d ", area->dupeHistory);
+
+    switch (area->dupeCheck)
+    {
+    case dcOff:
+	fprintf(f, "-dupecheck off ");
+	break;
+    case dcMove:
+	fprintf(f, "-dupecheck move ");
+	break;
+    case dcDel:
+	fprintf(f, "-dupecheck del ");
+	break;
+    }
+
+    if (area->tinySB != 0) fprintf(f, "-tinySB ");
+    if (area->manual != 0) fprintf(f, "-manual ");
+    if (area->hide != 0) fprintf(f, "-hide ");
+    if (area->noPause != 0) fprintf(f, "-noPause ");
+    if (area->mandatory != 0) fprintf(f, "-mandatory ");
+    if (area->DOSFile != 0) fprintf(f, "-DOSFile ");
+
+    if (area->levelread != 0) fprintf(f, "-lr %d ", area->levelread);
+    if (area->levelwrite != 0) fprintf(f, "-lw %d ", area->levelwrite);
+
+    if (area->group != '0') fprintf(f, "-g %c ", area->group);
+
+    if (area->rgrp != NULL) fprintf(f, "-r %s ", area->rgrp);
+    if (area->wgrp != NULL) fprintf(f, "-w %s ", area->wgrp);
+    if (area->rwgrp != NULL) fprintf(f, "-l %s ", area->rwgrp);
+
+    if (area->ccoff != 0) fprintf(f, "-ccoff ");
+    
+    if (area->useAka != NULL) fprintf(f, "-a %s ", aka2str(*area->useAka));
+
+    if (area->description != NULL) fprintf(f, "-d \"%s\" ", area->description);
+
+    for (i = 0; i < area->downlinkCount; i++)
+    {
+	fprintf(f, "%s ", aka2str(area->downlinks[i]->link->hisAka));
+	if (area->downlinks[i]->export == 0) fprintf(f, "-w ");
+	if (area->downlinks[i]->import == 0) fprintf(f, "-r ");
+	if (area->downlinks[i]->mandatory == 1) fprintf(f, "-mn ");
+    }
+
+    fprintf(f, "\n");
+}
+
+void dumpMsgAreas(s_fidoconfig *config, FILE *f)
+{
+    int i;
+
+    dumpMsgArea(&config->netMailArea, "netMailArea", f);
+    dumpMsgArea(&config->dupeArea, "dupeArea", f);
+    dumpMsgArea(&config->badArea, "badArea", f);
+
+    fprintf(f, "\n");
+
+    for (i = 0; i < config->localAreaCount; i++)
+    {
+	dumpMsgArea(&config->localAreas[i], "localArea", f);
+    }
+    
+    fprintf(f, "\n");
+
+    for (i = 0; i < config->echoAreaCount; i++)
+    {
+	dumpMsgArea(&config->echoAreas[i], "echoArea", f);
+    }
+
+    fprintf(f, "\n");
+}
+
+void dumpCarbon(s_carbon *carbon, FILE *f)
+{
+    switch (carbon->type)
+    {
+    case to:
+	fprintf(f, "CarbonTo ");
+	break;
+    case from:
+	fprintf(f, "CarbonFrom ");
+	break;
+    case kludge:
+	fprintf(f, "CarbonKludge ");
+	break;
+    case subject:
+	fprintf(f, "CarbonSubj ");
+	break;
+    case msgtext:
+	fprintf(f, "CarbonText ");
+	break;
+    }
+    
+    fprintf(f, "%s\n", carbon->str);
+
+    dumpString(f, "CarbonArea %s\n", carbon->area->areaName);
+}
+
+void dumpCarbons(s_fidoconfig *config, FILE *f)
+{
+    int i;
+
+    for (i = 0; i < config->carbonCount; i++)
+    {
+	dumpCarbon(&config->carbons[i], f);
+    }
+
+    if (config->carbonAndQuit != 0) fprintf(f, "carbonAndQuit On\n");
+
+    fprintf(f, "\n");
+}
+
+void dumpAreafix(s_fidoconfig *config, FILE *f)
+{
+    if (config->areafixFromPkt != 0) fprintf(f, "areafixFromPkt\n");
+    if (config->areafixKillReports != 0) fprintf(f, "areafixKillReports\n");
+
+    dumpString(f, "ReportTo %s\n", config->ReportTo);
+
+    dumpString(f, "PublicGroup %s\n", config->PublicGroup);
+
+    fprintf(f, "\n");
 }
 
 void dumpConfig(s_fidoconfig *config, FILE *f)
@@ -198,6 +421,9 @@ void dumpConfig(s_fidoconfig *config, FILE *f)
   dumpRoute(config->route, config->routeCount, "route", f);
   dumpRoute(config->routeMail, config->routeMailCount, "routeMail", f);
   dumpRoute(config->routeFile, config->routeFileCount, "routeFile", f);
+  dumpMsgAreas(config, f);
+  dumpCarbons(config, f);
+  dumpAreafix(config, f);
 }
 
 int dumpConfigToFile(s_fidoconfig *config, char *fileName)

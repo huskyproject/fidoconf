@@ -13,8 +13,8 @@ AR_R = r
 RM = rm
 
 COPT = -c -fPIC -Wall -ggdb -O3 -DUNIX -I../smapi
-# LOPT = -L. -L$(LIBDIR)
-LOPT = 
+LOPT = -L. -L$(LIBDIR)
+# LOPT = 
 
 # filename settings
 O = .o

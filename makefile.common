@@ -4,7 +4,7 @@ VER = 0.9
 VERH = 0
 
 LOBJS = common$(O) dir$(O) fidoconfig$(O) line$(O) patmat$(O) dump$(O)
-OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O)
+OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O) dumpfcfg$(O)
 
 commonlibs: $(LIBFIDOCONFIG)$(A)
 
@@ -14,7 +14,8 @@ commonprogs:    tparser$(EXE) \
 		$(FCONF2FIDOGATE)$(EXE) \
 	        $(FCONF2GOLDED)$(EXE) \
 		$(FCONF2SQUISH)$(EXE) \
-		fecfg2fconf$(EXE)
+		fecfg2fconf$(EXE) \
+                dumpfcfg$(EXE)
 
 $(LIBFIDOCONFIG)$(A): $(LOBJS)
 	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(A) $(LOBJS)
@@ -51,12 +52,16 @@ tparser$(EXE): tparser$(O) $(LIBFIDOCONFIG)$(A)
 	$(CC) $(LOPT) tparser$(O) -o tparser$(EXE) \
 	  $(LINKFIDOCONFIG) $(LINKSMAPI)
 
+dumpfcfg$(EXE): dumpfcfg$(O) $(LIBFIDOCONFIG)$(A)
+	$(CC) $(LOPT) dumpfcfg$(O) -o dumpfcfg$(EXE) \
+	  $(LINKFIDOCONFIG) $(LINKSMAPI)
+
 commonclean:
 	-$(RM) *~
 	-$(RM) *$(O)
 	-$(RM) core
 
 commondistclean: clean
-	-$(RM) tparser$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2SQUISH)$(EXE) fecfg2fconf$(EXE)
+	-$(RM) tparser$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2SQUISH)$(EXE) fecfg2fconf$(EXE) dumpfcfg$(EXE)
 	-$(RM) $(LIBFIDOCONFIG)$(A)
 
