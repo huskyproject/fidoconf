@@ -1,3 +1,10 @@
+
+----- cvs ci ------
+Sun Feb 25 19:41:44 NOVT 2001
+max:
+* FRequestFromUpLink changed to denyFwdReqAccess !!!
+* new token for hpt denyUncondFwdReqAccess
+
 ----- cvs ci ------
 Sun Feb 18 14:36:51 NOVT 2001
 max:

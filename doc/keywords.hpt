@@ -47,6 +47,8 @@ createfwdnonpass
 defarcmailsize
 denyfwdfile
 denyfwdmask
+denyfwdreqaccess
+denyuncondfwdreqaccess
 disabletid
 dupearea
 dupebasetype
@@ -61,7 +63,6 @@ forwardpkts
 forwardrequestfile
 forwardrequestmask
 forwardrequests
-frequestfromuplink
 ignorecapword
 ignoreseen
 import

@@ -105,7 +105,9 @@ typedef struct link {
    unsigned int FileFix;              // 0 if not allowed for filefix
    unsigned int forwardRequests;      // 0 if not allowed forward requests
    unsigned int forwardFileRequests;      // 0 if not allowed forward requests for file areas
-   unsigned int fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
+	unsigned int denyFRA; // denyFwdReqAccess
+	unsigned int denyUFRA; // denyUncondFwdReqAccess
+
    int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
                               //   PKT files found in the protected inbound
    int  allowPktAddrDiffer;   // 1 if you want to allow the originating address

@@ -312,7 +312,8 @@ void printLink(s_link link) {
    printf("Forward Requests to this link is %s\n",(link.forwardRequests)?"on":"off");
    if (link.forwardAreaPriority)
 	   printf("ForwardAreaPriority: %u\n", link.forwardAreaPriority);
-   printf("Forward Request from this link is %s\n",(link.fReqFromUpLink)?"on":"off");
+   printf("Forward Requests Access: %s\n", (link.denyFRA) ? "off" : "on");
+   printf("Unconditional Forward Requests Access: %s\n",(link.denyUFRA)?"off":"on");
    if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
    else printf("RemoteRobotName areafix\n");
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);

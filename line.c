@@ -1228,7 +1228,6 @@ int parseLink(char *token, s_fidoconfig *config)
       // set defaults to export, import, mandatory
       clink->export = 1;
       clink->import = 1;
-      clink->fReqFromUpLink = 1;
       clink->ourAka = &(config->addr[0]);
 
       // set default maxUnpackedNetmail
@@ -2266,7 +2265,6 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
       // set defaults to export, import, mandatory
       config->linkDefaults->export = 1;
       config->linkDefaults->import = 1;
-      config->linkDefaults->fReqFromUpLink = 1;
       config->linkDefaults->ourAka = &(config->addr[0]);
 
       // set defaults maxUnpackedNetmail
@@ -2641,12 +2639,10 @@ int parseLine(char *line, s_fidoconfig *config)
 	 rc = 1;
        }
      }
-     else if (strcmp(iToken, "frequestfromuplink") == 0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->fReqFromUpLink);
-       } else {
-	 rc = 1;
-       }
+     else if (strcmp(iToken, "denyfwdreqaccess") == 0) {
+		 if( (clink = getDescrLink(config)) != NULL ) {
+			 rc = parseBool (getRestOfLine(), &clink->denyFRA);
+		 } else rc = 1;
      }
      else if (strcmp(iToken, "forwardpkts")==0) {
        if( (clink = getDescrLink(config)) != NULL ) {
@@ -2741,6 +2737,7 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName));
      else if (strcmp(iToken, "forwardareapriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardAreaPriority));
      else if (strcmp(iToken, "forwardfilepriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardFilePriority));
+	 else if (strcmp(iToken, "denyuncondfwdreqaccess")==0) rc = parseBool(getRestOfLine(), &(getDescrLink(config)->denyUFRA));
 
      else if (strcmp(iToken, "export")==0) {
        if( (clink = getDescrLink(config)) != NULL ) {

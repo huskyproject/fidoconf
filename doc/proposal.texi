@@ -28,6 +28,9 @@ The fidoconfig library searches the config file on different locations:
 in the current directory
 @end table
 
+If you are compile library with huskymak.cfg, the location will be overset
+with CFGDIR parameter.
+
 Additionally you can set an enviroment variable called @code{FIDOCONFIG} which
 points to the file:
 
