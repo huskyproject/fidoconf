@@ -1,3 +1,7 @@
+2002-03-14 Thursday 13:28  mche
+
+	* fidoconf.c (1.68): getLink code improvment
+
 2002-03-05 Tuesday 01:28  joerg.jaspert
 
 	* debian/huskymak.cfg (1.10): New Debian Package built
