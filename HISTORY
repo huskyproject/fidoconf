@@ -17,6 +17,7 @@ FIDOCONFIG 0.11 release
     linux: /etc/fido/config 
     freebsd: /usr/local/etc/fido/config
     os2/win32/etc: in the current directory 
-    
+- auto(area|file)createfile must be the _same_ as corresponding include file
+
 3. IMPORTANT bugfixes:
 - exit on unrecognized line in config

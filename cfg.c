@@ -263,10 +263,10 @@ static short boolexpr(char *str)
 
 char *configline(void)
 { int  i;
-  char *p, *p1, *p2, *str, *line;
+  char *p, *p1, *p2, *str, *line=NULL;
 
   for (;;) {
-	  nfree(line);
+      nfree(line);
       line=str=_configline();
       if (str==NULL) {
 	  // save parsed config name
