@@ -257,9 +257,10 @@ INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f)
    for (i=0;i<n-1 ;i++ ) {
       str[i] = (UCHAR)getc(f);
 
-      if (feof(f)) {
-         str[i+1] = 0;
-         return i+2;
+      // if end of file
+      if (str[i]==255) {
+         str[i] = 0;
+         return i+1;
       } /* endif */
 
       if (0 == str[i]) {
