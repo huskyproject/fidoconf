@@ -2232,6 +2232,10 @@ int parseUUEechoAreas(char *token, char **grp[], unsigned int *count) {
 int parseGrp(char *token, char **grp[], unsigned int *count) {
 	char *tok;
 
+	/* strtok() returns static area,
+	 * we cannot use it's result for another strtok call */
+	token = sstrdup(token);
+
 	tok = strtok(token, " \t,");
 
 	while (tok) {
@@ -2241,6 +2245,8 @@ int parseGrp(char *token, char **grp[], unsigned int *count) {
 
 		tok = strtok(NULL, " \t,");
 	}
+
+	nfree(token);
 
 	return 0;
 }
