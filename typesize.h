@@ -94,7 +94,7 @@ typedef          void       VOID;
 #endif
 #endif                                          // #if defined(__EMX__)
 
-#if (defined(__linux__) && !defined(__alpha)) || defined(__FreeBSD__) || defined(__DJGPP__) || defined(__MINGW32__) || defined(__BEOS__) || defined(__OpenBSD__)
+#if (defined(__linux__) && !defined(__alpha)) || defined(__FreeBSD__) || defined(__DJGPP__) || defined(__MINGW32__) || defined(__BEOS__) || defined(__OpenBSD__) || defined(__CYGWIN__)
 #if !defined(_WINNT_H)
 typedef          char       CHAR;               // 1 byte
 typedef unsigned char      UCHAR;               // 1 byte
