@@ -1,3 +1,13 @@
+2002-07-26 Friday 15:50  d.sergienko
+
+	* fidoconf.h (1.133), line.c (1.319), tokens.h (1.43), tparser.c
+	(1.190), doc/keywords.hpt (1.27): added new token
+	`NewAreaRefuseFile'
+
+2002-07-26 Friday 14:25  stas
+
+	* line.c (1.318): Fix warnings
+
 2002-07-25 Thursday 15:57  mche
 
 	* afixcmd.c (1.11): some improvement of  function "InsertCfgLine"
