@@ -1,3 +1,9 @@
+2002-05-22 Wednesday 13:19  mche
+
+	* afixcmd.c (1.3), afixcmd.h (1.5): new version of
+	DelLinkFromString() moved from hpt to fidoconfig for common use in
+	hpt & htick
+
 2002-05-20 Monday 11:36  pavel.gulchouck
 
 	* line.c (1.296), fidoconf.c (1.76): BeOS compilation fix
