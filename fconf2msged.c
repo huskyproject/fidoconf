@@ -10,7 +10,7 @@ int writeArea(FILE *f, s_area *area, char netmail) {
                              break;
    }
 
-   if (netmail == 1) fprintf(f, "np");
+   if (netmail == 1) fprintf(f, "mp");
    else fprintf(f, "e");
    fprintf(f, "8u ");
 

@@ -340,7 +340,7 @@ _Keyword definitions_
   nodelist <file> (v7|v7plus|ifcico30cm|feddy|...)\
            [<defaultAddress>] [3D|4D]
   }
-  # name and format of nidelist(s)
+  # name and format of nodelist(s)
   #  see 'some remarks about ifcico'
 
 /etc/fido/routing:

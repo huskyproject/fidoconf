@@ -5,7 +5,7 @@ exist and where to put the file.
 
 @menu
 * Location:: Where to put the config file
-* Keywords:: Which Keywords are recognized
+* Keywords:: Keyword reference
 * Example::  Here is a sample configfile which works for me
 @end menu
 
@@ -41,17 +41,23 @@ All statements are case-@strong{insensitive}. A line which starts with a # is
 a comment and will be ignored.
 
 @menu
-* version::       version of fidoconfig
-* name::          your Systems Name
-* location::      your location
-* sysop::         your Name
-* include::       include other files
-* address::       your system address
-* outbound::      outbound path
-* inbound::       inbound path
-* protinbound::   protected inbound
-* listinbound::   listed inbound
-* localinbound::  local inbound
+* version::        version of fidoconfig
+* name::           your Systems Name
+* location::       your location
+* sysop::          your Name
+* include::        include other files
+* address::        your system address
+* outbound::       outbound path
+* inbound::        inbound path
+* protinbound::    protected inbound
+* listinbound::    listed inbound
+* localinbound::   local inbound
+* msgbasedir::     base directory of areas
+* public::         path for requestable files
+* logfiledir::     path for log files
+* dupehistorydir:: path for dupe files
+* nodelistdir::    path for nodelists
+* magic::          path for magic-file requests
 @end menu
 
 @node version, name, , Keywords
@@ -246,7 +252,7 @@ Only netmails are tossed from this path.
 
 This statement cannot be repeated.
 
-@node localinbound, , listinbound, Keywords
+@node localinbound, msgbasedir, listinbound, Keywords
 @subsection localinbound
 @table @asis
 @item Syntax:
@@ -259,6 +265,100 @@ This command specifies the path, from which all types of netmail and echomail
 are tossed @strong{without} any password checking. You can put pkt´s here
 which were created by a file tosser etc. So created by a you or a programm on
 your own system.
+
+This statement cannot be repeated.
+
+@node msgbasedir, public, localinbound, Keywords
+@subsection msgBaseDir
+@table @asis
+@item Syntax:
+@code{msgBaseDir <path>}
+@item Example:
+@code{msgBaseDir /var/spool/fido/msgb}
+@end table
+
+This command specifies the path where autoareacreated msgBases are stored.
+For example: If an area called @code{LINUX.GER} was autoareacreated and
+te msgBaseDir is @code{/var/spool/fido/msgb} the resulting msgBaseName is
+
+@example
+/var/spool/fido/msgb/linux.ger.sqd
+@end example
+
+This statement cannot be repeated.
+
+@node public, logfiledir, msgbasedir, Keywords
+@subsection public
+@table @asis
+@item Syntax:
+@code{public <path>}
+@item Example:
+@code{public /var/spool/fido/public}
+@end table
+
+This command specifies the path where files which are requested are searched
+for. The files are searched in this directory and in all subdirectories.
+
+This command can be repeated.
+
+@node logfiledir, dupehistorydir, public, Keywords
+@subsection logFileDir
+@table @asis
+@item Syntax:
+@code{logFileDir <path>}
+@item Example:
+@code{logFileDir /var/spool/log/fido}
+@end table
+
+This command specifies the path where the log-files of the fido-programs should
+be stored.
+
+This statement cannot be repeated.
+
+@node dupehistorydir, nodelistdir, logfiledir, Keywords
+@subsection dupeHistoryDir
+@table @asis
+@item Syntax:
+@code{dupeHistoryDir <path>}
+@item Example:
+@code{dupeHistoryDir /var/spool/fido/dupes}
+@end table
+
+This command specifies the path where the dupe history files are stored.
+The format and the names of the dupe-files are not standardized.
+
+This statement cannot be repeated.
+
+@node nodelistdir, magic, dupehistorydir, Keywords
+@subsection nodelistDir
+@table @asis
+@item Syntax:
+@code{nodelistDir <path>}
+@item Example:
+@code{nodelistDir /var/spool/fido/nodelist}
+@end table
+
+This command specifies the path where the actual nodelists are or should
+be written to.
+This path contains the raw nodelist as well as the compiled ones.
+
+This statement cannot be repeated.
+
+@node magic, , nodelistdir, Keywords
+@subsection magic
+@table @asis
+@item Syntax:
+@code{magic <path>}
+@item Example:
+@code{magic /var/spool/fido/magic}
+@end table
+
+Directory with executables to satisfy "magic" file requests
+if requested a file present in this directory, it will be
+executed and stdout sent to the remote system.  If the file
+is not executable, it is read line by line and the lines are
+processed as if they were received file requests (recusively).
+Execution of commands may compromize security!  You are warned.
 
 This statement cannot be repeated.
 
