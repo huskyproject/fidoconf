@@ -33,6 +33,9 @@
  */
 
 #include <time.h>
+#if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
+#include <unistd.h>
+#endif
 //#include "typesize.h"
 #include "fidoconf.h"
 #include "xstr.h"
