@@ -1,3 +1,13 @@
+2003-02-18 Tuesday 12:27  sfpavel
+
+	* debian/: changelog, control, copyright, rules
+	(fidoconf-1_4-stable.[3,2,1,1]): New debian version - change
+	section to main
+
+2003-02-18 Tuesday 05:09  stas_degteff
+
+	* makefile.djg (1.13): Remove obsolete defines (DJGPP build)
+
 2003-02-17 Monday 08:49  sfpavel
 
 	* recode.c (fidoconf-1_4-stable.1): Fix compiler warnings
