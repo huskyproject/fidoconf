@@ -125,7 +125,7 @@ char *striptwhite(char *str)
         return str;   // strend is undefined for zero-length string!
     }
     p = strend(str);
-    while (p > str && *p && isspace((unsigned char)*p))
+    while (p >= str && *p && isspace((unsigned char)*p))
     {
         *p = '\0';
         p--;
