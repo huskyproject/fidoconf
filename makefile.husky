@@ -57,9 +57,15 @@ endif
 
 clean: commonclean
 	-$(RM) so_locations
+ifdef INFODIR
+	(cd doc && $(MAKE) -f makefile.husky clean)
+endif
 
 distclean: commondistclean
 	-$(RM) $(LIBFIDOCONFIG).so.$(VER)
+ifdef INFODIR
+	(cd doc && $(MAKE) -f makefile.husky distclean)
+endif
 
 
 $(LIBFIDOCONFIG).so.$(VER): line$(OBJ) common$(OBJ) fidoconfig$(OBJ) \
@@ -108,5 +114,11 @@ install: commonlibs ranlib commonprogs instdyn
 	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
+ifdef INFODIR
+	(cd doc && $(MAKE) -f makefile.huksy install)
+endif
+
+
+
 
 

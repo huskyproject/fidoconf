@@ -24,6 +24,12 @@ Copyright @copyright{} 1998-99 Matthias Tichy
 @end titlepage
 
 @ifinfo
+
+@dircategory Fidonet Software
+@direntry
+* Fidoconfig: (fidoconfig).     The format of the husky common config file.
+@end direntry
+
 @node Top, , , (dir)
 @top fidoconfig
 

@@ -1191,7 +1191,7 @@ base areas).
 
 Stop export echomail for this link.
 
-@node arcmailsize, allowEmptyPktPwd, pause, Keywords
+@node arcmailsize, pktsize, pause, Keywords
 @subsection arcmailsize
 @table @asis
 @item Syntax:
