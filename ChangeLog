@@ -1,3 +1,8 @@
+2003-04-30 Wednesday 09:52  sfpavel
+
+	* debian/: changelog, control (fidoconf-1_4-stable.[5,3]): New
+	stable version: 1.4-RC1
+
 2003-04-27 Sunday 19:32  d_sergienko
 
 	* adcase.c (fidoconf-1_4-stable.1): backport of mche's patch about
