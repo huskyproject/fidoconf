@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Sun Oct 29 00:20:09 NOVST 2000
+max:
+* fixed packNetmail parsing
+
+----- cvs ci ------
 Mon Oct 23 18:09:53 MET 2000
   Michael Haase:
 + added statlog for hpt

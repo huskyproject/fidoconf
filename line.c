@@ -2300,7 +2300,7 @@ int parseLine(char *line, s_fidoconfig *config)
    }
 		else if (stricmp(token, "packnetmail")==0) {
 			if( (clink = getDescrLink(config)) != NULL ) {
-				rc = parseBool(getRestOfLine(), config, clink);
+				rc = parseBool(getRestOfLine(), &clink->packNetmail);
 			}
 			else rc = 1;
 		}
