@@ -1,3 +1,26 @@
+2003-02-02 Sunday 21:39  d_sergienko
+
+	* fidoconf.c (1.105): fixed crash when ourAka points to unexistent
+	link (thanx to Michael Haase)
+
+2003-02-02 Sunday 21:02  d_sergienko
+
+	* grptree.c (1.2): use safe scalloc() and sstrdup(); prevent
+	strtok() modifying memory in stack.
+
+2003-02-02 Sunday 20:29  d_sergienko
+
+	* grptree.h (1.2): changed copyrights etc.
+
+2003-02-02 Sunday 20:25  d_sergienko
+
+	* Makefile (1.58), areatree.c (1.11), grptree.c (1.1), grptree.h
+	(1.1), makefile.in1 (1.2), tree.c (1.7), tree.h (1.3): 1. added
+	ability to use trees as lists, just pass 2nd parameter of tree_init
+	as 1 or 0. 0 = list, 1 = tree.
+	
+	2. added code for AreaAutoCreateGroup future token.
+
 2003-01-31 Friday 07:23  stas_degteff
 
 	* cfg.c (1.60): Add comment about _fullpath() and realpath()
