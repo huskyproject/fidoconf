@@ -337,10 +337,10 @@ void print_areas()
           if (area[i]->desc && *area[i]->desc )
              fprintf(f_hpt, "\t-d \"%s\"\t", area[i]->desc);
 
-          if (area[i]->read_sec)
+          if (area[i]->read_sec>0)
              fprintf(f_hpt, " -lr %d", area[i]->read_sec);
 
-          if (area[i]->write_sec)
+          if (area[i]->write_sec>0)
              fprintf(f_hpt, " -lw %d", area[i]->write_sec);
 
           if (area[i]->advflags.hide)
@@ -362,17 +362,21 @@ void print_areas()
 
           if (area[i]->days>0)
              fprintf(f_hpt, " -p %d", area[i]->days);
-          else if (area[i]->days==-1 && config.def_days )
+          else if (area[i]->days==0 && config.def_days )
              fprintf(f_hpt, " -p %u", config.def_days);
           else if (area[i]->recvdays>0)
              fprintf(f_hpt, " -p %d", area[i]->recvdays);
-          else if (area[i]->recvdays==-1 && config.def_recvdays )
+          else if (area[i]->recvdays==0 && config.def_recvdays )
              fprintf(f_hpt, " -p %u", config.def_recvdays);
+          else if (area[i]->recvdays==-1 || area[i]->days==-1 )
+             fprintf(f_hpt, " -p 0");
 
           if (area[i]->messages )
              fprintf(f_hpt, " -$m %d", area[i]->messages );
-          else if( area[i]->messages==-1 && config.def_messages )
+          else if( area[i]->messages==0 && config.def_messages )
              fprintf(f_hpt, " -$m %d", config.def_messages );
+          else if( area[i]->messages==-1 )
+             fprintf(f_hpt, " -$m 0" );
 
           if (area[i]->flags.atype == AREA_ECHOMAIL && config.flags & KILLDUPES)
                 fprintf(f_hpt, " -dupeCheck del");
