@@ -296,7 +296,8 @@ enum {
     ID_UNSUBSCRIBEONAREADELETE,
     ID_DENYRESCAN,
     ID_RESCANGRP,
-    ID_DAILYBUNDLES
+    ID_DAILYBUNDLES,
+    ID_REPORTREQUESTER
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -533,6 +534,7 @@ token_t parseline_tokens[] =
     { "recodemsgbase", ID_RECODEMSGBASE },
     { "reducedseenby", ID_REDUCEDSEENBY },
     { "remap", ID_REMAP },
+    { "reportrequester", ID_REPORTREQUESTER },
     { "reportsattr", ID_REPORTSATTR },
     { "reportto", ID_REPORTTO },
     { "reqidxdir", ID_REQIDXDIR },

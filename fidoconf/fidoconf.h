@@ -548,6 +548,7 @@ typedef struct fidoconfig {
    char     **PublicGroup;
    unsigned int numPublicGroup;
    char     *ReportTo;
+   int      reportRequester;
 
    unsigned int   execonfileCount;
    ps_execonfile execonfile;

@@ -1499,12 +1499,13 @@ int main(int argc, char **argv) {
           printf("sortEchoList: %s\n", printListEcho(config->listEcho));
   	  printf("packNetMailOnScan: %s\n", config->packNetMailOnScan ? "on" : "off");
   	  printf("NotValidFileNameChars: %s\n", config->notValidFNChars ?
-  		 config->notValidFNChars : "\"*/:;<=>?\\|%`'&+");
+             config->notValidFNChars : "\"*/:;<=>?\\|%`'&+");
 
-        printf("\n=== AREAFIX CONFIG ===\n");
+      printf("\n=== AREAFIX CONFIG ===\n");
   	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
   	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
-          if (config->ReportTo) printf("ReportTo: %s\n", config->ReportTo);
+      if (config->ReportTo) printf("ReportTo: %s\n", config->ReportTo);
+      printf("ReportRequester: %s\n", config->reportRequester ? "on" : "off");
 
 
      if (hpt==0) {

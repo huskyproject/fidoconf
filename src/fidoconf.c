@@ -182,6 +182,7 @@ void initConfig(s_fidoconfig *config) {
    config -> typeDupeBase = hashDupesWmsgid;
    config -> packNetMailOnScan = 1;
    config -> recodeMsgBase = 1;
+   config -> reportRequester = 1;
 
    config->dupeArea.areaType = ECHOAREA;
    config->badArea.areaType = ECHOAREA;

@@ -4425,6 +4425,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_REPORTTO:
             rc = fc_copyString(getRestOfLine(), &(config->ReportTo));
             break;
+        case ID_REPORTREQUESTER:
+            rc = parseBool(getRestOfLine(), &(config->reportRequester));
+            break;
         case ID_EXECONFILE:
             rc = parseExecOnFile(getRestOfLine(), config);
             break;
