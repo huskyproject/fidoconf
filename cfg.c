@@ -474,9 +474,11 @@ static int cmpfnames(char *file1, char *file2)
 {
     char buf[256], path1[256], path2[256], *p;
 
-    if (!GetShortPathName(file1, buf, sizeof(buf))) return 1;
+    if (!GetShortPathName(file1, buf, sizeof(buf)))
+	strncpy(buf, file1, sizeof(buf);
     if (!GetFullPathName(buf, sizeof(path1), path1, &p)) return 1;
-    if (!GetShortPathName(file2, buf, sizeof(buf))) return 1;
+    if (!GetShortPathName(file2, buf, sizeof(buf)))
+	strncpy(buf, file2, sizeof(buf);
     if (!GetFullPathName(buf, sizeof(path2), path2, &p)) return 1;
 
     return stricmp(path1, path2);
