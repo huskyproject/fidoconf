@@ -1138,6 +1138,7 @@ char *printListEcho(e_listEchoMode mode) {
    switch (mode) {
      case lemUnsorted:  return "unsorted";
      case lemName:      return "name";
+     case lemUndef:     return "name (default)";  /* default is equal to "name" */
      case lemGroup:     return "group";
      case lemGroupName: return "group,name";
      default:           return "unknown (try to update tparser)";
