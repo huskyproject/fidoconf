@@ -1146,7 +1146,7 @@ Link definition tokens:
 
 
 @node sendMailCmd, email, EmailPkt, EmailPkt
-@subsection email
+@subsection sendMailCmd
 @table @asis
 @item Syntax:
 @code{sendMailCmd string}
@@ -1205,7 +1205,7 @@ link. It may be ignored by some encodings (e.g. SEAT).
 This statement can only be repeated for different links.
 
 @node emailEncoding, , emailSubj, EmailPkt
-@subsection email
+@subsection emailEncoding
 @table @asis
 @item Syntax:
 @code{emailEncoding (MIME | SEAT | UUE)}
@@ -1254,7 +1254,7 @@ request index files here. The subdirectory should not be used for any other
 purposes. The index can become rather large, so plan for enough free disk space.
 
 @node Example,  , herp, config file
-@section Working sample config
+@section A working sample config
 @example
 @include config
 @end example
