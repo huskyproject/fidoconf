@@ -72,14 +72,25 @@ void printArea(s_area area) {
    } else {
       printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    }
-   if (area.downlinkCount) printf("Links:");
+   if (area.downlinkCount) printf("Links:\n");
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) { 
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
-       printf(" exp. %s,", (area.downlinks[i]->export) ? "on" : "off");
-       printf(" imp. %s,", (area.downlinks[i]->import) ? "on" : "off");
+/*       printf(" exp. %s,", (area.downlinks[i]->export) ? "on" : "off");
+       printf(" imp. %s,", (area.downlinks[i]->import) ? "on" : "off");*/
+       if(area.downlinks[i]->export || area.downlinks[i]->import)
+           printf(" "); else printf(" no access");
+       if(area.downlinks[i]->export)
+           printf("read");
+       if(area.downlinks[i]->export && area.downlinks[i]->import)
+           printf("/");
+       if(area.downlinks[i]->import)
+           printf("write");
+       if((area.downlinks[i]->export + area.downlinks[i]->import)==1)
+           printf(" only");
+       printf(",");
        printf(" defLink %s,", (area.downlinks[i]->defLink) ? "on" : "off");
        printf(" mand. %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
@@ -132,14 +143,25 @@ void printFileArea(s_filearea area) {
      printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
    printf("\n");
    if (area.group) printf("Group       - %s\n", area.group);
-   if (area.downlinkCount) printf("Links:");
+   if (area.downlinkCount) printf("Links:\n");
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) { 
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
-       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
-       printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");
+       if(area.downlinks[i]->export || area.downlinks[i]->import)
+           printf(" ");
+       if(area.downlinks[i]->export)
+           printf("receive");
+       if(area.downlinks[i]->export && area.downlinks[i]->import)
+           printf("/");
+       if(area.downlinks[i]->import)
+           printf("send");
+       if((area.downlinks[i]->export + area.downlinks[i]->import)==1)
+           printf(" only");
+       printf(",");
+/*       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
+       printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");    */
        printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
    printf("Options: ");
@@ -586,8 +608,8 @@ int main(int argc, char **argv) {
       printf("=== MAIN CONFIG ===\n");
       printf("Comment character: '%c'\n", config->CommentChar);
       printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
-      if (config->name != NULL)	printf("Name: %s\n", config->name);
-      if (config->sysop != NULL) printf("Sysop: %s\n", config->sysop);
+      if (config->name != NULL)	printf("Name:     %s\n", config->name);
+      if (config->sysop != NULL) printf("Sysop:    %s\n", config->sysop);
       if (config->location != NULL)printf("Location: %s\n", config->location);
       for (i=0; i<config->addrCount; i++) {
 	 if (config->addr[i].domain != NULL)
@@ -595,39 +617,40 @@ int main(int argc, char **argv) {
 	 else
             printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
       }
-	  
-	  if (config->loglevels) printf("LogLevels %s\n", config->loglevels);
+
+      if (config->loglevels) printf("LogLevels %s\n", config->loglevels);
       printf("LogEchoToScreen %s\n", (config->logEchoToScreen) ? "on" : "off");
-	  if (config->logEchoToScreen && config->screenloglevels)
-		  printf("ScreenLogLevels %s\n", config->screenloglevels);
+      if (config->logEchoToScreen && config->screenloglevels)
+	 printf("ScreenLogLevels %s\n", config->screenloglevels);
 
-      if (config->echotosslog != NULL) printf("EchoTossLog: %s\n", config->echotosslog);
-      if (config->statlog != NULL) printf("StatLog: %s\n", config->statlog);
+      if (config->echotosslog != NULL) printf("EchoTossLog:     %s\n", config->echotosslog);
+      if (config->statlog != NULL) printf("StatLog:         %s\n", config->statlog);
 
-      if (config->inbound != NULL) printf("Inbound: %s\n", config->inbound);
-      if (config->tempInbound != NULL) printf("tempInbound: %s\n", config->tempInbound);
-      if (config->protInbound != NULL) printf("ProtInbound: %s\n", config->protInbound);
-      if (config->localInbound != NULL) printf("LocalInbound: %s\n", config->localInbound);
-      if (config->listInbound != NULL) printf("ListInbound: %s\n", config->listInbound);
-      if (config->ticOutbound != NULL) printf("TicOutbound: %s\n", config->ticOutbound);
-      if (config->outbound != NULL) printf("Outbound: %s\n", config->outbound);
-      if (config->tempOutbound != NULL) printf("tempOutbound: %s\n", config->tempOutbound);
+      if (config->inbound != NULL) printf("Inbound:         %s\n", config->inbound);
+      if (config->tempInbound != NULL) printf("tempInbound:     %s\n", config->tempInbound);
+      if (config->protInbound != NULL) printf("ProtInbound:     %s\n", config->protInbound);
+      if (config->localInbound != NULL) printf("LocalInbound:    %s\n", config->localInbound);
+      if (config->listInbound != NULL) printf("ListInbound:     %s\n", config->listInbound);
+      if (config->ticOutbound != NULL) printf("TicOutbound:     %s\n", config->ticOutbound);
+      if (config->outbound != NULL) printf("Outbound:        %s\n", config->outbound);
+      if (config->tempOutbound != NULL) printf("tempOutbound:    %s\n", config->tempOutbound);
       for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->publicDir[i]);
-      if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir: %s\n", config->dupeHistoryDir);
-      if (config->logFileDir != NULL) printf("LogFileDir: %s\n", config->logFileDir);
-      if (config->msgBaseDir != NULL) printf("MsgBaseDir: %s\n", config->msgBaseDir);
+      if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir:  %s\n", config->dupeHistoryDir);
+      if (config->logFileDir != NULL) printf("LogFileDir:      %s\n", config->logFileDir);
+      if (config->msgBaseDir != NULL) printf("MsgBaseDir:      %s\n", config->msgBaseDir);
       if (config->fileAreaBaseDir) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
       if (config->passFileAreaDir) printf("passFileAreaDir: %s\n", config->passFileAreaDir);
-      if (config->busyFileDir) printf("busyFileDir: %s\n", config->busyFileDir);
+      if (config->busyFileDir) printf("busyFileDir:     %s\n", config->busyFileDir);
       if (config->magic) printf("Magic: %s\n", config->magic);
-      if (config->semaDir) printf("semaDir: %s\n", config->semaDir);
-      if (config->badFilesDir) printf("BadFilesDir: %s\n", config->badFilesDir);
-      if (config->msgidfile) printf("MsgIDFile: %s\n", config->msgidfile);
+      if (config->semaDir) printf("semaDir:         %s\n", config->semaDir);
+      if (config->badFilesDir) printf("BadFilesDir:     %s\n", config->badFilesDir);
+      if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
+
 //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
-	  if (config->netmailFlag) printf("NetmailFlag: %s\n",config->netmailFlag);
-	  if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
-	  if (config->minDiskFreeSpace) 
-		  printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
+      if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
+      if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
+      if (config->minDiskFreeSpace) 
+	 printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
 
       if (hpt==0) {
           printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");

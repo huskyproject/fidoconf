@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Sat Apr  7 17:41:59 NOVST 2001
+max (patch from Kees Bergwerf):
+* echoareadefaults, fileareadefaults
+
+----- cvs ci ------
 Thu Apr  5 22:58:02 NOVST 2001
 max (patches from Kostya Krasavin):
 * fc2aed, fc2ged, fc2msged new command line parameners

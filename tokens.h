@@ -232,7 +232,9 @@ enum {
     ID_AUTOPASSIVE,
     ID_NETMAILFLAG,
     ID_AUTOAREACREATEFLAG,
-	ID_MINDISKFREESPACE
+    ID_MINDISKFREESPACE,
+    ID_ECHOAREADEFAULT,
+    ID_FILEAREADEFAULT
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -315,6 +317,7 @@ token_t parseline_tokens[] =
     { "dupebasetype", ID_DUPEBASETYPE },
     { "dupehistorydir", ID_DUPEHISTORYDIR },
     { "echoarea", ID_ECHOAREA },
+    { "echoareadefaults", ID_ECHOAREADEFAULT },
     { "echomailflavour", ID_ECHOMAILFLAVOUR },
     { "echotosslog", ID_ECHOTOSSLOG },
     { "email", ID_EMAIL },
@@ -328,6 +331,7 @@ token_t parseline_tokens[] =
     { "filearclist", ID_FILEARCLIST },
     { "filearea", ID_FILEAREA },
     { "fileareabasedir", ID_FILEAREABASEDIR },
+    { "fileareadefaults", ID_FILEAREADEFAULT },
     { "fileareaslog", ID_FILEAREASLOG },
     { "filecheckdest", ID_FILECHECKDEST },
     { "filedescpos", ID_FILEDESCPOS },

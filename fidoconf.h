@@ -364,6 +364,9 @@ typedef struct fidoconfig {
    unsigned int   bbsAreaCount;
    ps_bbsarea  bbsAreas;
 
+   s_area  EchoAreaDefault;
+   s_filearea FileAreaDefault;
+
    unsigned int   routeCount;
    ps_route route;
 // remove after 03-Apr-01

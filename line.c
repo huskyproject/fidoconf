@@ -65,6 +65,9 @@
 #include "findtok.h"
 #include "tokens.h"
 
+extern void freeArea(s_area);
+extern void freeFileArea(s_filearea);
+
 char *actualKeyword, *actualLine;
 int  actualLineNr;
 char wasError = 0;
@@ -438,6 +441,64 @@ int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
 	return 0;
 }
 
+void setEchoLinkAccess( const s_fidoconfig *config, s_area *area, s_arealink *arealink) {
+
+    s_link *link=arealink->link;
+
+    if (link->numOptGrp > 0) {
+        // default set export on, import on, mandatory off
+	arealink->export = 1;
+	arealink->import = 1;
+	arealink->mandatory = 0;
+
+	if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
+            arealink->export = link->export;
+	    arealink->import = link->import;
+	    arealink->mandatory = link->mandatory;
+        }
+
+    } else {
+        arealink->export = link->export;
+	arealink->import = link->import;
+	arealink->mandatory = link->mandatory;
+    }
+
+    if (area->mandatory) arealink->mandatory = 1;
+    if (e_readCheck(config, area, link)) arealink->export = 0;
+    if (e_writeCheck(config, area, link)) arealink->import = 0;
+
+}
+
+void setFileLinkAccess( s_filearea *area, s_arealink *arealink) {
+
+    s_link *link=arealink->link;
+
+    if (link->numOptGrp > 0) {
+        // default set export on, import on, mandatory off
+	arealink->export = 1;
+	arealink->import = 1;
+	arealink->mandatory = 0;
+
+        if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
+            arealink->export = link->export;
+	    arealink->import = link->import;
+	    arealink->mandatory = link->mandatory;
+
+        }
+
+    } else {
+        arealink->export = link->export;
+	arealink->import = link->import;
+	arealink->mandatory = link->mandatory;
+    }
+
+    if (area->mandatory) arealink->mandatory = 1;
+    if (link->level < area->levelread)  arealink->export=0;
+    if (link->level < area->levelwrite) arealink->import=0;
+    // paused link can't receive mail
+    if (link->Pause && area->noPause==0) arealink->export = 0;
+}
+
 int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 {
    char *error;
@@ -542,6 +603,11 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 	   return 1;
        }
        area->levelread = (unsigned)atoi(token);
+
+       /* if link was added before -lr setting it must be updated */
+       for(i=0;i<area->downlinkCount;++i)
+           setEchoLinkAccess( config, area, area->downlinks[i]);
+
    }
    else if (strcmp(iOption, "lw")==0) {
        token = strtok(NULL, " \t");
@@ -559,6 +625,10 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 	   return 1;
        }
        area->levelwrite = (unsigned)atoi(token);
+       /* if link was added before -lw setting it must be updated */
+       for(i=0;i<area->downlinkCount;++i)
+           setEchoLinkAccess( config, area, area->downlinks[i]);
+
    }
    else if (strcmp(iOption, "tinysb")==0) area->tinySB = 1;
    else if (strcmp(iOption, "killsb")==0) area->killSB = 1;
@@ -681,6 +751,10 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       return 1;
     }
     area->levelread = (unsigned)atoi(token);
+    /* if link was added before -lr setting, it should be updated */
+    for(i=0;i<area->downlinkCount;++i)
+        setFileLinkAccess( area, area->downlinks[i]);
+
   }
   else if (strcmp(iOption, "lw")==0) {
     token = strtok(NULL, " \t");
@@ -698,6 +772,9 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       return 1;
     }
     area->levelwrite = (unsigned)atoi(token);
+    /* if link was added before -lr setting, it should be updated */
+    for(i=0;i<area->downlinkCount;++i)
+        setFileLinkAccess( area, area->downlinks[i]);
   }
   else if (strcmp(iOption, "h")==0) area->hide = 1;
   else if (strcmp(iOption, "manual")==0) area->mandatory = 1;
@@ -748,7 +825,6 @@ int parseLinkOption(s_arealink *alink, char *token)
 }
 
 int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
-	s_link *link;
 	s_arealink *arealink;
 	
 	area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
@@ -760,52 +836,73 @@ int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
 		return 1;
 	}
 
-	link = area->downlinks[area->downlinkCount]->link;
 	arealink = area->downlinks[area->downlinkCount];
 	area->downlinkCount++;
 
-	if (link->numOptGrp > 0) {
-		// default set export on, import on, mandatory off
-		arealink->export = 1;
-		arealink->import = 1;
-		arealink->mandatory = 0;
-
-		if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
-			arealink->export = link->export;
-			arealink->import = link->import;
-			arealink->mandatory = link->mandatory;
-		}
-
-	} else {
-		arealink->export = link->export;
-		arealink->import = link->import;
-		arealink->mandatory = link->mandatory;
-	}
-	if (area->mandatory) arealink->mandatory = 1;
-	if (e_readCheck(config, area, link)) arealink->export = 0;
-	if (e_writeCheck(config, area, link)) arealink->import = 0;
+        setEchoLinkAccess(config, area, arealink);
 
 	return 0;
 }
 
+
 int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 {
-   char *tok, addr[24];
-   unsigned int rc = 0, i;
+   char *tok, addr[24], *ptr;
+   unsigned int rc = 0, i,j;
+   int toklen;
 
    if (token == NULL) {
       prErr("There are parameters missing after %s!", actualKeyword);
       return 1;
    }
 
-   memset(area, '\0', sizeof(s_area));
-   area->fperm = area->uid = area->gid = -1;
+    /*   memset(area, '\0', sizeof(s_area)); */
 
-   area->msgbType = MSGTYPE_SDM;
-   area->useAka = config->addr;
+    /* copy defaults */
+    memcpy(area,&(config->EchoAreaDefault),sizeof(s_area));
+
+    /* default has perhaps groups        */
+    /*             perhaps a description */
+    /*             perhaps downlinks     */
+    /*             areaName==NULL        */
+    /*             fileName==NULL        */
+    /*             perhaps other settings*/
+    /*             allways an useAka     */
+
+
+    /* not pointing to the group of the default --> freeArea() will cause
+     trouble :) */
+    if(area->group!=NULL)
+        area->group=sstrdup(area->group);
+    area->description=NULL;
+
+    /* not poiting to the links of the default --> .. */
+    if(area->downlinkCount){
+        j=area->downlinkCount;
+        area->downlinkCount=0; /* was copied from default but there were no downlinks added really */
+        area->downlinks=NULL;
+        /* so now add default downlinks */
+        for(i=0;i<j;++i)
+            rc += parseAreaLink(config, area, aka2str(( (config->EchoAreaDefault).downlinks[i]->link->hisAka )));
+    }
+
+
+    /*   area->fperm = area->uid = area->gid = -1;*/
+    if(!area->fperm && !area->uid && !area->gid)
+        area->fperm = area->uid = area->gid = -1;
+
+    /*   area->msgbType = MSGTYPE_SDM;*/
+    if(!area->msgbType)
+        area->msgbType= MSGTYPE_SDM;
+
+    /*   area->useAka = config->addr;*/
+
+    if(area->useAka==NULL)
+        area->useAka = config->addr;
 
    // set default parameters of dupebase
-   area->dupeHistory = 7; /* 7 days */
+    if(!area->dupeHistory)
+        area->dupeHistory = 7;
 
    // remove after 03-Apr-01
    // set default group for reader
@@ -827,59 +924,177 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    strcpy(area->areaName, tok);
 
    tok = strtok(NULL, " \t");
-   if (tok == NULL) {
-      prErr("There is a filename missing %s!", actualLine);
-      return 2;         // if there is no filename
-   }
-   if (stricmp(tok, "passthrough") != 0) {
-      // msgbase on disk
-      area->fileName = (char *) smalloc(strlen(tok)+1);
-      strcpy(area->fileName, tok);
-   } else {
-      // passthrough area
-      area->fileName = NULL;
-      area->msgbType = MSGTYPE_PASSTHROUGH;
+
+   if (tok==NULL) {
+	   // was default settings..
+	   if (area->msgbType==MSGTYPE_PASSTHROUGH) return 0;
+	   else {
+		   prErr("There is a pathname missing %s!", actualLine);
+		   return 2; // if there is no filename
+	   }
    }
 
-   tok = strtok(NULL, " \t");
+    toklen=strlen(tok); /* points to '\0' */
+    if (stricmp(tok, "passthrough") != 0) {
+        /* perhaps passthrough in default, so this does not have to be */
+        /* a filename */
+
+        /* is it a filename? */
+        ptr=tok;
+        while(*ptr && *ptr != PATH_DELIM && !isspace(*ptr))
+            ++ptr;
+        if(*ptr==PATH_DELIM){
+            /* yes it is a filename :=) */
+            // msgbase on disk
+            area->fileName = (char *) smalloc(toklen + 1);
+            strcpy(area->fileName, tok);
+            tok = strtok(NULL, " \t");
+	}else if(area->msgbType!=MSGTYPE_PASSTHROUGH){
+		/* was not a filename, and default not passthrough */
+		prErr("There is a pathname missing %s!", actualLine);
+		return 2;         // if there is no filename
+	}
+
+    }else{
+        // passthrough area
+        /*   area->fileName = NULL;  was copied from default */
+        area->msgbType = MSGTYPE_PASSTHROUGH;
+        tok = strtok(NULL, " \t");
+    }
+
+
+    while (tok != NULL) {
+
+
+        if(tok[0]=='-') {
+            rc += parseAreaOption(config, tok+1, area);
+            if (rc) return rc;
+        }
+        else if ((isdigit(*tok) || (*tok=='*')) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
+
+            if (strchr(tok, '*')) {
+                for (i=0; i<config->linkCount; i++) {
+                    sprintf(addr, aka2str(config->links[i].hisAka));
+                    if (patmat(addr, tok)) {
+                        parseAreaLink(config,area,addr);
+                        area->downlinks[area->downlinkCount-1]->mandatory = 1;
+                    }
+                }
+                tok = strtok(NULL, " \t");
+                continue;
+            }
+
+            rc += parseAreaLink(config, area, tok);
+            if (rc) return rc;
+
+            tok = strtok(NULL, " \t");
+            while (tok) {
+                if (tok[0]=='-') {
+                    if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1))
+                        break;
+                    tok = strtok(NULL, " \t");
+                } else break;
+            }
+            continue;
+        }
+        else {
+            prErr("Error in areaOptions token=%s!", tok);
+            rc +=1;
+        }
+        tok = strtok(NULL, " \t");
+    }
+    
+    if(area->description==NULL && config->EchoAreaDefault.description!=NULL)
+        area->description=sstrdup(config->EchoAreaDefault.description);
+    
+    return rc;
+}
+
+int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef)
+{
+   char *tok, addr[24];
+   unsigned int rc = 0, i;
+
+
+   /* default has perhaps groups        */
+   /*             perhaps a description */
+   /*             perhaps downlinks     */
+   /*             areaName==NULL        */
+   /*             fileName==NULL        */
+   /*             perhaps other settings*/
+   /*             allways an useAka     */
+
+
+   /* cleanup */
+   freeArea(*adef);
+   memset(adef, '\0', sizeof(s_area));
+   adef->useAka = config->addr;
+
+   if (token == NULL) /* all defaults off */
+       return 0;
+   if(!strncasecmp(token,"off",3))
+       return 0; /* default off */
+
+
+   adef->fperm = adef->uid = adef->gid = -1;
+
+   adef->msgbType = MSGTYPE_SDM;
+
+
+
+   // set default parameters of dupebase
+
+   adef->dupeHistory = 7; /* 7 days */
+
+   // set defaults for MS-DOS
+#ifdef MSDOS
+   adef->DOSFile = 1;
+#endif
+
+
+   tok = strtok(token, " \t");
+   if (tok == NULL) { /* does this ever happen?? */
+      prErr("There are parameters missing after %s!", actualKeyword);
+      return 2;
+   }
 
    while (tok != NULL) {
-      if(tok[0]=='-') {
-          rc += parseAreaOption(config, tok+1, area);
-	  if (rc) return rc;
-      }
-      else if ((isdigit(*tok) || (*tok=='*')) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
-		  
-		  if (strchr(tok, '*')) {
-			  for (i=0; i<config->linkCount; i++) {
-				  sprintf(addr, aka2str(config->links[i].hisAka));
-				  if (patmat(addr, tok)) {
-					  parseAreaLink(config,area,addr);
-					  area->downlinks[area->downlinkCount-1]->mandatory = 1;
-				  }
-			  }
-			  tok = strtok(NULL, " \t");
-			  continue;
-		  }
-
-		  rc += parseAreaLink(config, area, tok);
-		  if (rc) return rc;
-
-		  tok = strtok(NULL, " \t");
-		  while (tok) {
-			  if (tok[0]=='-') {
-				  if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1))
-					  break;
-				  tok = strtok(NULL, " \t");
-			  } else break;
-		  }
-		  continue;
-      }
-      else {
-		  prErr("Error in areaOptions token=%s!", tok);
-		  rc +=1;
-      }
-      tok = strtok(NULL, " \t");
+       if (stricmp(tok, "passthrough") == 0) {
+           // passthrough area
+/*           adef->fileName = NULL;*/
+           adef->msgbType = MSGTYPE_PASSTHROUGH;
+       }else if(tok[0]=='-') {
+           rc += parseAreaOption(config, tok+1, adef);
+           if (rc) return rc;
+       }else if ((isdigit(*tok) || (*tok=='*')) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
+           if (strchr(tok, '*')) {
+               for (i=0; i<config->linkCount; i++) {
+                   sprintf(addr, aka2str(config->links[i].hisAka));
+                   if (patmat(addr, tok)) {
+                       parseAreaLink(config,adef,addr);
+                       adef->downlinks[adef->downlinkCount-1]->mandatory = 1;
+                   }
+               }
+               tok = strtok(NULL, " \t");
+               continue;
+           }
+           rc += parseAreaLink(config, adef, tok);
+           if (rc) return rc;
+           tok = strtok(NULL, " \t");
+           while (tok) {
+               if (tok[0]=='-') {
+                   if (parseLinkOption(adef->downlinks[adef->downlinkCount-1], tok+1))
+                       break;
+                   tok = strtok(NULL, " \t");
+               } else break;
+           }
+           continue;
+       }
+       else {
+           prErr("Error in areaOptions token=%s!", tok);
+           rc +=1;
+       }
+       tok = strtok(NULL, " \t");
    }
 
    return rc;
@@ -910,37 +1125,59 @@ int parseNetMailArea(char *token, s_fidoconfig *config)
    }
 
    config->netMailAreas = srealloc(config->netMailAreas, sizeof(s_area)*(config->netMailAreaCount+1));
+
+   /* not all values for echoarea are valid for netmail, so.. */
+   freeArea(config->EchoAreaDefault);
+   memset(&(config->EchoAreaDefault), '\0', sizeof(s_area));
+
    rc = parseArea(config, token, &(config->netMailAreas[config->netMailAreaCount]));
    config->netMailAreaCount++;
    return rc;
 }
 
-
 int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 {
-   char *tok;
+   char *tok,*ptr;
    s_link *link;
    s_arealink *arealink;
+   ps_arealink *alink;
    unsigned int rc = 0;
+   int toklen,i;
 
    if (token == NULL) {
       prErr("There are parameters missing after %s!", actualKeyword);
       return 1;
    }
 
-   memset(area, 0, sizeof(s_filearea));
+   /* copy defaults */
+   memcpy(area,&(config->FileAreaDefault),sizeof(s_filearea));
 
-   area->pass = 0;
-   area->useAka = config->addr;
+   /* default has perhaps groups        */
+   /*             perhaps a description */
+   /*             perhaps downlinks     */
+   /*             areaName==NULL        */
+   /*             pathName==NULL        */
+   /*             perhaps other settings*/
+   /*             allways an useAka     */
+   area->description=NULL;
 
-   // remove after 03-Apr-01
-   // set default group for reader
-   //area->group = (char*) smalloc(sizeof(char)+1);
-   //strcpy(area->group, "0");
+   if(config->FileAreaDefault.group!=NULL)
+       area->group=sstrdup(config->FileAreaDefault.group);
+   if(area->downlinkCount){ /* counter was already copied from default */
+       area->downlinks= (ps_arealink*) smalloc(sizeof(ps_arealink)*(area->downlinkCount));
+
+       alink=area->downlinks; /* &(area->downlinks[0]) */
+
+       for(i=0;i<area->downlinkCount;++i, alink++){
+           *alink = (s_arealink*) smalloc(sizeof(s_arealink));
+           memcpy(*alink, config->FileAreaDefault.downlinks[i],sizeof(s_arealink));
+       }
+   }
+
 
    tok = strtok(token, " \t");
    if (tok == NULL) {
-      prErr("There is a areaname missing after %s!", actualKeyword);
+      prErr("There is an areaname missing after %s!", actualKeyword);
       return 1;         // if there is no areaname
    }
 
@@ -948,32 +1185,57 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    strcpy(area->areaName, tok);
 
    tok = strtok(NULL, " \t");
-   if (tok == NULL) {
-      prErr("There is a pathname missing %s!", actualLine);
-      return 2;         // if there is no filename
-   }
-   if (stricmp(tok, "passthrough") != 0) {
-      if (tok[strlen(tok)-1] == PATH_DELIM) {
-         area->pathName = (char *) smalloc(strlen(tok)+1);
-         strcpy(area->pathName, tok);
-      } else {
-         area->pathName = (char *) smalloc(strlen(tok)+2);
-         strcpy(area->pathName, tok);
-         area->pathName[strlen(tok)] = PATH_DELIM;
-         area->pathName[strlen(tok)+1] = '\0';
-      }
-   } else {
-      // passthrough area
-      area->pathName = NULL;
-      area->pass = 1;
+   if (tok==NULL) {
+	   // was default..
+       if(area->pass) return 0;
+       else {
+           prErr("There is a pathname missing in %s!", actualLine);
+           return 2;         // if there is no filename
+       }
    }
 
-   tok = strtok(NULL, " \t");
+   if (stricmp(tok, "passthrough") != 0) {
+       /* perhaps passthrough in default, so this does not have to be */
+       /* a filename */
+
+       /* is it a filename? */
+       ptr=tok;
+       while(*ptr && *ptr != PATH_DELIM && !isspace(*ptr))
+           ++ptr;
+
+       toklen=strlen(tok);
+       if(*ptr==PATH_DELIM){
+           /* we think it is a filename :=) */
+           // filearea on disk
+           if(tok[toklen-1]==PATH_DELIM){
+               area->pathName = (char *) smalloc(toklen + 1);
+               strcpy(area->pathName, tok);
+           }else{
+               area->pathName = (char *) smalloc(toklen + 2);
+               strcpy(area->pathName, tok);
+               area->pathName[toklen++]=PATH_DELIM;
+               area->pathName[toklen]='\0';
+           }
+           area->pass = 0;
+           tok = strtok(NULL, " \t");
+       }else if(!area->pass){
+           /* was not a filename, and default not passthrough */
+
+           prErr("There is a pathname missing in %s!", actualLine);
+           return 2;         // if there is no filename
+       }    /* else it was an option */
+   }else{
+       // option says: passthrough area
+/*       area->pathName = NULL;*/
+       area->pass = 1;
+       tok = strtok(NULL, " \t");
+   }
 
    while (tok != NULL) {
       if(tok[0]=='-') {
           rc += parseFileAreaOption(config, tok+1, area);
-	  if (rc) return rc;
+          if (rc) return rc;
+
       }
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
@@ -1001,7 +1263,8 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 				 arealink->mandatory = link->mandatory;
 			 }
 
-		 } else {
+
+                 } else {
 			 arealink->export = link->export;
 			 arealink->import = link->import;
 			 arealink->mandatory = link->mandatory;
@@ -1017,6 +1280,77 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
          while (tok) {
             if (tok[0] == '-') {
                if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1)) break;
+               tok = strtok(NULL, " \t");
+            } else break;
+         } /* endwhile */
+         continue;
+      }
+      else {
+         prErr("Error in areaOptions token=%s!", tok);
+         rc +=1;
+         return rc;
+      }
+      tok = strtok(NULL, " \t");
+   }
+
+   if(area->description==NULL && config->FileAreaDefault.description!=NULL)
+       area->description=sstrdup(config->FileAreaDefault.description);
+
+   return rc;
+}
+
+int parseFileAreaDefault(const s_fidoconfig *config, char *token, s_filearea *fdef)
+{
+   char *tok;
+   s_link *link;
+   s_arealink *arealink;
+   unsigned int rc = 0;
+
+
+   /* all filearea settings can be set in the default */
+   /* except areaName and pathName -> those are NULL  */
+
+   /* start clean */
+   freeFileArea(*fdef);
+   memset(fdef, 0, sizeof(s_filearea));
+   fdef->useAka=config->addr;
+
+   if (token == NULL)
+       return 0; /* default OFF */
+
+   if(!strncasecmp(token,"off",3))
+       return 0; /* default off */
+
+   tok = strtok(token, " \t");
+
+   while (tok != NULL) {
+       if (stricmp(tok, "passthrough") == 0)
+           fdef->pass = 1;
+       else if(tok[0]=='-') {
+           rc += parseFileAreaOption(config, tok+1, fdef);
+           if (rc) return rc;
+       }
+       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
+         fdef->downlinks = srealloc(fdef->downlinks, sizeof(s_arealink*)*(fdef->downlinkCount+1));
+         fdef->downlinks[fdef->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
+//         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
+         fdef->downlinks[fdef->downlinkCount]->link = getLinkForFileArea(*config,tok,fdef);
+
+         if (fdef->downlinks[fdef->downlinkCount]->link == NULL) {
+            prErr("Link is not found!");
+            rc += 1;
+            return rc;
+         }
+         link = fdef->downlinks[fdef->downlinkCount]->link;
+		 arealink = fdef->downlinks[fdef->downlinkCount];
+
+                 setFileLinkAccess( fdef, arealink);
+
+         fdef->downlinkCount++;
+         tok = strtok(NULL, " \t");
+         while (tok) {
+            if (tok[0] == '-') {
+               if (parseLinkOption(fdef->downlinks[fdef->downlinkCount-1], tok+1)) break;
                tok = strtok(NULL, " \t");
             } else break;
          } /* endwhile */
@@ -2507,6 +2841,12 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_BADAREA:
             rc = parseArea(config, getRestOfLine(), &(config->badArea));
+            break;
+        case ID_ECHOAREADEFAULT:
+            rc = parseEchoAreaDefault(config, getRestOfLine(), &(config->EchoAreaDefault));
+            break;
+        case ID_FILEAREADEFAULT:
+            rc = parseFileAreaDefault(config, getRestOfLine(), &(config->FileAreaDefault));
             break;
         case ID_ECHOAREA:
             rc = parseEchoArea(getRestOfLine(), config);

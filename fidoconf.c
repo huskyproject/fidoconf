@@ -450,6 +450,9 @@ void disposeConfig(s_fidoconfig *config)
    for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
    nfree(config->localAreas);
 
+   freeArea(config->EchoAreaDefault);
+   freeFileArea(config->FileAreaDefault);
+
    for (i = 0; i < config->routeCount; i++) nfree(config->route[i].pattern);
    nfree(config->route);
 /* remove after 03-Apr-01
