@@ -1,3 +1,4 @@
+/* $Id$ */
 #if !defined    (_TYPESIZE_H)
 #define _TYPESIZE_H
 
@@ -75,7 +76,7 @@ extern "C" {
 
 
 #if defined(__NT__)
-typedef          short      INT16;              /*  2 byte */
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
 #endif                                         
 
@@ -87,15 +88,15 @@ typedef unsigned short     UINT16;              /*  2 byte */
 typedef          char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 #endif
-typedef          short      INT16;              /*  2 byte */
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
-typedef          int        INT32;              /*  4 byte */
+typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
 /*  -------------------------------------------------------------------------- */
 #if !defined(__OS2_H__) && !defined(_OS2_H) && !defined(_WINNT_H)   /*  os2.h defines it already */
-typedef          int        INT;                /*  4 byte */
-typedef unsigned int       UINT;                /*  4 byte */
-typedef          long       LONG;               /*  4 byte */
+typedef   signed int         INT;               /*  4 byte */
+typedef unsigned int        UINT;               /*  4 byte */
+typedef   signed long       LONG;               /*  4 byte */
 typedef unsigned long      ULONG;               /*  4 byte */
 typedef          void       VOID;
 #endif
@@ -104,14 +105,14 @@ typedef          void       VOID;
 #if (defined(__linux__) && !defined(__alpha)) || defined(__FreeBSD__) || defined(__DJGPP__) || defined(__BEOS__) || defined(__OpenBSD__)
 typedef          char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
-typedef          int        INT32;              /*  4 byte */
+typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
-typedef          int        INT;                /*  4 byte */
-typedef unsigned int       UINT;                /*  4 byte */
-typedef          long       LONG;               /*  4 byte */
-typedef unsigned long      ULONG;               /*  4 byte */
-typedef          void       VOID;
-typedef          short      INT16;              /*  2 byte */
+typedef   signed int          INT;              /*  4 byte */
+typedef unsigned int         UINT;              /*  4 byte */
+typedef   signed long        LONG;              /*  4 byte */
+typedef unsigned long       ULONG;              /*  4 byte */
+typedef          void        VOID;
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
 /*  -------------------------------------------------------------------------- */
 #endif
@@ -121,14 +122,14 @@ typedef unsigned short     UINT16;              /*  2 byte */
 #if defined(__alpha)
 typedef          char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
-typedef          short      INT16;              /*  2 byte */
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
-typedef          int        INT32;              /*  4 byte */
+typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
 /*  -------------------------------------------------------------------------- */
-typedef          int        INT;                /*  4 byte */
-typedef unsigned int       UINT;                /*  4 byte */
-typedef          long      LONG;                /*  8 byte */
+typedef   signed int         INT;               /*  4 byte */
+typedef unsigned int        UINT;               /*  4 byte */
+typedef   signed long       LONG;               /*  8 byte */
 typedef unsigned long      ULONG;               /*  8 byte */
 typedef          void       VOID;
 #endif
@@ -142,14 +143,14 @@ typedef          void       VOID;
 #if defined(_AIX)
 typedef          char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
-typedef          short      INT16;              /*  2 byte */
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
-typedef          int        INT32;              /*  4 byte */
+typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
 /*  -------------------------------------------------------------------------- */
-typedef          int        INT;                /*  4 byte */
-typedef unsigned int       UINT;                /*  4 byte */
-typedef          long       LONG;               /*  4 byte */
+typedef   signed int         INT;               /*  4 byte */
+typedef unsigned int        UINT;               /*  4 byte */
+typedef   signed long       LONG;               /*  4 byte */
 typedef unsigned long      ULONG;               /*  4 byte */
 typedef          void       VOID;
 #endif
@@ -157,14 +158,14 @@ typedef          void       VOID;
 #if defined(__sun__)
 typedef          char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
-typedef          short      INT16;              /*  2 byte */
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
-typedef          int        INT32;              /*  4 byte */
+typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
 /*  -------------------------------------------------------------------------- */
-typedef          int        INT;                /*  4 byte */
-typedef unsigned int       UINT;                /*  4 byte */
-typedef          long       LONG;               /*  4 byte */
+typedef   signed int         INT;               /*  4 byte */
+typedef unsigned int        UINT;               /*  4 byte */
+typedef   signed long       LONG;               /*  4 byte */
 typedef unsigned long      ULONG;               /*  4 byte */
 typedef          void       VOID;
 #endif
@@ -172,14 +173,14 @@ typedef          void       VOID;
 #if defined(__hpux)
 typedef          char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
-typedef          short      INT16;              /*  2 byte */
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
-typedef          int        INT32;              /*  4 byte */
+typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
 /*  -------------------------------------------------------------------------- */
-typedef          int        INT;                /*  4 byte */
-typedef unsigned int       UINT;                /*  4 byte */
-typedef          long       LONG;               /*  4 byte */
+typedef   signed int         INT;               /*  4 byte */
+typedef unsigned int        UINT;               /*  4 byte */
+typedef   signed long       LONG;               /*  4 byte */
 typedef unsigned long      ULONG;               /*  4 byte */
 typedef          void       VOID;
 #endif
@@ -215,15 +216,15 @@ typedef          void       VOID;
 typedef          char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 #endif
-typedef          short      INT16;              /*  2 byte */
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
-typedef          int        INT32;              /*  4 byte */
+typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
 /*  -------------------------------------------------------------------------- */
 #ifndef __OS2_H__       /*  os2.h defines it already */
-typedef          int        INT;                /*  4 byte */
-typedef unsigned int       UINT;                /*  4 byte */
-typedef          long       LONG;               /*  4 byte */
+typedef   signed int         INT;               /*  4 byte */
+typedef unsigned int        UINT;               /*  4 byte */
+typedef   signed long       LONG;               /*  4 byte */
 typedef unsigned long      ULONG;               /*  4 byte */
 typedef          void       VOID;
 #endif
@@ -232,16 +233,16 @@ typedef          void       VOID;
 /*   the uSoft 16bit compiler family for DOS */
 
 #if defined(_MSC_VER) && (_MSC_VER < 1200)
-typedef          char       CHAR;               /*  1 byte */
-typedef unsigned char      UCHAR;               /*  1 byte */
-typedef          int       INT16;               /*  2 byte */
+typedef          char        CHAR;              /*  1 byte */
+typedef unsigned char       UCHAR;              /*  1 byte */
+typedef   signed int        INT16;              /*  2 byte */
 typedef unsigned int       UINT16;              /*  2 byte */
-typedef          long       INT32;              /*  4 byte */
+typedef   signed long       INT32;              /*  4 byte */
 typedef unsigned long      UINT32;              /*  4 byte */
 /*  -------------------------------------------------------------------------- */
-typedef          int        INT;                /*  2 byte */
-typedef unsigned int       UINT;                /*  2 byte */
-typedef          long       LONG;               /*  4 byte */
+typedef   signed int         INT;               /*  2 byte */
+typedef unsigned int        UINT;               /*  2 byte */
+typedef   signed long       LONG;               /*  4 byte */
 typedef unsigned long      ULONG;               /*  4 byte */
 typedef          void       VOID;
 #endif                                          /*  #if defined(_MSC_VER) */
@@ -261,28 +262,28 @@ typedef unsigned long  int UINT32;              /*  4 byte */
 /*#endif*/
 /*  -------------------------------------------------------------------------- */
 #if !defined(__OS2_H__) && !defined(__NT__)  /*  os2.h and windows.h defines it already */
-typedef signed   int        INT;                /*  2/4 byte */
-typedef unsigned int       UINT;                /*  2/4 byte */
-typedef signed   long       LONG;               /*  4 byte */
-typedef unsigned long      ULONG;               /*  4 byte */
-typedef          void       VOID;
+typedef signed   int          INT;              /*  2/4 byte */
+typedef unsigned int         UINT;              /*  2/4 byte */
+typedef signed   long        LONG;              /*  4 byte */
+typedef unsigned long       ULONG;              /*  4 byte */
+typedef          void        VOID;
 #endif
 #endif                                          /*  #if defined(__WATCOMC__) */
 
 /*  MacOS X with gcc */
 #if defined(__APPLE__) && defined(__MACH__)
-typedef          char       CHAR;               /*  1 byte */
-typedef unsigned char      UCHAR;               /*  1 byte */
-typedef          short      INT16;              /*  2 byte */
+typedef          char        CHAR;              /*  1 byte */
+typedef unsigned char       UCHAR;              /*  1 byte */
+typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
-typedef          int        INT32;              /*  4 byte */
+typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
 /*  -------------------------------------------------------------------------- */
-typedef          int        INT;                /*  4 byte */
-typedef unsigned int       UINT;                /*  4 byte */
-typedef          long       LONG;               /*  4 byte */
-typedef unsigned long      ULONG;               /*  4 byte */
-typedef void               VOID;
+typedef   signed int          INT;              /*  4 byte */
+typedef unsigned int         UINT;              /*  4 byte */
+typedef   signed long        LONG;              /*  4 byte */
+typedef unsigned long       ULONG;              /*  4 byte */
+typedef void                 VOID;
 #endif
 
 #ifdef __cplusplus
