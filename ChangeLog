@@ -1,3 +1,8 @@
+2002-10-12 Saturday 07:46  stas_degteff
+
+	* line.c (fidoconf-0_14-stable.2): Fix previous (enable exit on
+	negative value of idlePassthruTimeout)
+
 2002-10-11 Friday 17:47  stas_degteff
 
 	* fidoconf.c, fidoconf.h, line.c (fidoconf-0_14-stable.[2,3,1]):
