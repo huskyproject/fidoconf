@@ -249,14 +249,17 @@ static short boolexpr(char *str)
   }
   inquote=0;
   for (p1=p; *p1; p1++)
-  { if (*p1=='\"')
-    { if (*(p1-1)=='\\')
-        continue;
-      inquote =! inquote;
+  { 
+    if (p1[0]=='\\' && (p1[1]=='\\' || p1[1]=='\"'))
+    { p1++;
+      continue;
+    }
+    if (*p1=='\"')
+    { inquote = !inquote;
       continue;
     }
     if (!inquote)
-      if (strncmp(p1, "==", 2)==0 || strncmp(p1, "=~", 2)==0)
+      if ((p1[0] == '=' || p1[0] == '!') && (p1[1] == '=' || p1[1] == '~'))
         break;
   }
   if (*p1==0)
@@ -265,6 +268,7 @@ static short boolexpr(char *str)
     wasError = 1;
     return ret;
   }
+  if (p1[0]=='!') ret=!ret;
   relax=(p1[1]=='~');
   *p1=0;
   for (p2=p1-1; isspace(*p2); *p2--=0);
