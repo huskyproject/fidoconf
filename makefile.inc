@@ -3,8 +3,8 @@
 # common rules for all platforms
 # include into other makefiles
 
-VER = 0.15
-VERH = 0
+VER = 1.3.0
+VERH = 1.3
 
 LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ)  xstr$(OBJ) cfg$(OBJ) findtok$(OBJ) crc$(OBJ) log$(OBJ) recode$(OBJ) strsep$(OBJ) tree$(OBJ) areatree$(OBJ) afixcmd$(OBJ) afixcmn$(OBJ) arealist$(OBJ) temp$(OBJ) getfree$(OBJ) version$(OBJ)
 
