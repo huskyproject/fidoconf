@@ -1,3 +1,7 @@
+2002-02-10 Sunday 18:32  pavel.gulchouck
+
+	* cfg.c (1.28): Use GetFullPathName() with mingw32
+
 2002-02-08 Friday 11:20  ml
 
 	* cfg.c (1.27): fixed bug with unsubscribing link from echoarea
