@@ -963,6 +963,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
           setFileLinkAccess( area, area->downlinks[i]);
   }
   else if (strcmp(iOption, "h")==0) area->hide = 1;
+  else if (strcmp(iOption, "hide")==0) area->hide = 1;
   else if (strcmp(iOption, "manual")==0) area->manual = 1;
   else if (strcmp(iOption, "sendorig")==0) area->sendorig = 1;
   else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
