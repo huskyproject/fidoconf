@@ -1,3 +1,16 @@
+2002-08-21 Wednesday 12:06  mche
+
+	* tparser.c (1.191): feature: - reduces Seen-BYs (fsc-0093)
+
+2002-08-21 Wednesday 12:00  mche
+
+	* doc/keywords.hpt (1.28): feature: - reduces Seen-BYs (fsc-0093)
+
+2002-08-21 Wednesday 11:54  mche
+
+	* fidoconf.h (1.134), line.c (1.320), tokens.h (1.44): feature: -
+	reduces Seen-BYs (fsc-0093)
+
 2002-08-20 Tuesday 07:18  stas_degteff
 
 	* temp.c (1.6): Revert buggy patch `2002-08-17 Saturday 12:26 
