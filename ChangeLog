@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Thu Apr  5 22:58:02 NOVST 2001
+max (patches from Kostya Krasavin):
+* fc2aed, fc2ged, fc2msged new command line parameners
+
+----- cvs ci ------
 Sat Mar 31 16:12:27 NOVST 2001
 max:
 * it is possible to set several Carbon(To|From|Subj|etc) before

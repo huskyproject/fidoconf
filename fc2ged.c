@@ -28,6 +28,13 @@
  * License along with this library; see file COPYING. If not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
+#define AREASONLY 0x1
+#define NETMAIL 0x2
+#define ECHOMAIL 0x4
+#define LOCAL 0x8
+#define DUPE 0x10
+#define BAD 0x20
+
 
 #include <stdlib.h>
 #include <string.h>
@@ -89,15 +96,14 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
   return 0;
 }
 
-int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
+int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int options) {
    FILE *f;
    int  i;
    s_area *area;
-
    f = fopen(fileName, "a+");
    if (f!= NULL) {
+    if (!(options & AREASONLY)) {
 
-     if (!areasOnly) {
        fprintf(f, "username %s\n\n", config->sysop);
       
        for (i=0; i<config->addrCount; i++)
@@ -109,59 +115,109 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
                     
        fprintf(f, "\n");
      }
+    if (!(options & NETMAIL)) {
 
-     for (i=0; i<config->netMailAreaCount; i++) {
-         writeArea(f, &(config->netMailAreas[i]), 1);
-     }
-     writeArea(f, &(config->dupeArea), 2);
-     writeArea(f, &(config->badArea), 2);
-
+	     for (i=0; i<config->netMailAreaCount; i++) {
+		     writeArea(f, &(config->netMailAreas[i]), 1);
+		}
+	}if (!(options & DUPE)) {
+    
+		writeArea(f, &(config->dupeArea), 2);
+	}
+    if (!(options & BAD)) {
+		writeArea(f, &(config->badArea), 2);
+	}
+    if (!(options & ECHOMAIL)) {
      for (i=0; i<config->echoAreaCount; i++) {
        area = &(config->echoAreas[i]);
        if (area->msgbType != MSGTYPE_PASSTHROUGH)
            writeArea(f, area, 0);
      }
-      
+	}      
+    if (!(options & LOCAL)) {
      for (i=0; i<config->localAreaCount; i++) {
        area = &(config->localAreas[i]);
        writeArea(f, area, 2);
      }
-      
+	}     
      return 0;
    } else printf("Could not write %s\n", fileName);
 
    return 1;
 }
 
+int parseOptions(char *line){
+int options=0;
+char chr=0;
+
+if (strcmp(line,"-a")==0) chr='a';
+else  (chr=line[2]);
+
+ switch (chr){
+
+	case 'a':	{
+					options^=AREASONLY;
+					break;
+	}
+	case 'n':	{
+					options^=NETMAIL;
+					break;
+	}
+	case 'e':	{
+					options^=ECHOMAIL;
+					break;
+	}
+
+	case 'l':	{
+					options^=LOCAL;
+					break;
+	}
+	case 'd':	{
+					options^=DUPE;
+					break;
+	}
+	case 'b':	{
+					options^=BAD;
+					break;
+	}
+
+ }
+return options;
+}
+
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
+   int options=0;
    int cont=1;
    
    printf("fconf2golded\n");
    printf("------------\n");
-   if (argc < 2) {
+
+   while ((cont<argc)&&(*argv[cont]=='-')){
+	options|=parseOptions(argv[cont]);	
+	cont++;
+   }
+   if (!(cont<argc)){
       printf("\nUsage:\n");
-      printf("   fconf2golded [-a] <goldedConfigFileName> [<default.cfg>]\n");
+      printf("   fconf2golded [-a][-sn][-se][-sl][-sb][-sd] <goldedConfigFileName> [<default.cfg>]\n");
       printf("   (you may read config defaults from default.cfg)\n");
       printf("   (-a exports areas only)\n");
+	  printf("   (-sn skip netmail areas)\n");
+	  printf("   (-se skip echomail areas)\n");
+	  printf("   (-sl skip local areas, and so on...)\n");
       printf("\nExample:\n");
       printf("   fconf2golded ~/golded/golded.cfg\n\n");
       return 1;
+   
    }
-
-   if (stricmp(argv[1],"-a")==0)
-     cont++;
-     
    printf("Generating Config-file %s\n", argv[cont]);
 
    config = readConfig(NULL);
    if (config!= NULL) {
-
 	  if (argv[cont+1]!=NULL) readDefaultConfig (argv[cont], argv[cont+1]);
 	  else
        remove (argv[cont]);
-
-     generateMsgEdConfig(config, argv[cont], cont-1);
+     generateMsgEdConfig(config, argv[cont], options);
      disposeConfig(config);
      return 0;
    }
