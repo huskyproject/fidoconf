@@ -66,7 +66,12 @@ int copyString(char *str, char **pmem)
       printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
-
+   
+   if (*pmem != NULL) {
+      printf("Line %d: dublicate keyword \"%s\"!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+   
    *pmem = (char *) smalloc(strlen(str)+1);
    strcpy(*pmem, str);
    return 0;

@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Sun Nov 12 13:34:40 NOVT 2000
+max:
+* dublicates checking in copyString()
+
+----- cvs ci ------
 Wed Nov  8 19:30:56 NOVT 2000
 max:
 * default password from linkdefaults can be changed (report from Ivan Prokudin)

@@ -2512,7 +2512,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
    else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
    else if (stricmp(token, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
-   /* +AS+ */ else if (stricmp(token, "processpkt")==0) rc = copyString(getRestOfLine(), &(config->processPkt)); /* -AS- */
+   else if (stricmp(token, "processpkt")==0) rc = copyString(getRestOfLine(), &(config->processPkt));
    else if (stricmp(token, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
    else if (stricmp(token, "areafixorigin")==0) rc = copyString(getRestOfLine(), &(config->areafixOrigin));
    else if (stricmp(token, "robotsarea")==0) rc = copyString(getRestOfLine(), &(config->robotsArea));

@@ -1791,6 +1791,8 @@ e.g.: unpack "unzip -joLqq $a -d $p" 0 504b0304
 This <string> executes after unpacking arcmail bundle. You may process
 your pkt files in @code{tempInbound} directory with external utility.
 
+This statement cannot be repeated.
+
 @node beforePack, processPkt, afterUnpack, Keywords
 @subsection beforePack
 @table @asis
@@ -1804,6 +1806,8 @@ This <string> executes before packing pkt files to arcmail bundles. You
 may process your pkt files in @code{tempOutbound} directory with
 external utility.
 
+This statement cannot be repeated.
+
 @node processPkt, tossingExt, beforePack, Keywords
 @subsection processPkt
 @table @asis
@@ -1816,6 +1820,8 @@ external utility.
 The <string> willl be executed before tossing each pkt file. You are able to
 fix your pkts using pktdate or any other tool before tossing them. Note that
 pkt file may be renamed depending of @code{tossingExt} token value.
+
+This statement cannot be repeated.
 
 @node tossingExt, route, processPkt, Keywords
 @subsection tossingExt

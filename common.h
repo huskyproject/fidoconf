@@ -47,6 +47,7 @@ extern "C" {
 int copyString(char *str, char **pmem);
 /*DOC
  * Copy string from *str to *pmem
+   NOTE! *pmem must be NULL.
  */
 
 void *memdup(void *p, size_t size);
