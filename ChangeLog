@@ -1,3 +1,13 @@
+2003-02-09 Sunday 16:17  d_sergienko
+
+	* grptree.c (1.8), line.c (1.375): use AreaGroup when parsing area
+
+2003-02-09 Sunday 15:29  d_sergienko
+
+	* fidoconf.c (1.106), grptree.c (1.7), grptree.h (1.3), line.c
+	(1.374), tokens.h (1.60), tparser.c (1.242): AreaGroup &
+	AreaGroupDefaults functionality
+
 2003-02-05 Wednesday 11:51  sfpavel
 
 	* Makefile (1.59), VERSION (1.5), debian/changelog (1.22),
