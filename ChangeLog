@@ -1,5 +1,10 @@
 fidoconfig 0.6
 --------------
+Sat Feb 20 19:26:54 MET 199
+  Tobias Ernst:
+- Added the move_file routine. Use it to move files instead of rename,
+  because it can also move across file system boundaries.
+- Some changes to the structures required by the PKT forwarding feature.
 
 Wed Feb 17 20:07:00 CET 1999
   Gabriel Plutzar:
