@@ -1,3 +1,16 @@
+2001-05-08 Tuesday 00:42  tobi
+
+	* line.c (1.248), syslogp.h (1.1): fixed syslogging for sun
+
+2001-05-08 Tuesday 00:01  tobi
+
+	* dirlayer.c (1.5): remove warning about empty source file with gcc
+	and -pedantic
+
+2001-05-08 Tuesday 00:01  tobi
+
+	* makefile.bcd (1.11): -DNOSEMAPHORES for Turbo C
+
 2001-05-06 Sunday 21:52  ml
 
 	* TODO (1.55), tparser.c (1.145): cbaName small fix
