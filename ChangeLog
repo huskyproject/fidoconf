@@ -1,6 +1,12 @@
 fidoconfig 0.9
 --------------
 
+
+----- cvs ci ------
+Thu Jun 24 17:24:42 CEST 1999
+mtt:
+* fixed tparser while displaying forwardPkts 
+
 ----- cvs ci ------
 Tue Jun 22 22:10:45 CEST 1999
 mtt:

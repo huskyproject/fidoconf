@@ -195,8 +195,11 @@ void printLink(s_link link) {
    printf("forwardPkts ");
    switch (link.forwardPkts){
    case fOff : printf("off\n");
+     break;
    case fSecure : printf("secure\n");
+     break;
    case fOn : printf("on\n");
+     break;
    }
    
    printf("-------\n");
