@@ -575,7 +575,7 @@ static void atexit_wait_handler_function(void)
     time(&t);
     while (t < last_reftime_used)
     {
-#if HAS_sleep
+#ifdef HAS_sleep
         sleep(1);
 #else
         mysleep(1);
@@ -606,7 +606,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    /* make it reentrant */
    while (flag)
    {
-#if HAS_sleep
+#ifdef HAS_sleep
         sleep(1);
 #else
         mysleep(1);
@@ -694,7 +694,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 	
                while (tmpt < refTime)
                {
-#if HAS_sleep
+#ifdef HAS_sleep
                    sleep(1);
 #else
                    mysleep(1);
