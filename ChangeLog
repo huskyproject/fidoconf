@@ -1,3 +1,11 @@
+2003-10-20 Monday 03:31  andr_lukyanov
+
+	* makefile.mvcdll (1.31): Removed old makefiles
+
+2003-10-20 Monday 03:28  andr_lukyanov
+
+	* make/makefile.mvcdll (1.1): Add new MSVC dinamic compilation
+
 2003-10-17 Friday 07:27  andr_lukyanov
 
 	* makefile.cyg (1.15), makefile.emx (1.10): Removed old makefiles
