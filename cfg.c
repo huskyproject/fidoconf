@@ -386,7 +386,7 @@ char *configline(void)
       if (ifstack[iflevel].wastrue)
         ifstack[iflevel].state=0;
       else
-        ifstack[iflevel].state=ifstack[iflevel].wastrue=boolexpr(strchr(line, ' '));
+        ifstack[iflevel].state=ifstack[iflevel].wastrue=boolexpr(strchr(str, ' '));
       setcond;
       continue;
     }
