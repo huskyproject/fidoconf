@@ -144,6 +144,39 @@ _Keyword definitions_
   # path for magic definitions
 ?  #  see ifcico documentation
 
+/etc/fido/links
+  {
+  link <name>
+  # name of down/uplink
+  #   also default for bbs-login, if <handle> is not given
+  Aka [<aka>]1*
+  Password <pwd>
+  #session- and default-Pwd
+  # also default-password, if PktPwd, TicPwd, 
+  #   AreaFixPwd or BBSPwd is not given
+  [PktPwd <pwd>]
+  # Packet- password
+  [TicPwd <pwd>]
+  # Ticker Password
+  [AreaFixPwd <pwd>]
+  # Areafix password
+  [FileFixPwd <pwd>]
+  # Filefix password
+  [BBSPwd <pwd>]
+  # password for Online user.
+  [handle <name>]
+  [TicGrp {<group>}]
+  # group(s) for ticker
+  [TossGrp {<group>}]
+  # group(s) for areaFix
+  [BBSGrp {<group>}]
+  # group(s)
+  AutoAreaCreate (on|off)
+  # "on" means link is allowed to create an area
+  Packer (zip|tgz|rar|arj|arc....)
+  # packer to use for this Link
+  }
+
 /etc/fido/msgbase:
   # List of echo mail-Areas
   NetmailArea <name> <file> [<msgbase>] {Option}
@@ -263,39 +296,6 @@ _Keyword definitions_
   {
   FileArea <path>
   # bbs file-area
-  }
-
-/etc/fido/links
-  {
-  link <name>
-  # name of down/uplink
-  #   also default for bbs-login, if <handle> is not given
-  Aka [<aka>]1*
-  Password <pwd>
-  #session- and default-Pwd
-  # also default-password, if PktPwd, TicPwd, 
-  #   AreaFixPwd or BBSPwd is not given
-  [PktPwd <pwd>]
-  # Packet- password
-  [TicPwd <pwd>]
-  # Ticker Password
-  [AreaFixPwd <pwd>]
-  # Areafix password
-  [FileFixPwd <pwd>]
-  # Filefix password
-  [BBSPwd <pwd>]
-  # password for Online user.
-  [handle <name>]
-  [TicGrp {<group>}]
-  # group(s) for ticker
-  [TossGrp {<group>}]
-  # group(s) for areaFix
-  [BBSGrp {<group>}]
-  # group(s)
-  AutoAreaCreate (on|off)
-  # "on" means link is allowed to create an area
-  Packer (zip|tgz|rar|arj|arc....)
-  # packer to use for this Link
   }
 
 /etc/fido/rights:

@@ -183,6 +183,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
       area->dupeHistory = strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) return 1;    // error
    }
+   else return 1;
       
    return 0;
 }
