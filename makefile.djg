@@ -32,6 +32,7 @@ ifeq ($(SHORTNAMES), 1)
   FCONF2MSGED    = fc2msged
   FCONF2FIDOGATE = fc2fgate
   FCONF2SQUISH   = fc2sq
+  FCONF2TORNADO  = fc2tor
   FECFG2FCONF    = fecfg2fc
   CDEFS := $(CDEFS) -DSHORTNAMES
 else
@@ -40,6 +41,7 @@ else
   FCONF2MSGED  = fconf2msged
   FCONF2FIDOGATE = fconf2fidogate
   FCONF2SQUISH = fconf2squish
+  FCONF2TORNADO = fc2tornado
   FECFG2FCONF = fecfg2fconf
 endif
 

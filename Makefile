@@ -42,6 +42,7 @@ ifeq ($(SHORTNAMES), 1)
   FCONF2MSGED    = fc2msged
   FCONF2FIDOGATE = fc2fgate
   FCONF2SQUISH   = fc2sq
+  FCONF2TORNADO  = fc2tor
   FECFG2FCONF    = fecfg2fc
   LIBFIDOCONFIG  = fidoconf
   CDEFS = $(CDEFS) -DSHORTNAMES
@@ -52,6 +53,7 @@ else
   FCONF2MSGED  = fconf2msged
   FCONF2FIDOGATE = fconf2fidogate
   FCONF2SQUISH = fconf2squish
+  FCONF2TORNADO  = fc2tornadobbs
   FECFG2FCONF = fecfg2fconf
   LIBFIDOCONFIG = $(LIBPREFIX)fidoconfig
 endif
@@ -126,6 +128,7 @@ install: commonlibs progs instdyn
 	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(EXE) $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2TORNADO)$(EXE)   $(BINDIR)
 ifeq ($(CC), gcc)
 	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
 endif
@@ -161,6 +164,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AQUAED)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2FIDOGATE)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2SQUISH)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2TORNADO)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
