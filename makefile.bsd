@@ -1,10 +1,10 @@
 # $Id$
 #
-# FreeBSD / NetBSD makefile for building fidoconfig
+# FreeBSD/OpenBSD/NetBSD makefile for building fidoconfig
 # (legacy makefile, no dynlibs, no huskymak support)
 #
-# Use with GNU version of make (gmake, see ports collection) or BSD make
-# (FreeBSD native)
+# Use with GNU version of make (gmake, see ports collection)
+# or BSD make (OS native)
 
 UNIXID=bsd
 
@@ -30,7 +30,7 @@ IIOPT = -c -m 444
 
 FCONF2AREASBBS= fconf2areasbbs
 
-install: commonlibs commonprogs
+install: commonprogs
 	-$(MKDIR) $(MKDIROPT) $(BINDIR)
 	-$(MKDIR) $(MKDIROPT) $(INCDIR)fidoconf
 	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
@@ -42,13 +42,17 @@ install: commonlibs commonprogs
 	$(INSTALL) $(IBOPT) $(FCONF2BINKD)$(EXE)    $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
+	$(INSTALL) $(IBOPT) linked$(EXE)            $(BINDIR)
 	$(INSTALL) $(ISOPT) linkedto                $(BINDIR)
 	$(INSTALL) $(ISOPT) fconf2na.pl             $(BINDIR)
 	$(INSTALL) $(ISOPT) $(FCONF2AREASBBS)       $(BINDIR)
-	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB)  $(LIBDIR)
 	(cd doc && $(MAKE) install)
 	(cd man && $(MAKE) install)
-	@echo "To install C header files invoke 'gmake hinstall'"
+	@echo "To install library file invoke 'make libinstall'"
+	@echo "To install C header files invoke 'make hinstall'"
+
+libinstall: commonlibs
+	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB)  $(LIBDIR)
 
 hinstall:
 	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
@@ -78,6 +82,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2BINKD)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linked$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)fconf2na.pl
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AREASBBS)
@@ -96,4 +101,3 @@ uninstall:
 	-$(RM) $(RMOPT) $(LIBDIR)$(DIRSEP)$(LIBFIDOCONFIG)*
 	-(cd doc && $(MAKE) uninstall)
 	-(cd man && $(MAKE) uninstall)
-
