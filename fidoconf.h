@@ -137,8 +137,9 @@ typedef struct route {
    e_flavour flavour;
    char      enc;
    ps_link   target;   // if target = NULL use
-   e_routing routeVia;  // this
+   e_routing routeVia; // this
    char      *pattern;
+   char      *viaStr;  // fix for realloc of config->links
 } s_route, *ps_route;
 
 typedef enum dupeCheck {dcOff, dcMove, dcDel} e_dupeCheck;

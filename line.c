@@ -1237,35 +1237,40 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
       else if (stricmp(option, "noroute")==0) actualRoute->routeVia = noroute;
       else if (stricmp(option, "no-route")==0) actualRoute->routeVia = noroute;
       else if (isdigit(option[0]) || (option[0] == '*') || (option[0] == '?')) {
-         if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL))
-            actualRoute->target = getLink(*config, option);
-         else {
-            if (actualRoute->pattern == NULL) {
-	      actualRoute->pattern = (char *) malloc(strlen(option)+2+1); //2 for additional .0 if needed
-	      strcpy(actualRoute->pattern, option);
-	      if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
-		strcat(actualRoute->pattern, ".0");
-	      }
-	      (*count)++;
-            } else {
-               // add new Route for additional patterns
-               *route = realloc(*route, sizeof(s_route)*(*count+1));
-               actualRoute = &(*route)[*count];
-               memcpy(actualRoute, &(*route)[(*count)-1], sizeof(s_route));
+		  if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL)) {
+			  actualRoute->target = getLink(*config, option);
+			  actualRoute->viaStr = (char *) malloc(strlen(option)+1);
+			  strcpy(actualRoute->viaStr, option);
+		  }
+		  else {
+			  if (actualRoute->pattern == NULL) {
+				  //2 for additional .0 if needed
+				  actualRoute->pattern = (char *) malloc(strlen(option)+2+1);
+				  strcpy(actualRoute->pattern, option);
+				  if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
+					  strcat(actualRoute->pattern, ".0");
+				  }
+				  (*count)++;
+              } else {
+				  // add new Route for additional patterns
+				  *route = realloc(*route, sizeof(s_route)*(*count+1));
+				  actualRoute = &(*route)[*count];
+				  memcpy(actualRoute,&(*route)[(*count)-1],sizeof(s_route));
 
-               actualRoute->pattern = (char *) malloc(strlen(option)+2+1);//2 for additional .0 if needed
-               strcpy(actualRoute->pattern, option);
-	       if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
-		 strcat(actualRoute->pattern, ".0");
-	       }
-               (*count)++;
-            }
+				  //2 for additional .0 if needed
+				  actualRoute->pattern = (char *) malloc(strlen(option)+2+1);
+				  strcpy(actualRoute->pattern, option);
+				  if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
+					  strcat(actualRoute->pattern, ".0");
+				  }
+				  (*count)++;
+			  }
 
-         }
-         if ((actualRoute->target == NULL) && (actualRoute->routeVia == 0)) {
-            printf("Line %d: Link not found in Route statement!\n", actualLineNr);
-            rc = 2;
-         }
+		  }
+		  if ((actualRoute->target == NULL) && (actualRoute->routeVia == 0)) {
+			  printf("Line %d: Link not found in Route statement!\n", actualLineNr);
+			  rc = 2;
+		  }
       }
       option = strtok(NULL, " \t");
    }
