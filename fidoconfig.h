@@ -85,12 +85,17 @@ struct link {
    int  AreaFix;              // 0 if not allowed for areafix
    int  forwardRequests;      // 0 if not allowed forward requests
    e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
-   char *pktFile,*packFile;   // used only internally by hpt
+   char *pktFile,*packFile;   // used only internally by hpt   
    char *floFile,*bsyFile;    // see up
    s_pack *packerDef;
    e_flavour echoMailFlavour;
    char *TossGrp, *DenyGrp;   // groups for areafix & echo access
    char *autoCreateFile;      // file where autocreated areas are written to
+
+#ifdef PACKET_FORWARDING
+   int    nPktFiles;          // used only internally by hpt
+   char **pktFiles;           // ", additional pkt files, from pkt forwarding
+#endif
 };
 typedef struct link s_link;
 
