@@ -2395,18 +2395,10 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
    return 0;
 }
 
-int parseForwardPkts(char *token, s_fidoconfig *config, s_link *link)
+int parseForwardPkts(char *token, s_link *link)
 {
-   unused(config);
-
-   if (token == NULL) {
-           prErr("There are parameters missing after %s!", actualKeyword);
-           return 1;
-   }
-
-   if (stricmp(token, "secure")==0) link->forwardPkts = fSecure;
-   else if (stricmp(token, "on")==0) link->forwardPkts = fOn;
-   else return 2;
+   if (token && stricmp(token, "secure")==0) link->forwardPkts = fSecure;
+   else return parseBool(token, &(link->forwardPkts));
 
    return 0;
 }
@@ -3151,7 +3143,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_FORWARDPKTS:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseForwardPkts(getRestOfLine(), config, clink);
+                rc = parseForwardPkts(getRestOfLine(), clink);
             }
             else {
                 rc = 1;
