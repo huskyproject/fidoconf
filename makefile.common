@@ -4,7 +4,7 @@ VER = 0.9
 VERH = 0
 
 LOBJS = common$(O) dir$(O) fidoconfig$(O) line$(O) patmat$(O)
-OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O) $(FECFG2FCONF)$(O)
+OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O)
 
 commonlibs: $(LIBFIDOCONFIG)$(A)
 
@@ -14,7 +14,7 @@ commonprogs:    tparser$(EXE) \
 		$(FCONF2FIDOGATE)$(EXE) \
 	        $(FCONF2GOLDED)$(EXE) \
 		$(FCONF2SQUISH)$(EXE) \
-		$(FECFG2FCONF)$(EXE)
+		fecfg2fconf$(EXE)
 
 $(LIBFIDOCONFIG)$(A): $(LOBJS)
 	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(A) $(LOBJS)
@@ -42,9 +42,9 @@ $(FCONF2SQUISH)$(EXE): $(FCONF2SQUISH)$(O) $(LIBFIDOCONFIG)$(A)
 	$(CC) $(LOPT) $(FCONF2SQUISH)$(O) -o $(FCONF2SQUISH)$(EXE) \
 	          $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-$(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(O) $(LIBFIDOCONFIG)$(A)
-	$(CC) $(LOPT) $(FECFG2FCONF)$(O) -o $(FECFG2FCONF)$(EXE) \
-	          $(LINKFIDOCONFIG) $(LINKSMAPI)
+fecfg2fconf$(EXE): fecfg2fconf$(O)
+	$(CC) -fpack-struct fecfg2fconf$(O) -o fecfg2fconf$(EXE)
+	         
 
 
 tparser$(EXE): tparser$(O) $(LIBFIDOCONFIG)$(A)

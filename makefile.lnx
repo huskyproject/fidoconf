@@ -26,7 +26,6 @@ FCONF2GOLDED = fconf2golded
 FCONF2MSGED  = fconf2msged
 FCONF2FIDOGATE = fconf2fidogate
 FCONF2SQUISH = fconf2squish
-#FECFG2FCONF = fecfg2fconf
 LIBFIDOCONFIG = libfidoconfig
 LINKSMAPI = -lsmapilnx
 LINKFIDOCONFIG = -l$(FIDOCONFIG)
@@ -35,7 +34,7 @@ default: all
 
 include makefile.common
 
-all: commonlibs libfidoconfig.so.$(VER) commonprogs
+all: commonlibs libfidoconfig.so.$(VER) commonprogs fecfg2fconf
 
 clean: commonclean
 	-$(RM) so_locations
@@ -45,6 +44,9 @@ distclean: commondistclean
 
 libfidoconfig.so.$(VER): line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O)
 	$(CC) -shared -Wl,-soname,libfidoconfig.so.$(VERH) -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O) $(LOPT) 
+
+fecfg2fconf.o: fecfg2fconf.c
+	$(CC) $(COPT) -fpack-struct fecfg2fconf.c
 
 %.o: %.c
 	$(CC) $(COPT) $*.c

@@ -660,7 +660,6 @@ int move_file(const char *from, const char *to)
 	
 int copy_file(const char *from, const char *to)
 {
-    int rc;
     char *buffer;
     size_t read;
     FILE *fin, *fout;

@@ -10,7 +10,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define INC_FE_TYPES
+#include <ctype.h>
+
+#include <typedefs.h>
+#include <compiler.h>
+#include <progprot.h>
+
+//#define INC_FE_TYPES
 #define INC_FE_BAMPROCS
 #define FALSE 0
 #define TRUE 1
@@ -20,7 +26,7 @@
 char *grp2str(dword bitmap)
 {
    static char buff[33];
-   char   *curr, *ptr, key, ch;
+   char   *curr, *ptr, key, ch, tmp;
 
    ptr = (char*)&bitmap;
    curr = buff;
@@ -29,12 +35,16 @@ char *grp2str(dword bitmap)
          ptr++;
          ch = *ptr;
       } /* endif */
-      if ((ch|0x7f)^0xff) {
+      tmp = ch|0x7f;
+      tmp ^=0xff;
+      if (tmp) {
          *(curr++) = key;
       } /* endif */
    } /* endfor */
    for (key = '1'; key <= '6'; key++, ch <<=1) {
-      if ((ch|0x7f)^0xff) {
+      tmp = ch|0x7f;
+      tmp ^=0xff;
+      if (tmp) {
          *(curr++) = key;
       } /* endif */
    } /* endfor */
@@ -55,6 +65,18 @@ char *aka2str(Address addr)
    return aka;
 }
 
+char *strLwr(char *str)
+{
+   char *ptr;
+   
+   ptr = str;
+   
+   while (*ptr) {
+      *ptr = tolower(*ptr);
+      ptr++;
+   }
+   return str;
+}
 
 void main(int argc, char **argv)
 {
@@ -62,11 +84,11 @@ void main(int argc, char **argv)
    CONFIG          config;
    Area            **area;
    ExtensionHeader header;
-   SysAddress      *sysaddr;
-   Packers         *packers;
-   GroupDefaults   **groupdef;
+   SysAddress      *sysaddr = NULL;
+   Packers         *packers = NULL;
+   GroupDefaults   **groupdef = NULL;
    Node            **node;
-   ForwardAreaFix  *frequest;
+   ForwardAreaFix  *frequest = NULL;
    int             i, c, stop;
 
    if (argc == 1) {
@@ -173,10 +195,10 @@ void main(int argc, char **argv)
       fprintf(f_hpt, "Aka %s\n", aka2str(node[i]->addr));
       fprintf(f_hpt, "OurAka %s\n", aka2str(sysaddr[node[i]->aka].main));
       if (stricmp(node[i]->password, node[i]->areafixpw) == 0) {
-         fprintf(f_hpt, "Password %s\n", strlwr(node[i]->password));
+         fprintf(f_hpt, "Password %s\n", strLwr(node[i]->password));
       } else {
-         fprintf(f_hpt, "Password %s\n", strlwr(node[i]->password));
-         fprintf(f_hpt, "AreafixPWD %s\n", strlwr(node[i]->areafixpw));
+         fprintf(f_hpt, "Password %s\n", strLwr(node[i]->password));
+         fprintf(f_hpt, "AreafixPWD %s\n", strLwr(node[i]->areafixpw));
       } /* endif */
       fprintf(f_hpt, "Level %d\n", node[i]->sec_level);
       if (node[i]->newgroup <= 25) {
@@ -224,7 +246,7 @@ void main(int argc, char **argv)
       for (c = 0; c < config.FWACnt; c++) {
          if (i == frequest[c].nodenr) {
             fprintf(f_hpt, "ForwardRequests on\n");
-            fprintf(f_hpt, "ForwardRequestFile %s\n", strlwr(frequest[c].file));
+            fprintf(f_hpt, "ForwardRequestFile %s\n", strLwr(frequest[c].file));
          } else {
          } /* endif */
       } /* endfor */

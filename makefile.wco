@@ -1,8 +1,16 @@
+DEBUG= 0
 CC=     wcc386
-CFLAGS= -d2 -hw -i..\smapi -we -zq -oneatx -5
 CDEFS=  -DOS2
 COPT=
 LIB=    wlib
+
+!ifeq DEBUG 1
+CFLAGS= -d2 -hw -i..\smapi -we -zq -oneatx -5
+LFLAGS= DEBUG Watcom
+!else
+CFLAGS= -i..\smapi -we -zq -oneatx -5
+LFLAGS=
+!endif
 
 LIBS=  fidoconfig.lib
 ALLIBS= $(LIBS) ..\smapi\smapiwco.lib
@@ -24,10 +32,10 @@ LOBJS=  -+patmat.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj
 all:    fidoconfig.lib fconf2squish.exe fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fe2fconf.exe
 
 fecfg2fconf.obj: fecfg2fconf.c
-	$(CC) fecfg2fconf.c -zp1 -5r
+	$(CC) $(CFLAGS) -zp1 fecfg2fconf.c
 
 fe2fconf.exe: fecfg2fconf.obj
-	wlink FILE fecfg2fconf.obj NAME fe2fconf.exe
+	wlink $(LFLAGS) FILE fecfg2fconf.obj NAME fe2fconf.exe
 
 
 fidoconfig.lib: $(OBJS)

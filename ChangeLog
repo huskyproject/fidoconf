@@ -1,5 +1,11 @@
 fidoconfig 0.9
 --------------
+
+----- cvs ci ------
+Mon Jun 28  16:43:00
+Fedor:
++ Added compiling fecfg2fconf (fastecho.cfg -> fidoconfig) for Linux
+
 ----- cvs ci ------
 Sun Jun 27  15:02:00
 Fedor:
