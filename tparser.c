@@ -973,7 +973,7 @@ int main(int argc, char **argv) {
         printf("keepTrsMail: %s\n", (config->keepTrsMail) ? "on" : "off");
         printf("keepTrsFiles: %s\n", (config->keepTrsFiles) ? "on" : "off");
   	  printf("createFwdNonPass: %s\n", config->createFwdNonPass ? "on" : "off");
-  #if defined ( __NT__ )
+  #if defined ( __NT__ ) || defined(__MINGW32__) || defined(__CYGWIN__)
         printf("SetConsoleTitle: %s\n", (config->setConsoleTitle) ? "on" : "off");
   #endif
         if (config->processPkt != NULL) printf("processPkt: %s\n", config->processPkt);

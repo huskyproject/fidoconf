@@ -3992,7 +3992,7 @@ int parseLine(char *line, s_fidoconfig *config)
             else
                 config->tossingExt = NULL;
             break;
-#if defined ( __NT__ )
+#if defined ( __NT__ ) || defined(__MINGW32__) || defined(__CYGWIN__)
         case ID_SETCONSOLETITLE:
             rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
             break;
