@@ -1,3 +1,8 @@
+2002-01-11 Friday 10:02 yagodkin
+
+	* fidoconf.h (1.91), line.c (1.274), tokens.h (1.22), tparser.c
+	(1.158): added fileDescName token for htick
+
 2002-01-10 Thursday 16:41  mche
 
 	* fidoconf.h (1.90), line.c (1.273), tokens.h (1.21), tparser.c
