@@ -35,7 +35,6 @@ FileFixNames
 MaxTicLineLength
 OriginInAnnounce (obsoleted)
 PassFileAreaDir
-RemoteFileRobotName
 SaveTic
 TicOutbound
 
@@ -53,4 +52,5 @@ TicOutbound
   NoTIC
   LinkFileBaseDir
   PackAka
+  RemoteFileRobotName
   TickerPackToBox
