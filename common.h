@@ -183,6 +183,18 @@ FCONF_EXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoco
            See the comments in common.c for further explanations
 */
 
+FCONF_EXT int  CreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ);
+/*DOC
+  Input:  link is the link whose OutboundFileName should be created.
+          prio is some kind of CRASH, HOLD, NORMAL
+          typ is some kind of PKT, REQUEST, FLOFILE
+  Output: a pointer to a char is returned.
+  FZ:     1 is returned if link is busy
+         -1 can't create bsy file
+          0 else
+          */
+
+
 FCONF_EXT int move_file(const char *from, const char *to);
 /* DOC
    Input:  source and destination filename

@@ -35,16 +35,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <sys/types.h>
-#ifdef __TURBOC__
-#include <dos.h>
-#else
-#ifndef __IBMC__
-#if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
-#include <unistd.h>
+
+#if ((!(defined(_MSC_VER) && (_MSC_VER >= 1200))) && (!defined(__TURBOC__)))
+#  include <unistd.h>
 #endif
+
+#if ((defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__DJGPP__)) || defined(__MINGW32__)
+#  include <io.h>
 #endif
-#endif
+
+#include <signal.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
 
 #if defined ( __WATCOMC__ )
 #include <dos.h>
@@ -66,7 +69,11 @@
 #include "fidoconf.h"
 #include "common.h"
 #include "xstr.h"
+#include "log.h"
+#include <smapi/compiler.h>
 #include <smapi/patmat.h>
+#include <smapi/progprot.h>
+
 
 int copyString(char *str, char **pmem)
 {
@@ -872,7 +879,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     // rc == '\x0003' no access export
     // rc == '\x0004' not linked
     
-    int i, rc = 0;
+    unsigned int i, rc = 0;
 
     for (i=0; i<echo->downlinkCount; i++) {
 		if (link == echo->downlinks[i]->link) break;
@@ -913,7 +920,7 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     // rc == '\x0003' no access import
     // rc == '\x0004' not linked
 
-    int i, rc = 0;
+    unsigned int i, rc = 0;
 
     for (i=0; i<echo->downlinkCount; i++) {
 		if (link == echo->downlinks[i]->link) break;
@@ -1010,4 +1017,111 @@ char *makeMsgbFileName(ps_fidoconfig config, char *s) {
     }
 
     return name;
+}
+
+int CreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ)
+{
+   int fd; // bsy file for current link
+   int nRet = 0;
+   char *name=NULL, *sepDir=NULL, limiter=PATH_DELIM, *tmpPtr;
+   e_bundleFileNameStyle bundleNameStyle = eUndef;
+
+   if (link->linkBundleNameStyle!=eUndef) bundleNameStyle=link->linkBundleNameStyle;
+   else if (config->bundleNameStyle!=eUndef) bundleNameStyle=config->bundleNameStyle;
+   
+   if (bundleNameStyle != eAmiga) {
+	   if (link->hisAka.point) xscatprintf(&name, "%08x.", link->hisAka.point);
+	   else xscatprintf(&name, "%04x%04x.", link->hisAka.net, link->hisAka.node);
+   } else {
+	   xscatprintf(&name, "%u.%u.%u.%u.", link->hisAka.zone,
+				   link->hisAka.net, link->hisAka.node, link->hisAka.point);
+   }
+
+   if (typ != REQUEST) {
+	   switch (prio) {
+	   case crash :     xstrcat(&name, "c");
+		   break;
+	   case hold :      xstrcat(&name, "h");
+		   break;
+	   case direct :    xstrcat(&name, "d");
+		   break;
+	   case immediate : xstrcat(&name, "i");
+		   break;
+	   case normal :    xstrcat(&name, (typ==PKT) ? "o" : "f");
+		   break;
+	   }
+   } else xstrcat(&name, "req");
+
+   switch (typ) {
+   case PKT :     xstrcat(&name, "ut");
+	   break;
+   case FLOFILE : xstrcat(&name, "lo");
+	   break;
+   case REQUEST :
+	   break;
+   }
+
+   // create floFile
+   xstrcat(&link->floFile, config->outbound);
+
+   // add suffix for other zones
+   if (link->hisAka.zone != config->addr[0].zone && bundleNameStyle != eAmiga) {
+	   link->floFile[strlen(link->floFile)-1]='\0';
+	   xscatprintf(&link->floFile, ".%03x%c", link->hisAka.zone, limiter);
+   }
+
+   if (link->hisAka.point && bundleNameStyle != eAmiga)
+	   xscatprintf(&link->floFile, "%04x%04x.pnt%c",
+				   link->hisAka.net, link->hisAka.node, limiter);
+   
+   _createDirectoryTree(link->floFile); // create directoryTree if necessary
+   xstrcat(&link->bsyFile, link->floFile);
+   xstrcat(&link->floFile, name);
+
+   // separate bundles
+
+   if (config->separateBundles && (bundleNameStyle!=eAmiga || (bundleNameStyle==eAmiga && link->packerDef==NULL))) {
+
+       xstrcat(&sepDir, link->bsyFile);
+       if (bundleNameStyle==eAmiga) 
+	   xscatprintf(&sepDir, "%u.%u.%u.%u.sep%c", 
+		       link->hisAka.zone, link->hisAka.net,
+		       link->hisAka.node ,link->hisAka.point, limiter);
+       else if (link->hisAka.point) xscatprintf(&sepDir, "%08x.sep%c", 
+						link->hisAka.point, limiter);
+       else xscatprintf(&sepDir, "%04x%04x.sep%c", link->hisAka.net,
+			link->hisAka.node, limiter);
+
+       _createDirectoryTree(sepDir);
+       nfree(sepDir);
+   }
+
+   // create bsyFile
+   if ((tmpPtr=strrchr(name, '.')) != NULL) *tmpPtr = '\0';
+   xstrscat(&link->bsyFile, name, ".bsy", NULL);
+   nfree(name);
+
+   // maybe we have session with this link?
+   if ( (fd=open(link->bsyFile, O_CREAT | O_RDWR | O_EXCL, S_IREAD | S_IWRITE)) < 0 ) {
+#if !defined(__WATCOMC__)	   
+	   int save_errno = errno;
+	   
+	   if (save_errno != EEXIST) {
+		   w_log('7', "cannot create *.bsy file \"%s\" for %s (errno %d)\n", link->bsyFile, link->name, (int)save_errno);
+         nRet = -1;
+		   
+	   } else {
+#endif
+		   w_log('7', "link %s is busy.", aka2str(link->hisAka));
+		   nfree(link->floFile);
+		   nfree(link->bsyFile);
+		   nRet = 1;
+#if !defined(__WATCOMC__)	   
+	   }
+#endif
+   } else  {
+      close(fd);
+      nRet = 0;
+   }
+   return nRet;
 }

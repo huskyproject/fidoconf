@@ -96,6 +96,7 @@ typedef struct execonfile {
 } s_execonfile, *ps_execonfile;
 
 typedef enum flavour {normal, hold, crash, direct, immediate} e_flavour;
+typedef enum pollType {PKT, REQUEST, FLOFILE} e_pollType;
 typedef enum _forward {fOff, fOn, fSecure} e_forward;
 typedef enum emptypktpwd {eOff, eSecure, eOn} e_emptypktpwd;
 typedef enum pktheaderdiffer {pdOff, pdOn} e_pktheaderdiffer;
