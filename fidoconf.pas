@@ -214,6 +214,9 @@ interface
           _str : Pchar;
           area : Ps_area;
           export : longint;
+          netMail: longint;
+          move : longint;
+          extspawn : longint;
        end;
      Ps_carbon = ^s_carbon;
 
@@ -275,9 +278,10 @@ interface
           semaDir : Pchar;
           badFilesDir : Pchar;
           loglevels : Pchar;
-          netMailArea : s_area;
           dupeArea : s_area;
           badArea : s_area;
+          netMailAreaCount : dword;
+          netMailAreas : Ps_area;
           echoAreaCount : dword;
           echoAreas : Ps_area;
           localAreaCount : dword;
@@ -364,6 +368,8 @@ interface
 
   function getArea(config:ps_fidoconfig; areaName:pchar):Ps_area;
 
+  function getNetMailArea(config:ps_fidoconfig; areaName:pchar):Ps_area;
+
   { 
      This function return 0 if the link is not linked to the area,
      else it returns 1.
@@ -425,6 +431,7 @@ implementation
   function getAddr(config:s_fidoconfig; addr:pchar):Ps_addr; external 'fidoconfig';
   function existAddr(config:s_fidoconfig; aka:s_addr):longint; external 'fidoconfig';
   function getArea(config:ps_fidoconfig; areaName:pchar):Ps_area; external 'fidoconfig';
+  function getNetMailArea(config:ps_fidoconfig; areaName:pchar):Ps_area; external 'fidoconfig';
   function isLinkOfArea(link:ps_link; area:ps_area):longint; external 'fidoconfig';
   function dumpConfigToFile(config:ps_fidoconfig; fileName:pchar):longint; external 'fidoconfig';
 (*
