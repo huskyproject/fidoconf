@@ -680,6 +680,11 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    area->group = (char*) malloc(sizeof(char)+1);
    strcpy(area->group, "0");
 
+   // set defaults for MS-DOS
+#ifdef MSDOS
+   area->DOSFile = 1;
+#endif
+
    tok = strtok(token, " \t");
    if (tok == NULL) {
       printf("Line %d: There is a areaname missing after %s!\n", actualLineNr, actualKeyword);
@@ -1859,6 +1864,28 @@ int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
   return 0;
 }
 
+int parseTypeDupes(char *line, e_typeDupeCheck *typeDupeBase, unsigned *DayAge) {
+
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (stricmp(line, "textdupes")==0) *typeDupeBase = textDupes;
+   else if (stricmp(line, "hashdupes")==0) *typeDupeBase = hashDupes;
+   else if (stricmp(line, "hashdupeswmsgid")==0) *typeDupeBase = hashDupesWmsgid;
+   else if (stricmp(line, "commondupebase")==0) {
+           *typeDupeBase = commonDupeBase;
+           if (*DayAge==0) *DayAge=(unsigned) 5;
+        }
+   else {
+      printf("Line %d: Unknown type base of dupes %s!\n", actualLineNr, line);
+      return 2;
+   }
+   return 0;
+}
+
+
 int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
 {
    char *tok;
@@ -2289,6 +2316,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
    else if (stricmp(token, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
    else if (stricmp(token, "savetic")==0) rc = parseSaveTicStatement(getRestOfLine(), config);
+   else if (stricmp(token, "areasmaxdupeage")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areasMaxDupeAge));
+   else if (stricmp(token, "dupebasetype")==0) rc = parseTypeDupes(getRestOfLine(), &(config->typeDupeBase), &(config->areasMaxDupeAge));
 #ifdef __TURBOC__
    else unrecognised++;
 #else   

@@ -266,6 +266,14 @@ struct nodelist {
 };
 typedef struct nodelist s_nodelist;
 
+enum typeDupeCheck {
+                    hashDupes, /*Base bild from crc32*/
+              hashDupesWmsgid, /*Base bild from crc32+MSGID*/
+                    textDupes, /*Base bild from FromName+ToName+Subj+MSGID*/
+               commonDupeBase  /*Common base for all areas bild from crc32*/
+};
+typedef enum typeDupeCheck e_typeDupeCheck;
+
 struct savetictype {
    char *fileAreaNameMask;
    char *pathName;
@@ -377,6 +385,9 @@ struct fidoconfig {
    s_nodelist *nodelists;
 
    char     *fidoUserList; /* without path name - is in nodelistDir */
+
+   e_typeDupeCheck typeDupeBase;
+   unsigned int areasMaxDupeAge;
 };
 
 

@@ -1,6 +1,15 @@
 fidoconfig 0.91
 ---------------
 
+
+----- cvs ci ------
+Mon Feb 25 07:39:41 NOVT 2000
+max:
+* area->dosfile set under ms-dos now
+patch from Alexander Vernigora:
+* DupeBaseType { TextDupes | HashDupes | HashDupesWMsgId | CommonDupeBase }
+* AreasMaxDupeAge 5 (default) - days limit for common dupe base
+
 ----- cvs ci ------
 Wed Feb 23 15:00:00 IZH 2000
 Georgi:

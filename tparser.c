@@ -282,7 +282,15 @@ int main() {
       printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
 
       printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
-	  printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
+      printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
+      printf("DupeBaseType: ");
+      if (config->typeDupeBase==textDupes) printf("textDupes\n");
+      if (config->typeDupeBase==hashDupes) printf("hashDupes\n");
+      if (config->typeDupeBase==hashDupesWmsgid) printf("hashDupesWmsgid\n");
+      if (config->typeDupeBase==commonDupeBase) {
+            printf("commonDupeBase\n");
+            printf("AreasMaxDupeAge: %d\n",config->areasMaxDupeAge);
+      }
 
       if (config->numPublicGroup > 0) {
           printf("PublicGroups: ");
