@@ -34,6 +34,10 @@
 #include <huskylib/log.h>
 #include "fidoconf.h"
 #include "common.h"
+
+/* export functions from DLL */
+#define DLLEXPORT
+#include <huskylib/huskyext.h>
 #include "stat.h"
 
 #define REV_MIN 1            /* min revision we can read */
@@ -93,10 +97,10 @@ static int do_stat = 1;                /* drop to 0 if critical error */
  */
 int acmp(hs_addr *a1, st_addr *a2)
 {
-    if (a1->zone  != a2->zone)  return (a1->zone  < a2->zone)  ? -1 : 1;
-    if (a1->net   != a2->net)   return (a1->net   < a2->net)   ? -1 : 1;
-    if (a1->node  != a2->node)  return (a1->node  < a2->node)  ? -1 : 1;
-    if (a1->point != a2->point) return (a1->point < a2->point) ? -1 : 1;
+    if (a1->zone  != a2->zone)  return (a1->zone  < (UINT)a2->zone)  ? -1 : 1;
+    if (a1->net   != a2->net)   return (a1->net   < (UINT)a2->net)   ? -1 : 1;
+    if (a1->node  != a2->node)  return (a1->node  < (UINT)a2->node)  ? -1 : 1;
+    if (a1->point != a2->point) return (a1->point < (UINT)a2->point) ? -1 : 1;
     return 0;
 }
 

@@ -272,7 +272,7 @@ static char *addchars(char *text, char c, int count, int *pos, int *tlen)
 }
 
 static char *find_grpdesc(char *grp) {
-  register int i;
+  register unsigned int i;
   char *ddef=NULL;
   if (*grp == 0) return NULL;
   
