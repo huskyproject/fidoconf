@@ -216,11 +216,11 @@ void carbonNames2Addr(s_fidoconfig *config)
        found=0;
        if(cb->areaName!=NULL){
 	   cbaName=cb->areaName;
-	   if(*cbaName=='*') ++cbaName;
+	   if (cbaName[0]=='*') cbaName++;
 
 	   if (!(cb -> extspawn)) {
 	       aptr=config->echoAreas;
-	       for (narea=0; narea < config->echoAreaCount && !found; narea++, aptr++) {
+	       for (narea=0; narea<config->echoAreaCount && !found; narea++,aptr++) {
 		   if (stricmp(cbaName, aptr->areaName)==0) {
 		       found++;
 		       cb->area = aptr;
@@ -229,7 +229,7 @@ void carbonNames2Addr(s_fidoconfig *config)
 		   }
 	       }
 	       aptr=config->localAreas;
-	       for (narea=0; narea < config->localAreaCount && !found; narea++, aptr++) {
+	       for (narea=0; narea<config->localAreaCount && !found; narea++,aptr++) {
 		   if (stricmp(cbaName, aptr->areaName)==0) {
 		       found++;
 		       cb->area = aptr;
@@ -238,7 +238,7 @@ void carbonNames2Addr(s_fidoconfig *config)
 		   }
 	       }
 	       aptr=config->netMailAreas;
-	       for (narea=0; narea < config->netMailAreaCount && !found; narea++, aptr++) {
+	       for (narea=0; narea<config->netMailAreaCount && !found; narea++,aptr++){
 		   if (stricmp(cbaName, aptr->areaName)==0) {
 		       found++;
 		       cb->area = aptr;
@@ -251,16 +251,16 @@ void carbonNames2Addr(s_fidoconfig *config)
 
 
        if (!found && (cb->move != 2) && !cb->extspawn) {// move==2 - delete
-	   printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (cb->areaName) ? cb->areaName : "");
+	   printf("Could not find area \"%s\" for carbon copy. Use BadArea\n",
+		  (cb->areaName) ? cb->areaName : "");
 	   cb->area = &(config->badArea);
-	   if(cb->areaName!=NULL){
-	       i= *cb->areaName=='*' ? 1 : 0;
+	   if (cb->areaName!=NULL) {
+	       i = (*cb->areaName=='*') ? 1 : 0;
 	       nfree(cb->areaName);
-	   }else
-	       i=0;
+	   } 
+	   else i = 0;
 	   cb->areaName = (char *) smalloc(strlen(config->badArea.areaName)+i+1);
-	   if(i)
-	       *cb->areaName='*';
+	   if (i) *cb->areaName='*';
 	   strcpy(cb->areaName+i,config->badArea.areaName);
 	   cb->export = 0;
        }
