@@ -34,6 +34,7 @@ makefile.emx   fconfemx.a            GNU C 2.7.x for OS/2 (EMX 0.9) a.out-style
 makefile.hco   fconfhco.lib          MetaWare High C 3.2 for OS/2
 makefile.ibo   fconfibo.lib          IBM C/Set++ 2.0 for OS/2
 makefile.lnx   fconflnx.a            GNU C 2.7.x for Linux
+makefile.qnx   libfidconfigqnx.*     GNU C 2.95.3 for QNX 6.x
 makefile.mgw   libfidoconfigmgw.a    Mingw32 for NT
 makefile.mvc   fidoconfigmvc.lib     Microsoft Visual C/C++ 6.0
 makefile.mvcdll fidoconfigmvc.dll    Microsoft Visual C/C++ 6.0
