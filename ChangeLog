@@ -1,3 +1,18 @@
+2002-09-30 Monday 14:22  stas_degteff
+
+	* common.c (1.105): More safety check for prevent owervrite files
+	by copy_file()
+
+2002-09-30 Monday 09:59  mche
+
+	* common.c (1.104): compiler.h was included twise that broke msvc
+	building
+
+2002-09-30 Monday 09:55  mche
+
+	* dirlayer.h (1.9): global defines are changed to prevent conflicts
+	with <windows.h>
+
 2002-09-29 Sunday 13:37  d_sergienko
 
 	* common.c (1.103): fixed undefined reference to `strnicmp' under
