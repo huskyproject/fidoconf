@@ -1,3 +1,7 @@
+2003-03-14 Friday 10:13  stas_degteff
+
+	* fidoconf.c (1.111), fidoconf.h (1.175): Try to fix MSVC build
+
 2003-03-12 Wednesday 07:25  stas_degteff
 
 	* afixcmn.c (1.28): Prevent memory fault
