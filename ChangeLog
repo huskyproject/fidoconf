@@ -1,3 +1,12 @@
+2002-02-15 Friday 12:56  ml
+
+	* fidoconf.h (1.87.2.2): added hs_addr for perl.c compilation in
+	hpt
+
+2002-02-15 Friday 08:25  ml
+
+	* .cvsignore (1.2.4.1): no message
+
 2002-02-08 Friday 11:57  ml
 
 	* cfg.c (1.15.2.2): fixed bug with unsubscribing link from echoarea
