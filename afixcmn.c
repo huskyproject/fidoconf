@@ -106,9 +106,9 @@ char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
       if (ourAka->point) xscatprintf(&buff, "\001FMPT %d\r", ourAka->point);
       if (destAka->point) xscatprintf(&buff, "\001TOPT %d\r", destAka->point);
    }
-   sleep(1);           // will be removed
-   msgid = time(NULL); // for //msgid = DoMakeMSGIDStamp();
-  
+   //sleep(1);           // will be removed
+   // msgid = time(NULL); // for //msgid = DoMakeMSGIDStamp();
+   msgid = DoMakeMSGIDStamp();
    if (ourAka->point)
       xscatprintf(&buff, "\001MSGID: %u:%u/%u.%u %08lx\r",
               ourAka->zone,ourAka->net,ourAka->node,ourAka->point,msgid);
