@@ -1,3 +1,12 @@
+2002-07-30 Tuesday 20:59  stas
+
+	* doc/proposal.texi (1.141): Correct loglevels description
+
+2002-07-30 Tuesday 15:52  mche
+
+	* common.c (1.91), common.h (1.51): hpt_stristr() moved to
+	fidoconfig
+
 2002-07-29 Monday 14:40  quetschke
 
 	* typesize.h (1.23): Added __CYGWIN__ to the list of other unix
