@@ -541,6 +541,13 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
          }
          area->msgbType = MSGTYPE_SQUISH;
       }
+      else if (stricmp(tok, "Msg")==0) {
+         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+            printf("Line %d: Logical Defect!! You could not make a *.msg Area Passthrough!\n", actualLineNr);
+            rc += 1;
+         }
+         area->msgbType = MSGTYPE_SDM;
+      }
       else if(tok[0]=='-') rc += parseAreaOption(config, tok+1, area);
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = realloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
@@ -1198,6 +1205,11 @@ int parseForwardPkts(char *token, s_fidoconfig *config, s_link *link)
    return 0;
 }
 
+void printLinkError()
+{
+  printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -1244,37 +1256,81 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "remap")==0) rc = parseRemap(getRestOfLine(),config);
    else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
    else if (stricmp(token, "password")==0) {
-      rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].defaultPwd));
-      // if another pwd is not known (yet), make it point to the defaultPWD
-      if (config->links[config->linkCount-1].pktPwd == NULL) config->links[config->linkCount-1].pktPwd = config->links[config->linkCount-1].defaultPwd;
-      if (config->links[config->linkCount-1].ticPwd == NULL) config->links[config->linkCount-1].ticPwd = config->links[config->linkCount-1].defaultPwd;
-      if (config->links[config->linkCount-1].areaFixPwd == NULL) config->links[config->linkCount-1].areaFixPwd = config->links[config->linkCount-1].defaultPwd;
-      if (config->links[config->linkCount-1].fileFixPwd == NULL) config->links[config->linkCount-1].fileFixPwd = config->links[config->linkCount-1].defaultPwd;
-      if (config->links[config->linkCount-1].bbsPwd == NULL) config->links[config->linkCount-1].bbsPwd = config->links[config->linkCount-1].defaultPwd;
+     if (config->linkCount > 0) {
+       rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].defaultPwd));
+       // if another pwd is not known (yet), make it point to the defaultPWD
+       if (config->links[config->linkCount-1].pktPwd == NULL) config->links[config->linkCount-1].pktPwd = config->links[config->linkCount-1].defaultPwd;
+       if (config->links[config->linkCount-1].ticPwd == NULL) config->links[config->linkCount-1].ticPwd = config->links[config->linkCount-1].defaultPwd;
+       if (config->links[config->linkCount-1].areaFixPwd == NULL) config->links[config->linkCount-1].areaFixPwd = config->links[config->linkCount-1].defaultPwd;
+       if (config->links[config->linkCount-1].fileFixPwd == NULL) config->links[config->linkCount-1].fileFixPwd = config->links[config->linkCount-1].defaultPwd;
+       if (config->links[config->linkCount-1].bbsPwd == NULL) config->links[config->linkCount-1].bbsPwd = config->links[config->linkCount-1].defaultPwd;
+     }
+     else {
+       printLinkError();
+       rc = 1;
+     }
    }
    else if (stricmp(token, "aka")==0) {
-      string2addr(getRestOfLine(), &(config->links[config->linkCount-1].hisAka));
-      rc = 0;
+     if (config->linkCount > 0) {
+       string2addr(getRestOfLine(), &(config->links[config->linkCount-1].hisAka));
+       rc = 0;
+     }
+     else {
+       printLinkError();
+       rc = 1;
+     }
    }
    else if (stricmp(token, "ouraka")==0) {
       rc = 0;
-      config->links[config->linkCount-1].ourAka = getAddr(*config, getRestOfLine());
-      if (config->links[config->linkCount-1].ourAka == NULL) rc = 2;
+      if (config->linkCount > 0) {
+	config->links[config->linkCount-1].ourAka = getAddr(*config, getRestOfLine());
+	if (config->links[config->linkCount-1].ourAka == NULL) rc = 2;
+      }
+      else {
+	printLinkError();
+	rc = 1;
+      }
    }
    else if (stricmp(token, "autoAreaCreate")==0) {
       rc = 0;
-      if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].autoAreaCreate = 1;
-      else rc = 2;
+      if (config->linkCount > 0) {
+	if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].autoAreaCreate = 1;
+	else rc = 2;
+      }
+      else {
+	printLinkError();
+	rc = 1;
+      }
    }
    else if (stricmp(token, "forwardRequests")==0) {
       rc = 0;
-      if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].forwardRequests = 1;
-      else rc = 2;
+      if (config->linkCount > 0) {
+	if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].forwardRequests = 1;
+	else rc = 2;
+      } 
+      else {
+	printLinkError();
+	rc = 1;
+      }
    }
    else if (stricmp(token, "forwardPkts")==0) {
+     if (config->linkCount > 0) {
       rc = parseForwardPkts(getRestOfLine(), config, &(config->links[config->linkCount-1]));
+     }
+     else {
+       printLinkError();
+       rc = 1;
+     }
    }
-   else if (stricmp(token, "autoCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateDefaults));
+   else if (stricmp(token, "autoCreateDefaults")==0) {
+     if (config->linkCount > 0){
+       rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateDefaults));
+     }
+     else {
+       printLinkError();
+       rc = 1;
+     }
+   }
    else if (stricmp(token, "autofileCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoFileCreateDefaults));
    else if (stricmp(token, "AreaFix")==0) {
           rc = 0;

@@ -54,17 +54,6 @@ char *readLine(FILE *f)
       return NULL;
    }
 
-   /*   while ((strlen(line) % 80) == 0) {
-      if (fgets(temp, 81, f) == NULL) break; // eof encountered
-
-      line = realloc(line, strlen(line)+strlen(temp)+1);
-      strcat(line, temp);
-      if (temp[strlen(temp)-1] == '\n') {
-         temp[strlen(temp)-1] = 0; // kill \n
-         break;
-      }
-      }*/
-
    if (line[strlen(line)-1] != '\n') {
      while ((strlen(line) % 80) == 0) {
        if (fgets(temp, 81, f) == NULL) break; // eof encountered
@@ -118,8 +107,30 @@ char *striptwhite(char *str)
 
 char *stripComment(char *line)
 {
+  
+  char state = 0;
+  // state 0: normal state
+  //       1: between ""
+  //       2: end
 
-  // to be written
+  int i = strlen(line)-1;
+  
+  while ((i >= 0) && (state!=2)) {
+    switch (state) {
+    case 0:
+      if (line[i]=='"') state = 1;
+      if (line[i]=='#')	{
+	line[i] = '\0';
+	state = 2;
+      }
+      break;
+    case 1:
+      if (line[i]=='"') state = 0;
+      break;
+    }
+
+    i--;
+  }
 
   return line;
 }
@@ -132,7 +143,9 @@ void parseConfig(FILE *f, s_fidoconfig *config)
    while ((line = readLine(f)) != NULL) {
       line = trimLine(line);
       line = stripComment(line);
-      if ((line[0] != '#') && (line[0] != 0)) {
+      if (line[0] != 0) {
+	//	printf(line);
+	//	printf("\n");
          line = shell_expand(line);
          parseLine(line, config);
       }

@@ -1,6 +1,17 @@
 fidoconfig 0.7
 --------------
 
+----- cvs ci ------
+Wed Apr 14 14:54:14 CEST 1999
+mtt:
++ Comments are now removed from the line before the parsing. 
+  If the # is between two " it is no comment. 
+  Take a look at the state-machine in stripComment() if it is correct.
++ if you use a statement which specifies information about a link (ourAka,
+  autocreateDefaults...) it is first tested now, if a link exists.
++ if in an area Option the string msg is recognized the area is a *.msg area.
+
+----- cvs ci ------
 Sun Apr 11 17:00
 Antonio:
 + '-a' option added to fconf2golded. Export areas only.
