@@ -79,6 +79,10 @@
 #define DLLEXPORT
 #include <huskylib/huskyext.h>
 
+/* smapi */
+#include <smapi/msgapi.h>
+
+/* fidoconfig */
 #include "syslogp.h"
 #include "fidoconf.h"
 #include "common.h"
