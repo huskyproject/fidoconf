@@ -7,17 +7,17 @@ exist and where to put the file.
 * Location:: Where to put the config file
 * Syntax::   Syntax
 * Keywords:: Keyword reference
-* HPT::      HPT (High Portable Tosser) keywords
+* HPT::      HPT (Highly Portable Tosser) keywords
 * HTick::    HTick (Husky Ticker) keywords
 * NLTools::  NLTools keywords
 * EmailPkt:: EmailPkt keywords
 * BSOpack::  BSOpack keywords
-* herp::     Husky External Requext Processor keywords
-* Example::  Here is a sample configfile which works for me
+* herp::     Husky External Request Processor keywords
+* Example::  Here is a sample config file which works for me
 @end menu
 
 @node Location, Syntax, config file, config file
-@section Configfile location
+@section Config file location
 The fidoconfig library searches the config file on different locations:
 
 @table @asis
@@ -29,8 +29,8 @@ The fidoconfig library searches the config file on different locations:
 in the current directory
 @end table
 
-If you are compile library with huskymak.cfg, the location will be overset
-with CFGDIR parameter.
+If you compile library with huskymak.cfg, the location will be overset with
+CFGDIR parameter.
 
 Additionally you can set an enviroment variable called @code{FIDOCONFIG} which
 points to the file:
@@ -42,9 +42,9 @@ FIDOCONFIG=~/fidoconfig/config
 export FIDOCONFIG
 @end example
 
-The config file(s) must be readable. If you plan to use the autoareacreate
+The config file(s) must be readable. If you plan using the autoareacreate
 feature of HPT / autofilecreate featute of HTick / etc..., the config
-file must be writeable.
+file(s) must be writeable.
 
 @node Syntax, Keywords, Location, config file
 @section Syntax
@@ -56,8 +56,8 @@ All symbols are @strong{not} case-sensitive.
 All keywords are evaluated as occurring, the first matching
 keyword found is valid. If there are more then one keywords of the
 same type allowed, the @strong{last} line matching the situation is
-valid. Another words: second definition overwrite the previous one.
-If no match is found, a default-value will be used.
+valid. Another words: second definition overwrites the previous one.
+If no match is found, a default value will be used.
 
 "#" at the start of a line or <whiteSpace>#<whiteSpace> within the
 line starts a comment. The comment ends with the line.
@@ -93,7 +93,7 @@ FIDOCONFIG library can set up internal variables:
 set basedir=/home/user/fido/
 @end example
 
-@code{[OS]} variable automatically setting up for following opetaring systems:
+@code{[OS]} variable is automatically set up for following operating systems:
 @table @asis
 @item UNIX
 All unix-like OS: Linux, *BSD, BeOS, ...
@@ -110,8 +110,8 @@ tearline `uptime`
 endif
 @end example
 
-Some programs can be compiled with @strong{module} variavle. It can be
-used for config parsing speed up:
+Some programs can be compiled with @strong{module} variable. It can be
+used to speed up config parsing:
 
 @example
 if [module]==htick
@@ -119,17 +119,17 @@ include /etc/ftn/fileareas
 endif
 @end example
 
-And if @strong{HPT} is running, fileareas don't parsed, because [module]==hpt.
+And if @strong{HPT} is running, fileareas aren't parsed because [module]==hpt.
 
 There are following modules available:
 @table @asis
-@item hpt (Highy Portable Tosser)
-@item htick (Husky Tick)
+@item hpt (Highly Portable Tosser)
+@item htick (Husky Ticker)
 @item hptutil
 @item hpucode
 @end table
 
-Also @strong{external} variables van be parsed:
+Also @strong{external} variables can be parsed:
 @example
 autoexec.bat:
 SET VAR=myvar
@@ -169,14 +169,14 @@ endif
 
 @node Keywords, HPT, Syntax, config file
 @section Common keywords for HUSKY-programs
-This keywords may be used by several programs. More specific keywords
-you can find in the documentation of the individual programs.
+These keywords may be used by several programs. More specific keywords
+you can find in the programs' individual documentations.
 
 @menu
 * version::                     version of fidoconfig
-* name::                        your Systems Name
+* name::                        your system name
 * location::                    your location
-* sysop::                       your Name
+* sysop::                       your name
 * include::                     include other files
 * address::                     your system address
 
@@ -185,8 +185,8 @@ you can find in the documentation of the individual programs.
 * tempDir::                     path for temporary files (possible memory disk)
 * logfiledir::                  path for log files
 * syslogfacility::              facility to use for syslogging
-* loglevels::			set level of log output
-* screenloglevels::             set level of log output to screen
+* loglevels::                   sets level of log output
+* screenloglevels::             sets level of log output to screen
 
 * seqdir::                      path for msgid sequence stamp
 * seqoutrun::                   max msgid seq outrun from current time
@@ -195,10 +195,10 @@ you can find in the documentation of the individual programs.
 * unpack::                      definition for unpacker
 
 * link::                        adding a link to your config
-* linkdefaults::                start/end/destroy links default definitions
-* aka::                         links adress
+* linkdefaults::                start/end/destroy link's default definitions
+* aka::                         link's address
 * ouraka::                      our aka for link
-* password::                    links default password
+* password::                    link's default password
 * pktpwd::                      pktpassword for this link
 * ticpwd::                      ticker password for this link
 * areafixpwd::                  areafix password for this link
@@ -226,7 +226,7 @@ you can find in the documentation of the individual programs.
 @code{version 0.13}
 @end table
 
-Here you specify to which version of fidoconfig your config belong.
+Here you specify which version of fidoconfig your config belongs to.
 Currently this statement does nothing.
 
 This statement cannot be repeated.
@@ -240,7 +240,7 @@ This statement cannot be repeated.
 @code{name Leetebrok BBS}
 @end table
 
-Here you specify your Systems name.
+Here you specify your system's name.
 
 This statement cannot be repeated.
 
@@ -253,7 +253,7 @@ This statement cannot be repeated.
 @code{location Dusseldorf}
 @end table
 
-You specify your Location here.
+You specify your location here.
 
 This statement cannot be repeated.
 
@@ -284,9 +284,9 @@ have different config parts, you can include a file and (via cron job or manuall
 change the content of this file without changing the rest of the config.
 Additionally you can split your config in different parts. So you can
 have your fileareas definition in another file than your msgareas definition.
-This gives your the ability to have some survey about your config.
+This gives you the ability to have some survey about your config.
 
-This statement can be repeated. But dont make recursive includes. eg
+This statement can be repeated. But don't make recursive includes, e.g.
 include a file which includes another which includes the first. Although
 this will be detected and fixed many times, there is a chance that it
 will not be detected one time.
@@ -303,7 +303,7 @@ will not be detected one time.
 This command specifies which akas your system has. This statement is
 full 5d compatible, which means you can have also addresses like
 @code{2:2433/1245.1@@fidonet.org}. The first address statement is your
-main aka which will be used by tossers on different occasions, for
+main aka which will be used by tosser on different occasions, for
 example if zone number could not be taken from the @@INTL Kludge in
 netmails.
 
@@ -343,9 +343,9 @@ has the name NNNNFFFF.?lo
 @example
 @table @asis
 @item NNNN
-The 4-digit hex-number of the nodes netnumber.
+The 4-digit hex-number of the node's netnumber.
 @item FFFF
-The 4-digit hex-number of the nodes nodenumber.
+The 4-digit hex-number of the node's nodenumber.
 @item ?
 Here the flavour of the mails can be chosen. @strong{h}-hold, @strong{c}-crash,
 @strong{f}-normal, @strong{d}-direct, @strong{i}-immediate.
@@ -371,8 +371,8 @@ This statement cannot be repeated.
 @end table
 
 This command specifies where your inbound files are stored. This directory
-is the base directory which means if you have a connection which ist not
-protected and the other system is not listed. The files go in here.
+is the base directory which means if you have a connection which is not
+protected and the other system is not listed the files go in here.
 Only netmails are tossed from this inbound.
 
 This statement cannot be repeated.
@@ -387,13 +387,14 @@ This statement cannot be repeated.
 @code{tempDir /var/tmp}
 @end table
 
-This command specifies the path where the temporary files of the fido-programs should
-be stored. This directory can erase in boot time. Good idea is set it to memory disk.
+This command specifies the path where the temporary files of the fido-programs
+should be stored. This directory can be erased while booting. Good idea is to
+set it to a memory disk.
 
 Default value is path specified by TEMP, TMP or TMPDIR enviroment variables (use
 TEMP first, if it not defined then use TMP, next use TMPDIR).
-If these enviroment variables not defined: 
-- win32 version use %WINDIR%\TEMP (usualy c:\windows\temp for Win9x/Me and
+If these enviroment variables are not defined: 
+- win32 versions use %WINDIR%\TEMP (usually c:\windows\temp for Win9x/Me and
   c:\winnt\temp for Windows NT/2000/XP)
 - versions for unix-like OS'es use /tmp
 - other versions use c:\
@@ -427,7 +428,7 @@ Some programs use logFileDir for persistent temporary/work files.
 @end table
 
 Some Husky programs are able to write logs via syslogd instead of via log
-file. For those programs, this keyword definies which facility to use for
+file. For those programs, this keyword defines which facility to use for
 writing to the syslog. Syslogd will use this facility name to decide which
 syslog logfile the log messages will go to. Common names that can be used
 include @code{mail}, @code{news}, @code{uucp}, @code{local0}. The exact
@@ -450,9 +451,9 @@ your fidoconfig file. Consult the individual program's documentation.
 @code{loglevels 1345789,A-F Q}
 @end table
 
-This statement define  log levels list for store messages into log file.
-Hiphen is range char (A-F expands to ABCDEF).
-Recognise only alpha & numeric log level characters, other ignored.
+This statement defines log levels list for writing messages into log file.
+Hiphen is a range char (A-F expands to ABCDEF).
+Only alpha & numeric log level characters are recognized, others are ignored.
 
 In example we output to log messages with levels 3,4,5,7,8,9,A,B,C,D,E,F,Q.
 
@@ -485,14 +486,14 @@ The log levels are following:
 @item N - File delete
 @item O - operations with opened file (read, write, seek, ...)
 @item P - Directory operations (create, delete, rename, ...)
-@item Q - Email message parsing and construct
+@item Q - Email message parsing and construction
 @item R - Truncate file
 @item S - File send/sent
 @item T - Test files (exist, permittions, etc.)
-@item U - Functions calls (enter to func & leave from it)
+@item U - Functions calls (entering func & leaving it)
 @item V - reserved
 @item W - reserved
-@item X - Filenames construct
+@item X - Filenames construction
 @item Y - Link messagebase pass (some phase in hptlink & etc)
 @item Z - debug messages: source lines (functions control points).
 @item a-z - debug messages
@@ -512,7 +513,7 @@ This statement cannot be repeated.
 @code{screenloglevels 2345789,A-C}
 @end table
 
-Set levels of log output to screen. See loglevels for details.
+Sets levels of log output to screen. See loglevels for details.
 
 This statement cannot be repeated.
 
@@ -525,9 +526,9 @@ This statement cannot be repeated.
 @code{seqDir /var/spool/fido/seq}
 @end table
 
-Set path for current msgid sequence stamp.
+Sets path for current msgid sequence stamp.
 
-By default use environment variable SEQDIR.
+By default environment variable SEQDIR is used.
 
 This statement cannot be repeated.
 
@@ -540,7 +541,7 @@ This statement cannot be repeated.
 @code{seqOutrun 1m}
 @end table
 
-Set maximum outrun for msgid sequence from current time.
+Sets maximum outrun for msgid sequence from current time.
 
 Use decimal number with optional suffix.
 
@@ -556,7 +557,7 @@ Suffixes are:
 
 Set seconds without suffix.
 
-By default use environment variable SEQOUT or 3y if unset.
+By default environment variable SEQOUT is used, or 3y if it isn't set.
 
 This statement cannot be repeated.
 
@@ -573,7 +574,7 @@ This statement cannot be repeated.
 
 This statement sets the command line call for the packer.
 The file will be moved into the archive, that means the file will be
-deleted on the harddisk. It only remains in the archive.
+deleted from the harddisk. It only remains in the archive.
 
 $a will be replaced by the archive file.
 
@@ -584,10 +585,10 @@ This statement can be repeated.
 See also hpt and htick documentation.
 
 @subsection Note
-On some OS, if called program can't be found (can't be run) result of pack
-command is undefined. (Example: DOS. Reason of this: command.com do not
-return error code if executable file not found.)
-To prevent dangerouses write full path name for packer program, please.
+On some OSes, if a program called can't be found (can't be run) result of pack
+command is undefined. (Example: DOS. Reason of this: command.com does not
+return error code if executable file was not found.)
+To prevent danger write full path name for packer program, please.
 
 @node unpack, link, pack, Keywords
 @subsection Unpack
@@ -621,7 +622,7 @@ Unpack  "cd $p && /usr/bin/ha eyq -e $a $f"            0 4841
 @end example
 @end table
 
-This statement sets the call of certain unpackers according to a id in the
+This statement sets the call of certain unpackers according to the id in the
 archive file
 
 @code{call} is the command line call for the packer (enclosed into quotes!);
@@ -632,9 +633,9 @@ archive file
 
 @code{$a} will be replaced by the archive file to extract from archive;
 
-@code{$p} will be replaced by the path to unpack files (usualy tempoutbound);
+@code{$p} will be replaced by the path to unpacked files (usually tempoutbound);
 
-@code{$f} will be replaced by the description file name if any (used by htick, see 'FileDescName' token; possible other husky programs).
+@code{$f} will be replaced by the description file name if any (used by htick, see 'FileDescName' token; possibly other husky programs).
 
 @example
 
@@ -649,13 +650,13 @@ e.g.: unpack "unzip -joLqq $a -d $p $f" 0 504b0304
 
 This statement can be repeated.
 
-See also hpt and htick documentation.
+Also see hpt and htick documentation.
 
 @subsection Note
-On some OS, if called program can't be found (can't be run) result of unpack
-command is undefined. (Example: MS DOS. Reason of this: command.com do not
-return error code if executable file not found.)
-To prevent dangerouses write full path name for unpacker program, please.
+On some OSes, if a program called can't be found (can't be run) result of unpack
+command is undefined. (Example: MS DOS. Reason of this: command.com does not
+return error code if executable file was not found.)
+To prevent danger write full path name for unpacker program, please.
 
 
 @node link, linkdefaults, unpack, Keywords
@@ -687,7 +688,7 @@ All the following link-related statements change default configuration
 of link until a @code{'link'} or @code{'linkdefaults end'} or
 @code{'linkdefaults destroy'} statement is found.
 All parameters collected in linkdefaults sections are copied to link
-configuration every time when @code{'link'} statement found in
+configuration every time when @code{'link'} statement is found in
 configuration file. Link-related statements after @code{'linkdefaults end'} or
 @code{'linkdefaults destroy'} or before first @code{'link'} or
 @code{'linkdefaults'} statement are treated as error.
@@ -764,7 +765,7 @@ This statement can only be repeated for different links.
 @code{ticpwd geheim}
 @end table
 
-This statement sets the ticcer password for the actual link.
+This statement sets the ticker password for the actual link.
 Only passwords with maximal 8 characters are valid because of limitations of
 other software packages.
 An empty statement is allowed.
@@ -853,7 +854,7 @@ This statement can only be repeated for different links.
 This statement sets the packer for the link. You can use the packer which you
 has set up using the pack statement.
 If you omit this statement or set @code{packer none} no mail will be
-packed. The pkt´s will be put in the outbound.
+packed. The pkts will be put in the outbound.
 
 This statement can only be repeated for different links.
 
@@ -867,7 +868,7 @@ This statement can only be repeated for different links.
 @end table
 
 This statement specifies the @code{BadArea}.
-Read documentation of HPT for details.
+Read HPT documentation for details.
 
 This statement cannot be repeated.
 
@@ -881,7 +882,7 @@ This statement cannot be repeated.
 @end table
 
 This statement specifies the @code{DupeArea}.
-Read documentation of HPT for details.
+Read HPT documentation for details.
 
 This statement cannot be repeated.
 
@@ -896,8 +897,8 @@ This statement cannot be repeated.
 development" 2:2433/1245 -def}
 @end table
 
-This statement specifies the echoareas.
-Read documentation of HPT for details.
+This statement specifies the echoarea.
+Read HPT documentation for details.
 
 This statement can be repeated.
 
@@ -911,7 +912,7 @@ This statement can be repeated.
 @end table
 
 This statement specifies the @code{NetMailArea}.
-Read documentation of HPT for details.
+Read HPT documentation for details.
 
 This statement can be repeated.
 
@@ -926,7 +927,7 @@ This statement can be repeated.
 @end table
 
 This statement specifies the @code{LocalArea}: messages area in BBS.
-Read documentation of HPT for details.
+Read HPT documentation for details.
 
 
 @node filearea, bbsarea, localarea, Keywords
@@ -939,7 +940,7 @@ Read documentation of HPT for details.
 @end table
 
 This statement specifies the @code{FileArea}: fileecho definition.
-(Read documentation of HTick for details.)
+Read HTick documentation for details.
 
 
 @node bbsarea, , filearea, Keywords
@@ -952,13 +953,13 @@ This statement specifies the @code{FileArea}: fileecho definition.
 @end table
 
 This statement specifies the @code{BBSArea}: BBS file area definition.
-It's use for filelist building.
-Read documentation of HTick for details.
+It's used for filelist building.
+Read HTick documentation for details.
 
 
 @node HPT, HTick, Keywords, config file
-@section High Portable Tosser keywords
-This section contains only keyword-list. Read HPT Manual for more info.
+@section Highly Portable Tosser keywords
+This section contains keyword-list only. Read HPT Manual for more info.
 
 @example
 @include keywords.hpt
@@ -967,7 +968,7 @@ This section contains only keyword-list. Read HPT Manual for more info.
 
 @node HTick, NLTools, HPT, config file
 @section HTick (Husky Ticker) keywords
-This section contains only keyword-list. Read HTick Manual for more info.
+This section contains keyword-list only. Read HTick Manual for more info.
 
 @example
 @include keywords.htick
@@ -1117,7 +1118,7 @@ see the proper 5D point numbers instead of the fakenet numbers.
 
 @menu
 Common tokens:
-* sendMailCmd::                 command line for send file via e-mail
+* sendMailCmd::                 command line for sending file via e-mail
 
 Link definition tokens:
 * email::                       email address of this link
@@ -1136,10 +1137,10 @@ Link definition tokens:
 @code{sendMailCmd /usr/sbin/sendmail $a <$f}
 @end table
 
-This keyword is used to define send mail command & it's parameters. Macro '$a'
-specify position of the recipient e-mail address; macro '$f' specify position
-for name of file with message body. If '$f' omitted then message body
-to be directed to stdin.
+This keyword is used to define send mail command & its parameters. Macro '$a'
+specifies position of the recipient e-mail address; macro '$f' specifies position
+of name of file with message body. If '$f' is omitted then message body will be
+taken from stdin.
 
 This statement can't be repeated.
 
@@ -1195,15 +1196,14 @@ This statement can only be repeated for different links.
 @code{emailEncoding MIME}
 @end table
 
-This keyword is used to set the encoding for outgoing emails to this
-link.
+This keyword is used to set the encoding for outgoing emails to this link.
 
 This statement can only be repeated for different links.
 
 
 @node BSOpack, herp, EmailPkt, config file
 @section BSOpack keywords
-This section contains only keyword-list. Read BsoPack Manual for more info.
+This section contains keyword-list only. Read BsoPack Manual for more info.
 
 @example
 @include keywords.bp
