@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Sat Dec  9 08:57:16 UTC 2000
+dmitry:
++ added docs about tokens packNetmail & maxUnpackedNetmail for bsopack
+
+----- cvs ci ------
 Fri Dec  8 04:41:07 UTC 2000
 sms:
 * string2addr: check if string is non-NULL first
