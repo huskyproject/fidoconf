@@ -17,22 +17,22 @@
 
 static char *curconfname=NULL;
 static long curconfpos=0;
-static FILE *hcfg;
+static FILE *hcfg=NULL;
 static short condition;
 static int  iflevel, nvars, sp;
 static int  maxnvars, maxsp, maxif;
 static struct { short state, inelse, wastrue;
-              } *ifstack;
+              } *ifstack=NULL;
 static struct { char *var, *value;
-              } *set;
+              } *set=NULL;
 static struct {
         FILE *farr;
         int  curline;
         char *confname;
-      } *incstack;
+      } *incstack=NULL;
 
-static unsigned int cfgNamesCount;
-static char **cfgNames;
+static unsigned int cfgNamesCount=0;
+static char **cfgNames=NULL;
 
 int init_conf(char *conf_name)
 {
@@ -107,7 +107,7 @@ void setvar(char *name, char *value)
 }
 
 void close_conf(void)
-{ 
+{
   int i;
   char *module;
 
@@ -522,7 +522,7 @@ static int cmpfnames(char *file1, char *file2)
 #endif
 
 void checkIncludeLogic(ps_fidoconfig config)
-{ 
+{
     unsigned int i, j;
 
     for (j=0; j<config->linkCount; j++) {
