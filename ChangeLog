@@ -1,3 +1,7 @@
+2003-01-29 Wednesday 10:24  stas_degteff
+
+	* tparser.c (1.238): Add a checks for relative path & etc
+
 2003-01-27 Monday 18:21  stas_degteff
 
 	* makefile.inc (1.41): Fix illegal usage the 'tokens.h' file
