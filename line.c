@@ -3328,7 +3328,7 @@ int parseSeqOutrun(char *line, unsigned long *seqoutrun)
 
 /* Parse the 'AvailList' token value
  */
-int parseAvailList(char *line, unsigned int *availlist)
+int parseAvailList(char *line, eAvailList *availlist)
 {
   char *iLine;
 
