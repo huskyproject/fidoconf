@@ -40,6 +40,7 @@ extern "C" {
 
 #ifdef _MAKE_DLL
 #   if defined(_MSC_VER) && (_MSC_VER >= 1200)
+#		define _MAKE_DLL_MVC_
 #       ifndef _FCONF_EXT
 #           define FCONF_EXT __declspec(dllimport)
 #       else
