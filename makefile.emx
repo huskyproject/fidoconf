@@ -6,7 +6,7 @@ CC=	gcc
 EXENAMEFLAG=-o 
 CDEFS=	-DOS2 -I.. -Wall -pedantic -c -Wno-char-subscripts
 COPT=	-O2 
-LFLAGS=-Zcrtdll -s
+LFLAGS= -s
 
 OBJ=.o
 EXE=.exe
