@@ -1,3 +1,18 @@
+2003-03-24 Monday 12:44  val_khokhlov
+
+	* fidoconf/tokens.h (1.3), src/line.c (1.5): new token for link
+	'flavour' to set netmail, echomail and fileecho flavours
+
+2003-03-24 Monday 12:06  val_khokhlov
+
+	* src/line.c (1.4): more verbose error message for route
+
+2003-03-24 Monday 11:02  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.3), src/line.c (1.3), src/tparser.c (1.3):
+	flavour in 'route' can be omitted, in this case link's
+	'netMailFlavour' is used
+
 2003-03-21 Friday 11:54  val_khokhlov
 
 	* HISTORY (1.22), fidoconf/arealist.h (1.2), fidoconf/fidoconf.h
