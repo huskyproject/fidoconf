@@ -113,7 +113,31 @@
 #define LL_DEBUG        'a'      /* Debug output */
 #define LL_DEBUGA       'a'      /* Debug output */
 #define LL_DEBUGB       'b'      /* Debug output */
-
+#define LL_DEBUGC       'c'      /* Debug output */
+#define LL_DEBUGD       'd'      /* Debug output */
+#define LL_DEBUGE       'e'      /* Debug output */
+#define LL_DEBUGF       'f'      /* Debug output */
+#define LL_DEBUGG       'g'      /* Debug output */
+#define LL_DEBUGH       'h'      /* Debug output */
+#define LL_DEBUGI       'i'      /* Debug output */
+#define LL_DEBUGJ       'j'      /* Debug output */
+#define LL_DEBUGK       'k'      /* Debug output */
+#define LL_DEBUGL       'l'      /* Debug output */
+#define LL_DEBUGM       'm'      /* Debug output */
+#define LL_DEBUGN       'n'      /* Debug output */
+#define LL_DEBUGO       'o'      /* Debug output */
+#define LL_DEBUGP       'p'      /* Debug output */
+#define LL_DEBUGQ       'q'      /* Debug output */
+#define LL_DEBUGR       'r'      /* Debug output */
+#define LL_DEBUGS       's'      /* Debug output */
+#define LL_DEBUGT       't'      /* Debug output */
+#define LL_DEBUGU       'u'      /* Debug output */
+#define LL_DEBUGV       'v'      /* Debug output */
+#define LL_DEBUGW       'w'      /* Debug output */
+#define LL_DEBUGX       'x'      /* Debug output */
+#define LL_DEBUGY       'y'      /* Debug output */
+#define LL_DEBUGZ       'z'      /* Debug output */
+#define LL_DEBUGz       'z'      /* Debug output */
 
 #ifdef __cplusplus
 extern "C" {
