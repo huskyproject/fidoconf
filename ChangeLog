@@ -1,3 +1,12 @@
+2003-03-12 Wednesday 07:23  stas_degteff
+
+	* afixcmn.c (fidoconf-1_4-stable.1): Prevent memory fault
+
+2003-03-12 Wednesday 06:20  stas_degteff
+
+	* makefile.emx, recode.c (fidoconf-1_4-stable.[1,2]): Fix EMX
+	build. Thanks to Andr Luk'yanov  2:5001/7
+
 2003-03-04 Tuesday 11:21  stas_degteff
 
 	* getfree.c (fidoconf-1_4-stable.1): Fix BeOS build
