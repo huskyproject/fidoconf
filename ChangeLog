@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sat Feb 12 19:40:00 IZH 2000
+Georgi:
+* added new token originInAnnounce for htick
+
+----- cvs ci ------
 Sat Feb 12 20:50:26 NOVT 2000
 max:
 * print error if LinkGrp, OptGrp & AccessGrp parsed before Link definition
