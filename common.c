@@ -62,7 +62,8 @@
 #endif
 
 #ifdef _MAKE_DLL_MVC_
-#	include <Windows.h>
+//#	include <Windows.h>
+#	include <Winbase.h>
 #	undef s_addr
 #endif
 
@@ -780,7 +781,12 @@ int copy_file(const char *from, const char *to)
     fclose(fin);
     nfree(buffer);
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
-    int rc = CopyFile(from, to, FALSE);
+    int rc = FALSE;
+#if (_WIN32_WINNT >= 0x0500)
+    rc = CreateHardLink(to, from, NULL);
+    if(rc == FALSE) 
+#   endif
+    rc = CopyFile(from, to, FALSE);
     if (rc == FALSE) {
       remove(to);
       return -1;
