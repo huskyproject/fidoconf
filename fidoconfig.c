@@ -107,6 +107,26 @@ char *striptwhite(char *str)
 
 char *stripComment(char *line)
 {
+  char *aux;
+  
+  if (line[0]=='#') {
+    line[0]='\0';
+    return line;
+  }
+  
+  aux=strchr(line,'#');
+  
+  if (aux!=NULL) {
+    if (*(aux-1)==' ')
+      aux[0]='\0';
+  }
+  
+  return line;
+}
+
+/*
+char *stripComment(char *line)
+{
   
   char state = 0;
   // state 0: normal state
@@ -137,6 +157,7 @@ char *stripComment(char *line)
 
   return line;
 }
+*/
 
 void parseConfig(FILE *f, s_fidoconfig *config)
 {
