@@ -620,7 +620,8 @@ void printCarbons(s_fidoconfig *config) {
             break;
         }
 
-        printf("%sCarbon%s%s\n",nspc,crbKey,cb->ctype==ct_addr ? aka2str(cb->addr) : cb->str);
+        printf("%sCarbon%s\"%s\"\n",
+	       nspc, crbKey, (cb->ctype==ct_addr) ? aka2str(cb->addr) : cb->str);
         if (cb->rule&CC_AND)
             continue;
 
@@ -635,14 +636,14 @@ void printCarbons(s_fidoconfig *config) {
 
             switch (cb->move) {
             case 0:
-                printf("CarbonCopy:     ");
+                printf("CarbonCopy:          ");
                 break;
             case 2:
                 printf("CarbonDelete");
                 break;
             case 1:
             default:
-                printf("CarbonMove:     ");
+                printf("CarbonMove:          ");
                 break;
             }
             if (cb->areaName) {

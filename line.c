@@ -2203,8 +2203,15 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
 
     if(ctype==ct_addr)
         string2addr(token, &(cb->addr));
-    else
-        copyString(token, &(cb->str));
+    else {
+	// strip trailing ""
+	if (token[0]=='"' && token[strlen(token)-1]=='"') {
+	    token++;
+	    token[strlen(token)-1]='\0';
+	}
+        //copyString(token, &(cb->str));
+	xstrcat(&(cb->str),token);
+    }
 
     return 0;
 }
