@@ -2,8 +2,10 @@
 # This will produce dynamic executables requiring EMX.DLL and EMXLIB*DLL
 
 CC=	gcc
-CDEFS=	-DOS2
-COPT=	-O2 -I.. -Wall -pedantic -c
+# the space after the o is important!
+EXENAMEFLAG=-o 
+CDEFS=	-DOS2 -I.. -Wall -pedantic -c -Wno-char-subscripts
+COPT=	-O2 
 LFLAGS=-Zcrtdll
 
 OBJ=.o
@@ -17,7 +19,7 @@ AR_R=r
 LINKSMAPI=../smapi/smapiemx.a
 LIBPREFIX=
 
-FIDOCONFIG = fidoconfigemx
+FIDOCONFIG = fconfemx
 FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded
 FCONF2MSGED  = fconf2msged
@@ -25,7 +27,7 @@ FCONF2FIDOGATE = fconf2fidogate
 FCONF2SQUISH = fconf2squish
 FECFG2FCONF = fecfg2fconf
 LIBFIDOCONFIG = $(LIBPREFIX)$(FIDOCONFIG)
-LINKFIDOCONFIG=$(LIBFIDOCONFIG)
+LINKFIDOCONFIG=$(LIBFIDOCONFIG)$(LIB)
 
 default: all
 

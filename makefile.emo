@@ -2,10 +2,12 @@
 # This will produce static standalone executables.
 
 CC=	gcc
+EXENAMEFLAG=-o
 CDEFS=	-DOS2
-COPT=	-O2 -I.. -Wall -pedantic -c -Zomf
+COPT=	-O2 -I.. -Wall -pedantic -c -Zomf -Wno-char-subscripts
 LFLAGS= -Zomf -Zsys
 
+TPU=.tpu
 OBJ=.obj
 EXE=.exe
 RM=del
@@ -13,20 +15,23 @@ LIB=.lib
 AR=emxomfar
 AR_R=r
 
-LINKFIDOCONFIG=fidoconfig.lib
+LINKFIDOCONFIG=fconfemo.lib
 LINKSMAPI=../smapi/smapiemo.lib
 LIBPREFIX=
 
-FIDOCONFIG = fidoconfig
+FIDOCONFIG = fconfemo
 FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded
 FCONF2MSGED  = fconf2msged
 FCONF2FIDOGATE = fconf2fidogate
 FCONF2SQUISH = fconf2squish
 FECFG2FCONF = fecfg2fconf
-LIBFIDOCONFIG = $(LIBPREFIX)fidoconfig
+LIBFIDOCONFIG = $(LIBPREFIX)fconfemo
 
 default: all
+
+.SUFFIXES:
+.SUFFIXES: .c .obj
 
 include makefile.common
 

@@ -2,7 +2,7 @@
 # (legacy makefile, no dynlibs, no huskymak support)
 
 CC = cc
-EXENAMEFLAG = -o
+EXENAMEFLAG = -o 
 AR = ar
 AR_R = rs
 RM = rm
