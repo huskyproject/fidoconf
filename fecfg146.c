@@ -300,7 +300,7 @@ int read_fe_area(Area *a, FILE *fp)
     a->advflags.disablepsv = (temp >> 8) & 1;
     a->advflags.keepmails  = (temp >> 9) & 1;
     a->advflags.hide       = (temp >> 10) & 1;
-    a->advflags.nomanual   = (temp >> 11) & 1;
+    a->advflags.manual     = (temp >> 11) & 1;
     a->advflags.umlaut     = (temp >> 12) & 1;
     a->advflags.resv       = (temp >> 13) & 7;
 
@@ -362,6 +362,7 @@ int read_fe_node(Node *n, FILE *fp, size_t length)
     n->flags.packpriority     =temp & 1; temp>>=1;
     n->flags.resv             =temp & 3; temp>>=2;
 
+    /* Possible here need bits parsing (n->afixflags is union: bit structure and short) */
     n->afixflags.afixflags = get_word(pbuf); pbuf+=2;
 
     n->resv2 = get_word(pbuf); pbuf+=2;
@@ -411,6 +412,23 @@ int read_fe_packers(Packers *p, FILE *fp)
     memcpy(p->resv, pbuf, 7); pbuf+=7;
 
     assert(pbuf - buffer == FE_PACKERS_SIZE);
+
+    return 0;
+}
+
+int read_fe_unpackers(Unpackers *p, FILE *fp)
+{
+    unsigned char buffer[FE_UNPACKERS_SIZE];
+    unsigned char *pbuf = buffer;
+
+    if (fread(buffer, FE_UNPACKERS_SIZE, 1, fp) != 1)
+        return -1;
+
+    memcpy(p->command, pbuf, _MAXPATH); pbuf+=_MAXPATH;
+    p->callingconvention = *pbuf; pbuf++;
+    memcpy(p->resv, pbuf, 7); pbuf+=7;
+
+    assert(pbuf - buffer == FE_UNPACKERS_SIZE);
 
     return 0;
 }

@@ -392,26 +392,25 @@ typedef struct
         unsigned resv             : 2;
     }
     flags;                      /* 24 bits total! */
-    struct
-    {
-/*
-        unsigned type             : 2;     Type of AreaFix: None (human),
-                                           Normal or Advanced (FSC-57)
-        unsigned noforward        : 1;     Don't forward AFix requests
-        unsigned allowremote      : 1;
-        unsigned allowdelete      : 1;     flags for different FSC-57 requests
-        unsigned allowrename      : 1;     all 3 reserved for future use
-        unsigned binarylist       : 1;
-        unsigned addplus          : 1;     add '+' when requesting new area
-        unsigned addtear          : 1;     add tearline to the end of requests
-        unsigned sendto           : 3;     name of this systems's AreaFix robot
-        unsigned resv             : 4;
-*/
-        unsigned short afixflags;
+    union
+    { struct{
+        unsigned areafixtype      : 2;  /* Type of AreaFix: None (human),       */
+                                        /* Normal or Advanced (FSC-57)          */
+        unsigned forward          : 1;  /* Forward AreaFix requests             */
+        unsigned allowremote      : 1;  /*                                      */
+        unsigned allowdelete      : 1;  /* flags for different FSC-57 requests  */
+        unsigned allowrename      : 1;  /* all 3 reserved for future use        */
+        unsigned binarylist       : 1;  /* Forward changes                      */
+        unsigned addplus          : 1;  /* add '+' when requesting new area     */
+        unsigned addtear          : 1;  /* add tearline to the end of requests  */
+        unsigned sendto           : 3;  /* name of this systems's AreaFix robot */
+        unsigned resv             : 4;  /* Here: "Send rules" ?? */
+      }bits;
+      unsigned short afixflags;
     }
     afixflags;
     unsigned short resv2;
-    char password[9];          /* .PKT password */
+    char password[9];          /* .PKT password    */
     char areafixpw[9];         /* AreaFix password */
     unsigned short sec_level;
     unsigned long groups;      /* Bit-field, UCHAR 0/Bit 7 = 'A' etc. */
@@ -470,7 +469,7 @@ typedef struct
         unsigned disablepsv : 1;
         unsigned keepmails  : 1;
         unsigned hide       : 1;
-        unsigned nomanual   : 1;
+        unsigned manual     : 1;
         unsigned umlaut     : 1;
         unsigned resv       : 3;
     }
@@ -659,6 +658,8 @@ typedef struct
 }
 Unpackers;
 
+#define FE_UNPACKERS_SIZE sizeof(Unpackers)
+
 #define EH_RA111_MSG    0x0100  /* Original records of BBS systems */
 #define EH_QBBS_MSG     0x0101
 #define EH_SBBS_MSG     0x0102
@@ -772,6 +773,7 @@ int read_fe_groupdefaults(GroupDefaults *g, FILE *fp, size_t length);
 void free_fe_groupdefaults(GroupDefaults *g);
 
 int read_fe_packers(Packers *p, FILE *fp);
+int read_fe_unpackers(Unpackers *p, FILE *fp);
 int read_fe_frequest(ForwardAreaFix *f, FILE *fp);
 
 #ifdef __cplusplus
