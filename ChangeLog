@@ -1,3 +1,7 @@
+2003-03-04 Tuesday 11:21  stas_degteff
+
+	* getfree.c (fidoconf-1_4-stable.1): Fix BeOS build
+
 2003-02-25 Tuesday 12:23  stas_degteff
 
 	* fidoconf.c, fidoconf.h (fidoconf-1_4-stable.[2,3]): MFC: fix bug
@@ -369,8 +373,8 @@
 
 2003-01-15 Wednesday 05:58  stas_degteff
 
-	* common.c (1.160), common.h (1.83), xstr.c (1.12): Update defines
-	(changed in smapi/compiler.h)
+	* common.c (1.160), common.h (1.83), xstr.c (1.12): Adopt defines
+	with compiler.h
 
 2003-01-15 Wednesday 05:58  stas_degteff
 
@@ -1398,7 +1402,7 @@
 2002-10-20 Sunday 09:36  mche
 
 	* common.c (1.119), makefile.mvc (1.20), makefile.mvcdll (1.22):
-	defenition for USE_SYSTEM_COPY in smapi/compiler.h for MSVC
+	Definition for USE_SYSTEM_COPY in compiler.h for MSVC
 
 2002-10-18 Friday 04:17  stas_degteff
 
