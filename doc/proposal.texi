@@ -168,6 +168,7 @@ areafix
 misc:
 * logEchoToScreen::             set output to screen log information
 * Remap::                       remap mail to other address
+* SeparateBundles::             move echomail for each link to his own directory
 
 @end menu
 
@@ -1459,7 +1460,7 @@ Set area or netmail for areafix reports.
 
 Set output to screen log messages.
 
-@node Remap,  ,logEchoToScreen, Keywords
+@node Remap, SeparateBundles, logEchoToScreen, Keywords
 @subsection Remap
 @table @asis
 @item Syntax:
@@ -1469,6 +1470,17 @@ Set output to screen log messages.
 @end table
 
 Remap mail to other address.
+
+@node SeparateBundles, , Remap, Keywords
+@subsection SeparateBundles
+@table @asis
+@item Syntax:
+@code{SeparateBundles}
+@item Example:
+@code{SeparateBundles}
+@end table
+
+This statament move echomail for all links to his own directory.
 
 @node Example,  , Keywords, config file
 @section Working sample config

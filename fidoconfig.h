@@ -255,6 +255,7 @@ struct fidoconfig {
    char     *ReportTo;
 
    unsigned int logEchoToScreen;
+   unsigned int separateBundles;
 };
 
 
