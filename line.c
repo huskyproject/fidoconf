@@ -761,8 +761,8 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    else if (strcmp(iOption, "killsb")==0) area->killSB = 1;
    else if (strcmp(iOption, "keepunread")==0) area->keepUnread = 1;
    else if (strcmp(iOption, "killread")==0) area->killRead = 1;
-   else if (strcmp(iOption, "h")==0) area->hide = 1;
-   else if (strcmp(iOption, "k")==0) area->killMsgBase = 1;
+   else if ((strcmp(iOption, "h")==0)||(strcmp(iOption, "hide")==0)) area->hide = 1;
+   else if ((strcmp(iOption, "k")==0)||(strcmp(iOption, "kill")==0)) area->killMsgBase = 1;
    else if (strcmp(iOption, "manual")==0) area->manual = 1;
    else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
    else if (strcmp(iOption, "nolink")==0) area->nolink = 1;
