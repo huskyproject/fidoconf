@@ -40,6 +40,8 @@
 extern "C" {
 #endif
 
+#define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
+
 /* common functions */
 
 int copyString(char *str, char **pmem);

@@ -1265,6 +1265,8 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
 				  *route = realloc(*route, sizeof(s_route)*(*count+1));
 				  actualRoute = &(*route)[*count];
 				  memcpy(actualRoute,&(*route)[(*count)-1],sizeof(s_route));
+				  if ((*route)[(*count)-1].viaStr != NULL)
+				    actualRoute->viaStr = strdup((*route)[(*count)-1].viaStr);
 
 				  //2 for additional .0 if needed
 				  actualRoute->pattern = (char *) malloc(strlen(option)+2+1);

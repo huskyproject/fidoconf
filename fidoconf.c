@@ -321,33 +321,33 @@ s_fidoconfig *readConfig()
 
 void freeArea(s_area area) {
     int i;
-	free(area.areaName);
-	free(area.fileName);
-	free(area.description);
-	free(area.group);
-	for (i=0; i < area.downlinkCount; i++) free(area.downlinks[i]);
-	free(area.downlinks);
+	nfree(area.areaName);
+	nfree(area.fileName);
+	nfree(area.description);
+	nfree(area.group);
+	for (i=0; i < area.downlinkCount; i++) nfree(area.downlinks[i]);
+	nfree(area.downlinks);
 }
 
 void freeFileArea(s_filearea area) {
     int i;
-	free(area.areaName);
-	free(area.pathName);
-	free(area.description);
-	free(area.group);
-	for (i=0; i < area.downlinkCount; i++) free(area.downlinks[i]);
-	free(area.downlinks);
+	nfree(area.areaName);
+	nfree(area.pathName);
+	nfree(area.description);
+	nfree(area.group);
+	for (i=0; i < area.downlinkCount; i++) nfree(area.downlinks[i]);
+	nfree(area.downlinks);
 }
 
 void freeBbsArea(s_bbsarea area) {
-        free(area.areaName);
-        free(area.pathName);
-        free(area.description);
+        nfree(area.areaName);
+        nfree(area.pathName);
+        nfree(area.description);
 }
 
 void freeSaveTic(s_savetic savetic) {
-        free(savetic.fileAreaNameMask);
-        free(savetic.pathName);
+        nfree(savetic.fileAreaNameMask);
+        nfree(savetic.pathName);
 }
 
 void disposeConfig(s_fidoconfig *config)
@@ -355,43 +355,43 @@ void disposeConfig(s_fidoconfig *config)
   int i;
   unsigned int j;
 
-   free(config->name);
-   free(config->sysop);
-   free(config->location);
+   nfree(config->name);
+   nfree(config->sysop);
+   nfree(config->location);
 
-   free(config->addr);
+   nfree(config->addr);
 
-   for (i=0; i < config->publicCount; i++) free(config->publicDir[i]);
-   free(config->publicDir);
+   for (i=0; i < config->publicCount; i++) nfree(config->publicDir[i]);
+   nfree(config->publicDir);
 
    for (i = 0; i< config->linkCount; i++) freeLink(&config->links[i]);
-   free(config->links);
+   nfree(config->links);
 
    freeLink(config->linkDefaults);
-   free(config->linkDefaults);
+   nfree(config->linkDefaults);
 
-   free(config->inbound);
-   free(config->outbound);
-   free(config->ticOutbound);
-   free(config->protInbound);
-   free(config->listInbound);
-   free(config->localInbound);
-   free(config->tempInbound);
-   free(config->logFileDir);
-   free(config->dupeHistoryDir);
-   free(config->nodelistDir);
-   free(config->msgBaseDir);
-   free(config->magic);
-   free(config->semaDir);
-   free(config->badFilesDir);
-   free(config->areafixhelp);
-   free(config->tempOutbound);
-   free(config->fileAreaBaseDir);
-   free(config->passFileAreaDir);
-   free(config->busyFileDir);
+   nfree(config->inbound);
+   nfree(config->outbound);
+   nfree(config->ticOutbound);
+   nfree(config->protInbound);
+   nfree(config->listInbound);
+   nfree(config->localInbound);
+   nfree(config->tempInbound);
+   nfree(config->logFileDir);
+   nfree(config->dupeHistoryDir);
+   nfree(config->nodelistDir);
+   nfree(config->msgBaseDir);
+   nfree(config->magic);
+   nfree(config->semaDir);
+   nfree(config->badFilesDir);
+   nfree(config->areafixhelp);
+   nfree(config->tempOutbound);
+   nfree(config->fileAreaBaseDir);
+   nfree(config->passFileAreaDir);
+   nfree(config->busyFileDir);
    for (j = 0; j < config->numPublicGroup; j++)
-     free(config->PublicGroup[j]);
-   free(config->PublicGroup);
+     nfree(config->PublicGroup[j]);
+   nfree(config->PublicGroup);
 
 
    for (i = 0; i< config->netMailAreaCount; i++)
@@ -400,106 +400,106 @@ void disposeConfig(s_fidoconfig *config)
    freeArea(config->badArea);
    for (i = 0; i< config->echoAreaCount; i++)
    freeArea(config->echoAreas[i]);
-   free(config->echoAreas);
+   nfree(config->echoAreas);
    for (i = 0; i< config->fileAreaCount; i++)
    freeFileArea(config->fileAreas[i]);
-   free(config->fileAreas);
+   nfree(config->fileAreas);
    for (i = 0; i< config->bbsAreaCount; i++)
    freeBbsArea(config->bbsAreas[i]);
-   free(config->bbsAreas);
+   nfree(config->bbsAreas);
    for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
-   free(config->localAreas);
+   nfree(config->localAreas);
 
    for (i = 0; i < config->routeCount; i++) {
-	   free(config->route[i].pattern);
-	   free(config->route[i].viaStr);
+	   nfree(config->route[i].pattern);
+	   nfree(config->route[i].viaStr);
    }
-   free(config->route);
+   nfree(config->route);
    for (i = 0; i < config->routeFileCount; i++) {
-	   free(config->routeFile[i].pattern);
-	   free(config->routeFile[i].viaStr);
+	   nfree(config->routeFile[i].pattern);
+	   nfree(config->routeFile[i].viaStr);
    }
-   free(config->routeFile);
+   nfree(config->routeFile);
    for (i = 0; i < config->routeMailCount; i++) {
-	   free(config->routeMail[i].pattern);
-	   free(config->routeMail[i].viaStr);
+	   nfree(config->routeMail[i].pattern);
+	   nfree(config->routeMail[i].viaStr);
    }
-   free(config->routeMail);
+   nfree(config->routeMail);
 
    for (i = 0; i < config->remapCount; i++) 
        if (config->remaps[i].toname!=NULL)
-          free(config->remaps[i].toname);
-   free(config->remaps);
+          nfree(config->remaps[i].toname);
+   nfree(config->remaps);
 
    for (i = 0; i < config->nodelistCount; i++)
      {
        if (config->nodelists[i].nodelistName != NULL)
-         free(config->nodelists[i].nodelistName);
+         nfree(config->nodelists[i].nodelistName);
        if (config->nodelists[i].diffUpdateStem != NULL)
-         free(config->nodelists[i].diffUpdateStem);
+         nfree(config->nodelists[i].diffUpdateStem);
        if (config->nodelists[i].fullUpdateStem != NULL)
-         free(config->nodelists[i].fullUpdateStem);
+         nfree(config->nodelists[i].fullUpdateStem);
      }
-   free(config->nodelists);
-   free(config->fidoUserList);
+   nfree(config->nodelists);
+   nfree(config->fidoUserList);
 
    for (i = 0; i < config->packCount; i++) {
-           free(config->pack[i].packer);
-           free(config->pack[i].call);
+           nfree(config->pack[i].packer);
+           nfree(config->pack[i].call);
    }
-   free(config->pack);
+   nfree(config->pack);
 
    for (i = 0; i < config->unpackCount; i++) {
-           free(config->unpack[i].matchCode);
-           free(config->unpack[i].mask);
-           free(config->unpack[i].call);
+           nfree(config->unpack[i].matchCode);
+           nfree(config->unpack[i].mask);
+           nfree(config->unpack[i].call);
    }
-   free(config->unpack);
+   nfree(config->unpack);
 
-   for (i= 0; i < config->includeCount; i++) free(config->includeFiles[i]);
-   free(config->includeFiles);
+   for (i= 0; i < config->includeCount; i++) nfree(config->includeFiles[i]);
+   nfree(config->includeFiles);
 
-   free(config->intab);
-   free(config->outtab);
-   free(config->importlog);
-   free(config->LinkWithImportlog);
-   free(config->fileAreasLog);
-   free(config->fileNewAreasLog);
-   free(config->longNameList);
-   free(config->fileArcList);
-   free(config->filePassList);
-   free(config->fileDupeList);
-   free(config->msgidfile);
-   free(config->loglevels);
-   free(config->echotosslog);
-   free(config->lockfile);
+   nfree(config->intab);
+   nfree(config->outtab);
+   nfree(config->importlog);
+   nfree(config->LinkWithImportlog);
+   nfree(config->fileAreasLog);
+   nfree(config->fileNewAreasLog);
+   nfree(config->longNameList);
+   nfree(config->fileArcList);
+   nfree(config->filePassList);
+   nfree(config->fileDupeList);
+   nfree(config->msgidfile);
+   nfree(config->loglevels);
+   nfree(config->echotosslog);
+   nfree(config->lockfile);
 
    for (i = 0; i< config->carbonCount; i++) {
-	free(config->carbons[i].str);
-	if (config->carbons[i].areaName) free(config->carbons[i].areaName);
-	if (config->carbons[i].reason) free(config->carbons[i].reason);
+	nfree(config->carbons[i].str);
+	if (config->carbons[i].areaName) nfree(config->carbons[i].areaName);
+	if (config->carbons[i].reason) nfree(config->carbons[i].reason);
    }
-   free(config->carbons);
+   nfree(config->carbons);
 
-   free(config->ReportTo);
+   nfree(config->ReportTo);
 
-   free(config->beforePack);
-   free(config->afterUnpack);
+   nfree(config->beforePack);
+   nfree(config->afterUnpack);
    /* +AS+ */
-   free(config->processPkt);
+   nfree(config->processPkt);
    /* -AS- */
-   free(config->areafixSplitStr);
-   free(config->areafixOrigin);
-   free(config->fileLocalPwd);
-   free(config->fileLDescString);
+   nfree(config->areafixSplitStr);
+   nfree(config->areafixOrigin);
+   nfree(config->fileLocalPwd);
+   nfree(config->fileLDescString);
 
    for (i = 0; i< config->saveTicCount; i++) freeSaveTic(config->saveTic[i]);
-   free(config->saveTic);
+   nfree(config->saveTic);
 
    for (i = 0; i < config->execonfileCount; i++) {
-		free(config->execonfile[i].filearea);
-		free(config->execonfile[i].filename);
-		free(config->execonfile[i].command);
+		nfree(config->execonfile[i].filearea);
+		nfree(config->execonfile[i].filename);
+		nfree(config->execonfile[i].command);
    }
 
    free(config);
