@@ -33,15 +33,11 @@ default: all
 
 !include makefile.inc
 
-tlib_sup.cmd: tlib_sup.bat
-	copy tlib_sup.bat tlib_sup.cmd
-
-libs: tlib_sup.cmd commonlibs
+libs: commonlibs
 
 all: libs commonprogs
 
 clean: commonclean
-	$(RM) tlib_sup.cmd
 
 distclean: commondistclean
 

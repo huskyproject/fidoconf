@@ -2,7 +2,7 @@
 
 CC=	gcc
 # the space after the o is important!
-EXENAMEFLAG=-o
+EXENAMEFLAG=-o 
 CDEFS=	-Zwin32 -DNT -D__NT__ -DWINNT -I.. -Wall -pedantic -c -Wno-char-subscripts
 COPT=	-O2
 LFLAGS=-Zwin32 -Zsys -s
