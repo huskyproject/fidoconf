@@ -1,3 +1,7 @@
+2002-06-11 Tuesday 18:22  mche
+
+	* afixcmd.c (1.8): remove cygwin warning
+
 2002-06-10 Monday 15:54  mche
 
 	* Makefile (1.37), makefile.inc (1.24), makefile.mvc (1.12),
