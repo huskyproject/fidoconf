@@ -85,7 +85,7 @@ typedef          void       VOID;
 #endif
 #endif                                          // #if defined(__EMX__)
 
-#if (defined(__linux__) && !defined(__alpha)) || defined(__FreeBSD__) || defined(__DJGPP__)
+#if (defined(__linux__) && !defined(__alpha)) || defined(__FreeBSD__) || defined(__DJGPP__) ||defined(__MINGW32__)
 typedef          char       CHAR;               // 1 byte
 typedef unsigned char      UCHAR;               // 1 byte
 typedef          short      INT16;              // 2 byte
