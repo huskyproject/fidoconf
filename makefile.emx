@@ -5,8 +5,8 @@ CC=	gcc
 # the space after the o is important!
 EXENAMEFLAG=-o 
 CDEFS=	-DOS2 -I.. -Wall -pedantic -c -Wno-char-subscripts
-COPT=	-O2 -Zcrtdll
-LFLAGS= -s
+COPT=	-O2
+LFLAGS= -s  -Zcrtdll
 
 OBJ=.o
 EXE=.exe
