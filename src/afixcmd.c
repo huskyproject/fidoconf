@@ -545,7 +545,7 @@ int limitCheck(s_link *link) {
         areas     = theApp.config->echoAreas;
     }
     else if (theApp.module == M_HTICK) {
-        echoLimit = link->afixEchoLimit;
+	echoLimit = link->ffixEchoLimit;
         areaCount = theApp.config->fileAreaCount;
         areas     = theApp.config->fileAreas;
     }

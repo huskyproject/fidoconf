@@ -812,7 +812,7 @@ HUSKYEXT int grpInArray(char *group, char **strarray, unsigned int len);
 HUSKYEXT void fc_freeEchoArea(s_area     *area);
 
 
-void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink);
+HUSKYEXT void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink);
 
 void processPermissions (s_fidoconfig *config);
 
