@@ -1163,7 +1163,7 @@ int parseAreaLink(s_fidoconfig *config, s_area *area, char *tok)
     }
     if (isLinkOfArea(link, area)) {
         prErr("link %s subscribed twice!", tok);
-        return 1;
+        return 0;
     }
     
     area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
