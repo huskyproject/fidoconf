@@ -429,7 +429,7 @@ int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd) {
 void Addlink(s_fidoconfig *config, s_link *link, s_area *area)
 {
     char *ExclMask;
-    int i;
+    UINT i;
 
     if(area)
     {
