@@ -153,6 +153,8 @@ char *stripComment(char *line)
 {
   char *aux;
 
+  if (line == NULL || *line == 0) return line;
+
   if (line[0]==CommentChar) {
     line[0]='\0';
     return line;
