@@ -27,6 +27,10 @@ endif
 
 CDEFS=-D$(OSTYPE) $(ADDCDEFS) -DCFGDIR=\"$(CFGDIR)\"
 
+# Use -DVSPRINTF_ONLY on systems without vsnprintf() and snprintf()
+# Use this for sunOs 2.5.1 (Thanks to Serguei Revtov)
+#CDEFS	+= -DVSPRINTF_ONLY
+
 ifdef DIRSEP
 CDEFS+= -DPATH_DELIM=\'$(DIRSEP)\'
 endif

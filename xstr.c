@@ -31,6 +31,11 @@
 #include "xstr.h"
 #include "common.h"
 
+#if defined(VSPRINTF_ONLY)
+#undef HAS_VSNPRINTF
+#undef HAS_VASPRINTF
+#endif
+
 #define N_PRINTFBUF     1024
 
 char *xstralloc(char **s, size_t add)

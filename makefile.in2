@@ -8,9 +8,9 @@ AR   = ar
 AR_R = rs
 RM   = rm
 
-CDEFS  = -c -fPIC -Wall -ggdb -DUNIX -I.. -Wno-char-subscripts
-COPT   = -O3
-LFLAGS = -L.
+CDEFS  += -c -fPIC -Wall -ggdb -DUNIX -I.. -Wno-char-subscripts
+COPT   += -O3
+LFLAGS += -L.
 
 # filename settings
 OBJ = .o
