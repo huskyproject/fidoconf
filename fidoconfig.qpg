@@ -27,7 +27,7 @@
          <QPG:Add permissions="0755" file="./make/libfidoconfigqnx-1.9.0.so" install="/opt/lib/"/>
          <QPG:Add filetype="symlink" file="libfidoconfig.so" install="/opt/lib/" linkto="libfidoconfigqnx-1.9.0.so"/>
          <QPG:Add permissions="0644" file="./make/libfidoconfigqnx.a" install="/opt/lib/"/>
-         <QPG:Add permissions="0644" file="./fidoconf/*.h" install="/opt/include/fidoconfig/"/>
+         <QPG:Add permissions="0644" file="./fidoconf/*.h" install="/opt/include/fidoconf/"/>
          <QPG:Add permissions="0644" file="./COPYING" install="/usr/doc/husky/fidoconfig/"/>
          <QPG:Add permissions="0644" file="./ChangeLog" install="/usr/doc/husky/fidoconfig/"/>
          <QPG:Add permissions="0644" file="./HISTORY" install="/usr/doc/husky/fidoconfig/"/>
@@ -44,6 +44,7 @@
          <QPG:Add permissions="0755" file="./make/linked" install="/opt/bin/"/>
          <QPG:Add permissions="0755" file="./make/tparser" install="/opt/bin/"/>
          <QPG:Add permissions="0755" file="./util/linkedto" install="/opt/bin/"/>
+         <QPG:Add permissions="0644" file="./doc/config" install="/usr/doc/husky/fidoconfig/sample/config"/>
          <QPG:Add permissions="0644" file="./doc/fidoconfig.info" install="/opt/info/fidoconfig.info"/>
          <QPG:Add permissions="0644" file="./man/fconf2.1" install="/opt/man/man1/fconf2.1"/>
          <QPG:Add permissions="0644" file="./man/linked.1" install="/opt/man/man1/linked.1"/>
