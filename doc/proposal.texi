@@ -435,10 +435,14 @@ your fidoconfig file. Consult the individual program's documentation.
 @item Syntax:
 @code{loglevels <string>}
 @item Example:
-@code{loglevels 345789}
+@code{loglevels 1345789,A-F Q}
 @end table
 
-In example we output to log messages with levels 3,4,5,7,8,9.
+This statement define  log levels list for store messages into log file.
+Hiphen is range char (A-F expands to ABCDEF).
+Recognise only alpha & numeric log level characters, other ignored.
+
+In example we output to log messages with levels 3,4,5,7,8,9,A,B,C,D,E,F,Q.
 
 The log levels are following:
 
@@ -493,10 +497,10 @@ This statement cannot be repeated.
 @item Syntax:
 @code{screenloglevels <string>}
 @item Example:
-@code{screenloglevels 2345789}
+@code{screenloglevels 2345789,A-C}
 @end table
 
-Set level of log output to screen. See loglevels for details.
+Set levels of log output to screen. See loglevels for details.
 
 This statement cannot be repeated.
 

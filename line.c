@@ -2087,6 +2087,46 @@ int parseFileName(char *line, char **name) {
    return 0;
 }
 
+/* Parse loglevels string
+   Expand ranges like x-y;
+   Ignore spaces & etc (recognizes digits & letters only).
+ */
+int parseLoglevels(char *line, char **loglevels) {
+  char *ll, *temp; /* Array for store */
+  char *p=line;
+  char i,k;
+
+  ll = calloc(256,sizeof(char));
+  if( !ll ) {
+    prErr( "Low memory!" );
+    return 1;
+  }
+
+  while( *p ){  /* scan string */
+    if( isdigit(*p) || isalpha(*p) )
+      ll[*p] = 1;
+    else if( *p=='-' && p!=*loglevels )
+           for( i=*(p-1), k=*(p+1) ; i && i<k ; i++ )
+              ll[i]=1;
+    p++;
+  }
+
+  p = temp = smalloc('z'-'a'+'Z'-'A'+'9'-'0'+4);
+  for( i='0'; i<='9'; i++ )
+     if( ll[i] ) *(p++)=i;
+  for( i='A'; i<='Z'; i++ )
+     if( ll[i] ) *(p++)=i;
+  for( i='a'; i<='z'; i++ )
+     if( ll[i] ) *(p++)=i;
+  *p='\0';
+
+  *loglevels = sstrdup(temp);
+
+  nfree(temp);
+  nfree(ll);
+  return 0;	
+}
+
 int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
 
    unsigned int i;
@@ -3662,10 +3702,10 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
             break;
         case ID_LOGLEVELS:
-            rc = copyString(getRestOfLine(), &(config->loglevels));
+            rc = parseLoglevels(getRestOfLine(), &(config->loglevels));
             break;
         case ID_SCREENLOGLEVELS:
-            rc = copyString(getRestOfLine(), &(config->screenloglevels));
+            rc = parseLoglevels(getRestOfLine(), &(config->screenloglevels));
             break;
         case ID_ACCESSGRP:
             rc = parseGroup(getRestOfLine(), config, 0);
