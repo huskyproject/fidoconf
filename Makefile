@@ -138,7 +138,8 @@ endif
 	$(INSTALL) $(IIOPT) crc.h          $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) log.h          $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) recode.h       $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
+	$(INSTALL) $(IIOPT) tree.h         $(INCDIR)$(DIRSEP)fidoconf
+    	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 	(cd doc && $(MAKE) install)
 	@echo
 	@echo "*** For install man pages run 'gmake install-man' (unixes only)"
@@ -166,6 +167,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)crc.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)log.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)recode.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)tree.h
 	-$(RM) $(RMOPT) $(LIBDIR)$(DIRSEP)$(LIBFIDOCONFIG)$(LIB)
 	-(cd doc && $(MAKE) uninstall)
 	-(cd man && $(MAKE) uninstall)
