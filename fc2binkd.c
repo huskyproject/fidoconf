@@ -73,6 +73,7 @@ void usage(){
       printf("\t-c\tspecify alternate fidoconfig\n");
       printf("\t-f\tforce owerwrite file\n");
       printf("\t-p\tgenerate passwords file\n");
+      exit(1);
 }
 
 FILE *createOutputFile(const char *ofname){
