@@ -94,7 +94,8 @@ char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
       xscatprintf(&buff, "\001MSGID: %u:%u/%u %08lx\r",
               ourAka->zone,ourAka->net,ourAka->node,msgid);
 
-   if (!disableTID) xscatprintf(&buff, "\001TID: %s\r", versionStr);
+   if (!disableTID) xscatprintf(&buff, "\001%s: %s\r",
+		        theApp.module == M_HPT ? "TID" : "PID", versionStr);
 
    return buff;
 }
