@@ -4143,7 +4143,10 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_ANNADRFROM:
             rc = parseAnnDefAddres(getRestOfLine(), config, 2);
             break;
-
+        case ID_FILEAREACREATEPERMS:
+            rc = parseNumber(getRestOfLine(), 10, &(config->fileAreaCreatePerms));
+            config->fileAreaCreatePerms = dec2oct(config->fileAreaCreatePerms);
+            break;
 
 
         default:

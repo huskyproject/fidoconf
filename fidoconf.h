@@ -440,6 +440,7 @@ typedef struct fidoconfig {
    char     *semaDir, *badFilesDir;
    char     *loglevels, *screenloglevels;
    char     *hptPerlFile;
+   unsigned int fileAreaCreatePerms;
 
    s_area   dupeArea, badArea;
    unsigned int   netMailAreaCount;

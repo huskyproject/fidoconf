@@ -18,6 +18,7 @@ DLCDigits
 ExecOnFile
 FileArea
 FileAreaBaseDir
+FileAreaCreatePerms
 FileDescPos
 FileAreaDefaults
 FileDescName

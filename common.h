@@ -257,6 +257,9 @@ FCONF_EXT char *sstrdup(const char *src);
 */
 FCONF_EXT char *strseparate(register char **stringp, register const char *delim);
 
+/* Converts decimal value to octal [useful for chmod()] */
+unsigned int dec2oct(unsigned int decimal);
+
 #ifdef __cplusplus
 }
 #endif

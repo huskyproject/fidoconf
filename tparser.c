@@ -864,6 +864,9 @@ int main(int argc, char **argv) {
               printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
         }
 
+#if defined(UNIX)
+        printf("FileAreaCreatePerms: %o\n", config->fileAreaCreatePerms);
+#endif
         if (config->loglevels) printf("LogLevels %s\n", config->loglevels);
         printf("LogEchoToScreen %s\n", (config->logEchoToScreen) ? "on" : "off");
         if (config->logEchoToScreen && config->screenloglevels)

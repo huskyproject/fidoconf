@@ -1238,3 +1238,14 @@ char *changeFileSuffix(char *fileName, char *newSuffix) {
 	return NULL;
     }
 }
+
+unsigned int dec2oct(unsigned int decimal)
+{
+    char tmpstr[6];
+    unsigned int mode;
+
+    mode = decimal;
+    sprintf(tmpstr, "%u", mode);
+    sscanf(tmpstr, "%o", &mode);
+    return mode;
+}

@@ -279,7 +279,8 @@ enum {
     ID_ANNADRTO,
     ID_ANNADRFROM,
     ID_ANNORIGIN,
-    ID_ANNMESSFLAGS
+    ID_ANNMESSFLAGS,
+    ID_FILEAREACREATEPERMS
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -399,6 +400,7 @@ token_t parseline_tokens[] =
     { "filearclist", ID_FILEARCLIST },
     { "filearea", ID_FILEAREA },
     { "fileareabasedir", ID_FILEAREABASEDIR },
+    { "fileareacreateperms", ID_FILEAREACREATEPERMS },
     { "fileareadefaults", ID_FILEAREADEFAULT },
     { "fileareaslog", ID_FILEAREASLOG },
     { "filebox", ID_FILEBOX },
