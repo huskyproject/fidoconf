@@ -1,3 +1,29 @@
+2003-03-15 Saturday 20:42  d_sergienko
+
+	* adcase.c (1.14), adcase.h (1.5), crc.c (1.8), crc.h (1.12),
+	dirlayer.c (1.11), dirlayer.h (1.15), getfree.c (1.9), log.c
+	(1.12), log.h (1.13), recode.c (1.4), recode.h (1.6), strsep.c
+	(1.3), temp.c (1.19), temp.h (1.6), tree.c (1.13), tree.h (1.6),
+	typesize.h (1.37), vixie.h (1.4), xstr.c (1.13), xstr.h (1.7):
+	these files moved to huskylib
+
+2003-03-15 Saturday 19:30  d_sergienko
+
+	* common.c (1.170), fc2fgate.c (1.8): fix compiling
+
+2003-03-15 Saturday 19:20  d_sergienko
+
+	* Makefile (1.62), afixcmd.c (1.29), afixcmn.c (1.29), areatree.h
+	(1.6), cfg.c (1.64), common.c (1.169), common.h (1.88), fidoconf.c
+	(1.112), fidoconf.h (1.176), grptree.c (1.11), grptree.h (1.4),
+	line.c (1.385), linked.c (1.9), makefile.in1 (1.3), tparser.c
+	(1.247), version.c (1.11): move code to huskylib
+
+2003-03-15 Saturday 13:28  d_sergienko
+
+	* log.c (1.11), log.h (1.12), tree.c (1.12): make logging
+	independent of fidoconfig
+
 2003-03-14 Friday 10:13  stas_degteff
 
 	* fidoconf.c (1.111), fidoconf.h (1.175): Try to fix MSVC build
