@@ -381,16 +381,20 @@ void setConfigDefaults(s_fidoconfig *config)
    config->killedRequestTimeout = config->killedRequestTimeout   <= 0 ? 3 : config->killedRequestTimeout;
    RebuildEchoAreaTree(config);   
    if (!config->tempDir) {
-      char *p;
+      char *p=NULL;
       if ((p=getenv("TEMP")) != NULL ||
           (p=getenv("TMP")) != NULL ||
           (p=getenv("TMPDIR")) != NULL)
          parsePath(p, &(config->tempDir), NULL);
       else
-#if defined(UNIX)
+#if defined(UNIX) || !defined (__MINGW32__)
          parsePath("/tmp", &(config->tempDir), NULL);
-#elif defined(WINNT)
-         parsePath("c:\\winnt\\temp", &(config->tempDir), NULL);
+#elif defined(WINNT) || defined (__MINGW32__)
+         if ((getenv("WINDIR")) != NULL ){
+            xstrscat( &p, getenv("WINDIR"), "\\TEMP", NULL );
+            parsePath(p, &(config->tempDir), NULL);
+            nfree(p);
+         }
 #else
          parsePath("c:\\", &(config->tempDir), NULL);
 #endif

@@ -386,6 +386,11 @@ be stored. This directory can erase in boot time. Good idea is set it to memory 
 
 Default value is path specified by TEMP, TMP or TMPDIR enviroment variables (use
 TEMP first, if it not defined then use TMP, next use TMPDIR).
+If these enviroment variables not defined: 
+- win32 version use %WINDIR%\TEMP (usualy c:\windows\temp for Win9x/Me and
+  c:\winnt\temp for Windows NT/2000/XP)
+- versions for unix-like OS'es use /tmp
+- other versions use c:\
 
 This statement cannot be repeated.
 
