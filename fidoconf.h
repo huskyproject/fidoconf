@@ -483,6 +483,9 @@ typedef struct fidoconfig {
    unsigned int advisoryLock;
 
    char *areafixNames;
+   char *reqidxDir;         /* directory for herp request index files */
+
+   int syslogFacility;     /* facility to use when logging via syslog */
 
 } s_fidoconfig, *ps_fidoconfig;
 

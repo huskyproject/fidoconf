@@ -296,6 +296,7 @@ void printLink(s_link link) {
 	   printf("\n");
    }
    printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
+   printf("AutoAreaCreateSubdirs %s\n", (link.autoAreaCreateSubdirs) ? "on" : "off");
    if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
    if (link.numFrMask > 0) {
 	   printf("ForwardRequestMask: ");
@@ -315,6 +316,7 @@ void printLink(s_link link) {
    }
    if (link.autoAreaCreateDefaults) printf("AutoAreaCreateDefaults: %s\n", link.autoAreaCreateDefaults);
    printf("AutoFileCreate %s\n", (link.autoFileCreate) ? "on" : "off");
+   printf("AutoFileCreateSubdirs %s\n", (link.autoFileCreateSubdirs) ? "on" : "off");
    if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);
    if (link.autoFileCreateDefaults) printf("AutoFileCreateDefaults: %s\n", link.autoFileCreateDefaults);
    if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
@@ -729,6 +731,7 @@ int main(int argc, char **argv) {
       if (config->outbound != NULL) printf("Outbound:        %s\n", config->outbound);
       if (config->tempOutbound != NULL) printf("tempOutbound:    %s\n", config->tempOutbound);
       for (i=0; i< config->publicCount; i++) printf("Public: #%u %s\n", i+1, config->publicDir[i]);
+      if (config->reqidxDir) printf ("ReqIdxDir:       %s\n", config->reqidxDir);
       if (config->dupeHistoryDir != NULL) printf("DupeHistoryDir:  %s\n", config->dupeHistoryDir);
       if (config->logFileDir != NULL) printf("LogFileDir:      %s\n", config->logFileDir);
       if (config->msgBaseDir != NULL) printf("MsgBaseDir:      %s\n", config->msgBaseDir);
@@ -745,6 +748,9 @@ int main(int argc, char **argv) {
       if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
       if (config->minDiskFreeSpace) 
 		  printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
+      if (config->syslogFacility)
+          printf ("SyslogFacility: %d\n", config->syslogFacility);
+
 	  if (config->lockfile) {
 		  printf("LockFile: %s\n",config->lockfile);
 		  printf("AdvisoryLock: %s\n", config->advisoryLock ? "on" : "off");

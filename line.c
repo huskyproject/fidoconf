@@ -44,6 +44,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#define SYSLOG_NAMES
+#include <sys/syslog.h>
 #else
 #include <process.h>
 #include <io.h>
@@ -2882,6 +2884,41 @@ int parseFilelist(char *line, s_fidoconfig *config)
   return 0;
 }
 
+int parseSyslog(char *line, int *value)
+{
+  int i;
+
+  if (line == NULL) {
+    prErr("Parameter missing after %s!", actualKeyword);
+    return 1;
+  }
+
+#ifndef SYSLOG_NAMES
+  prErr("%s: Syslogging is not supported on your platform!", actualKeyword);
+  return 1;
+#else  
+
+  for (i = 0; facilitynames[i].c_name != NULL; i++)
+  {
+     if (!strcmp(line, facilitynames[i].c_name))
+     {
+        *value = facilitynames[i].c_val;
+        break;
+     }
+  }
+
+  if (facilitynames[i].c_name == NULL)
+  {
+     prErr("%s: %s is an unknown syslog facility on this system.",
+           actualKeyword, line);
+     return 1;
+  }
+#endif  
+
+  return 0;
+}
+
+
 int parseLine(char *line, s_fidoconfig *config)
 {
     char *token, *temp;
@@ -3725,12 +3762,18 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AUTOFILECREATESUBDIRS:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->autoFileCreateSubdirs));
             break;
-		case ID_ADVISORYLOCK:
-			rc = parseBool(getRestOfLine(), &(config->advisoryLock));
-			break;
-		case ID_AREAFIXNAMES:
-			rc = copyString(getRestOfLine(), &(config->areafixNames));
-			break;
+        case ID_ADVISORYLOCK:
+            rc = parseBool(getRestOfLine(), &(config->advisoryLock));
+            break;
+        case ID_AREAFIXNAMES:
+            rc = copyString(getRestOfLine(), &(config->areafixNames));
+            break;
+        case ID_REQIDXDIR:
+            rc = parsePath(getRestOfLine(), &(config->reqidxDir));
+            break;
+        case ID_SYSLOG_FACILITY:
+            rc = parseSyslog(getRestOfLine(), &(config->syslogFacility));
+            break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

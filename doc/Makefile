@@ -29,13 +29,13 @@ info:
 	@echo
 endif
 
-fidoconfig_toc.html: fidoconfig.texi
+fidoconfig_toc.html: fidoconfig.texi proposal.texi
 	texi2html -split_node -number -menu fidoconfig.texi
 
-fidoconfig.dvi: fidoconfig.texi
+fidoconfig.dvi: fidoconfig.texi proposal.texi
 	texi2dvi fidoconfig.texi
-
-fidoconfig.info: fidoconfig.texi
+ 
+fidoconfig.info: fidoconfig.texi proposal.texi
 	makeinfo --no-split  fidoconfig.texi
 
 clean:

@@ -169,6 +169,7 @@ you can find in the documentation of the individual programs.
 * outbound::                    outbound path
 * inbound::                     inbound path
 * logfiledir::                  path for log files
+* syslogfacility::              facility to use for syslogging
 
 * link::                        adding a link to your config
 * linkdefaults::                start/end/destroy links default definitions
@@ -350,7 +351,7 @@ Only netmails are tossed from this inbound.
 
 This statement cannot be repeated.
 
-@node logfiledir, link, inbound, Keywords
+@node logfiledir, syslogfacility, inbound, Keywords
 @subsection logfiledir
 @table @asis
 @item Syntax:
@@ -364,7 +365,30 @@ be stored.
 
 This statement cannot be repeated.
 
-@node link, linkdefaults, logfiledir, Keywords
+@node syslogfacility, link, logfiledir, Keywords
+@subsection syslogfacility
+@table @asis
+@item Syntax:
+@code{syslogFacility <facility>}
+@item Example:
+@code{syslogFacility local0}
+@end table
+
+Some Husky programs are able to write logs via syslogd instead of via log
+file. For those programs, this keyword definies which facility to use for
+writing to the syslog. Syslogd will use this facility name to decide which
+syslog logfile the log messages will go to. Common names that can be used
+include @code{mail}, @code{news}, @code{uucp}, @code{local0}. The exact
+values that can be used depend upon your operating system. Refer to the man
+page for @file{syslog.conf} or @file{/usr/include/sys/syslog.h} for more
+information.
+
+Logging via syslogd is only supported on UNIX platforms, and currently only
+used by @file{herp}, but not by any other Husky program. If a Husky program
+logs via log file or via syslog or both depends on the program and not on
+your fidoconfig file. Consult the individual program's documentation.
+
+@node link, linkdefaults, syslogfacility, Keywords
 @subsection link
 @table @asis
 @item Syntax:

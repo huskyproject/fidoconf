@@ -240,8 +240,10 @@ enum {
     ID_CARBONGROUPS,
     ID_AUTOAREACREATESUBDIRS,
     ID_AUTOFILECREATESUBDIRS,
-	ID_ADVISORYLOCK,
-	ID_AREAFIXNAMES
+    ID_ADVISORYLOCK,
+    ID_AREAFIXNAMES,
+    ID_REQIDXDIR,
+    ID_SYSLOG_FACILITY
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -256,7 +258,7 @@ token_t parseline_tokens[] =
     { "address", ID_ADDRESS },
     { "addtoseen", ID_ADDTOSEEN },
     { "advancedareafix", ID_ADVANCEDAREAFIX },
-	{ "advisorylock", ID_ADVISORYLOCK },
+    { "advisorylock", ID_ADVISORYLOCK },
     { "afterunpack", ID_AFTERUNPACK },
     { "aka", ID_AKA },
     { "allowemptypktpwd", ID_ALLOWEMPTYPKTPWD },
@@ -269,7 +271,7 @@ token_t parseline_tokens[] =
     { "areafixkillreports", ID_AREAFIXKILLREPORTS },
     { "areafixkillrequests", ID_AREAFIXKILLREQUESTS },
     { "areafixmsgsize", ID_AREAFIXMSGSIZE },
-	{ "areafixnames", ID_AREAFIXNAMES },
+    { "areafixnames", ID_AREAFIXNAMES },
     { "areafixorigin", ID_AREAFIXORIGIN },
     { "areafixpwd", ID_AREAFIXPWD },
     { "areafixsplitstr", ID_AREAFIXSPLITSTR },
@@ -408,7 +410,7 @@ token_t parseline_tokens[] =
     { "manual", ID_MANUAL },
     { "maxticlinelength", ID_MAXTICLINELENGTH },
     { "maxunpackednetmail", ID_MAXUNPACKEDNETMAIL },
-	{ "mindiskfreespace", ID_MINDISKFREESPACE },
+    { "mindiskfreespace", ID_MINDISKFREESPACE },
     { "msgbasedir", ID_MSGBASEDIR },
     { "msgidfile", ID_MSGIDFILE },
     { "name", ID_NAME },
@@ -443,6 +445,7 @@ token_t parseline_tokens[] =
     { "remotefilerobotname", ID_REMOTEFILEROBOTNAME },
     { "remoterobotname", ID_REMOTEROBOTNAME },
     { "reportto", ID_REPORTTO },
+    { "reqidxdir", ID_REQIDXDIR },
     { "robotsarea", ID_ROBOTSAREA },
     { "route", ID_ROUTE },
     { "routefile", ID_ROUTEFILE },
@@ -455,6 +458,7 @@ token_t parseline_tokens[] =
     { "setconsoletitle", ID_SETCONSOLETITLE },
     { "splitdirs", ID_SPLITDIRS },
     { "statlog", ID_STATLOG },
+    { "syslogfacility", ID_SYSLOG_FACILITY },
     { "sysop", ID_SYSOP },
     { "tearline", ID_TEARLINE },
     { "tempinbound", ID_TEMPINBOUND },
