@@ -25,4 +25,4 @@ tparser.o: tparser.c fidoconfig.h
 	$(CC) $(COPT) tparser.c
 
 tparser: tparser.o fidoconfig.a
-	$(CC) tparser.o fidoconfig.a -o tparser
+	$(CC) tparser.o -o tparser -lfidoconfig
