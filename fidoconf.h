@@ -31,6 +31,7 @@
 
 #ifndef FIDOCONFIG_H
 #define FIDOCONFIG_H
+#include <time.h>
 #include <stdio.h>
 #include <smapi/msgapi.h>
 #include "typesize.h"
@@ -567,6 +568,29 @@ struct message {
    char   *text;
 };
 
+struct pktHeader {
+   /* Address block */
+   s_addr destAddr, origAddr;
+
+   UINT16 auxNet;
+
+   /* product specific */
+   UCHAR  hiProductCode,
+          loProductCode;
+   UCHAR  majorProductRev,
+          minorProductRev;
+
+   /* date */
+   time_t pktCreated;
+
+   UINT16 capabilityWord;
+
+   UINT32 prodData;
+
+   char  pktPassword[9]; /* password + \0 */
+};
+
+typedef struct pktHeader s_pktHeader;
 typedef struct message   s_message;
 
 

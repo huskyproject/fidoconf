@@ -30,14 +30,23 @@
 #define	_AFIXCMN_FLAG_
 
 #include "fidoconf.h"
-FCONF_EXT   char* createKludges(int disableTID, const char *area, const s_addr *ourAka, 
-                                const s_addr *destAka, const char* versionStr);
+
+FCONF_EXT   char* createKludges    (int disableTID, const char *area,
+                                    const s_addr *ourAka, 
+                                    const s_addr *destAka,
+                                    const char* versionStr);
 
 FCONF_EXT   s_message* makeMessage (s_addr *origAddr, s_addr *destAddr,
-			                        char *fromName, char *toName, char *subject, 
+			                        char *fromName, char *toName, 
+                                    char *subject,
                                     int netmail, int  killreport);
 
+FCONF_EXT   XMSG createXMSG        (ps_fidoconfig config, 
+                                    s_message *msg, const s_pktHeader *header,
+                                    dword forceattr, char* tossDir);
+
 FCONF_EXT   int Changepause(char *confName, s_link *link, int opt, int type);
+
 FCONF_EXT   int testAddr(char *addr, s_addr hisAka);
 
 
