@@ -3349,7 +3349,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseUInt(getRestOfLine(), &(config->forwardRequestTimeout));
             break;
         case ID_IDLEPASSTHRUTIMEOUT:
-            parseUInt(getRestOfLine(), (unsigned int*)&(config->idlePassthruTimeout));
+            rc = parseUInt(getRestOfLine(), (unsigned int*)&(config->idlePassthruTimeout));
             break;
         case ID_KILLEDREQUESTTIMEOUT:
             rc = parseUInt(getRestOfLine(), &(config->killedRequestTimeout));
