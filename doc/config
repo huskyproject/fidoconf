@@ -40,10 +40,11 @@ Route crash 2:2432/601 *
 Inbound		/home/mtt/fido/in/
 ProtInbound	/home/mtt/fido/in.sec
 Outbound	/home/mtt/fido/out/
+tempOutbound	/home/mtt/fido/out.tmp
 MsgBaseDir      /home/mtt/fido/msgb
 
 public		/home/mtt/fido/public
-# public		/home/mtt/fido/public2
+# public	/home/mtt/fido/public2
 
 # intab           /home/mtt/fido/recode/outaltkoi8
 # outtab          /home/mtt/fido/recode/outkoi8alt

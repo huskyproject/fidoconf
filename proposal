@@ -119,6 +119,9 @@ _Keyword definitions_
   outbound <path>
   # outbound root path, followed by subdirectories in
   #   binkley-style
+  tempoutbound
+  # if link is busy, then mail holded in this outbound
+  # holded mail will toss to link in next hpt session
   protinbound <path>
   # inbound path for protected sessions
   listinbound <path>
@@ -153,6 +156,9 @@ _Keyword definitions_
   magic
   # path for magic definitions
 ?  #  see ifcico documentation
+  lockfile <file>
+  # if another HPT session will be started and found lockfile
+  # they will by terminated
 
 /etc/fido/links
   {

@@ -127,7 +127,7 @@ area definition:
 
 rights
 * GroupAutoAreaCreate:: right to autoareaCreate for a group
-* AutoCreateDef::       default area options for autocreated areas
+* AutoCreateDefaults::  default area options for autocreated areas
 * GroupDefaults::       default area options for GroupAutoAreaCreated areas
 
 packer
@@ -899,7 +899,7 @@ mails.
 
 This statement can be repeated.
 
-@node GroupAutoAreaCreate, AutoCreateDef, localarea, Keywords
+@node GroupAutoAreaCreate, AutoCreateDefaults, localarea, Keywords
 @subsection GroupAutoAreaCreate
 @table @asis
 @item Syntax:
@@ -914,20 +914,20 @@ If no group is given, this is default for all groups.
 
 @strong{This statement is currently not supported.}
 
-@node AutoCreateDef, GroupDefaults, GroupAutoAreaCreate, Keywords
-@subsection AutoCreateDef
+@node AutoCreateDefaults, GroupDefaults, GroupAutoAreaCreate, Keywords
+@subsection AutoCreateDefaults
 @table @asis
 @item Syntax:
-@code{AutoCreateDef <string> }
+@code{AutoCreateDefaults <string> }
 @item Example:
-@code{AutoCreateDef -m200 -dupeCheck move}
+@code{AutoCreateDefaults -m 200 -dupeCheck move}
 @end table
 
 Area options defaults for autoCreated Areas.
 
 @strong{This will be replaced by the more flexible group definition.}
 
-@node GroupDefaults, pack, AutoCreateDef, Keywords
+@node GroupDefaults, pack, AutoCreateDefaults, Keywords
 @subsection GroupDefaults
 @table @asis
 @item Syntax:

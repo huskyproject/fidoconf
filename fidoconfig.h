@@ -32,6 +32,7 @@ struct link {
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
    int  AreaFix;              // 0 if not allowed for areafix
    char *pktFile,*packFile;   // used only internally by hpt
+   char *floFile,*bsyFile;    // see up
    s_pack *packerDef;
    e_flavour echoMailFlavour;
    char *TossGrp, *DenyGrp;   //groups for areafix & echo access
@@ -71,7 +72,7 @@ struct area {
    void *newDupes;     // dito
    char imported;      // dito
 
-   char group;                      // used by reade (and areafix soon)
+   char group;                      // used by reader (and areafix soon)
    char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
 
    int ccoff;          // 1 if carbon copy is not allowed from this area
@@ -110,7 +111,7 @@ struct fidoconfig {
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
-   char     *magic, *areafixhelp, *autoCreateDefaults;
+   char     *magic, *areafixhelp, *autoCreateDefaults, *tempOutbound;
 
    s_area   netMailArea, dupeArea, badArea;
    UINT     echoAreaCount;
@@ -132,7 +133,7 @@ struct fidoconfig {
    s_unpack *unpack;
    
    char     *intab, *outtab;
-   char     *echotosslog, *importlog;
+   char     *echotosslog, *importlog, *lockfile;
 
    UINT     carbonCount;
    s_carbon *carbons;

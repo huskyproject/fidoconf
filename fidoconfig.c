@@ -161,6 +161,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->magic);
    free(config->areafixhelp);
    free(config->autoCreateDefaults);
+   free(config->tempOutbound);
 
    freeArea(config->netMailArea);
    freeArea(config->dupeArea);
@@ -193,6 +194,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->outtab);
    free(config->importlog);
    free(config->echotosslog);
+   free(config->lockfile);
 
    for (i = 0; i< config->carbonCount; i++) free(config->carbons[i].str);
    free(config->carbons);
@@ -200,21 +202,6 @@ void disposeConfig(s_fidoconfig *config)
    free(config);
    config = NULL;
 }
-
-/*void disposeConfig(s_fidoconfig *config)
-{
-   free(config->name);
-   free(config->sysop);
-   free(config->location);
-   free(config->intab);
-   free(config->outtab);
-   free(config->areafixhelp);
-   free(config->autoCreateDefaults);
-   free(config->importlog);
-   free(config->echotosslog);
-   free(config);
-   config = NULL;
-} */
 
 s_link *getLink(s_fidoconfig config, char *addr) {
    s_addr aka;

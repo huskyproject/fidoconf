@@ -272,6 +272,9 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
    area->msgbType = MSGTYPE_SDM;
    area->useAka = &(config.addr[0]);
 
+   // set default group for reader
+   area->group = '\060';
+
    tok = strtok(token, " \t");
    if (tok == NULL) {
       printf("Line %d: There is a areaname missing after %s!\n", actualLineNr, actualKeyword);
@@ -491,7 +494,8 @@ int parsePack(char *line, s_fidoconfig *config) {
 }
 
 int parseUnpack(char *line, s_fidoconfig *config) {
-   
+
+	return 0;   
 }
 
 int parseFileName(char *line, char **name) {
@@ -742,7 +746,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, from);
    else if (stricmp(token, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, kludge);
    else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config);
-   
+   else if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
+   else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
+
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
                                                           
    if (rc != 0) {
