@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Tue Apr  4 12:51:02 MSD 2000
+max (patch from Serguei Revtov):
+* createAreasCase & areasFileNameCase tokens
+
+----- cvs ci ------
 Mon Apr  3 17:39:30 NOVST 2000
 max (patch from Serguei Revtov):
 * additional checks on carbons

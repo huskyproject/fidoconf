@@ -83,6 +83,8 @@ typedef enum forward e_forward;
 enum emptypktpwd {eOff, eSecure, eOn};
 enum pktheaderdiffer {pdOff, pdOn};
 typedef enum emptypktpwd e_emptypktpwd;
+enum nameCase { eLower, eUpper};
+typedef enum nameCase e_nameCase;
 
 struct link {
    s_addr hisAka, *ourAka;
@@ -397,6 +399,8 @@ struct fidoconfig {
 
    s_link   *linkDefaults;
    int      describeLinkDefaults;
+   e_nameCase createAreasCase;
+   e_nameCase areasFileNameCase;
 };
 
 

@@ -132,6 +132,8 @@ a comment and will be ignored.
 * echomailflavour::             flavour for outgoing echomail
 * fileechoflavour::             flavour for outgoing files in fileechos
 * autoAreaCreateFile::          file where autoCreated Areas by this links are going
+* createAreasCase::             case of autocreated areas names
+* areasFileNameCase::           case of filenames of autocreated areas
 * forwardRequests::             allow forward requests to this link
 * frequestfromuplink::          allow forward requests from this link
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
@@ -1095,7 +1097,7 @@ This statement can only be repeated for different links.
 
 
 
-@node autoAreaCreateFile, forwardRequests, fileechoflavour, Keywords
+@node autoAreaCreateFile, createAreasCase, fileechoflavour, Keywords
 @subsection autoAreaCreateFile
 @table @asis
 @item Syntax:
@@ -1113,7 +1115,31 @@ so these autocreated areas are found in subsequent tosser-runs.}
 
 This statement can only be repeated for different links.
 
-@node forwardRequests, frequestfromuplink, autoAreaCreateFile, Keywords
+@node createAreasCase, areasFileNameCase, autoAreaCreateFile, Keywords
+@subsection createAreasCase
+@table @asis
+@item Syntax:
+@code{createAreasCase (Lower|Upper)}
+@item Example:
+@code{createAreasCase Lower}
+@end table
+
+This statement defines case of areanames in autocreation.
+Default is lower case.
+
+@node areasFileNameCase, forwardRequests, createAreasCase, Keywords
+@subsection areasFileNameCase
+@table @asis
+@item Syntax:
+@code{areasFileNameCase (Lower|Upper)}
+@item Example:
+@code{areasFileNameCase Lower}
+@end table
+
+This statement defines case of filemanes of autocreated areas.
+Default is lower case.
+
+@node forwardRequests, frequestfromuplink, areasFileNameCase, Keywords
 @subsection forwardRequests
 @table @asis
 @item Syntax:

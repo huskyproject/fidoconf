@@ -2126,6 +2126,24 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
    return 0;
 }
 
+int parseNamesCase(char *line, e_nameCase *value)
+{
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (stricmp(line, "lower") == 0) *value = eLower;
+   else if (stricmp(line, "upper") == 0) *value = eUpper;
+   else {
+      printf("Line %d: Unknown case parameter %s!\n", actualLineNr, line);
+      return 2;
+   }
+   return 0;
+}
+   
+   
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -2498,6 +2516,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "logowner")==0) rc = parseOwner(getRestOfLine(), &(config->loguid), &(config->loggid));
    else if (stricmp(token, "logperm")==0) rc = parseNumber(getRestOfLine(), 8, &(config->logperm));
    else if (stricmp(token, "linkdefaults")==0) rc = parseLinkDefaults(getRestOfLine(), config);
+   else if (stricmp(token, "createareascase")==0) rc = parseNamesCase(getRestOfLine(), &(config->createAreasCase));
+   else if (stricmp(token, "areasfilenamecase")==0) rc = parseNamesCase(getRestOfLine(), &(config->areasFileNameCase));
 
 #ifdef __TURBOC__
    else unrecognised++;
