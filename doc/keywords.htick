@@ -1,0 +1,48 @@
+AddDLC
+AnnAreaTag
+AnnAdrfrom
+AnnAdrto
+AnnExclude
+AnnFrom
+AnnInclude
+AnnMessFlags
+AnnOrigin
+AnnounceSpool
+AnnSubj
+AnnTo
+BbsArea
+BusyFileDir
+ConvertLongNames
+ConvertShortNames
+DLCDigits
+ExecOnFile
+FileArea
+FileAreaBaseDir
+FileDescPos
+FileAreaDefaults
+FileDescName
+FileEchoFlavour
+FileLDescString
+FileFixHelp
+FileFixKillReports
+FileFixKillRequests
+MaxTicLineLength
+OriginInAnnounce
+PassFileAreaDir
+RemoteFileRobotName
+SaveTic
+TicOutbound
+
+ In Link section:
+  AutoFileCreate
+  AutoFileCreateDefaults
+  AutoFileCreateFile
+  AutoFileCreateSubdirs
+  DelNotRecievedTIC
+  FileFixFSC87Subset
+  ForwardFilePriority
+  ForwardFileRequestFile
+  ForwardFileRequests
+  NoTIC
+  LinkFileBaseDir
+  TickerPackToBox

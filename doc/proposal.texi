@@ -8,6 +8,7 @@ exist and where to put the file.
 * Syntax::   Syntax
 * Keywords:: Keyword reference
 * HPT::      HPT (High Portable Tosser) keywords
+* HTick::    HTick (Husky Ticker) keywords
 * NLTools::  NLTools keywords
 * EmailPkt:: EmailPkt keywords
 * BSOpack::  BSOpack keywords
@@ -787,7 +788,7 @@ It's use for filelist building.
 Read documentation of HTick for details.
 
 
-@node HPT, NLTools, Keywords, config file
+@node HPT, HTick, Keywords, config file
 @section High Portable Tosser keywords
 This section contains only keyword-list. Read HPT Manual for more info.
 
@@ -795,7 +796,17 @@ This section contains only keyword-list. Read HPT Manual for more info.
 @include keywords.hpt
 @end example
 
-@node NLTools, EmailPkt, HPT, config file
+
+@node HTick, NLTools, HPT, config file
+@section HTick (Husky Ticker) keywords
+This section contains only keyword-list. Read HTick Manual for more info.
+
+@example
+@include keywords.htick
+@end example
+
+
+@node NLTools, EmailPkt, HTick, config file
 @section NLTools keywords
 
 @menu
