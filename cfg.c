@@ -462,7 +462,7 @@ static int cmpfnames(char *file1, char *file2)
 	return 1;
     return 0;
 }
-#elif defined(NT) || defined(WINNT) || defined(__NT__)
+#elif defined(NT) || defined(WINNT) || defined(__NT__) || defined(__MINGW32__)
 #ifdef __MINGW32__
 typedef unsigned long DWORD;
 typedef char        *LPSTR;
@@ -498,7 +498,7 @@ static int cmpfnames(char *file1, char *file2)
     if (DosQueryPathInfo(file2,FIL_QUERYFULLNAME,path2,sizeof(path2))) return 1;
     return stricmp(path1, path2);
 }
-#elif defined(MSDOS) || defined(__MSDOS__)
+#elif defined(MSDOS) || defined(__MSDOS__) && !defined(__DJGPP__)
 #include <dos.h>
 static int cmpfnames(char *file1, char *file2)
 {
