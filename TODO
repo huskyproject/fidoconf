@@ -1,9 +1,5 @@
-- if (( a && b ) || c) by Pavel Golchouk
+- if (( a && b ) || c) by Pavel Gulchouk
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
-- speedup getArea by using b-tree
-- fix "-manual" vs. "-mandatory": 
-  manual means: subscription/unsubscription not allowed
-  mandatory means: subscription allowed, unsubscription not allowed
 - create section for HTick in proposal.texi since some keywords (i. e.
   autofilecreate) aren't properly documented
 - add keyword (definable for each link) "FileFixFSC87Subset" (when on

@@ -24,7 +24,7 @@ Copyright @copyright{} 1998-2001 Husky Development Team
 
 @end titlepage
 
-@ifinfo
+@c @ifinfo
 
 @dircategory Fidonet Software
 @direntry
@@ -38,7 +38,7 @@ This document describes the use of fidoconfig to make fido work on your unix
 workstation.
 
 This document applies to version 0.10 of fidoconfig.
-@end ifinfo
+@c @end ifinfo
 
 @menu
 * design goals::  what we want to achieve
@@ -62,6 +62,7 @@ should be quite portable.
 
 @node config file, converting, design goals, Top
 @chapter Config file
+
 @include proposal.texi
 
 @node converting, tparser, config file, Top
