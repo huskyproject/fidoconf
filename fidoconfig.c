@@ -2,7 +2,7 @@
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
  * Copyright (C) 1998
- *  
+ *
  * Matthias Tichy
  *
  * Fido:     2:2433/1245 2:2433/1247 2:2432/601.29
@@ -55,7 +55,7 @@ char *readLine(FILE *f)
 
    while ((strlen(line) % 80) == 0) {
       if (fgets(temp, 81, f) == NULL) break; // eof encountered
-      
+
       line = realloc(line, strlen(line)+strlen(temp)+1);
       strcat(line, temp);
       if (temp[strlen(temp)-1] == '\n') {
@@ -105,7 +105,7 @@ char *getConfigFileName(void) {
    char *envFidoConfig = getenv("FIDOCONFIG");
 
    FILE *f = NULL;
-   
+
 #ifdef __linux__
    char *osSpecificName = "/etc/fido/config";
 #elif __FreeBSD__
@@ -127,7 +127,7 @@ char *getConfigFileName(void) {
    } else ret = envFidoConfig;
 
    fclose(f);
-   
+
    return ret;
 }
 
@@ -137,10 +137,13 @@ s_fidoconfig *readConfig()
    s_fidoconfig *config;
    char *fileName = getConfigFileName();
 
-   if (fileName == NULL) printf("Could not find Config-file\n");
-   
+   if (fileName == NULL) {
+        printf("Could not find Config-file\n");
+        exit(1);
+   }
+
    f = fopen(fileName, "r");
-   
+
    if (f != NULL) {
       config = (s_fidoconfig *) malloc(sizeof(s_fidoconfig));
 
@@ -148,7 +151,7 @@ s_fidoconfig *readConfig()
       config->includeFiles = realloc(config->includeFiles, sizeof(char *));
       config->includeFiles[0] = malloc(strlen(fileName)+1);
       strcpy(config->includeFiles[config->includeCount-1], fileName);
-      
+
       initConfig(config);
       parseConfig(f, config);
 
@@ -165,11 +168,11 @@ s_fidoconfig *readConfig()
 }
 
 void freeArea(s_area area) {
-	free(area.areaName);
-	free(area.fileName);
-	free(area.rwgrp);
-	free(area.wgrp);
-	free(area.rgrp);
+        free(area.areaName);
+        free(area.fileName);
+        free(area.rwgrp);
+        free(area.wgrp);
+        free(area.rgrp);
 }
 
 void disposeConfig(s_fidoconfig *config)
@@ -185,24 +188,24 @@ void disposeConfig(s_fidoconfig *config)
    free(config->public);
 
    for (i = 0; i< config->linkCount; i++) {
-	   free(config->links[i].hisAka.domain);
-	   free(config->links[i].name);
-	   if (config->links[i].pktPwd != config->links[i].defaultPwd)
-	     free(config->links[i].pktPwd);
-	   if (config->links[i].ticPwd != config->links[i].defaultPwd)	     
-	     free(config->links[i].ticPwd);
-	   if (config->links[i].areaFixPwd != config->links[i].defaultPwd)
-	     free(config->links[i].areaFixPwd);
-	   if (config->links[i].fileFixPwd != config->links[i].defaultPwd)
-	     free(config->links[i].fileFixPwd);
-	   if (config->links[i].bbsPwd != config->links[i].defaultPwd)
-	     free(config->links[i].bbsPwd);
-	   free(config->links[i].defaultPwd);
-	   free(config->links[i].handle);
-	   free(config->links[i].pktFile);
-	   free(config->links[i].packFile);
-	   free(config->links[i].TossGrp);
-	   free(config->links[i].DenyGrp);
+           free(config->links[i].hisAka.domain);
+           free(config->links[i].name);
+           if (config->links[i].pktPwd != config->links[i].defaultPwd)
+             free(config->links[i].pktPwd);
+           if (config->links[i].ticPwd != config->links[i].defaultPwd)
+             free(config->links[i].ticPwd);
+           if (config->links[i].areaFixPwd != config->links[i].defaultPwd)
+             free(config->links[i].areaFixPwd);
+           if (config->links[i].fileFixPwd != config->links[i].defaultPwd)
+             free(config->links[i].fileFixPwd);
+           if (config->links[i].bbsPwd != config->links[i].defaultPwd)
+             free(config->links[i].bbsPwd);
+           free(config->links[i].defaultPwd);
+           free(config->links[i].handle);
+           free(config->links[i].pktFile);
+           free(config->links[i].packFile);
+           free(config->links[i].TossGrp);
+           free(config->links[i].DenyGrp);
    }
    free(config->links);
 
@@ -237,15 +240,15 @@ void disposeConfig(s_fidoconfig *config)
    free(config->routeMail);
 
    for (i = 0; i < config->packCount; i++) {
-	   free(config->pack[i].packer);
-	   free(config->pack[i].call);
+           free(config->pack[i].packer);
+           free(config->pack[i].call);
    }
    free(config->pack);
 
    for (i = 0; i < config->unpackCount; i++) {
-	   free(config->unpack[i].matchCode);
-	   free(config->unpack[i].mask);
-	   free(config->unpack[i].call);
+           free(config->unpack[i].matchCode);
+           free(config->unpack[i].mask);
+           free(config->unpack[i].call);
    }
    free(config->unpack);
 
@@ -265,7 +268,7 @@ void disposeConfig(s_fidoconfig *config)
 s_link *getLink(s_fidoconfig config, char *addr) {
    s_addr aka;
    UINT i;
-   
+
    string2addr(addr, &aka);
    for (i = 0; i< config.linkCount; i++) {
       if (addrComp(aka, config.links[i].hisAka)==0) return &(config.links[i]);
