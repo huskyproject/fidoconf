@@ -62,19 +62,8 @@ int cmpfnames(char *file1, char *file2);
 #include <process.h>
 #endif
 
-#ifdef HAS_PWD_H
-#include <pwd.h>
-#endif
-
 #ifdef __BEOS__
 #include <KernelKit.h>
-#endif
-
-#ifdef HAS_SYS_UTIME_H
-#include <sys/utime.h>
-#else
-/* #elif defined(HAS_UTIME_H) */
-#include <utime.h>
 #endif
 
 #include <huskylib/huskylib.h>
@@ -82,8 +71,6 @@ int cmpfnames(char *file1, char *file2);
 
 #include "fidoconf.h"
 #include "common.h"
-#include "xstr.h"
-#include "log.h"
 
 
 int copyString(char *str, char **pmem)
@@ -124,13 +111,6 @@ int copyStringUntilSep(char *str, char *seps, char **dest)
   return strlen(str);
 }
 
-void *memdup(void *p, size_t size)
-{
-	void *newp;
-	newp = smalloc(size);
-	memcpy(newp, p, size);
-	return newp;
-}
 
 static char *attrStr[] = { "pvt", "crash", "read", "sent", "att",
                        "fwd", "orphan", "k/s", "loc", "hld",
@@ -178,45 +158,6 @@ int  addrComp(const hs_addr a1, const hs_addr a2)
    return rc;
 }
 
-char *strrstr(const char *HAYSTACK, const char *NEEDLE)
-{
-   char *start = NULL, *temp = NULL;
-
-   temp = strstr(HAYSTACK, NEEDLE);
-   while (temp  != NULL) {
-      start = temp;
-      temp = strstr(temp+1,NEEDLE);
-   }
-   return start;
-}
-
-/*
- * Find the first occurrence of find in s ignoring case
- */
-char *fc_stristr(const char *str, const char *find)
-{
-    char ch, sc;
-    const char *str1 = NULL, *find1 = NULL;
-
-    if(str)
-    {
-        find++;
-        if ((ch = *(find-1)) != 0) {
-            do {
-                do {
-                    str++;
-                    if ((sc = *(str-1)) == 0) return (NULL);
-                } while (tolower((unsigned char) sc) != tolower((unsigned char) ch));
-
-                for(str1=str,find1=find; *find1 && *str1 && tolower(*find1)==tolower(*str1); str1++,find1++);
-
-            } while (*find1);
-            str--;
-        }
-    }
-    return ((char *)str);
-}
-
 
 void string2addr(const char *string, hs_addr *addr) {
 	char *endptr;
@@ -254,691 +195,6 @@ void string2addr(const char *string, hs_addr *addr) {
 	return;
 }
 
-#ifdef __TURBOC__
-#pragma warn -sig
-#endif
-
-UINT16 getUINT16(FILE *in)
-{
-   UCHAR dummy;
-
-   dummy = (UCHAR) getc(in);
-   return (dummy + (UCHAR) getc(in) * 256);
-}
-
-int fputUINT16(FILE *out, UINT16 word)
-{
-  UCHAR dummy;
-
-  dummy = word % 256;        /*  write high Byte */
-  fputc(dummy, out);
-  dummy = word / 256;        /*  write low Byte */
-  return fputc(dummy, out);
-}
-
-#ifdef __TURBOC__
-#pragma warn +sig
-#endif
-
-
-INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter)
-{
-   size_t i;
-
-   for (i=0;i<n-1 ;i++ ) {
-	
-	  do {
-		  str[i] = (UCHAR)getc(f);
-	  } while (filter && *filter && str[i] && strchr(filter, str[i]) != NULL);
-
-      /*  if end of file */
-      if (feof(f)) {
-         str[i] = 0;
-         return i+1;
-      } /* endif */
-
-      if (0 == str[i]) {
-         return i+1;
-      } /* endif */
-
-   } /* endfor */
-
-   str[n-1] = 0;
-   return n;
-}
-
-char *stripLeadingChars(char *str, const char *chr)
-{
-   char *i = str;
-
-   if (str != NULL) {
-
-      while (NULL != strchr(chr, *i)) {       /*  *i is in chr */
-         i++;
-      } /* endwhile */                        /*  i points to the first occurences */
-                                              /*  of a character not in chr */
-      strcpy(str, i);
-   }
-   return str;
-}
-
-/*DOC
-  Input:  str is a \0-terminated string
-          chr contains a list of characters.
-  Output: stripTrailingChars returns a pointer to a string
-  FZ:     all trailing characters which are in chr are deleted.
-          str is changed and returned (not reallocated, simply shorted).
-*/
-char *stripTrailingChars(char *str, const char *chr)
-{
-   char *i;
-
-   if( (str != NULL) && strlen(str)>0 ) {
-      i = str+strlen(str)-1;
-      while( (NULL != strchr(chr, *i)) && (i>=str) )
-         *i-- = '\0';
-   }
-   return str;
-}
-
-
-char *strUpper(char *str)
-{
-   char *temp = str;
-
-   while(*str != 0) {
-      *str = (char)toupper(*str);
-      str++;
-   }
-   return temp;
-}
-
-char *strLower(char *str)
-{
-   char *temp = str;
-
-   while(*str != 0) {
-      *str = (char)tolower(*str);
-      str++;
-   }
-   return temp;
-}
-
-char *shell_expand(char *str)
-{
-    char *slash = NULL, *ret = NULL, c;
-#ifdef __UNIX__
-    struct passwd *pw = NULL;
-#endif
-    char *pfix = NULL;
-
-    if (str == NULL)
-    {
-        return str;
-    }
-    if (*str == '\0' || str[0] != '~')
-    {
-        return str;
-    }
-    for (slash = str; *slash != '/' && *slash != '\0'
-#ifndef __UNIX__
-                     && *slash != '\\'
-#endif
-         ; slash++);
-    c = *slash;
-    *slash = 0;
-
-    if (str[1] == '\0')
-    {
-        pfix = getenv("HOME");
-#ifdef __UNIX__
-        if (pfix == NULL)
-        {
-            pw = getpwuid(getuid());
-            if (pw != NULL)
-            {
-                pfix = pw->pw_dir;
-            }
-        }
-#endif
-    }
-#ifdef __UNIX__
-    else
-    {
-        pw = getpwnam(str + 1);
-        if (pw != NULL)
-        {
-            pfix = pw->pw_dir;
-        }
-    }
-#endif
-    *slash = c;
-
-    if (pfix == NULL)  /* could not find an expansion */
-    {
-        return str;
-    }
-
-    ret = smalloc(strlen(slash) + strlen(pfix) + 1);
-    strcpy(ret, pfix);
-    strcat(ret, slash);
-    nfree(str);
-    return ret;
-}
-
-/* ================================================================
-
-Function: makeUniqueDosFileName
-
-OVERVIEW:
-
-The following function is used to create "unique" 8.3 filenames.  This is
-a major concerning when creating fidonet PKT files.  If you use this
-function to create PKT filenames, and your node only runs programs that use
-the same revision of the fidoconfig library, it will be guranteed that your
-program will emit unique PKT filenames throughout the whole epoch (!), and
-in almost all cases you can also be sure that your packets will not have
-name clashes with packets from other nodes that run fidoconfig programs
-during a period of about two days.  (Normally, the tosser of your uplink
-should not have a problem with clashes of pkt filenames from different links
-anyway, but just in case he uses a brain-dead tosser ...).
-
-CALLING:
-
-The function takes a directory name as argument (which is prepended to the
-generated file name, but has no further meaning), an extension (which again
-is appended to the gernated file name, but has no furhter meaning), and a
-fidoconfig structure.  The fidoconfig sturcture is used to create a basic
-offset number that distinguishes your node/point from another node/point.
-
-DETAILS:
-
-The function guarantees to create
-  - 36 filenames per second (if the average number of filenames created
-    per second over the whole lifetime of the program is greater, the
-    program will be delayed for the appropriate time via an atexit
-    handler). That is, you can poll as many filenames out of the function
-    as you wish, and you will get them quickly when you poll them, the
-    worst case is that if your program ran a very short time it will be
-    delayed before finally exiting.
-  - If the fidoconfig file always has the same primary AKA, and no two
-    programs that use that use the function run at the same time on your
-    system, it will emit unique filenames during the whole epoch (!).
-    That is, a Fidonet editor should NOT use this function (because a
-    editor usually runs parallel to the tossertask), while the tosser,
-    router, ticker, ... may safely use it as those programs usually run
-    serialized.
-  - If the primary AKA in the fidoconfig changes, the file names will
-    change substantially, so that different nodes who both run hpt
-    or other fidoconfig programs will generate substantially different file
-    names.
-  - ATTENTION: This function presently does not check if the file
-    names that it calculates do already exist. If you are afraid of
-    this (because you also use non-fidoconfig programs), you must
-    check it yourself in the application.
-
-IMPLEMENTATION NOTES:
-
-The alogrithm for creating pkt file names works as follows:
-
- - Step 1:  Based on OUR AKA, a static offset number is computed.  This is
-   done so that two systems which both run hpt create somewhat different
-   PKT file name. The offset number is computed as follows:
-
-      We imagine the node numbe decomposed in its digits:
-         node  = node1000 * 1000 + node100 * 100 + node10 *10 + node1
-      analoguous for the net number:
-         net   = net1000 * 1000 + net100 * 100 + net10 * 10 + net1
-      and the point number:
-         point = point1000 * 1000 + point100 * 100 + point10 * 10 + point1
-
-      Then the decimal digits of "offset" are composed as follows:
-
-      8         7         6        5        4        3        2        1
-  (I) node10    node1     net10    net1     node100  node1000 net100   net1000
- (II) node10    node1     point10  point1   node100  node1000 net100   net1000
-
-      where line (I) is used if point!=0, and line (II) is used if point==0.
-
-      Then the offset number is multiplied by 21 * 36. (This will overflow
-      a 32 bit unsigned integer, so in the code we only multiply by 21 and
-      then do other tricks).
-
- - Step 2: If this is the first start, the value of time() is obtained and
-      increased by one. That value is the "base packet number" for the file
-      name about to be created.
-
- - Step 3: The base packet number is added to the offset number and printed
-      as a seven digit number in a 36-based number system using the digits
-      0..9 and a..z. (We need all alphanumeric characters to assure all
-      uniquenesses that we guranteed ... hexadezimal characters are not
-      enough for this).
-
- - Step 4: The last (eigth') character in the generated file name is
-      a counter to allow for creating more than one filename per second.
-      The initial value of the counter is:
-
-            (net10 * 10 + net1 + point100) modulo 36
-
- - Step 5: The counter is printed as the eight character using characters
-      0..9, and a..z (for counter values from 10 to 35).
-
- - Step 6: On subsequent calls of this routine, the counter value is
-      increased by one. If it becomes greater than 35 it is wrapped to zero.
-      If all counter values have been used up (i.E. after the increasement
-      and possibly wrapping the counter value is again the initial value),
-      the base packet number is increased by one.
-
-  - Step 7: At program exit, the program sleeps until the value of time()
-      is greater or at least equal to the highest base packet number that
-      has been used.
-      (This is done via atexit. If the registering of the atexit program
-      fails, the algorithm above is modified so that every time that
-      the base packet number is increased, the program immediately waits
-      until time() is equal the base packet number. This is slower, but
-      it is a secure fallback in case atexit fails).
-
-The result is:
-
-  - The routine is able to create 36 filenames per second. If more filenames
-    are requested within a single second, calling the routine might delay
-    program execution, but the routine will still produce as many file names
-    as you request.
-
-  - As long as the AKA that is based for calculating the offset does not
-    change, and of course as long as the system clock is running continously
-    without being turned backwards, the routine will create unique filenames
-    during the whole epoch!
-
-  - For different nodes that have different AKAs, there will usually be a
-    considerable distance between the filenames created by the one node and
-    those created by another node. Especially, different points of the same
-    node will usually have different file names, and different nodes of the
-    same hubs will usually have very different file names over a period
-    of at least one day, and usually much more. There is no exact guarantee
-    that always two different nodes create different file names within this
-    period, but the chances are high. (Note that any decent tosser should
-    not have any problem with receving arcmail bundles from two different
-    nodes that contain pkt files with the same name; however, Fastecho
-    and probably others do have this problem unless the sysop installs
-    special scripts to circument it, and this is why we do the whole shit
-    of sender specific offset numbers ...)
-
-  - Remark: This code requires sizeof(unsinged long) >= 4. This is true
-    for all known 16, 32 and 64 bit architectures.
-
-   ================================================================ */
-
-static time_t last_reftime_used;
-static int may_run_ahead;
-
-static void atexit_wait_handler_function(void)
-{
-    time_t t;
-
-    time(&t);
-    while (t < last_reftime_used)
-    {
-#ifdef HAS_sleep
-        sleep(1);
-#else
-        mysleep(1);
-#endif
-        time (&t);
-    }
-}
-
-char *makeUniqueDosFileName(const char *dir, const char *ext,
-			    s_fidoconfig *config)
-{
-   char                *fileName;
-
-   static unsigned      counter  = 0x100, refcounter = 0x100;
-   static time_t        refTime  = 0x0;
-   static short         reftime36[7];
-   static volatile int  flag = 0;
-
-   unsigned             icounter;
-   time_t               tmpt;
-   static char          digits[37]="0123456789abcdefghijklmnopqrstuvwxyz";
-   int                  i, digit;
-   short                offset36[7];
-   unsigned long        node10, node1, digit6, digit5, node100, node1000,
-                        net100, net1000, tempoffset, net10, net1, point100;
-   size_t               pathLen  = strlen(dir);
-
-   /* make it reentrant */
-   while (flag)
-   {
-#ifdef HAS_sleep
-        sleep(1);
-#else
-        mysleep(1);
-#endif
-   }
-
-   flag = 1;
-
-   if ((fileName = malloc(pathLen + 1 + 8 + 1 + strlen(ext) + 1)) == NULL)
-   {                            /* delim file . ext null */
-       flag = 0;
-       return NULL;
-   }
-
-   memcpy(fileName, dir, pathLen + 1);
-
-   if (pathLen && fileName[pathLen - 1] != '\\' &&
-                  fileName[pathLen - 1] != '/' &&
-                  fileName[pathLen - 1] != PATH_DELIM)
-   {
-       fileName[pathLen + 1] = '\0';
-       fileName[pathLen] = PATH_DELIM;
-       pathLen++;
-   }
-
-   if (refTime == 0x0)
-   {
-       time(&refTime);
-       may_run_ahead = !atexit(atexit_wait_handler_function);
-       last_reftime_used = refTime;
-   }
-
-   /* we make a node specific offset, so that two nodes that both run hpt
-      each generate more or less distinct pkt file names */
-
-   node10 = (config->addr[0].node % 100) / 10;
-   node1  = (config->addr[0].node % 10);
-   if (config->addr[0].point != 0)
-   {
-       digit6 = (config->addr[0].point % 100) / 10;
-       digit5 = config->addr[0].point % 10;
-   }
-   else
-   {
-       digit6 = (config->addr[0].net % 100) / 10;
-       digit5 = (config->addr[0].net % 10);
-   }
-   node100  = (config->addr[0].node % 1000) / 100;
-   node1000 = (config->addr[0].node % 10000) / 1000;
-   net100   = (config->addr[0].net % 1000) / 100;
-   net1000  = (config->addr[0].net % 10000) / 1000;
-   net10    = (config->addr[0].net % 100) / 10;
-   net1     = config->addr[0].net % 10;
-   point100 = (config->addr[0].point % 1000) / 100;
-
-
-   tempoffset = (node10   * 10000000UL +
-                 node1    * 1000000UL  +
-                 digit6   * 100000UL   +
-                 digit5   * 10000UL    +
-                 node100  * 1000UL     +
-                 node1000 * 100UL      +
-                 net100   * 10UL       +
-                 net1000  * 1UL          ) * 21UL;
-
-   icounter = (unsigned)((net10 * 10U + net1 + point100) % 36U);
-
-   offset36[0] = 0;  /* this is the multiplication by 36! */
-   for (i = 1; i <= 6; i++)
-   {
-       offset36[i] = (short)(tempoffset % 36);
-       tempoffset = tempoffset / 36;
-   }
-
-   do
-   {
-       if (counter == icounter || icounter != refcounter)
-       {
-	   counter = refcounter = icounter;
-           last_reftime_used = ++refTime;
-
-           if (!may_run_ahead)
-           {
-               time (&tmpt);
-	
-               while (tmpt < refTime)
-               {
-#ifdef HAS_sleep
-                   sleep(1);
-#else
-                   mysleep(1);
-#endif
-                   time(&tmpt);
-               }
-           }
-
-           tmpt = refTime;
-           for (i = 0; i <= 6; i++)
-           {
-               reftime36[i] = (short)(tmpt % 36);
-               tmpt         = tmpt / 36;
-           }
-       }
-
-       for (i = 0, digit = 0; i < 7; i++)
-       {
-           digit = digit + reftime36[i] + offset36[i];
-           fileName[pathLen + (6 - i)] = digits[digit % 36];
-           digit = digit / 36;
-       }
-
-       sprintf(fileName + pathLen + 7, "%c.%s", digits[counter], ext);
-       counter = ((counter + 1) % 36);
-
-   } while (0); /* too slow because of readdir: fexist(fileName) == TRUE */;
-
-   flag = 0;
-
-   return fileName;
-}
-
-#if defined(__DOS__) && !defined(__FLAT__) || defined(__WIN16__)
-/* _WINDOWS : 16-bit windows */
-#define MOVE_FILE_BUFFER_SIZE 16384
-#else
-#define MOVE_FILE_BUFFER_SIZE 128000
-#endif
-
-int move_file(const char *from, const char *to, const int force_rewrite)
-{
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(__OS2__)))
-    int rc;
-
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
-    if ( cmpfnames((char*)from,(char*)to) == 0 )
-        return 0;
-#endif
-
-#ifdef DEBUG
-    w_log( LL_DEBUGY, __FILE__ ":%u:move_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
-#endif
-    if(force_rewrite)
-      remove(to);
-    else if(fexist(to)){
-      errno=EEXIST;
-      return -1;
-    }
-
-#ifdef DEBUG
-    w_log( LL_DEBUGY, __FILE__ ":%u:move_file()", __LINE__ );
-#endif
-    rc = rename(from, to);
-    if (!rc) {               /* rename succeeded. fine! */
-#elif defined(__NT__) && defined(USE_SYSTEM_COPY)
-    int rc;
-
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
-    if ( cmpfnames((char*)from,(char*)to) == 0 )
-        return 0;
-#endif
-
-    if(force_rewrite)
-      remove(to);
-    else if(fexist(to)){
-      errno=EEXIST;
-      return -1;
-    }
-    rc = MoveFile(from, to);
-    if (rc == TRUE) {
-#elif defined(__OS2__) && defined(USE_SYSTEM_COPY)
-    USHORT rc;
-
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
-    if ( cmpfnames((char*)from,(char*)to) == 0 )
-        return 0;
-#endif
-
-    if(force_rewrite)
-      remove(to);
-    else if(fexist(to)){
-      errno=EEXIST;
-      return -1;
-    }
-    rc = DosMove((PSZ)from, (PSZ)to);
-    if (!rc) {
-#endif
-      return 0;
-    }
-
-    /* Rename did not succeed, probably because the move is accross
-       file system boundaries. We have to copy the file. */
-
-    if (copy_file(from, to, force_rewrite)) return -1;
-    remove(from);
-    return 0;
-}
-
-	
-int copy_file(const char *from, const char *to, const int force_rewrite)
-{
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
-    char *buffer;
-    size_t read;
-    FILE *fin, *fout;
-    struct stat st;
-    struct utimbuf ut;
-    int fh=-1;
-
-#ifdef DEBUG
-    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
-#endif
-
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
-    if ( cmpfnames((char*)from,(char*)to) == 0 )
-        return 0;
-#endif
-
-    buffer = malloc(MOVE_FILE_BUFFER_SIZE);
-    if (buffer == NULL)	return -1;
-
-    memset(&st, 0, sizeof(st));
-    if (stat(from, &st)) return -1; /* file does not exist */
-
-#ifdef DEBUG
-    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
-#endif
-    fin = fopen(from, "rb");        /* todo: use open( ..., O_CREAT| ..., ...)
-                                     * to prevent file overwrite */
-    if (fin == NULL) { nfree(buffer); return -1; }
-#ifdef DEBUG
-    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
-#endif
-    fh = open( to, (force_rewrite ? 0 : O_EXCL) | O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, S_IREAD | S_IWRITE );
-    if( fh<0 ){
-      fh=errno;
-      fclose(fin);
-      errno=fh;
-      return -1;
-    }
-#ifdef __UNIX__
-/*     flock(to,O_EXLOCK); */
-    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
-    /* try to save file ownership if it is possible */
-    if (fchown(fh, st.st_uid, st.st_gid) != 0)
-        fchmod(fh, st.st_mode & 01777);
-    else
-        fchmod(fh, st.st_mode);
-#endif
-    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
-    fout = fdopen(fh, "wb");
-    if (fout == NULL) { fh=errno; nfree(buffer); fclose(fin); errno=fh; return -1; }
-
-    while ((read = fread(buffer, 1, MOVE_FILE_BUFFER_SIZE, fin)) > 0)
-    {
-	if (fwrite(buffer, 1, read, fout) != read)
-	{   fh=errno;
-	    fclose(fout); fclose(fin); remove(to); nfree(buffer);
-            errno=fh;
-            w_log( LL_DEBUGY, __FILE__ ":%u:copy_file() failed", __LINE__);
-	    return -1;
-	}
-    }
-
-    nfree(buffer);
-    if (ferror(fout) || ferror(fin))
-    {   fh=errno;
-	fclose(fout);
-	fclose(fin);
-        remove(to);
-        errno=fh;
-        w_log( LL_DEBUGY, __FILE__ ":%u:copy_file() failed", __LINE__);
-	return -1;
-    }
-    fclose(fin);
-    if (fclose(fout))
-    {   fh=errno;
-	fclose(fout);
-	fclose(fin);
-        remove(to);
-        errno=fh;
-        w_log( LL_DEBUGY, __FILE__ ":%u:copy_file() failed", __LINE__);
-	return -1;
-    }
-    ut.actime = st.st_atime;
-    ut.modtime = st.st_mtime;
-    utime(to, &ut);
-#elif defined (__NT__) && defined(USE_SYSTEM_COPY)
-    int rc = 0;
-
-    if ( cmpfnames((char*)from,(char*)to) == 0 )
-        return 0;
-
-    if(force_rewrite)
-      remove(to);            /* if CopyFile can't work file deleted..... */
-    else if(fexist(to)){
-      errno=EEXIST;
-      return -1;
-    }
-
-    rc = CopyFile(from, to, FALSE);
-    if (rc == FALSE) {
-      remove(to);
-      return -1;
-    }
-#elif defined (OS2) && defined(USE_SYSTEM_COPY)
-    USHORT rc;
-
-#ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
-    if ( cmpfnames((char*)from,(char*)to) == 0 )
-        return 0;
-#endif
-
-    if(force_rewrite)
-      remove(to);            /* if DosCopy can't work file deleted..... */
-    else if(fexist(to)){
-      errno=EEXIST;
-      return -1;
-    }
-
-    rc = DosCopy((PSZ)from, (PSZ)to, 1);
-    if (rc) {
-      remove(to);
-      return -1;
-    }
-#endif
-    w_log( LL_DEBUGY, __FILE__ ":%u:copy_file() OK", __LINE__);
-    return 0;
-}
 
 char *aka2str(const hs_addr aka) {
   static char straka[SIZE_aka2str];
@@ -969,20 +225,6 @@ char *aka2str5d(hs_addr aka) {
         xscatprintf( &straka, "%u:%u/%u", aka.zone, aka.net, aka.node );
 
     return straka;
-}
-
-int patimat(char *raw,char *pat)
-{
-    char *upraw=NULL, *uppat=NULL;
-    int i;
-
-    if (raw) upraw=strUpper(sstrdup(raw));
-    if (pat) uppat=strUpper(sstrdup(pat));
-    i=patmat(upraw,uppat);
-    nfree(upraw);
-    nfree(uppat);
-
-    return(i);
 }
 
 void freeGroups(char **grps, int numGroups)
@@ -1137,183 +379,6 @@ int e_writeCheck(s_fidoconfig *config, s_area *echo, s_link *link) {
     return rc;
 }
 
-/* safe malloc, realloc, calloc */
-
-void *smalloc(size_t size)
-{
-    void *ptr = malloc(size);
-    if (ptr == NULL) {
-		w_log(LL_CRIT, "out of memory");
-		abort();
-    }
-    return ptr;
-}
-
-void *srealloc(void *ptr, size_t size)
-{
-    void *newptr = realloc(ptr, size);
-    if (newptr == NULL) {
-		w_log(LL_CRIT, "out of memory");
-		abort();
-    }
-    return newptr;
-}
-
-void *scalloc(size_t nmemb, size_t size)
-{
-    void *ptr = smalloc(size*nmemb);
-	memset(ptr,'\0',size*nmemb);
-    return ptr;
-}
-
-char *sstrdup(const char *src)
-{
-    char *ptr;
-
-    if (src == NULL) return NULL;
-/*    if (!strlen(src)) return NULL; */
-    ptr = strdup (src);
-    if (ptr == NULL) {
-		w_log(LL_CRIT, "out of memory");
-		abort();
-    }
-    return ptr;
-}
-
-/* safe strcmp */
-int sstrcmp(const char *str1, const char *str2)
-{
-  if( str1==str2 ) return 0;  /* strings match */
-  if( str1==NULL ) return -1; /* str1(NULL) < str2(not NULL) */
-  if( str2==NULL ) return 1;  /* str1(not NULL) > str2(NULL) */
-  return strcmp(str1,str2);   /* compare strings */
-}
-
-/* safety strncmp */
-int sstrncmp(const char *str1, const char *str2, size_t length)
-{
-  if( str1==str2 ) return 0;  /* strings match */
-  if( str1==NULL ) return -1; /* str1(NULL) < str2(not NULL) */
-  if( str2==NULL ) return 1;  /* str1(not NULL) > str2(NULL) */
-  return strncmp(str1,str2, length);  /* compare strings */
-}
-
-/* safe stricmp (case-insencitive) */
-int sstricmp(const char *str1, const char *str2)
-{
-  if( str1==str2 ) return 0;  /* strings match */
-  if( str1==NULL ) return -1; /* str1(NULL) < str2(not NULL) */
-  if( str2==NULL ) return 1;  /* str1(not NULL) > str2(NULL) */
-  return stricmp(str1,str2);   /* compare strings */
-}
-
-/* safety strnicmp (case-insencitive) */
-int sstrnicmp(const char *str1, const char *str2, size_t length)
-{
-  if( str1==str2 ) return 0;  /* strings match */
-  if( str1==NULL ) return -1; /* str1(NULL) < str2(not NULL) */
-  if( str2==NULL ) return 1;  /* str1(not NULL) > str2(NULL) */
-  return strnicmp(str1,str2, length);  /* compare strings */
-}
-
-/* From binkd sources (tools.c), modified by Stas Degteff
- * Copyes not more than len chars from src into dst, but, unlike strncpy(),
- * it appends '\0' even if src is longer than len.
- * Return dst
- * Prevent memory faults:
- *  - if dst is NULL doing nothing and return NULL
- *  - if src is NULL and dst not NULL store '\0' into dst[0] and return it.
- */
-char *strnzcpy (char *dst, const char *src, size_t len)
-{
-  if (!dst) return NULL;
-  if (!src) {
-     dst[0]='\0';
-     return dst;
-  }
-  dst[len - 1] = 0;
-  return strncpy (dst, src, len - 1);
-}
-
-/* From binkd sources (tools.c), modified by Stas Degteff
- * Concantenate not more than len chars from src into dst, but, unlike
- * strncat(), it appends '\0' even if src is longer than len.
- * Return dst
- * Prevent memory faults:
- *  - if dst is NULL doing nothing and return NULL
- *  - if src is NULL doing nothing and return dst.
- */
-char *strnzcat (char *dst, const char *src, size_t len)
-{
-  size_t x;
-
-  if (!dst) return NULL;
-  if (!src) return dst;
-  x = strlen (dst);
-  return strnzcpy (dst + x, src, len);
-}
-
-
-/*   Get the object name from the end of a full or partial pathname.
-    The GetFilenameFromPathname function gets the file (or directory) name
-    from the end of a full or partial pathname. Returns The file (or directory)
-    name: pointer to part of all original pathname.
-
-*/
-char    *GetFilenameFromPathname(const char* pathname)
-{
-    char *fname = strrchr(pathname,PATH_DELIM);
-    if(fname)
-        fname++;
-    else
-        return (char*)pathname;
-    return fname;
-}
-
-
-/*  Get the object name from the end of a full or partial pathname (OS-independed).
-    This function gets the file (or directory) name from the end of a full
-    or partial pathname for any path style: UNIX, DOS or mixed (mixed style
-    may be used in Windows NT OS family).
-    Returns the file (or directory) name: pointer to part of all original pathname.
-*/
-char *OS_independed_basename(const char *pathname)
-{ register char *fname=NULL, *pname=(char*)pathname;
-
-  /* Process Unix-style, result to pathname */
-  if( (fname = strrchr(pname,'/')) ) pname = ++fname;
-
-  /* Process DOS-style */
-  if( (fname = strrchr(pname,'\\')) ) ++fname;
-  else fname = pname;
-
-  return fname;
-}
-
-/* Return directory part of pathname (without filename, '/' or '\\' present at end)
- * Return value is pointer to malloc'ed string;
- * if pathname is filenfme without directory return current directory (./ or .\)
- */
-char    *GetDirnameFromPathname(const char* pathname)
-{
-  char *sp=NULL, *rp=NULL;
-  register unsigned short lll;
-
-  sp = strrchr(pathname,PATH_DELIM);
-  if( sp ){
-    sp++;
-    lll = sp-pathname;
-    rp = scalloc(lll+1,sizeof(char));
-    sstrncpy(rp, pathname, lll);
-  }else
-#if PATH_DELIM=='/'
-    rp = sstrdup("./");
-#else
-    rp = sstrdup(".\\");
-#endif
-
-  return rp;
-}
 
 
 char *makeMsgbFileName(ps_fidoconfig config, char *s) {
@@ -1641,101 +706,310 @@ char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
     }
 }
 
-unsigned int dec2oct(unsigned int decimal)
+/* ================================================================
+
+Function: makeUniqueDosFileName
+
+OVERVIEW:
+
+The following function is used to create "unique" 8.3 filenames.  This is
+a major concerning when creating fidonet PKT files.  If you use this
+function to create PKT filenames, and your node only runs programs that use
+the same revision of the fidoconfig library, it will be guranteed that your
+program will emit unique PKT filenames throughout the whole epoch (!), and
+in almost all cases you can also be sure that your packets will not have
+name clashes with packets from other nodes that run fidoconfig programs
+during a period of about two days.  (Normally, the tosser of your uplink
+should not have a problem with clashes of pkt filenames from different links
+anyway, but just in case he uses a brain-dead tosser ...).
+
+CALLING:
+
+The function takes a directory name as argument (which is prepended to the
+generated file name, but has no further meaning), an extension (which again
+is appended to the gernated file name, but has no furhter meaning), and a
+fidoconfig structure.  The fidoconfig sturcture is used to create a basic
+offset number that distinguishes your node/point from another node/point.
+
+DETAILS:
+
+The function guarantees to create
+  - 36 filenames per second (if the average number of filenames created
+    per second over the whole lifetime of the program is greater, the
+    program will be delayed for the appropriate time via an atexit
+    handler). That is, you can poll as many filenames out of the function
+    as you wish, and you will get them quickly when you poll them, the
+    worst case is that if your program ran a very short time it will be
+    delayed before finally exiting.
+  - If the fidoconfig file always has the same primary AKA, and no two
+    programs that use that use the function run at the same time on your
+    system, it will emit unique filenames during the whole epoch (!).
+    That is, a Fidonet editor should NOT use this function (because a
+    editor usually runs parallel to the tossertask), while the tosser,
+    router, ticker, ... may safely use it as those programs usually run
+    serialized.
+  - If the primary AKA in the fidoconfig changes, the file names will
+    change substantially, so that different nodes who both run hpt
+    or other fidoconfig programs will generate substantially different file
+    names.
+  - ATTENTION: This function presently does not check if the file
+    names that it calculates do already exist. If you are afraid of
+    this (because you also use non-fidoconfig programs), you must
+    check it yourself in the application.
+
+IMPLEMENTATION NOTES:
+
+The alogrithm for creating pkt file names works as follows:
+
+ - Step 1:  Based on OUR AKA, a static offset number is computed.  This is
+   done so that two systems which both run hpt create somewhat different
+   PKT file name. The offset number is computed as follows:
+
+      We imagine the node numbe decomposed in its digits:
+         node  = node1000 * 1000 + node100 * 100 + node10 *10 + node1
+      analoguous for the net number:
+         net   = net1000 * 1000 + net100 * 100 + net10 * 10 + net1
+      and the point number:
+         point = point1000 * 1000 + point100 * 100 + point10 * 10 + point1
+
+      Then the decimal digits of "offset" are composed as follows:
+
+      8         7         6        5        4        3        2        1
+  (I) node10    node1     net10    net1     node100  node1000 net100   net1000
+ (II) node10    node1     point10  point1   node100  node1000 net100   net1000
+
+      where line (I) is used if point!=0, and line (II) is used if point==0.
+
+      Then the offset number is multiplied by 21 * 36. (This will overflow
+      a 32 bit unsigned integer, so in the code we only multiply by 21 and
+      then do other tricks).
+
+ - Step 2: If this is the first start, the value of time() is obtained and
+      increased by one. That value is the "base packet number" for the file
+      name about to be created.
+
+ - Step 3: The base packet number is added to the offset number and printed
+      as a seven digit number in a 36-based number system using the digits
+      0..9 and a..z. (We need all alphanumeric characters to assure all
+      uniquenesses that we guranteed ... hexadezimal characters are not
+      enough for this).
+
+ - Step 4: The last (eigth') character in the generated file name is
+      a counter to allow for creating more than one filename per second.
+      The initial value of the counter is:
+
+            (net10 * 10 + net1 + point100) modulo 36
+
+ - Step 5: The counter is printed as the eight character using characters
+      0..9, and a..z (for counter values from 10 to 35).
+
+ - Step 6: On subsequent calls of this routine, the counter value is
+      increased by one. If it becomes greater than 35 it is wrapped to zero.
+      If all counter values have been used up (i.E. after the increasement
+      and possibly wrapping the counter value is again the initial value),
+      the base packet number is increased by one.
+
+  - Step 7: At program exit, the program sleeps until the value of time()
+      is greater or at least equal to the highest base packet number that
+      has been used.
+      (This is done via atexit. If the registering of the atexit program
+      fails, the algorithm above is modified so that every time that
+      the base packet number is increased, the program immediately waits
+      until time() is equal the base packet number. This is slower, but
+      it is a secure fallback in case atexit fails).
+
+The result is:
+
+  - The routine is able to create 36 filenames per second. If more filenames
+    are requested within a single second, calling the routine might delay
+    program execution, but the routine will still produce as many file names
+    as you request.
+
+  - As long as the AKA that is based for calculating the offset does not
+    change, and of course as long as the system clock is running continously
+    without being turned backwards, the routine will create unique filenames
+    during the whole epoch!
+
+  - For different nodes that have different AKAs, there will usually be a
+    considerable distance between the filenames created by the one node and
+    those created by another node. Especially, different points of the same
+    node will usually have different file names, and different nodes of the
+    same hubs will usually have very different file names over a period
+    of at least one day, and usually much more. There is no exact guarantee
+    that always two different nodes create different file names within this
+    period, but the chances are high. (Note that any decent tosser should
+    not have any problem with receving arcmail bundles from two different
+    nodes that contain pkt files with the same name; however, Fastecho
+    and probably others do have this problem unless the sysop installs
+    special scripts to circument it, and this is why we do the whole shit
+    of sender specific offset numbers ...)
+
+  - Remark: This code requires sizeof(unsinged long) >= 4. This is true
+    for all known 16, 32 and 64 bit architectures.
+
+   ================================================================ */
+
+static time_t last_reftime_used;
+static int may_run_ahead;
+
+static void atexit_wait_handler_function(void)
 {
-    char tmpstr[6];
-    unsigned int mode;
+    time_t t;
 
-    mode = decimal;
-    sprintf(tmpstr, "%u", mode);
-    sscanf(tmpstr, "%o", &mode);
-    return mode;
-}
-
-
-#if defined(__UNIX__)
-/* this function should be moved to huskylib() */
-int createLock(char *lockFile)
-{
-    FILE *fp;
-    char s_pid[64];
-    long pid = 0;
-    int process_active=0;
-
-    if(!access(lockFile, R_OK | W_OK))
+    time(&t);
+    while (t < last_reftime_used)
     {
-        fp = fopen(lockFile, "r");
-        if (fp == NULL) return 0;
-        if (fgets(s_pid, 64, fp))
-            pid=atol(s_pid);
-        if (pid) /*  pid is not a trash in file */
-        {
-            process_active=1;
-            if (kill(pid, 0) && (errno==ESRCH))
-                process_active=0;
-        }
-        fclose(fp);
-    }
-    if(process_active) return 0;
-
-    fp = fopen(lockFile, "w");
-    fprintf(fp, "%lu\n", (unsigned long)getpid());
-    fclose(fp);
-    return 1;
-}
-
+#ifdef HAS_sleep
+        sleep(1);
+#else
+        mysleep(1);
 #endif
-
-int lockFile(const char *lockfile, int advisoryLock)
-{
-    int fh = -1;
-
-    if(!lockfile)
-        return fh;
-
-    if (advisoryLock > 0) {
-        while(advisoryLock > 0)
-        {
-            if ((fh=open(lockfile,O_CREAT|O_RDWR,S_IREAD|S_IWRITE))<0) {
-/*                fprintf(stderr,"cannot open/create lock file: %s wait %d seconds\n",lockfile, advisoryLock);*/
-                advisoryLock--;
-            } else {
-                if (write(fh," ", 1)!=1) {
-/*                    fprintf(stderr,"can't write to lock file! wait %d seconds\n", advisoryLock);*/
-                    close(fh);
-                    fh = -1;
-                    advisoryLock--;
-                } else if (lock(fh,0,1)<0) {
-/*                    fprintf(stderr,"lock file used by another process! %d seconds\n", advisoryLock);*/
-                    close(fh);
-                    fh = -1;
-                    advisoryLock--;
-                }
-            }
-            if(fh < 0)
-                sleep(1);
-            else
-                break;
-        }
-    } else { /*  normal locking */
-        fh=open(lockfile, O_CREAT|O_RDWR|O_EXCL,S_IREAD|S_IWRITE);
+        time (&t);
     }
-    if(fh < 0)
-    {
-		fprintf(stderr,"cannot create new lock file: %s\n",lockfile);
-		fprintf(stderr,"lock file probably used by another process! exit...\n");
-	}
-    return fh;
 }
 
-int FreelockFile(const char *lockfile, int fh)
+char *makeUniqueDosFileName(const char *dir, const char *ext,
+			    s_fidoconfig *config)
 {
-    if(fh > 0)
-    	close(fh);
-    if(lockfile)
-	    remove(lockfile);
+   char                *fileName;
 
-    return 0;
+   static unsigned      counter  = 0x100, refcounter = 0x100;
+   static time_t        refTime  = 0x0;
+   static short         reftime36[7];
+   static volatile int  flag = 0;
+
+   unsigned             icounter;
+   time_t               tmpt;
+   static char          digits[37]="0123456789abcdefghijklmnopqrstuvwxyz";
+   int                  i, digit;
+   short                offset36[7];
+   unsigned long        node10, node1, digit6, digit5, node100, node1000,
+                        net100, net1000, tempoffset, net10, net1, point100;
+   size_t               pathLen  = strlen(dir);
+
+   /* make it reentrant */
+   while (flag)
+   {
+#ifdef HAS_sleep
+        sleep(1);
+#else
+        mysleep(1);
+#endif
+   }
+
+   flag = 1;
+
+   if ((fileName = malloc(pathLen + 1 + 8 + 1 + strlen(ext) + 1)) == NULL)
+   {                            /* delim file . ext null */
+       flag = 0;
+       return NULL;
+   }
+
+   memcpy(fileName, dir, pathLen + 1);
+
+   if (pathLen && fileName[pathLen - 1] != '\\' &&
+                  fileName[pathLen - 1] != '/' &&
+                  fileName[pathLen - 1] != PATH_DELIM)
+   {
+       fileName[pathLen + 1] = '\0';
+       fileName[pathLen] = PATH_DELIM;
+       pathLen++;
+   }
+
+   if (refTime == 0x0)
+   {
+       time(&refTime);
+       may_run_ahead = !atexit(atexit_wait_handler_function);
+       last_reftime_used = refTime;
+   }
+
+   /* we make a node specific offset, so that two nodes that both run hpt
+      each generate more or less distinct pkt file names */
+
+   node10 = (config->addr[0].node % 100) / 10;
+   node1  = (config->addr[0].node % 10);
+   if (config->addr[0].point != 0)
+   {
+       digit6 = (config->addr[0].point % 100) / 10;
+       digit5 = config->addr[0].point % 10;
+   }
+   else
+   {
+       digit6 = (config->addr[0].net % 100) / 10;
+       digit5 = (config->addr[0].net % 10);
+   }
+   node100  = (config->addr[0].node % 1000) / 100;
+   node1000 = (config->addr[0].node % 10000) / 1000;
+   net100   = (config->addr[0].net % 1000) / 100;
+   net1000  = (config->addr[0].net % 10000) / 1000;
+   net10    = (config->addr[0].net % 100) / 10;
+   net1     = config->addr[0].net % 10;
+   point100 = (config->addr[0].point % 1000) / 100;
+
+
+   tempoffset = (node10   * 10000000UL +
+                 node1    * 1000000UL  +
+                 digit6   * 100000UL   +
+                 digit5   * 10000UL    +
+                 node100  * 1000UL     +
+                 node1000 * 100UL      +
+                 net100   * 10UL       +
+                 net1000  * 1UL          ) * 21UL;
+
+   icounter = (unsigned)((net10 * 10U + net1 + point100) % 36U);
+
+   offset36[0] = 0;  /* this is the multiplication by 36! */
+   for (i = 1; i <= 6; i++)
+   {
+       offset36[i] = (short)(tempoffset % 36);
+       tempoffset = tempoffset / 36;
+   }
+
+   do
+   {
+       if (counter == icounter || icounter != refcounter)
+       {
+	   counter = refcounter = icounter;
+           last_reftime_used = ++refTime;
+
+           if (!may_run_ahead)
+           {
+               time (&tmpt);
+	
+               while (tmpt < refTime)
+               {
+#ifdef HAS_sleep
+                   sleep(1);
+#else
+                   mysleep(1);
+#endif
+                   time(&tmpt);
+               }
+           }
+
+           tmpt = refTime;
+           for (i = 0; i <= 6; i++)
+           {
+               reftime36[i] = (short)(tmpt % 36);
+               tmpt         = tmpt / 36;
+           }
+       }
+
+       for (i = 0, digit = 0; i < 7; i++)
+       {
+           digit = digit + reftime36[i] + offset36[i];
+           fileName[pathLen + (6 - i)] = digits[digit % 36];
+           digit = digit / 36;
+       }
+
+       sprintf(fileName + pathLen + 7, "%c.%s", digits[counter], ext);
+       counter = ((counter + 1) % 36);
+
+   } while (0); /* too slow because of readdir: fexist(fileName) == TRUE */;
+
+   flag = 0;
+
+   return fileName;
 }
 
 hs_addr *SelectPackAka(s_link *link)
@@ -1745,69 +1019,3 @@ hs_addr *SelectPackAka(s_link *link)
  else
    return &(link->hisAka);
 }
-
-
-/*#if defined(HAS_spawnvp) && ( defined(__DOS__) || defined(__WIN32__) )*/
-#ifndef cmdcall
-/* Workaround for command.com bug: cmdcall() */
-
-#if !defined(P_WAIT) && defined(_P_WAIT)
-#define P_WAIT		_P_WAIT
-#endif
-
-/* make parameters list for spawnvp(), spawnv()
- * Return malloc()'ed array of pointers to difference parts of one string,
- * 1st element points to string begin.
- * Return NULL if argument is NULL
- */
-char **mk_lst(const char *a)
-{
-    char *p, *q, **list=NULL, end=0, num=0;
-
-    if(!a){
-      w_log(LL_ERR, "NULL command line!");
-      return NULL;
-    }
-    while (*a && isspace(*a)) a++; /* Left spaces trim */
-    p=q=sstrdup(a);
-    while (*p && !end) {
-	while (*q && !isspace(*q)) q++;
-	if (*q=='\0') end=1;
-	*q ='\0';
-	list = (char **) srealloc(list, ++num*sizeof(char*));
-	list[num-1]=(char*)p;
-	if (!end) {
-	    p=q+1;
-	    while(isspace(*p)) p++;
-	}
-	q=p;
-    }
-    list = (char **) srealloc(list, (++num)*sizeof(char*));
-    list[num-1]=NULL;
-
-    return list;
-}
-
-int cmdcall(const char *cmd)
-{ int cmdexit=-1;
-  char **list;
-
-  if( (list = mk_lst(cmd)) ) {
-    w_log(LL_DEBUGV, "spawnvp(P_WAIT, %s, ...)", list[0] );
-#ifdef __WATCOMC__
-    cmdexit = spawnvp(P_WAIT, list[0], (const char * const *)list);
-#else
-    cmdexit = spawnvp(P_WAIT, list[0], list);
-#endif
-    nfree(list[0]);
-    nfree(list);
-  }
-
-  return cmdexit;
-}
-#else
-/*
-int cmdcall(const char *cmd)
-{ return system(cmd); }
-*/
-#endif

@@ -39,16 +39,15 @@
 #include <ctype.h>
 
 #include <huskylib/compiler.h>
+#include <huskylib/huskylib.h>
 
 #if defined (__OS2__)
 # define INCL_DOSFILEMGR
 # include <os2.h>
 #endif
 
-#include "typesize.h"
 #include "fidoconf.h"
 #include "common.h"
-#include "xstr.h"
 
 #define setcond for (i=0, condition=1; i<=iflevel; condition=ifstack[i++].state && condition);
 

@@ -74,16 +74,10 @@
 #endif
 
 #include <huskylib/huskylib.h>
-#include <huskylib/patmat.h>
-#include <huskylib/unused.h>
-#include <huskylib/cvtdate.h>
 
 #include "syslogp.h"
-#include "dirlayer.h"
 #include "fidoconf.h"
 #include "common.h"
-#include "typesize.h"
-#include "xstr.h"
 #include "findtok.h"
 #include "tokens.h"
 #include "grptree.h"

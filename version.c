@@ -30,8 +30,8 @@
 #include <string.h>
 
 #include <huskylib/compiler.h>
+#include <huskylib/huskylib.h>
 #include "common.h"
-#include "xstr.h"
 
 #define __VERSION__C__
 

@@ -30,7 +30,7 @@
 #define	_GRPTREE_H
 
 #include "fidoconf.h"
-#include "tree.h"
+#include <huskylib/huskylib.h>
 
 /* if returns 1 - All Ok                                           */
 /* if returns 0 - we have duplicate definition for area in config  */

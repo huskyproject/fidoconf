@@ -28,9 +28,9 @@
  */
 
 #include <string.h>
-#include "tree.h"
+#include <huskylib/compiler.h>
+#include <huskylib/huskylib.h>
 #include "common.h"
-#include "xstr.h"
 #include "grptree.h"
 
 tree *groupTree = NULL;

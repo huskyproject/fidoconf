@@ -29,8 +29,8 @@
 #ifndef	_AREA_TREE_FLAG
 #define	_AREA_TREE_FLAG
 
-#include "tree.h"
 #include "fidoconf.h"
+#include <huskylib/huskylib.h>
 
 /* if returns 1 - All Ok                                           */
 /* if returns 0 - we have duplicate definition for area in config  */

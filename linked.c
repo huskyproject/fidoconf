@@ -28,9 +28,10 @@
  * $Id$
  */
 
+#include <stdio.h>
+#include <huskylib/huskylib.h>
 #include "fidoconf.h"
 #include "arealist.h"
-#include "xstr.h"
 #include "common.h"
 
 #ifndef VERSION_H

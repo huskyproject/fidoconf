@@ -37,17 +37,15 @@
 #include <stdlib.h>
 
 #include <huskylib/compiler.h>
+#include <huskylib/huskylib.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
 #endif
 
-#include <huskylib/huskylib.h>
 
 #include "fidoconf.h"
-#include "xstr.h"
 #include "common.h"
-#include "log.h"
 #include "afixcmd.h"
 
 #if 0

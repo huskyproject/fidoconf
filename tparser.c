@@ -39,6 +39,7 @@
 #include <fcntl.h>
 
 #include <huskylib/compiler.h>
+#include <huskylib/huskylib.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
@@ -51,7 +52,6 @@
 #include "version.h"
 #include "cvsdate.h"
 #include "fidoconf.h"
-#include "xstr.h"
 #include "common.h"
 #include "grptree.h"
 

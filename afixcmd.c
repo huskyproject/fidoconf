@@ -35,6 +35,7 @@
 #include <sys/stat.h>
 
 #include <huskylib/compiler.h>
+#include <huskylib/huskylib.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
@@ -44,11 +45,8 @@
 #   include <io.h>
 #endif
 
-#include <huskylib/huskylib.h>
 #include "afixcmd.h"
 #include "common.h"
-#include "log.h"
-#include "xstr.h"
 
 char* expandCfgLine(char* cfgline)
 {

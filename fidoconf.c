@@ -35,6 +35,8 @@
 #include <ctype.h>
 
 #include <huskylib/compiler.h>
+#include <huskylib/huskyext.h>
+#include <huskylib/huskylib.h>
 
 #ifdef HAS_SYS_SYSEXITS_H
 #include <sys/sysexits.h>
@@ -42,12 +44,8 @@
 #include <sysexits.h>
 #endif
 
-#include <huskylib/huskyext.h>
-#include <huskylib/patmat.h>
-#include "typesize.h"
 #include "fidoconf.h"
 #include "common.h"
-#include "xstr.h"
 #include "areatree.h"
 #include "grptree.h"
 

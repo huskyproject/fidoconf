@@ -159,17 +159,8 @@ endif
 	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) common.h       $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) xstr.h         $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) crc.h          $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) log.h          $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) recode.h       $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) tree.h         $(INCDIR)$(DIRSEP)fidoconf
-	$(INSTALL) $(IIOPT) temp.h         $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) afixcmd.h      $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) arealist.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) version.h      $(INCDIR)$(DIRSEP)fidoconf
