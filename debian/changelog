@@ -1,3 +1,20 @@
+fidoconf (0.12-4) unstable; urgency=low
+
+  * Newest cvs checkout.
+  * Package (hopefully) gets into Debian. Filed a bug against wnpp and
+    asked my sponsor to check the package. If he uploads it, it
+    will close the bug, Closes: #104536
+  * Path for Config-Files now /etc/husky. Old /etc/fido is for Fidogate
+    so we cant take it.
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Wed,  8 Aug 2001 20:48:19 +0200
+
+fidoconf (0.12-3) unstable; urgency=low
+  
+  * Small change. Cant really remember what. :)
+
+ -- Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>  Fri, 13 Jul 2001 14:00:26 +0200
+
 fidoconf (0.12-2) unstable; urgency=low
 
   * libsmapi is non-free so this Package could only be contrib !
