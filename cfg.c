@@ -15,8 +15,8 @@
 
 #define setcond for (i=0, condition=1; i<=iflevel; condition=ifstack[i++].state && condition);
 
-char *curconfname;
-long curconfpos;
+char *curconfname=NULL;
+long curconfpos=0;
 FILE *hcfg;
 static short condition;
 static int  iflevel, nvars, sp;
@@ -443,4 +443,19 @@ void checkIncludeLogic(ps_fidoconfig config)
 	    exit(EX_CONFIG);
 	}
     }
+}
+
+const char* getCurConfName()
+{
+    return curconfname;
+}
+
+long getCurConfPos()
+{
+    return curconfpos;
+}
+
+long get_hcfgPos()
+{
+    return ftell(hcfg);
 }

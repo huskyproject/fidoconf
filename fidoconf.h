@@ -579,6 +579,9 @@ FCONF_EXT char *configline(void);
 FCONF_EXT char *stripComment(char *line);
 void checkIncludeLogic(ps_fidoconfig config);
 
+FCONF_EXT const char* getCurConfName();
+FCONF_EXT long getCurConfPos();
+FCONF_EXT long get_hcfgPos();
 /**
  * This method can be used to get a program-specifically config-filename, in the same directories which are searched for fidoconfig.
  * envVar should be set to a string which resembles a environment-variable which should be checked if it includes the fileName.
