@@ -1,0 +1,44 @@
+# Microsoft Visual C++ Makefile
+
+CC=     cl
+CFLAGS= -nologo -Zp1 -I..
+CDEFS=  -D__NT__ -DNT -DWINNT -D_CONSOLE -DUSE_SYSTEM_COPY
+COPT=   -O2
+TLIB=   lib -nologo
+
+FCONFL=	fconfmvc.lib
+SMAPIL=	..\smapi\smapimvc.lib
+
+OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
+
+all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
+
+$(FCONFL): $(OBJS)
+	$(TLIB) /out:$@ $(OBJS)
+
+tparser.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ tparser.c $(FCONFL) $(SMAPIL)
+
+fconf2golded.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2ged.c $(FCONFL) $(SMAPIL)
+
+fconf2msged.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2msged.c $(FCONFL) $(SMAPIL)
+
+fconf2aquaed.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2aed.c $(FCONFL) $(SMAPIL)
+
+fconf2squish.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
+
+fecfg2fconf.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c $(FCONFL) $(SMAPIL)
+
+clean:
+        -del *.obj *.lib
+
+distclean: clean
+	-del *.exe

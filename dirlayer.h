@@ -43,12 +43,40 @@
 #include <sys/types.h>
 #endif
 #include <sys/types.h>
+#if !(defined(_MSC_VER) && (_MSC_VER >= 1200))
 #include <dirent.h>
 #endif
 #endif
+#endif
 
-#if defined(__WATCOMC__) || defined(__TURBOC__)
+#if defined(__WATCOMC__) || defined(__TURBOC__) || (defined(_MSC_VER) && (_MSC_VER >= 1200))
 #include <direct.h>  /* watcom and borland know this as direct.h */
+#endif
+
+#if defined (_MSC_VER) && (_MSC_VER >= 1200)
+#include <io.h>
+#include <stdlib.h>
+#define NAME_MAX        _MAX_PATH
+
+typedef struct dirent {
+   // char        d_dta[ 21 ];            /* disk transfer area */
+    char        d_attr;                 /* file's attribute */
+   // unsigned short int d_time;          /* file's time */
+   // unsigned short int d_date;          /* file's date */
+   // long        d_size;                 /* file's size */
+    char        d_name[_MAX_PATH+1];  /* file's name */
+   // unsigned short d_ino;               /* serial number (not used) */
+   // char        d_first;                /* flag for 1st time */
+
+   struct _finddata_t _dt;
+   char               _mask[_MAX_PATH+1];
+   long               _handle;
+   char               _first_time;
+} DIR;
+
+DIR* opendir(const char*);
+DIR* readdir(DIR*);
+int  closedir(DIR*);
 #endif
 
 #ifdef __IBMC__   /* only define it for IBM VisualAge C++ */

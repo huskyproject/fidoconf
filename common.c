@@ -38,7 +38,9 @@
 #include <dos.h>
 #else
 #ifndef __IBMC__
+#if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
 #include <unistd.h>
+#endif
 #endif
 #endif
 
