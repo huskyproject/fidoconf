@@ -1,3 +1,12 @@
+2003-05-22 Thursday 20:44  d_sergienko
+
+	* tparser.c (fidoconf-1_4-stable.2): make info about remaps more
+	pretty
+
+2003-05-22 Thursday 19:50  d_sergienko
+
+	* line.c (fidoconf-1_4-stable.5): remove bogus debug message
+
 2003-05-14 Wednesday 22:06  d_sergienko
 
 	* HISTORY, line.c (fidoconf-1_4-stable.[4,4]): workaround: don't
