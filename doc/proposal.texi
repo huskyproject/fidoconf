@@ -200,6 +200,8 @@ a comment and will be ignored.
 * carbonMove::                  specify the area where the carbon msg get moved into
 * carbonExtern::                specify the external program to pass msg text to
 * netmailExtern::               specify the external Program to pass netmail msgs to
+* netmailFlag::                 create flag after unpacking netmail msg
+* autoareacreateflag::          create this file-flag after auto-area-create
 
 * carbonDelete::                specify that the carbon msg should be deleted
 * carbonAndQuit::               carbon message only one time
@@ -1209,6 +1211,7 @@ You also need bsopack to do this.
 Attention: If you use @code{packNetmail on} - you must define packer for this
 link.
 
+@strong{This statement used by bsopack}
 This statement can only be repeated for different links.
 
 @node maxUnpackedNetmail, echomailflavour, packNetmail, Keywords
@@ -1228,6 +1231,7 @@ was packed into bundle and new packed with size less than
 @code{maxUnpackedNetmail} was created.
 If you select 0 kb - all netmail will be packed.
 
+@strong{This statement used by bsopack}
 This statement can only be repeated for different links.
 
 @node echomailflavour, fileechoflavour, maxUnpackedNetmail, Keywords
@@ -1770,36 +1774,36 @@ this link is write only
 this link is mandatory subscribed
 you may also set: "<aka> -r -mn" or "<aka> -w -r" and so on...
 @item -p <integer>
-purge after n days, 
+purge after n days (*)
 @item -$m <integer>
-leave max n messages after purge in area
+leave max n messages after purge in area (*)
 @item -nopack
-Do not purge or pack area (overwrites -p & -$m)
+Do not purge or pack area (overwrites -p & -$m) (*)
 @item -killRead
-kill read msgs in area on purging
+kill read msgs in area on purging (*)
 @item -keepUnread
-keep unread msgs in area on purging
-@item -a <aka>      
+keep unread msgs in area on purging (*)
+@item -a <aka>
 aka to use
 @item -b <msgbase type>
-type of msgbase (Msg, Squish, Jam)
+type of msgbase (Msg, Squish, Jam) (*)
 @item -g <group>
 group for this echoarea
 @item -keepsb
 keep seen-by's (used in CarbonCopy)
 @item -tinysb
-no seen-by kludges stored to message base
+no seen-by kludges stored to message base (*)
 @item -killsb
-no seen-by & path kludges stored to message base
+no seen-by & path kludges stored to message base (*)
 @item -manual
 disallow remote changes (only manual connect/disconnect). same as mandatory.
 @item -dosfile
 file name of area is in dos style (8+3)
-@item -h           
+@item -h
 hide area
 @item -d "Description for the area between double quote (like this)"
 describe area
-@item -nopause        
+@item -nopause
 %PAUSE has no effect to this area
 @item -ccoff
 disables carbonCopies for this area
@@ -1808,7 +1812,7 @@ toss in dupes, move dupes to dupeArea or delete dupes.
 @item -DupeHistory <unsignedInteger>
 size of dupecheck history file in days (7 days if not defined)
 @item -nolink
-disables reply-linking for this area
+disables reply-linking for this area (*)
 @item -debug
 write debug info about this area to areaname.dbg (or common.dbg if "-dosfile" is used)
 @item -sbadd(<addr2D>,...)
@@ -1816,6 +1820,9 @@ add seen-by(s)
 @item -sbign(<addr2D>,...)
 ignore seen-by(s) and toss mail to link(s)
 @end table
+
+(*) - this tokens removed from @code{autoAreaCreateDefaults} when
+creating passthrough area.
 
 LinkOption:
 @table @asis
@@ -2239,7 +2246,7 @@ statement.
 If program name is prepended with '|' sign, hpt tries to pass data thru the 
 pipe, not temporary file.
 
-@node netmailExtern, carbonDelete, carbonExtern, Keywords
+@node netmailExtern, netmailFlag, carbonExtern, Keywords
 @subsection netmailExtern
 @table @asis
 @item Syntax:
@@ -2257,7 +2264,35 @@ statement.
 If program name is prepended with '|' sign, hpt tries to pass data thru the 
 pipe, not temporary file.
 
-@node carbonDelete, carbonAndQuit, netmailExtern, Keywords
+@node netmailFlag, autoareacreateflag, netmailExtern, Keywords
+@subsection netmailFlag
+@table @asis
+@item Syntax:
+@code{netmailFlag </path/filename>}
+@item Example:
+@code{netmailFlag /etc/ftn/flags/netmail}
+@end table
+
+Create file-flag after unpacking netmail msg. This feature can be used
+for execute netmail trackers after tossing.
+
+This statement cannot be repeated.
+
+@node autoareacreateflag, carbonDelete, netmailFlag, Keywords
+@subsection autoareacreateflag
+@table @asis
+@item Syntax:
+@code{autoareacreateflag </path/filename>}
+@item Example:
+@code{autoareacreateflag /etc/ftn/flags/aac.flag}
+@end table
+
+Create file-flag after autocreating echo area. This feature can be used
+for execute some scripts after tossing.
+
+This statement cannot be repeated.
+
+@node carbonDelete, carbonAndQuit, autoareacreateflag, Keywords
 @subsection carbonDelete
 @table @asis
 @item Syntax:
@@ -2475,6 +2510,8 @@ The log levels are following:
 8 - areafix, relink, autocreate
 
 9 - error messages
+
+0 - flags
 
 @node screenloglevels, Remap, loglevels, Keywords
 @subsection screenloglevels

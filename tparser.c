@@ -617,6 +617,8 @@ int main(int argc, char **argv) {
       if (config->badFilesDir) printf("BadFilesDir: %s\n", config->badFilesDir);
       if (config->msgidfile) printf("MsgIDFile: %s\n", config->msgidfile);
 //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
+	  if (config->netmailFlag) printf("NetmailFlag: %s\n",config->netmailFlag);
+	  if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
 
       if (hpt==0) {
           printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");

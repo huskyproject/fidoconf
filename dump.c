@@ -38,13 +38,13 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
 	  // Can't print undeclared value
 	  break;
   case eAddrDiff:
-	  printf("BundleNameStyle: addrDiff\n");
+	  fprintf(f,"BundleNameStyle: addrDiff\n");
 	  break;
   case eAddrDiffAlways:
-	  printf("BundleNameStyle: addrDiffAlways\n");
+	  fprintf(f,"BundleNameStyle: addrDiffAlways\n");
 	  break;
   case eTimeStamp:
-	  printf("BundleNameStyle: timeStamp\n");
+	  fprintf(f,"BundleNameStyle: timeStamp\n");
 	  break;
   default:
 	  printf("Warning: BundleNameStyle is UNKNOWN! Update dump please!\n");
@@ -52,6 +52,9 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
 	  
   }		  
   
+  if (config->netmailFlag) fprintf(f,"NetmailFlag %s\n",config->netmailFlag);
+  if (config->aacFlag) fprintf(f,"AutoAreaCreateFlag %s\n",config->aacFlag);
+
   fprintf(f, "\n");
 }
 

@@ -1,5 +1,10 @@
 
 ----- cvs ci ------
+Sun Jan 28 17:15:41 NOVT 2001
+max:
+* netmailFlag, autoAreaCreateFlag
+
+----- cvs ci ------
 Sat Jan 27 15:22:41 NOVT 2001
 max:
 * forwardRequestMask, denyFwdMask, denyFwdFile tokens

@@ -467,6 +467,9 @@ typedef struct fidoconfig {
    ps_filelist filelists;
    unsigned int filelistCount;
 
+   char *netmailFlag;
+   char *aacFlag;
+
 } s_fidoconfig, *ps_fidoconfig;
 
 

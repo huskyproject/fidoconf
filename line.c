@@ -1197,6 +1197,11 @@ int parseLink(char *token, s_fidoconfig *config)
           for ( i=0; i < deflink->numFrMask; i++)
 			  clink->frMask[i] = sstrdup (deflink->frMask[i]);
       }
+      if (deflink->dfMask) {
+          clink->dfMask = smalloc(sizeof(char *) * clink->numDfMask);
+          for ( i=0; i < deflink->numDfMask; i++)
+			  clink->dfMask[i] = sstrdup (deflink->dfMask[i]);
+      }
 
    } else {
 
@@ -2964,6 +2969,8 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "filelist")==0) rc = parseFilelist(getRestOfLine(), config);
      else if (strcmp(iToken, "createfwdnonpass")==0) rc = parseBool(getRestOfLine(), &(config->createFwdNonPass));
 	 else if (strcmp(iToken, "autopassive")==0) rc = parseBool(getRestOfLine(), &(config->autoPassive));
+     else if (strcmp(iToken, "netmailflag")==0) rc = copyString(getRestOfLine(), &(config->netmailFlag));
+     else if (strcmp(iToken, "autoareacreateflag")==0) rc = copyString(getRestOfLine(), &(config->aacFlag));
 
 #ifdef __TURBOC__
      else unrecognised++;

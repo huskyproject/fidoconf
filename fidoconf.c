@@ -506,6 +506,9 @@ void disposeConfig(s_fidoconfig *config)
      nfree(config->filelists[i].dirListFtrTpl);
    }
 
+   nfree(config->netmailFlag);
+   nfree(config->aacFlag);
+
    free(config);
    config = NULL;
 }
