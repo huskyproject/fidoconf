@@ -1,6 +1,6 @@
 CC = gcc
 AR = ar
-COPT = -g -s -c -O -Wall -fPIC -I../smapi -DUNIX
+COPT = -g -s -c -O2 -Wall -I../smapi -DUNIX
 
 ALL: fidoconfig.a \
      tparser \
