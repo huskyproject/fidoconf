@@ -265,29 +265,34 @@ int parseHandle(char *token, s_fidoconfig *config) {
 int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) {
    char *option;
    int  rc = 0;
-   
+   s_route *actualRoute;
+
    *route = realloc(*route, sizeof(s_route)*(*count+1));
-   memset(route[*count], 0, sizeof(s_route));
+   actualRoute = &(*route)[*count];
+   memset(actualRoute, 0, sizeof(s_route));
 
    option = strtok(token, " \t");
    
    while (option != NULL) {
-      if (stricmp(option, "enc")==0) (*route)->enc = 1;
-      else if (stricmp(option, "noenc")==0) (*route)->enc = 0;
-      else if (stricmp(option, "hold")==0) (*route)->flavour = hold;
-      else if (stricmp(option, "normal")==0) (*route)->flavour = normal;
-      else if (stricmp(option, "crash")==0) (*route)->flavour = crash;
-      else if (stricmp(option, "direct")==0) (*route)->flavour = direct;
-      else if (stricmp(option, "immediate")==0) (*route)->flavour = immediate;
-      else if (stricmp(option, "hub")==0) (*route)->routeVia = hub;
-      else if (stricmp(option, "host")==0) (*route)->routeVia = host;
-      else if (stricmp(option, "boss")==0) (*route)->routeVia = boss;
-      else if (stricmp(option, "noroute")==0) (*route)->routeVia = noroute;
-      else if (isdigit(option[0])) {
-         if (((*route)->routeVia == 0) && ((*route)->target == NULL))
-            (*route)->target = getLink(*config, option);
-         else strcpy((*route)->pattern, option);
-         if ((*route)->target == NULL) rc = 2;
+      if (stricmp(option, "enc")==0) actualRoute->enc = 1;
+      else if (stricmp(option, "noenc")==0) actualRoute->enc = 0;
+      else if (stricmp(option, "hold")==0) actualRoute->flavour = hold;
+      else if (stricmp(option, "normal")==0) actualRoute->flavour = normal;
+      else if (stricmp(option, "crash")==0) actualRoute->flavour = crash;
+      else if (stricmp(option, "direct")==0) actualRoute->flavour = direct;
+      else if (stricmp(option, "immediate")==0) actualRoute->flavour = immediate;
+      else if (stricmp(option, "hub")==0) actualRoute->routeVia = hub;
+      else if (stricmp(option, "host")==0) actualRoute->routeVia = host;
+      else if (stricmp(option, "boss")==0) actualRoute->routeVia = boss;
+      else if (stricmp(option, "noroute")==0) actualRoute->routeVia = noroute;
+      else if (isdigit(option[0]) || (option[0] == '*') || (option[0] == '?')) {
+         if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL))
+            actualRoute->target = getLink(*config, option);
+         else {
+            actualRoute->pattern = (char *) malloc(strlen(option)+1);
+            strcpy(actualRoute->pattern, option);
+         }
+         if (actualRoute->target == NULL) rc = 2;
       }
       option = strtok(NULL, " \t");
    }
