@@ -60,14 +60,14 @@
 #include "common.h"
 #include <smapi/patmat.h>
 
-int copyString(char *str, char **pmem)
+int copyString(char *str, char **pmem, const s_fidoconfig *config)
 {
    if (str==NULL) {
       printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
    
-   if (*pmem != NULL) {
+   if (config->linkDefaults==NULL && *pmem != NULL) {
       printf("Line %d: dublicate keyword \"%s\"!\n", actualLineNr, actualKeyword);
       return 1;
    }

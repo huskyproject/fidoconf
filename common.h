@@ -44,10 +44,10 @@ extern "C" {
 
 /* common functions */
 
-int copyString(char *str, char **pmem);
+int copyString(char *str, char **pmem, const s_fidoconfig *config);
 /*DOC
  * Copy string from *str to *pmem
-   NOTE! *pmem must be NULL.
+   NOTE! *pmem must be NULL (not checked with described link defaults)
  */
 
 void *memdup(void *p, size_t size);

@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Thu Nov 23 23:27:53 NOVT 2000
+max (patch from Serguei Revtov):
+* using of overString instead of copyString for linkDefaults data copying
+
+----- cvs ci ------
 Thu Nov 16 12:23:56 MSK 2000
 Fedor:
 + Added new token CommentChar (in tparser too)
