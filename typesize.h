@@ -74,7 +74,7 @@ extern "C" {
 //  the EMX/GNU 32bit compilers
 
 #if defined(__EMX__)
-#ifndef __OS2_H__       // os2.h defines it already
+#if !defined(__OS2_H__) && !defined(_WINNT_H)   // os2.h defines it already
 typedef          char       CHAR;               // 1 byte
 typedef unsigned char      UCHAR;               // 1 byte
 #endif
@@ -83,7 +83,7 @@ typedef unsigned short     UINT16;              // 2 byte
 typedef          int        INT32;              // 4 byte
 typedef unsigned int       UINT32;              // 4 byte
 // --------------------------------------------------------------------------
-#ifndef __OS2_H__       // os2.h defines it already
+#if !defined(__OS2_H__) && !defined(_WINNT_H)   // os2.h defines it already
 typedef          int        INT;                // 4 byte
 typedef unsigned int       UINT;                // 4 byte
 typedef          long       LONG;               // 4 byte
