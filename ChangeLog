@@ -1,7 +1,54 @@
+2003-03-27 Thursday 21:09  d_sergienko
+
+	* fidoconf/fidoconf.h (1.7), src/common.c (1.9): fix compiling
+
+2003-03-27 Thursday 12:07  sfpavel
+
+	* make/makefile.inc (1.5): Use SHORTNAMES variable instead
+	LONGNAMES; change library name if need SHORTNAMES
+
+2003-03-27 Thursday 11:52  sfpavel
+
+	* make/makefile.inc (1.4): Change EXENAMEOPT to EXENAMEFLAG
+
+2003-03-27 Thursday 11:45  sfpavel
+
+	* make/makefile.inc (1.3): Add rule for support longnames for
+	utilities
+
+2003-03-27 Thursday 08:55  stas_degteff
+
+	* src/common.c (1.8), fidoconf/common.h (1.2): Move copyString() &
+	copyStringUntilSep() from fidoconfig to huskylib
+
+2003-03-27 Thursday 07:41  stas_degteff
+
+	* src/common.c (1.7): Prevent memory faults
+
+2003-03-27 Thursday 06:33  stas_degteff
+
+	* src/common.c (1.6): Use __WIN32__ instead __NT__
+
+2003-03-27 Thursday 06:32  stas_degteff
+
+	* src/common.c (1.5): Improve BSY checking
+
+2003-03-27 Thursday 06:18  stas_degteff
+
+	* fidoconf/fidoconf.h (1.6): Set 'undef' flavour to zero
+
+2003-03-27 Thursday 06:17  stas_degteff
+
+	* src/line.c (1.7): Fix compiler warnings
+
 2003-03-26 Wednesday 12:16  stas_degteff
 
-	* fidoconf/afixcmd.h (1.2), fidoconf/fidoconf.h (1.5),
-	src/arealist.c (1.5), src/fidoconf.c (1.4): Fix cygvin-mingw build
+	* src/: arealist.c (1.5), fidoconf.c (1.4): Fix cygwin-mingw build
+
+2003-03-26 Wednesday 12:16  stas_degteff
+
+	* fidoconf/: afixcmd.h (1.2), fidoconf.h (1.5): Fix cygvin-mingw
+	build
 
 2003-03-26 Wednesday 12:07  stas_degteff
 
