@@ -974,6 +974,11 @@ int main(int argc, char **argv) {
       printf("FileFileUMask: %o\n", config->fileFileUMask);
       printf("FileDirUMask: %o\n", config->fileDirUMask);
       if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
+	  if (config->saveTicCount)
+      for (i = 0; i< config->saveTicCount; i++) {
+		printf("SaveTic for %s in %s\n", config->saveTic[i].fileAreaNameMask,
+                                         config->saveTic[i].pathName );         
+      }
   }
 
       printf("\n=== FILELIST CONFIG ===\n");
