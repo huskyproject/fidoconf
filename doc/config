@@ -222,6 +222,9 @@ lockfile        /home/mtt/fido/lock
 areafixhelp     /home/mtt/fido/hpt/misc/areafix.hlp
 FileFixHelp     /home/mtt/fido/htick/misc/filefix.hlp
 
+AreafixReportsAttr loc pvt k/s npd dir
+FilefixReportsAttr loc pvt k/s npd dir
+
 NodeList nodelist
 DiffUpdate /home/mtt/fido/files/nodediff
 NodeList unionnet
