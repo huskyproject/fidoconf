@@ -1,3 +1,7 @@
+2002-02-14 Thursday 13:55  mche
+
+	* makefile.mvcdll (1.7): minimized binaries size
+
 2002-02-10 Sunday 18:32  pavel.gulchouck
 
 	* cfg.c (1.28): Use GetFullPathName() with mingw32
