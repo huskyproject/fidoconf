@@ -187,13 +187,17 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
         fseek(f_conf, strbeg, SEEK_SET);
         setfsize( fileno(f_conf), strbeg );
         if (cfgLine) /*  line not deleted */
+        {
             if (fprintf(f_conf, "%s%s", cfgLine, cfgEol()) != strlen(cfgLine)+strlen(cfgEol()))
                 fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
-            if (fwrite(line, sizeof(char), cfglen, f_conf) != cfglen ||
-                fflush(f_conf) != 0)
-                fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
-            fclose(f_conf);
-            nfree(line);
+        }
+        if (fwrite(line, sizeof(char), cfglen, f_conf) != cfglen ||
+            fflush(f_conf) != 0)
+        {
+            fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
+        }
+        fclose(f_conf);
+        nfree(line);
     } else {
         /* make new config-file and rename it */
 #ifdef UNIX
@@ -224,6 +228,7 @@ errwriteconf:
                 goto errwriteconf;
             }
         }
+        fseek(f_conf, curpos, SEEK_SET);
         if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
             fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
             goto errwriteconf;
