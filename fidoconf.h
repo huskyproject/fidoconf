@@ -56,7 +56,9 @@ extern "C" {
 #   define FCONF_EXT extern
 #endif
 
+#ifndef MSGTYPE_PASSTHROUGH /* see smapi/msgapi.h */
 #define MSGTYPE_PASSTHROUGH 0x04
+#endif
 
 /* PATH_DELIM used for consruct full pathname
  */
