@@ -1,3 +1,9 @@
+2003-12-15 Monday 10:05  val_khokhlov
+
+	* fidoconf/: common.h (1.4), fidoconf.h (1.18): when detaching
+	areafix library, some new keywords added to fidoconfig struct
+	(still there's no support for them in parser and docs)
+
 2003-12-11 Thursday 08:04  val_khokhlov
 
 	* Makefile (1.68): fix for incorrect commands while (un)installing
