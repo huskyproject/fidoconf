@@ -28,6 +28,30 @@ unit fidoconf;
    License along with this library; see file COPYING. If not, write to the Free
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA }
 
+{: NOTE: Unfortunately it turned out that the structures that are passed
+         between fidoconfig and any calling programs are in no way align
+         controlled, that is, how they are aligned is left to the compiler.
+         That means that if you are not using the same compiler for your
+         program that was used to compile the libraries, chances are that
+         you will have an alignment problem resulting in fields of the
+         structures being out of sync, e.g. you are reading something totally
+         different from what the library put there.
+         Because of this and because I don't want to chase a moving target
+         like this, I will stop maintaining smapi.pas and fidoconf.pas.
+         That probably means that husky has now become a project that can
+         only be used by C programmers, unless somebody else wants
+         to go through the trouble.
+         One possible solution I can think of, would be having an interface
+         layer that converts the randomly aligned structures to other
+         structures that are fixed. I might do it, maybe, if I don't find
+         anything else to waste my time on. But this is rather unlikely,
+         because it has to be done in C and that is definitely not my
+         favourite programming language.
+         Please leave this comment in here, so nobody else will waste time
+         trying to figure out why the data his programs reads is wrong.
+         2001-07-22 twm }
+
+
 interface
 
 { C default packing is dword }
