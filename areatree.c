@@ -48,7 +48,7 @@ int fc_deleteEntry(char *p_e1) {
 
 int  addAreaToTree(ps_area areaPtr)
 {
-    return tree_add(&echoAreaTree, fc_compareEntries, (char *)areaPtr, fc_deleteEntry);     
+    return tree_add(&echoAreaTree, fc_compareEntries, (char *)areaPtr, fc_deleteEntry);
 }
 
 ps_area FindAreaInTree(char* areaName)
@@ -66,7 +66,7 @@ ps_area FindAreaInTree(char* areaName)
 int    RebuildEchoAreaTree(ps_fidoconfig config)
 {
     unsigned int i = 0;
-    
+
     FreeAreaTree(config);
     for (i=0; i < config->echoAreaCount; i++)
     {
@@ -76,11 +76,12 @@ int    RebuildEchoAreaTree(ps_fidoconfig config)
             return 0;
         }
     }
-    for (i=0; i < config->localAreaCount; i++) 
+    for (i=0; i < config->localAreaCount; i++)
     {
         if ( addAreaToTree(&(config->localAreas[i])) == 0 )
-            fprintf(stderr, "\nArea [%s]  defined twice\n",config->localAreas[i].areaName );
+        {    fprintf(stderr, "\nArea [%s]  defined twice\n",config->localAreas[i].areaName );
             return 0;
+        }
     }
     return 1;
 }
