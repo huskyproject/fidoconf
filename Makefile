@@ -44,6 +44,7 @@ ifeq ($(SHORTNAMES), 1)
   FCONF2FIDOGATE = fc2fgate
   FCONF2SQUISH   = fc2sq
   FCONF2TORNADO  = fc2tor
+  FCONF2BINKD    = fc2binkd
   FECFG2FCONF    = fecfg2fc
   LIBFIDOCONFIG  = fidoconf
   CDEFS = $(CDEFS) -DSHORTNAMES
@@ -56,6 +57,7 @@ else
   FCONF2FIDOGATE = fconf2fidogate
   FCONF2SQUISH = fconf2squish
   FCONF2TORNADO  = fconf2tornado
+  FCONF2BINKD    = fconf2binkd
   FECFG2FCONF = fecfg2fconf
   LIBFIDOCONFIG = $(LIBPREFIX)fidoconfig
 endif

@@ -27,6 +27,7 @@ FCONF2MSGED  = fconf2msged
 FCONF2FIDOGATE = fconf2fidogate
 FCONF2SQUISH = fconf2squish
 FCONF2TORNADO = fconf2tornado
+FCONF2BINKD    = fc2binkd
 FECFG2FCONF = fecfg2fconf
 LIBFIDOCONFIG = $(LIBPREFIX)fconfbco
 
