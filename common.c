@@ -704,14 +704,27 @@ int move_file(const char *from, const char *to)
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
     int rc;
 
+    if(fexist(to)){
+      errno=EEXIST;
+      return -1;
+    }
+
     rc = rename(from, to);
     if (!rc) {               /* rename succeeded. fine! */
 #elif defined(__NT__) && defined(USE_SYSTEM_COPY)
     int rc;
+    if(fexist(to)){
+      errno=EEXIST;
+      return -1;
+    }
     rc = MoveFile(from, to);
     if (rc == TRUE) {
 #elif defined(OS2) && defined(USE_SYSTEM_COPY)
     USHORT rc;
+    if(fexist(to)){
+      errno=EEXIST;
+      return -1;
+    }
     rc = DosMove((PSZ)from, (PSZ)to);
     if (!rc) {
 #endif
@@ -735,6 +748,11 @@ int copy_file(const char *from, const char *to)
     FILE *fin, *fout;
     struct stat st;
     struct utimbuf ut;
+
+    if(fexist(to)){
+      errno=EEXIST;
+      return -1;
+    }
 
     /* Rename did not succeed, probably because the move is accross
        file system boundaries. We have to copy the file. */
@@ -780,6 +798,12 @@ int copy_file(const char *from, const char *to)
     utime(to, &ut);
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
     int rc = 0;
+
+    if(fexist(to)){
+      errno=EEXIST;
+      return -1;
+    }
+
     if ( cmpfnames((char*)from,(char*)to) == 0 )
         return 0;
     rc = CopyFile(from, to, FALSE);
@@ -788,7 +812,14 @@ int copy_file(const char *from, const char *to)
       return -1;
     }
 #elif defined (OS2) && defined(USE_SYSTEM_COPY)
-    USHORT rc = DosCopy((PSZ)from, (PSZ)to, 1);
+    USHORT rc;
+
+    if(fexist(to)){
+      errno=EEXIST;
+      return -1;
+    }
+
+    rc = DosCopy((PSZ)from, (PSZ)to, 1);
     if (rc) {
       remove(to);
       return -1;
