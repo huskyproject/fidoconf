@@ -56,7 +56,7 @@ DIR      *opendir( const char * dirName)
    strcat(path, "*");
 
    if (NO_ERROR != DosFindFirst(path, &(temp->d_hdir), FILE_NORMAL, &findBuffer, sizeof(findBuffer), &findCount ,FIL_STANDARD)) {
-      free(temp);
+      nfree(temp);
       return NULL;
    }
 
@@ -98,7 +98,7 @@ int      closedir( DIR * dir)
    APIRET rc;
 
    rc = DosFindClose(dir->d_hdir);
-   free (dir);
+   nfree (dir);
    if (rc == NO_ERROR) return 0;
    else return (-1);
 }

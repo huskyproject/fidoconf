@@ -104,21 +104,9 @@ void adaptcase_refresh_dir(char *directory)
                 if ((!memcmp(adaptcase_cache[l].query,directory,k)) &&
                     (adaptcase_cache[l].query[k] == '\0'))
                 {
-                    if (adaptcase_cache[l].query != NULL)
-                    {
-                        free(adaptcase_cache[l].query);
-                        adaptcase_cache[l].query = NULL;
-                    }
-                    if (adaptcase_cache[l].result != NULL)
-                    {
-                        free(adaptcase_cache[l].result);
-                        adaptcase_cache[l].result = NULL;
-                    }
-                    if (adaptcase_cache[l].raw_cache != NULL)
-                    {
-                        free(adaptcase_cache[l].raw_cache);
-                        adaptcase_cache[l].raw_cache = NULL;
-                    }
+                    nfree(adaptcase_cache[l].query);
+                    nfree(adaptcase_cache[l].result);
+                    nfree(adaptcase_cache[l].raw_cache);
                 }
             }
 
@@ -327,21 +315,10 @@ add_to_cache:
         l = adaptcase_cache_position;
         l = (l == adaptcase_cachesize - 1) ? 0 : l + 1;
 
-        if (adaptcase_cache[l].query != NULL)
-        {
-            free(adaptcase_cache[l].query);
-            adaptcase_cache[l].query = NULL;
-        }
-        if (adaptcase_cache[l].result != NULL)
-        {
-            free(adaptcase_cache[l].result);
-            adaptcase_cache[l].result = NULL;
-        }
-        if (adaptcase_cache[l].raw_cache != NULL)
-        {
-            free(adaptcase_cache[l].raw_cache);
-            adaptcase_cache[l].raw_cache = NULL;
-        }
+        nfree(adaptcase_cache[l].query);
+        nfree(adaptcase_cache[l].result);
+        nfree(adaptcase_cache[l].raw_cache);
+
         if ( (adaptcase_cache[l].query = malloc(k + 1)) == NULL ||
              (adaptcase_cache[l].result = malloc(k + 1)) == NULL ||
              (adaptcase_cache[l].raw_cache =  malloc(rawmax = rawcache_stepsize)) == NULL ||
@@ -407,27 +384,13 @@ add_to_cache:
         goto start_over;
 
     cache_error:
-        if (adaptcase_cache[l].query != NULL)
-        {
-            free(adaptcase_cache[l].query);
-            adaptcase_cache[l].query = NULL;
-        }
-        if (adaptcase_cache[l].result != NULL)
-        {
-            free(adaptcase_cache[l].result);
-            adaptcase_cache[l].result = NULL;
-        }
-        if (adaptcase_cache[l].raw_cache != NULL)
-	{
-            free(adaptcase_cache[l].raw_cache);
-            adaptcase_cache[l].raw_cache = NULL;
-        }
-        if (adaptcase_cache[l].cache_index != NULL)
-        {
-            free(adaptcase_cache[l].cache_index);
-            adaptcase_cache[l].cache_index = NULL;
-        }
-        if (dirp != NULL)
+
+        nfree(adaptcase_cache[l].query);
+        nfree(adaptcase_cache[l].result);
+        nfree(adaptcase_cache[l].raw_cache);
+        nfree(adaptcase_cache[l].cache_index);
+        
+            if (dirp != NULL)
         {
             closedir(dirp);
         }

@@ -40,34 +40,40 @@
 #include "arealist.h"
 #include "common.h"
 
-#define LIST_PAGE_SIZE	256
+#define LIST_PAGE_SIZE  256
 
 ps_arealist newAreaList(void)
 {
-	ps_arealist al;
-
-	if(NULL == (al = malloc(sizeof(s_arealist)))) return NULL;
-	al->areas = NULL;
-	al->count = 0;
-	al->maxcount = LIST_PAGE_SIZE;
-	if(NULL == (al->areas = malloc(al->maxcount*sizeof(s_arealistitem)))) { free(al); return NULL; }
-	return al;
+    ps_arealist al;
+    
+    if(NULL == (al = malloc(sizeof(s_arealist)))) 
+        return NULL;
+    al->areas = NULL;
+    al->count = 0;
+    al->maxcount = LIST_PAGE_SIZE;
+    if(NULL == (al->areas = malloc(al->maxcount*sizeof(s_arealistitem))) )
+    { 
+        nfree(al);
+        return NULL;
+    }
+    return al;
 }
 
 void freeAreaList(ps_arealist al)
 {
-	int i;
-	if(al) {
-		if(al->areas && al->maxcount) {
-			for(i = 0; i < al->count; i++) {
-				nfree(al->areas[i].tag);
-				nfree(al->areas[i].desc);
-			}
-			nfree(al->areas);
-		}
-		nfree(al);
-	}
-	return;
+    int i;
+
+    if(al) {
+        if(al->areas && al->maxcount) {
+            for(i = 0; i < al->count; i++) {
+                nfree(al->areas[i].tag);
+                nfree(al->areas[i].desc);
+            }
+            nfree(al->areas);
+        }
+        nfree(al);
+    }
+    return;
 }
 
 int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc)
