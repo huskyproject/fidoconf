@@ -518,16 +518,11 @@ int countEach(char *pc_data)
    EXIT(TRUE)
 }
 
-unsigned long tree_count_real(tree **ppr_tree)
+unsigned long tree_count(tree **ppr_tree)
 {
    tr_count = 0;
    tree_trav(ppr_tree, countEach);
    return tr_count;
-}
-
-unsigned long tree_count(tree **ppr_tree)
-{
-    return tree_count_real(&(**ppr_tree).tree_r);
 }
 
 int tree_srchall(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_user)
