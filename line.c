@@ -2190,6 +2190,13 @@ int parsePack(char *line, s_fidoconfig *config) {
       return 1;
    }
 
+   /* check for no link definition was before */
+   if(config->linkCount > 0)
+   {
+       prErr("Unable to add commandline for packer after link definition!");
+       return 2;
+   }
+
    p = strtok(line, " \t");
    c = getRestOfLine();
    if ((p != NULL) && (c != NULL)) {

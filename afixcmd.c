@@ -126,6 +126,7 @@ linkliner:
          {
             *start = *end   = linkstart;
             *confName = linkConfName;
+            close_conf();
             return 0;
          }
          if (token && stricmp(token, ftoken) == 0) break;
