@@ -1274,7 +1274,7 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
 
     /*   area->msgbType = MSGTYPE_SDM;*/
     if(!area->msgbType)
-        area->msgbType= MSGTYPE_SDM;
+        area->msgbType= MSGTYPE_SQUISH;
 
     /*   area->useAka = config->addr;*/
 
