@@ -38,31 +38,15 @@ extern "C" {
 #include "fidoconf.h"
 
 /* values for 5th parameter of GenVersionStr() */
-typedef enum {
-        BRANCH_CURRENT=1, BRANCH_STABLE=2, BRANCH_RELEASE=3
-}branch_t;
+/* typedef enum { */
+/*        BRANCH_CURRENT=1, BRANCH_STABLE=2, BRANCH_RELEASE=3 */
+/* }branch_t; */
 
 /* this is version number of FidoConfig */
 #define FC_VER_MAJOR 1
 #define FC_VER_MINOR 9
 #define FC_VER_PATCH 0
 #define FC_VER_BRANCH BRANCH_CURRENT
-
-/* Generate version string like
- * programname/platform[-compiler] <major>.<minor>.<patchlevel>-<branch> [<cvs date>]
- *
- * Return malloc'ed pointer
- *
- * Examples:
- * "program/w32-MVC 1.2.3-release"
- * "program/DPMI-DJGPP 1.2.3-stable 01-10-2002"
- * "program/FreeBSD 1.3.0-current 01-10-2002"
- *
- * Require cvs_date.h in module hearer files directory
- */
-
-HUSKYEXT char *GenVersionStr( const char *programname, unsigned major,
-   unsigned minor, unsigned patchlevel, unsigned branch, const char *cvsdate );
 
 /* Check version of fidoconfig library
  * return zero if test failed; non-zero if passed
