@@ -289,6 +289,11 @@ FCONF_EXT int copy_file(const char *from, const char *to, const int force_rewrit
 
 FCONF_EXT ULONG fc_GetDiskFreeSpace(const char *path);
 
+/* try to create and lock lockfile */
+/* returns -1 if fail */
+/* returns filedescriptor of lockfile if success */
+FCONF_EXT int lockFile(const char *lockfile, int advisoryLock);
+
 /*  this function returns the string representation of an address. */
 /*  it returns a static array!!! */
 FCONF_EXT char *aka2str(const hs_addr aka);

@@ -4309,7 +4309,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->tickerPackToBox));
             break;
         case ID_ADVISORYLOCK:
-            rc = parseBool(getRestOfLine(), &(config->advisoryLock));
+            rc = parseUInt(getRestOfLine(), &(config->advisoryLock));
             break;
         case ID_AREAFIXNAMES:
             rc = copyString(getRestOfLine(), &(config->areafixNames));

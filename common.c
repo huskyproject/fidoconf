@@ -1644,3 +1644,45 @@ int createLock(char *lockFile)
 }
 
 #endif
+
+int lockFile(const char *lockfile, int advisoryLock)
+{
+    int fh = -1;
+
+    if(!lockfile)
+        return fh;
+    
+    if (advisoryLock > 0) {
+        while(advisoryLock > 0)
+        {
+            if ((fh=open(lockfile,O_CREAT|O_RDWR,S_IREAD|S_IWRITE))<0) {
+                fprintf(stderr,"cannot open/create lock file: %s wait %d seconds\n",lockfile, advisoryLock);
+                advisoryLock--;
+            } else {
+                if (write(fh," ", 1)!=1) {
+                    fprintf(stderr,"can't write to lock file! wait %d seconds\n", advisoryLock);
+                    close(fh);
+                    fh = -1;
+                    advisoryLock--;
+                } else if (lock(fh,0,1)<0) {
+                    fprintf(stderr,"lock file used by another process! %d seconds\n", advisoryLock);
+                    close(fh);
+                    fh = -1;
+                    advisoryLock--;
+                }
+            }
+            if(fh < 0)
+                sleep(1);
+            else
+                break;
+        }
+    } else { /*  normal locking */
+        fh=open(lockfile, O_CREAT|O_RDWR|O_EXCL,S_IREAD|S_IWRITE);
+    }
+    if(fh < 0)
+    {
+		fprintf(stderr,"cannot create new lock file: %s\n",lockfile);
+		fprintf(stderr,"lock file probably used by another process! exit...\n");
+	}
+    return fh;    
+}
