@@ -1,0 +1,5 @@
+# $Id$
+#
+# QNX makefile for building fidoconfig documentation
+
+include makefile.unx
