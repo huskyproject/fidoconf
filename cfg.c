@@ -493,10 +493,18 @@ int cmpfnames(char *file1, char *file2)
 #include <os2.h>
 static int cmpfnames(char *file1, char *file2)
 {
-    char path1[256], path2[256];
-    if (DosQueryPathInfo(file1,FIL_QUERYFULLNAME,path1,sizeof(path1))) return 1;
-    if (DosQueryPathInfo(file2,FIL_QUERYFULLNAME,path2,sizeof(path2))) return 1;
-    return sstricmp(path1, path2);
+  char path1[256], path2[256];
+
+/* DosQueryPathInfo declaration in os2emx.h:
+  ULONG DosQueryPathInfo (PCSZ pszPathName, ULONG ulInfoLevel, PVOID pInfoBuffer, ULONG ulInfoLength);
+  (PCSZ defined as const char* or unsigned const char* for different conditions)
+*/
+  if(  DosQueryPathInfo( (PCSZ)file1, FIL_QUERYFULLNAME, path1, sizeof(path1) )
+    || DosQueryPathInfo( (PCSZ)file2, FIL_QUERYFULLNAME, path2, sizeof(path2) )
+    )
+    return 1;
+
+  return sstricmp(path1, path2);
 }
 #elif defined (__DJGPP__)
 int cmpfnames(char *file1, char *file2)
