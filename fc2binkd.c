@@ -77,7 +77,7 @@ void printversion(FILE *fd){
 
 void usage(int retcode){
       printversion(stdout);
-      printf("fidoconfig to binkd config converter\n\n" COPYRIGHT "\n");
+      printf(": fidoconfig to binkd config converter\n\n" COPYRIGHT "\n");
       printf("\nUsage:\n");
       printf("%s [-v] [-h] [-c path/to/fidoconfig] [-f] [-p] [output_file_name]\n", program_name);
       printf("where\n");
@@ -238,6 +238,7 @@ int main (int argc, char *argv[]) {
      case 'v':
      case 'V': /* version request */
                printversion(stdout);
+               printf( "\n" );
                return 1;
      case 'h':
      case 'H': /* help request */
