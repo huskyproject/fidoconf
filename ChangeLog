@@ -1,3 +1,32 @@
+2003-03-25 Tuesday 18:36  stas_degteff
+
+	* src/cfg.c (1.2): Move cmpfnames to huskylib/src/cmpfname.c
+
+2003-03-25 Tuesday 13:43  stas_degteff
+
+	* fidoconf/fidoconf.h (1.4), src/afixcmd.c (1.2), src/afixcmn.c
+	(1.2), src/common.c (1.2), src/fidoconf.c (1.3), src/line.c (1.6),
+	src/tparser.c (1.4): Replace CHAR, UCHAR, INT, UINT, UINT16, & etc
+	with compiler-independed types declared in huskylib/compiler.h
+
+2003-03-25 Tuesday 12:09  sfpavel
+
+	* make/makefile.inc (1.1): Write 'new style' common makefile
+
+2003-03-25 Tuesday 11:50  val_khokhlov
+
+	* src/arealist.c (1.3): group description for group '*' is used in
+	%list for groups w/o description
+
+2003-03-25 Tuesday 11:44  val_khokhlov
+
+	* Makefile (1.65): undefined CFGNAME fix
+
+2003-03-25 Tuesday 11:08  val_khokhlov
+
+	* Makefile (1.64), src/fidoconf.c (1.2): CFGNAME now defines config
+	file name (default: config), see huskymak.cfg
+
 2003-03-24 Monday 12:44  val_khokhlov
 
 	* fidoconf/tokens.h (1.3), src/line.c (1.5): new token for link
