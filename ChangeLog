@@ -2,6 +2,12 @@ fidoconfig 0.10
 ---------------
 (released on Mon May 22 14:58:56 CEST 2000)
 
+
+----- cvs ci ------
+Mon Jul 31 12:18:23 NOVST 2000
+max (patch from Pavel Gulchouk):
+* dumpcfg put "advancedAreafix" and "-def" now
+
 ----- cvs ci ------
 Thu Jul 27 18:17:50 NOVST 2000
 max:

@@ -262,6 +262,8 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	fprintf(f, "pause\n");
       if (link.autoPause != 0)
 	fprintf(f, "autoPause            %u\n", link.autoPause);
+      if (link.advancedAreafix != 0)
+	fprintf(f, "advancedAreafix\n");
       if (link.level != 0)
 	fprintf(f, "level                %u\n", link.level);
       if (link.arcmailSize != 0)
@@ -417,6 +419,7 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
 	if (area->downlinks[i]->export == 0) fprintf(f, "-w ");
 	if (area->downlinks[i]->import == 0) fprintf(f, "-r ");
 	if (area->downlinks[i]->mandatory == 1) fprintf(f, "-mn ");
+	if (area->downlinks[i]->defLink == 1) fprintf(f, "-def ");
     }
 
     fprintf(f, "\n");

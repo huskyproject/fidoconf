@@ -132,7 +132,7 @@ typedef struct link {
    char **optGrp; // groups for this options
    unsigned int numOptGrp;
    unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
-   unsigned int advancedAreafix;  // 1 - send %DELETE when area delete
+   unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;
