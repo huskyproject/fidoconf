@@ -1,3 +1,43 @@
+2002-06-19 Wednesday 17:19  mche
+
+	* temp.c (1.2), temp.h (1.3): make it compilable by MSVC
+
+2002-06-19 Wednesday 16:49  stas
+
+	* doc/proposal.texi (1.134): Describe token tempDir into
+	documentation.
+
+2002-06-19 Wednesday 16:48  stas
+
+	* temp.h (1.2): Export functions from temp.c/temp.h (fix);
+
+2002-06-19 Wednesday 16:37  stas
+
+	* tparser.c (1.182): Print warning messages if some directories not
+	defined in config. (new function testConfig).
+
+2002-06-19 Wednesday 16:20  stas
+
+	* Makefile (1.38), compiler.h (1.1), fidoconf.h (1.123), line.c
+	(1.306), makefile.inc (1.26), temp.c (1.1), temp.h (1.1), tokens.h
+	(1.36), tparser.c (1.181): New token: tempDir; new functions:
+	createTempFileIn(), createTempTextFile(), createTempBinFile(),
+	macro createTempFile()
+
+2002-06-19 Wednesday 16:17  stas
+
+	* doc/keywords.hpt (1.26): Remove common for fidoconfig keywords
+
+2002-06-19 Wednesday 15:00  stas
+
+	* tparser.c (1.180): Change emailpkt section output condition: now
+	printed everyone.
+
+2002-06-19 Wednesday 09:30  stas
+
+	* log.h (1.6), doc/proposal.texi (1.133): New loglevel 'P' = LL_DIR
+	for directory operations
+
 2002-06-18 Tuesday 22:30  tobi
 
 	* tparser.c (1.179): bugfix for os/2
