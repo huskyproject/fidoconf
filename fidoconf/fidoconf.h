@@ -217,6 +217,8 @@ typedef struct link {
     FILE *pkt;  /*  for internal usage */
     unsigned int reducedSeenBy; /*  reduces Seen-BYs (fsc-0093) */
     eAvailList availlist;
+    unsigned int sendNotifyMessages; /* send netmail messages about */
+                                     /* forward request timeout etc... */
 
 } s_link, *ps_link;
 

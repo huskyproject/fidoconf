@@ -808,6 +808,7 @@ int printLink(ps_link link) {
    printf("fileEchoFlavour %s\n", cvtFlavour(link->fileEchoFlavour));
    printf("noRules %s\n", (link->noRules) ? "on" : "off");
    printf("reducedSeenBy %s\n", (link->reducedSeenBy) ? "on" : "off");
+   printf("sendNotifyMessages %s\n", (link->sendNotifyMessages) ? "on" : "off");
 
    printf("-------\n");
    return rc;

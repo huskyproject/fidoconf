@@ -8,6 +8,7 @@ Changes after FIDOCONFIG 1.4
 2. CONFIG changes:
    - new token grpDesc: group descriptions for -g groups in echoArea
    - new token recodeMsgBase for hpt/htick.
+   - new token sendNotifyMessages for hpt.
 
 3. IMPORTANT bugfixes:
    - if link in area described twice - just warn, don't exit with error.

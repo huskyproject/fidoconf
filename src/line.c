@@ -3787,6 +3787,12 @@ int parseLine(char *line, s_fidoconfig *config)
             }
             else rc = 1;
             break;
+        case ID_SENDNOTIFYMESSAGES:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool(getRestOfLine(), &clink->sendNotifyMessages);
+            }
+            else rc = 1;
+            break;
         case ID_ALLOWPKTADDRDIFFER:
             if( (clink = getDescrLink(config)) != NULL ) {
                 rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);

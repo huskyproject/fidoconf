@@ -302,7 +302,8 @@ enum {
     ID_NETMAILFLAVOUR,
     ID_FLAVOUR,
     ID_RECODEMSGBASE,
-    ID_CREATEADDUPLINK
+    ID_CREATEADDUPLINK,
+    ID_SENDNOTIFYMESSAGES
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -564,6 +565,7 @@ token_t parseline_tokens[] =
     { "screenloglevels", ID_SCREENLOGLEVELS },
     { "semadir", ID_SEMADIR },
     { "sendmailcmd", ID_SENDMAILCMD },
+    { "sendnotifymessages", ID_SENDNOTIFYMESSAGES },
     { "separatebundles", ID_SEPARATEBUNDLES },
     { "seqdir", ID_SEQDIR },
     { "seqoutrun", ID_SEQOUTRUN },
