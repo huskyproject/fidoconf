@@ -9,7 +9,7 @@
  */
 #include "fidoconf.h"
 
-void adaptcase_refresh_dir(char *directory);
+FCONF_EXT void adaptcase_refresh_dir(char *directory);
 FCONF_EXT void adaptcase(char *);
 
 #endif
