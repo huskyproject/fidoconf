@@ -1,3 +1,7 @@
+2003-02-08 Saturday 21:57  d_sergienko
+
+	* doc/proposal.texi (fidoconf-1_4-stable.1): fixed version number
+
 2003-02-05 Wednesday 11:51  sfpavel
 
 	* Makefile (1.59), VERSION (1.5), debian/changelog (1.22),
