@@ -68,31 +68,31 @@ int testConfig(s_fidoconfig *config){
   printf("\n");
 
   if(!config->tempDir){
-    printf("Warning:  TempDir not defined!\n");
+    printf("WARNING:  TempDir not defined!\n");
     rc=1;
   }
   if(!config->protInbound){
-    printf("Warning:  ProtInbound not defined!\n");
+    printf("WARNING:  ProtInbound not defined!\n");
     rc=1;
   }
   if(!config->inbound){
-    printf("Warning:  Inbound not defined!\n");
+    printf("WARNING:  Inbound not defined!\n");
     rc=1;
   }
   if(!config->tempInbound){
-    printf("Warning:  TempInbound not defined!\n");
+    printf("WARNING:  TempInbound not defined!\n");
     rc=1;
   }
   if(!config->outbound){
-    printf("Warning:  Outbound not defined!\n");
+    printf("WARNING:  Outbound not defined!\n");
     rc=1;
   }
   if(!config->tempOutbound){
-    printf("Warning:  TempOutbound not defined!\n");
+    printf("WARNING:  TempOutbound not defined!\n");
     rc=1;
   }
   if(!config->nodelistDir){
-    printf("Warning:  NodelistDir not defined!\n");
+    printf("WARNING:  NodelistDir not defined!\n");
     rc=1;
   }
 
@@ -659,7 +659,11 @@ int printLink(s_link link) {
    printf("AutoFileCreate %s\n", (link.autoFileCreate) ? "on" : "off");
    printf("AutoFileCreateSubdirs %s\n", (link.autoFileCreateSubdirs) ? "on" : "off");
    if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);
-   if (link.autoFileCreateDefaults) printf("AutoFileCreateDefaults: %s\n", link.autoFileCreateDefaults);
+   if (link.autoFileCreateDefaults) {
+       printf("AutoFileCreateDefaults: %s\n", link.autoFileCreateDefaults);
+       if (strstr(link.autoFileCreateDefaults, "passthrough"))
+           printf("WARNING: found 'passthrough' in AutoFileCreateDefaults, use LinkFileBaseDir for these purposes.\n");
+   }
    if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
    if (link.numAccessGrp)
    {
@@ -766,7 +770,7 @@ int printLink(s_link link) {
 	 printf("linkBundleNameStyle: AddrsCRC32Always\n");
 	 break;
       default:
-         printf("Warning: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
+         printf("WARNING: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
          break;
    }
    printf("arcNetmail %s\n", (link.arcNetmail) ? "on" : "off");
@@ -1311,7 +1315,7 @@ int main(int argc, char **argv) {
 		  printf("BundleNameStyle: AddrsCRC32Always\n");
 		  break;
   	  default:
-  		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
+  		  printf("WARNING: BundleNameStyle is UNKNOWN! Update tparser please!\n");
   		  break;
 
         }
