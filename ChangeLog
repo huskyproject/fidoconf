@@ -1,3 +1,16 @@
+2002-03-16 Saturday 11:23  mche
+
+	* fidoconf.c (1.69), fidoconf.h (1.101), line.c (1.284), tokens.h
+	(1.26), tparser.c (1.169): new areafix tokens with default values
+	ForwardRequestTimeout: 7 IdlePassthruTimeout  : 4
+	KilledRequestTimeout : 3
+
+2002-03-16 Saturday 10:55  mche
+
+	* doc/keywords.hpt (1.22): new tokens added    
+	ID_FORWARDREQUESTTIMEOUT,     ID_IDLEPASSTHRUTIMEOUT,	 
+	ID_KILLEDREQUESTTIMEOUT
+
 2002-03-14 Thursday 13:28  mche
 
 	* fidoconf.c (1.68): getLink code improvment
