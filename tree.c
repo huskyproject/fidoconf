@@ -68,6 +68,8 @@ char *tree_srch_real(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *
 
 char *tree_srch(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_user)
 {
+    if(!(**ppr_tree).tree_r)
+        return NULL;
     return (char *)tree_srch_real(&(**ppr_tree).tree_r, pfi_compare, pc_user);
 }
 
