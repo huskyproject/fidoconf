@@ -1,3 +1,14 @@
+2004-03-15 Monday 15:32  sfpavel
+
+	* common.c (fidoconf-1_4-stable.6): fix parsing AutoCreateDefaults
+	(patch by mche)
+
+2004-03-13 Saturday 15:53  stas_degteff
+
+	* crc.c (fidoconf-1_4-stable.1): MFC: Fix CRC16 routines for big
+	endian and little endian platforms, for signed and unsigned char
+	defaults
+
 2004-02-20 Friday 09:14  sfpavel
 
 	* line.c (fidoconf-1_4-stable.10): Fix parsing of SaveTick keyword
