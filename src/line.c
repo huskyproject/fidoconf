@@ -103,6 +103,16 @@ int _carbonrule = CC_AND;
 
 static s_link linkDefined;
 
+int fc_copyString(char *str, char **pmem)
+{
+   if (str==NULL) {
+      printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   return copyString(stripRoundingChars(str, "\""), pmem);
+}
+
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
@@ -350,7 +360,7 @@ int parseAreaPath(char *token, char **var, char **alreadyDefined)
       return 1;
    }
    if (stricmp(token, "passthrough")==0) {
-      copyString(token, &(*var));
+      fc_copyString(token, &(*var));
       if (alreadyDefined) *alreadyDefined=*var;
       return 0;
    }
@@ -390,7 +400,7 @@ int parseAreaPathExpand(char *token, char **var, char **alreadyDefined)
       return 1;
    }
    if (stricmp(token, "passthrough")==0) {
-      copyString(token, &(*var));
+      fc_copyString(token, &(*var));
       if (alreadyDefined) *alreadyDefined=*var;
       return 0;
    }
@@ -2467,7 +2477,7 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 
 	case 1:
 		nfree(link->LinkGrp);
-		copyString(token, &link->LinkGrp);
+		fc_copyString(token, &link->LinkGrp);
 		break;
 
 	case 2:
@@ -2605,7 +2615,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
 	    token++;
 	    token[strlen(token)-1]='\0';
 	}
-        /* copyString(token, &(cb->str)); */
+        /* fc_copyString(token, &(cb->str)); */
 	xstrcat(&(cb->str),token);
     }
 
@@ -2644,7 +2654,7 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
     }
 
 
-    copyString(token, &(cb->areaName));
+    fc_copyString(token, &(cb->areaName));
     cb->move = move;
     _carbonrule=CC_AND;  /* default */
     cb->rule&=CC_NOT; /* switch AND off */
@@ -2664,9 +2674,9 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
         /* this was the end of a previous set expressions */
         if(cb->move==2)         /* carbondelete */
             break;
-        copyString(areaName, &(cb->areaName));
+        fc_copyString(areaName, &(cb->areaName));
         if(reason)
-        copyString(reason, &(cb->reason));
+        fc_copyString(reason, &(cb->reason));
         cb->move = move;
     }
 
@@ -2747,7 +2757,7 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
        return 1;
    }
 
-   copyString(token, &(cb->areaName));
+   fc_copyString(token, &(cb->areaName));
    cb->extspawn = 1;
    cb->move = 0;
    _carbonrule=CC_AND;
@@ -2764,7 +2774,7 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
        if(cb->move==2) /* delete */
            break;
        if(!cb->rule&CC_AND){ /* OR */
-           copyString(token, &(cb->areaName));
+           fc_copyString(token, &(cb->areaName));
            cb->extspawn=1;
            cb->move=0;
        }
@@ -2796,7 +2806,7 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
           return 1;
    }
 
-   copyString(token, &(cb->reason));
+   fc_copyString(token, &(cb->reason));
    return 0;
 }
 
@@ -3568,13 +3578,13 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseVersion(getRestOfLine(), config);
             break;
         case ID_NAME:
-            rc = copyString(getRestOfLine(), &(config->name));
+            rc = fc_copyString(getRestOfLine(), &(config->name));
             break;
         case ID_LOCATION:
-            rc = copyString(getRestOfLine(), &(config->location));
+            rc = fc_copyString(getRestOfLine(), &(config->location));
             break;
         case ID_SYSOP:
-            rc = copyString(getRestOfLine(), &(config->sysop));
+            rc = fc_copyString(getRestOfLine(), &(config->sysop));
             break;
         case ID_ADDRESS:
             rc = parseAddress(getRestOfLine(), config);
@@ -3806,7 +3816,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_AUTOAREACREATEDEFAULTS:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = copyString(getRestOfLine(),
+                rc = fc_copyString(getRestOfLine(),
                                 &clink->autoAreaCreateDefaults);
             }
             else {
@@ -3815,7 +3825,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_AUTOFILECREATEDEFAULTS:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = copyString(getRestOfLine(),
+                rc = fc_copyString(getRestOfLine(),
                                 &clink->autoFileCreateDefaults);
             }
             else {
@@ -3869,11 +3879,11 @@ int parseLine(char *line, s_fidoconfig *config)
                                 &(getDescrLink(config)->autoPause));
             break;
         case ID_REMOTEROBOTNAME:
-            rc = copyString(getRestOfLine(),
+            rc = fc_copyString(getRestOfLine(),
                             &(getDescrLink(config)->RemoteRobotName));
             break;
         case ID_REMOTEFILEROBOTNAME:
-            rc = copyString(getRestOfLine(),
+            rc = fc_copyString(getRestOfLine(),
                             &(getDescrLink(config)->RemoteFileRobotName));
             break;
         case ID_FORWARDAREAPRIORITY:
@@ -3987,17 +3997,17 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_EMAIL:
             if (config->linkCount) { /* email of link */
-              rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
+              rc = fc_copyString(getRestOfLine(), &(getDescrLink(config)->email));
             }else{ /* email of self */
-              rc = copyString(getRestOfLine(), &config->email );
+              rc = fc_copyString(getRestOfLine(), &config->email );
             }
             break;
         case ID_EMAILFROM:
-            rc = copyString(getRestOfLine(),
+            rc = fc_copyString(getRestOfLine(),
                             &(getDescrLink(config)->emailFrom));
             break;
         case ID_EMAILSUBJ:
-            rc = copyString(getRestOfLine(),
+            rc = fc_copyString(getRestOfLine(),
                             &(getDescrLink(config)->emailSubj));
             break;
         case ID_EMAILENCODING:
@@ -4090,13 +4100,13 @@ int parseLine(char *line, s_fidoconfig *config)
                                &(getDescrLink(config)->linkBundleNameStyle));
             break;
         case ID_ECHOTOSSLOG:
-            rc = copyString(getRestOfLine(), &(config->echotosslog));
+            rc = fc_copyString(getRestOfLine(), &(config->echotosslog));
             break;
         case ID_STATLOG:
-            rc = copyString(getRestOfLine(), &(config->statlog));
+            rc = fc_copyString(getRestOfLine(), &(config->statlog));
             break;
         case ID_IMPORTLOG:
-            rc = copyString(getRestOfLine(), &(config->importlog));
+            rc = fc_copyString(getRestOfLine(), &(config->importlog));
             break;
         case ID_LINKWITHIMPORTLOG:
             rc = parseLinkWithILogType(getRestOfLine(),
@@ -4187,7 +4197,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseBool(getRestOfLine(), &(config->exclPassCC));
             break;
         case ID_LOCKFILE:
-            rc = copyString(getRestOfLine(), &(config->lockfile));
+            rc = fc_copyString(getRestOfLine(), &(config->lockfile));
             break;
         case ID_TEMPOUTBOUND:
             rc = parsePath(getRestOfLine(), &(config->tempOutbound), NULL);
@@ -4263,10 +4273,10 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
             break;
         case ID_NOTVALIDFILENAMECHARS:
-            rc = copyString(getRestOfLine(), &(config->notValidFNChars));
+            rc = fc_copyString(getRestOfLine(), &(config->notValidFNChars));
             break;
         case ID_REPORTTO:
-            rc = copyString(getRestOfLine(), &(config->ReportTo));
+            rc = fc_copyString(getRestOfLine(), &(config->ReportTo));
             break;
         case ID_EXECONFILE:
             rc = parseExecOnFile(getRestOfLine(), config);
@@ -4278,26 +4288,26 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
             break;
         case ID_AFTERUNPACK:
-            rc = copyString(getRestOfLine(), &(config->afterUnpack));
+            rc = fc_copyString(getRestOfLine(), &(config->afterUnpack));
             break;
         case ID_BEFOREPACK:
-            rc = copyString(getRestOfLine(), &(config->beforePack));
+            rc = fc_copyString(getRestOfLine(), &(config->beforePack));
             break;
         case ID_PROCESSPKT:
-            rc = copyString(getRestOfLine(), &(config->processPkt));
+            rc = fc_copyString(getRestOfLine(), &(config->processPkt));
             break;
         case ID_AREAFIXSPLITSTR:
-            rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
+            rc = fc_copyString(getRestOfLine(), &(config->areafixSplitStr));
             break;
         case ID_AREAFIXORIGIN:
             temp = getRestOfLine();
             if( temp[0] == '"' && temp[strlen(temp)-1] =='"' ) {
               temp++; temp[strlen(temp)-1]='\0';
             }
-            rc = copyString(temp, &(config->areafixOrigin));
+            rc = fc_copyString(temp, &(config->areafixOrigin));
             break;
         case ID_ROBOTSAREA:
-            rc = copyString(getRestOfLine(), &(config->robotsArea));
+            rc = fc_copyString(getRestOfLine(), &(config->robotsArea));
             break;
         case ID_FILEDESCNAME:
             rc = parseUUEechoAreas(getRestOfLine(),&(config->fileDescNames),&(config->fDescNameCount));
@@ -4319,7 +4329,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
             break;
         case ID_FILELOCALPWD:
-            rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
+            rc = fc_copyString(getRestOfLine(), &(config->fileLocalPwd));
             break;
 
         */
@@ -4330,7 +4340,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
             break;
         case ID_FILELDESCSTRING:
-            rc = copyString(getRestOfLine(), &(config->fileLDescString));
+            rc = fc_copyString(getRestOfLine(), &(config->fileLDescString));
             break;
         case ID_SAVETIC:
             rc = parseSaveTicStatement(getRestOfLine(), config);
@@ -4343,7 +4353,7 @@ int parseLine(char *line, s_fidoconfig *config)
                                 &(config->areasMaxDupeAge));
             break;
         case ID_FIDOUSERLIST:
-            rc = copyString(getRestOfLine(), &(config->fidoUserList));
+            rc = fc_copyString(getRestOfLine(), &(config->fidoUserList));
             break;
         case ID_NODELIST:
             rc = parseNodelist(getRestOfLine(), config);
@@ -4351,7 +4361,7 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_DIFFUPDATE:
             rc = 0;
             if (config->nodelistCount > 0) {
-                rc = copyString(getRestOfLine(),
+                rc = fc_copyString(getRestOfLine(),
                  &(config->nodelists[config->nodelistCount-1].diffUpdateStem));
             }
             else {
@@ -4366,7 +4376,7 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_FULLUPDATE:
             rc = 0;
             if (config->nodelistCount > 0) {
-                rc = copyString(getRestOfLine(),
+                rc = fc_copyString(getRestOfLine(),
                  &(config->nodelists[config->nodelistCount-1].fullUpdateStem));
             }
             else {
@@ -4427,7 +4437,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_TOSSINGEXT:
             if ((temp=getRestOfLine()) != NULL)
-                rc = copyString(temp, &(config->tossingExt));
+                rc = fc_copyString(temp, &(config->tossingExt));
             else
                 config->tossingExt = NULL;
             break;
@@ -4445,7 +4455,7 @@ int parseLine(char *line, s_fidoconfig *config)
                                &(config->ignoreSeenCount));
             break;
         case ID_TEARLINE:
-            rc = copyString(getRestOfLine(), &(config->tearline));
+            rc = fc_copyString(getRestOfLine(), &(config->tearline));
             break;
         case ID_ORIGIN:
             temp = getRestOfLine();
@@ -4454,7 +4464,7 @@ int parseLine(char *line, s_fidoconfig *config)
                     temp++; temp[strlen(temp)-1]='\0';
                 }
             }
-            rc = copyString(temp, &(config->origin));
+            rc = fc_copyString(temp, &(config->origin));
             break;
         case ID_BUNDLENAMESTYLE:
             rc = parseBundleNameStyle(getRestOfLine(),
@@ -4476,13 +4486,13 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseBool(getRestOfLine(), &(config->autoPassive));
             break;
         case ID_NETMAILFLAG:
-            rc = copyString(getRestOfLine(), &(config->netmailFlag));
+            rc = fc_copyString(getRestOfLine(), &(config->netmailFlag));
             break;
         case ID_AUTOAREACREATEFLAG:
-            rc = copyString(getRestOfLine(), &(config->aacFlag));
+            rc = fc_copyString(getRestOfLine(), &(config->aacFlag));
             break;
         case ID_AUTOFILECREATEFLAG:
-            rc = copyString(getRestOfLine(), &(config->afcFlag));
+            rc = fc_copyString(getRestOfLine(), &(config->afcFlag));
             break;
         case ID_MINDISKFREESPACE:
             rc = parseNumber(getRestOfLine(), 10, &(config->minDiskFreeSpace));
@@ -4500,10 +4510,10 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseUInt(getRestOfLine(), &(config->advisoryLock));
             break;
         case ID_AREAFIXNAMES:
-            rc = copyString(getRestOfLine(), &(config->areafixNames));
+            rc = fc_copyString(getRestOfLine(), &(config->areafixNames));
             break;
         case ID_FILEFIXNAMES:
-            rc = copyString(getRestOfLine(), &(config->filefixNames));
+            rc = fc_copyString(getRestOfLine(), &(config->filefixNames));
             break;
         case ID_REQIDXDIR:
             rc = parsePath(getRestOfLine(), &(config->reqidxDir), NULL);
@@ -4529,7 +4539,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseFileName(getRestOfLine(), &(config->hptPerlFile), NULL);
             break;
         case ID_ADVSTATISTICSFILE:
-            rc = copyString(getRestOfLine(), &(config->advStatisticsFile));
+            rc = fc_copyString(getRestOfLine(), &(config->advStatisticsFile));
             break;
         case ID_READONLY:
             rc = parsePermissions (getRestOfLine(),  &(config->readOnly), &(config->readOnlyCount));
@@ -4578,19 +4588,19 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseGroup(getRestOfLine(), config, 7);
             break;
         case ID_ANNTO:
-            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annto));
+            rc = fc_copyString(getRestOfLine(), &(getDescrAnnDef(config)->annto));
             break;
         case ID_ANNFROM:
-            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annfrom));
+            rc = fc_copyString(getRestOfLine(), &(getDescrAnnDef(config)->annfrom));
             break;
         case ID_ANNSUBJ:
-            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annsubj));
+            rc = fc_copyString(getRestOfLine(), &(getDescrAnnDef(config)->annsubj));
             break;
         case ID_ANNORIGIN:
-            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annorigin));
+            rc = fc_copyString(getRestOfLine(), &(getDescrAnnDef(config)->annorigin));
             break;
         case ID_ANNMESSFLAGS:
-            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annmessflags));
+            rc = fc_copyString(getRestOfLine(), &(getDescrAnnDef(config)->annmessflags));
             break;
         case ID_ANNFILEORIGIN:
             rc = parseBool(getRestOfLine(), &(getDescrAnnDef(config)->annforigin));
@@ -4609,13 +4619,13 @@ int parseLine(char *line, s_fidoconfig *config)
             config->fileAreaCreatePerms = dec2oct(config->fileAreaCreatePerms);
             break;
         case ID_NEWAREAREFUSEFILE:
-            rc = copyString(getRestOfLine(), &(config->newAreaRefuseFile));
+            rc = fc_copyString(getRestOfLine(), &(config->newAreaRefuseFile));
             break;
         case ID_AREAFIXFROMNAME:
-            rc = copyString(getRestOfLine(), &(config->areafixFromName));
+            rc = fc_copyString(getRestOfLine(), &(config->areafixFromName));
             break;
         case ID_FILEFIXFROMNAME:
-            rc = copyString(getRestOfLine(), &(config->filefixFromName));
+            rc = fc_copyString(getRestOfLine(), &(config->filefixFromName));
             break;
         case ID_SEQDIR:
             rc = parsePath(getRestOfLine(), &(config->seqDir), NULL);
