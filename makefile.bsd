@@ -39,6 +39,7 @@ install: commonlibs commonprogs
 	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(ISOPT) linkedto                $(BINDIR)
+	$(INSTALL) $(ISOPT) fconf2na.pl             $(BINDIR)
 	$(INSTALL) $(ISOPT) $(FCONF2AREASBBS)       $(BINDIR)
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB)  $(LIBDIR)
 	(cd doc && $(MAKE) install)
@@ -74,6 +75,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)fconf2na.pl
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AREASBBS)
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)fidoconf.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)typesize.h

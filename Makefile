@@ -149,6 +149,7 @@ endif
 ifeq (${OSTYPE}, UNIX)
 	$(INSTALL) $(ISOPT) linkedto                $(BINDIR)
 endif
+	$(INSTALL) $(ISOPT) fconf2na.pl             $(BINDIR)
 	$(INSTALL) $(ISOPT) $(FCONF2AREASBBS)       $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
@@ -186,6 +187,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)fconf2na.pl
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AREASBBS)
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)fidoconf.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)typesize.h
