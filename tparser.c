@@ -106,7 +106,7 @@ void printFileArea(s_filearea area) {
    int i;
    
    printf("%s \n", area.areaName);
-   printf("Description: %s\n",area.description);
+   printf("Description: %s\n",(area.description) ? area.description : "");
    if (area.pass != 1)
       printf("Path: %s\t", area.pathName);
    else
