@@ -268,7 +268,8 @@ enum {
     ID_TICKERPACKTOBOX,
     ID_LINKFILEBASEDIR,
     ID_SENDMAILCMD,
-    ID_TEMPDIR
+    ID_TEMPDIR,
+    ID_ANNOUNCESPOOL
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -288,6 +289,7 @@ token_t parseline_tokens[] =
     { "aka", ID_AKA },
     { "allowemptypktpwd", ID_ALLOWEMPTYPKTPWD },
     { "allowpktaddrdiffer", ID_ALLOWPKTADDRDIFFER },
+    { "announcespool", ID_ANNOUNCESPOOL},
     { "arcmailsize", ID_ARCMAILSIZE },
     { "arcnetmail", ID_ARCNETMAIL },
     { "areafix", ID_AREAFIX },

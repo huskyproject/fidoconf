@@ -556,6 +556,7 @@ typedef struct fidoconfig {
    s_permissions *writeOnly;
    int writeOnlyCount;
    char *fileBoxesDir;
+   char *announceSpool;
    char *notValidFNChars;
    char *rulesDir;
    unsigned int packNetMailOnScan;

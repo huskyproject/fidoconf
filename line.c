@@ -3954,7 +3954,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_TEMPDIR:
             rc = parsePath(getRestOfLine(), &(config->tempDir));
             break;
-
+        case ID_ANNOUNCESPOOL:
+            rc = parsePath(getRestOfLine(), &(config->announceSpool));
+            break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

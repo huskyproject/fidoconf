@@ -1002,8 +1002,8 @@ int main(int argc, char **argv) {
 
     if (hpt==0) {
         printf("\n=== FILEFIX CONFIG ===\n");
-  	  printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
-  	  printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
+  	    printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
+        printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
 
         printf("\n=== TICKER CONFIG ===\n");
         if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
@@ -1022,11 +1022,12 @@ int main(int argc, char **argv) {
         printf("FileFileUMask: %o\n", config->fileFileUMask);
         printf("FileDirUMask: %o\n", config->fileDirUMask);
         if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
-  	  if (config->saveTicCount)
+        if (config->saveTicCount)
         for (i = 0; i< config->saveTicCount; i++) {
   		printf("SaveTic for %s in %s\n", config->saveTic[i].fileAreaNameMask,
                                            config->saveTic[i].pathName );
         }
+		if (config->announceSpool) printf("AnnounceSpool: %s\n", config->announceSpool);		
     }
 
         printf("\n=== FILELIST CONFIG ===\n");
