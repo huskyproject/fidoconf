@@ -3,9 +3,13 @@
 # FreeBSD / NetBSD makefile for building fidoconfig
 # (legacy makefile, no dynlibs, no huskymak support)
 #
-# Use with GNU version of make (gmake, see ports collection)
+# Use with GNU version of make (gmake, see ports collection) or BSD make
+# (FreeBSD native)
 
 UNIXID=bsd
+
+NULL=@echo -n
+
 include makefile.in2
 
 # Directories
