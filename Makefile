@@ -140,6 +140,12 @@ endif
 	$(INSTALL) $(IIOPT) recode.h       $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 	(cd doc && $(MAKE) install)
+	@echo
+	@echo "*** For install man pages run 'gmake install-man' (unixes only)"
+	@echo
+
+install-man:
+	(cd man && $(MAKE) install)
 
 uninstall:
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2MSGED)$(EXE)
@@ -161,5 +167,6 @@ uninstall:
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)log.h
 	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)recode.h
 	-$(RM) $(RMOPT) $(LIBDIR)$(DIRSEP)$(LIBFIDOCONFIG)$(LIB)
-	(cd doc && $(MAKE) uninstall)
+	-(cd doc && $(MAKE) uninstall)
+	-(cd man && $(MAKE) uninstall)
 
