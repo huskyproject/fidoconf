@@ -1,3 +1,21 @@
+2002-01-03 Thursday 14:15  ml
+
+	* TODO (1.58), VERSION (1.3), makefile.inc (1.14): change version
+	number
+
+2002-01-03 Thursday 11:30  ml
+
+	* README (1.7), man/fconf2.1 (1.2), man/linkedto.1 (1.2),
+	man/tparser.1 (1.2): documentation files updates
+
+2002-01-03 Thursday 11:05  ml
+
+	* VERSION (1.2): version file
+
+2002-01-03 Thursday 10:19  ml
+
+	* cfg.c (1.15): checkIncludeLogic case insensitive
+
 2002-01-02 Wednesday 20:14  ml
 
 	* fidoconf.c (1.61), line.c (1.271): fixed carbonrule OR after NOT
