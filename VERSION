@@ -1,2 +1,2 @@
-fidoconfig 1.3-current
-required: smapi 2.3-current
+fidoconfig 1.9-current
+required: smapi 2.5-current
