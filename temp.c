@@ -28,7 +28,11 @@
 
 #include <errno.h>
 #include <string.h>
-#include <io.h>
+#if defined(__TURBOC__) || (defined (_MSC_VER) && (_MSC_VER >= 1200))
+#  include <io.h>
+#else
+#  include <unistd.h>
+#endif
 #include <fcntl.h>
 #include <stdlib.h>
 
