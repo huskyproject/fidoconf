@@ -1,3 +1,7 @@
+Sun Apr 29 05:00:00 CET 2001
+kees:
+* changed default carbonRule to AND
+
 -----------
 Wed Apr 25 00:17:41 NOVST 2001
 max (patch from kees):

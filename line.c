@@ -72,7 +72,7 @@ char *actualKeyword, *actualLine;
 int  actualLineNr;
 char wasError = 0;
 char CommentChar = '#';
-int _carbonrule = 0;
+int _carbonrule = CC_AND;
 
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
@@ -2241,7 +2241,7 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
 
     copyString(token, &(cb->areaName));
     cb->move = move;
-    _carbonrule=0;  /* starts with OR again */
+    _carbonrule=CC_AND;  /* default */
     cb->rule&=CC_NOT; /* switch AND off */
 
     /* checking area*/
@@ -2292,7 +2292,7 @@ int parseCarbonDelete(char *token, s_fidoconfig *config) {
    }
 
    cb->move = 2;
-   _carbonrule=0;
+   _carbonrule=CC_AND;
    cb->rule&=CC_NOT;
 
    /* checking area*/
@@ -2343,7 +2343,7 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
    printf("carbonextern paramaters: <%s>\n",token);
    cb->extspawn = 1;
    cb->move = 0;
-   _carbonrule=0;
+   _carbonrule=CC_AND;
    cb->rule&=CC_NOT;
 
    /* checking area*/

@@ -223,17 +223,7 @@ void carbonNames2Addr(s_fidoconfig *config)
    int i, found, narea;
    s_carbon *cb;
    ps_area aptr;
-/*   char *aptr=NULL;*/
-
-   /* put areaname in every carbon[] */
-/*   if (config->carbonCount > 0)
-   {
-       cb=&(config->carbons[config->carbonCount-1]);
-       for(i=config->carbonCount-1; i>=0; i--,cb--) {
-           if (cb->areaName) aptr=cb->areaName;
-           else if (aptr) copyString(aptr, &(cb->areaName));
-       }
-   }*/
+   char *cbaName;
 
    if(!config->carbonCount)
        return;
@@ -245,12 +235,17 @@ void carbonNames2Addr(s_fidoconfig *config)
            doesn't look at localAreas */
           /* now getArea can found local areas */
            found=0;
+           if(cb->areaName!=NULL){
+               cbaName=cb->areaName;
+               if(*cbaName=='*')
+                   ++cbaName;
+           }
            if(cb->rule&CC_AND) /* area is not used with AND */
                continue;
            if (cb->areaName && !(cb -> extspawn)) {
                aptr=config->echoAreas;
                for (narea=0; narea < config->echoAreaCount && !found; narea++, aptr++) {
-                   if (stricmp(cb->areaName, aptr->areaName)==0) {
+                   if (stricmp(cbaName, aptr->areaName)==0) {
                        found++;
                        cb->area = aptr;
                        cb->export = 1;
@@ -259,7 +254,7 @@ void carbonNames2Addr(s_fidoconfig *config)
                }
                aptr=config->localAreas;
                for (narea=0; narea < config->localAreaCount && !found; narea++, aptr++) {
-                   if (stricmp(cb->areaName, aptr->areaName)==0) {
+                   if (stricmp(cbaName, aptr->areaName)==0) {
                        found++;
                        cb->area = aptr;
                        cb->export = 0;
@@ -268,7 +263,7 @@ void carbonNames2Addr(s_fidoconfig *config)
                }
                aptr=config->netMailAreas;
                for (narea=0; narea < config->netMailAreaCount && !found; narea++, aptr++) {
-                   if (stricmp(cb->areaName, aptr->areaName)==0) {
+                   if (stricmp(cbaName, aptr->areaName)==0) {
                        found++;
                        cb->area = aptr;
                        cb->export = 0;
@@ -279,9 +274,17 @@ void carbonNames2Addr(s_fidoconfig *config)
 
 
            if (!found && (cb->move != 2) && !cb->extspawn) {// move==2 - delete
-               printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (cb->areaName) ? cb->areaName : "");
+               printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (cb->areaName) ? cbaName : "");
                cb->area = &(config->badArea);
-               copyString(config->badArea.areaName, &(cb->areaName));
+               if(cb->areaName!=NULL){
+                   i= *cb->areaName=='*' ? 1 : 0;
+                   nfree(cb->areaName);
+               }else
+                   i=0;
+               cb->areaName = (char *) smalloc(strlen(config->badArea.areaName)+i+1);
+               if(i)
+                   *cb->areaName='*';
+               strcpy(cb->areaName+i,config->badArea.areaName);
                cb->export = 0;
            }
    }
@@ -296,18 +299,6 @@ void fixRoute(s_fidoconfig *config)
 			config->route[i].target = getLink(*config, config->route[i].viaStr);
 		nfree(config->route[i].viaStr);
 	}
-/* remove after 03-Apr-01
-	for (i = 0; i < config->routeFileCount; i++) {
-		if (config->routeFile[i].viaStr != NULL)
-			config->routeFile[i].target = getLink(*config, config->routeFile[i].viaStr);
-		nfree(config->routeFile[i].viaStr);
-	}
-	for (i = 0; i < config->routeMailCount; i++) {
-		if (config->routeMail[i].viaStr != NULL)
-			config->routeMail[i].target = getLink(*config, config->routeMail[i].viaStr);
-		nfree(config->routeMail[i].viaStr);
-	}
-*/
 }
 
 void stripPktPwd(s_fidoconfig *config)
