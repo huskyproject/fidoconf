@@ -1,41 +1,59 @@
-# Settings for DOS / DJGPP 
-# legacy makefile without huskymak.cfg
+# Makefile for DJGPP GCC to build DOS DPMI 32-bit executables
 
-# program settings
-CC   = gcc
-AR   = ar
-AR_R = r
-RM   = del
 
-COPT = -c -Wall -s -O3 -I../smapi
-LOPT = -L. -L../smapi -lc
+# If you are running under Win95, you can set this to 0. In this
+# case, you don't have to use long2dos etc, because DJGPP can see long file-
+# names on Win95, while it cannot on DOS or in an OS/2 DOS box, and probably
+# also not on NT.
+SHORTNAMES=1
+#SHORTNAMES=0
 
-# filename settings
-OBJ   = .o
-LIB   = .a
-EXE = .exe
-FIDOCONFIG     = fidoconf
-FCONF2AQUAED   = fc2aed
-FCONF2GOLDED   = fc2ged
-FCONF2MSGED    = fc2msged
-FCONF2FIDOGATE = fc2fgate
-FCONF2SQUISH   = fc2sq
-FECFG2FCONF    = fecfg2fc
-LIBFIDOCONFIG  = fidoconf
-LINKSMAPI      = -lsmapidjg
-LINKFIDOCONFIG = $(LIBFIDOCONFIG).a
+CC=	gcc
+# the space after the o is important!
+EXENAMEFLAG=-o 
+CDEFS=	-DMSDOS -I.. -Wall -c -Wno-char-subscripts
+COPT=	-O3
+LFLAGS=-s
+
+OBJ=.o
+EXE=.exe
+TPU=.tpu
+RM=del
+LIB=.a
+AR=ar
+AR_R=r
+
+LINKSMAPI=../smapi/smapidjg.a
+LIBPREFIX=
+
+ifeq ($(SHORTNAMES), 1)
+  FCONF2AQUAED   = fc2aed
+  FCONF2GOLDED   = fc2ged
+  FCONF2MSGED    = fc2msged
+  FCONF2FIDOGATE = fc2fgate
+  FCONF2SQUISH   = fc2sq
+  FECFG2FCONF    = fecfg2fc
+  CDEFS := $(CDEFS) -DSHORTNAMES
+else
+  FCONF2AQUAED = fconf2aquaed
+  FCONF2GOLDED = fconf2golded
+  FCONF2MSGED  = fconf2msged
+  FCONF2FIDOGATE = fconf2fidogate
+  FCONF2SQUISH = fconf2squish
+  FECFG2FCONF = fecfg2fconf
+endif
+
+FIDOCONFIG = fconfdjg
+LIBFIDOCONFIG = $(LIBPREFIX)$(FIDOCONFIG)
+LINKFIDOCONFIG=$(LIBFIDOCONFIG)$(LIB)
 
 default: all
 
-include makefile.com
+include makefile.common
 
 all: commonlibs commonprogs
 
 clean: commonclean
 
 distclean: commondistclean
-	-$(RM) fidoconf.a
-
-%.o: %.c
-	$(CC) $(COPT) $*.c
 

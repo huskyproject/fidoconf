@@ -5,7 +5,7 @@ CC=	gcc
 EXENAMEFLAG=-o
 CDEFS=	-DOS2
 COPT=	-O2 -I.. -Wall -pedantic -c -Zomf -Wno-char-subscripts
-LFLAGS= -Zomf -Zsys
+LFLAGS= -Zomf -Zsys -s
 
 TPU=.tpu
 OBJ=.obj
