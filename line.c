@@ -36,7 +36,6 @@
 #include <time.h>
 #include <errno.h>
 #include <stdarg.h>
-#include <sysexits.h>
 
 #ifdef UNIX
 #include <pwd.h>
@@ -45,6 +44,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sysexits.h>
 #else
 #include <process.h>
 #include <io.h>

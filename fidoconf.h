@@ -582,6 +582,20 @@ void dumpConfig(ps_fidoconfig config, FILE *f);
 // return 1 if group found in array of strings, else return 0
 int grpInArray(char *group, char **strarray, unsigned int len);
 
+// define exit codes for non unix systems
+#ifndef _SYSEXITS_H
+#define _SYSEXITS_H
+#define EX_OK           0       /* successful termination */
+#define EX_USAGE        64      /* command line usage error */
+#define EX_NOINPUT      66      /* cannot open input */
+#define EX_UNAVAILABLE  69      /* service unavailable */
+#define EX_SOFTWARE     70      /* internal software error */
+#define EX_CANTCREAT    73      /* can't create (user) output file */
+#define EX_IOERR        74      /* input/output error */
+#define EX_TEMPFAIL     75      /* temp failure; user is invited to retry */
+#define EX_CONFIG       78      /* configuration error */
+#endif
+
 #ifdef __cplusplus
  }
 #endif

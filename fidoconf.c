@@ -33,7 +33,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
+#ifdef UNIX
 #include <sysexits.h>
+#endif
 
 #include <smapi/patmat.h>
 #include "fidoconf.h"
