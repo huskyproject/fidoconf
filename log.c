@@ -147,6 +147,7 @@ void w_log(char key, char *logString, ...)
 	if (husky_log) {
 		if (husky_log->isopen && strchr(husky_log->keysAllowed, key)) log=1;
 		if (husky_log->logEcho && strchr(husky_log->keysPrinted, key)) screen=1;
+		if (!husky_log->isopen && key==LL_CRIT) screen=1; /* Critical error to stderr if not logged */
 	}else screen=1;
 
 	if (log || screen) {
