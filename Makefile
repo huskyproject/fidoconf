@@ -38,7 +38,6 @@ ifeq ($(SHORTNAMES), 1)
   FCONF2MSGED    = fc2msged
   FCONF2FIDOGATE = fc2fgate
   FCONF2SQUISH   = fc2sq
-  FCONF2JT       = fc2jt
   FECFG2FCONF    = fecfg2fc
   LIBFIDOCONFIG  = fidoconf
   CDEFS = $(CDEFS) -DSHORTNAMES
@@ -49,7 +48,6 @@ else
   FCONF2MSGED  = fconf2msged
   FCONF2FIDOGATE = fconf2fidogate
   FCONF2SQUISH = fconf2squish
-  FCONF2JT     = fconf2justtosser
   FECFG2FCONF = fecfg2fconf
   LIBFIDOCONFIG = $(LIBPREFIX)fidoconfig
 endif

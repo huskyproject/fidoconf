@@ -15,7 +15,7 @@ SRC1  =  adcase.c line.c fidoconf.c dirlayer.c common.c findtok.c xstr.c cfg.c l
 OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj
 
 
-all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fconf2jt.exe fecfg2fconf.exe
+all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
 
 $(FCONFL):
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c adcase.c
@@ -46,9 +46,6 @@ fconf2aquaed.exe:
 
 fconf2squish.exe:
         $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
-
-fconf2jt.exe:
-        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2jt.c $(FCONFL) $(SMAPIL)
 
 fecfg2fconf.exe:
         $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c  fecfg146.c $(FCONFL) $(SMAPIL)
