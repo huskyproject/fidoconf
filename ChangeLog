@@ -1,3 +1,22 @@
+2002-07-12 Friday 20:59  stas
+
+	* fidoconf.h (1.130), line.c (1.314), tparser.c (1.187): New value
+	'addrsCRC32' for token 'BundleNameStyle'
+
+2002-07-12 Friday 19:02  stas
+
+	* doc/: keywords.htick (1.1), proposal.texi (1.138): Add HTick
+	keywords list.
+
+2002-07-12 Friday 18:48  stas
+
+	* doc/proposal.texi (1.137): Describe the 'bbsarea' token.
+
+2002-07-12 Friday 18:36  stas
+
+	* doc/proposal.texi (1.136): Add description for tokens: localarea
+	and filearea.
+
 2002-07-10 Wednesday 17:14  mche
 
 	* fidoconf.h (1.129), line.c (1.313), tokens.h (1.40), tparser.c
