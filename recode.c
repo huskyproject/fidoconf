@@ -99,17 +99,17 @@ INT c;
 INT ctoi(CHAR *s)
 {
 	char *foo;
-	INT res = strtoul(s, &foo, 0);
+	unsigned long res = strtoul((char*)s, &foo, 0);
 	if (*foo)	/* parse error */
 		return 0;
-	return res;
+	return (INT)res;
 }
 
 void getctab(CHAR *dest, UCHAR *charMapFileName )
 {
 	FILE *fp;
 	UCHAR buf[512],*p,*q;
-	INT in,on,count;
+	int in,on,count;
 	INT line;
 
 	if( !intab || !outtab ) initCharsets();
@@ -120,7 +120,7 @@ void getctab(CHAR *dest, UCHAR *charMapFileName )
 		return ;
 	 }
 
-	count=0;	 
+	count=0;	
 	line = 0;
 	while (fgets((char*)buf,sizeof(buf),fp))
 	{
@@ -130,19 +130,26 @@ void getctab(CHAR *dest, UCHAR *charMapFileName )
 
 		if (p && q)
 		{
+#if defined(__WATCOMC__) && defined(__DOS4G__)
+			in = ctoi((signed char *)p);
+#else
 			in = ctoi((char *)p);
+#endif
 			if (in > 255) {
 				fprintf(stderr, "getctab: %s: line %d: char val too big\n", charMapFileName, line);
 				break;
 			}
-
+#if defined(__WATCOMC__) && defined(__DOS4G__)
+			on=ctoi((signed char *)q);
+#else
 			on=ctoi((char *)q);
+#endif
 			if (in && on)
                         {
-                                if( count++ < 256 ) dest[in]=(char)on; 
-                                else 
-                                { 
-                                        fprintf(stderr,"getctab: char map table \"%s\" is big\n",charMapFileName); 
+                                if( count++ < 256 ) dest[in]=(char)on;
+                                else
+                                {
+                                        fprintf(stderr,"getctab: char map table \"%s\" is big\n",charMapFileName);
                                         break;
                                 }
                         }
