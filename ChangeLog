@@ -2,10 +2,16 @@
 fidoconfig 0.6
 --------------
 
+----- cvs ci ------	
+Wed Feb 10 16:04:46 MET 1999
+- fixed a null pointer bug in tparser
+	
+----- cvs ci ------
 Wed Feb 10 14:50:04 MET 1999 [tobi]
 - added makeUniqueDosFilename() which can be used to create more or
   less unique PKT file names. See the comments in common.c for details.
-	
+
+----- cvs ci ------
 Thu Feb  4 00:34:55 CET 1999
 - fixed a bug in makefile.lnx which leads to the behaviour that
   libfidoconfig.so.$(VER) is not newly generated.

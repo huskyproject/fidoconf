@@ -38,6 +38,14 @@
 #include "fidoconf.h"
 #endif
 
+void printAddr(const s_addr addr)
+{
+  if (addr.domain != NULL)
+    printf("%d:%d/%d.%d@%s", addr.zone, addr.net, addr.node, addr.point, addr.domain);
+  else
+    printf("%d:%d/%d.%d", addr.zone, addr.net, addr.node, addr.point);
+}
+
 void printArea(s_area area) {
    int i;
    
@@ -54,8 +62,8 @@ void printArea(s_area area) {
    printf("\n");
    printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    printf("Links: ");
-   for (i = 0; i<area.downlinkCount;i++) printf("%u:%u/%u.%u@%s ", area.downlinks[i]->hisAka.zone, area.downlinks[i]->hisAka.net, area.downlinks[i]->hisAka.node, area.downlinks[i]->hisAka.point, area.downlinks[i]->hisAka.domain);
-   printf("\n");
+   for (i = 0; i<area.downlinkCount;i++) printAddr(area.downlinks[i]->hisAka);
+printf("\n");
    printf("Options: ");
    if (area.manual) printf("manual ");
    if (area.hide) printf("hide ");
