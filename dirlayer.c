@@ -31,8 +31,10 @@
 
 /* source to implement dir.h for ibm VisualAge C++
 */
-#if defined(__IBMC__) && !defined(UNIX)
+
 #include "dirlayer.h"
+
+#if defined(__IBMC__) && !defined(UNIX)
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
@@ -104,7 +106,6 @@ int      closedir( DIR * dir)
 }
 
 #elif defined (__MSVC__)
-#include "dirlayer.h"
 DIR* opendir(const char* mask)
 {
     DIR* dir;
