@@ -38,6 +38,12 @@
 
 /* common functions */
 
+void *memdup(void *p, size_t size);
+/*DOC
+ * Input:  a chunk of memory, with size bytes
+ * Output: a copy of it 
+ */	
+
 long str2attr(const char *str);
 /*DOC
   Input:  Msg flag name 

@@ -52,6 +52,14 @@
 #include "common.h"
 #include "patmat.h"
 
+void *memdup(void *p, size_t size)
+{
+	void *newp;
+	newp = malloc(size);
+	if (newp != NULL) memcpy(newp, p, size);
+	return newp;
+}
+
 static char *attrStr[] = { "pvt", "crash", "read", "sent", "att", 
                        "fwd", "orphan", "k/s", "loc", "hld", 
                        "xx2",  "frq", "rrq", "cpt", "arq", "urq" };

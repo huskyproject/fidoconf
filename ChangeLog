@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Sat Dec 25 19:27:26 NOVT 1999
+max (patch from Kolya Nesterov):
+* added memdup()
+
+----- cvs ci ------
 Sun Dec 19 22:33:07 CET 1999
 mtt:
 * fixed -b documentation bug
