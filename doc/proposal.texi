@@ -768,6 +768,8 @@ This statement connects a link to several echomails groups.
 
 This statement can only be repeated for different links.
 
+@strong{This statement is currently not supported.}
+
 @node ticgrp, bbsgrp, tossgrp, Keywords
 @subsection ticgrp
 @table @asis
