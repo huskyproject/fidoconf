@@ -122,18 +122,53 @@ void printArea(s_area area) {
    else if (area.msgbType == MSGTYPE_JAM) printf("Jam");
    else printf("Passthrough");
 
-   printf("\t Use ");
-   printAddr(*(area.useAka));
+   printf("\t Use AKA: ");
+   if (area.useAka == NULL)
+     printf ("(not configured)");
+   else
+     printAddr(*(area.useAka));
    printf("\n");
-   printf("DOS Style File (8+3) - %s\n", (area.DOSFile) ? "on" : "off");
-   printf("Level read  - %d\n", area.levelread);
-   printf("Level write - %d\n", area.levelwrite);
+   printf("DOS Style File (8+3) %s\n", (area.DOSFile) ? "on (-dosfile)" : "off (-nodosfile)");
+   printf("Level read  (-lr): %d\n", area.levelread);
+   printf("Level write (-lw): %d\n", area.levelwrite);
    if (area.group) printf("Group       - %s\n", area.group);
    if (area.nopack) {
-      printf("pack never (ignoring: max: %u msgs\tpurge: %u days)\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
+      printf("Purge never (option \"-nopack\") (ignoring: max (-$m): %u msgs\tpurge (-p): %u days)\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    } else {
-      printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
+      printf("Purging enabled (option \"-pack\") max (-$m): %u msgs\tpurge (-p): %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    }
+   printf("Options: ");
+   if (area.tinySB) printf("tinySB "); else  printf("noTinySB ");
+   if (area.killSB) printf("killSB "); else  printf("noKillSB ");
+   if (area.keepUnread) printf("keepUnread "); else  printf("noKeepUnread ");
+   if (area.killRead) printf("killRead "); else  printf("noKillRead ");
+   if (area.hide) printf("hide "); else  printf("noHide ");
+   if (area.killMsgBase) printf("kill "); else  printf("noKill ");
+   if (area.manual) printf("manual "); else  printf("noManual ");
+   if (area.noPause) printf("noPause "); else  printf("pause ");
+   if (area.nolink) printf("nolink "); else  printf("link ");
+   if (area.mandatory) printf("mandatory "); else  printf("noMandatory ");
+   if (area.debug) printf("debug "); else  printf("noDebug ");
+   if (area.DOSFile) printf("DOSFile "); else  printf("noDOSFile ");
+   if (area.nopack) printf("noPack "); else  printf("pack ");
+   if (area.ccoff) printf("ccoff "); else  printf("noCCoff ");
+   if (area.keepsb) printf("keepSB "); else  printf("noKeepSB ");
+   printf("\n");
+   printf("DupeCheck: ");
+   if (area.dupeCheck==dcOff) printf("off");
+   if (area.dupeCheck==dcMove) printf("move");
+   if (area.dupeCheck==dcDel) printf("delete");
+   printf("\n");
+   printf("Messagebase permissions (unixes only): ");
+   if(area.fperm!=-1) printf("%o ",area.fperm);
+   else printf("system default ");
+   printf(", owner: ");
+   if(area.uid!=-1) printf("%o ",area.uid);
+   else printf("not defined ");
+   printf(", group: ");
+   if(area.gid!=-1) printf("%o ",area.gid);
+   else printf("not defined");
+   printf("\n");
    if (area.downlinkCount) printf("Links:\n");
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) {
@@ -156,25 +191,6 @@ void printArea(s_area area) {
        printf(" defLink %s,", (area.downlinks[i]->defLink) ? "on" : "off");
        printf(" mand. %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
    }
-   printf("Options: ");
-   if (area.hide) printf("hide ");
-   if (area.killMsgBase) printf("kill ");
-   if (area.noPause) printf("noPause ");
-   if (area.tinySB) printf("tinySB ");
-   if (area.killSB) printf("killSB ");
-   if (area.mandatory) printf("mandatory ");
-   if (area.nolink) printf("nolink ");
-   if (area.ccoff) printf("ccoff ");
-   if (area.keepsb) printf("keepsb ");
-   if (area.killRead) printf("killRead ");
-   if (area.keepUnread) printf("keepUnread ");
-   if (area.debug) printf("debug ");
-   printf("\n");
-   printf("DupeCheck: ");
-   if (area.dupeCheck==dcOff) printf("off");
-   if (area.dupeCheck==dcMove) printf("move");
-   if (area.dupeCheck==dcDel) printf("delete");
-   printf("\n");
    if (area.sbaddCount) {
 	   printf("addSeenBys: ");
 	   for (i=0; i<area.sbaddCount; i++)
@@ -200,13 +216,27 @@ void printFileArea(s_filearea area) {
    else
       printf("Passthrough filearea");
 
-   printf ("\t Use ");
+   printf ("\t Use AKA: ");
    if (area.useAka == NULL)
      printf ("(not configured)");
    else
      printAddr(*(area.useAka));
    printf("\n");
-   if (area.group)         printf("Group: %s\n", area.group);
+   printf("Level read  (-lr): %d\n", area.levelread);
+   printf("Level write (-lw): %d\n", area.levelwrite);
+   if (area.purge > 0) printf("Purge (-p): %u days\n", area.purge);
+   else  printf("Purging disabled (-p 0)\n");
+   printf("Options: ");
+   if (area.hide) printf("hide ");           else printf("noHide ");
+   if (area.manual) printf("manual ");       else printf("noManual ");
+   if (area.mandatory) printf("mandatory "); else printf("noMandatory ");
+   if (area.sendorig) printf("sendorig ");   else printf("noSendOrig ");
+   if (area.noPause) printf("noPause ");     else printf("pause ");
+   if (area.noCRC) printf("noCRC ");         else printf("crc ");
+   if (area.noreplace) printf("noReplace "); else printf("replace ");
+   if (area.nodiz) printf("noDiz ");         else printf("diz ");
+   printf("\n");
+   if (area.group)         printf("Group (-g): %s\n", area.group);
    if (area.downlinkCount) printf("Links:\n");
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) {
@@ -226,16 +256,11 @@ void printFileArea(s_filearea area) {
        printf(",");
 /*       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
        printf(" import %s,", (area.downlinks[i]->import) ? "on" : "off");    */
-       printf(" mandatory %s.\n", (area.downlinks[i]->mandatory) ? "on" : "off");
+       printf(" mandatory %s", (area.downlinks[i]->mandatory) ? "on" : "off");
+       if (area.downlinks[i]->defLink) printf("; this is (default) uplink.\n");
+       else printf(".\n");
    }
-   printf("Options: ");
-   if (area.mandatory) printf("mandatory ");
-   if (area.sendorig) printf("sendorig ");
-   if (area.hide) printf("hide ");
-   if (area.noPause) printf("noPause ");
-   if (area.purge > 0)printf("purge: %u days", area.purge);
 
-   printf("\n");
    printf("-------\n");
 }
 

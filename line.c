@@ -773,17 +773,38 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 
    }
    else if (strcmp(iOption, "tinysb")==0) area->tinySB = 1;
+   else if (strcmp(iOption, "notinysb")==0) area->tinySB = 0;
    else if (strcmp(iOption, "killsb")==0) area->killSB = 1;
+   else if (strcmp(iOption, "nokillsb")==0) area->killSB = 0;
    else if (strcmp(iOption, "keepunread")==0) area->keepUnread = 1;
+   else if (strcmp(iOption, "nokeepunread")==0) area->keepUnread = 0;
    else if (strcmp(iOption, "killread")==0) area->killRead = 1;
-   else if ((strcmp(iOption, "h")==0)||(strcmp(iOption, "hide")==0)) area->hide = 1;
-   else if ((strcmp(iOption, "k")==0)||(strcmp(iOption, "kill")==0)) area->killMsgBase = 1;
+   else if (strcmp(iOption, "nokillread")==0) area->killRead = 0;
+   else if (strcmp(iOption, "h")==0) area->hide = 1;
+   else if (strcmp(iOption, "hide")==0) area->hide = 1;
+   else if (strcmp(iOption, "nohide")==0) area->hide = 0;
+   else if (strcmp(iOption, "k")==0) area->killMsgBase = 1;
+   else if (strcmp(iOption, "kill")==0) area->killMsgBase = 1;
+   else if (strcmp(iOption, "nokill")==0) area->killMsgBase = 0;
    else if (strcmp(iOption, "manual")==0) area->manual = 1;
+   else if (strcmp(iOption, "nomanual")==0) area->manual = 0;
    else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
+   else if (strcmp(iOption, "pause")==0) area->noPause = 0;
    else if (strcmp(iOption, "nolink")==0) area->nolink = 1;
+   else if (strcmp(iOption, "link")==0) area->nolink = 0;
    else if (strcmp(iOption, "mandatory")==0) area->mandatory = 1;
+   else if (strcmp(iOption, "nomandatory")==0) area->mandatory = 0;
    else if (strcmp(iOption, "debug")==0) area->debug = 1;
+   else if (strcmp(iOption, "nodebug")==0) area->debug = 0;
    else if (strcmp(iOption, "dosfile")==0) area->DOSFile = 1;
+   else if (strcmp(iOption, "nodosfile")==0) area->DOSFile = 0;
+   else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
+   else if (strcmp(iOption, "pack")==0) area->nopack = 0;
+   else if (strcmp(iOption, "ccoff")==0) area->ccoff=1;
+   else if (strcmp(iOption, "noccoff")==0) area->ccoff=0;
+   else if (strcmp(iOption, "ccon")==0) area->ccoff=0;
+   else if (strcmp(iOption, "keepsb")==0) area->keepsb=1;
+   else if (strcmp(iOption, "nokeepsb")==0) area->keepsb=0;
    else if (strcmp(iOption, "dupecheck")==0) {
      token = strtok(NULL, " \t");
      if (token == NULL) {
@@ -823,9 +844,6 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      nfree(area->group);
      area->group = sstrdup(token);
    }
-   else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
-   else if (strcmp(iOption, "ccoff")==0) area->ccoff=1;
-   else if (strcmp(iOption, "keepsb")==0) area->keepsb=1;
    else if (strcmp(iOption, "$")==0) ;
    else if (strcmp(iOption, "0")==0) ;
    else if (strcmp(iOption, "d")==0) {
@@ -964,11 +982,18 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   }
   else if (strcmp(iOption, "h")==0) area->hide = 1;
   else if (strcmp(iOption, "hide")==0) area->hide = 1;
+  else if (strcmp(iOption, "nohide")==0) area->hide = 0;
   else if (strcmp(iOption, "manual")==0) area->manual = 1;
+  else if (strcmp(iOption, "nomanual")==0) area->manual = 0;
   else if (strcmp(iOption, "sendorig")==0) area->sendorig = 1;
+  else if (strcmp(iOption, "nosendorig")==0) area->sendorig = 0;
+  else if (strcmp(iOption, "pause")==0) area->noPause = 0;
   else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
+  else if (strcmp(iOption, "crc")==0) area->noCRC = 0;
   else if (strcmp(iOption, "nocrc")==0) area->noCRC = 1;
+  else if (strcmp(iOption, "replace")==0) area->noreplace = 0;
   else if (strcmp(iOption, "noreplace")==0) area->noreplace = 1;
+  else if (strcmp(iOption, "diz")==0) area->nodiz = 0;
   else if (strcmp(iOption, "nodiz")==0) area->nodiz = 1;
   else if (strcmp(iOption, "g")==0) {
       token = strtok(NULL, " \t");
