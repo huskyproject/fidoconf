@@ -223,7 +223,7 @@ you can find in the programs' individual documentations.
 @item Syntax:
 @code{version <integer>.<integer>}
 @item Example:
-@code{version 0.13}
+@code{version 1.4}
 @end table
 
 Here you specify which version of fidoconfig your config belongs to.
