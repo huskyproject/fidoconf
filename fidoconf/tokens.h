@@ -295,7 +295,8 @@ enum {
     ID_ALLOWREMOTECONTROL,
     ID_UNSUBSCRIBEONAREADELETE,
     ID_DENYRESCAN,
-    ID_RESCANGRP
+    ID_RESCANGRP,
+    ID_DAILYBUNDLES
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -382,6 +383,7 @@ token_t parseline_tokens[] =
     { "createareascase", ID_CREATEAREASCASE },
     { "createdirs", ID_CREATEDIRS },
     { "createfwdnonpass", ID_CREATEFWDNONPASS },
+    { "dailybundles", ID_DAILYBUNDLES },
     { "defarcmailsize", ID_DEFARCMAILSIZE },
     { "defaultzone", ID_DEFAULTZONE },
     { "delapplieddiff", ID_DELAPPLIEDDIFF },

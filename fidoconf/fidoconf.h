@@ -187,6 +187,7 @@ typedef struct link {
                                /*  2 fecho pause */
     unsigned autoPause;        /*  in days */
     unsigned level;	           /*  0-65535 */
+    unsigned int dailyBundles; /*  start new arcmail bundle each day */
     unsigned arcmailSize;      /*  max arcmail size in kb */
     unsigned pktSize;          /*  max .pkt size in kb */
     unsigned maxUnpackedNetmail; /*  max size of *.?ut file in kb. If */
@@ -553,6 +554,7 @@ typedef struct fidoconfig {
 
    unsigned int logEchoToScreen;
    unsigned int separateBundles;
+   unsigned int dailyBundles;
    unsigned int defarcmailSize;
    unsigned int ignoreCapWord;
    unsigned int noProcessBundles;

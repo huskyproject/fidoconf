@@ -769,6 +769,7 @@ int printLink(ps_link link) {
    printf("TickerPackToBox %s\n", (link->tickerPackToBox) ? "on" : "off");
    if (link->pktSize != 0) printf("pktSize - %u kb\n",link->pktSize);
    if (link->arcmailSize != 0) printf("arcmailSize - %u kb\n",link->arcmailSize);
+   printf("dailyBundles %s\n", link->dailyBundles ? "on" : "off");
 
    if (link->packerDef)
    {

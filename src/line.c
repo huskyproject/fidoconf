@@ -3139,6 +3139,7 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
 
       /*  set defaults maxUnpackedNetmail */
       config->linkDefaults->maxUnpackedNetmail = 100;
+      config->linkDefaults->dailyBundles = config->dailyBundles;
    }
 
    memset(&linkDefined, 0, sizeof(linkDefined));
@@ -4089,6 +4090,13 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_ARCMAILSIZE:
             rc = parseNumber(getRestOfLine(), 10,
                              &(getDescrLink(config)->arcmailSize));
+            break;
+        case ID_DAILYBUNDLES:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->dailyBundles);
+            } else {
+                rc = parseBool (getRestOfLine(), &config->dailyBundles);
+            }
             break;
         case ID_PKTSIZE:
             rc = parseNumber(getRestOfLine(), 10,
