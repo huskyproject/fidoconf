@@ -39,7 +39,7 @@
 #include <fcntl.h>
 #if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
 #   include <unistd.h>
-#else 
+#else
 #   include <io.h>
 #endif
 
@@ -111,16 +111,16 @@ void printAddr(ps_addr addr)
 {
     if(addr)
     {
-        
+
         if (addr->domain != NULL) {
             if(addr->point) printf(" %d:%d/%d.%d@%s ",
                 addr->zone, addr->net, addr->node, addr->point, addr->domain);
             else printf(" %d:%d/%d@%s ",
                 addr->zone, addr->net, addr->node, addr->domain);
         }else{
-            if(addr->point) printf(" %d:%d/%d.%d ", 
+            if(addr->point) printf(" %d:%d/%d.%d ",
                 addr->zone, addr->net, addr->node, addr->point);
-            else printf(" %d:%d/%d ", 
+            else printf(" %d:%d/%d ",
                 addr->zone, addr->net, addr->node);
         }
     }
@@ -590,10 +590,12 @@ int printLink(s_link link) {
 /*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
 	register UINT i,j,k;
-	int robotsarea_ok=0;
+	int robotsarea_ok;
 	s_link *link;
 	s_area *area;
 	register char *areaName;
+
+        robotsarea_ok = config->robotsArea? 0:1;
 
 	for (i=0; i+1<config->linkCount; i++) {
 		for (j=i+1; j<config->linkCount; j++) {
