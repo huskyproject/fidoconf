@@ -4,6 +4,8 @@
  *  Written 1999 by Tobias Ernst and released to the public domain. *
  */
 
+#include "common.h"
+
 #ifdef UNIX
 
 #include <stdio.h>
