@@ -3,13 +3,20 @@
 #ifndef __SYSLOGP_H
 #define __SYSLOGP_H
 
+#include <huskylib/compiler.h>
 
 /* ===== part 1: include system syslog header or provide our own prototypes */
 
 #if defined (__UNIX__) && !defined(__BEOS__)
 
 #define SYSLOG_NAMES
-#include <sys/syslog.h>
+
+#ifdef HAS_SYSLOG_H
+#   include <syslog.h>
+#else
+/* TODO: add HAS_SYS_SYSLOG_H to the platforms, which supported it */
+#   include <sys/syslog.h>
+#endif /* HAS_SYSLOG_H */
 
 #ifndef HAVE_SYSLOG
 #define HAVE_SYSLOG             /* indicate that this platform can do syslog */
