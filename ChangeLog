@@ -1,3 +1,17 @@
+2002-01-19 Saturday 15:58  mche
+
+	* fidoconf.h (1.92), line.c (1.276), tokens.h (1.23), tparser.c
+	(1.160), doc/keywords.hpt (1.20): token areafixqueryrequests
+	changed to arefixqueuefile
+
+2002-01-19 Saturday 14:13  mche
+
+	* common.c (1.72), common.h (1.37): removed win32 specific code
+
+2002-01-19 Saturday 08:49  ml
+
+	* cfg.c (1.16): checkIncludeLogic case sencitive for unix systems
+
 2002-01-14 Monday 20:04  ml
 
 	* line.c (1.275): bugfix: carbonmove not carboncopy after ORed
