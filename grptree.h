@@ -1,9 +1,9 @@
 /******************************************************************************
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
- * areatree.h : some functions to make search areas by names faster
+ * grptree.c : functions to implement grouplists
  *
- * by Max Chernogor <mihz@mail.ru>, 2:464/108@fidonet
+ * by Dmitry Sergienko <trooper@email.dp.ua>, 2:464/910@fidonet
  *
  * This file is part of FIDOCONFIG library (part of the Husky FIDOnet
  * software project)
