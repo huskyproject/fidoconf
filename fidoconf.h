@@ -410,8 +410,11 @@ typedef struct anndef /* announce definition */
   char *annto;           /* field TONAME  : in announce message         */
   char *annfrom;         /* field FROMNAME: in announce message         */
   char *annsubj;         /* field SUBJ:     in announce message         */
+  char *annorigin;       /* Origin          in announce message         */
   s_addr* annadrto;      /* field ADRTO:    in announce message         */
   s_addr* annadrfrom;    /* field ADRFROM:  in announce message         */
+  char *annmessflags;    /* message  flags string                       */
+  dword  attributes;
 } s_anndef, *ps_anndef;
 
 typedef struct fidoconfig {

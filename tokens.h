@@ -277,7 +277,9 @@ enum {
     ID_ANNFROM,
     ID_ANNSUBJ,
     ID_ANNADRTO,
-    ID_ANNADRFROM
+    ID_ANNADRFROM,
+    ID_ANNORIGIN,
+    ID_ANNMESSFLAGS,
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -304,6 +306,8 @@ token_t parseline_tokens[] =
     { "annexclude", ID_ANNEXCLUDE},
     { "annfrom", ID_ANNFROM},
     { "anninclude", ID_ANNINCLUDE},
+    { "annmessflags", ID_ANNMESSFLAGS},
+    { "annorigin", ID_ANNORIGIN},
     { "announcespool", ID_ANNOUNCESPOOL},
     { "annsubj", ID_ANNSUBJ},
     { "annto", ID_ANNTO},

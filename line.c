@@ -4089,12 +4089,20 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_ANNSUBJ:
             rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annsubj));
             break;
+        case ID_ANNORIGIN:
+            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annorigin));
+            break;
+        case ID_ANNMESSFLAGS:
+            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annmessflags));
+            break;
         case ID_ANNADRTO:
             rc = parseAnnDefAddres(getRestOfLine(), config, 1);
             break;
         case ID_ANNADRFROM:
             rc = parseAnnDefAddres(getRestOfLine(), config, 2);
             break;
+
+            
 
         default:
             prErr( "unrecognized: %s", line);
