@@ -1,15 +1,15 @@
 FIDOCONFIG 0.14 stable
 
 1. MAJOR feature improvements:
-- log maintnance functions included
-- temp files maintnance functions included
+   - log maintnance functions included
+   - temp files maintnance functions included
 
 2. CONFIG changes:
 
-- if conditions must be quoted like this:
-
-  if "[OS]"=="UNIX"
-  endif
+   - the 'if' conditions must be quoted like this:
+       if "[OS]"=="UNIX"
+       endif
 
 3. IMPORTANT bugfixes:
-- Fix remap (replace INTL kludge)
+   - fix remap (replace INTL kludge)
+   - fix line parsing if comment ends line.
