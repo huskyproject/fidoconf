@@ -145,6 +145,7 @@ FCONF_EXT char   *strLower(char *str);
   FZ:     strLower converts the string from upper case to lower case.
 */
 
+/* will be moved to huskylib */
 FCONF_EXT  char    *GetFilenameFromPathname(char* pathname);
 /*   Get the object name from the end of a full or partial pathname.
     The GetFilenameFromPathname function gets the file (or directory) name
@@ -152,10 +153,12 @@ FCONF_EXT  char    *GetFilenameFromPathname(char* pathname);
     name
 */
 
+/* will be moved to huskylib */
 FCONF_EXT  char *makeMsgbFileName(ps_fidoconfig config, char *s);
 /*
     makes correct file neme fot echo or fecho area
 */
+
 
 FCONF_EXT char   *shell_expand(char *str);
 /*DOC
@@ -173,6 +176,7 @@ FCONF_EXT char   *vars_expand(char *str);
           and (under unix and os2/emx) `uname` to Linux
 */
 
+/* will be moved to huskylib */
 FCONF_EXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoconfig *config);
 /*DOC
    Input:  dir: \0 terminated string designating the destination directory
@@ -182,7 +186,7 @@ FCONF_EXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoco
    FZ:     Creates a unique DOS compatible file name inside the given directory.
            See the comments in common.c for further explanations
 */
-
+/* will be moved to huskylib */
 FCONF_EXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ);
 /*DOC
   Input:  link is the link whose OutboundFileName should be created.
@@ -195,13 +199,17 @@ FCONF_EXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_fla
           */
 
 // fileBoxes support
+
+/* will be moved to huskylib */
 FCONF_EXT int needUseFileBoxForLink (ps_fidoconfig config, s_link *link);
+/* will be moved to huskylib */
 FCONF_EXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
-
+/* will be moved to huskylib */
 FCONF_EXT void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path);
-
+/* will be moved to huskylib */
 FCONF_EXT char* changeFileSuffix(char *fileName, char *newSuffix);
 
+/* will be moved to huskylib */
 FCONF_EXT int move_file(const char *from, const char *to);
 /* DOC
    Input:  source and destination filename
@@ -210,6 +218,7 @@ FCONF_EXT int move_file(const char *from, const char *to);
            the destination file already exists.
 */
 
+/* will be moved to huskylib */
 FCONF_EXT int copy_file(const char *from, const char *to);
 
 // this function returns the string representation of an address.
