@@ -976,3 +976,9 @@ char *sstrdup(const char *src)
     }
     return ptr;
 }
+
+#ifdef _MAKE_DLL
+#   if defined(_MSC_VER) && (_MSC_VER >= 1200)
+void ffree(void* ptr) { if(ptr) free (ptr); }
+#   endif
+#endif

@@ -40,7 +40,18 @@
 extern "C" {
 #endif
 
-#define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
+#ifdef _MAKE_DLL
+#   if defined(_MSC_VER) && (_MSC_VER >= 1200)
+        FCONF_EXT void ffree(void* ptr);
+#       define nfree(a) { ffree(a); a = NULL; } 
+#   else
+#       define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
+#   endif
+#else 
+#   define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
+#endif
+
+
 
 /* common functions */
 
