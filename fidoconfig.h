@@ -98,6 +98,7 @@ struct link {
    char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
    void *msg;                 // active msg to the link (used in areafix)
    int  Pause;                // 0 if no pause (default)
+   unsigned autoPause;        // in days
    unsigned level;	      // 0-65535
    // Default link's options
    char *export, *import, *mandatory, *optGrp;

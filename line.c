@@ -738,6 +738,27 @@ int parseImport(char *token, char **import) {
     return 0;
 }
 
+int parseAutoPause(char *token, unsigned *autoPause)
+{
+   char *ptr;
+
+   if (token == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   } /* endif */
+
+   for (ptr = token; *ptr; ptr++) {
+      if (!isdigit(*ptr)) {
+         printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+         return 1;
+      } /* endif */
+   } /* endfor */
+
+   *autoPause = (unsigned)atoi(token);
+
+   return 0;
+}
+
 int parseMandatory(char *token, char **mandatory) {
     if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
@@ -1370,6 +1391,7 @@ int parseLine(char *line, s_fidoconfig *config)
      config->links[config->linkCount-1].Pause = 1;
      rc = 0;
    }
+   else if (stricmp(token, "autoPause")==0) rc = parseAutoPause(getRestOfLine(), &(config->links[config->linkCount-1].autoPause));
    else if (stricmp(token, "RemoteRobotName")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].RemoteRobotName));
    else if (stricmp(token, "export")==0) rc = parseExport(getRestOfLine(), &(config->links[config->linkCount-1].export));
    else if (stricmp(token, "import")==0) rc = parseImport(getRestOfLine(), &(config->links[config->linkCount-1].import));

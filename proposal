@@ -223,6 +223,11 @@ _Keyword definitions_
   # Name link's areas robot
   fRequestFromUpLink (on|off)
   # allow forward requests from this link to other links
+  Pause
+  # Stop sending arcmail
+  AutoPause <days>
+  # Autostop sending arcmail to this link (automative added Pause token)
+  # over <days> days.
   }
 
 /etc/fido/msgbase:
