@@ -10,22 +10,22 @@ OBJS =  adcase.obj line.obj fidoconf.obj fc2msged.obj fc2ged.obj fc2aed.obj tpar
         $(CC) $(CFLAGS) $(COPT) -c $<
         $(LIB) -b -q fconfwcw.lib -+$@
 
-all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fc.obj fecfg2fconf.exe
+all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fc.obj fe2fconf.exe
 
 tparser.exe:
         $(CC) $(CFLAGS) $(COPT) tparser.c fconfwcw.lib $(LIBS)
 
 fconf2golded.exe:
-        $(CC) $(CFLAGS) $(COPT) fc2ged.c fconfwcw.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) -fe=fconf2golded.exe fc2ged.c fconfwcw.lib $(LIBS)
 
 fconf2msged.exe:
-        $(CC) $(CFLAGS) $(COPT) fc2msged.c fconfwcw.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) -fe=fconf2msged.exe fc2msged.c fconfwcw.lib $(LIBS)
 
 fconf2aquaed.exe:
-        $(CC) $(CFLAGS) $(COPT) fc2aed.c fconfwcw.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) -fe=fconf2aquaed.exe fc2aed.c fconfwcw.lib $(LIBS)
 
 fconf2squish.exe:
-        $(CC) $(CFLAGS) $(COPT) fc2sq.c fconfwcw.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) -fe=fconf2squish.exe fc2sq.c fconfwcw.lib $(LIBS)
 
 fecfg2fc.obj: fecfg2fc.c
 	$(CC) $(CFLAGS) $(COPT) fecfg2fc.c -5r
