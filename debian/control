@@ -20,7 +20,7 @@ Description: Library to access the fidoconfig
  creep in one library and not in thousands over thousands libraries.
 
 Package: libfidoconf1-dev
-Section: devel
+Section: libdevel
 Architecture: any
 Depends: libfidoconf1(=${Source-Version}), libsmapi-dev, libc6-dev
 Replaces: libfidoconf0-dev

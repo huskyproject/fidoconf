@@ -1,3 +1,9 @@
+fidoconf (1.4.0+rc2-3) unstable; urgency=low
+
+  * Move libfidoconf1-dev to libdevel section
+
+ -- Pavel Andreew <sfpavel@users.sourceforge.net>  Wed,  2 Jun 2004 22:40:45 +0600
+
 fidoconf (1.4.0+rc2-2) unstable; urgency=low
 
   * Update Standarts to 3.6.1
