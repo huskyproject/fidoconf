@@ -1,3 +1,16 @@
+2002-09-27 Friday 12:25  mche
+
+	* fidoconf.h (1.145): correct previous patch
+
+2002-09-27 Friday 12:14  pgul
+
+	* fidoconf.h (1.144): add 'extern' to theApp declaration
+
+2002-09-27 Friday 07:45  mche
+
+	* makefile.mvc (1.18), makefile.mvcdll (1.20): HAS_VSNPRINTF
+	defined for MSVC
+
 2002-09-26 Thursday 08:26  stas_degteff
 
 	* HISTORY (1.13): Update changes tracking file.
