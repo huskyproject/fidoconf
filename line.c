@@ -26,6 +26,10 @@ int testExpression(char *expr, char *str)
 #endif
 }
 
+char *getRestOfLine() {
+   return stripLeadingChars(strtok(NULL, "\0"), " \t");
+}
+
 int parseVersion(char *token, s_fidoconfig *config)
 {
    char buffer[10], *temp = token;
@@ -236,6 +240,7 @@ int parseLink(char *token, s_fidoconfig *config)
 
    // if handle not given use name as handle
    if (config->links[config->linkCount].handle == NULL) config->links[config->linkCount].handle = config->links[config->linkCount].name;
+   if (config->links[config->linkCount].ourAka == NULL) config->links[config->linkCount].ourAka = &(config->addr[0]);
    
    config->linkCount++;
    return 0;
@@ -303,28 +308,28 @@ int parseLine(char *line, s_fidoconfig *config)
 
    //printf("Parsing: %s\n", line);
    //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
-   if (stricmp(token, "version")==0) rc = parseVersion(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "name")==0) rc = parseName(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "location")==0) rc = parseLocation(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "sysop")==0) rc =parseSysop(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "address")==0) rc = parseAddress(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "inbound")==0) rc = parsePath(strtok(NULL, "\0"), &(config->inbound));
-   else if (stricmp(token, "protinbound")==0) rc = parsePath(strtok(NULL, "\0"), &(config->protInbound));
-   else if (stricmp(token, "listinbound")==0) rc = parsePath(strtok(NULL, "\0"), &(config->listInbound));
-   else if (stricmp(token, "localinbound")==0) rc= parsePath(strtok(NULL, "\0"), &(config->localInbound));
-   else if (stricmp(token, "outbound")==0) rc = parsePath(strtok(NULL, "\0"), &(config->outbound));
-   else if (stricmp(token, "public")==0) rc = parsePublic(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "logFileDir")==0) rc = parsePath(strtok(NULL, "\0"), &(config->logFileDir));
-   else if (stricmp(token, "dupeHistoryDir")==0) rc = parsePath(strtok(NULL, "\0"), &(config->dupeHistoryDir));
-   else if (stricmp(token, "nodelistDir")==0) rc = parsePath(strtok(NULL, "\0"), &(config->nodelistDir));
-   else if (stricmp(token, "magic")==0) rc = parsePath(strtok(NULL, "\0"), &(config->magic));
-   else if (stricmp(token, "netmailArea")==0) rc = parseArea(*config, strtok(NULL, "\0"),&(config->netMailArea));
-   else if (stricmp(token, "dupeArea")==0) rc = parseArea(*config, strtok(NULL, "\0"), &(config->dupeArea));
-   else if (stricmp(token, "badArea")==0) rc = parseArea(*config, strtok(NULL, "\0"), &(config->badArea));
-   else if (stricmp(token, "echoArea")==0) rc = parseEchoArea(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "link")==0) rc = parseLink(strtok(NULL, "\0"), config);
+   if (stricmp(token, "version")==0) rc = parseVersion(getRestOfLine(), config);
+   else if (stricmp(token, "name")==0) rc = parseName(getRestOfLine(), config);
+   else if (stricmp(token, "location")==0) rc = parseLocation(getRestOfLine(), config);
+   else if (stricmp(token, "sysop")==0) rc =parseSysop(getRestOfLine(), config);
+   else if (stricmp(token, "address")==0) rc = parseAddress(getRestOfLine(), config);
+   else if (stricmp(token, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound));
+   else if (stricmp(token, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound));
+   else if (stricmp(token, "listinbound")==0) rc = parsePath(getRestOfLine(), &(config->listInbound));
+   else if (stricmp(token, "localinbound")==0) rc= parsePath(getRestOfLine(), &(config->localInbound));
+   else if (stricmp(token, "outbound")==0) rc = parsePath(getRestOfLine(), &(config->outbound));
+   else if (stricmp(token, "public")==0) rc = parsePublic(getRestOfLine(), config);
+   else if (stricmp(token, "logFileDir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
+   else if (stricmp(token, "dupeHistoryDir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
+   else if (stricmp(token, "nodelistDir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
+   else if (stricmp(token, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic));
+   else if (stricmp(token, "netmailArea")==0) rc = parseArea(*config,getRestOfLine(),&(config->netMailArea));
+   else if (stricmp(token, "dupeArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->dupeArea));
+   else if (stricmp(token, "badArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->badArea));
+   else if (stricmp(token, "echoArea")==0) rc = parseEchoArea(getRestOfLine(), config);
+   else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
    else if (stricmp(token, "password")==0) {
-      rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].defaultPwd));
+      rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].defaultPwd));
       // if another pwd is not known (yet), make it point to the defaultPWD
       if (config->links[config->linkCount-1].pktPwd == NULL) config->links[config->linkCount-1].pktPwd = config->links[config->linkCount-1].defaultPwd;
       if (config->links[config->linkCount-1].ticPwd == NULL) config->links[config->linkCount-1].ticPwd = config->links[config->linkCount-1].defaultPwd;
@@ -333,23 +338,23 @@ int parseLine(char *line, s_fidoconfig *config)
       if (config->links[config->linkCount-1].bbsPwd == NULL) config->links[config->linkCount-1].bbsPwd = config->links[config->linkCount-1].defaultPwd;
    }
    else if (stricmp(token, "aka")==0) {
-      string2addr(strtok(NULL, "\0"), &(config->links[config->linkCount-1].hisAka));
+      string2addr(getRestOfLine(), &(config->links[config->linkCount-1].hisAka));
       rc = 0;
    }
    else if (stricmp(token, "ouraka")==0) {
       rc = 0;
-      config->links[config->linkCount].ourAka = getAddr(*config, strtok(NULL, "\0"));
-      if (config->links[config->linkCount].ourAka == NULL) rc = 1;
+      config->links[config->linkCount-1].ourAka = getAddr(*config, getRestOfLine());
+      if (config->links[config->linkCount-1].ourAka == NULL) rc = 1;
    }
-   else if (stricmp(token, "pktpwd")==0) rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].pktPwd));
-   else if (stricmp(token, "ticpwd")==0) rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].ticPwd));
-   else if (stricmp(token, "araefixpwd")==0) rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].areaFixPwd));
-   else if (stricmp(token, "filefixpwd")==0) rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].fileFixPwd));
-   else if (stricmp(token, "bbspwd")==0) rc = parsePWD(strtok(NULL, "\0"), &(config->links[config->linkCount-1].bbsPwd));
-   else if (stricmp(token, "handle")==0) rc = parseHandle(strtok(NULL, "\0"), config);
-   else if (stricmp(token, "route")==0) rc = parseRoute(strtok(NULL, "\0"), config, &(config->route), &(config->routeCount));
-   else if (stricmp(token, "routeFile")==0) rc = parseRoute(strtok(NULL, "\0"), config, &(config->routeFile), &(config->routeFileCount));
-   else if (stricmp(token, "routeMail")==0) rc = parseRoute(strtok(NULL, "\0"), config, &(config->routeMail), &(config->routeMailCount));
+   else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
+   else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));
+   else if (stricmp(token, "araefixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].areaFixPwd));
+   else if (stricmp(token, "filefixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].fileFixPwd));
+   else if (stricmp(token, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].bbsPwd));
+   else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
+   else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
+   else if (stricmp(token, "routeFile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
+   else if (stricmp(token, "routeMail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
                                                           
    if (rc != 0) {
       printf("Error %d in: %s\n", rc, line);
