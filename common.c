@@ -50,7 +50,7 @@
 #include <pwd.h>
 #endif
 
-#include "fidoconfig.h"
+#include "fidoconf.h"
 #include "common.h"
 #include <smapi/patmat.h>
 

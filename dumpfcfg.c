@@ -34,7 +34,7 @@
 #include <string.h>
 
 #if !defined(SHORTNAMES)
-#include "fidoconfig.h"
+#include "fidoconf.h"
 #else
 #include "fidoconf.h"
 #endif

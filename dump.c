@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "fidoconfig.h"
+#include "fidoconf.h"
 #include "common.h"
 
 void dumpString(FILE *f, char *text, char *str)

@@ -29,31 +29,29 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#if !defined(SHORTNAMES)
-#include "fidoconfig.h"
-#else
+#include <stdlib.h>
+
 #include "fidoconf.h"
-#endif
-#include "common.h"
 
-int writeArea(FILE *f, s_area *area, char netMail) {
-   switch (area->msgbType) {
-      
-      case (MSGTYPE_SQUISH): fprintf(f, "Squish ");
-                             break;
-      
-      case (MSGTYPE_SDM):    fprintf(f, "Fido ");
-                             break;
+int writeArea(FILE *f, s_area *area, char type) {
 
-      case (MSGTYPE_JAM):    fprintf(f, "Jam ");
-                             break;
+   if (area->group == NULL) area->group = "0";
+
+   fprintf(f, "areadef %s \"%s\" %s ", area->areaName, area->areaName, area->group);
+
+   switch (type) {
+      case 0: fprintf(f, "local ");
+              break;
+      case 1: fprintf(f, "net ");
+              break;
+      case 2: fprintf(f, "local ");
+              break;
    }
 
-   if (netMail == 1) fprintf(f, "mp");
-   else fprintf(f, "e");
-   fprintf(f, "8u ");
+   if (area->msgbType == MSGTYPE_SQUISH) fprintf(f, "Squish ");
+   else fprintf(f, "Opus ");
 
-   fprintf(f, "\"%s\" %s %s ", area->areaName, area->fileName, (netMail!=1) ? area->areaName : "");
+   fprintf(f, "%s ", area->fileName);
 
    fprintf(f, "%u:%u/%u.%u", area->useAka->zone, area->useAka->net, area->useAka->node, area->useAka->point);
    
@@ -62,7 +60,7 @@ int writeArea(FILE *f, s_area *area, char netMail) {
    return 0;
 }
 
-int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
+int generateAquaedConfig(s_fidoconfig *config, char *fileName, char *includeFile) {
    FILE *f;
    int  i;
    s_area *area;
@@ -70,37 +68,32 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
    f = fopen(fileName, "w");
    if (f!= NULL) {
 
-      fprintf(f, "Name \"%s\"\n\n", config->sysop);
-      
+      if (includeFile != NULL) fprintf(f, "include %s\n\n", includeFile);
+
+      fprintf(f, "username %s\n\n", config->sysop);
+
+      if (config->echotosslog != NULL) fprintf(f, "squishechotoss %s\n", config->echotosslog);
+                                               
       for (i=0; i<config->addrCount; i++)
          fprintf(f, "Address %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
-      
-      if (config->echotosslog != NULL) fprintf(f, "tossLog %s\n", config->echotosslog);
-      if (config->nodelistDir != NULL && config->fidoUserList != NULL)
-      {
-          fprintf(f, "Userlist %s%s\n",
-                  config->nodelistDir, config->fidoUserList);
-      }
-
       fprintf(f, "\n");
 
       for (i=0; i<config->netMailAreaCount; i++) {
          writeArea(f, &(config->netMailAreas[i]), 1);
       }
+      writeArea(f, &(config->dupeArea), 1);
+      writeArea(f, &(config->badArea), 1);
 
-      writeArea(f, &(config->dupeArea), 0);
-      writeArea(f, &(config->badArea), 0);
-
-      for (i=0; i<config->localAreaCount; i++) {
-         area = &(config->localAreas[i]);
-         if (area->msgbType != MSGTYPE_PASSTHROUGH)
-             writeArea(f, area, 0);
-      }
-      
       for (i=0; i<config->echoAreaCount; i++) {
          area = &(config->echoAreas[i]);
          if (area->msgbType != MSGTYPE_PASSTHROUGH)
              writeArea(f, area, 0);
+      }
+
+      for (i=0; i<config->localAreaCount; i++) {
+         area = &(config->localAreas[i]);
+         if (area->msgbType != MSGTYPE_PASSTHROUGH)
+             writeArea(f, area, 2);
       }
       
       return 0;
@@ -111,14 +104,15 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
 
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
-
-   printf("fconf2msged\n");
-   printf("-----------\n");
+   
+   printf("fconf2aquaed\n");
+   printf("------------\n");
    if (argc < 2) {
       printf("\nUsage:\n");
-      printf("   fconf2msged <msgedConfigFileName>\n");
+      printf("   fconf2aquaed <aqauedConfigFileName> [<default.cfg>]\n");
+      printf("   (you may include config defaults from default.cfg)\n");
       printf("\nExample:\n");
-      printf("   fconf2msged ~/.msged\n\n");
+      printf("   fconf2aquaed ~/aquaed/aquaed.cfg\n\n");
       return 1;
    }
 
@@ -126,7 +120,11 @@ int main (int argc, char *argv[]) {
 
    config = readConfig();
    if (config!= NULL) {
-      generateMsgEdConfig(config, argv[1]);
+
+      if (argc == 3)
+         generateAquaedConfig(config, argv[1], argv[2]);
+      else
+         generateAquaedConfig(config, argv[1], NULL);
       disposeConfig(config);
       return 0;
    }

@@ -33,7 +33,7 @@
 #define _COMMON_H
 
 #include "typesize.h"
-#include "fidoconfig.h"
+#include "fidoconf.h"
 #include <stdio.h>
 
 #ifdef __cplusplus

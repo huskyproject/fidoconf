@@ -2,7 +2,7 @@
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
  * Copyright (C) 1998-1999
- *  
+ *
  * Matthias Tichy
  *
  * Fido:     2:2433/1245 2:2433/1247 2:2432/605.14
@@ -28,7 +28,7 @@
  * License along with this library; see file COPYING. If not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
-						    
+
 #ifndef FIDOCONFIG_H
 #define FIDOCONFIG_H
 #ifndef FPC
@@ -36,7 +36,7 @@
 #include <smapi/msgapi.h>
 #endif
 
-// #include "common.h"
+#include "common.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -156,11 +156,11 @@ typedef struct area {
    char *areaName;
    char *fileName;
    char *description;
-   
+
    int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH or
                         // MSGTYPE_JAM or MSGTYPE_PASSTHROUGH
    ps_addr useAka;
-   
+
    ps_arealink *downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
 
@@ -193,11 +193,11 @@ typedef struct fileareatype {
    char *areaName;
    char *pathName;
    char *description;
-   
+
    int pass;           // 1 - Passthrough File Area
    int noCRC;          // 0 if CRC check should be done on incoming files
    ps_addr useAka;
-   
+
    ps_arealink *downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
 
@@ -244,7 +244,7 @@ typedef struct remap {
 } s_remap, *ps_remap;
 
 /* FTS5000 is the standard nodelist format,
-   POINTS24 is the German Pointlist format */         
+   POINTS24 is the German Pointlist format */
 
 typedef enum nodelistFormat { fts5000, points24 } e_nodelistFormat;
 
@@ -313,10 +313,10 @@ typedef struct fidoconfig {
   //   s_pack   *packDefault;
    unsigned int   unpackCount;
    ps_unpack unpack;
-   
+
    char     *intab, *outtab;
    char     *echotosslog, *importlog, *LinkWithImportlog, *lockfile;
-   unsigned loguid, loggid, logperm;     
+   unsigned loguid, loggid, logperm;
    char     *fileAreasLog, *longNameList, *fileNewAreasLog;
    char     *fileArcList, *filePassList, *fileDupeList;
    char     *msgidfile;
@@ -359,7 +359,7 @@ typedef struct fidoconfig {
 
    unsigned int addDLC, fileSingleDescLine, fileCheckDest;
    unsigned int filefixKillReports, filefixKillRequests;
-   
+
    unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
    unsigned int fileFileUMask, fileDirUMask;
    unsigned int originInAnnounce; //Show origin in announce (for htick)

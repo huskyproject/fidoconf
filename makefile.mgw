@@ -9,13 +9,13 @@ SMLIB= ../smapi/smapimgw.a
 
 HDRS=  common.h \
        dirlayer.h \
-       fidoconfig.h \
+       fidoconf.h \
        adcase.h \
        typesize.h
 
 OBJS=  adcase.o \
        line.o \
-       fidoconfig.o \
+       fidoconf.o \
        dirlayer.o \
        common.o
 
@@ -25,9 +25,9 @@ fidoconfig.a: $(OBJS)
 	i386--mingw32-ar rcv $(LIBS) $(OBJS)
 	i386--mingw32-ranlib $(LIBS)
 
-fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
+fconf2msged.exe: $(LIBS) $(HDRS) fc2msged.c
 
-fconf2golded.exe: $(LIBS) $(HDRS) fconf2golded.c
+fconf2golded.exe: $(LIBS) $(HDRS) fc2ged.c
 
 tparser.exe: $(LIBS) $(HDRS) tparser.c
 
@@ -36,7 +36,7 @@ tparser.exe: $(LIBS) $(HDRS) tparser.c
 clean:
 	rm $(OBJS)
 	rm fidoconf.bak
-	rm fconf2golded.o fconf2msged.o fconf2golded.exe fconf2msged.exe tparser.o tparser.exe
+	rm fc2ged.o fc2msged.o fconf2golded.exe fconf2msged.exe tparser.o tparser.exe
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<

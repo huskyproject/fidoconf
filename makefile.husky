@@ -55,8 +55,8 @@ default: all
 include makefile.inc
 
 ifeq ($(CC), gcc)
-  $(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(OBJ)
-	$(CC) $(LFLAGS) -fpack-struct $(FECFG2FCONF)$(OBJ) \
+  $(FECFG2FCONF)$(EXE): fecfg2fc$(OBJ)
+	$(CC) $(LFLAGS) -fpack-struct fecfg2fc$(OBJ) \
 	  -o $(FECFG2FCONF)$(EXE)
 endif
 
@@ -87,11 +87,11 @@ ifdef INFODIR
 endif
 
 
-$(LIBFIDOCONFIG).so.$(VER): line$(OBJ) common$(OBJ) fidoconfig$(OBJ) \
+$(LIBFIDOCONFIG).so.$(VER): line$(OBJ) common$(OBJ) fidoconf$(OBJ) \
                             adcase$(OBJ) dirlayer$(OBJ)
 	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
           -o $(LIBFIDOCONFIG).so.$(VER) line$(OBJ) common$(OBJ) \
-          $(FIDOCONFIG)$(OBJ) adcase$(OBJ) dirlayer$(OBJ) $(LOPT)
+          fidoconf$(OBJ) adcase$(OBJ) dirlayer$(OBJ) $(LOPT)
 
 %$(OBJ): %.c
 	$(CC) $(CDEFS) $(COPT) $*.c
@@ -131,7 +131,7 @@ endif
 	$(INSTALL) $(IIOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IIOPT) dumpfcfg$(EXE)          $(BINDIR)
 	$(INSTALL) $(IIOPT) linkedto $(BINDIR)
-	$(INSTALL) $(IIOPT) $(FIDOCONFIG).h   $(INCDIR)/$(FIDOCONFIG)
+	$(INSTALL) $(IIOPT) fidoconf.h   $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)/$(FIDOCONFIG)

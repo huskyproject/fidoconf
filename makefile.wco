@@ -4,34 +4,34 @@ COPT = -oneatx -5
 LIB = wlib
 LIBS = ..\smapi\smapiwco.lib
 
-OBJS =  adcase.obj line.obj fidoconfig.obj fconf2msged.obj fconf2golded.obj fconf2aquaed.obj tparser.obj dirlayer.obj common.obj fconf2squish.obj
+OBJS =  adcase.obj line.obj fidoconf.obj fc2msged.obj fc2ged.obj fc2aed.obj tparser.obj dirlayer.obj common.obj fc2sq.obj
 
 .c.obj:
         $(CC) $(CFLAGS) $(COPT) -c $<
         $(LIB) -b -q fconfwco.lib -+$@
 
-all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.obj fecfg2fconf.exe
+all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fc.obj fecfg2fconf.exe
 
 tparser.exe:
         $(CC) $(CFLAGS) $(COPT) tparser.c fconfwco.lib $(LIBS)
 
 fconf2golded.exe:
-        $(CC) $(CFLAGS) $(COPT) fconf2golded.c fconfwco.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) fc2ged.c fconfwco.lib $(LIBS)
 
 fconf2msged.exe:
-        $(CC) $(CFLAGS) $(COPT) fconf2msged.c fconfwco.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) fc2msged.c fconfwco.lib $(LIBS)
 
 fconf2aquaed.exe:
-        $(CC) $(CFLAGS) $(COPT) fconf2aquaed.c fconfwco.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) fc2aed.c fconfwco.lib $(LIBS)
 
 fconf2squish.exe:
-        $(CC) $(CFLAGS) $(COPT) fconf2squish.c fconfwco.lib $(LIBS)
+        $(CC) $(CFLAGS) $(COPT) fc2sq.c fconfwco.lib $(LIBS)
 
-fecfg2fconf.obj: fecfg2fconf.c
-	$(CC) $(CFLAGS) $(COPT) fecfg2fconf.c -5r
+fecfg2fc.obj: fecfg2fc.c
+	$(CC) $(CFLAGS) $(COPT) fecfg2fc.c -5r
 
-fe2fconf.exe: fecfg2fconf.obj
-	wlink FILE fecfg2fconf.obj NAME fe2fconf.exe
+fe2fconf.exe: fecfg2fc.obj
+	wlink FILE fecfg2fc.obj NAME fe2fconf.exe
 
 clean:
         del *.exe *.obj *.bak *.lib
