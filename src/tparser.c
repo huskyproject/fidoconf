@@ -1324,7 +1324,10 @@ int main(int argc, char **argv) {
 
   	  if (config->lockfile) {
   		  printf("LockFile: %s\n",config->lockfile);
-  		  printf("AdvisoryLock: %s\n", config->advisoryLock ? "on" : "off");
+          if (config->advisoryLock==0)
+  		  printf("AdvisoryLock: off\n");
+          else
+  		  printf("AdvisoryLock: %u\n",config->advisoryLock);
   	  }
 
         if (hpt==0) {

@@ -457,6 +457,7 @@ void setConfigDefaults(s_fidoconfig *config)
    if (config->forwardRequestTimeout==0) config->forwardRequestTimeout = 7;
    if (config->idlePassthruTimeout<0)    config->idlePassthruTimeout   = 4;
    if (config->killedRequestTimeout==0)  config->killedRequestTimeout  = 3;
+   if (config->advisoryLock==0)  config->advisoryLock  = 0;
    if ( RebuildEchoAreaTree(config) == 0 || RebuildFileAreaTree(config) == 0 ) {
       printf("Please correct above error(s) first!\n");
       fflush(stdout);
