@@ -50,7 +50,7 @@ DIR      *opendir( const char * dirName)
    temp->d_hdir = HDIR_SYSTEM;
    temp->d_first = 1;
 
-   // make sure: <path>\*
+   /*  make sure: <path>\* */
    strcpy(path, dirName);
    if (dirName[strlen(dirName)-1] != '\\') strcat(path, "\\");
    strcat(path, "*");
@@ -60,12 +60,12 @@ DIR      *opendir( const char * dirName)
       return NULL;
    }
 
-   // fill struct
+   /*  fill struct */
    temp->d_attr = findBuffer.attrFile;
    strcpy(temp->d_name,findBuffer.achName);
    temp->d_size = findBuffer.cbFile;
-//   temp->d_date = findBuffer.fdateLastWrite;
-//   temp->d_time = findBuffer.ftimeLastWrite;
+/*    temp->d_date = findBuffer.fdateLastWrite; */
+/*    temp->d_time = findBuffer.ftimeLastWrite; */
 
    return temp;
 }
@@ -77,17 +77,17 @@ struct dirent *readdir( DIR * dir)
    ULONG findCount = 1;
 
    if (1 == dir->d_first) {
-      dir->d_first = 0;         // if d_first == 1 then the struct is already filled from DosFindFirst
+      dir->d_first = 0;         /*  if d_first == 1 then the struct is already filled from DosFindFirst */
    } else {
       rc = DosFindNext(dir->d_hdir, &findBuffer, sizeof(findBuffer), &findCount);
       if (rc != NO_ERROR) return NULL;
 
-      // fill struct
+      /*  fill struct */
       dir->d_attr = findBuffer.attrFile;
       strcpy(dir->d_name,findBuffer.achName);
       dir->d_size = findBuffer.cbFile;
-//      dir->d_date = findBuffer.fdateLastWrite;
-//      dir->d_time = findBuffer.ftimeLastWrite;
+/*       dir->d_date = findBuffer.fdateLastWrite; */
+/*       dir->d_time = findBuffer.ftimeLastWrite; */
    } /* endif */
 
    return dir;

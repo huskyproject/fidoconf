@@ -277,7 +277,7 @@ void printFilelist(s_filelist *fl)
     break;
 
   case flDir:
-    // just avoid a warning
+    /*  just avoid a warning */
     break;
   }
   printf("-------\n");
@@ -473,7 +473,7 @@ void printLink(s_link link) {
 
    switch (link.linkBundleNameStyle) {
       case eUndef:
-         //Don't print senseless information... printf("linkBundleNameStyle: undefined (like BundleNameStyle)\n");
+         /* Don't print senseless information... printf("linkBundleNameStyle: undefined (like BundleNameStyle)\n"); */
          break;
       case eAddrDiff:
          printf("linkBundleNameStyle: addrDiff\n");
@@ -506,7 +506,7 @@ void printLink(s_link link) {
    printf("-------\n");
 }
 
-// Some dumb checks ;-)
+/*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
 	int i,j,k;
 	s_link *link;
@@ -557,7 +557,7 @@ void checkLogic(s_fidoconfig *config) {
 		area = &(config->echoAreas[i]);
 		areaName = area->areaName;
 
-		//   j=i+1
+		/*    j=i+1 */
 		for (j=i+1; j < config->echoAreaCount; j++) {
 			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
 				printf("ERROR: duplication of area %s\n", areaName);
@@ -579,7 +579,7 @@ void checkLogic(s_fidoconfig *config) {
 			}
 		}
 
-		// Check for area link duplication
+		/*  Check for area link duplication */
 		for (j=0; j+1<area->downlinkCount; j++) {
 			link = area->downlinks[j]->link;
 			for (k=j+1;k<area->downlinkCount; k++) {
@@ -608,7 +608,7 @@ void checkLogic(s_fidoconfig *config) {
 			}
 		}
 
-		//   j=i+1
+		/*    j=i+1 */
 		for (j=i+1; j < config->localAreaCount; j++) {
 			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
 				printf("ERROR: duplication of area %s\n", areaName);
@@ -623,7 +623,7 @@ void checkLogic(s_fidoconfig *config) {
 			}
 		}
 
-		// Check for area link duplication
+		/*  Check for area link duplication */
 		for (j=0; j+1<area->downlinkCount; j++) {
 			link = area->downlinks[j]->link;
 			for (k=j+1;k<area->downlinkCount; k++) {
@@ -659,7 +659,7 @@ void checkLogic(s_fidoconfig *config) {
 			}
 		}
 
-		//   j=i+1
+		/*    j=i+1 */
 		for (j=i+1; j < config->netMailAreaCount; j++) {
 			if (stricmp(config->netMailAreas[j].areaName, areaName)==0) {
 				printf("ERROR: duplication of area %s\n", areaName);
@@ -667,7 +667,7 @@ void checkLogic(s_fidoconfig *config) {
 			}
 		}
 
-		// Check for area link duplication
+		/*  Check for area link duplication */
 		for (j=0; j+1<area->downlinkCount; j++) {
 			link = area->downlinks[j]->link;
 			for (k=j+1;k<area->downlinkCount; k++) {
@@ -936,8 +936,8 @@ int main(int argc, char **argv) {
         if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
         if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
         if (config->newAreaRefuseFile) printf("NewAreaRefuseFile:     %s\n", config->newAreaRefuseFile);
-  //      printf("Perl support: %s\n", config->perlSupport ? "on" : "off");
-  //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
+  /*       printf("Perl support: %s\n", config->perlSupport ? "on" : "off"); */
+  /*       printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off"); */
         if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
         if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
         if (config->afcFlag) printf("AutoFileCreateFlag: %s\n",config->afcFlag);

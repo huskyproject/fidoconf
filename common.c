@@ -207,26 +207,26 @@ void string2addr(const char *string, s_addr *addr) {
 	if (str == NULL) return;
 	if (strchr(str,':')==NULL || strchr(str,'/')==NULL) return;
 
-	// zone
+	/*  zone */
 	if (NULL == strstr(str,":")) return;
 	t = strtoul(str,&endptr,10);
 	addr->zone = (UINT16) t;
-	if(!addr->zone) return; // there is no zero zones in practice
+	if(!addr->zone) return; /*  there is no zero zones in practice */
 
-	// net
+	/*  net */
 	str = endptr+1;
 	if (NULL == strstr(str,"/")) return;
 	t = strtoul(str,&endptr,10);
 	addr->net = (UINT16) t;
 
-	// node
+	/*  node */
 	str = endptr+1;
 	t = strtoul(str,&endptr,10);
 	addr->node = (UINT16) t;
 
-	// point
+	/*  point */
 	if (*endptr && !isspace( endptr[0] )) str = endptr+1;
-	else return; // end of string
+	else return; /*  end of string */
 	t = strtoul(str,&endptr,10);
 	addr->point = (UINT16) t;
 	
@@ -249,9 +249,9 @@ int fputUINT16(FILE *out, UINT16 word)
 {
   UCHAR dummy;
 
-  dummy = word % 256;        // write high Byte
+  dummy = word % 256;        /*  write high Byte */
   fputc(dummy, out);
-  dummy = word / 256;        // write low Byte
+  dummy = word / 256;        /*  write low Byte */
   return fputc(dummy, out);
 }
 
@@ -270,7 +270,7 @@ INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter)
 		  str[i] = (UCHAR)getc(f);
 	  } while (filter && *filter && str[i] && strchr(filter, str[i]) != NULL);
 
-      // if end of file
+      /*  if end of file */
       if (feof(f)) {
          str[i] = 0;
          return i+1;
@@ -292,10 +292,10 @@ char *stripLeadingChars(char *str, const char *chr)
 
    if (str != NULL) {
 
-      while (NULL != strchr(chr, *i)) {       // *i is in chr
+      while (NULL != strchr(chr, *i)) {       /*  *i is in chr */
          i++;
-      } /* endwhile */                        // i points to the first occurences
-                                              // of a character not in chr
+      } /* endwhile */                        /*  i points to the first occurences */
+                                              /*  of a character not in chr */
       strcpy(str, i);
    }
    return str;
@@ -827,7 +827,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
       return -1;
     }
 #ifdef UNIX
-//    flock(to,O_EXLOCK);
+/*     flock(to,O_EXLOCK); */
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
     /* try to save file ownership if it is possible */
     if (fchown(fh, st.st_uid, st.st_gid) != 0)
@@ -1025,11 +1025,11 @@ void freeLink (s_link *link)
 
 int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 
-    // rc == '\x0000' access o'k
-    // rc == '\x0001' no access group
-    // rc == '\x0002' no access level
-    // rc == '\x0003' no access export
-    // rc == '\x0004' not linked
+    /*  rc == '\x0000' access o'k */
+    /*  rc == '\x0001' no access group */
+    /*  rc == '\x0002' no access level */
+    /*  rc == '\x0003' no access export */
+    /*  rc == '\x0004' not linked */
 
     unsigned int i, rc = 0;
 
@@ -1038,7 +1038,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     }
     if (i == echo->downlinkCount) return 4;
 
-    // pause
+    /*  pause */
     if (((link->Pause & EPAUSE) == EPAUSE) && echo->noPause==0) return 3;
 
     if (echo->group) {
@@ -1066,11 +1066,11 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 
 int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 
-    // rc == '\x0000' access o'k
-    // rc == '\x0001' no access group
-    // rc == '\x0002' no access level
-    // rc == '\x0003' no access import
-    // rc == '\x0004' not linked
+    /*  rc == '\x0000' access o'k */
+    /*  rc == '\x0001' no access group */
+    /*  rc == '\x0002' no access level */
+    /*  rc == '\x0003' no access import */
+    /*  rc == '\x0004' not linked */
 
     unsigned int i, rc = 0;
 
@@ -1221,7 +1221,7 @@ char    *GetDirnameFromPathname(const char* pathname)
 
 char *makeMsgbFileName(ps_fidoconfig config, char *s) {
     /* allowed symbols: 0..9, a..z, A..Z, ".,!@#$^()~-_{}[]" */
-    static char defstr[]="\"*/:;<=>?\\|%`'&+"; // not allowed
+    static char defstr[]="\"*/:;<=>?\\|%`'&+"; /*  not allowed */
     char *name=NULL, *str;
 
     if (config->notValidFNChars) str = config->notValidFNChars;
@@ -1238,7 +1238,7 @@ char *makeMsgbFileName(ps_fidoconfig config, char *s) {
 
 int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, e_pollType typ)
 {
-   int fd; // bsy file for current link
+   int fd; /*  bsy file for current link */
    int nRet = 0;
    char *name=NULL, *sepDir=NULL, limiter=PATH_DELIM, *tmpPtr;
    e_bundleFileNameStyle bundleNameStyle = eUndef;
@@ -1278,10 +1278,10 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
 	   break;
    }
 
-   // create floFile
+   /*  create floFile */
    xstrcat(&link->floFile, config->outbound);
 
-   // add suffix for other zones
+   /*  add suffix for other zones */
    if (link->hisAka.zone != config->addr[0].zone && bundleNameStyle != eAmiga) {
 	   link->floFile[strlen(link->floFile)-1]='\0';
 	   xscatprintf(&link->floFile, ".%03x%c", link->hisAka.zone, limiter);
@@ -1291,11 +1291,11 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
 	   xscatprintf(&link->floFile, "%04x%04x.pnt%c",
 				   link->hisAka.net, link->hisAka.node, limiter);
 
-   _createDirectoryTree(link->floFile); // create directoryTree if necessary
+   _createDirectoryTree(link->floFile); /*  create directoryTree if necessary */
    xstrcat(&link->bsyFile, link->floFile);
    xstrcat(&link->floFile, name);
 
-   // separate bundles
+   /*  separate bundles */
 
    if (config->separateBundles && (bundleNameStyle!=eAmiga || (bundleNameStyle==eAmiga && link->packerDef==NULL))) {
 
@@ -1313,12 +1313,12 @@ int NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_flavour prio, 
        nfree(sepDir);
    }
 
-   // create bsyFile
+   /*  create bsyFile */
    if ((tmpPtr=strrchr(name, '.')) != NULL) *tmpPtr = '\0';
    xstrscat(&link->bsyFile, name, ".bsy", NULL);
    nfree(name);
 
-   // maybe we have session with this link?
+   /*  maybe we have session with this link? */
    if ( (fd=open(link->bsyFile, O_CREAT | O_RDWR | O_EXCL, S_IREAD | S_IWRITE)) < 0 ) {
 #if !defined(__WATCOMC__)	
 	   int save_errno = errno;
@@ -1355,10 +1355,10 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
      * 2 - use box
      */
 
-    if (link->useFileBox == 1) return 0; // Don't use
-    if (link->useFileBox == 2) return 1; // Use
+    if (link->useFileBox == 1) return 0; /*  Don't use */
+    if (link->useFileBox == 2) return 1; /*  Use */
 
-    // link->useFileBox == 0 -> still don't know
+    /*  link->useFileBox == 0 -> still don't know */
 
     if ( (link->fileBox==NULL && config->fileBoxesDir==NULL) ||
          (theApp.module == M_HTICK  && !link->tickerPackToBox)
@@ -1373,10 +1373,10 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
 	return 1;
     }
 
-    // check if can we use outbound
+    /*  check if can we use outbound */
     xstrcat(&bsyFile, config->outbound);
 
-    // add suffix for other zones
+    /*  add suffix for other zones */
     if (link->hisAka.zone != config->addr[0].zone && bundleNameStyle != eAmiga) {
 	bsyFile[strlen(bsyFile)-1]='\0';
 	xscatprintf(&bsyFile, ".%03x%c", link->hisAka.zone, limiter);
@@ -1386,7 +1386,7 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
 	xscatprintf(&bsyFile, "%04x%04x.pnt%c",
 		    link->hisAka.net, link->hisAka.node, limiter);
 
-    _createDirectoryTree(bsyFile); // create directoryTree if necessary
+    _createDirectoryTree(bsyFile); /*  create directoryTree if necessary */
 
     if (link->linkBundleNameStyle!=eUndef) bundleNameStyle=link->linkBundleNameStyle;
     else if (config->bundleNameStyle!=eUndef) bundleNameStyle=config->bundleNameStyle;
@@ -1404,7 +1404,7 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
     if (fexist(bsyFile)) {
 	link->useFileBox = 2;
     } else {
-	// link is not busy, use outrbound
+	/*  link is not busy, use outrbound */
 	link->useFileBox = 1;
     }
 
@@ -1542,7 +1542,7 @@ int createLock(char *lockFile)
         if (fp == NULL) return 0;
         if (fgets(s_pid, 64, fp))
             pid=atol(s_pid);
-        if (pid) // pid is not a trash in file
+        if (pid) /*  pid is not a trash in file */
         {
             process_active=1;
             if (kill(pid, 0) && (errno==ESRCH))

@@ -287,7 +287,7 @@ char *configline(void)
     nfree(line);
     line=str=_configline();
     if (str==NULL) {
-       // save parsed config name
+       /*  save parsed config name */
        cfgNames = srealloc(cfgNames, sizeof(char*)*(cfgNamesCount+1));
        cfgNames[cfgNamesCount] = NULL;
        xstrcat(&cfgNames[cfgNamesCount], curconfname);
@@ -557,7 +557,7 @@ void checkIncludeLogic(ps_fidoconfig config)
             if (cmpfnames(cfgNames[i],config->links[j].autoAreaCreateFile)==0)
                 break;
         }
-        // if not found include file - return error
+        /*  if not found include file - return error */
         if (i==cfgNamesCount) {
             printf("AutoAreaCreateFile %s has never been included in config!\n",
                 config->links[j].autoAreaCreateFile);
@@ -570,7 +570,7 @@ void checkIncludeLogic(ps_fidoconfig config)
         for (i=0; i<cfgNamesCount; i++) {
             if (cmpfnames(cfgNames[i],config->links[j].autoFileCreateFile)==0) break;
         }
-        // if not found include file - return error
+        /*  if not found include file - return error */
         if (i==cfgNamesCount) {
             printf("AutoFileCreateFile %s has never been included in config!\n",
                 config->links[j].autoFileCreateFile);

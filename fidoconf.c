@@ -65,11 +65,11 @@ char *readLine(FILE *f)
     if (get_hcfg()) wasCR = 0;
     do {
 	ch = getc (f); 
-        // not fgets() 'cause it concatenates lines without \r on Watcom C / WinDos
-	if (ch < 0) { // EOF
+        /*  not fgets() 'cause it concatenates lines without \r on Watcom C / WinDos */
+	if (ch < 0) { /*  EOF */
 	    if (i==0) {
 		return NULL;
-	    } else { // EOF without EOL
+	    } else { /*  EOF without EOL */
 		if (i >= len) {
 		    len += 128;
 		    line = srealloc (line, len);
@@ -83,12 +83,12 @@ char *readLine(FILE *f)
 		line = srealloc (line, len);
 	    }
 
-	    if (ch=='\n') { // EOL
+	    if (ch=='\n') { /*  EOL */
 		line[i] = '\0';
 		stop++;
-	    } else if (ch=='\r') { // CR (must be before LF), ignore
+	    } else if (ch=='\r') { /*  CR (must be before LF), ignore */
 		if (get_hcfg()) wasCR = 1;
-	    } else { // other characters
+	    } else { /*  other characters */
 		line[i] = ch;
 		i++;
 	    }
@@ -122,7 +122,7 @@ char *striptwhite(char *str)
     }
     if (*str == 0)
     {
-        return str;   // strend is undefined for zero-length string!
+        return str;   /*  strend is undefined for zero-length string! */
     }
     p = strend(str);
     while (p >= str && *p && isspace((unsigned char)*p))
@@ -156,7 +156,7 @@ char *stripComment(char *line)
 }
 
 void initConfig(s_fidoconfig *config) {
-   // set all to 0
+   /*  set all to 0 */
    memset(config, 0, sizeof(s_fidoconfig));
    config -> loguid = config -> loggid = config -> logperm = -1;
    config -> tossingExt = strdup("tos");
@@ -186,14 +186,14 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
    char *osSpecificPrefix = "";
 #endif
 
-   //try env-var fidoconfig
+   /* try env-var fidoconfig */
    if (envFidoConfig != NULL) f = fopen(envFidoConfig, "r");
 
    if (f == NULL) {
       if (configName == NULL) return NULL;
 
-      //try osSpecificName
-      osSpecificName = (char *) smalloc(strlen(osSpecificPrefix)+strlen(configName)+2); // +1 - for training delimiter
+      /* try osSpecificName */
+      osSpecificName = (char *) smalloc(strlen(osSpecificPrefix)+strlen(configName)+2); /*  +1 - for training delimiter */
       strcpy(osSpecificName, osSpecificPrefix);
 
       i = strlen(osSpecificName);
@@ -284,7 +284,7 @@ void carbonNames2Addr(s_fidoconfig *config)
        }
 
 
-       if (!found && (cb->move != 2) && !cb->extspawn) {// move==2 - delete
+       if (!found && (cb->move != 2) && !cb->extspawn) {/*  move==2 - delete */
 	   printf("Could not find area \"%s\" for carbon copy. Use BadArea\n",
 		  (cb->areaName) ? cb->areaName : "");
 	   cb->area = &(config->badArea);
@@ -677,14 +677,14 @@ s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 
 	string2addr(addr, &aka);
 
-	// we must find "right" link
+	/*  we must find "right" link */
 	for (i = 0; i< config->linkCount; i++) {
 		if (addrComp(aka, config->links[i].hisAka)==0 &&
 			addrComp(*area->useAka, *(config->links[i].ourAka))==0)
 			return &(config->links[i]);
 	}
 
-	// backward compatibility
+	/*  backward compatibility */
 	for (i = 0; i< config->linkCount; i++) {
 	    if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
 	}
@@ -698,14 +698,14 @@ s_link *getLinkForFileArea(const s_fidoconfig *config, char *addr, s_filearea *a
 
 	string2addr(addr, &aka);
 
-	// we must find "right" link
+	/*  we must find "right" link */
 	for (i = 0; i< config->linkCount; i++) {
 		if (addrComp(aka, config->links[i].hisAka)==0 &&
 			addrComp(*area->useAka, *(config->links[i].ourAka))==0)
 			return &(config->links[i]);
 	}
 
-	// backward compatibility
+	/*  backward compatibility */
 	for (i = 0; i< config->linkCount; i++) {
 	    if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
 	}
@@ -744,7 +744,7 @@ s_area *getArea(s_fidoconfig *config, char *areaName)
     ps_area ret = FindAreaInTree(areaName);
     if(ret)
         return ret;
-    return &(config->badArea); // if all else fails, return badArea :-)
+    return &(config->badArea); /*  if all else fails, return badArea :-) */
 }
 
 s_area *getNetMailArea(s_fidoconfig *config, char *areaName)
@@ -769,7 +769,7 @@ s_filearea *getFileArea(s_fidoconfig *config, char *areaName)
          return &(config->fileAreas[i]);
    }
 
-   return (NULL); // if all else fails, return NULL
+   return (NULL); /*  if all else fails, return NULL */
 }
 
 int isLinkOfArea(s_link *link, s_area *area)
@@ -808,7 +808,7 @@ int isAreaLink(s_addr link, s_area *area)
     unsigned int i;
     for (i = 0; i < area->downlinkCount; i++) {
         if (addrComp(link, area->downlinks[i]->link->hisAka)==0) {
-            return i; // return index of link
+            return i; /*  return index of link */
         }
     }
     return -1;

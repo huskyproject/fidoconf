@@ -75,8 +75,8 @@ char *tree_srch(tree **ppr_tree, int (*pfi_compare)(char *, char *), char *pc_us
 	EXIT(NULL)
 }
 
-// return value = 1 new item added
-// return value = 0 item was replased
+/*  return value = 1 new item added */
+/*  return value = 0 item was replased */
 static int sprout(tree **ppr, char *pc_data, int *pi_balance,
 		   int (*pfi_compare)(char *, char *), int (*pfi_delete)(char *))
 {
@@ -479,7 +479,7 @@ void tree_mung(tree **ppr_tree, int (*pfi_uar)(char *))
 		if (pfi_uar)
 			(*pfi_uar)((**ppr_tree).tree_p);
 		nfree(*ppr_tree);
-//		*ppr_tree = NULL;
+/* 		*ppr_tree = NULL; */
 	}
 	EXITV
 }

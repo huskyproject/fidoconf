@@ -22,7 +22,8 @@
  * You should have received a copy of the GNU General Public License
  * along with FIDOCONFIG library; see the file COPYING.  If not, write
  * to the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA
- * or visit http://www.gnu.org
+ *
+ * See also http://www.gnu.org
  *****************************************************************************
  * $Id$
  */
@@ -117,7 +118,7 @@ linkliner:
          if (token && stricmp(token, ftoken) == 0) break;
          nfree(cfgline);
       }
-      // remove line
+      /*  remove line */
       nfree(cfgline);
       *start = getCurConfPos();
       *end   = get_hcfgPos();
@@ -152,7 +153,7 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
     line[cfglen]='\0';
     fseek(f_conf, strbeg, SEEK_SET);
     setfsize( fileno(f_conf), strbeg );
-    if(cfgLine) { // line not deleted
+    if(cfgLine) { /*  line not deleted */
         fprintf(f_conf, "%s%s%s", cfgLine, cfgEol(), line);
     } else {
         fprintf(f_conf, "%s", line);
@@ -162,8 +163,8 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
     return 1;
 }
 
-    // opt = 0 - AreaFix
-    // opt = 1 - AutoPause
+    /*  opt = 0 - AreaFix */
+    /*  opt = 1 - AutoPause */
 int Changepause(char *confName, s_link *link, int opt, int type)
 {
     long  strbeg=0;
@@ -261,15 +262,15 @@ int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd) {
 	    token = strseparate(&running, " \t\r\n");
 
 	    if (token && areaName && stricmp(token, areaName)==0) {
-		// return description if needed
+		/*  return description if needed */
 		if (retd) {
 		    *desc = NULL;
 		    if (running) {
-			//strip "" at the beginning & end
+			/* strip "" at the beginning & end */
 			if (running[0]=='"' && running[strlen(running)-1]=='"') {
 			    running++; running[strlen(running)-1]='\0';
 			}
-			//change " -> '
+			/* change " -> ' */
 			token = running;
 			while (*token!='\0') {
 			    if (*token=='"') *token='\'';
@@ -285,7 +286,7 @@ int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd) {
 	}
 	nfree(line);
     }	
-    // not found
+    /*  not found */
     fclose(f);
     return 0;
 }
@@ -301,7 +302,7 @@ void Addlink(s_link *link, s_area *earea, s_filearea *farea) {
         arealink->link = link;
         
         if (link->numOptGrp > 0) {
-            // default set export on, import on, mandatory off, manual off
+            /*  default set export on, import on, mandatory off, manual off */
             arealink->export = 1;
             arealink->import = 1;
             arealink->mandatory = 0;
@@ -324,7 +325,7 @@ void Addlink(s_link *link, s_area *earea, s_filearea *farea) {
         if (farea->manual) arealink->manual = 1;
         if (link->level < farea->levelread)	arealink->export=0;
         if (link->level < farea->levelwrite) arealink->import=0;
-        // paused link can't receive mail
+        /*  paused link can't receive mail */
         if ((link->Pause & FPAUSE) == FPAUSE) arealink->export = 0;
         
         farea->downlinkCount++;
@@ -337,7 +338,7 @@ void Addlink(s_link *link, s_area *earea, s_filearea *farea) {
         arealink->link = link;
         
         if (link->numOptGrp > 0) {
-            // default set export on, import on, mandatory off, manual off
+            /*  default set export on, import on, mandatory off, manual off */
             arealink->export = 1;
             arealink->import = 1;
             arealink->mandatory = 0;
@@ -360,7 +361,7 @@ void Addlink(s_link *link, s_area *earea, s_filearea *farea) {
         if (earea->manual) arealink->manual = 1;
         if (link->level < earea->levelread)	arealink->export=0;
         if (link->level < earea->levelwrite) arealink->import=0;
-        // paused link can't receive mail
+        /*  paused link can't receive mail */
         if ((link->Pause & EPAUSE) == EPAUSE) arealink->export = 0;
         
         earea->downlinkCount++;

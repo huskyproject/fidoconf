@@ -32,7 +32,8 @@
  * You should have received a copy of the GNU General Public License
  * along with FIDOCONFIG library; see the file COPYING.  If not, write
  * to the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA
- * or visit http://www.gnu.org
+ *
+ * See also http://www.gnu.org
  *****************************************************************************
  * $Id$
  */
@@ -76,19 +77,19 @@
 #define LL_LINKBUSY  LL_BUSY
 #define LL_BSY       LL_BUSY
 
-#define LL_ERROR   	'A' /*9*//* Trivial error: continue */
+#define LL_ERROR   	'A'      /* Trivial error: continue */
 #define LL_ERR       LL_ERROR
 #define LL_WARN    	'B'      /* Warning */
 #define LL_WARNING   LL_WARN
 #define LL_ALERT   	'B'      /* Alert */
-#define LL_INFO    	'C' /*1*//* Information messages */
-#define LL_STAT    	'D' /*1*//* Statistics */
-#define LL_SUMMARY 	'E' /*1*//* Summary */
+#define LL_INFO    	'C'      /* Information messages */
+#define LL_STAT    	'D'      /* Statistics */
+#define LL_SUMMARY 	'E'      /* Summary */
 #define LL_PRG     	'F'      /* Program name */
 #define LL_SENT  	'G'      /* Message sent */
-#define LL_ENCODE       'H' /*2*//* Encode file/message */
-#define LL_DECODE       'H' /*2*//* Decode file/message */
-#define LL_RECODE  	'H' /*2*//* Recoding tables (codepage translations) */
+#define LL_ENCODE       'H'      /* Encode file/message */
+#define LL_DECODE       'H'      /* Decode file/message */
+#define LL_RECODE  	'H'      /* Recoding tables (codepage translations) */
 
 #define LL_MSGID   	'I'      /* Generate/check MSGID */
 #define LL_ECHOMAIL 	'J'      /* Echomail phase */
@@ -144,12 +145,12 @@ extern "C" {
 #endif
 
 struct _log {
-   char *keysAllowed;    // only log-data with one of these keys will be stored
-   char *keysPrinted;    // only log-data with these keys will be printed to screen
-   char *appName;        // name of the application which has created this log entry
-   FILE *logFile;        // in this logFile
-   unsigned char isopen; // is the log-file open?
-   unsigned int logEcho; // echo log to screen?
+   char *keysAllowed;    /*  only log-data with one of these keys will be stored */
+   char *keysPrinted;    /*  only log-data with these keys will be printed to screen */
+   char *appName;        /*  name of the application which has created this log entry */
+   FILE *logFile;        /*  in this logFile */
+   unsigned char isopen; /*  is the log-file open? */
+   unsigned int logEcho; /*  echo log to screen? */
 };
 
 typedef struct _log s_log;
@@ -177,7 +178,7 @@ FCONF_EXT void w_log(char key, char *logString, ...);
   FZ:     if the key is in keysAllowed the logString will be written to the log.
 */
 
-//FCONF_EXT void writeLogEntry(s_log *log, char key, char *logString, ...);
+/* FCONF_EXT void writeLogEntry(s_log *log, char key, char *logString, ...); */
 
 #ifdef __cplusplus
 }

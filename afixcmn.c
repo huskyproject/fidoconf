@@ -22,7 +22,8 @@
  * You should have received a copy of the GNU General Public License
  * along with FIDOCONFIG library; see the file COPYING.  If not, write
  * to the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA
- * or visit http://www.gnu.org
+ *
+ * See also http://www.gnu.org
  *****************************************************************************
  * $Id$
  */
@@ -45,15 +46,15 @@
 #include "afixcmd.h"
 #include <smapi/progprot.h>
 
-/*
+#if 0
 static ULONG DoMakeMSGIDStamp(void)
 {
     static ULONG lStampPrev;
     ULONG lStamp, lSecs, lHund, lSecStart = (ULONG) time(NULL);
 
-    // Make up time stamp out of number of seconds since Jan 1, 1970
-    // shifted 7 bits to the left OR'ed with current system clock and
-    // loop untill we get a new stamp
+    /*  Make up time stamp out of number of seconds since Jan 1, 1970 */
+    /*  shifted 7 bits to the left OR'ed with current system clock and */
+    /*  loop untill we get a new stamp */
 
     do {
         lSecs = (ULONG) time(NULL);
@@ -61,14 +62,14 @@ static ULONG DoMakeMSGIDStamp(void)
         lStamp = (lSecs << 7) | (lHund & 0x07f);
     } while ((lStampPrev >= lStamp) && ((ULONG) time(NULL) < lSecStart + 5));
 
-    // Check if we finally have unique ascending ^aMSGID kludge stamp and
-    // if not, use incremented largest stamp value
+    /*  Check if we finally have unique ascending ^aMSGID kludge stamp and */
+    /*  if not, use incremented largest stamp value */
 
     if (lStampPrev >= lStamp) lStamp = lStampPrev + 1;
 
     return lStampPrev = lStamp;
 }
-*/
+#endif
 
 char *createKludges(ps_fidoconfig config, const char *area, const s_addr *ourAka,
                     const s_addr *destAka, const char* versionStr)
@@ -102,8 +103,8 @@ s_message *makeMessage (s_addr *origAddr, s_addr *destAddr,
 			char *fromName,	char *toName, char *subject,
             int netmail, int  killreport)
 {
-    // netmail == 0 - echomail
-    // netmail == 1 - netmail
+    /*  netmail == 0 - echomail */
+    /*  netmail == 1 - netmail */
     time_t time_cur;
     s_message *msg;
 
@@ -150,20 +151,20 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
     unsigned int i;
     char *subject=NULL, *newSubj=NULL, *token=NULL, *running=NULL, *p=NULL;
 
-    //init outbounds
+    /* init outbounds */
     outbounds[0] = &tossDir;
     outbounds[1] = &config->protInbound;
     outbounds[2] = &config->inbound;
     outbounds[3] = NULL;
 
-    // clear msgheader
+    /*  clear msgheader */
     memset(&msgHeader, '\0', sizeof(XMSG));
 	
-    // attributes of netmail must be fixed
+    /*  attributes of netmail must be fixed */
     msgHeader.attr = msg->attributes;
 	
     if (msg->netMail == 1) {
-	// Check if we must remap
+	/*  Check if we must remap */
 	for (i=0;i<config->remapCount;i++)
 	    if ((config->remaps[i].toname==NULL ||
 		 stricmp(config->remaps[i].toname,msg->toUserName)==0) &&
@@ -199,23 +200,23 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 		    break;
 		}
 
-	//if (to_us(msg->destAddr)==0) {
+	/* if (to_us(msg->destAddr)==0) { */
     if (isOurAka(config,msg->destAddr)) {
-	    // kill these flags
+	    /*  kill these flags */
 	    msgHeader.attr &= ~(MSGREAD | MSGKILL | MSGFRQ | MSGSCANNED | MSGLOCKED | MSGFWD);
-	    // set this flags
+	    /*  set this flags */
 	    msgHeader.attr |= MSGPRIVATE;
 	} else
 	    if (header!=NULL) {
-		// set TRS flag, if the mail is not to us(default)
+		/*  set TRS flag, if the mail is not to us(default) */
 		if ( config->keepTrsMail ) msgHeader.attr &= ~(MSGKILL | MSGFWD);
 		else msgHeader.attr |= MSGFWD;
 	    }
     } else
-	// kill these flags on echomail messages
+	/*  kill these flags on echomail messages */
 	msgHeader.attr &= ~(MSGREAD | MSGKILL | MSGFRQ | MSGSCANNED | MSGLOCKED);
 
-    // always kill crash, hold, sent & local flags on netmail & echomail
+    /*  always kill crash, hold, sent & local flags on netmail & echomail */
     msgHeader.attr &= ~(MSGCRASH | MSGHOLD | MSGSENT | MSGLOCAL);
 
     /* FORCED ATTRIBUTES !!! */
@@ -245,7 +246,7 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 	    if (newSubj) xstrcat(&newSubj, " ");
 	    xstrcat (&newSubj, subject);
 	    token = strseparate(&running, " \t");
-	} // end while
+	} /*  end while */
 	nfree(subject);
     }
 
@@ -286,7 +287,7 @@ void freeMsgBuffers(s_message *msg)
   nfree(msg->subjectLine);
   nfree(msg->toUserName);
   nfree(msg->fromUserName);
-//  if (msg->destAddr.domain) free(msg->destAddr.domain);
-  // do not free the domains of the adresses of the message, because they
-  // come from fidoconfig structures and are needed more than once.
+/*   if (msg->destAddr.domain) free(msg->destAddr.domain); */
+  /*  do not free the domains of the adresses of the message, because they */
+  /*  come from fidoconfig structures and are needed more than once. */
 }

@@ -24,15 +24,15 @@ char Revision[] = "$Revision$";
 #include <smapi/stamp.h>
 #include <smapi/progprot.h>
 
-//#define INC_FE_TYPES
+/* #define INC_FE_TYPES */
 #define INC_FE_BAMPROCS
 #define FALSE 0
 #define TRUE 1
 #include "fecfg146.h"
 
 
-// convert FastEcho-GroupBitmap to GroupString for fidoconfig
-// warning: returns pointer to static array!
+/*  convert FastEcho-GroupBitmap to GroupString for fidoconfig */
+/*  warning: returns pointer to static array! */
 char *grp2str(dword bitmap)
 {
    static char buff[66];
@@ -65,10 +65,10 @@ char *grp2str(dword bitmap)
       } /* endif */
    } /* endfor */
 
-   // strip last ',' if any
+   /*  strip last ',' if any */
    if (curr != buff) curr--;
 
-   // terminate buff
+   /*  terminate buff */
    *curr = 0;
 
    return buff;

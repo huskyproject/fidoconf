@@ -27,6 +27,8 @@
  * You should have received a copy of the GNU Library General Public
  * License along with this library; see file COPYING. If not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * See also http://www.gnu.org
  *****************************************************************************/
 
 /* adapted from fconf2golded by Alex Bronin, 2:5049/36 */
@@ -124,7 +126,7 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
 
      for (i=0; i<config->echoAreaCount; i++) {
        area = &(config->echoAreas[i]);
-//       if (area->msgbType != MSGTYPE_PASSTHROUGH)
+/*       if (area->msgbType != MSGTYPE_PASSTHROUGH) */
            writeArea(f, area, 0);
      }
 

@@ -515,9 +515,9 @@ Area;
  *        }
  *        else
  *        {
- *            // unknown or unwanted extension found
+ *            */ /*  unknown or unwanted extension found */ /*
  *        }
- *        seek_forward(header.offset);  // Seek to next header
+ *        seek_forward(header.offset);  */ /*  Seek to next header */ /*
  *        offset += header.offset + sizeof(header);
  *    }
  *

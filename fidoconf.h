@@ -48,7 +48,7 @@ extern "C" {
 #           define FCONF_EXT __declspec(dllimport)
 #       else
 #           define FCONF_EXT __declspec(dllexport)
-#       endif //_FCONF_EXT
+#       endif /* _FCONF_EXT */
 #   else
 #       define FCONF_EXT
 #   endif
@@ -119,77 +119,77 @@ typedef enum pauses        { NOPAUSE, EPAUSE, FPAUSE } e_pauses;
 typedef struct link {
     s_addr hisAka, *ourAka;
     char *name;
-    char *defaultPwd,               // 8 byte passwords
+    char *defaultPwd,               /*  8 byte passwords */
         *pktPwd,
         *ticPwd,
         *areaFixPwd,
         *fileFixPwd,
         *bbsPwd,
         *sessionPwd;
-    char *handle;              // nickname
+    char *handle;              /*  nickname */
     char *email;
-    char *emailFrom; // sender address for outgoing emails
+    char *emailFrom; /*  sender address for outgoing emails */
     char *emailSubj;
     e_emailEncoding emailEncoding;
-    unsigned int autoAreaCreate;       // 0 if not allowed for autoareacreate
-    unsigned int autoFileCreate;       // 0 if not allowed for autofilecreate
-    unsigned int AreaFix;              // 0 if not allowed for areafix
-    unsigned int FileFix;              // 0 if not allowed for filefix
-    unsigned int FileFixFSC87Subset;   // 1 if only FSC87-commands are allowable in TIC files
-    unsigned int forwardRequests;      // 0 if not allowed forward requests
-    unsigned int forwardFileRequests;  // 0 if not allowed forward requests for file areas
-    unsigned int denyFRA; // denyFwdReqAccess
-    unsigned int denyUFRA; // denyUncondFwdReqAccess
+    unsigned int autoAreaCreate;       /*  0 if not allowed for autoareacreate */
+    unsigned int autoFileCreate;       /*  0 if not allowed for autofilecreate */
+    unsigned int AreaFix;              /*  0 if not allowed for areafix */
+    unsigned int FileFix;              /*  0 if not allowed for filefix */
+    unsigned int FileFixFSC87Subset;   /*  1 if only FSC87-commands are allowable in TIC files */
+    unsigned int forwardRequests;      /*  0 if not allowed forward requests */
+    unsigned int forwardFileRequests;  /*  0 if not allowed forward requests for file areas */
+    unsigned int denyFRA; /*  denyFwdReqAccess */
+    unsigned int denyUFRA; /*  denyUncondFwdReqAccess */
 
-    int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
-    //   PKT files found in the protected inbound
-    int  allowPktAddrDiffer;   // 1 if you want to allow the originating address
-    //   in MSG differ from address in PKT
-    //   (only for areafix requests)
-    e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
-    char *pktFile, *packFile;  // used only internally by hpt
-    char *floFile, *bsyFile;   // dito
+    int  allowEmptyPktPwd;     /*  1 if you want to allow empty packet password in */
+    /*    PKT files found in the protected inbound */
+    int  allowPktAddrDiffer;   /*  1 if you want to allow the originating address */
+    /*    in MSG differ from address in PKT */
+    /*    (only for areafix requests) */
+    e_forward forwardPkts;     /*  defines, if pkts should be forwarded to this link */
+    char *pktFile, *packFile;  /*  used only internally by hpt */
+    char *floFile, *bsyFile;   /*  dito */
     ps_pack packerDef;
     e_flavour echoMailFlavour, fileEchoFlavour;
-    char *LinkGrp;         // link's group for autocreate areas
-    char **AccessGrp;      // groups for echo access
+    char *LinkGrp;         /*  link's group for autocreate areas */
+    char **AccessGrp;      /*  groups for echo access */
     unsigned int numAccessGrp;
-    char *autoAreaCreateFile;  // file where autocreated areas are written to
+    char *autoAreaCreateFile;  /*  file where autocreated areas are written to */
     char *autoFileCreateFile;
-    char *autoAreaCreateDefaults;// add default string for autocreated area here
+    char *autoAreaCreateDefaults;/*  add default string for autocreated area here */
     char *autoFileCreateDefaults;
-    char *forwardRequestFile;  // list of available areas from this link
+    char *forwardRequestFile;  /*  list of available areas from this link */
     char *denyFwdFile;
-    unsigned int forwardAreaPriority;// Priority when requests area from uplinks
-    char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
-    char *forwardFileRequestFile;  // list of available file-areas from this link
-    unsigned int forwardFilePriority;// Priority when requests file-area from uplinks
-    char *RemoteFileRobotName;     // Name of remote file (tic) robot (need for FileForwardRequest)
-    void *msg;                 // active msg to the link (used in areafix)
-    unsigned int noTIC;        // 0 if TIC files should be generated
-    unsigned int Pause;        // 0 if no pause (default)
-                               // 1 echo pause
-                               // 2 fecho pause
-    unsigned autoPause;        // in days
-    unsigned level;	           // 0-65535
-    unsigned arcmailSize;      // max arcmail size in kb
-    unsigned pktSize;          // max .pkt size in kb
-    unsigned maxUnpackedNetmail; // max size of *.?ut file in kb. If
-                                 // more, then put it into
-                                 // bundle. Default 100 (used in bsopack)
-    unsigned int packNetmail;    // allows to pack outbound
-                                 // netmail. Default no (used in bsopack)
-    unsigned int export, import, mandatory, manual; // Default link's options
-    char **optGrp; // groups for this options
+    unsigned int forwardAreaPriority;/*  Priority when requests area from uplinks */
+    char *RemoteRobotName;     /*  Name remote robot (need for ForwardRequest) */
+    char *forwardFileRequestFile;  /*  list of available file-areas from this link */
+    unsigned int forwardFilePriority;/*  Priority when requests file-area from uplinks */
+    char *RemoteFileRobotName;     /*  Name of remote file (tic) robot (need for FileForwardRequest) */
+    void *msg;                 /*  active msg to the link (used in areafix) */
+    unsigned int noTIC;        /*  0 if TIC files should be generated */
+    unsigned int Pause;        /*  0 if no pause (default) */
+                               /*  1 echo pause */
+                               /*  2 fecho pause */
+    unsigned autoPause;        /*  in days */
+    unsigned level;	           /*  0-65535 */
+    unsigned arcmailSize;      /*  max arcmail size in kb */
+    unsigned pktSize;          /*  max .pkt size in kb */
+    unsigned maxUnpackedNetmail; /*  max size of *.?ut file in kb. If */
+                                 /*  more, then put it into */
+                                 /*  bundle. Default 100 (used in bsopack) */
+    unsigned int packNetmail;    /*  allows to pack outbound */
+                                 /*  netmail. Default no (used in bsopack) */
+    unsigned int export, import, mandatory, manual; /*  Default link's options */
+    char **optGrp; /*  groups for this options */
     unsigned int numOptGrp;
-    unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
-    unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
-    e_bundleFileNameStyle linkBundleNameStyle; // Style bundle filenames (timeStamp, addrDiff...
+    unsigned int delNotRecievedTIC; /* 1 - if file not recieved, then remove TIC */
+    unsigned int advancedAreafix;  /*  1 - send ~areatag when area delete */
+    e_bundleFileNameStyle linkBundleNameStyle; /*  Style bundle filenames (timeStamp, addrDiff... */
     char *msgBaseDir;
     char *fileBaseDir;
-    char **frMask; // forwardRequestMask groups
+    char **frMask; /*  forwardRequestMask groups */
     unsigned int numFrMask;
-    char **dfMask; // don't forward this
+    char **dfMask; /*  don't forward this */
     unsigned int numDfMask;
 
     unsigned int afixEchoLimit;
@@ -200,12 +200,12 @@ typedef struct link {
     char  *fileBox;
     unsigned int fileBoxAlways;
     unsigned int tickerPackToBox;
-    unsigned int arcNetmail; // 1 if pack netmail into arcmail bundles
-    char useFileBox; // internal
-    char sb; // internal
+    unsigned int arcNetmail; /*  1 if pack netmail into arcmail bundles */
+    char useFileBox; /*  internal */
+    char sb; /*  internal */
     unsigned int noRules;
-    FILE *pkt;  // for internal usage
-    unsigned int reducedSeenBy; // reduces Seen-BYs (fsc-0093)
+    FILE *pkt;  /*  for internal usage */
+    unsigned int reducedSeenBy; /*  reduces Seen-BYs (fsc-0093) */
 
 } s_link, *ps_link;
 
@@ -215,10 +215,10 @@ typedef enum id {id_route, id_routeMail, id_routeFile} e_id;
 
 typedef struct route {
    e_flavour flavour;
-   ps_link   target;   // if target = NULL use
-   e_routing routeVia; // this
+   ps_link   target;   /*  if target = NULL use */
+   e_routing routeVia; /*  this */
    char      *pattern;
-   char      *viaStr;  // fix for realloc of config->links
+   char      *viaStr;  /*  fix for realloc of config->links */
    e_id      id;
 } s_route, *ps_route;
 
@@ -226,11 +226,11 @@ typedef enum dupeCheck {dcOff, dcMove, dcDel} e_dupeCheck;
 
 typedef struct arealink {
    ps_link link;
-   unsigned int export;		// 1 - export yes, 0 - export no
-   unsigned int import;		// 1 - import yes, 0 - import no
-   unsigned int mandatory;	// 1 - mandatory yes, 0 - mandatory no
-   unsigned int manual;		// 1 - manual yes, 0 - manual no
-   unsigned int defLink;	// 1 - default uplink
+   unsigned int export;		/*  1 - export yes, 0 - export no */
+   unsigned int import;		/*  1 - import yes, 0 - import no */
+   unsigned int mandatory;	/*  1 - mandatory yes, 0 - mandatory no */
+   unsigned int manual;		/*  1 - manual yes, 0 - manual no */
+   unsigned int defLink;	/*  1 - default uplink */
 } s_arealink, *ps_arealink;
 
 typedef struct area {
@@ -238,11 +238,11 @@ typedef struct area {
    char *fileName;
    char *description;
 
-   int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH or
-                        // MSGTYPE_JAM or MSGTYPE_PASSTHROUGH
+   int msgbType;        /*  MSGTYPE_SDM or MSGTYPE_SQUISH or */
+                        /*  MSGTYPE_JAM or MSGTYPE_PASSTHROUGH */
    ps_addr useAka;
 
-   ps_arealink *downlinks;  // array of pointers to s_link
+   ps_arealink *downlinks;  /*  array of pointers to s_link */
    unsigned int downlinkCount;
 
    unsigned purge, max, dupeHistory;
@@ -251,31 +251,31 @@ typedef struct area {
    e_dupeCheck dupeCheck;
    char tinySB, killSB, hide, noPause, mandatory, manual, DOSFile, debug;
 
-   unsigned levelread;	      // 0-65535
-   unsigned levelwrite;	      // 0-65535
-   void *dupes;        // used internally by hpt. pointer to dupeDataBase
-   void *newDupes;     // dito
-   unsigned int imported;      // dito
+   unsigned levelread;	      /*  0-65535 */
+   unsigned levelwrite;	      /*  0-65535 */
+   void *dupes;        /*  used internally by hpt. pointer to dupeDataBase */
+   void *newDupes;     /*  dito */
+   unsigned int imported;      /*  dito */
 
-   char *group;                      // used by reader (and areafix soon)
+   char *group;                      /*  used by reader (and areafix soon) */
 
-   int ccoff;          // 1 if carbon copy is not allowed from this area
+   int ccoff;          /*  1 if carbon copy is not allowed from this area */
 
-   // Owner and Group options, msgbase mode
-   // not set if:  uid = -1 , gid = -1 , fperm = -1
+   /*  Owner and Group options, msgbase mode */
+   /*  not set if:  uid = -1 , gid = -1 , fperm = -1 */
    unsigned int uid, gid, fperm;
 
-   int nolink;         // do not reply-link area
-   int keepsb;         // keep seen-by's and path
-   int scn;            // 1 if scanned (number of scanned messages-1)
-   int nopack;         // do not pack area
+   int nolink;         /*  do not reply-link area */
+   int keepsb;         /*  keep seen-by's and path */
+   int scn;            /*  1 if scanned (number of scanned messages-1) */
+   int nopack;         /*  do not pack area */
 
    ps_addr       sbadd;
    unsigned int  sbaddCount;
    ps_addr       sbign;
    unsigned int  sbignCount;
 
-   HAREA harea;        //  for internal usage;
+   HAREA harea;        /*   for internal usage; */
 
 } s_area, *ps_area;
 
@@ -284,24 +284,24 @@ typedef struct fileareatype {
    char *pathName;
    char *description;
 
-   int sendorig;       // 1 - Send Original
-   int pass;           // 1 - Passthrough File Area
-   int noCRC;          // 0 if CRC check should be done on incoming files
-   int noreplace;      // 1 - no replace files in this filearea
-   int nodiz;          // 1 - do not try to get description from <fileDescName>
+   int sendorig;       /*  1 - Send Original */
+   int pass;           /*  1 - Passthrough File Area */
+   int noCRC;          /*  0 if CRC check should be done on incoming files */
+   int noreplace;      /*  1 - no replace files in this filearea */
+   int nodiz;          /*  1 - do not try to get description from <fileDescName> */
    ps_addr useAka;
 
-   unsigned purge;     // number of days to keep files. if 0 purging is disabled
+   unsigned purge;     /*  number of days to keep files. if 0 purging is disabled */
 
-   ps_arealink *downlinks;  // array of pointers to s_link
+   ps_arealink *downlinks;  /*  array of pointers to s_link */
    unsigned int downlinkCount;
 
-   unsigned levelread;	      // 0-65535
-   unsigned levelwrite;	      // 0-65535
+   unsigned levelread;	      /*  0-65535 */
+   unsigned levelwrite;	      /*  0-65535 */
 
    char mandatory, manual, hide, noPause;
 
-   char *group;                      // used by reader (and areafix soon)
+   char *group;                      /*  used by reader (and areafix soon) */
 } s_filearea, *ps_filearea;
 
 typedef struct bbsareatype {
@@ -316,16 +316,16 @@ enum {CC_OR=0, CC_AND, CC_NOT};
 
 typedef struct carbon {
    e_carbonType ctype;
-   char         *str;     // string to compare
-   char         *reason;  // reason of copy
-   ps_area      area;     // area to copy messages
-   s_addr       addr;     // from addr to compare
-   char         *areaName;// name of area to copy messages
-   int          export;   // export copied msg?
-   int          netMail;  // do this in netmail, not echomail
-   int          move;	  // move (not copy) original msg
-   int          extspawn; // areaName is name of external program to exec
-   int          rule;     // OR|AND|NOT with next carbon expr.
+   char         *str;     /*  string to compare */
+   char         *reason;  /*  reason of copy */
+   ps_area      area;     /*  area to copy messages */
+   s_addr       addr;     /*  from addr to compare */
+   char         *areaName;/*  name of area to copy messages */
+   int          export;   /*  export copied msg? */
+   int          netMail;  /*  do this in netmail, not echomail */
+   int          move;	  /*  move (not copy) original msg */
+   int          extspawn; /*  areaName is name of external program to exec */
+   int          rule;     /*  OR|AND|NOT with next carbon expr. */
 } s_carbon, *ps_carbon;
 
 typedef struct unpack {
@@ -438,7 +438,7 @@ typedef struct fidoconfig {
    char     *magic, *areafixhelp, *filefixhelp, *tempOutbound, *ticOutbound;
    char     *tempDir;         /* Common temporary files directory */
    char     *fileAreaBaseDir;
-   char     *passFileAreaDir; //Passthrough File Area
+   char     *passFileAreaDir; /* Passthrough File Area */
    char     *busyFileDir;
    char     *semaDir, *badFilesDir;
    char     *loglevels, *screenloglevels;
@@ -482,10 +482,10 @@ typedef struct fidoconfig {
    unsigned int   carbonCount;
    ps_carbon carbons;
    unsigned int   carbonAndQuit;
-   unsigned int   carbonKeepSb;  // keep SeenBy's and PATH in carbon area
-   unsigned int   carbonOut;     // carbon outgoing messages
-   unsigned int   exclPassCC;    // don't carbon passthough
-   unsigned int   carbonExcludeFwdFrom; // don't print " * Forwarded from area"
+   unsigned int   carbonKeepSb;  /*  keep SeenBy's and PATH in carbon area */
+   unsigned int   carbonOut;     /*  carbon outgoing messages */
+   unsigned int   exclPassCC;    /*  don't carbon passthough */
+   unsigned int   carbonExcludeFwdFrom; /*  don't print " * Forwarded from area" */
 
    unsigned int  remapCount;
    ps_remap remaps;
@@ -528,8 +528,8 @@ typedef struct fidoconfig {
    char     *fileDescName;
    unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
    unsigned int fileFileUMask, fileDirUMask;
-   unsigned int originInAnnounce; //Show origin in announce (for htick)
-   unsigned int MaxTicLineLength; // Maximum length line in TIC (for htick)
+   unsigned int originInAnnounce; /* Show origin in announce (for htick) */
+   unsigned int MaxTicLineLength; /*  Maximum length line in TIC (for htick) */
 
    char     *fileLocalPwd, *fileLDescString;
 
@@ -564,8 +564,8 @@ typedef struct fidoconfig {
 
    e_bundleFileNameStyle bundleNameStyle;
 
-   unsigned int keepTrsMail; // Keep Transit Netmail
-   unsigned int keepTrsFiles; // Keep Transit Files
+   unsigned int keepTrsMail; /*  Keep Transit Netmail */
+   unsigned int keepTrsFiles; /*  Keep Transit Files */
    unsigned int createFwdNonPass;
    unsigned int autoPassive;
 
@@ -598,7 +598,7 @@ typedef struct fidoconfig {
    char *seqDir;	/* for msgid generation */
    unsigned long seqOutrun;
 
-   char**   uuEGrp; // uueEchoAreaGroups;
+   char**   uuEGrp; /*  uueEchoAreaGroups; */
    unsigned int numuuEGrp;
 
    /* for emailpkt */
@@ -610,10 +610,10 @@ typedef struct fidoconfig {
 } s_fidoconfig, *ps_fidoconfig;
 
 struct message {
-   //Address block
+   /* Address block */
    s_addr destAddr, origAddr;
 
-//   UINT16 attributes;
+/*    UINT16 attributes; */
    dword  attributes;
    UCHAR  datetime[22];
    CHAR   netMail;
@@ -654,12 +654,12 @@ typedef enum { M_NOTDEF=0,M_HPT, M_HTICK, M_OTHER } e_known_moduls;
 
 typedef struct {
     int module;
-//  module = 0 - not defined
-//  module = 1 - hpt
-//  module = 2 - htick
-//  module = 3 - all other
+/*   module = 0 - not defined */
+/*   module = 1 - hpt */
+/*   module = 2 - htick */
+/*   module = 3 - all other */
     ps_fidoconfig config;
-    // for future usage
+    /*  for future usage */
 } sApp;
 
 
@@ -670,7 +670,7 @@ typedef struct {
 	FCONF_EXT sApp theApp;
 #endif
 
-FCONF_EXT void SetAppModule(int mod); // setup struct sApp
+FCONF_EXT void SetAppModule(int mod); /*  setup struct sApp */
 
 FCONF_EXT ps_fidoconfig readConfig(char *cfgFile);
 
@@ -724,8 +724,8 @@ FCONF_EXT int isOurAka(ps_fidoconfig config, s_addr link);
  */
 int dumpConfigToFile(ps_fidoconfig config, char *fileName);
 
-// the following functions are for internal use.
-// Only use them if you really know what you do.
+/*  the following functions are for internal use. */
+/*  Only use them if you really know what you do. */
 FCONF_EXT char *readLine(FILE *F);
 FCONF_EXT int  parseLine(char *line, ps_fidoconfig config);
 int parsePath(char *token, char **var, char **alreadyDefined);
@@ -761,13 +761,13 @@ char *getConfigFileNameForProgram(char *envVar, char *configName);
 int isLinkOfFileArea(ps_link link, ps_filearea area);
 FCONF_EXT ps_filearea getFileArea(ps_fidoconfig config, char *areaName);
 
-// this function can be used to dump config to stdout or to an already opened file.
+/*  this function can be used to dump config to stdout or to an already opened file. */
 void dumpConfig(ps_fidoconfig config, FILE *f);
 
-// return 1 if group found in array of strings, else return 0
+/*  return 1 if group found in array of strings, else return 0 */
 FCONF_EXT int grpInArray(char *group, char **strarray, unsigned int len);
 
-// define exit codes for non unix systems
+/*  define exit codes for non unix systems */
 #ifndef _SYSEXITS_H
 #define _SYSEXITS_H
 #define EX_OK           0       /* successful termination */

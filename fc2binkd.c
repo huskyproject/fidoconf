@@ -27,7 +27,8 @@
  * You should have received a copy of the GNU Library General Public
  * License along with this library; see file COPYING. If not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * or download from site http://www.gnu.org
+ *
+ * See also http://www.gnu.org
  *****************************************************************************/
 
 #include <stdlib.h>

@@ -230,7 +230,7 @@ FCONF_EXT int  NCreateOutboundFileName(ps_fidoconfig config, s_link *link, e_fla
           0 else
           */
 
-// fileBoxes support
+/*  fileBoxes support */
 
 /* will be moved to huskylib */
 FCONF_EXT int needUseFileBoxForLink (ps_fidoconfig config, s_link *link);
@@ -267,8 +267,8 @@ FCONF_EXT int copy_file(const char *from, const char *to, const int force_rewrit
 
 FCONF_EXT ULONG fc_GetDiskFreeSpace(const char *path);
 
-// this function returns the string representation of an address.
-// it returns a static array!!!
+/*  this function returns the string representation of an address. */
+/*  it returns a static array!!! */
 FCONF_EXT char *aka2str(const s_addr aka);
 
 /* This function returns the string representation of an 5D address.
@@ -283,18 +283,18 @@ char **copyGroups(char **grps, int numGroups);
 void freeLink (s_link *link);
 
 int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
-// '\x0000' access o'k
-// '\x0001' no access group
-// '\x0002' no access level
-// '\x0003' no access export
-// '\x0004' not linked
+/*  '\x0000' access o'k */
+/*  '\x0001' no access group */
+/*  '\x0002' no access level */
+/*  '\x0003' no access export */
+/*  '\x0004' not linked */
 
 int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
-// '\x0000' access o'k
-// '\x0001' no access group
-// '\x0002' no access level
-// '\x0003' no access import
-// '\x0004' not linked
+/*  '\x0000' access o'k */
+/*  '\x0001' no access group */
+/*  '\x0002' no access level */
+/*  '\x0003' no access import */
+/*  '\x0004' not linked */
 
 /*
    safe malloc, realloc, calloc, strdup
