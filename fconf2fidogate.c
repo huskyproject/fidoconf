@@ -26,6 +26,8 @@
  *****************************************************************************/
 
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
 #ifndef MSDOS
 #include "fidoconfig.h"
@@ -33,27 +35,116 @@
 #include "fidoconf.h"
 #endif
 
+char *areaconfig;
+int areaconfiganz=0;
+
 int writeArea(FILE *f, s_area *area, char netmail) {
 
-   if (netmail!=1) 
-      fprintf(f, "%-32s fido.%s -x\n", area->areaName, area->areaName);
+   char areaupperletter[100];
+   int i;
+   int found;
+
+   if (netmail) 
+      return 0;
+
+   strcpy(areaupperletter,area->areaName);
+
+   for (i=0;i<100 && areaupperletter[i]!=0;i++)
+       areaupperletter[i]=toupper(areaupperletter[i]);
+
+   found=0;
+   for (i=0;i<areaconfiganz;i++)
+       {
+       if (strchr(areaconfig+i*60,'*')!=NULL)
+          {          
+          if (strncasecmp(areaconfig+i*60+1,areaupperletter,
+              strlen(areaconfig+i*60+1)-1)==0)
+             {
+             found=1;
+             break;
+             }
+          }
+         else
+          {          
+          if (strcasecmp(areaconfig+i*60+1,areaupperletter)==0)
+             {
+             found=1;
+             break;
+             }
+          }
+       }
+
+   if (!found)
+      fprintf(f, "%-32s fido.%s -x\n", areaupperletter, area->areaName);
+     else
+      {
+      if (((char *)(areaconfig+i*60))[0]=='-')
+         fprintf(f, "%-32s %s -x\n", areaupperletter,area->areaName);
+      }
 
    return 0;
 }
 
 int readDefaultConfig(char *cfg_file, char *def_file) {
-   char cmd[256];
-   
-   sprintf(cmd, "cp -f %s %s", def_file, cfg_file);
-   system (cmd);
-	   
-   return 0;
+  FILE *f1,*f2;
+  char buffer[2048];
+
+  if ((f1=fopen(def_file,"rt"))==NULL) {
+    perror("Orig. file not found!");
+    return -1;
+  }
+  else {
+    if ((f2=fopen (cfg_file,"wt"))==NULL) {
+      perror("Can't create dest. file!");
+      return -2;
+    }
+    else {
+      while (fgets(buffer,sizeof(buffer),f1))
+        fputs (buffer,f2);
+    }
+    fclose(f1);
+    fclose(f2);
+  }
+  return 0;
 }
 
 int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
    FILE *f;
-   int  i;
+   int  i,j;
    s_area *area;
+   char hlp[100];
+
+   f = fopen("/etc/fido/fconf2fidogate.cfg", "r");
+   if (f==NULL)
+      {
+      printf("You have to place the file fconf2fidogate.cfg into /etc/fido !\n");
+      exit(3);
+      }
+
+   i=0;
+   while (!feof(f))
+         {
+         fgets(hlp,100,f);
+         if (hlp[0] == '!' || hlp[0] == '-')
+            {
+            for (j=1;hlp[j]!=0;j++)
+                {
+                hlp[j]=toupper(hlp[j]);
+                if (!(hlp[j]>='A' && hlp[j]<='Z') && hlp[j]!='.' &&
+                    hlp[j]!='_' && hlp[j]!='-' && hlp[j]!='*' &&
+                    hlp[j]!=0x27 && hlp[j]!=0x60 )
+                   {
+                   hlp[j]=0;
+                   break;
+                   }
+                }
+            }
+
+         strcpy(areaconfig+60*areaconfiganz,hlp);
+         areaconfiganz++;
+         }
+
+   fclose(f);
 
    f = fopen(fileName, "a+");
    if (f!= NULL) {
@@ -103,13 +194,12 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
 
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
-   char cmd[256];
    
    printf("fconf2fidogate\n");
    printf("------------\n");
    if (argc < 2) {
       printf("\nUsage:\n");
-      printf("   fconf2golded <FidoGateAreasFileName> [<default.cfg>]\n");
+      printf("   fconf2fidogate <FidoGateAreasFileName> [<default.cfg>]\n");
       printf("   (you may read config defaults from default.cfg)\n");
       printf("\nExample:\n");
       printf("   fconf2fidogate /usr/local/lib/fidogate/areas\n\n");
@@ -118,20 +208,15 @@ int main (int argc, char *argv[]) {
 
    printf("Generating Config-file %s\n", argv[1]);
 
+   areaconfig=(char *)malloc(65536);
+
    config = readConfig();
    if (config!= NULL) {
 
 	  if (argv[2]!=NULL) readDefaultConfig (argv[1], argv[2]);
-	  else {
-		  sprintf(cmd,
-#ifndef MSDOS
-                  "rm -f %s",
-#else
-	          "del %s",
-#endif
-                  argv[1]);
-		  system (cmd);
-	  }
+	  else
+	    remove (argv[1]);
+
       generateMsgEdConfig(config, argv[1]);
       disposeConfig(config);
       return 0;

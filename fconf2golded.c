@@ -59,12 +59,26 @@ int writeArea(FILE *f, s_area *area, char netmail) {
 }
 
 int readDefaultConfig(char *cfg_file, char *def_file) {
-   char cmd[256];
-   
-   sprintf(cmd, "cp -f %s %s", def_file, cfg_file);
-   system (cmd);
-	   
-   return 0;
+  FILE *f1,*f2;
+  char buffer[2048];
+
+  if ((f1=fopen(def_file,"rt"))==NULL) {
+    perror("Orig. file not found!");
+    return -1;
+  }
+  else {
+    if ((f2=fopen (cfg_file,"wt"))==NULL) {
+      perror("Can't create dest. file!");
+      return -2;
+    }
+    else {
+      while (fgets(buffer,sizeof(buffer),f1))
+        fputs (buffer,f2);
+    }
+    fclose(f1);
+    fclose(f2);
+  }
+  return 0;
 }
 
 int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
@@ -99,7 +113,6 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
 
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
-   char cmd[256];
    
    printf("fconf2golded\n");
    printf("------------\n");
@@ -118,19 +131,12 @@ int main (int argc, char *argv[]) {
    if (config!= NULL) {
 
 	  if (argv[2]!=NULL) readDefaultConfig (argv[1], argv[2]);
-	  else {
-		  sprintf(cmd,
-#ifndef MSDOS
-                  "rm -f %s",
-#else
-	          "del %s",
-#endif
-                  argv[1]);
-		  system (cmd);
-	  }
-      generateMsgEdConfig(config, argv[1]);
-      disposeConfig(config);
-      return 0;
+	  else
+       remove (argv[1]);
+
+     generateMsgEdConfig(config, argv[1]);
+     disposeConfig(config);
+     return 0;
    }
 
    return 1;

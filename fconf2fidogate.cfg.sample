@@ -1,0 +1,12 @@
+#   fconf2fidogate Configuration File (Sample)
+#
+#   !area    Do not gate area
+#   -area    Do not set fido. before area
+#
+#   In this version, a wildcard (*) can only be at the end of the name
+#   Perhaps somebody programms it better 
+#
+#   You have to edit this file and copy it to /etc/fido/fconf2fidogate.cfg
+
+!syschat
+-local*

@@ -2,11 +2,21 @@
 fidoconfig 0.6
 --------------
 
------ cvs ci ------	
+----- cvs ci ------
+Sun Feb 14 12:57:04 CET 1999
+- included new fconf2fidogate from Gabriel
+- applied patches from a spanish guy (forgot the name, sorry...) so there is
+  no need for the system calls in fconf2*
+
+----- cvs ci ------
 Fr  12 Feb 1999 14:02:37 CET [tobi]
 - Revised makeUniqueDosFilename. It does not have to sleep before
   returning a file name now and is even more unique than previously :-)
-	
+
+----- cvs ci ------
+Thu Feb 11 15:33:36 CET 1999
+- fixed a small warning, where a time was compared to a NULL Pointer
+
 ----- cvs ci ------	
 Wed Feb 10 16:04:46 MET 1999
 - fixed a null pointer bug in tparser
