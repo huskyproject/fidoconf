@@ -293,8 +293,11 @@ void disposeConfig(s_fidoconfig *config)
    free(config->route);
    for (i = 0; i < config->routeFileCount; i++) free(config->routeFile[i].pattern);
    free(config->routeFile);
-   for (i = 0; i < config->routeMailCount; i++) free(config->routeMail[i].pattern);
-   free(config->routeMail);
+
+   for (i = 0; i < config->remapCount; i++) 
+       if (config->remaps[i].toname!=NULL)
+          free(config->remaps[i].toname);
+   free(config->remaps);
 
    for (i = 0; i < config->packCount; i++) {
            free(config->pack[i].packer);

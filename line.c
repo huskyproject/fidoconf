@@ -126,6 +126,63 @@ int parseAddress(char *token, s_fidoconfig *config)
    return 0;
 }
 
+int parseRemap(char *token, s_fidoconfig *config)
+{
+   char *param;
+
+   if (token==NULL) {
+      printf("Line %d: There are all parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+ 
+   config->remaps=realloc(config->remaps,
+                          (config->remapCount+1)*sizeof(s_remap));
+
+   param = strtok(token, ",\t"); 
+   if (param == NULL) {
+      printf("Line %d: Missing Name or * after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (strcmp(param,"*")!=0)
+      { // Name for rerouting
+      config->remaps[config->remapCount].toname=strdup(param);
+      } 
+     else
+      config->remaps[config->remapCount].toname=NULL;
+
+   param = strtok(NULL, ",\t"); 
+   if (param == NULL) {
+      printf("Line %d: Address or * missing after %s!\n", actualLineNr,actualKeyword);
+      return 1;
+   }
+   
+   if (strcmp(param,"*")==0)
+      config->remaps[config->remapCount].oldaddr.zone=0;
+     else
+      string2addr(param, &(config->remaps[config->remapCount].oldaddr));
+
+   param = strtok(NULL, " \t"); 
+   if (param == NULL) {
+      printf("Line %d: Address missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   string2addr(param, &(config->remaps[config->remapCount].newaddr));
+
+   if (config->remaps[config->remapCount].toname==NULL &&
+       config->remaps[config->remapCount].oldaddr.zone==0)
+      {
+      printf("Line %d: At least one of the Parameters must not be *\n",actualLineNr);
+      return 1;
+      }
+
+   config->remapCount++;
+
+   return 0;
+}
+
 int parsePath(char *token, char **var)
 {
    char limiter;
@@ -870,6 +927,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "badArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->badArea));
    else if (stricmp(token, "echoArea")==0) rc = parseEchoArea(getRestOfLine(), config);
    else if (stricmp(token, "localArea")==0) rc = parseLocalArea(getRestOfLine(), config);
+   else if (stricmp(token, "remap")==0) rc = parseRemap(getRestOfLine(),config);
    else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
    else if (stricmp(token, "password")==0) {
       rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].defaultPwd));

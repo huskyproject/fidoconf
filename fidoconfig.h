@@ -153,6 +153,13 @@ struct unpack {
 };
 typedef struct unpack s_unpack;
 
+struct remap {
+   s_addr  oldaddr;
+   s_addr  newaddr;
+   char   *toname;
+};
+typedef struct remap s_remap;
+
 struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop;
@@ -197,6 +204,9 @@ struct fidoconfig {
 
    char     **includeFiles;
    unsigned int includeCount;
+
+   unsigned int  remapCount;
+   s_remap  *remaps;
 };
 
 
