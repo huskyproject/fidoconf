@@ -4,14 +4,23 @@ all: html info dvi
 
 ifdef HTMLDIR
 html: fidoconfig_toc.html
+else
+html:
+	@echo
 endif
 
 ifdef DVIDIR
 dvi: fidoconfig.dvi
+else
+dvi:
+	@echo
 endif
 
 ifdef INFODIR
 info: fidoconfig.info
+else
+info:
+	@echo
 endif
 
 fidoconfig_toc.html: fidoconfig.texi
