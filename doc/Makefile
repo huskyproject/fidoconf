@@ -46,8 +46,10 @@ distclean: clean
 
 install: info
 	-$(MKDIR) $(MKDIROPT) $(INFODIR)
+ifdef INFODIR
 	$(INSTALL)  fidoconfig.info $(INFODIR)
 	-install-info --info-dir=$(INFODIR)  $(INFODIR)$(DIRSEP)fidoconfig.info
+endif
 
 uninstall:
 	-install-info --remove --info-dir=$(INFODIR) $(INFODIR)$(DIRSEP)fidoconfig.info
