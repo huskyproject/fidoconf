@@ -371,6 +371,10 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
          return 1; // error
       }
    }
+   else if (stricmp(option, "dupesize")==0) {
+      area->dupeSize = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
+      if ((error != NULL) && (*error != '\0')) return 1;    // error
+   }
    else if (stricmp(option, "dupehistory")==0) {
       area->dupeHistory = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) return 1;    // error
@@ -535,6 +539,10 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 
    area->msgbType = MSGTYPE_SDM;
    area->useAka = &(config.addr[0]);
+
+   // set default parameters of dupebase
+   area->dupeSize = 10;   /* 2^10=1024 dupes minimum*/
+   area->dupeHistory = 7; /* 7 days */
 
    // set default group for reader
    area->group = '\060';

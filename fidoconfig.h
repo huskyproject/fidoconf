@@ -144,13 +144,12 @@ struct area {
    s_arealink **downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
 
-   unsigned purge, max, dupeHistory;
+   unsigned purge, max, dupeSize, dupeHistory;
    e_dupeCheck dupeCheck;
    char tinySB, manual, hide, noPause, mandatory, DOSFile;
 
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535
-
    void *dupes;        // used internally by hpt. pointer to dupeDataBase
    void *newDupes;     // dito
    char imported;      // dito
