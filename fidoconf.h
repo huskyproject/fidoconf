@@ -565,6 +565,21 @@ FCONF_EXT ps_area getNetMailArea(ps_fidoconfig config, char *areaName);
 FCONF_EXT int isLinkOfArea(ps_link link, s_area *area);
 
 /**
+ * This function return -1 if the link is not linked to the area,
+ * else it returns index of link into arealinks array.
+ */
+
+FCONF_EXT int isAreaLink(s_addr link, s_area *area);
+
+/**
+ * This function tests if link addr is our aka.
+ */
+
+FCONF_EXT int isOurAka(ps_fidoconfig config, s_addr link);
+
+
+
+/**
  * This function dumps the config to a file. The file is in fidoconfig format so,
  * it is possible to change the config in memory and write it to disk.
  * All formatting and comments are removed and the include structure of the config

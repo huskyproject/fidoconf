@@ -768,6 +768,27 @@ int isLinkOfFileArea(s_link *link, s_filearea *area)
    return 0;
 }
 
+int isOurAka(ps_fidoconfig config, s_addr link)
+{
+    unsigned int i;
+    for (i = 0; i < config->addrCount; i++) {
+        if (addrComp(link, config->addr[i])==0) return 1;
+    }
+    return 0;
+}
+
+int isAreaLink(s_addr link, s_area *area)
+{
+    unsigned int i;
+    for (i = 0; i < area->downlinkCount; i++) {
+        if (addrComp(link, area->downlinks[i]->link->hisAka)==0) {
+            return i; // return index of link
+        }
+    }
+    return -1;
+}
+
+
 int grpInArray(char *group, char **strarray, unsigned int len)
 {
 	unsigned int i;
