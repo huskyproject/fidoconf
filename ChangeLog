@@ -1,3 +1,14 @@
+2003-02-17 Monday 12:26  mche
+
+	* afixcmd.c (1.25), afixcmd.h (1.16), areatree.c (1.14), areatree.h
+	(1.5), common.c (1.166), common.h (1.85), fc2tor.c (1.9),
+	fidoconf.c (1.107), fidoconf.h (1.168), fidoconfDll.dsp (1.6),
+	line.c (1.379), tparser.c (1.245): merging s_filearea into s_area
+
+2003-02-17 Monday 11:36  pgul
+
+	* grptree.c (1.10): Uninitialized value usage fixed
+
 2003-02-16 Sunday 17:19  stas_degteff
 
 	* typesize.h (1.35): Update Watcom/win32 INT16 & UINT16
