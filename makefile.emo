@@ -11,9 +11,11 @@ HDRS=  common.h \
        dir.h \
        fidoconfig.h \
        patmat.h \
+       adcase.h \
        typesize.h 
 
 OBJS=  patmat.obj \
+       adcase.obj \
        line.obj \
        fidoconfig.obj \
        dir.obj \

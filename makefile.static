@@ -5,7 +5,7 @@ VER = 0.9
 LIBDIR = /usr/local/lib
 INSTDIR = /usr/local
 
-OBJS    = patmat.o line.o fidoconfig.o fconf2msged.o fconf2golded.o tparser.o dir.o common.o
+OBJS    = adcase.o patmat.o line.o fidoconfig.o fconf2msged.o fconf2golded.o tparser.o dir.o common.o
 
 ALL: $(OBJS) \
      fidoconfig.a \

@@ -13,15 +13,18 @@ HDRS=  common.h \
        dir.h \
        fidoconf.h \
        patmat.h \
+       adcase.h \
        typesize.h 
 
 OBJS=  patmat.obj \
+       adcase.obj \	
        line.obj \
        fidoconf.obj \
        dir.obj \
        common.obj
 
 LOBJS=  -+patmat.obj \
+        -+adcase.obj \
         -+line.obj \
         -+fidoconf.obj \
         -+dir.obj \

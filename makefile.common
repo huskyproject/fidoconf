@@ -3,7 +3,7 @@
 VER = 0.9
 VERH = 0
 
-LOBJS = common$(O) dir$(O) fidoconfig$(O) line$(O) patmat$(O) dump$(O)
+LOBJS = common$(O) dir$(O) fidoconfig$(O) line$(O) patmat$(O) adcase$(O) dump$(O)
 OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O) $(FECFG2FCONF)$(O) dumpfcfg$(O)
 
 commonlibs: $(LIBFIDOCONFIG)$(A)
