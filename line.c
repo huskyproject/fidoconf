@@ -35,6 +35,9 @@ int parseVersion(char *token, s_fidoconfig *config)
    char buffer[10], *temp = token;
    int i = 0;
 
+   // if there is no token return error...
+   if (token==NULL) return 1;
+
    // test
    i = testExpression("[0-9]+\\.[0-9]+", token);
    if (i!= 0 ) return i;
@@ -63,6 +66,8 @@ int parseVersion(char *token, s_fidoconfig *config)
 
 int parseName(char *token, s_fidoconfig *config)
 {
+   if (token==NULL) return 1;
+   
    config->name = (char *) malloc(strlen(token)+1);
    strcpy(config->name, token);
    return 0;
@@ -70,6 +75,8 @@ int parseName(char *token, s_fidoconfig *config)
 
 int parseLocation(char *token, s_fidoconfig *config)
 {
+   if (token == NULL) return 1;
+   
    config->location = (char *) malloc(strlen(token)+1);
    strcpy(config->location, token);
    return 0;
@@ -77,6 +84,8 @@ int parseLocation(char *token, s_fidoconfig *config)
 
 int parseSysop(char *token, s_fidoconfig *config)
 {
+   if (token == NULL) return 1;
+   
    config->sysop = (char *) malloc(strlen(token)+1);
    strcpy(config->sysop, token);
    return 0;
@@ -85,10 +94,15 @@ int parseSysop(char *token, s_fidoconfig *config)
 int parseAddress(char *token, s_fidoconfig *config)
 {
    char *aka;
-   int rc = testExpression(ADDREXPRESSION, token);
+   int rc;
+
+   if (token==NULL) return 1;
+   
+   rc = testExpression(ADDREXPRESSION, token);
    if (rc!=0) return rc;
 
    aka = strtok(token, " \t"); // only look at aka
+   if (aka == NULL) return 1;
 
    config->addr = realloc(config->addr, sizeof(s_addr)*(config->addrCount+1));
    string2addr(aka, &(config->addr[config->addrCount]));
@@ -100,6 +114,9 @@ int parseAddress(char *token, s_fidoconfig *config)
 int parsePath(char *token, char **var)
 {
    char limiter;
+
+   if (token == NULL) return 1;
+   
 #ifdef UNIX
    limiter = '/';
 #else
@@ -190,6 +207,8 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 {
    char *tok;
    int rc = 0;
+
+   if (token == NULL) return 1;
    
    memset(area, 0, sizeof(s_area));
 
@@ -209,13 +228,13 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 
    while ((tok = strtok(NULL, " \t"))!= NULL) {
       if (stricmp(tok, "Squish")==0) area->msgbType = MSGTYPE_SQUISH;
+      else if(tok[0]=='-') rc = parseAreaOption(config, tok+1, area);
       else if(isdigit(tok[0])) {
          area->downlinks = realloc(area->downlinks, sizeof(s_link*)*(area->downlinkCount+1));
          area->downlinks[area->downlinkCount] = getLink(config, tok);
          if (area->downlinks[area->downlinkCount] == NULL) return 1;
          area->downlinkCount++;
       }
-      else if(tok[0]=='-') rc = parseAreaOption(config, tok+1, area);          // parseOption without leading -
    }
    
    return rc;
@@ -224,6 +243,8 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 int parseEchoArea(char *token, s_fidoconfig *config)
 {
    int rc;
+
+   if (token == NULL) return 1;
    
    config->echoAreas = realloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
    rc = parseArea(*config, token, &(config->echoAreas[config->echoAreaCount]));
@@ -233,6 +254,8 @@ int parseEchoArea(char *token, s_fidoconfig *config)
 
 int parseLink(char *token, s_fidoconfig *config)
 {
+   if (token == NULL) return 1;
+   
    config->links = realloc(config->links, sizeof(s_link)*(config->linkCount+1));
    memset(&(config->links[config->linkCount]), 0, sizeof(s_link));
    config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
@@ -247,6 +270,9 @@ int parseLink(char *token, s_fidoconfig *config)
 }
 
 int parsePWD(char *token, char **pwd) {
+   
+   if (token == NULL) return 1;
+   
    *pwd = (char *) malloc(9);
    strncpy(*pwd, token, 8);        // only use 8 characters of password
    (*pwd)[8] = '\0';
@@ -267,11 +293,15 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
    int  rc = 0;
    s_route *actualRoute;
 
+   if (token == NULL) return 1;
+
    *route = realloc(*route, sizeof(s_route)*(*count+1));
    actualRoute = &(*route)[*count];
    memset(actualRoute, 0, sizeof(s_route));
 
    option = strtok(token, " \t");
+
+   if (option == NULL) return 1;
    
    while (option != NULL) {
       if (stricmp(option, "enc")==0) actualRoute->enc = 1;
