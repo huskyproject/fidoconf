@@ -163,6 +163,8 @@ void printLink(s_link link) {
    if (link.fileFixPwd) printf("filefixPwd: %s\n", link.fileFixPwd);
    if (link.bbsPwd) printf("bbsPwd:     %s\n", link.bbsPwd);
    if (link.sessionPwd) printf("sessionPwd: %s\n", link.sessionPwd);
+   if (link.handle) printf("handle:     %s\n", link.handle);
+   if (link.email) printf("email:      %s\n", link.email);
    printf("Level:      %u\n", link.level);
    if (link.export) printf("Export:     %s\n",(link.export[0]) ? "on" : "off");
    if (link.import) printf("Import:     %s\n",(link.import[0]) ? "on" : "off");

@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Thu Oct 28 12:27:40 CEST 1999
+mtt:
+- added email information to link structure (for the upcoming pkt2mail)
+
+----- cvs ci ------
 Sun Oct 24 23:25:00 CEST 1999
 mtt:
 * fixed coredump when -a is not followed by a number

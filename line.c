@@ -1830,6 +1830,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].bbsPwd));
    else if (stricmp(token, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].sessionPwd));
    else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
+       else if (stricmp(token, "email")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].email));
    else if (stricmp(token, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(config->links[config->linkCount-1].echoMailFlavour));
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
    else if (stricmp(token, "routefile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));

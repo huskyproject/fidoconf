@@ -112,6 +112,7 @@ a comment and will be ignored.
 * bbspwd::                      bbs password for this link (online user)
 * sessionpwd::                  session password for this link
 * handle::                      nickname or handle for link
+* email::                       email address of this link
 * tossgrp::                     tosser groups which link belongs to
 * ticgrp::                      ticcer groups which link belongs to
 * bbsgrp::                      online groups which link belongs to
@@ -761,7 +762,7 @@ An empty statement is allowed.
 
 This statement can only be repeated for different links.
 
-@node handle, tossgrp, sessionpwd, Keywords
+@node handle, email, sessionpwd, Keywords
 @subsection handle
 @table @asis
 @item Syntax:
@@ -775,7 +776,22 @@ systems.
 
 This statement can only be repeated for different links.
 
-@node tossgrp, ticgrp, handle, Keywords
+
+@node email, tossgrp, handle, Keywords
+@subsection email
+@table @asis
+@item Syntax:
+@code{email <name>}
+@item Example:
+@code{email eddie@ironmaiden.com}
+@end table
+
+This keyword is used to set the email-address for the link. This can
+be used to send pkts via email.
+
+This statement can only be repeated for different links.
+
+@node tossgrp, ticgrp, email, Keywords
 @subsection tossgrp
 @table @asis
 @item Syntax:

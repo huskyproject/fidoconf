@@ -84,6 +84,7 @@ struct link {
 	*bbsPwd,
 	*sessionPwd;
    char *handle;
+   char *email;
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
    int  autoFileCreate;       // 0 if not allowed for autofilecreate
    int  AreaFix;              // 0 if not allowed for areafix
