@@ -360,6 +360,7 @@ typedef struct fidoconfig {
    char     *busyFileDir;
    char     *semaDir, *badFilesDir;
    char     *loglevels, *screenloglevels;
+   char     *hptPerlFile;
 
    s_area   dupeArea, badArea;
    unsigned int   netMailAreaCount;

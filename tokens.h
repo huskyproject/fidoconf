@@ -246,7 +246,8 @@ enum {
     ID_SYSLOG_FACILITY,
     ID_FILEFIXFSC87SUBSET,
     ID_FILEBOXDIR,
-    ID_CARBONEXCLUDEFWDFROM
+    ID_CARBONEXCLUDEFWDFROM,
+    ID_HPTPERLFILE
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -383,6 +384,7 @@ token_t parseline_tokens[] =
     { "forwardrequests", ID_FORWARDREQUESTS },
     { "fullupdate", ID_FULLUPDATE },
     { "handle", ID_HANDLE },
+    { "hptperlfile", ID_HPTPERLFILE },
     { "ignorecapword", ID_IGNORECAPWORD },
     { "ignoreseen", ID_IGNORESEEN },
     { "import", ID_IMPORT },

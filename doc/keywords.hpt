@@ -72,6 +72,7 @@ forwardpkts
 forwardrequestfile
 forwardrequestmask
 forwardrequests
+hptperlfile
 ignorecapword
 ignoreseen
 import

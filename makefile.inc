@@ -1,6 +1,6 @@
 # common rules for all platforms
 
-VER = 0.11
+VER = 0.12
 VERH = 0
 
 LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ) xstr$(OBJ) cfg$(OBJ) findtok$(OBJ)

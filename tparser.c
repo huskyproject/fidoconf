@@ -747,6 +747,7 @@ int main(int argc, char **argv) {
       if (config->semaDir) printf("semaDir:         %s\n", config->semaDir);
       if (config->badFilesDir) printf("BadFilesDir:     %s\n", config->badFilesDir);
       if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
+      if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
 
 //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
       if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);

@@ -431,6 +431,7 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->fileAreaBaseDir);
    nfree(config->passFileAreaDir);
    nfree(config->busyFileDir);
+   nfree(config->hptPerlFile);
    for (j = 0; j < config->numPublicGroup; j++)
      nfree(config->PublicGroup[j]);
    nfree(config->PublicGroup);

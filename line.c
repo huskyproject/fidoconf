@@ -3800,6 +3800,9 @@ int parseLine(char *line, s_fidoconfig *config)
 	case ID_CARBONEXCLUDEFWDFROM:
 	    rc = parseBool(getRestOfLine(), &(config->carbonExcludeFwdFrom));
 	    break;
+        case ID_HPTPERLFILE:
+            rc = parseFileName(getRestOfLine(), &(config->hptPerlFile));
+            break;
 
         default:
             prErr( "unrecognized: %s", line);
