@@ -258,7 +258,8 @@ void freeLink (s_link *link)
   nfree(link->filefix.autoCreateFile);
   nfree(link->areafix.name);
   nfree(link->filefix.name);
-  nfree(link->msgBaseDir);
+  nfree(link->areafix.baseDir);
+  nfree(link->filefix.baseDir);
   return;
 }
 

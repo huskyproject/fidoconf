@@ -1826,7 +1826,8 @@ int parseLink(char *token, s_fidoconfig *config)
 	  clink->filefix.denyFwdFile = sstrdup (deflink->filefix.denyFwdFile);
 	  clink->areafix.name = sstrdup (deflink->areafix.name);
 	  clink->filefix.name = sstrdup (deflink->filefix.name);
-	  clink->msgBaseDir = sstrdup (deflink->msgBaseDir);
+	  clink->areafix.baseDir = sstrdup (deflink->areafix.baseDir);
+	  clink->filefix.baseDir = sstrdup (deflink->filefix.baseDir);
 	  clink->optGrp = copyGroups(deflink->optGrp, deflink->numOptGrp);
 	  clink->areafix.frMask = copyGroups(deflink->areafix.frMask, deflink->areafix.numFrMask);
 	  clink->filefix.frMask = copyGroups(deflink->filefix.frMask, deflink->filefix.numFrMask);
@@ -3755,13 +3756,13 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_LINKMSGBASEDIR:
             rc = parseAreaPathExpand(getRestOfLine(),
-                           &(getDescrLink(config)->msgBaseDir),
-			   &(linkDefined.msgBaseDir));
+                           &(getDescrLink(config)->areafix.baseDir),
+			   &(linkDefined.areafix.baseDir));
             break;
         case ID_LINKFILEBASEDIR:
             rc = parseAreaPath(getRestOfLine(),
-                           &(getDescrLink(config)->fileBaseDir),
-			   &(linkDefined.fileBaseDir));
+                           &(getDescrLink(config)->filefix.baseDir),
+			   &(linkDefined.filefix.baseDir));
             break;
 
         case ID_MAGIC:

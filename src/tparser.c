@@ -296,10 +296,10 @@ int testPathsAndFiles()
                   config->links[i]->name, "filefixFwdFile" );
     rc+=testpath( config->links[i]->filefix.denyFwdFile, "Link",
                   config->links[i]->name, "filefixFwdDenyFile" );
-    rc+=testpath( config->links[i]->msgBaseDir, "Link",
-                  config->links[i]->name, "msgBaseDir" );
-    rc+=testpath( config->links[i]->fileBaseDir, "Link",
-                  config->links[i]->name, "fileBaseDir" );
+    rc+=testpath( config->links[i]->areafix.baseDir, "Link",
+                  config->links[i]->name, "areafixBaseDir" );
+    rc+=testpath( config->links[i]->filefix.baseDir, "Link",
+                  config->links[i]->name, "filefixBaseDir" );
     rc+=testpath( config->links[i]->fileBox, "Link",
                   config->links[i]->name, "fileBox" );
   }
@@ -758,8 +758,8 @@ int printLink(ps_link link) {
    if (link->filefix.fwdFile) printf("filefixFwdFile %s\n",link->filefix.fwdFile);
    if (link->areafix.denyFwdFile) printf("areafixFwdDenyFile %s\n",link->areafix.denyFwdFile);
    if (link->filefix.denyFwdFile) printf("filefixFwdDenyFile %s\n",link->filefix.denyFwdFile);
-   if (link->msgBaseDir) printf("MsgBaseDir %s\n",link->msgBaseDir);
-   if (link->fileBaseDir) printf("LinkFileBaseDir %s\n",link->fileBaseDir);
+   if (link->areafix.baseDir) printf("MsgBaseDir %s\n",link->areafix.baseDir);
+   if (link->filefix.baseDir) printf("LinkFileBaseDir %s\n",link->filefix.baseDir);
    if (link->packerDef) printf("PackerDefault %s\n", link->packerDef->packer);
    else printf("PackerDefault none\n");
    if (link->fileBox)  {

@@ -127,6 +127,7 @@ typedef enum pauses        { NOPAUSE=0, ECHOAREA=1, FILEAREA=2 } e_pauses; /*bit
 typedef struct link_robot {
     unsigned int on;        /*  0 if not allowed for robot (was: AreaFix) */
     char *pwd;         /* (was: areaFixPwd) */
+    char *baseDir;     /* (was: msgBaseDir, fileBaseDir) */
     long reportsAttr;       /* (was: areafixReportsAttr) */
     char *reportsFlags;     /* (was: areafixReportsFlags) */
     unsigned int echoLimit; /* (was: afixEchoLimit) */
@@ -199,8 +200,6 @@ typedef struct link {
     unsigned int delNotReceivedTIC; /* 1 - if file not recieved, then remove TIC */
     unsigned int advancedAreafix;  /*  1 - send ~areatag when area delete */
     e_bundleFileNameStyle linkBundleNameStyle; /*  Style bundle filenames (timeStamp, addrDiff... */
-    char *msgBaseDir;
-    char *fileBaseDir;
 
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;
