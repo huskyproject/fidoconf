@@ -36,7 +36,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <smapi/compiler.h>
 
 #if ((!(defined(_MSC_VER) && (_MSC_VER >= 1200))) && (!defined(__TURBOC__)))
 #  include <unistd.h>
@@ -70,12 +69,6 @@ int cmpfnames(char *file1, char *file2);
 
 #ifdef __BEOS__
 #include <KernelKit.h>
-#endif
-
-#ifdef _MAKE_DLL_MVC_
-//#	include <Windows.h>
-#	include <Winbase.h>
-#	undef s_addr
 #endif
 
 #include "fidoconf.h"
