@@ -1,6 +1,12 @@
 fidoconfig 0.7
 --------------
 
+----- cvs ci ------
+Sun Apr 18 20:36:56 CEST 1999
+Mtt:
++ fixed wrong Documentation. Please do a make next time.
+
+----- cvs ci ------
 Sun Apr 18 15:45:09 NOVST 1999
 Max:
 + add separateBundles option

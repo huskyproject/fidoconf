@@ -163,7 +163,7 @@ carbon copy
 areafix
 * areafixFromPkt::              process areafix requests on the fly
 * areafixKillReports::          set kill/sent flag to areafix reports
-* reportTo::                    set area or netmail for areafix reports
+* ReportTo::                    set area or netmail for areafix reports
 
 misc:
 * logEchoToScreen::             set output to screen log information
@@ -604,7 +604,7 @@ another session of hpt will be terminated if found lockfile
 
 This statement cannot be repeated.
 
-@node link, aka, magic, Keywords
+@node link, aka, lockfile, Keywords
 @subsection link
 @table @asis
 @item Syntax:
@@ -814,7 +814,7 @@ See also "publicgroup".
 
 This statement can only be repeated for different links.
 
-@node optgrp, autoareacreate, accessgrp, Keywords
+@node optgrp, export, accessgrp, Keywords
 @subsection optgrp
 @table @asis
 @item Syntax:
@@ -922,7 +922,7 @@ Set defaults to autocreated echoareas.
 
 This statement can only be repeated for different links.
 
-@node packer, echomailflavour, autoareacreate, Keywords
+@node packer, echomailflavour, autoareacreatedefaults, Keywords
 @subsection packer
 @table @asis
 @item Syntax:
@@ -1151,7 +1151,7 @@ default-uplink for redundant echomail-supply
 
 This statement can be repeated.
 
-@node localarea, GroupAutoAreaCreate, echoarea, Keywords
+@node localarea, PublicGroup, echoarea, Keywords
 @subsection localArea
 @table @asis
 @item Syntax:
@@ -1401,7 +1401,7 @@ arbonArea keyword.
 
 This statement can be repeated.
 
-@node carbonArea,  , carbonKludge, Keywords
+@node carbonArea,  areafixFromPkt, carbonKludge, Keywords
 @subsection carbonArea
 @table @asis
 @item Syntax:
@@ -1429,7 +1429,7 @@ statement.
 Process areafix requests on the fly. Check "areafix", "areamgr" &
 "hpt" keywords in toUserName field.
 
-@node areafixKillReports, logEchoToScreen, areafixFromPkt, Keywords
+@node areafixKillReports, ReportTo, areafixFromPkt, Keywords
 @subsection areafixKillReports
 @table @asis
 @item Syntax:
