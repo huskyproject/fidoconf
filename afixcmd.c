@@ -30,6 +30,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#ifdef UNIX
+#include <unistd.h>
+#else
+#include <io.h>
+#endif
 #include "afixcmd.h"
 #include "common.h"
 #include "log.h"
@@ -131,8 +139,8 @@ linkliner:
 
 int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend) 
 {
-    char *line = NULL;
-    FILE *f_conf;
+    char *line = NULL, *newname = NULL, *p;
+    FILE *f_conf, *f_newconf;
     long endpos,curpos,cfglen;
 
     if(strbeg == 0 && strend == 0)
@@ -140,26 +148,93 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
     
     f_conf = fopen(confName, "r+b");
     if (f_conf == NULL) {
-        fprintf(stderr,"cannot open config file %s \n",confName);
+        fprintf(stderr, "cannot open config file %s: %s\n", confName, strerror(errno));
         return 0;
     }
     fseek(f_conf, 0L, SEEK_END);
     endpos = ftell(f_conf);
-    curpos = strbeg == strend ? strbeg : strend;
+    curpos = strend;
     cfglen = endpos - curpos;
-    line = (char*) smalloc((size_t) cfglen+1);
-    fseek(f_conf, curpos, SEEK_SET);
-    cfglen = fread(line, sizeof(char), cfglen, f_conf);
-    line[cfglen]='\0';
-    fseek(f_conf, strbeg, SEEK_SET);
-    setfsize( fileno(f_conf), strbeg );
-    if(cfgLine) { /*  line not deleted */
-        fprintf(f_conf, "%s%s%s", cfgLine, cfgEol(), line);
+    newname = (char *)smalloc(strlen(confName) + 5);
+    strcpy(newname, confName);
+    p=strrchr(newname, '.');
+    if (p==NULL || strchr(p, PATH_DELIM))
+	strcat(newname, ".tmp");
+    else
+	strcpy(p, ".tmp");
+    if (fexist(newname) || (f_newconf = fopen(newname, "wb")) == NULL) {
+	/* we have no write access to this directory? */
+	/* change config "in place" */
+	nfree(newname);
+	line = (char*) smalloc((size_t) cfglen);
+	fseek(f_conf, curpos, SEEK_SET);
+	if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
+	    fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
+	    nfree(line);
+	    return 0;
+	}
+	fseek(f_conf, strbeg, SEEK_SET);
+	setfsize( fileno(f_conf), strbeg );
+	if (cfgLine) /*  line not deleted */
+            if (fprintf(f_conf, "%s%s", cfgLine, cfgEol()) != strlen(cfgLine)+strlen(cfgEol()))
+		fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
+        if (fwrite(line, sizeof(char), cfglen, f_conf) != cfglen ||
+	    fflush(f_conf) != 0)
+	    fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
+	fclose(f_conf);
+	nfree(line);
     } else {
-        fprintf(f_conf, "%s", line);
+	/* make new config-file and rename it */
+#ifdef UNIX
+	struct stat st;
+	if (fstat(fileno(f_conf), &st) == 0)
+	    fchmod(fileno(f_newconf), (st.st_mode & 01777) | 0400);
+#endif
+	line = (char*) smalloc(cfglen > strbeg ? cfglen : strbeg);
+	if (fread(line, sizeof(char), strbeg, f_conf) < strbeg) {
+	    fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
+errwriteconf:
+	    fclose(f_conf);
+	    fclose(f_newconf);
+	    unlink(newname);
+	    nfree(line);
+	    nfree(newname);
+	    return 0;
+	}
+	if (fwrite(line, sizeof(char), strbeg, f_newconf) < strbeg) {
+	    fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
+	    goto errwriteconf;
+	}
+	if (cfgLine) {
+	    if (fprintf(f_newconf, "%s%s", cfgLine, cfgEol()) !=
+	        strlen(cfgLine)+strlen(cfgEol())) {
+		fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
+		goto errwriteconf;
+	    }
+	}
+	if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
+	    fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
+	    goto errwriteconf;
+	}
+	if (fwrite(line, sizeof(char), cfglen, f_newconf) != cfglen ||
+	    fflush(f_newconf) != 0) {
+	    fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
+	    goto errwriteconf;
+	}
+	fclose(f_newconf);
+	fclose(f_conf);
+	nfree(line);
+	/* save old config as *.bak? */
+#ifndef UNIX
+	unlink(confName);
+#endif
+	if (rename(newname, confName)) {
+            fprintf(stderr, "cannot rename config file %s->%s: %s\n", newname, confName, strerror(errno));
+	    nfree(newname);
+	    return 0;
+	}
+	nfree(newname);
     }
-    fclose(f_conf);
-    nfree(line);
     return 1;
 }
 
