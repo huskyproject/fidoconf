@@ -73,7 +73,7 @@ endif
 
 ifeq ($(DYNLIBS), 1)
   all: commonlibs ranlib $(LIBFIDOCONFIG).so.$(VER)
-  	$(MAKE) progs
+	$(MAKE) progs
 	(cd doc && $(MAKE) all)
 else
   all: commonlibs ranlib
