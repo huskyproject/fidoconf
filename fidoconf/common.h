@@ -125,8 +125,6 @@ HUSKYEXT int needUseFileBoxForLinkAka (ps_fidoconfig config, s_link *link, hs_ad
 /* will be moved to huskylib */
 HUSKYEXT char *makeFileBoxName     (ps_fidoconfig config, s_link *link);
 HUSKYEXT char *makeFileBoxNameAka  (ps_fidoconfig config, s_link *link, hs_addr *aka);
-/* will be moved to huskylib */
-HUSKYEXT void fillCmdStatement(char *cmd, const char *call, const char *archiv, const char *file, const char *path);
 
 /* will be moved to huskylib */
 /*  Change file sufix (add if not present).
