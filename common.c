@@ -102,7 +102,8 @@ void string2addr(const char *string, s_addr *addr)
 
   buffer = malloc(strlen(string));
   while ((*start != ':')&&(*start != ' ')&&(*start != '\0')) {    // copy zone info or preceding domain
-       buffer[i] = *(start++);
+      buffer[i] = *start;
+      start++;
       i++;
    } /* endwhile */
    buffer[i] = '\0';
@@ -121,7 +122,8 @@ void string2addr(const char *string, s_addr *addr)
 
    if (strchr(start, '/')!= NULL) {
       while (*start != '/') {                           // copy net info
-         buffer[i] = *(start++);
+	 buffer[i] = *start;
+	 start++;
          i++;
       } /* endwhile */
       buffer[i] = '\0';
@@ -132,7 +134,8 @@ void string2addr(const char *string, s_addr *addr)
    }
 
    while ((*start != '.') && (*start != '\0') && (*start != '@')) {      // copy node info
-      buffer[i] = *(start++);
+      buffer[i] = *start;
+      start++;
       i++;
    } /* endwhile */
    buffer[i] = '\0';
@@ -160,8 +163,9 @@ void string2addr(const char *string, s_addr *addr)
    case '.':                            // point info / maybe domain info
       start++;
       while ((*start != '@') && (*start != '\0')) {           // copy point info
-         buffer[i] = *(start++);
-         i++;
+         buffer[i] = *start;
+	 start++;
+	 i++;
       } /* endwhile */
       buffer[i] = '\0';
       addr->point = atoi(buffer);
