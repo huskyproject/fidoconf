@@ -1,3 +1,20 @@
+2002-04-15 Monday 12:59  mche
+
+	* doc/keywords.hpt (1.24): token perlSupport removed
+
+2002-04-15 Monday 12:54  mche
+
+	* fidoconf.h (1.110), line.c (1.290), tokens.h (1.31), tparser.c
+	(1.174): token perlSupport removed
+
+2002-04-15 Monday 12:38  mche
+
+	* makefile.mvc (1.9): no message
+
+2002-04-15 Monday 12:36  mche
+
+	* adcase.h (1.4): makefile for mvcdll version
+
 2002-04-13 Saturday 16:44  mche
 
 	* fidoconf.h (1.109): Some internal features added.  Now we can set
