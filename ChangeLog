@@ -1,3 +1,8 @@
+2003-05-29 Thursday 17:30  d_sergienko
+
+	* doc/proposal.texi (fidoconf-1_4-stable.2): added info about
+	commentChar
+
 2003-05-22 Thursday 20:44  d_sergienko
 
 	* tparser.c (fidoconf-1_4-stable.2): make info about remaps more
