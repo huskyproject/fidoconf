@@ -4,6 +4,8 @@
 
 int writeArea(FILE *f, s_area *area, char netmail) {
 
+   if (area->group == 0) area->group = '0';
+
    fprintf(f, "areadef %s \"%s\" %c ", area->areaName, area->areaName, area->group);
 
    if (netmail==1) fprintf(f, "net ");

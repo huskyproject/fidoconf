@@ -62,20 +62,23 @@ void initConfig(s_fidoconfig *config) {
 
 char *getConfigFileName() {
 
-   FILE *f;
+   char *envFidoConfig = getenv("FIDOCONFIG");
+
+   FILE *f = NULL;
+   
 #ifdef __linux__
    char *osSpecificName = "/etc/fido/config";
 #elif __FreeBSD__
    char *osSpecificName = "/usr/local/etc/fido/config";
 #elif OS2
-   char *osSpecificName = "c:\fido\config";
+   char *osSpecificName = "c:\\fido\\config";
 #else
    char *osSpecificName = "fidoconfig";
 #endif
 
    //try env-var fidoconfig
-   f = fopen(getenv("FIDOCONFIG"), "r");
-   if (f== NULL) {
+   if (envFidoConfig != NULL) f = fopen(envFidoConfig, "r");
+   if (f == NULL) {
       //try osSpecificName
       f = fopen(osSpecificName, "r");
       if (f==NULL) return NULL;
