@@ -162,8 +162,10 @@ void print_packers( Packers *packers, int packers_count )
 
 void print_unpackers( Unpackers *unpackers, int unpackers_count )
 {  int i;
-     for (i = 0; i < unpackers_count; i++) {
-       if ( strlen(unpackers[i].command) )
+
+   for (i = 0; i < unpackers_count; i++) {
+
+     if ( strlen(unpackers[i].command) ){
          fprintf( f_hpt, "# Unpack  \"" );
          switch(unpackers[i].callingconvention){
          case 0: /*default*/
@@ -226,7 +228,8 @@ void print_unpackers( Unpackers *unpackers, int unpackers_count )
              break;
          }
          fprintf( f_hpt, "\n");
-     }
+    }
+  }
 }
 
 
