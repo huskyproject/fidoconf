@@ -1416,8 +1416,8 @@ int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
            return 1;
    }
 
-   if (stricmp(token, "secure")==0) link->allowEmptyPktPwd = fSecure;
-   else if (stricmp(token, "on")==0) link->allowEmptyPktPwd = fOn;
+   if (stricmp(token, "secure")==0) link->allowEmptyPktPwd = eSecure;
+   else if (stricmp(token, "on")==0) link->allowEmptyPktPwd = eOn;
    else return 2;
    
    return 0;

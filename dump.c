@@ -149,10 +149,10 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       default:;
       }
       switch (link.allowEmptyPktPwd) {
-      case fSecure:
+      case eSecure:
 	fprintf(f, "allowEmptyPktPwd secure\n");
 	break;
-      case fOn:
+      case eOn:
 	fprintf(f, "allowEmptyPktPwd on\n");
 	break;
       default:;
