@@ -1,3 +1,30 @@
+2002-06-15 Saturday 15:34  stas
+
+	* fidoconf.c (1.79), fidoconf.h (1.122), line.c (1.304), tokens.h
+	(1.35): New token in mail config: email (for emailpkt).
+
+2002-06-15 Saturday 15:17  stas
+
+	* tparser.c (1.178): Add 'tmailpkt' section with sendmailcmd token
+	value
+
+2002-06-15 Saturday 15:10  stas
+
+	* fidoconf.c (1.78): Fix: free sendmailcmd in disposeConfig()
+
+2002-06-15 Saturday 15:04  stas
+
+	* .cvsignore (1.5): Modify not-commited filemasks list
+
+2002-06-15 Saturday 10:25  mche
+
+	* tokens.h (1.34): token order fixed
+
+2002-06-15 Saturday 09:53  mche
+
+	* makefile.inc (1.25): patch by [Alexander Shiyan
+	<shc@milas.spb.ru>]
+
 2002-06-14 Friday 18:49  mche
 
 	* line.c (1.303): fixed incorrect function defenition
