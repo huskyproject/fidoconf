@@ -11,7 +11,7 @@ FCONFL=	fconfmvc.lib
 SMAPIL=	..\smapi\smapimvc.lib msvcrt.lib Kernel32.lib /link /opt:nowin98
 LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
-OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj tree.obj areatree.obj afixcmd.obj afixcmn.obj
+OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj tree.obj areatree.obj afixcmd.obj afixcmn.obj arealist.obj
 
 all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
 
@@ -32,6 +32,8 @@ $(FCONFL):
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c areatree.c
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmd.c
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmn.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c arealist.c
+
 		$(LINK) $(LINKOPTS) $(OBJS1)
 
 tparser.exe:

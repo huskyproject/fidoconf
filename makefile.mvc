@@ -10,7 +10,7 @@ FCONFL=	fconfmvc.lib
 #SMAPIL=	..\smapi\smapimvc.lib
 SMAPIL= ..\smapi\fexist.obj ..\smapi\patmat.obj ..\smapi\trail.obj
 
-OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj tree.obj areatree.obj afixcmd.obj afixcmn.obj
+OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj tree.obj areatree.obj afixcmd.obj afixcmn.obj arealist.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
