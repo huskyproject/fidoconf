@@ -3794,9 +3794,12 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseSyslog(getRestOfLine(), &(config->syslogFacility));
             break;
         case ID_FILEBOXDIR:
-            rc = parsePath(getRestOfLine(),
-                           &(getDescrLink(config)->fileBox));
+            rc = parsePath(getRestOfLine(), &(getDescrLink(config)->fileBox));
             break;
+	case ID_CARBONEXCLUDEFWDFROM:
+	    rc = parseBool(getRestOfLine(), &(config->carbonExcludeFwdFrom));
+	    break;
+
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

@@ -400,6 +400,7 @@ typedef struct fidoconfig {
    unsigned int   carbonKeepSb;  // keep SeenBy's and PATH in carbon area
    unsigned int   carbonOut;     // carbon outgoing messages
    unsigned int   exclPassCC;    // don't carbon passthough
+   unsigned int   carbonExcludeFwdFrom; // don't print " * Forwarded from area"
 
    unsigned int  remapCount;
    ps_remap remaps;

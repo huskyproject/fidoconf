@@ -583,7 +583,9 @@ void printCarbons(s_fidoconfig *config) {
     printf("CarbonAndQuit %s\n", (config->carbonAndQuit) ? "on" : "off");
     printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
     printf("CarbonOut %s\n", (config->carbonOut) ? "on" : "off");
-    printf("ExcludePassthroughCarbon %s\n\n", (config->exclPassCC) ? "on" : "off");
+    printf("ExcludePassthroughCarbon %s\n", (config->exclPassCC) ? "on" : "off");
+    printf("Exclude \" * Forward from area \" string: %s\n\n", 
+	   (config->carbonExcludeFwdFrom) ? "on" : "off");
 
     for (i = 0, cb=&(config->carbons[0]); i< config->carbonCount; i++, cb++) {
 

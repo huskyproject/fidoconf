@@ -245,7 +245,8 @@ enum {
     ID_REQIDXDIR,
     ID_SYSLOG_FACILITY,
     ID_FILEFIXFSC87SUBSET,
-    ID_FILEBOXDIR
+    ID_FILEBOXDIR,
+    ID_CARBONEXCLUDEFWDFROM
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -301,6 +302,7 @@ token_t parseline_tokens[] =
     { "carbonandquit", ID_CARBONANDQUIT },
     { "carboncopy", ID_CARBONCOPY },
     { "carbondelete", ID_CARBONDELETE },
+    { "carbonexcludefwdfrom", ID_CARBONEXCLUDEFWDFROM },
     { "carbonextern", ID_CARBONEXTERN },
     { "carbonfrom", ID_CARBONFROM },
     { "carbonfromarea", ID_CARBONFROMAREA },
