@@ -1097,10 +1097,13 @@ void printRemaps(s_fidoconfig *config)
 
     printf("\n=== Remap config ===\n");
     for( i=0; i<config->remapCount; i++ ){
-      printf( "Remap %s,",
-            sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "" );
-      printAddr(&(config->remaps[i].oldaddr));
-      putchar(',');
+        printf( "ToName: \"%s\" and ToAddress:",
+              sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "<any name>" );
+      if (config->remaps[i].oldaddr.zone==0)
+          printf(" <any address> ");
+      else
+          printAddr(&(config->remaps[i].oldaddr));
+      printf("=>");
       printAddr(&(config->remaps[i].newaddr));
       putchar('\n');
     }
