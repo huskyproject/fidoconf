@@ -871,7 +871,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     // rc == '\x0003' no access export
     // rc == '\x0004' not linked
     
-    int i;
+    int i, rc = 0;
 
     for (i=0; i<echo->downlinkCount; i++) {
 		if (link == echo->downlinks[i]->link) break;
@@ -886,20 +886,22 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 			if (config->numPublicGroup) {
 				if (!grpInArray(echo->group,link->AccessGrp,link->numAccessGrp) &&
 					!grpInArray(echo->group,config->PublicGroup,config->numPublicGroup))
-					return 1;
-			} else if (!grpInArray(echo->group,link->AccessGrp,link->numAccessGrp)) return 1;
+					rc = 1;
+			} else if (!grpInArray(echo->group,link->AccessGrp,link->numAccessGrp)) rc = 1;
 		} else if (config->numPublicGroup) {
-			if (!grpInArray(echo->group,config->PublicGroup,config->numPublicGroup)) return 1;
-		} else return 1;
-    }
-    
+			if (!grpInArray(echo->group,config->PublicGroup,config->numPublicGroup)) rc = 1;
+		} else if (link->numOptGrp==0) return 1;
+		
+		if (link->numOptGrp) {
+			if (grpInArray(echo->group,link->optGrp,link->numOptGrp)) {
+				if (link->export==0) return 3; else rc = 0;
+			}
+		}
+	}
+	
     if (echo->levelread > link->level) return 2;
     
-    if (i < echo->downlinkCount) {
-		if (echo->downlinks[i]->export == 0) return 3;
-    }
-    
-    return 0;
+    return rc;
 }
 
 int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_addr *aka) {
@@ -910,7 +912,7 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_addr *aka) {
     // rc == '\x0003' no access import
     // rc == '\x0004' not linked
 
-    int i;
+    int i, rc = 0;
 
     s_link *link;
     
@@ -924,35 +926,25 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_addr *aka) {
     }
     if (i == echo->downlinkCount) return 4;
     
-// Do not check groups here, too much checking, use groups only for areafix
-//    if (echo->group != '\060') {
-//	if (link->AccessGrp) {
-//	    if (config->PublicGroup) {
-//		if (strchr(link->AccessGrp, echo->group) == NULL &&
-//		    strchr(config->PublicGroup, echo->group) == NULL) return 1;
-//	    } else if (strchr(link->AccessGrp, echo->group) == NULL) return 1;
-//	} else if (config->PublicGroup) {
-//		   if (strchr(config->PublicGroup, echo->group) == NULL) return 1;
-//	       } else return 1;
-//    }
-    
     if (strcmp(echo->group,"0")) {
 		if (link->numAccessGrp) {
 			if (config->numPublicGroup) {
 				if (!grpInArray(echo->group,link->AccessGrp,link->numAccessGrp) &&
 					!grpInArray(echo->group,config->PublicGroup,config->numPublicGroup))
-					return 1;
-			} else if (!grpInArray(echo->group,link->AccessGrp,link->numAccessGrp)) return 1;
+					rc = 1;
+			} else if (!grpInArray(echo->group,link->AccessGrp,link->numAccessGrp)) rc = 1;
 		} else if (config->numPublicGroup) {
-			if (!grpInArray(echo->group,config->PublicGroup,config->numPublicGroup)) return 1;
-		} else return 1;
-    }
+			if (!grpInArray(echo->group,config->PublicGroup,config->numPublicGroup)) rc = 1;
+		} else if (link->numOptGrp==0) return 1;
 
-    if (echo->levelwrite > link->level) return 2;
-    
-    if (i < echo->downlinkCount) {
-		if (echo->downlinks[i]->import == 0) return 3;
+		if (link->numOptGrp) {
+			if (grpInArray(echo->group,link->optGrp,link->numOptGrp)) {
+				if (link->import==0) return 3; else rc = 0;
+			}
+		}
     }
+	
+    if (echo->levelwrite > link->level) return 2;
     
     return 0;
 }

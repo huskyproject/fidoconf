@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sun Apr 23 22:12:26 NOVST 2000
+max:
+* changes with e_readCheck & e_writeCheck (fixed optgrp operations)
+
+----- cvs ci ------
 Sat Apr 21 2:44:00 MSK 2000
 Nestyurkin Nikolay:
 * bugfix of previous fix (int->uint)

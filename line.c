@@ -804,8 +804,6 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 		 if (area->mandatory) arealink->mandatory = 1;
 		 if (e_readCheck(config, area, link))	arealink->export = 0;
 		 if (e_writeCheck(config, area, &link->hisAka)) arealink->import = 0;
-		 // paused link can't receive mail
-		 if (link->Pause) arealink->export = 0;
 		 
 	 tok = strtok(NULL, " \t");
 	 while (tok) {
