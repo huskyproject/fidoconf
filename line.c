@@ -4417,8 +4417,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = copyString(getRestOfLine(), &(config->tearline));
             break;
         case ID_ORIGIN:
-            temp = stripRoundingChars(getRestOfLine(), "\"");
-            rc = copyString(temp, &(config->origin));
+            rc = copyString(getRestOfLine(), &(config->origin));
             break;
         case ID_BUNDLENAMESTYLE:
             rc = parseBundleNameStyle(getRestOfLine(),
