@@ -261,6 +261,9 @@ _Keyword definitions_
   # msgbase: *.msg is standard. Write Squish for an Squish-msgbase
   # LinkAKA:  aka's of up- and down links
 
+  # -a <aka>      
+  #  aka to use
+
   # Echo Security:
   # by default everything all allowed.
 
@@ -306,23 +309,22 @@ _Keyword definitions_
   # -keepsb      
   # keep seen-by's
 
+  # -DupeCheck off|move|del
+  # toss in dupes, move dupes to dupeArea or delete dupes.
+  # -DupeHistory <unsignedInteger>
+  # size of dupecheck history file in days
+
+  # -manual      
+  # disallow remote changes (only manual connect/disconnect)
+
   # options for further development, e.g.:
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # -mandatory {<group>}
   # area is mandatory for {<group>}
   # if <group> is an unsignedInteger,  this area is mandatory 
   #   for levals <= <group>
-  # -a <aka>      
-  #  aka to use
   # -tinysb     
   # keep only seen-by's of links listed in {link}
-  # -manual      
-  # disallow remote changes (only manual connect/disconnect)
-  # -DupeCheck off|move|del
-  # toss in dupes, move dupes to dupeArea
-  #   or delete dupes.
-  # -DupeHistory <unsignedInteger>
-  # size of dupecheck history file 
-  #   in days
   # <LinkOption>:
   # -imp
   # import only for redundant echomail-supply

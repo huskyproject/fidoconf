@@ -162,7 +162,8 @@ struct area {
    char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
 
    int ccoff;          // 1 if carbon copy is not allowed from this area
-   int keepsb;          // 1 if carbon copy is not allowed from this area
+   int keepsb;         // keep seen-by's and path
+   int scn;            // 1 if scanned
 };
 typedef struct area s_area;
 
@@ -287,6 +288,8 @@ struct fidoconfig {
    unsigned int separateBundles;
    unsigned int defarcmailSize;
    unsigned int areafixmsgSize;
+
+   char *afterUnpack, *beforePack;
 };
 
 

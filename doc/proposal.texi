@@ -82,7 +82,6 @@ a comment and will be ignored.
 * include::                     include other files
 * address::                     your system address
 
-@c Path and file definition:
 * outbound::                    outbound path
 * tempoutbound::                temporary outbound path
 * inbound::                     inbound path
@@ -103,7 +102,6 @@ a comment and will be ignored.
 * magic::                       path for magic-file requests
 * lockfile::                    file which lock hpt session
 
-@c link definition:
 * link::                        adding a link to your config
 * aka::                         links adress
 * ouraka::                      our aka for link
@@ -135,29 +133,26 @@ a comment and will be ignored.
 * arcmailsize::			size of arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
 
-@c area definition:
 * netmailarea::                 definition of netmailarea
 * badarea::                     definition of badarea
 * dupearea::                    definition of dupearea
 * echoarea::                    definition of echoarea
 * localarea::                   definition of localarea
 
-@c rights
 * PublicGroup::                 this is a list of groups for public echo acess
 * GroupAutoAreaCreate::         right to autoareaCreate for a group
 * AutoCreateDefaults::          default area options for autocreated areas
 * GroupDefaults::               default area options for GroupAutoAreaCreated areas
 
-@c packer
 * pack::                        definition for packer
 * unpack::                      definition for unpacker
+* afterUnpack::                 execute string after unpack arcmail bundles
+* beforePack::                  execute string before pack pkt files
 
-@c routing
 * route::                       routing of netmails
 * routeFile::                   routing of netmails with file attached
 * routeMail::                   routing of netmails without file attached
  
-@c carbon copy
 * carbonTo::                    make carbonCopy using to-field of msg
 * carbonFrom::                  make carbonCopy using from-field of msg
 * carbonKludge::                make carbonCopy using kludge lines of msg
@@ -167,12 +162,10 @@ a comment and will be ignored.
 * carbonAndQuit::               carbon message only one time
 * carbonKeepSb::                keep seen-by's and path
 
-@c areafix
 * areafixFromPkt::              process areafix requests on the fly
 * areafixKillReports::          set kill/sent flag to areafix reports
 * ReportTo::                    set area or netmail for areafix reports
 
-@c misc:
 * logEchoToScreen::             set output to screen log information
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
@@ -1179,12 +1172,12 @@ purge after n days,
 leave max n messages after purge in area
 @item -a <aka>      
 aka to use
-@item -keepsb      
-keep seen-by's
-@item -tinysb     
-keep only seen-by's of links listed in @{link@}
-@item -manual      
-disallow remote changes (only manual connect/disconnect)
+@item -keepsb
+keep seen-by's (used in CarbonCopy)
+@item -tinysb
+keep only seen-by's of links listed in @{link@} @strong{This statement is currently not supported.}
+@item -manual
+disallow remote changes (only manual connect/disconnect). same as mandatory.
 @item -dosfile
 file name of area is in dos style (8+3)
 @item -h           
@@ -1195,8 +1188,6 @@ describe area
 %PAUSE has no effect to this area
 @item -ccoff
 disables carbonCopies for this area
-@item -keepsb
-keep seen-by's (used in CarbonCopy)
 @item -DupeCheck off|move|del
 toss in dupes, move dupes to dupeArea or delete dupes.
 @item -DupeHistory <unsignedInteger>
@@ -1206,9 +1197,9 @@ size of dupecheck history file in days
 LinkOption:
 @table @asis
 @item -imp
-import only for redundant echomail-supply
+import only for redundant echomail-supply @strong{This statement is currently not supported.}
 @item -def
-default-uplink for redundant echomail-supply
+default-uplink for redundant echomail-supply @strong{This statement is currently not supported.}
 @end table
 
 This statement can be repeated.
@@ -1298,7 +1289,7 @@ $a will be replaced by the archiv file
 
 $f will be replaced by the file  which should be packed into the archiv
 
-@node unpack, route, pack, Keywords
+@node unpack, afterUnpack, pack, Keywords
 @subsection Unpack
 @table @asis
 @item Syntax:
@@ -1330,7 +1321,32 @@ e.g.: unpack "unzip -joLqq $a -d $p" 0 504b0304
 
 @end example
 
-@node route, routeFile, unpack, Keywords
+@node afterUnpack, beforePack, unpack, Keywords
+@subsection afterUnpack
+@table @asis
+@item Syntax:
+@code{afterUnpack <string>}
+@item Example:
+@code{afterUnpack pktpack /home/fido/in.tmp/*.pkt}
+@end table
+
+This <string> executes after unpacking arcmail bundle. You may process
+your pkt files in @code{tempInbound} directory with external utility.
+
+@node beforePack, route, afterUnpack, Keywords
+@subsection beforePack
+@table @asis
+@item Syntax:
+@code{beforePack <string>}
+@item Example:
+@code{beforePack pktpack /home/fido/out.tmp/*.pkt}
+@end table
+
+This <string> executes before packing pkt files to arcmail bundles. You 
+may process your pkt files in @code{tempOutbound} directory with
+external utility.
+
+@node route, routeFile, beforePack, Keywords
 @subsection route
 @table @asis
 @item Syntax:

@@ -1617,6 +1617,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "export")==0) rc = parseExport(getRestOfLine(), &(config->links[config->linkCount-1].export));
    else if (stricmp(token, "import")==0) rc = parseImport(getRestOfLine(), &(config->links[config->linkCount-1].import));
    else if (stricmp(token, "mandatory")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
+   else if (stricmp(token, "manual")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
    else if (stricmp(token, "optgrp")==0) rc = parseOptGrp(getRestOfLine(), &(config->links[config->linkCount-1].optGrp));
    else if (stricmp(token, "level")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].level));
    else if (stricmp(token, "arcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].arcmailSize));
@@ -1672,6 +1673,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
    else if (stricmp(token, "defarcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->defarcmailSize));
    else if (stricmp(token, "areafixmsgsize")==0) rc = parseLevel(getRestOfLine(), &(config->areafixmsgSize));
+   else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
+   else if (stricmp(token, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
+
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
 
    if (rc != 0) {

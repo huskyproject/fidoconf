@@ -2,6 +2,13 @@ fidoconfig 0.9
 --------------
 
 ----- cvs ci ------
+Mon Aug 16 12:33:46 NOVST 1999
+max:
++ added echoarea token -manual. same as -mandatory.
++ added tokens beforePack & afterUnpack
+* small changes in docmentation.
+
+----- cvs ci ------
 Sat Aug 14 23:34:49 NOVST 1999
 max:
 + added token areafixmsgSize
