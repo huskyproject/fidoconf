@@ -35,6 +35,8 @@
 #define DUPE 0x10
 #define BAD 0x20
 
+#include <string.h>
+
 #include "fidoconf.h"
 #include "common.h"
 
