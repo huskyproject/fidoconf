@@ -408,6 +408,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
       }
    }
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
+   else if (stricmp(option, "$")==0) ;
    else if (stricmp(option, "d")==0) {
           if ((area->description=getDescription())==NULL)
             return 1;
@@ -1247,7 +1248,9 @@ int parseLine(char *line, s_fidoconfig *config)
          rc = parsePath(temp, &(config->msgBaseDir));
    }
    else if (stricmp(token, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic));
-   else if (stricmp(token, "netmailArea")==0) rc = parseArea(*config,getRestOfLine(),&(config->netMailArea));
+   else if ((stricmp(token, "netmailArea")==0) ||
+	    (stricmp(token, "netArea")==0))
+     rc = parseArea(*config,getRestOfLine(),&(config->netMailArea));
    else if (stricmp(token, "dupeArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->dupeArea));
    else if (stricmp(token, "badArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->badArea));
    else if (stricmp(token, "echoArea")==0) rc = parseEchoArea(getRestOfLine(), config);

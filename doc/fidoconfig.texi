@@ -8,7 +8,7 @@
 @ifinfo
 This file documents fidoconfig.
 
-Copyright 1998 Matthias Tichy
+Copyright 1998-99 Matthias Tichy
 
 @end ifinfo
 
@@ -19,7 +19,7 @@ Copyright 1998 Matthias Tichy
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998 Matthias Tichy
+Copyright @copyright{} 1998-99 Matthias Tichy
 
 @end titlepage
 
@@ -30,7 +30,7 @@ Copyright @copyright{} 1998 Matthias Tichy
 This document describes the use of fidoconfig to make fido work on your unix
 workstation.
 
-This document applies to version 0.7 of fidoconfig.
+This document applies to version 0.8 of fidoconfig.
 @end ifinfo
 
 @menu
