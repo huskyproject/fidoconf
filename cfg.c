@@ -138,18 +138,31 @@ void close_conf(void)
 
 static char *_configline(void)
 {
-  char *parsed, *src, *dest, *p, *p1, *newparsed, *line;
-  int  curlen;
-#if defined(UNIX) || (defined(OS2) && defined(__EMX__))
-  FILE *f;
-  int  i;
-#endif
+  char *line;
 
   curconfpos = ftell(hcfg);
   line = readLine(hcfg);
   if (line == NULL)
     return NULL;
   actualLineNr++;
+  return vars_expand(line);
+}
+
+char *vars_expand(char *line)
+{
+  int  curlen;
+  char *parsed, *src, *dest, *p, *p1, *newparsed;
+#if defined(UNIX) || (defined(OS2) && defined(__EMX__))
+  FILE *f;
+  int  i;
+#endif
+
+#if defined(UNIX) || (defined(OS2) && defined(__EMX__))
+  if (strpbrk(line, "[`")==NULL)
+#else
+  if (strchr(line, '[')==NULL)
+#endif
+     return line;
   curlen = strlen(line)+1;
   parsed = dest = smalloc(curlen);
   for (src = line; *src; src++)

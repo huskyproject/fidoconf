@@ -153,6 +153,14 @@ FCONF_EXT char   *shell_expand(char *str);
           see sh(1) for further explanations
 */
 
+FCONF_EXT char   *vars_expand(char *str);
+/*DOC
+   Input: str is a \0 terminated string which must have been malloc'ed
+   Ouput: a pointer to a \0 terminated string is returned which must be free'd
+   FZ:    vars_expand expands the strings just like [home]/etc to /home/fnet/etc
+          and (under unix and os2/emx) `uname` to Linux
+*/
+
 FCONF_EXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoconfig *config);
 /*DOC
    Input:  dir: \0 terminated string designating the destination directory
