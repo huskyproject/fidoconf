@@ -1206,9 +1206,10 @@ char    *GetDirnameFromPathname(const char* pathname)
   char *sp=NULL, *rp=NULL;
 
   sp = strrchr(pathname,PATH_DELIM);
-  if( sp )
-    rp = sstrncpy(smalloc(++sp-pathname+1), pathname, sp-pathname);
-  else
+  if( sp ){
+    sp++;
+    rp = sstrncpy(smalloc(sp-pathname+1), pathname, sp-pathname);
+  }else
 #if PATH_DELIM=='/'
     rp = sstrdup("./");
 #else
