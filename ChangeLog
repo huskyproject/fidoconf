@@ -1,3 +1,12 @@
+2002-10-11 Friday 13:49  stas_degteff
+
+	* fidoconf.c (1.87): Fix previous patch
+
+2002-10-11 Friday 13:33  stas_degteff
+
+	* fidoconf.c (1.86): Fix bug with signed use unsigned var in
+	setConfigDefaults()
+
 2002-10-09 Wednesday 09:55  stas_degteff
 
 	* common.c (1.112): Implement file locking in copy_file()
