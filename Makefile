@@ -95,9 +95,10 @@ endif
 ifeq ($(DYNLIBS), 1)
 instdyn: $(LIBFIDOCONFIG).so.$(VER)
 	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBDIR)
-	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.$(VER) \
-          $(LIBDIR)/$(LIBFIDOCONFIG).so.0
-	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.0 $(LIBDIR)/$(LIBFIDOCONFIG).so
+# Removed path from symlinks.
+	cd $(LIBDIR) ;\
+	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.$(VER) $(LIBFIDOCONFIG).so.0 ;\
+	$(LN) $(LNOPT) $(LIBFIDOCONFIG).so.0 $(LIBFIDOCONFIG).so
 ifneq (~$(LDCONFIG)~, ~~)
 	$(LDCONFIG)
 endif
