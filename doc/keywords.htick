@@ -3,6 +3,8 @@ AnnAreaTag
 AnnAdrfrom
 AnnAdrto
 AnnExclude
+AnnFileOrigin
+AnnFileRFrom
 AnnFrom
 AnnInclude
 AnnMessFlags
@@ -28,7 +30,7 @@ FileFixHelp
 FileFixKillReports
 FileFixKillRequests
 MaxTicLineLength
-OriginInAnnounce
+OriginInAnnounce (obsoleted)
 PassFileAreaDir
 RemoteFileRobotName
 SaveTic
