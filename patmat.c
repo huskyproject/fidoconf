@@ -50,6 +50,7 @@
 
 #include <stddef.h>
 #include <string.h>
+#include <ctype.h>
 
 int patmat(char *raw,char *pat)
 {  int  i ;
