@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # *** Support for searching in included files and finding ***
 # ***  exact matches added by Eduard Dulich (2:464/98).  ****
@@ -9,7 +9,11 @@ echo This file is part of FidoConfig/Husky by Matthias Tichy
 echo ===============================================================
 
 if [ "$FIDOCONFIG" = "" ] ; then
-   FIDOCONFIG="/etc/fido/config"
+   if [ -f config ] ; then
+      FIDOCONFIG=config
+   else 
+      FIDOCONFIG="/etc/fido/config"
+   fi
 fi
 
 INCLUDES=$(grep -i include $FIDOCONFIG | cut -b8-)

@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Tue Jan 25 13:46:13 NOVT 2000
+max (patch from Serguei Revtov):
+* linkedto: read config file in current directory
+
+----- cvs ci ------
 Tue Jan 25 00:43:18 NOVT 2000
 max (patch from Serguei Revtov):
 * make fidoconfig compiling on sun (makefile.sun)
