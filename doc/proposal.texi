@@ -1124,14 +1124,19 @@ listed in this nodelist.
 @item Syntax:
 @code{Nodelistformat <format>}
 @item Example:
-@code{NodelistFormat standard} or @code{NodelistFormat Points24}
+@example
+NodelistFormat standard
+NodelistFormat points4d
+NodelistFormat points24
+@end example
 @end table
 
 Here you can specify the format of the unpacked nodelist. The default is
 @samp{standard}; this is the normal Fidonet nodelist format. You can also
-specify @samp{points24}, which is needed for the nodelist compiler to
-recognise a point list in the German points24 format as such, so that it can
-see the proper 5D point numbers instead of the fakenet numbers.
+specify @samp{points4d}, which is needed for the nodelist compiler to
+recognise a standart pointlist in 4D format or @samp{points24} for the
+German points24 format as such, so that it can see the proper 5D point
+numbers instead of the fakenet numbers.
 
 @node EmailPkt, BSOpack, NLTools, config file
 @section EmailPkt keywords
