@@ -478,6 +478,8 @@ typedef struct fidoconfig {
    char *netmailFlag;
    char *aacFlag;
 
+   unsigned minDiskFreeSpace;
+
 } s_fidoconfig, *ps_fidoconfig;
 
 

@@ -231,7 +231,8 @@ enum {
     ID_CREATEFWDNONPASS,
     ID_AUTOPASSIVE,
     ID_NETMAILFLAG,
-    ID_AUTOAREACREATEFLAG
+    ID_AUTOAREACREATEFLAG,
+	ID_MINDISKFREESPACE
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -389,6 +390,7 @@ token_t parseline_tokens[] =
     { "manual", ID_MANUAL },
     { "maxticklinelength", ID_MAXTICLINELENGTH },
     { "maxunpackednetmail", ID_MAXUNPACKEDNETMAIL },
+	{ "mindiskfreespace", ID_MINDISKFREESPACE },
     { "msgbasedir", ID_MSGBASEDIR },
     { "msgidfile", ID_MSGIDFILE },
     { "name", ID_NAME },

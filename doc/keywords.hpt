@@ -87,6 +87,7 @@ logechotoscreen
 logfiledir
 loglevels
 mandatory
+mindiskfreespace
 msgbasedir
 name
 netarea

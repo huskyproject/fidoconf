@@ -46,6 +46,7 @@ char *xstrscat(char **s, ...);
 int xscatprintf(char **s, const char *format, ...);
 /* 
  * sprintf's "format" to the end of "s". Reallocates it when it needs
+ * return value: number of bytes added.
  */
 
 #endif

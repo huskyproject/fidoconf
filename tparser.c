@@ -626,6 +626,8 @@ int main(int argc, char **argv) {
 //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
 	  if (config->netmailFlag) printf("NetmailFlag: %s\n",config->netmailFlag);
 	  if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
+	  if (config->minDiskFreeSpace) 
+		  printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
 
       if (hpt==0) {
           printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");

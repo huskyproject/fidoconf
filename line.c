@@ -3207,6 +3207,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AUTOAREACREATEFLAG:
             rc = copyString(getRestOfLine(), &(config->aacFlag));
             break;
+		case ID_MINDISKFREESPACE:
+			rc = parseNumber(getRestOfLine(), 10, &(config->minDiskFreeSpace));
+			break;
 
         default:
             prErr( "unrecognized: %s", line);
