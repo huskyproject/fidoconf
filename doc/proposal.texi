@@ -783,7 +783,7 @@ This statement can only be repeated for different links.
 @item Syntax:
 @code{email <name>}
 @item Example:
-@code{email eddie@ironmaiden.com}
+@code{email eddie@@ironmaiden.com}
 @end table
 
 This keyword is used to set the email-address for the link. This can
@@ -1266,7 +1266,7 @@ This statement specifies the netmailarea.
 @xref{echoarea}, for details on @code{Option}.
 Like all areas Netmailareas are *.msg bases per default. 
 
-This statement cannot be repeated.
+This statement can be repeated to use different netmailareas.
 
 @node badarea, dupearea, netmailarea, Keywords
 @subsection badarea

@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Thu Oct 28 13:09:52 CEST 1999 
+mtt:
+* fixed some documentation problems
+
+----- cvs ci ------
 Thu Oct 28 12:27:40 CEST 1999
 mtt:
 - added email information to link structure (for the upcoming pkt2mail)
