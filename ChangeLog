@@ -1,7 +1,40 @@
+2003-01-27 Monday 18:21  stas_degteff
+
+	* makefile.inc (1.41): Fix illegal usage the 'tokens.h' file
+
+2003-01-27 Monday 17:16  stas_degteff
+
+	* tparser.c (1.237): Fix variable type: need use SIGNED int, not
+	unsigned for the 'k' variable in checkLogic() (Fix patch 2003-01-09
+	Thursday 15:29	mche tparser.c (1.230))
+
+2003-01-27 Monday 17:06  stas_degteff
+
+	* line.c (1.373): Fix after patch 2003-01-14 Tuesday 06:48 line.c
+	(1.367)
+
+2003-01-27 Monday 16:52  stas_degteff
+
+	* makefile.wco (1.26), makefile.wcw (1.34): Fix Watcom C builds
+
+2003-01-27 Monday 16:33  stas_degteff
+
+	* README.TXT (1.3): Add information about cygwin/mingw dll
+	compilation
+
+2003-01-27 Monday 16:32  stas_degteff
+
+	* HISTORY (1.19): Add 'known bugs' section; write info about GCC
+	3.x bug (reported by Gerrit Kuehn 2:2411/12)
+
+2003-01-27 Monday 10:10  stas_degteff
+
+	* fidoconf.c (1.104): Comment out message about pktpwd truncate
+
 2003-01-25 Saturday 16:39  stas_degteff
 
-	* common.c (1.163): Bugfix: copy_file() overwrite file now
-	correctly
+	* common.c (1.163): Bugfix: copy_file() overwrite file correctly
+	now
 
 2003-01-24 Friday 06:47  stas_degteff
 
@@ -39,7 +72,7 @@
 
 2003-01-18 Saturday 19:59  stas_degteff
 
-	* common.c (1.161), makefile.cyg (1.14): fix cygwin biuld
+	* common.c (1.161), makefile.cyg (1.14): Fix cygwin build
 
 2003-01-17 Friday 13:40  stas_degteff
 
@@ -47,7 +80,8 @@
 
 2003-01-17 Friday 11:45  mche
 
-	* fidoconf.c (1.103): no message
+	* fidoconf.c (1.103): Add exclusions to syntax of the 'ReadOnly'
+	token
 
 2003-01-17 Friday 09:24  gerritkuehn
 
@@ -88,13 +122,9 @@
 
 	* makefile.mgw (1.11): fix Mingw32 compilation
 
-2003-01-16 Thursday 04:04  andr_lukyanov
-
-	* makefile.mgw (1.10): fix Mingw32 compilation
-
 2003-01-15 Wednesday 10:15  stas_degteff
 
-	* typesize.h (1.33): Fix Watcom 10.0 declarations
+	* typesize.h (1.33): Fix declarations for Watcom C 10.0
 
 2003-01-15 Wednesday 08:42  mche
 
@@ -111,7 +141,7 @@
 
 2003-01-14 Tuesday 07:31  mche
 
-	* common.c (1.159): change #if for #ifdef
+	* common.c (1.159): change #if to #ifdef
 
 2003-01-14 Tuesday 06:48  mche
 
@@ -123,7 +153,7 @@
 
 2003-01-13 Monday 14:36  stas_degteff
 
-	* makefile.wcx (1.3): Small fix Watcom C build
+	* makefile.wcx (1.3): Small fix for Watcom C build
 
 2003-01-13 Monday 14:35  stas_degteff
 
@@ -150,8 +180,8 @@
 
 2003-01-11 Saturday 20:16  i_zkh
 
-	* fc2binkd.c (1.11): Corrected 'sysname', 'location', 'sysop'
-	keywords generation
+	* fc2binkd.c (1.11): Fix 'sysname', 'location', 'sysop' keywords
+	generation
 
 2003-01-11 Saturday 13:14  stas_degteff
 
