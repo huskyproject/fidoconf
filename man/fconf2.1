@@ -1,13 +1,26 @@
-.TH FCONF2* 1 "fconf2*" "04 April 2001" "Husky - Portable Fidonet Software"
+.TH FCONF2* 1 "fconf2*" "12 Jun 2002" "Husky - Portable Fidonet Software"
 .SH NAME
 fconf2* \- Converts fidoconfig to another format
 .SH SYNOPSIS
 .B fconf2golded, fconf2msged, fconf2aquaed, fconf2fidogate,
 .B fconf2squish
 /path/to/new/config [/path/to/defaultconfig]
+.sp 2
+.B fconf2msged
+/path/to/new/config
+.sp 2
+.B fconf2areasbbs
+[/path/to/fidoconfig] /path/to/areas.bbs
+.sp 2
+.B fconf2dir
+/path/to/fidoconfig /path/to/dir.frq [/path/to/blstbbs.dir]
+.sp 2
+.B fconf2dir
+/path/to/dir.frq
+
 .SH "DESCRIPTION"
 .B fconf2*
-Converts fidoconfig to config for another Programm.
+Converts fidoconfig to config for another Program:
 .sp 2
 .B fconf2golded
 produces output for GoldED.
@@ -24,28 +37,53 @@ produces output for Fidogate.
 .B fconf2squish
 produces output for Squish.
 .br
+.B fconf2areasbbs
+produces areas.bbs file. This is perl script.
+.br
+.B fconf2dir
+produces fileecho directory listings: dir.frq (plain directory list)
+& BLstBBS directories file. This is perl script.
 .sp 2
-This manual page was written for the Debian GNU/Linux distribution
-because the original program does not have a manual page.
+If fidoconfig don't specified in command line, use \fBFIDOCONFIG\fR
+enviroment variable (if defined) or see default path (\fI/etc/fido/config\fR for UNIXes).
+
 .SH OPTIONS
 .B [/path/to/new/config]
 Name of output file.
-.br
+.TP
 .B [/path/to/defaultconfig]
 If you specify a defaultconfig there will be an include for it in the new
 config. Useful for some Defaults.
-.B NOT FOR MSGED.
+.TP
+.B [/path/to/fidoconfig]
+Fidoconfig file name. (Overwrite \fBFIDOCONFIG\fR enviroment variable value.)
+.TP
+.B [/path/to/ares.bbs]
+Path & name to generated \fBAREAS.BBS\fR file.
+.TP
+.B [/path/to/dir.bbs]
+Path & name to generated \fBDIR.BBS\fR file.
+.TP
+.B [/path/to/blstbbs.dir]
+Path & name to generated \fBBLSTBBS.DIR\fR file.
+
 .SH FILES
 .br
 .nf
 .\" set tabstop to longest possible filename, plus a wee bit
 .ta \w'/etc/fido/config   'u
 \fI/etc/fido/config\fR  Default Fidoconfig.
+
+.SH BUGS
+The '\fIinclude\fR' config directive not supported
+in \fBfconf2dir\fR and \fBfconf2areasbbs\fR.
+
 .SH NOTES
 All Husky-Software is written by various developers. For detailed information
-about the Husky-Team take a look at 
+about the Husky-Team take a look at
 http://husky.physcip.uni-stuttgart.de/team.html.
 .SH AUTHOR
 This manual page was written by Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>,
 for the Debian GNU/Linux system (but may be used by others).
-
+.br
+Updated by Stas Degteff 2:5080/102@FIDOnet
