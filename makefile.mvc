@@ -39,7 +39,8 @@ fecfg2fconf.exe:
         $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c  fecfg146.c $(FCONFL) $(SMAPIL)
 
 clean:
-        -del *.obj *.lib
+        -del *.obj 
+	-del *.lib
 
 distclean: clean
 	-del *.exe
