@@ -1,10 +1,11 @@
-2002-04-06 Thuesday 09:20 og
+2002-06-04 Tuesday 09:32  oliver.grimm
 
-	* fc2sq.c now interpret argument "-" as stdout 
-	  When you're tossing under linux, but using a non-Husky MsgReader
-          on another (non-linux) WS you can make cool commands like:
+	* fc2sq.c (1.5): OG: Add an explanation of "-" in the help output
 
-          fconf2squish - | sed -e "s/\/var\/fido\//u:\\\/gi" > /etc/fido/squish.cfg
+2002-06-04 Tuesday 09:26  oliver.grimm
+
+	* fc2sq.c (1.4): OG: fconf2squish now interpret argument "-" as
+	stdout (all non squish.cfg outputs go to stderr)
 
 2002-06-03 Monday 09:14  mche
 
