@@ -259,6 +259,9 @@ FCONF_EXT void *srealloc(void *ptr, size_t size);
 FCONF_EXT void *scalloc(size_t nmemb, size_t size);
 FCONF_EXT char *sstrdup(const char *src);
 
+/* safe strlen: if src==NULL return 0 */
+#define sstrlen(src) ( src ? strlen(src) : 0 )
+
 /* strsep.c
 */
 FCONF_EXT char *strseparate(register char **stringp, register const char *delim);
