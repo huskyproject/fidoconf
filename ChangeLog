@@ -1,3 +1,20 @@
+2002-10-08 Tuesday 14:24  stas_degteff
+
+	* common.c (1.109), common.h (1.57): Fix move_file() and
+	copy_file(): prevent unexpected result ("ANSI C requires rename,
+	but only specifies that the result on failure be nonzero. The
+	effects of using the name of an existing file as *<[new>> may vary
+	from one implementation to another.") TEST this please!
+
+2002-10-08 Tuesday 11:13  d_sergienko
+
+	* common.c (1.108): security fix (copy_file() could copy suid
+	binaries without clearing suid bit)
+
+2002-10-08 Tuesday 06:35  sfpavel
+
+	* debian/changelog (1.19): New debian packages
+
 2002-10-07 Monday 14:27  d_sergienko
 
 	* common.c (1.107): cosmetic fixes
