@@ -80,7 +80,7 @@ forwardpkts
 forwardrequestfile
 forwardrequestmask
 forwardrequests
-forwardfequesttimeout
+forwardrequesttimeout
 hptperlfile
 idlepassthrutimeout
 ignorecapword
