@@ -121,7 +121,7 @@ ifdef RANLIB
 	$(RANLIB) $(LIBFIDOCONFIG)$(LIB)
 endif
 
-install: commonlibs ranlib progs instdyn
+install: commonlibs progs instdyn
 	-$(MKDIR) $(MKDIROPT) $(BINDIR)
 	-$(MKDIR) $(MKDIROPT) $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
