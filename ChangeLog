@@ -1,3 +1,11 @@
+2002-10-03 Thursday 13:27  mche
+
+	* xstr.c (1.9): vsnprintf fix
+
+2002-10-03 Thursday 09:31  mche
+
+	* xstr.c (1.8): INTEL defined for msvc makefiles and vsnprintf fix
+
 2002-09-30 Monday 14:22  stas_degteff
 
 	* common.c (1.105): More safety check for prevent owervrite files
