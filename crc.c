@@ -199,6 +199,7 @@ UINT32 filecrc32(const char *filename)
   return crc ^ 0xFFFFFFFFUL;
 }
 
+#define _byteCRC16_(b, crc) (UINT16)(((UINT16)crc << 8) ^ crc16tab[(unsigned char)((((UINT16)crc >> 8) ^ ((unsigned char)(b))) & 0xff)])
 
 /* Calculate CRC16 for memory array
    str: array
@@ -210,7 +211,7 @@ UINT16 memcrc16(const char *str, int size, UINT16 initcrc)
   register UINT16 crc = initcrc;
 
   if(str) for (; size; str++, size--)
-     crc = ( (crc<<8) ^ crc16tab[(char)(crc>>8)^(*str)] ) & 0xFFFF;
+  { crc = _byteCRC16_(*str,crc); }
 
   return crc;
 }
@@ -224,7 +225,7 @@ UINT16 strcrc16(const char *str, UINT16 initcrc)
   register UINT16 crc = initcrc;
 
   if(str) for (; *str; str++)
-    crc =  ( (crc<<8) ^ crc16tab[(char)(crc>>8)^(*str)] ) & 0xFFFF;
+  { crc = _byteCRC16_(*str,crc); }
 
   return crc;
 }
