@@ -2,6 +2,12 @@ fidoconfig 0.9
 --------------
 	
 ----- cvs ci ------
+Sun Jul 18 15:21:25 1999
+Georgi:
++ Added token passFileAreaDir (directory for Passthrough fileareas)
++ Added token Passthrough in FileArea
+
+----- cvs ci ------
 Sat Jul 10 17:08:44 CEST 1999
 mtt:
 * changed void main to int main (fecfg2fconf.c) 
