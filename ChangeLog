@@ -1,3 +1,12 @@
+2002-11-29 Friday 14:30  stas_degteff
+
+	* makefile.inc (1.36): Add version.c to library
+
+2002-11-29 Friday 12:48  stas_degteff
+
+	* version.c (1.1), version.h (1.1): New function for unify version
+	representation: GenVersionStr()
+
 2002-11-28 Thursday 14:19  pgul
 
 	* afixcmn.c (1.25): Fix netmail flag
