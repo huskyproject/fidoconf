@@ -188,6 +188,7 @@ a comment and will be ignored.
 * ReportTo::                    set area or netmail for areafix reports
 * areafixMsgSize::              maximum areafix report size
 * areafixSplitStr::             set split string for splitted areafix messages
+* areafixOrigin::		set origin for areafix reports
 
 * logEchoToScreen::             set output to screen log information
 * Remap::                       remap mail to other address
@@ -1922,7 +1923,7 @@ Set area or netmail for areafix reports.
 this option set up maximum areafix message size (20 kb)
 if not defined, areafix reports will be not splitted...
 
-@node areafixSplitStr, logEchoToScreen, areafixMsgSize, Keywords
+@node areafixSplitStr, areafixOrigin, areafixMsgSize, Keywords
 @subsection areafixSplitStr
 @table @asis
 @item Syntax:
@@ -1933,7 +1934,19 @@ if not defined, areafix reports will be not splitted...
 
 this string added after splitted araefix message.
 
-@node logEchoToScreen, Remap, areafixSplitStr, Keywords
+@node areafixOrigin, logEchoToScreen, areafixSplitStr, Keywords
+@subsection areafixOrigin
+@table @asis
+@item Syntax:
+@code{areafixOrigin <string>}
+@item Example:
+@code{areafixOrigin c0()1 $tAt10n}
+@end table
+
+the origin string in areafix reports will be:
+ * Origin: c0()1 $tAt10n (<your aka>)
+
+@node logEchoToScreen, Remap, areafixOrigin, Keywords
 @subsection logEchoToScreen
 @table @asis
 @item Syntax:

@@ -319,7 +319,7 @@ struct fidoconfig {
    s_remap  *remaps;
 
    unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests, areafixMsgSize;
-   char *areafixSplitStr;
+   char *areafixSplitStr, *areafixOrigin;
 
    char     **PublicGroup;
    unsigned int numPublicGroup;

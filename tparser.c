@@ -278,6 +278,7 @@ int main() {
 	  printf("areafixKillRequests: %s\n",(config->areafixKillRequests)?"on":"off");
 	  if (config->areafixMsgSize) printf("areafixMsgSize - %u\n", config->areafixMsgSize);
 	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
+	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
 
       printf("\n=== FILEFIX CONFIG ===\n");
 	  printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
