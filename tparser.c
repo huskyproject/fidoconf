@@ -971,20 +971,20 @@ int main(int argc, char **argv) {
        }
    }
 
+   module = getvar("module");
+   printf("Test for ");
+   if (module) {
+     printf("module: %s\n", module);
+     if (stricmp(module,"hpt")==0) hpt=1;
+   } else printf("all modules\n");
+
    if (preproc)
 	return dumpcfg(cfgFile);
 
-     config = readConfig(cfgFile);
-     nfree(cfgFile);
+   config = readConfig(cfgFile);
+   nfree(cfgFile);
 
-     if (config != NULL) {
-
-	module = getvar("module");
-	printf("module: ");
-	if (module) {
-	printf("%s\n", module);
-	if (stricmp(module,"hpt")==0) hpt=1;
-	} else printf("all modules\n");
+   if (config != NULL) {
 
         checkLogic(config);
         rc = testConfig(config);
@@ -1435,11 +1435,11 @@ int main(int argc, char **argv) {
      }else
        printf( "sendMailCmd:\n" );
 
-     if( rc ) { puts("============================"); testConfig(config); }
+     if( rc ) { puts("============================"); testConfig(config); puts("============================"); }
 
      disposeConfig(config);
 
-     if( rc ) fprintf(stderr,"============================\nErrors or warnings found!");
+     if( rc ) fprintf(stderr,"Errors or warnings found!\n");
    } /* endif */
 
    return rc;
