@@ -31,10 +31,8 @@
 
 #ifndef FIDOCONFIG_H
 #define FIDOCONFIG_H
-#ifndef FPC
 #include <stdio.h>
 #include <smapi/msgapi.h>
-#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,7 +48,7 @@ extern "C" {
 
 #define strend(str) ((str) + strlen(str) - 1)
 
-#ifndef FPC
+#ifndef PASCAL
 extern char *actualLine, *actualKeyword;
 extern int  actualLineNr;
 extern char wasError;
