@@ -1,4 +1,4 @@
-FIDOCONFIG 0.14 stable
+FIDOCONFIG 0.14.3 release
 
 1. MAJOR feature improvements:
    - log maintnance functions included
@@ -12,4 +12,7 @@ FIDOCONFIG 0.14 stable
 
 3. IMPORTANT bugfixes:
    - fix remap (replace INTL kludge)
-   - fix line parsing if comment ends line.
+   - fix line parsing if comment ends line
+   - fix *nix versions (compile without semaphores)
+   - fix unpacker call string parsing
+   - fix several memory faults

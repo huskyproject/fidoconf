@@ -5,7 +5,7 @@ husky-common (huskybse) package FIRST!
 Unix:
 -----
 
-0. the smapi package is required for the fidoconfig packages
+0. The smapi 2.2 package is required for the fidoconfig 0.14 package
 
 1. Put the fidoconfig package in the directory where the other packages of fido
    linux reside:
@@ -17,7 +17,7 @@ Unix:
                              ...some other
 
 2. Determine which makefile you need to use then compile and install fidoconfig
-   using selected makefile, as this example:
+   using selected makefile, as this example for linux:
 	$ make -f makefile.lnx
 	$ make -f makefile.lnx install
 
@@ -30,4 +30,4 @@ Unix:
    chance. Always test the config with the tparser tool, which you can place
    in a directory like /usr/local/bin.
 
-You're ready. Now you can install hpt, and other software which uses fidoconfig. 
+You're ready. Now you can compile hpt, and other software which uses fidoconfig.
