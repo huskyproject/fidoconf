@@ -1872,8 +1872,8 @@
 
 	* fidoconf.h (1.143), line.c (1.329), tokens.h (1.52), tparser.c
 	(1.201), doc/keywords.htick (1.7): feature: FileFixEchoLimit patch
-	by <Àëåêñåé Ñóõîòèí <pscorporation@mail.ru>>
-
+	by <Ã€Ã«Ã¥ÃªÃ±Ã¥Ã© Ã‘Ã³ÃµÃ®Ã²Ã¨Ã­ <pscorporation@mail.ru>>
+        
 2002-09-24 Tuesday 13:34  pgul
 
 	* afixcmn.c (1.13): createKludges() alwayd add PID, not TID
