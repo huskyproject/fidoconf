@@ -1,3 +1,16 @@
+2002-06-17 Monday 19:44  stas
+
+	* fecfg2fc.c (1.5): Extend Fastecho to fidoconfig conversion
+	utility: packers, domain in FTN address & etc.
+
+2002-06-17 Monday 19:41  stas
+
+	* crc.c (1.2): Fix warning.
+
+2002-06-17 Monday 06:50  stas
+
+	* doc/proposal.texi (1.132): Cosmetic fix.
+
 2002-06-16 Sunday 11:57  mche
 
 	* line.c (1.305): wrong passing arguments fixed
