@@ -1,3 +1,29 @@
+2003-01-04 Saturday 14:20  stas_degteff
+
+	* fecfg2fc.c (1.13): Fix area options confersion
+
+2003-01-04 Saturday 14:05  stas_degteff
+
+	* line.c (1.362): Use -1 value for echoarea & filearea options for
+	reference to echoareadefaults & fileareadefaults: options -p, -lw,
+	-lr, -, -dupehistory.
+
+2003-01-04 Saturday 14:01  stas_degteff
+
+	* line.c (1.361): Use -1 value for echoarea & filearea options for
+	reference to echoareadefaults & fileareadefaults: options -p, -lw,
+	-lr, -$m, -dupehistory.
+
+2003-01-04 Saturday 11:30  stas_degteff
+
+	* line.c (1.360): Fix packaka parsing (prevent memory leak). Path
+	from Alexander Reznikov 2:4600/220
+
+2003-01-04 Saturday 06:58  mche
+
+	* common.c (1.153), makefile.mvc (1.25): correct MSVC static
+	compilation
+
 2002-12-31 Tuesday 09:24  stas_degteff
 
 	* doc/: keywords.hpt (1.33), keywords.htick (1.10): Include PackAka
