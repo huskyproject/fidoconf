@@ -418,8 +418,8 @@ add_to_cache:
             adaptcase_cache[l].result = NULL;
         }
         if (adaptcase_cache[l].raw_cache != NULL)
-        {
-          E  (d@ 3\Ò√&ÇaÅE¿	adì⁄Ü[Vàéche);
+	{
+            free(adaptcase_cache[l].raw_cache);
             adaptcase_cache[l].raw_cache = NULL;
         }
         if (adaptcase_cache[l].cache_index != NULL)
