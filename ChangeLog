@@ -1,3 +1,22 @@
+2003-02-19 Wednesday 09:09  stas_degteff
+
+	* fidoconf.h (1.172): Change UNIX to __UNIX__
+
+2003-02-19 Wednesday 09:09  stas_degteff
+
+	* fecfg146.h (1.10), fecfg2fc.c (1.19): Fixes & updates for
+	fastecho to fidoconfig converter. Path from Alexander Reznikov
+
+2003-02-19 Wednesday 07:08  stas_degteff
+
+	* version.c (1.9): Make version string shorten. Thanks to Val
+	Khokhlov 2:550/180.8
+
+2003-02-18 Tuesday 22:34  d_sergienko
+
+	* fc2tor.c (1.10): fixed compilation after merging s_filearea and
+	s_area
+
 2003-02-18 Tuesday 14:44  mche
 
 	* line.c (1.383): fix fileecho path parsing
