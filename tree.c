@@ -231,7 +231,7 @@ static int sprout(tree **ppr, char *pc_data, int *pi_balance,
 int tree_add(tree **ppr_tree, int (*pfi_compare)(char *, char *),
 	      char *pc_user, int (*pfi_delete)(char *))
 {
-	int	sprout();
+	/* int	sprout(); */
 	int	i_balance = FALSE;
    int   nRet = 0;
 
@@ -302,7 +302,7 @@ static void balanceR(tree **ppr_p, int *pi_balance)
 static void del(tree **ppr_r, int *pi_balance, tree **ppr_q,
 		int (*pfi_uar)(char *), int *pi_uar_called)
 {
-	void	balanceR();
+/*	void	balanceR();*/
 
 	ENTER("del")
 
@@ -387,7 +387,7 @@ static void balanceL(tree **ppr_p, int *pi_balance)
 static int delete(tree **ppr_p, int (*pfi_compare)(char *, char *), char *pc_user, int (*pfi_uar)(char *),
 		  int *pi_balance, int *pi_uar_called)
 {
-	void	del(), balanceL(), balanceR();
+/*	void	del(), balanceL(), balanceR(); */
 	tree	*pr_q;
 	int	i_comp, i_ret;
 
