@@ -756,6 +756,7 @@ This statement can only be repeated for different links.
 
 This statement sets the default password for the link.
 If you do not change the other passwords, they are set to this password.
+Password is case insensitive.
 
 This statement can only be repeated for different links.
 
