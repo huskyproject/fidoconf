@@ -265,6 +265,12 @@ void freeFileArea(s_filearea area) {
         free(area.downlinks);
 }
 
+void freeBbsArea(s_bbsarea area) {
+        free(area.areaName);
+        free(area.pathName);
+        free(area.description);
+}
+
 void disposeConfig(s_fidoconfig *config)
 {
    int i;
@@ -335,6 +341,9 @@ void disposeConfig(s_fidoconfig *config)
    for (i = 0; i< config->fileAreaCount; i++)
    freeFileArea(config->fileAreas[i]);
    free(config->fileAreas);
+   for (i = 0; i< config->bbsAreaCount; i++)
+   freeBbsArea(config->bbsAreas[i]);
+   free(config->bbsAreas);
    for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
    free(config->localAreas);
 
