@@ -70,7 +70,7 @@ void freeAreaList(ps_arealist al)
 	return;
 }
 
-int addAreaListItem(ps_arealist al, int active, char *tag, char *desc)
+int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc)
 {
 	ps_arealistitem areas;
 	int l;
@@ -80,8 +80,9 @@ int addAreaListItem(ps_arealist al, int active, char *tag, char *desc)
 		al->areas = areas;
 		al->maxcount += LIST_PAGE_SIZE;
     }
-    al->areas[al->count].active = active;
-    al->areas[al->count].tag = sstrdup(tag);
+    al->areas[al->count].active     = active;
+    al->areas[al->count].rescanable = rescanable ? 2 : 0;
+    al->areas[al->count].tag        = sstrdup(tag);
     if(desc) {
     	l = strlen(desc);
     	al->areas[al->count].desc = smalloc(l+3);
@@ -164,6 +165,7 @@ char *formatAreaList(ps_arealist al, int maxlen, char *activechars)
 		}
 		if(activechars) {
 			text[tpos++] = activechars[al->areas[i].active];
+            text[tpos++] = activechars[al->areas[i].rescanable];
 			clen++;
 		}
 		text[tpos++] = ' ';
