@@ -157,6 +157,9 @@
 				RelativePath="..\fidoconf\grptree.h">
 			</File>
 			<File
+				RelativePath="..\fidoconf\stat.h">
+			</File>
+			<File
 				RelativePath="..\fidoconf\syslogp.h">
 			</File>
 			<File
@@ -306,6 +309,21 @@
 			</File>
 			<File
 				RelativePath="..\src\line.c">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\stat.c">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
