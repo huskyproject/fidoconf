@@ -1,3 +1,7 @@
+2003-03-09 Sunday 04:03  nssoft
+
+	* fecfg2fc.c (1.22): Remove "#include <huskylib/typedefs.h>"
+
 2003-03-03 Monday 07:49  d_sergienko
 
 	* Makefile (1.60), adcase.c (1.13), afixcmd.c (1.28), afixcmn.c
