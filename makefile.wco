@@ -4,9 +4,9 @@
 
 CC=wcl386
 EXENAMEFLAG=-fe=
-CDEFS=-zq -wx -bt=os2 -l=os2 -DOS2 -i=..
-COPT=-oneatx -5 -c
-LFLAGS= 
+CDEFS=-DOS2
+COPT=-zq -wx -i=.. -oneatx -5 -c
+LFLAGS=-bt=os2 -l=os2
 
 TPU=.tpu
 OBJ=.obj
