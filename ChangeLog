@@ -1,3 +1,8 @@
+2004-01-05 Monday 02:59  d_sergienko
+
+	* common.c, line.c (fidoconf-1_4-stable.[4,6]): fixed crash on
+	empty origin
+
 2003-12-27 Saturday 21:15  d_sergienko
 
 	* areatree.c, common.c, tree.c (fidoconf-1_4-stable.[1,3,2]): fix
