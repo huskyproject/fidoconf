@@ -279,26 +279,6 @@ int parsePath(char *token, char **var)
       copyString(token, &(*var));
       return 0;
    }
-/*
-   if (strchr(token,'[') && strchr(token,']')) {
-
-	   osvar = strchr(token,'[');
-	   osvar++;
-	   q = strchr(osvar, ']');
-	   if (q) *q = '\0';
-	   if (NULL == (p = getvar(osvar))) {
-		   *q=']';
-		   p=token;
-	   }
-	   if (!direxist(p))
-		   {
-			   prErr( "Path %s not found!", p);
-			   return 1;
-		   }
-	   xstrscat(var, "[", osvar, "]", NULL);
-
-   } else {
-*/
    if (*token && token[strlen(token)-1] == PATH_DELIM)
 	   Strip_Trailing(token, PATH_DELIM);
    xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
@@ -307,9 +287,6 @@ int parsePath(char *token, char **var)
 	   prErr( "Path %s not found!", *var);
 	   return 1;
    }
-
-//   }
-
    return 0;
 }
 
@@ -2561,7 +2538,6 @@ int parseTypeDupes(char *line, e_typeDupeCheck *typeDupeBase, unsigned *DayAge)
 int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
 {
    char *tok;
-   DIR  *dirent;
 
    unused(config);
 
@@ -2582,29 +2558,8 @@ int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
    strcpy(savetic->fileAreaNameMask, tok);
 
    tok = strtok(NULL, " \t");
-   if (tok == NULL) {
-      prErr("There is a pathname missing %s!", actualLine);
-      return 2;         // if there is no filename
-   }
-      if (tok[strlen(tok)-1] == PATH_DELIM) {
-         savetic->pathName = (char *) smalloc(strlen(tok)+1);
-         strcpy(savetic->pathName, tok);
-      } else {
-         savetic->pathName = (char *) smalloc(strlen(tok)+2);
-         strcpy(savetic->pathName, tok);
-         savetic->pathName[strlen(tok)] = PATH_DELIM;
-         savetic->pathName[strlen(tok)+1] = '\0';
-      }
 
-   dirent = opendir(savetic->pathName);
-   if (dirent == NULL) {
-      prErr("Path %s not found!", savetic->pathName);
-      return 2;
-   }
-
-   closedir(dirent);
-   return 0;
-
+   return  parsePath(tok, &savetic->pathName);
 }
 
 int parseSaveTicStatement(char *token, s_fidoconfig *config)
