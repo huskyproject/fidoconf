@@ -1,3 +1,7 @@
+2001-10-24 Wednesday 09:36  ml
+
+	* fidoconf.c (1.55), line.c (1.263): change exit codes
+
 2001-10-16 Tuesday 08:45  tobi
 
 	* fidoconf.c (1.54): Fixed out of range array access when parsing
