@@ -1,3 +1,8 @@
+2002-07-04 Thursday 08:18  stas
+
+	* debian/: changelog (1.14), control (1.11): new Debian version
+	[patch from Pavel Andreew]
+
 2002-07-03 Wednesday 21:29  stas
 
 	* Makefile (1.40): Uninstall: remove all libfidoconfig*
