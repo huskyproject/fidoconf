@@ -1,3 +1,36 @@
+2002-08-29 Thursday 10:16  sfpavel
+
+	* debian/libfidoconf0-dev.preinst (1.1): Update debian version
+
+2002-08-29 Thursday 10:02  mche
+
+	* tree.c (1.5): fix cygwin warnings
+
+2002-08-29 Thursday 08:54  stas_degteff
+
+	* common.h (1.52): New macrofunction: sstrlen - safe strlen (check
+	for NULL pointer)
+
+2002-08-29 Thursday 08:17  sfpavel
+
+	* doc/fidoconfig.texi (1.22): Update version number
+
+2002-08-29 Thursday 08:16  sfpavel
+
+	* debian/: changelog (1.17), fidoconf-runtime.dirs (1.3),
+	fidoconf-runtime.examples (1.2), fidoconf-runtime.files (1.2), info
+	(1.1), libfidoconf0-dev.links (1.1), rules (1.12): New debian
+	package
+
+2002-08-29 Thursday 08:02  sfpavel
+
+	* Makefile (1.44): Fix install of libs and fconf2areasbbs
+
+2002-08-29 Thursday 07:59  sfpavel
+
+	* man/: dumpfcfg.1 (1.2), fconf2.1 (1.5), linkedto.1 (1.4),
+	tparser.1 (1.3): update with new http-location
+
 2002-08-26 Monday 13:25  d_sergienko
 
 	* fidoconf.h (1.135), line.c (1.321), tokens.h (1.45), tparser.c
