@@ -1,3 +1,17 @@
+2002-07-14 Sunday 21:51  pavel.gulchouck
+
+	* doc/proposal.texi (1.139): "!=" and "!~" (not equial) in "if"
+	expressions in the config
+
+2002-07-14 Sunday 21:46  pavel.gulchouck
+
+	* cfg.c (1.37): "!=" and "!~" (not equial) in "if" expressions in
+	the config
+
+2002-07-14 Sunday 20:28  stas
+
+	* HISTORY (1.8): Add in MAJOR FEATURES section.
+
 2002-07-13 Saturday 18:56  stas
 
 	* doc/: makefile.bsd (1.2), makefile.cyg (1.2), makefile.lnx (1.3),
