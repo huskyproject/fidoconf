@@ -86,6 +86,7 @@
 #include "xstr.h"
 #include "findtok.h"
 #include "tokens.h"
+#include "crc.h"
 
 int fc_trycreate=0; /* Try to create nonexistant directories (defined in line.c) */
 char *actualKeyword, *actualLine;
@@ -95,6 +96,8 @@ char CommentChar = '#';
 int _carbonrule = CC_AND;
 
 static s_link linkDefined;
+
+int virtualLinksDefined=0;
 
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
@@ -1098,6 +1101,150 @@ int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
 	return 0;
 }
 
+int parseLink(char *token, s_fidoconfig *config)
+{
+
+   s_link   *clink;
+   s_link   *deflink;
+
+   if (token == NULL) {
+      prErr("There is a name missing after %s!", actualKeyword);
+      return 1;
+   }
+
+   if (config->fileAreas || config->echoAreas) {
+       prErr("Can't define links after EchoArea of FileArea statements!");
+       return 1;
+   }
+   config->describeLinkDefaults=0; /*  Stop describing of link defaults if it was */
+
+   config->links = srealloc(config->links, sizeof(s_link)*(config->linkCount+1));
+
+   clink = &(config->links[config->linkCount]);
+
+   if (config->linkDefaults) {
+
+      memcpy ( clink, config->linkDefaults, sizeof(s_link));
+      deflink = config->linkDefaults;
+
+	  clink->hisAka.domain = sstrdup(deflink->hisAka.domain);
+	  clink->hisPackAka.domain = sstrdup(deflink->hisPackAka.domain);
+	  clink->name = sstrdup(deflink->name);
+
+	  clink->defaultPwd = sstrdup(deflink->defaultPwd);
+
+      if (deflink->pktPwd != deflink->defaultPwd ) {
+		  clink->pktPwd = sstrdup (deflink->pktPwd);
+      } else {
+		  clink->pktPwd = clink->defaultPwd;
+      }
+      if (deflink->ticPwd != deflink->defaultPwd ) {
+		  clink->ticPwd = sstrdup (deflink->ticPwd);
+      } else {
+		  clink->ticPwd = clink->defaultPwd;
+      }
+  	  if (deflink->areaFixPwd != deflink->defaultPwd ) {
+		  clink->areaFixPwd = sstrdup (deflink->areaFixPwd);
+      } else {
+		  clink->areaFixPwd = clink->defaultPwd;
+      }
+  	  if (deflink->fileFixPwd != deflink->defaultPwd ) {
+		  clink->fileFixPwd = sstrdup (deflink->fileFixPwd);
+      } else {
+		  clink->fileFixPwd = clink->defaultPwd;
+      }
+  	  if (deflink->bbsPwd != deflink->defaultPwd ) {
+		  clink->bbsPwd = sstrdup(deflink->bbsPwd);
+      } else {
+		  clink->bbsPwd = clink->defaultPwd;
+      }
+  	  if (deflink->sessionPwd != deflink->defaultPwd ) {
+		  clink->sessionPwd = sstrdup (deflink->sessionPwd);
+      } else {
+		  clink->sessionPwd = clink->defaultPwd;
+      }
+	  clink->handle = sstrdup (deflink->handle);
+	  clink->email = sstrdup (deflink->email);
+	  clink->emailFrom = sstrdup (deflink->emailFrom);
+	  clink->emailSubj = sstrdup (deflink->emailSubj);
+          clink->emailEncoding = deflink->emailEncoding;
+	  clink->LinkGrp = sstrdup (deflink->LinkGrp);
+	  clink->numAccessGrp = deflink->numAccessGrp;
+	  clink->AccessGrp = copyGroups(deflink->AccessGrp, deflink->numAccessGrp);
+	  clink->autoAreaCreateFile = sstrdup (deflink->autoAreaCreateFile);
+	  clink->autoFileCreateFile = sstrdup (deflink->autoFileCreateFile);
+	  clink->autoAreaCreateDefaults = sstrdup (deflink->autoAreaCreateDefaults);
+	  clink->autoFileCreateDefaults = sstrdup (deflink->autoFileCreateDefaults);
+	  clink->forwardRequestFile = sstrdup (deflink->forwardRequestFile);
+	  clink->denyFwdFile = sstrdup (deflink->denyFwdFile);
+	  clink->RemoteRobotName = sstrdup (deflink->RemoteRobotName);
+	  clink->forwardFileRequestFile = sstrdup (deflink->forwardFileRequestFile);
+	  clink->RemoteFileRobotName = sstrdup (deflink->RemoteFileRobotName);
+	  clink->msgBaseDir = sstrdup (deflink->msgBaseDir);
+	  clink->numOptGrp = deflink->numOptGrp;
+	  clink->optGrp = copyGroups(deflink->optGrp, deflink->numOptGrp);
+	  clink->numFrMask = deflink->numFrMask;
+	  clink->frMask = copyGroups(deflink->frMask, deflink->numFrMask);
+	  clink->numDfMask = deflink->numDfMask;
+	  clink->dfMask = copyGroups(deflink->dfMask, deflink->numDfMask);
+
+   } else {
+
+      memset(clink, 0, sizeof(s_link));
+
+	  /*  Set defaults like in parseLinkDefaults() */
+
+      /*  set areafix default to on */
+      clink->AreaFix = 1;
+      clink->FileFix = 1;
+
+      /*  set defaults to export, import, mandatory (0), manual (0) */
+      clink->export = 1;
+      clink->import = 1;
+      clink->ourAka = &(config->addr[0]);
+
+      /*  set default maxUnpackedNetmail */
+      clink->maxUnpackedNetmail = 100;
+
+   }
+
+   clink->name = (char *) smalloc (strlen(token)+1);
+   strcpy(clink->name, token);
+   clink->handle = clink->name;
+
+   config->linkCount++;
+   memset(&linkDefined, 0, sizeof(linkDefined));
+   return 0;
+}
+
+void createVirtualLinks(s_fidoconfig *config)
+{ /* add all our AKAs to links array */
+    unsigned i;
+    s_link   *clink = NULL;
+    char     *tmp = NULL;
+
+    if (virtualLinksDefined) return;
+
+    for (i = 0; i < config->addrCount; i++) {
+        if (!getLinkFromAddr(config,config->addr[i])) {
+            nfree(tmp);
+            tmp = xstrscat(&tmp, "Virtual link for AKA ", aka2str(config->addr[i]), NULL);
+            parseLink(tmp, config);
+            clink = &(config->links[config->linkCount-1]);
+            memcpy ( &(clink->hisAka), &(config->addr[i]), sizeof(hs_addr));
+            clink->ourAka = &(config->addr[i]);
+            xscatprintf(&(clink->defaultPwd),"%X",strcrc32(clink->name, 0xFFFFFFFFL));
+            clink->pktPwd = clink->defaultPwd;
+            clink->ticPwd = clink->defaultPwd;
+            clink->areaFixPwd = clink->defaultPwd;
+            clink->fileFixPwd = clink->defaultPwd;
+            clink->bbsPwd = clink->defaultPwd;
+            clink->sessionPwd = clink->defaultPwd;
+        }
+    }
+    nfree(tmp);
+    virtualLinksDefined = 1;
+}
 
 int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs)
 {
@@ -1109,6 +1256,9 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
       prErr("There are parameters missing after %s!", actualKeyword);
       return 1;
    }
+
+   /* place this call here 'cause we can't create links after defining areas */
+   createVirtualLinks((s_fidoconfig *)config);
 
     /*   memset(area, '\0', sizeof(s_area)); */
 
@@ -1735,122 +1885,6 @@ int parseBbsAreaStatement(char *token, s_fidoconfig *config)
 	&(config->bbsAreas[config->bbsAreaCount]));
    config->bbsAreaCount++;
    return rc;
-}
-
-int parseLink(char *token, s_fidoconfig *config)
-{
-
-   s_link   *clink;
-   s_link   *deflink;
-
-   if (token == NULL) {
-      prErr("There is a name missing after %s!", actualKeyword);
-      return 1;
-   }
-
-   if (config->fileAreas || config->echoAreas) {
-       prErr("Can't define links after EchoArea of FileArea statements!");
-       return 1;
-   }
-   config->describeLinkDefaults=0; /*  Stop describing of link defaults if it was */
-
-   config->links = srealloc(config->links, sizeof(s_link)*(config->linkCount+1));
-
-   clink = &(config->links[config->linkCount]);
-
-   if (config->linkDefaults) {
-
-      memcpy ( clink, config->linkDefaults, sizeof(s_link));
-      deflink = config->linkDefaults;
-
-	  clink->hisAka.domain = sstrdup(deflink->hisAka.domain);
-	  clink->hisPackAka.domain = sstrdup(deflink->hisPackAka.domain);
-	  clink->name = sstrdup(deflink->name);
-
-	  clink->defaultPwd = sstrdup(deflink->defaultPwd);
-
-      if (deflink->pktPwd != deflink->defaultPwd ) {
-		  clink->pktPwd = sstrdup (deflink->pktPwd);
-      } else {
-		  clink->pktPwd = clink->defaultPwd;
-      }
-      if (deflink->ticPwd != deflink->defaultPwd ) {
-		  clink->ticPwd = sstrdup (deflink->ticPwd);
-      } else {
-		  clink->ticPwd = clink->defaultPwd;
-      }
-  	  if (deflink->areaFixPwd != deflink->defaultPwd ) {
-		  clink->areaFixPwd = sstrdup (deflink->areaFixPwd);
-      } else {
-		  clink->areaFixPwd = clink->defaultPwd;
-      }
-  	  if (deflink->fileFixPwd != deflink->defaultPwd ) {
-		  clink->fileFixPwd = sstrdup (deflink->fileFixPwd);
-      } else {
-		  clink->fileFixPwd = clink->defaultPwd;
-      }
-  	  if (deflink->bbsPwd != deflink->defaultPwd ) {
-		  clink->bbsPwd = sstrdup(deflink->bbsPwd);
-      } else {
-		  clink->bbsPwd = clink->defaultPwd;
-      }
-  	  if (deflink->sessionPwd != deflink->defaultPwd ) {
-		  clink->sessionPwd = sstrdup (deflink->sessionPwd);
-      } else {
-		  clink->sessionPwd = clink->defaultPwd;
-      }
-	  clink->handle = sstrdup (deflink->handle);
-	  clink->email = sstrdup (deflink->email);
-	  clink->emailFrom = sstrdup (deflink->emailFrom);
-	  clink->emailSubj = sstrdup (deflink->emailSubj);
-          clink->emailEncoding = deflink->emailEncoding;
-	  clink->LinkGrp = sstrdup (deflink->LinkGrp);
-	  clink->numAccessGrp = deflink->numAccessGrp;
-	  clink->AccessGrp = copyGroups(deflink->AccessGrp, deflink->numAccessGrp);
-	  clink->autoAreaCreateFile = sstrdup (deflink->autoAreaCreateFile);
-	  clink->autoFileCreateFile = sstrdup (deflink->autoFileCreateFile);
-	  clink->autoAreaCreateDefaults = sstrdup (deflink->autoAreaCreateDefaults);
-	  clink->autoFileCreateDefaults = sstrdup (deflink->autoFileCreateDefaults);
-	  clink->forwardRequestFile = sstrdup (deflink->forwardRequestFile);
-	  clink->denyFwdFile = sstrdup (deflink->denyFwdFile);
-	  clink->RemoteRobotName = sstrdup (deflink->RemoteRobotName);
-	  clink->forwardFileRequestFile = sstrdup (deflink->forwardFileRequestFile);
-	  clink->RemoteFileRobotName = sstrdup (deflink->RemoteFileRobotName);
-	  clink->msgBaseDir = sstrdup (deflink->msgBaseDir);
-	  clink->numOptGrp = deflink->numOptGrp;
-	  clink->optGrp = copyGroups(deflink->optGrp, deflink->numOptGrp);
-	  clink->numFrMask = deflink->numFrMask;
-	  clink->frMask = copyGroups(deflink->frMask, deflink->numFrMask);
-	  clink->numDfMask = deflink->numDfMask;
-	  clink->dfMask = copyGroups(deflink->dfMask, deflink->numDfMask);
-
-   } else {
-
-      memset(clink, 0, sizeof(s_link));
-
-	  /*  Set defaults like in parseLinkDefaults() */
-
-      /*  set areafix default to on */
-      clink->AreaFix = 1;
-      clink->FileFix = 1;
-
-      /*  set defaults to export, import, mandatory (0), manual (0) */
-      clink->export = 1;
-      clink->import = 1;
-      clink->ourAka = &(config->addr[0]);
-
-      /*  set default maxUnpackedNetmail */
-      clink->maxUnpackedNetmail = 100;
-
-   }
-
-   clink->name = (char *) smalloc (strlen(token)+1);
-   strcpy(clink->name, token);
-   clink->handle = clink->name;
-
-   config->linkCount++;
-   memset(&linkDefined, 0, sizeof(linkDefined));
-   return 0;
 }
 
 int parseAnnDef(char *token, s_fidoconfig *config)

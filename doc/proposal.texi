@@ -688,6 +688,9 @@ This statement starts a new Link-definition. All the following link-related stat
 change the configuration of this link until a new link statement is found.
 The name is the name of this link.
 
+Links must appear before any area definition.
+Virtual links for all AKAs defined in config will be created automatically.
+
 This statement can be repeated.
 
 @node linkdefaults, aka, link, Keywords
