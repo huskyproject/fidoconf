@@ -1,5 +1,16 @@
 fidoconfig 0.9
 --------------
+	
+----- cvs ci ------
+Sat Jul 10 17:08:44 CEST 1999
+mtt:
+* changed void main to int main (fecfg2fconf.c) 
+* futher work on dump.c
+
+----- cvs ci ------
+Sat Jul 10 00:11:58 CEST 1999
+mtt:
++ started working on that dumpConfig code (quite boring :-( )
 
 ----- cvs ci ------
 Mon Jun 28  16:43:00

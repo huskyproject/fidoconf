@@ -888,6 +888,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
       else if (stricmp(option, "crash")==0) actualRoute->flavour = crash;
       else if (stricmp(option, "direct")==0) actualRoute->flavour = direct;
       else if (stricmp(option, "immediate")==0) actualRoute->flavour = immediate;
+
       else if (stricmp(option, "hub")==0) actualRoute->routeVia = hub;
       else if (stricmp(option, "host")==0) actualRoute->routeVia = host;
       else if (stricmp(option, "boss")==0) actualRoute->routeVia = boss;
@@ -1187,12 +1188,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 
    switch (i) {
    case 0: if (config->links[config->linkCount-1].AccessGrp != NULL) {
-           fprintf(stderr, "Line %d: Dublicate parameter after %s!\n", actualLineNr, actualKeyword);
+           fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
            return 1;
    }
    break;
    case 1: if (config->links[config->linkCount-1].LinkGrp != NULL) {
-           fprintf(stderr, "Line %d: Dublicate parameter after %s!\n", actualLineNr, actualKeyword);
+           fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
            return 1;
    }
    break;

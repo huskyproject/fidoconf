@@ -78,7 +78,7 @@ char *strLwr(char *str)
    return str;
 }
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
    FILE            *f_cfg, *f_hpt;
    CONFIG          config;
@@ -412,4 +412,5 @@ void main(int argc, char **argv)
    fclose(f_hpt);
    fclose(f_cfg);
 
+   return 0;
 }

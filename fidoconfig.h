@@ -89,7 +89,7 @@ struct link {
    int  fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
    e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
    char *pktFile,*packFile;   // used only internally by hpt   
-   char *floFile,*bsyFile;    // see up
+   char *floFile,*bsyFile;    // dito
    s_pack *packerDef;
    e_flavour echoMailFlavour;
    char *LinkGrp;	      // link's group for autocreate areas
@@ -245,7 +245,7 @@ struct fidoconfig {
 
    unsigned int   packCount;
    s_pack   *pack;
-   s_pack   *packDefault;
+  //   s_pack   *packDefault;
    unsigned int   unpackCount;
    s_unpack *unpack;
    
