@@ -40,9 +40,6 @@
 #include <stdarg.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifndef __GNUC__
-#  include <process.h>
-#endif
 #include <limits.h>
 
 #ifdef HAS_UNISTD_H
@@ -70,6 +67,10 @@
 
 #ifdef HAS_SYS_WAIT_H
 #include <sys/wait.h>
+#endif
+
+#ifdef HAS_PROCESS_H
+#  include <process.h>
 #endif
 
 #include <smapi/progprot.h>
