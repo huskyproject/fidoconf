@@ -617,6 +617,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 
    iOption = strLower(sstrdup(option));
    if (strcmp(iOption, "b")==0) {
+     if( area->areaType == ECHOAREA ) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
          prErr("An msgbase type is missing after -b in areaOptions!");
@@ -658,6 +659,11 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 	nfree(iToken);
 	return 1;
       }
+     }else{
+       prErr("Option '-b' is allowed for echoareas and localareas only!");
+       nfree(iOption);
+       return 1;     /*  error */
+     }
    }
    else if (strcmp(iOption, "p")==0) {
        token = strtok(NULL, " \t");
@@ -681,6 +687,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        }
    }
    else if (strcmp(iOption, "$m")==0) {
+     if( area->areaType == ECHOAREA ) {
        token = strtok(NULL, " \t");
        if (token == NULL) {
            prErr("Number is missing after -$m in areaOptions!");
@@ -695,6 +702,11 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
            return 1;     /*  error */
        }
        area->max = il<0? config->EchoAreaDefault.max : (UINT) il ;
+     }else{
+       prErr("Option '-$m' is allowed for echoareas and localareas only!");
+       nfree(iOption);
+       return 1;     /*  error */
+     }
    }
    else if (strcmp(iOption, "a")==0) {
       token = strtok(NULL, " \t");
@@ -776,14 +788,70 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
            setLinkAccess( config, area, area->downlinks[i]);
 
    }
-   else if (strcmp(iOption, "tinysb")==0) area->tinySB = 1;
-   else if (strcmp(iOption, "notinysb")==0) area->tinySB = 0;
-   else if (strcmp(iOption, "killsb")==0) area->killSB = 1;
-   else if (strcmp(iOption, "nokillsb")==0) area->killSB = 0;
-   else if (strcmp(iOption, "keepunread")==0) area->keepUnread = 1;
-   else if (strcmp(iOption, "nokeepunread")==0) area->keepUnread = 0;
-   else if (strcmp(iOption, "killread")==0) area->killRead = 1;
-   else if (strcmp(iOption, "nokillread")==0) area->killRead = 0;
+   else if (strcmp(iOption, "tinysb")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->tinySB = 1;
+     }else{
+       prErr("Option '-tinysb' is allowed for echoareas only!");
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "notinysb")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->tinySB = 0;
+     }else{
+       prErr("Option '-notinysb' is allowed for echoareas only!");
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "killsb")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->killSB = 1;
+     }else{
+       prErr("Option '-killsb' is allowed for echoareas only!");
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "nokillsb")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->killSB = 0;
+     }else{
+       prErr("Option '-nokillsb' is allowed for echoareas only!");
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "keepunread")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->keepUnread = 1;
+     }else{
+       prErr("Option '-keepunread' is allowed for echoareas and localareas only!");
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "nokeepunread")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->keepUnread = 0;
+     }else{
+       prErr("Option '-nokeepunread' is allowed for echoareas and localareas only!");
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "killread")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->killRead = 1;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "nokillread")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->killRead = 0;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
    else if (strcmp(iOption, "h")==0) area->hide = 1;
    else if (strcmp(iOption, "hide")==0) area->hide = 1;
    else if (strcmp(iOption, "nohide")==0) area->hide = 0;
@@ -800,25 +868,129 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    else if (strcmp(iOption, "nomandatory")==0) area->mandatory = 0;
    else if (strcmp(iOption, "debug")==0) area->debug = 1;
    else if (strcmp(iOption, "nodebug")==0) area->debug = 0;
-   else if (strcmp(iOption, "dosfile")==0) area->DOSFile = 1;
-   else if (strcmp(iOption, "nodosfile")==0) area->DOSFile = 0;
+   else if (strcmp(iOption, "dosfile")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->DOSFile = 1;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "nodosfile")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->DOSFile = 0;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
    else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
    else if (strcmp(iOption, "pack")==0) area->nopack = 0;
-   else if (strcmp(iOption, "ccoff")==0) area->ccoff=1;
-   else if (strcmp(iOption, "noccoff")==0) area->ccoff=0;
-   else if (strcmp(iOption, "ccon")==0) area->ccoff=0;
-   else if (strcmp(iOption, "keepsb")==0) area->keepsb=1;
-   else if (strcmp(iOption, "nokeepsb")==0) area->keepsb=0;
+   else if (strcmp(iOption, "ccoff")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->ccoff=1;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "noccoff")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->ccoff=0;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "ccon")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->ccoff=0;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "keepsb")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->keepsb=1;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "nokeepsb")==0)
+     if( area->areaType == ECHOAREA ) {
+       area->keepsb=0;
+     }else{
+       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
 
-
-   else if (strcmp(iOption, "sendorig")==0) area->sendorig = 1;
-   else if (strcmp(iOption, "nosendorig")==0) area->sendorig = 0;
-   else if (strcmp(iOption, "crc")==0) area->noCRC = 0;
-   else if (strcmp(iOption, "nocrc")==0) area->noCRC = 1;
-   else if (strcmp(iOption, "replace")==0) area->noreplace = 0;
-   else if (strcmp(iOption, "noreplace")==0) area->noreplace = 1;
-   else if (strcmp(iOption, "diz")==0) area->nodiz = 0;
-   else if (strcmp(iOption, "nodiz")==0) area->nodiz = 1;
+   else if (strcmp(iOption, "sendorig")==0)
+     if( area->areaType == FILEAREA ) {
+       area->sendorig = 1;
+     }else{
+       prErr("Option '%s' is allowed for fileareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "nosendorig")==0)
+     if( area->areaType == FILEAREA ) {
+       area->sendorig = 0;
+     }else{
+       prErr("Option '%s' is allowed for fileareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "crc")==0)
+     if( area->areaType == FILEAREA ) {
+       area->noCRC = 0;
+     }else{
+       prErr("Option '%s' is allowed for fileareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "nocrc")==0)
+     if( area->areaType == FILEAREA ) {
+       area->noCRC = 1;
+     }else{
+       prErr("Option '%s' is allowed for fileareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "replace")==0)
+     if( area->areaType == FILEAREA ) {
+       area->noreplace = 0;
+     }else{
+       prErr("Option '%s' is allowed for fileareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "noreplace")==0)
+     if( area->areaType == FILEAREA ) {
+       area->noreplace = 1;
+     }else{
+       prErr("Option '%s' is allowed for fileareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "diz")==0)
+     if( area->areaType == FILEAREA ) {
+       area->nodiz = 0;
+     }else{
+       prErr("Option '%s' is allowed for fileareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
+   else if (strcmp(iOption, "nodiz")==0)
+     if( area->areaType == FILEAREA ) {
+       area->nodiz = 1;
+     }else{
+       prErr("Option '%s' is allowed for fileareas only!",iOption);
+       nfree(iOption);
+       return 1;     /*  error */
+     }
 
    else if (strcmp(iOption, "dupecheck")==0) {
      token = strtok(NULL, " \t");
@@ -960,7 +1132,7 @@ int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok)
 
 /*
 useDefs
-uses enum pauses { NOPAUSE, EPAUSE, FPAUSE } for choosing  defaults
+uses enum pauses { NOPAUSE, ECHOAREA, FILEAREA } for choosing  defaults
 */
 int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs)
 {
