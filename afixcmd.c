@@ -45,7 +45,7 @@ char* expandCfgLine(char* cfgline)
    return cfgline;
 }
 
-int findTokenPos4Link(char **confName, char* ftoken, s_link *link, long* start, long*end)
+int FindTokenPos4Link(char **confName, char* ftoken, s_link *link, long* start, long*end)
 {
    char* cfgline, *line, *token, *linkConfName;
    long   linkstart=0;
@@ -138,7 +138,7 @@ int Changepause(char *confName, s_link *link, int opt, int type)
     long  strend=0; 
     FILE *f_conf;
     
-    findTokenPos4Link(&confName, "pause", link, &strbeg, &strend);
+    FindTokenPos4Link(&confName, "pause", link, &strbeg, &strend);
     if(strbeg == 0 && strend == 0)
         return 0;
     

@@ -55,6 +55,12 @@ FCONF_EXT   XMSG createXMSG        (ps_fidoconfig config,
 
 /*--- afixcmd.c ---*/
 
+/* find token of "ftoken" position for link "link"
+    IN : token,link
+    OUT: confName,start,end
+*/
+FCONF_EXT   int FindTokenPos4Link(char **confName, char* ftoken, s_link *link, long* start, long*end);
+
 /* Change pause status (off|echo|feacho|on) */
 FCONF_EXT   int Changepause(char *confName, s_link *link, int opt, int type);
 
