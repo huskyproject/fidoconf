@@ -7,3 +7,85 @@
 
 UNIXID=bsd
 include makefile.in2
+
+# Directories
+BINDIR= /usr/local/bin/
+LIBDIR= /usr/local/lib/
+INCDIR=/usr/local/include/
+
+MKDIR=install
+MKDIROPT=-d -m 755 -p
+
+# install scripts options
+ISOPT = -c -m 555
+IBOPT = -c -m 555 -s
+ILOPT = -c -m 444
+IIOPT = -c -m 444
+
+FCONF2AREASBBS= fconf2areasbbs
+
+install: commonlibs commonprogs
+	-$(MKDIR) $(MKDIROPT) $(BINDIR)
+	-$(MKDIR) $(MKDIROPT) $(INCDIR)fidoconf
+	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(EXE) $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2TORNADO)$(EXE)  $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2BINKD)$(EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
+	$(INSTALL) $(ISOPT) linkedto                $(BINDIR)
+	$(INSTALL) $(ISOPT) $(FCONF2AREASBBS)       $(BINDIR)
+	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)        $(LIBDIR)
+	(cd doc && $(MAKE) install)
+	(cd man && $(MAKE) install)
+	@echo "To install C header files invoke 'gmake hinstall'"
+
+hinstall:
+	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) common.h       $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) xstr.h         $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) crc.h          $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) log.h          $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) recode.h       $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) tree.h         $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) temp.h         $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) afixcmd.h      $(INCDIR)$(DIRSEP)fidoconf
+	$(INSTALL) $(IIOPT) arealist.h     $(INCDIR)$(DIRSEP)fidoconf
+
+uninstall:
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2MSGED)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2GOLDED)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AQUAED)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2FIDOGATE)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2SQUISH)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2TORNADO)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2BINKD)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2AREASBBS)
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)fidoconf.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)typesize.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)common.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)dirlayer.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)adcase.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)xstr.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)fidoconf.pas
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)crc.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)log.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)recode.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)tree.h
+	-$(RM) $(RMOPT) $(INCDIR)$(DIRSEP)fidoconf$(DIRSEP)temp.h
+	-$(RM) $(RMOPT) $(LIBDIR)$(DIRSEP)$(LIBFIDOCONFIG)*
+	-(cd doc && $(MAKE) uninstall)
+	-(cd man && $(MAKE) uninstall)
+
