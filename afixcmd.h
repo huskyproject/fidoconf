@@ -30,6 +30,8 @@
 #define	_AFIXCMN_FLAG_
 
 #include "fidoconf.h"
+FCONF_EXT   char *createKludges(ps_fidoconfig config, const char *area, const s_addr *ourAka, 
+                                const s_addr *destAka, const char* versionStr);
 
 FCONF_EXT   int Changepause(char *confName, s_link *link, int opt, int type);
 FCONF_EXT   int testAddr(char *addr, s_addr hisAka);
