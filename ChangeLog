@@ -1,3 +1,13 @@
+2001-12-17 Monday 20:45  ml
+
+	* fidoconf.c (1.58), fidoconf.h (1.82), line.c (1.268), tokens.h
+	(1.17), tparser.c (1.153), doc/keywords.hpt (1.16):
+	notValidFileNameChars token
+
+2001-12-17 Monday 13:21  ml
+
+	* cfg.c (1.10), fidoconf.h (1.81), line.c (1.267): updates
+
 2001-12-13 Thursday 15:54  ml
 
 	* TODO (1.57), cfg.c (1.9), fidoconf.c (1.57), fidoconf.h (1.80):
