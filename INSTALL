@@ -11,9 +11,10 @@ Instruction to build fidoconfig
 1. Put the fidoconfig package in the directory where the other packages of fido
    husky reside:
 
-   unix, beos, cygwin:
+   unix, beos, cygwin, djgpp, os/2 emx:
    -------------------
    /usr/src/packages/        -> huskybse/
+                             -> huskylib/
                              -> smapi/
                              -> fidoconfig/
                              -> hpt/
@@ -22,8 +23,9 @@ Instruction to build fidoconfig
 
    windows, dos, os/2 & etc:
    -------------------------
-   d:\husky\                 -> smapi\
-                             -> fidoconf\
+   d:\husky\                 -> hiskylib\
+                             -> smapi\
+			     -> fidoconf\
                              -> hpt\
                              -> htick\
                              ...some other

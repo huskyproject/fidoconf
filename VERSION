@@ -1,2 +1,3 @@
 fidoconfig 1.9-current
-required: huskylib 0.1-current
+CVS tag: HEAD
+required: huskylib 0.1-current, smapi 2.5-current
