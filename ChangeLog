@@ -1,3 +1,12 @@
+2004-03-27 Saturday 21:29  mche
+
+	* fidoconf/fidoconf.h (1.23), src/line.c (1.29): new option
+	DaysToKeepTics in SaveTic
+
+2004-03-27 Saturday 21:09  mche
+
+	* src/fidoconf.c (1.16): fix memleak in freeSaveTic()
+
 2004-03-04 Thursday 20:35  mche
 
 	* src/line.c (1.28): fix parsing AutoCreateDefaults
