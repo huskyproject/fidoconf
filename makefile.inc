@@ -4,12 +4,12 @@ VER = 0.13
 VERH = 0
 
 LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconf$(OBJ) line$(OBJ) adcase$(OBJ)  \
-                     xstr$(OBJ) cfg$(OBJ) findtok$(OBJ) crc$(OBJ) log$(OBJ) \ 
-                     recode$(OBJ) strsep$(OBJ) tree$(OBJ) areatree$(OBJ)    \
-                     afixcmd$(OBJ)
+			xstr$(OBJ) cfg$(OBJ) findtok$(OBJ) crc$(OBJ) log$(OBJ) \
+			recode$(OBJ) strsep$(OBJ) tree$(OBJ) areatree$(OBJ)    \
+			afixcmd$(OBJ)
 
 OBJS = $(LOBJS) fc2msged$(OBJ) fc2ged$(OBJ) fc2aed$(OBJ) fc2fgate$(OBJ) \
-                fc2sq$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ)
+		fc2sq$(OBJ) fecfg146$(OBJ) fecfg2fc$(OBJ)
 
 commonlibs: $(LIBFIDOCONFIG)$(LIB) $(SYMBOLIC)
 	$(NULL)
