@@ -1,3 +1,30 @@
+2002-09-21 Saturday 12:53  pgul
+
+	* afixcmn.c (1.12): htick makes PID, not TID kludge
+
+2002-09-21 Saturday 12:49  pgul
+
+	* common.c (1.100): cosmetic fix
+
+2002-09-21 Saturday 09:44  d_sergienko
+
+	* fidoconf.c (1.83), fidoconf.h (1.142), line.c (1.328), tokens.h
+	(1.51), tparser.c (1.200), doc/keywords.htick (1.6): added new
+	token 'FileFixNames' for htick
+
+2002-09-21 Saturday 08:08  d_sergienko
+
+	* fidoconf.c (1.82): fix tempDir default definition
+
+2002-09-21 Saturday 07:29  pgul
+
+	* fidoconf.c (1.81), fidoconf.h (1.141): Use default tempDir if not
+	defined in config
+
+2002-09-21 Saturday 05:55  pgul
+
+	* tokens.h (1.50): sort parseline_tokens array
+
 2002-09-20 Friday 17:21  d_sergienko
 
 	* fidoconf.h (1.140), line.c (1.327), tokens.h (1.49), tparser.c
