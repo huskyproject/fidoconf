@@ -1,3 +1,24 @@
+2002-02-16 Saturday 20:27  ml
+
+	* fidoconf.h (1.100): added hs_addr for perl.c compiling under
+	msvc6
+
+2002-02-16 Saturday 19:24  ml
+
+	* fidoconf.h (1.99), line.c (1.283), tokens.h (1.25), tparser.c
+	(1.166), doc/keywords.hpt (1.21): add perlsupport token [patch by
+	Dmitry Kazimirow]; fix error in tparser dumb checks
+
+2002-02-16 Saturday 12:08  pavel.gulchouck
+
+	* fidoconf.c (1.67), fidoconf.h (1.98): config EOL-slyle detection
+	minor fix
+
+2002-02-16 Saturday 12:01  pavel.gulchouck
+
+	* cfg.c (1.29), fidoconf.c (1.66), fidoconf.h (1.97), line.c
+	(1.282): Put LF or CRLF in new lines according to config style
+
 2002-02-14 Thursday 13:55  mche
 
 	* makefile.mvcdll (1.7): minimized binaries size
