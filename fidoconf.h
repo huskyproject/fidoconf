@@ -454,6 +454,7 @@ typedef struct fidoconfig {
 
    unsigned int keepTrsMail; // Keep Transit Netmail
    unsigned int createFwdNonPass;
+   unsigned int autoPassive;
    
 #define TRUE_COMMENT	"!#$%;"
    char CommentChar;

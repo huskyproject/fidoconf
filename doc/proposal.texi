@@ -233,6 +233,7 @@ a comment and will be ignored.
 * keepTrsMail::                 keep transit netmail messages
 * kludgeAreaNetmail::           how to process netmail with kludge "AREA:NETMAIL"
 * createFwdNonPass::            autocreate non-passthru echoes in fwd.req. operations
+* autopassive::                 set pause for links who don't poll our system
 
 * filelist::                    filelist and templates
 @end menu
@@ -2638,7 +2639,7 @@ If message started with "AREA:NETMAIL" we have three ways:
 
 This statement cannot be repeated.
 
-@node createFwdNonPass, filelist, kludgeAreaNetmail, Keywords
+@node createFwdNonPass, autopassive, kludgeAreaNetmail, Keywords
 @subsection createFwdNonPass
 @table @asis
 @item Syntax:
@@ -2652,7 +2653,21 @@ MsgBaseDir should be not passthrough!
 
 This statement cannot be repeated.
 
-@node filelist, , createFwdNonPass, Keywords
+@node autopassive, filelist, createFwdNonPass, Keywords
+@subsection autopassive
+@table @asis
+@item Syntax:
+@code{autopassive <bool>}
+@item Example:
+@code{autopassive}
+@end table
+
+If this statement defined, hpt will check for old bundles in every run.
+(See autopause token). You can do it also with command line arg. "pause".
+
+This statement cannot be repeated.
+
+@node filelist, , autopassive, Keywords
 @subsection filelist
 @table @asis
 @item Syntax:

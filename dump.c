@@ -30,6 +30,7 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   if (config->disableTID != 0) fprintf(f, "DisableTID\n");
   if (config->keepTrsMail != 0) fprintf(f, "KeepTrsMail\n");
   if (config->createFwdNonPass != 0) fprintf(f, "createFwdNonPass\n");
+  if (config->autoPassive != 0) printf("autoPassive\n");
   if (config->processPkt != NULL) fprintf(f, "processPkt %s\n", config->processPkt);
   if (config->tossingExt != NULL) fprintf(f, "tossingExt %s\n", config->tossingExt);
   switch (config->bundleNameStyle) {

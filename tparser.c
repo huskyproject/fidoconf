@@ -672,8 +672,8 @@ int main(int argc, char **argv) {
 	  
 	  if (config->tearline || config->origin) printf("\n");
 	  if (config->tearline) printf("--- %s\n", config->tearline);
-	  if (config->origin) printf("* Origin: %s (%s)\n",
-								 config->origin, aka2str(config->addr[0]));
+	  if (config->origin) printf("* Origin: %s (%s)\n", config->origin, aka2str(config->addr[0]));
+	  printf("AutoPassive: %s\n", config->autoPassive ? "on" : "off");
 
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
