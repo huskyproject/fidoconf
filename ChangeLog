@@ -1,3 +1,11 @@
+2003-10-21 Tuesday 01:17  andr_lukyanov
+
+	* makefile.mvc (1.31): Removed old makefiles
+
+2003-10-21 Tuesday 01:12  andr_lukyanov
+
+	* make/makefile.mvc (1.1): Fix MSVC compilation
+
 2003-10-20 Monday 03:31  andr_lukyanov
 
 	* makefile.mvcdll (1.31): Removed old makefiles
