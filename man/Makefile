@@ -13,8 +13,8 @@ endif
 MAN1PAGES     = dumpfcfg.1 fconf2.1 linkedto.1 tparser.1
 FCONF2ALIASES = fconf2aquaed.1 fconf2areasbbs.1 fconf2binkd.1 \
 		fconf2dir.1 fconf2fidogate.1 fconf2golded.1 \
-		fconf2msged.1 fconf2squish.1 fconf2tornado.1 \
-		fecfg2fconf.1
+		fconf2msged.1 fconf2na.pl.1 fconf2squish.1 \
+		fconf2tornado.1 fecfg2fconf.1
 
 MAN1DIR   = $(MANDIR)$(DIRSEP)man1
 

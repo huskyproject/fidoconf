@@ -5,29 +5,32 @@ fconf2* \- Converts fidoconfig to another format
 .B fconf2golded, fconf2msged, fconf2aquaed, fconf2fidogate,
 .B fconf2squish
 /path/to/new/config [/path/to/defaultconfig]
-.sp 2
+.sp 1
 .B fconf2msged
 /path/to/new/config
-.sp 2
+.sp 1
 .B fconf2binkd
 [options] -c /path/to/fidoconfig /path/to/new/config
-.sp 2
+.sp 1
 .B fconf2tornado
 [options] /path/to/tornado.ctl
-.sp 2
+.sp 1
 .B fconf2areasbbs
 [/path/to/fidoconfig] /path/to/areas.bbs
-.sp 2
+.sp 1
 .B fconf2dir
 /path/to/fidoconfig /path/to/dir.frq [/path/to/blstbbs.dir]
-.sp 2
+.sp 1
 .B fconf2dir
 /path/to/dir.frq
+.sp 1
+.B fconf2na.pl
+/path/to/echoarea_file /path/to/echolist_file
 
 .SH "DESCRIPTION"
 .B fconf2*
 Converts fidoconfig to config for another Program:
-.sp 2
+.sp 1
 .B fconf2golded
 produces output for GoldED.
 .br
@@ -55,6 +58,10 @@ produces areas.bbs file. This is perl script.
 .B fconf2dir
 produces fileecho directory listings: dir.frq (plain directory list)
 & BLstBBS directories file. This is perl script.
+.br
+.B fconf2na
+parse HPT echoareas file and produce export areatags and descriptions
+to FIDONET.NA-compatible file. This is perl script.
 .sp 2
 If fidoconfig don't specified in command line, use \fBFIDOCONFIG\fR
 enviroment variable (if defined) or see default path (\fI/etc/fido/config\fR for UNIXes).
@@ -81,6 +88,12 @@ Path & name to generated \fBBLSTBBS.DIR\fR file.
 .TP
 .B [/path/to/tornado.ctl]
 Path & name to generated \fBTORNADO.CTL\fR file.
+.TP
+.B [/path/to/echoarea_file]
+Path & name for \fBconfig.areas\fR file.
+.TP
+.B [/path/to/echolist_file]
+Path & name to generated \fBECHOLIST.NA\fR file.
 
 .SH FILES
 .br
