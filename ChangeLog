@@ -1,3 +1,12 @@
+2002-06-05 Wednesday 14:30  mche
+
+	* afixcmd.h (1.6), afixcmn.c (1.9): function freeMsgBuffers() moved
+	from hpt to fidoconfig
+
+2002-06-05 Wednesday 07:21  stas
+
+	* afixcmd.c (1.5): Replace russian win-1251 comment to english.
+
 2002-06-04 Tuesday 09:32  oliver.grimm
 
 	* fc2sq.c (1.5): OG: Add an explanation of "-" in the help output
