@@ -458,7 +458,7 @@ static int cmpfnames(char *file1, char *file2)
 	return 1;
     return 0;
 }
-#elif (defined(NT) || defined(WINNT) || defined(__NT__)) && (defined(_MSC_VER) || defined(__MINGW32__)) && !defined(_MAKE_DLL)
+#elif defined(NT) || defined(WINNT) || defined(__NT__)
 #ifdef __MINGW32__
 typedef unsigned long DWORD;
 typedef char        *LPSTR;
@@ -474,6 +474,7 @@ static int cmpfnames(char *file1, char *file2)
 {
     char buf[256], path1[256], path2[256], *p;
 
+    if (stricmp(file1, file2) == 0) return 0;
     if (!GetShortPathName(file1, buf, sizeof(buf)))
 	strncpy(buf, file1, sizeof(buf));
     if (!GetFullPathName(buf, sizeof(path1), path1, &p)) return 1;
