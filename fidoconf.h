@@ -536,6 +536,7 @@ typedef struct fidoconfig {
    char *rulesDir;
    unsigned int perlSupport;
    unsigned int packNetMailOnScan;
+   unsigned int quickAreaSearch;
     
 } s_fidoconfig, *ps_fidoconfig;
 

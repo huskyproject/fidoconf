@@ -262,7 +262,8 @@ enum {
     ID_FORWARDREQUESTTIMEOUT,
     ID_IDLEPASSTHRUTIMEOUT,
     ID_KILLEDREQUESTTIMEOUT,
-    ID_PACKNETMAILONSCAN
+    ID_PACKNETMAILONSCAN,
+    ID_QUICKAREASEARCH
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -476,6 +477,7 @@ token_t parseline_tokens[] =
     { "protinbound", ID_PROTINBOUND },
     { "public", ID_PUBLIC },
     { "publicgroup", ID_PUBLICGROUP },
+    { "quickareasearch", ID_QUICKAREASEARCH },
     { "readonly", ID_READONLY },
     { "remap", ID_REMAP },
     { "remotefilerobotname", ID_REMOTEFILEROBOTNAME },

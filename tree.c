@@ -26,7 +26,7 @@
 
 #include "common.h"
 
-#ifdef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
 #define		PRMSG(msg)	printf("DEBUG: '%s'\n", msg);
 #else
 #define		PRMSG(msg)

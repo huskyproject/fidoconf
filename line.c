@@ -3856,9 +3856,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_AUTOFILECREATESUBDIRS:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->autoFileCreateSubdirs));
             break;
-	case ID_PERLSUPPORT:
-	    rc = parseBool(getRestOfLine(),&(config->perlSupport));	
-	    break;
+        case ID_PERLSUPPORT:
+            rc = parseBool(getRestOfLine(),&(config->perlSupport));	
+            break;
         case ID_ADVISORYLOCK:
             rc = parseBool(getRestOfLine(), &(config->advisoryLock));
             break;
@@ -3877,20 +3877,20 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_FILEBOXESDIR:
             rc = parsePath(getRestOfLine(), &(config->fileBoxesDir));
             break;
-	case ID_FILEBOXALWAYS:
-	    rc = parseBool(getRestOfLine(), &(getDescrLink(config)->fileBoxAlways));
-	    break;
-	case ID_CARBONEXCLUDEFWDFROM:
-	    rc = parseBool(getRestOfLine(), &(config->carbonExcludeFwdFrom));
-	    break;
+        case ID_FILEBOXALWAYS:
+            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->fileBoxAlways));
+            break;
+        case ID_CARBONEXCLUDEFWDFROM:
+            rc = parseBool(getRestOfLine(), &(config->carbonExcludeFwdFrom));
+            break;
         case ID_HPTPERLFILE:
             rc = parseFileName(getRestOfLine(), &(config->hptPerlFile));
             break;
         case ID_READONLY:
-	    rc = parsePermissions (getRestOfLine(),  &(config->readOnly), &(config->readOnlyCount));
+            rc = parsePermissions (getRestOfLine(),  &(config->readOnly), &(config->readOnlyCount));
             break;
         case ID_WRITEONLY:
-	    rc = parsePermissions (getRestOfLine(),  &(config->writeOnly), &(config->writeOnlyCount));
+            rc = parsePermissions (getRestOfLine(),  &(config->writeOnly), &(config->writeOnlyCount));
             break;
         case ID_ARCNETMAIL:
             if( (clink = getDescrLink(config)) != NULL ) {
@@ -3902,12 +3902,15 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_RULESDIR:
             rc = parsePath(getRestOfLine(), &(config->rulesDir));
             break;
-	case ID_NORULES:
-	    rc = parseBool(getRestOfLine(), &(getDescrLink(config)->noRules));
-	    break;
-	case ID_PACKNETMAILONSCAN:
-	    rc = parseBool(getRestOfLine(), &(config->packNetMailOnScan));
-	    break;
+        case ID_NORULES:
+            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->noRules));
+            break;
+        case ID_PACKNETMAILONSCAN:
+            rc = parseBool(getRestOfLine(), &(config->packNetMailOnScan));
+            break;
+        case ID_QUICKAREASEARCH:
+            rc = parseBool(getRestOfLine(), &(config->quickAreaSearch));
+            break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

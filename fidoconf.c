@@ -43,6 +43,7 @@
 #include "typesize.h"
 #include "common.h"
 #include "xstr.h"
+#include "areatree.h"
 
 static int wasCR=0;
 
@@ -155,6 +156,7 @@ void initConfig(s_fidoconfig *config) {
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
    config -> typeDupeBase = hashDupesWmsgid;
    config -> packNetMailOnScan = 1;
+   config -> quickAreaSearch = 1;
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)
@@ -224,7 +226,7 @@ char *getConfigFileName(void) {
 
 void carbonNames2Addr(s_fidoconfig *config)
 {
-   int i, found, narea;
+   unsigned int i, found, narea;
    s_carbon *cb;
    ps_area aptr;
    char *cbaName=NULL;
@@ -296,7 +298,8 @@ void carbonNames2Addr(s_fidoconfig *config)
 /* set link-area permissions stored in readOnly[], writeOnly[] */
 void processPermissions (s_fidoconfig *config)
 {
-    int i, narea, nalink;
+    int i;
+    unsigned int narea, nalink;
     ps_area aptr;
     ps_arealink *dlink;
 
@@ -365,11 +368,13 @@ void stripPktPwd(s_fidoconfig *config)
 
 void setConfigDefaults(s_fidoconfig *config)
 {
-    if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"");
-    config->forwardRequestTimeout = config->forwardRequestTimeout == 0 ? 7 : config->forwardRequestTimeout;
-    config->idlePassthruTimeout = config->idlePassthruTimeout == 0 ? 4 : config->idlePassthruTimeout;
-    config->killedRequestTimeout = config->killedRequestTimeout == 0 ? 3 : config->killedRequestTimeout;
+   if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"");
+   config->forwardRequestTimeout = config->forwardRequestTimeout == 0 ? 7 : config->forwardRequestTimeout;
+   config->idlePassthruTimeout = config->idlePassthruTimeout == 0 ? 4 : config->idlePassthruTimeout;
+   config->killedRequestTimeout = config->killedRequestTimeout == 0 ? 3 : config->killedRequestTimeout;
+   RebuildEchoAreaTree(config);   
 }
+
 s_fidoconfig *readConfig(char *cfgFile)
 {
    s_fidoconfig *config;
@@ -509,6 +514,8 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->bbsAreas);
    for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
    nfree(config->localAreas);
+
+   FreeAreaTree(config);
 
    freeArea(config->EchoAreaDefault);
    freeFileArea(config->FileAreaDefault);
@@ -695,30 +702,42 @@ int existAddr(s_fidoconfig *config, s_addr aka) {
 
 s_area *getEchoArea(s_fidoconfig *config, char *areaName)
 {
-   UINT i;
-
-   for (i=0; i < config->echoAreaCount; i++) {
-      if (stricmp(config->echoAreas[i].areaName, areaName)==0)
-         return &(config->echoAreas[i]);
+   if(config->quickAreaSearch)
+   {
+      return getArea(config, areaName);
    }
-
+   else
+   {
+      UINT i;
+      for (i=0; i < config->echoAreaCount; i++) {
+         if (stricmp(config->echoAreas[i].areaName, areaName)==0)
+            return &(config->echoAreas[i]);
+      }
+   }
    return &(config->badArea); // if all else fails, return badArea :-)
 }
 
 s_area *getArea(s_fidoconfig *config, char *areaName)
 {
-   UINT i;
-
-   for (i=0; i < config->echoAreaCount; i++) {
-      if (stricmp(config->echoAreas[i].areaName, areaName)==0)
-         return &(config->echoAreas[i]);
+   if(config->quickAreaSearch)
+   {
+      ps_area ret = FindAreaInTree(areaName);
+      if(ret)
+         return ret;
    }
-
-   for (i=0; i < config->localAreaCount; i++) {
-      if (stricmp(config->localAreas[i].areaName, areaName)==0)
-         return &(config->localAreas[i]);
+   else
+   {
+      UINT i;
+      for (i=0; i < config->echoAreaCount; i++) {
+         if (stricmp(config->echoAreas[i].areaName, areaName)==0)
+            return &(config->echoAreas[i]);
+      }
+      
+      for (i=0; i < config->localAreaCount; i++) {
+         if (stricmp(config->localAreas[i].areaName, areaName)==0)
+            return &(config->localAreas[i]);
+      }
    }
-
    return &(config->badArea); // if all else fails, return badArea :-)
 }
 
