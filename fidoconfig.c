@@ -527,11 +527,6 @@ s_area *getEchoArea(s_fidoconfig *config, char *areaName)
          return &(config->echoAreas[i]);
    }
 
-   for (i=0; i < config->localAreaCount; i++) {
-		if (stricmp(config->localAreas[i].areaName, areaName)==0)
-		return &(config->localAreas[i]);
-   }
-
    return &(config->badArea); // if all else fails, return badArea :-)
 }
 

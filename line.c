@@ -782,6 +782,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 	 
 		 link = area->downlinks[area->downlinkCount]->link;
 		 arealink = area->downlinks[area->downlinkCount];
+         area->downlinkCount++;
 		 
 		 if (link->numOptGrp > 0) {
 			 // default set export on, import on, mandatory off
@@ -801,12 +802,11 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 			 arealink->mandatory = link->mandatory;
 		 }
 		 if (area->mandatory) arealink->mandatory = 1;
-		 if (link->level < area->levelread)	arealink->export=0;
-		 if (link->level < area->levelwrite) arealink->import=0;
+		 if (e_readCheck(config, area, link))	arealink->export = 0;
+		 if (e_writeCheck(config, area, &link->hisAka)) arealink->import = 0;
 		 // paused link can't receive mail
 		 if (link->Pause) arealink->export = 0;
 		 
-         area->downlinkCount++;
 	 tok = strtok(NULL, " \t");
 	 while (tok) {
 		 if (tok[0]=='-') {

@@ -2,6 +2,12 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sun Apr  9 22:41:43 NOVST 2000
+max:
+* add e_readCheck & e_writeCheck
+* now export, import & mandatory dispayed by tparser correctly
+
+----- cvs ci ------
 Tue Apr  4 12:51:02 MSD 2000
 max (patch from Serguei Revtov):
 * createAreasCase & areasFileNameCase tokens

@@ -1,3 +1,4 @@
+- getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
 - route statements which are defined in the middle of several link statements
   are broken, because there is a realloc of config->links! Maybe there are
   more bugs like this in the current sources
