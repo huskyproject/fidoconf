@@ -1,3 +1,7 @@
+2002-09-14 Saturday 20:14  stas_degteff
+
+	* temp.c (1.10): Fix declaration of mktemp() for Watcom C v.11
+
 2002-09-12 Thursday 11:17  stas_degteff
 
 	* HISTORY (1.9): Info about previous fix
