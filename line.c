@@ -2215,21 +2215,31 @@ int parseLine(char *line, s_fidoconfig *config)
    else unrecognised++;
 #else   
    else
-#endif       
-        if (stricmp(token, "password")==0) {
-	   if( (clink = getDescrLink(config)) != NULL ) {
-          rc = parsePWD(getRestOfLine(), &clink->defaultPwd);
-          // if another pwd is not known (yet), make it point to the defaultPWD
-          if (clink->pktPwd == NULL) clink->pktPwd = clink->defaultPwd;
-          if (clink->ticPwd == NULL) clink->ticPwd = clink->defaultPwd;
-          if (clink->areaFixPwd == NULL) clink->areaFixPwd = clink->defaultPwd;
-          if (clink->fileFixPwd == NULL) clink->fileFixPwd = clink->defaultPwd;
-          if (clink->bbsPwd == NULL) clink->bbsPwd = clink->defaultPwd;
-          if (clink->sessionPwd == NULL) clink->sessionPwd = clink->defaultPwd;
-	   } else {
-		   rc = 1;
+#endif
+	   if (stricmp(token, "password")==0) {
+		   if( (clink = getDescrLink(config)) != NULL ) {
+			   rc = parsePWD(getRestOfLine(), &clink->defaultPwd);
+			   // if another pwd is not known (yet), make it point to the defaultPWD
+/* REMOVE after 08-Dec-2000
+   if (clink->pktPwd == NULL) clink->pktPwd = clink->defaultPwd;
+   if (clink->ticPwd == NULL) clink->ticPwd = clink->defaultPwd;
+   if (clink->areaFixPwd == NULL) clink->areaFixPwd = clink->defaultPwd;
+   if (clink->fileFixPwd == NULL) clink->fileFixPwd = clink->defaultPwd;
+   if (clink->bbsPwd == NULL) clink->bbsPwd = clink->defaultPwd;
+   if (clink->sessionPwd == NULL) clink->sessionPwd = clink->defaultPwd;
+*/
+			   // this way used because of redefinition
+			   // defaultPwd from linkdefaults (if exist)
+			   clink->pktPwd = clink->defaultPwd;
+			   clink->ticPwd = clink->defaultPwd;
+			   clink->areaFixPwd = clink->defaultPwd;
+			   clink->fileFixPwd = clink->defaultPwd;
+			   clink->bbsPwd = clink->defaultPwd;
+			   clink->sessionPwd = clink->defaultPwd;
+		   } else {
+			   rc = 1;
+		   }
 	   }
-   }
    else if (stricmp(token, "aka")==0) {
      if( (clink = getDescrLink(config)) != NULL ) {
        string2addr(getRestOfLine(), &clink->hisAka);

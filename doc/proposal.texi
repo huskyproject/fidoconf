@@ -1304,8 +1304,9 @@ Stop export echomail for this link.
 @code{autopause 10}
 @end table
 
-Stop export echomail for this link after 10 days
-(write Pause token to link section)
+Stop export echomail for this link after 10 days (write Pause token to
+link section). It works when founding "10 days old" file for this link
+in outbound directory.
 
 @node arcmailsize, pktsize, autopause, Keywords
 @subsection arcmailsize
@@ -2274,7 +2275,7 @@ the origin string in areafix reports will be:
 @end table
 
 This area used for areafix scanning. Replyes from areafix will be also
-stored here.
+stored here. @strong{robotsArea must be NetmailArea!}
 
 @node logEchoToScreen, loglevels, robotsArea, Keywords
 @subsection logEchoToScreen
