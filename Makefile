@@ -89,12 +89,15 @@ ifdef INFODIR
 	(cd doc && $(MAKE) distclean)
 endif
 
-
+ifeq (~$(LD)~, ~~)
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
-#	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
-#         -o $(LIBFIDOCONFIG).so.$(VER) $(LOBJS) $(LOPT)
+	$(CC) -shared -Wl,-soname,$(LIBFIDOCONFIG).so.$(VERH) \
+         -o $(LIBFIDOCONFIG).so.$(VER) $(LOBJS) $(LOPT)
+else
+$(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
 	$(LD) -s -shared -o $(LIBFIDOCONFIG).so.$(VER) \
 	    $(LOBJS) $(LOPT)
+endif
 
 %$(OBJ): %.c
 	$(CC) $(CDEFS) $(COPT) $*.c
