@@ -361,7 +361,7 @@ void printLink(s_link link) {
        printf("UniqueOne\n");
        break;
      default:
-       printf("Unknown (m.b. fidoconf <--> trarser incompatible?)");
+       printf("Unknown (m.b. fidoconf <--> tparser incompatible?)");
        break;
    }
 
