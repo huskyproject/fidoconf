@@ -535,7 +535,6 @@ typedef struct fidoconfig {
    char *fileBoxesDir;
    char *notValidFNChars;
    char *rulesDir;
-   unsigned int perlSupport;
    unsigned int packNetMailOnScan;
 
    char**   uuEGrp; // uueEchoAreaGroups;

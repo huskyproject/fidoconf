@@ -3867,9 +3867,6 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_TICKERPACKTOBOX:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->tickerPackToBox));
             break;
-        case ID_PERLSUPPORT:
-            rc = parseBool(getRestOfLine(),&(config->perlSupport));	
-            break;
         case ID_ADVISORYLOCK:
             rc = parseBool(getRestOfLine(), &(config->advisoryLock));
             break;

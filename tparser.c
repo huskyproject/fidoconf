@@ -834,7 +834,7 @@ int main(int argc, char **argv) {
       if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
       if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
       if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
-      printf("Perl support: %s\n", config->perlSupport ? "on" : "off");	
+//      printf("Perl support: %s\n", config->perlSupport ? "on" : "off");	
 //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
       if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
       if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
