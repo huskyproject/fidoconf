@@ -1233,7 +1233,7 @@ char *strnzcpy (char *dst, const char *src, size_t len)
  */
 char *strnzcat (char *dst, const char *src, size_t len)
 {
-  int x;
+  size_t x;
 
   if (!dst) return NULL;
   if (!src) return dst;
