@@ -36,6 +36,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <smapi/compiler.h>
 #include "typesize.h"
 #include "fidoconf.h"
 
@@ -399,10 +401,21 @@ unsigned int dec2oct(unsigned int decimal);
 /* Select PackAka: link->hisPackAka if PackAka defined, link->hisAka otherwise. */
 FCONF_EXT hs_addr *SelectPackAka(s_link *link);
 
+
+/* cmdcall()
+ * Call external command (using spawnvp() if possible to prevent drop command
+ * exit code by buggy shell, e.g. command.com)
+ * Return exit code of the executed command.
+ */
+#if defined(HAS_SPAWNVP) && ( defined(__DOS__) || defined(__WIN32__) )
+FCONF_EXT int cmdcall(const char *cmd);
+#else
+#  define cmdcall(cmd) system(cmd)
+#endif
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-
 
