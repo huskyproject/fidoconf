@@ -1,6 +1,7 @@
-2002-06-20 Thursday 15:17  stas
+2002-06-21 Friday 15:22  stas
 
-	* temp.c (1.4): Include fix.
+	* temp.c (1.4): Include fix: io.h for turbo C & MS C, unistd.h for
+	other
 
 2002-06-20 Thursday 15:10  stas
 
