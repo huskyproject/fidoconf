@@ -38,8 +38,8 @@
 int writeArea(FILE *f, s_area *area, char type) {
 
    if (area->group == NULL) {
-      area->group = malloc(1);
-      *(area->group) = '\0';
+      area->group = malloc(2);
+      strcpy(area->group, "0");
    }
 
    fprintf(f, "areadef %s \"%s\" %s ", area->areaName,
