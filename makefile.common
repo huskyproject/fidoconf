@@ -1,9 +1,10 @@
 # common rules for all platforms
 
 VER = 0.6
+VERH = 0
 
-OBJS    = patmat$(O) line$(O) $(FIDOCONFIG)$(O) $(FCONF2MSGED)$(O) \
-	  $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) dir$(O) common$(O)
+LOBJS = common$(O) dir$(O) fidoconfig$(O) line$(O) patmat$(O)
+OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O)
 
 commonlibs: $(LIBFIDOCONFIG)$(A)
 
@@ -12,9 +13,8 @@ commonprogs:    tparser$(EXE) \
         	$(FCONF2AQUAED)$(EXE) \
 	        $(FCONF2GOLDED)$(EXE)
 
-$(LIBFIDOCONFIG)$(A): $(FIDOCONFIG)$(O) line$(O) common$(O) patmat$(O) dir$(O)
-	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(A) $(FIDOCONFIG)$(O) line$(O) \
-	  common$(O) patmat$(O) dir$(O)
+$(LIBFIDOCONFIG)$(A): $(LOBJS)
+	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(A) $(LOBJS)
 
 %$(O): %.c
 	$(CC) $(COPT) $*.c

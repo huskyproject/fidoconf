@@ -1,0 +1,56 @@
+#Settings for FreeBSD
+
+#installation directires
+INSTBIN = /usr/local/bin
+INSTLIB = /usr/local/lib
+
+#install args
+IBOPT = -c -s -m 755 -o bin -g bin
+ILOPT = -c -m 444 -o bin -g bin
+
+# program settings
+CC = cc
+AR = ar
+AR_R = r
+RM = rm
+
+COPT = -O2 -pipe -Wall -DUNIX -I../smapi
+LOPT = -L /usr/local/lib -L. -L../smapi
+
+# filename settings
+O = .o
+A = .a
+EXE =
+FIDOCONFIG = fidoconfig
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+LIBFIDOCONFIG = libfidoconfig
+LINKSMAPI = -L../smapi -lsmapibsd
+LINKFIDOCONFIG = -L. -l$(FIDOCONFIG)
+
+default: all
+
+include makefile.common
+
+all: commonlibs libfidoconfig.so.$(VERH) commonprogs
+
+clean: commonclean
+	-$(RM) libfidoconfig.so.$(VERH)
+
+distclean: commondistclean
+	-$(RM) libfidoconfig.so.$(VERH)
+
+libfidoconfig.so.$(VERH): fidoconfig$(O) line$(O) common$(O) patmat$(O) dir$(O)
+	$(LD) -shared -o $(LIBFIDOCONFIG).so.$(VERH) line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O) $(LOPT) $(LINKSMAPI)
+
+%.o: %.c
+	$(CC) -c $(COPT) $*.c
+
+install: 
+	install $(IBOPT) fconf2golded $(INSTBIN)
+	install $(IBOPT) fconf2msged $(INSTBIN)
+	install $(IBOPT) tparser $(INSTBIN)
+	install $(ILOPT) $(LIBFIDOCONFIG)$(A) $(INSTLIB)
+	install $(ILOPT) libfidoconfig.so.$(VERH) $(INSTLIB)
+	ln -sf libfidoconfig.so.$(VERH) $(INSTLIB)/libfidoconfig.so
