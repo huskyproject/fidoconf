@@ -1,3 +1,8 @@
+2001-12-13 Thursday 15:54  ml
+
+	* TODO (1.57), cfg.c (1.9), fidoconf.c (1.57), fidoconf.h (1.80):
+	trying to check included files for AutoAreaCreateFile
+
 2001-12-10 Monday 09:18  ml
 
 	* common.c (1.66): check for zero zone in string2addr()
