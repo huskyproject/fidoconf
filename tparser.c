@@ -187,6 +187,7 @@ void printFilelist(s_filelist *fl)
 
   case flDirList:
     printf("dirlist header template: %s\n", fl->dirListHdrTpl);
+    printf("dirlist entry template: %s\n", fl->dirListEntryTpl);
     printf("dirlist footer template: %s\n", fl->dirListFtrTpl);
     break;
   }
