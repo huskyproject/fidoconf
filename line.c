@@ -44,8 +44,12 @@
 #endif 
 
 #include <limits.h>
+
 #include <smapi/patmat.h>
 #include <smapi/unused.h>
+#include <smapi/compiler.h>
+#include <smapi/stamp.h>
+#include <smapi/progprot.h>
 
 #include "dirlayer.h"
 
@@ -56,10 +60,6 @@
 #endif
 #include "common.h"
 #include "typesize.h"
-
-#include <smapi/compiler.h>
-#include <smapi/stamp.h>
-#include <smapi/progprot.h>
 
 char *actualKeyword, *actualLine;
 int  actualLineNr;
@@ -726,7 +726,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    area->fperm = area->uid = area->gid = -1;
 
    area->msgbType = MSGTYPE_SDM;
-   area->useAka = &(config->addr[0]);
+   area->useAka = config->addr;
 
    // set default parameters of dupebase
    area->dupeSize = 10;   /* 2^10=1024 dupes minimum*/
@@ -872,7 +872,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    memset(area, 0, sizeof(s_filearea));
 
    area->pass = 0;
-   area->useAka = &(config->addr[0]);
+   area->useAka = config->addr;
 
    // set default group for reader
    area->group = (char*) malloc(sizeof(char)+1);
