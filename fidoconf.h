@@ -224,7 +224,7 @@ typedef struct area {
 
    int nolink;         // do not reply-link area
    int keepsb;         // keep seen-by's and path
-   int scn;            // 1 if scanned
+   int scn;            // 1 if scanned (number of scanned messages-1)
    int nopack;         // do not pack area
 
    ps_addr       sbadd;

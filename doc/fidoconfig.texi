@@ -130,7 +130,7 @@ fidosoft.husky
 
 Max Levenkov:
 @example
-@email{sackett@@chat.ru}
+@email{sackett@@mail.ru}
 ru.husky (russian)
 ru.echoprocessors (russian)
 fidosoft.husky (english)

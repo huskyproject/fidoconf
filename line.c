@@ -1039,7 +1039,6 @@ int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef)
    adef->msgbType = MSGTYPE_SDM;
 
 
-
    // set default parameters of dupebase
 
    adef->dupeHistory = 7; /* 7 days */
@@ -1048,7 +1047,6 @@ int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef)
 #ifdef MSDOS
    adef->DOSFile = 1;
 #endif
-
 
    tok = strtok(token, " \t");
    if (tok == NULL) { /* does this ever happen?? */
