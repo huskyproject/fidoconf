@@ -303,6 +303,8 @@ _Keyword definitions_
   # hide area
   # -nopause        
   # %PAUSE has no effect to this area
+  # -keepsb      
+  # keep seen-by's
 
   # options for further development, e.g.:
   # -mandatory {<group>}
@@ -311,8 +313,6 @@ _Keyword definitions_
   #   for levals <= <group>
   # -a <aka>      
   #  aka to use
-?  # -keepsb      
-?  # keep seen-by's
   # -tinysb     
   # keep only seen-by's of links listed in {link}
   # -manual      

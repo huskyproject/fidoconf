@@ -2,6 +2,12 @@ fidoconfig 0.9
 --------------
 
 ----- cvs ci ------
+Fri Aug 13 13:30:54 NOVST 1999
+max:
++ added token carbonKeepSb
++ added token -keepsb in echoarea option
+	
+----- cvs ci ------
 Wed Aug 11 02:20:37 NOVST 1999
 max:
 + added carbonSubj and carbonText tokens

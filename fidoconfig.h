@@ -70,7 +70,7 @@ enum flavour {normal, hold, crash, direct, immediate};
 typedef enum flavour e_flavour;
 enum forward {fOff, fSecure, fOn};
 typedef enum forward e_forward;
-enum emptypktpwd {fOff, fSecure, fOn};
+enum emptypktpwd {eOff, eSecure, eOn};
 typedef enum emptypktpwd e_emptypktpwd;
 
 struct link {
@@ -162,6 +162,7 @@ struct area {
    char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
 
    int ccoff;          // 1 if carbon copy is not allowed from this area
+   int keepsb;          // 1 if carbon copy is not allowed from this area
 };
 typedef struct area s_area;
 
@@ -269,6 +270,7 @@ struct fidoconfig {
    unsigned int   carbonCount;
    s_carbon *carbons;
    unsigned int   carbonAndQuit;
+   unsigned int   carbonKeepSb;  // keep SeenBy's and PATH in carbon area
 
    char     **includeFiles;
    unsigned int includeCount;

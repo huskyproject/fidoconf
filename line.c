@@ -412,6 +412,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
       copyString(token, &(area->rwgrp));
    }
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
+   else if (stricmp(option, "keepsb")==0) area->keepsb=1;
    else if (stricmp(option, "$")==0) ;
    else if (stricmp(option, "d")==0) {
           if ((area->description=getDescription())==NULL)
@@ -1667,6 +1668,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "logechotoscreen")==0) config->logEchoToScreen = 1;
    else if (stricmp(token, "separatebundles")==0) config->separateBundles = 1;
    else if (stricmp(token, "carbonandquit")==0) config->carbonAndQuit = 1;
+   else if (stricmp(token, "carbonkeepsb")==0) config->carbonKeepSb = 1;
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
    else if (stricmp(token, "defarcmailsize")==0) rc = parseLevel(getRestOfLine(), &(config->defarcmailSize));
 
