@@ -1,0 +1,45 @@
+CC=	i386--mingw32-gcc
+CFLAGS=	
+CDEFS=	-DWINNT -DNT
+COPT=	-O2 -I../smapi
+LOPT=    -L../smapi -L.
+
+LIBS=  libfidoconfig.a
+SMLIB= ../smapi/smapimgw.a
+
+HDRS=  common.h \
+       dir.h \
+       fidoconfig.h \
+       adcase.h \
+       typesize.h
+
+OBJS=  adcase.o \
+       line.o \
+       fidoconfig.o \
+       dir.o \
+       common.o
+
+all:	fidoconfig.a fconf2msged.exe fconf2golded.exe tparser.exe
+
+fidoconfig.a: $(OBJS)
+	i386--mingw32-ar rcv $(LIBS) $(OBJS)
+	i386--mingw32-ranlib $(LIBS)
+
+fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
+
+fconf2golded.exe: $(LIBS) $(HDRS) fconf2golded.c
+
+tparser.exe: $(LIBS) $(HDRS) tparser.c
+
+# Thunderbirds are go!
+
+clean:
+	rm $(OBJS)
+	rm fidoconf.bak
+	rm fconf2golded.o fconf2msged.o fconf2golded.exe fconf2msged.exe tparser.o tparser.exe
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
+
+%.exe: %.c
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) $(LOPT) $< -lfidoconfig -lsmapimgw
