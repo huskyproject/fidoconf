@@ -222,6 +222,14 @@ void carbonNames2Addr(s_fidoconfig *config)
 {
    int i, found, narea;
    s_carbon *cb;
+   char *aptr=NULL;
+   
+   /* put areaname in every carbon[] */
+   cb=&(config->carbons[config->carbonCount-1]);
+   for(i=config->carbonCount-1; i>=0; i--,cb--) {
+       if (cb->areaName) aptr=cb->areaName;
+       else if (aptr) copyString(aptr, &(cb->areaName));
+   }
 
    for (i=0; i<config->carbonCount; i++) {
 	   /* Can't use getArea() - it doesn't say about export and

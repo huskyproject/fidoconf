@@ -1,4 +1,10 @@
 ----- cvs ci ------
+Sat Mar 31 16:12:27 NOVST 2001
+max:
+* it is possible to set several Carbon(To|From|Subj|etc) before
+  CarbonCopy or CarbonMove (Kees Bergwerf)
+
+----- cvs ci ------
 Wed Mar 28 18:02:13 NOVST 2001
 max:
 * fix deleting last char of the last line while parsing under win32
