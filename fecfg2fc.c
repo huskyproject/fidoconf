@@ -26,6 +26,19 @@ char Revision[] = "$Revision$";
 
 #include "common.h"
 
+#ifndef VERSION_H
+#define VERSION_H
+
+#include "version.h"
+#include "cvsdate.h"
+
+#define VER_MAJOR 0
+#define VER_MINOR 15
+#define VER_PATCH 0
+#define VER_BRANCH BRANCH_CURRENT
+
+#endif
+
 /* #define INC_FE_TYPES */
 #define INC_FE_BAMPROCS
 #define FALSE 0
@@ -143,6 +156,11 @@ char *sysAddress2str(SysAddress sysaddr)
 
 void Usage(const char *program)
 {
+  char *temp;
+  printf("%s\n", temp=GenVersionStr( "fecfg2fconf", VER_MAJOR,
+		VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+  nfree(temp);
+  
   printf("\nUsage:\n"
          "\t%s [path]fastecho.cfg [output file]\n",
           basename(program));

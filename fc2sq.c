@@ -39,6 +39,19 @@
 #include "fidoconf.h"
 #include "common.h"
 
+#ifndef VERSION_H
+#define VERSION_H
+
+#include "version.h"
+#include "cvsdate.h"
+
+#define VER_MAJOR 0
+#define VER_MINOR 15
+#define VER_PATCH 0
+#define VER_BRANCH BRANCH_CURRENT
+
+#endif
+
 #include <smapi/unused.h>
 
 int writeArea(FILE *f, s_area *area, char type) {
@@ -144,8 +157,12 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
 
-   fprintf(stderr,"fconf2squish\n");
-   fprintf(stderr,"------------\n");
+   { char *temp;
+     printf("%s\n", temp=GenVersionStr( "fconf2squish", VER_MAJOR,
+			VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+     nfree(temp);
+   }
+
    if (argc < 2) {
       fprintf(stderr,"\nUsage:\n");
       fprintf(stderr,"   fconf2squish <squish.cfg>|- [<default.cfg>]\n");

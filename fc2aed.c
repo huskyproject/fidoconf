@@ -40,6 +40,19 @@
 #include "fidoconf.h"
 #include "common.h"
 
+#ifndef VERSION_H
+#define VERSION_H
+
+#include "version.h"
+#include "cvsdate.h"
+
+#define VER_MAJOR 0
+#define VER_MINOR 15
+#define VER_PATCH 0
+#define VER_BRANCH BRANCH_CURRENT
+
+#endif
+
 int writeArea(FILE *f, s_area *area, char type) {
 
    if (area->group == NULL) area->group = "0";
@@ -160,8 +173,11 @@ int main (int argc, char *argv[]) {
    int options=0;
    int cont=1;
 
-   printf("fconf2aquaed\n");
-   printf("------------\n");
+   { char *temp;
+     printf("%s\n", temp=GenVersionStr( "fconf2aquaed", VER_MAJOR,
+			VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+     nfree(temp);
+   }
 
    while ((cont<argc)&&(*argv[cont]=='-')){
 	options|=parseOptions(argv[cont]);	

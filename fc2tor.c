@@ -35,6 +35,19 @@
 #include "fidoconf.h"
 #include "common.h"
 
+#ifndef VERSION_H
+#define VERSION_H
+
+#include "version.h"
+#include "cvsdate.h"
+
+#define VER_MAJOR 0
+#define VER_MINOR 15
+#define VER_PATCH 0
+#define VER_BRANCH BRANCH_CURRENT
+
+#endif
+
 #include "fc2tor_g.h"
 
 #define TAG_NAME 0
@@ -334,8 +347,11 @@ int main (int argc, char *argv[]) {
    s_fidoconfig *config;
    int cont=1;
 
-   printf("fconf2tornado\n");
-   printf("-------------\n");
+   { char *temp;
+     printf("%s\n", temp=GenVersionStr( "fconf2tornado", VER_MAJOR,
+			VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+     nfree(temp);
+   }
 
    while ((cont<argc) && (*argv[cont]=='-')) {
         parseOptions(argv[cont]);
@@ -363,7 +379,7 @@ int main (int argc, char *argv[]) {
       printf("    -gr<grps> exports areas with <grp> groups only (default all) \n");
       printf("\nExamples:                                                      \n");
       printf("   fconf2tornado -mel -ss256 c:\\tornado\\msgarea.ctl            \n");
-      printf("   fconf2tornado -ff -g -ulc:\\bbs\\upload filearea.ctl          \n\n");
+      printf("   fconf2tornado -ff -g -ulc:\\bbs\\upload filearea.ctl          \n");
       printf("   fconf2tornado -ff -g -grFido temp.ctl                         \n");
       printf("   fconf2tornado -ff -g -grLocal filearea.ctl temp.ctl           \n");
       return 1;

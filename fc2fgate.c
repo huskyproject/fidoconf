@@ -32,6 +32,19 @@
 #include "fidoconf.h"
 #include "common.h"
 
+#ifndef VERSION_H
+#define VERSION_H
+
+#include "version.h"
+#include "cvsdate.h"
+
+#define VER_MAJOR 0
+#define VER_MINOR 15
+#define VER_PATCH 0
+#define VER_BRANCH BRANCH_CURRENT
+
+#endif
+
 #include <smapi/patmat.h>
 
 char *areaconfig;
@@ -178,8 +191,12 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
    
-   printf("fconf2fidogate\n");
-   printf("------------\n");
+   { char *temp;
+     printf("%s\n", temp=GenVersionStr( "fconf2fidogate", VER_MAJOR,
+			VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+     nfree(temp);
+   }
+
    if (argc < 2) {
       printf("\nUsage:\n");
       printf("   fconf2fidogate <FidoGateAreasFileName> [<default.cfg>]\n");
