@@ -1,3 +1,8 @@
+2002-01-31 Thursday 17:44  ml
+
+	* fidoconf.h (1.87.2.1), line.c (1.271.2.3): don't destroy
+	areadefaults when parsing netmailArea [patch by Serguei Revtov]
+
 2002-01-30 Wednesday 19:58  ml
 
 	* fidoconf.c (1.61.2.1): readLine can read lines without \r on
