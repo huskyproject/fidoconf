@@ -475,7 +475,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       }
       else if (strcmp(iToken, "msg")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-			prErr("Logical Defect!! You could not make a *.msg Area Passthrough!");
+	   prErr("Logical Defect!! You could not make a *.msg Area Passthrough!");
 	   free(iOption);
 	   free(iToken);
            return 1;
@@ -756,8 +756,7 @@ int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
 	area->downlinks[area->downlinkCount]->link = getLinkForArea(*config,tok,area);
 	
 	if (area->downlinks[area->downlinkCount]->link == NULL) {
-		prErr("no links like \"%s\" in config!",
-			   actualLineNr, tok);
+		prErr("no links like \"%s\" in config!", tok);
 		return 1;
 	}
 

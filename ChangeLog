@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Tue Mar 13 00:07:22 NOVT 2001
+max:
+* fixed segfault when parsing unknown echoarea link
+
+----- cvs ci ------
 Sun Mar 11 15:31:48 NOVT 2001
 max:
 * minDiskFreeSpace token for hpt
