@@ -24,9 +24,11 @@
 #include "fecfg146.h"
 
 
+// convert FastEcho-GroupBitmap to GroupString for fidoconfig
+// warning: returns pointer to static array!
 char *grp2str(dword bitmap)
 {
-   static char buff[33];
+   static char buff[66];
    char   *curr, *ptr, key, ch, tmp;
 
    ptr = (char*)&bitmap;
@@ -41,6 +43,8 @@ char *grp2str(dword bitmap)
       if (tmp) {
          *curr = key;
          curr++;
+         *curr = ',';
+         curr++;
       } /* endif */
    } /* endfor */
    for (key = '1'; key <= '6'; key++, ch <<=1) {
@@ -49,9 +53,17 @@ char *grp2str(dword bitmap)
       if (tmp) {
          *curr = key;
          curr++;
+         *curr = ',';
+         curr++;
       } /* endif */
    } /* endfor */
+
+   // strip last ',' if any
+   if (curr != buff) curr--;
+
+   // terminate buff
    *curr = 0;
+
    return buff;
 }
 

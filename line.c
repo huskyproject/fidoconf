@@ -495,7 +495,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       if (token == NULL) {
                  return 1;
       }
-      area->group = token[0];
+      area->group = strLower(strdup(token));
    }
 /*   else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
@@ -604,7 +604,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       if (token == NULL) {
                  return 1;
       }
-      area->group = token[0];
+      area->group = &token[0];
    }
 /*   else if (stricmp(option, "r")==0) {
           token = strtok(NULL, " \t");
@@ -673,7 +673,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
    area->dupeHistory = 7; /* 7 days */
 
    // set default group for reader
-   area->group = '\060';
+   area->group = "\060";
 
    tok = strtok(token, " \t");
    if (tok == NULL) {
@@ -715,7 +715,15 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
          }
 	 
 	 link = area->downlinks[area->downlinkCount]->link;
-	 if (link->optGrp) tok = strchr(link->optGrp, area->group);
+	 if (link->numOptGrp > 0)
+	 {
+	   unsigned int i;
+
+	   tok = NULL;
+	   for (i = 0; i < link->numOptGrp; i++)
+	     if (strcmp(link->optGrp[i], area->group) == 0)
+	       tok = link->optGrp[i];
+	 }
  
 	 // default set export on, import on, mandatory off
 	 area->downlinks[area->downlinkCount]->export = 1;
@@ -724,19 +732,19 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 	 
 	 // check export for link
 	 if (link->export) if (*link->export == 0) {
-		 if (link->optGrp == NULL || (link->optGrp && tok))
+		 if (link->numOptGrp == 0 || (link->numOptGrp && tok))
 			 area->downlinks[area->downlinkCount]->export = 0;
 	 } 
 		 
 		 // check import from link
 	 if (link->import) if (*link->import == 0) {
-		 if (link->optGrp == NULL || (link->optGrp && tok))
+		 if (link->numOptGrp == 0 || (link->numOptGrp && tok))
 			 area->downlinks[area->downlinkCount]->import = 0;
 	 }
 		 
 	 // check mandatory to link
 	 if (link->mandatory) if (*link->mandatory == 1) {
-		 if (link->optGrp == NULL || (link->optGrp && tok))
+		 if (link->numOptGrp == 0 || (link->numOptGrp && tok))
 			 area->downlinks[area->downlinkCount]->mandatory = 1;
 	 }
          area->downlinkCount++;
@@ -807,7 +815,7 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
    area->useAka = &(config->addr[0]);
 
    // set default group for reader
-   area->group = '\060';
+   area->group = "\060";
 
    tok = strtok(token, " \t");
    if (tok == NULL) {
@@ -853,7 +861,15 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
             return rc;
          }
          link = area->downlinks[area->downlinkCount]->link;
-         if (link->optGrp) tok = strchr(link->optGrp, area->group);
+	 if (link->numOptGrp > 0)
+	 {
+	   unsigned int i;
+
+	   tok = NULL;
+	   for (i = 0; i < link->numOptGrp; i++)
+	     if (strcmp(link->optGrp[i], area->group) == 0)
+	       tok = link->optGrp[i];
+	 }
 
          // default set export on, import on, mandatory off
          area->downlinks[area->downlinkCount]->export = 1;
@@ -862,21 +878,21 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
 
          // check export to link
          if (link->export) if (*link->export == 0) {
-            if (link->optGrp == NULL || (link->optGrp && tok)) {
+            if (link->numOptGrp == 0 || (link->numOptGrp && tok)) {
                area->downlinks[area->downlinkCount]->export = 0;
             } /* endif */
          } /* endif */
 
          // check import from link
          if (link->import) if (*link->import == 0) {
-            if (link->optGrp == NULL || (link->optGrp && tok)) {
+            if (link->optGrp == 0 || (link->numOptGrp && tok)) {
                area->downlinks[area->downlinkCount]->import = 0;
             } /* endif */
          } /* endif */
 
          // check mandatory to link
          if (link->mandatory) if (*link->mandatory == 1) {
-            if (link->optGrp == NULL || (link->optGrp && tok)) {
+            if (link->numOptGrp == 0 || (link->numOptGrp && tok)) {
                area->downlinks[area->downlinkCount]->mandatory = 1;
             } /* endif */
          } /* endif */
@@ -1514,31 +1530,189 @@ int parseFileEchoFlavour(char *line, e_flavour *flavour) {
 
 int parseGroup(char *token, s_fidoconfig *config, int i)
 {
-   if (token == NULL) {
-      fprintf(stderr, "Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+  unsigned int j;
+  char *cpos;
+  s_link *link = NULL;
+
+  if (token == NULL)
+  {
+    fprintf(stderr, "Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 1;
+  }
+
+  switch (i)
+  {
+  case 0:
+    link = &config->links[config->linkCount-1];
+    if (link->numAccessGrp != 0) {
+      fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
       return 1;
-   }
+    }
+    break;
 
-   switch (i) {
-   case 0: if (config->links[config->linkCount-1].AccessGrp != NULL) {
-           fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
-           return 1;
-   }
-   break;
-   case 1: if (config->links[config->linkCount-1].LinkGrp != NULL) {
-           fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
-           return 1;
-   }
-   break;
-   }
+  case 1:
+    link = &config->links[config->linkCount-1];
+    if (link->LinkGrp != NULL) {
+      fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+    }
+    break;
 
-   switch (i) {
-   case 0: copyString(token, &(config->links[config->linkCount-1].AccessGrp));
-           break;
-   case 1: copyString(token, &(config->links[config->linkCount-1].LinkGrp));
-           break;
-   }
-   return 0;
+  case 2:
+    if (config->numPublicGroup != 0)
+    {
+      fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+    }
+    break;
+
+  case 3:
+    link = &config->links[config->linkCount-1];
+    if (link->numOptGrp != 0)
+    {
+      fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+    }
+    break;
+  }
+
+  switch (i)
+  {
+  case 0:
+    for (link->numAccessGrp = 0; *token != '\0'; link->numAccessGrp++)
+    {
+      link->AccessGrp = realloc(link->AccessGrp, (link->numAccessGrp+1) *
+				sizeof(char *));
+
+      // strip leading spaces/tabs
+      while ((*token == ' ') || (*token == '\t')) token++;
+
+      cpos = strchr(token, ',');
+      if (cpos != NULL)
+      {
+	// strip trailing spaces/tabs
+	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+	      (cpos > token)) cpos--;
+
+	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token);
+
+	for (j = 0; j < cpos - token; j++)
+	  link->AccessGrp[link->numAccessGrp][j] = tolower(token[j]);
+
+	link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
+	token = cpos+1;
+      }
+      else
+      {
+	cpos = token + strlen(token);
+
+	// strip trailing spaces/tabs
+	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+	      (cpos > token)) cpos--;
+
+	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token);
+
+	for (j = 0; j < cpos - token; j++)
+	  link->AccessGrp[link->numAccessGrp][j] = tolower(token[j]);
+
+	link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
+	token = cpos;
+      }
+    }
+    break;
+
+  case 1:
+    copyString(token, &(config->links[config->linkCount-1].LinkGrp));
+    break;
+
+  case 2:
+    for (config->numPublicGroup = 0; *token != '\0'; config->numPublicGroup++)
+    {
+      config->PublicGroup = realloc(config->PublicGroup, (config->numPublicGroup+1) *
+				  sizeof(char *));
+
+      // strip leading spaces/tabs
+      while ((*token == ' ') || (*token == '\t')) token++;
+
+      cpos = strchr(token, ',');
+      if (cpos != NULL)
+      {
+	// strip trailing spaces/tabs
+	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+	      (cpos > token)) cpos--;
+
+	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token);
+
+	for (j = 0; j < cpos - token; j++)
+	  config->PublicGroup[config->numPublicGroup][j] = tolower(token[j]);
+
+	config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
+	token = cpos+1;
+      }
+      else
+      {
+	cpos = token + strlen(token);
+
+	// strip trailing spaces/tabs
+	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+	      (cpos > token)) cpos--;
+
+	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token);
+
+	for (j = 0; j < cpos - token; j++)
+	  config->PublicGroup[config->numPublicGroup][j] = tolower(token[j]);
+
+	config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
+	token = cpos;
+      }
+    }
+    break;
+
+  case 3:
+    for (link->numOptGrp = 0; *token != '\0'; link->numOptGrp++)
+    {
+      link->optGrp = realloc(link->optGrp, (link->numOptGrp+1) *
+				sizeof(char *));
+
+      // strip leading spaces/tabs
+      while ((*token == ' ') || (*token == '\t')) token++;
+
+      cpos = strchr(token, ',');
+      if (cpos != NULL)
+      {
+	// strip trailing spaces/tabs
+	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+	      (cpos > token)) cpos--;
+
+	link->optGrp[link->numOptGrp] = malloc(cpos - token);
+
+	for (j = 0; j < cpos - token; j++)
+	  link->optGrp[link->numOptGrp][j] = tolower(token[j]);
+
+	link->optGrp[link->numOptGrp][cpos - token] = '\0';
+	token = cpos+1;
+      }
+      else
+      {
+	cpos = token + strlen(token);
+
+	// strip trailing spaces/tabs
+	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+	      (cpos > token)) cpos--;
+
+	link->optGrp[link->numOptGrp] = malloc(cpos - token);
+
+	for (j = 0; j < cpos - token; j++)
+	  link->optGrp[link->numOptGrp][j] = tolower(token[j]);
+
+	link->optGrp[link->numOptGrp][cpos - token] = '\0';
+	token = cpos;
+      }
+    }
+    break;
+
+  }
+  return 0;
 }
 
 int parseLocalArea(char *token, s_fidoconfig *config)
@@ -1887,7 +2061,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "import")==0) rc = parseImport(getRestOfLine(), &(config->links[config->linkCount-1].import));
    else if (stricmp(token, "mandatory")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
    else if (stricmp(token, "manual")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
-   else if (stricmp(token, "optgrp")==0) rc = parseOptGrp(getRestOfLine(), &(config->links[config->linkCount-1].optGrp));
+   else if (stricmp(token, "optgrp")==0) rc = parseGroup(getRestOfLine(), config, 3);
    else if (stricmp(token, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(config->links[config->linkCount-1].level));
 #ifdef __TURBOC__
    else unrecognised++;
@@ -1967,7 +2141,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "adddlc")==0) config->addDLC = 1;
    else if (stricmp(token, "filesingledescline")==0) config->fileSingleDescLine = 1;
    else if (stricmp(token, "filecheckdest")==0) config->fileCheckDest = 1;
-   else if (stricmp(token, "publicgroup")==0) rc = copyString(getRestOfLine(), &(config->PublicGroup));
+   else if (stricmp(token, "publicgroup")==0) rc = parseGroup(getRestOfLine(), config, 2);
    else if (stricmp(token, "logechotoscreen")==0) config->logEchoToScreen = 1;
    else if (stricmp(token, "separatebundles")==0) config->separateBundles = 1;
    else if (stricmp(token, "carbonandquit")==0) config->carbonAndQuit = 1;

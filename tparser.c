@@ -68,7 +68,7 @@ void printArea(s_area area) {
    printf("DOS Style File (8+3) - %s\n", (area.DOSFile) ? "on" : "off");
    printf("Level read  - %d\n", area.levelread);
    printf("Level write - %d\n", area.levelwrite);
-   printf("Group       - %c\n", area.group);
+   printf("Group       - %s\n", area.group);
    printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    if (area.downlinkCount) printf("Links:");
    else printf("No links\n");
@@ -113,7 +113,7 @@ void printFileArea(s_filearea area) {
    else
      printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
    printf("\n");
-   printf("Group       - %c\n", area.group);
+   printf("Group       - %s\n", area.group);
    if (area.downlinkCount) printf("Links:");
    else printf("No links\n");
    for (i = 0; i<area.downlinkCount;i++) { 
@@ -169,13 +169,35 @@ void printLink(s_link link) {
    if (link.import) printf("Import:     %s\n",(link.import[0]) ? "on" : "off");
    if (link.mandatory) printf("Mandatory:  %s\n",(link.mandatory[0]) ? "on" : "off");
    if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
-   if (link.optGrp) printf("OptGrp       %s\n", link.optGrp);
+   if (link.numOptGrp > 0)
+   {
+     unsigned int i;
+
+     printf("OptGrp       ");
+     for (i = 0; i < link.numOptGrp; i++)
+     {
+       if (i > 0) printf(", %s", link.optGrp[i]);
+       else printf("%s", link.optGrp[0]);
+     }
+     printf("\n");
+   }
    printf("AutoAreaCreate %s\n", (link.autoAreaCreate) ? "on" : "off");
    if (link.autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link.autoAreaCreateFile);
    printf("AutoFileCreate %s\n", (link.autoFileCreate) ? "on" : "off");
    if (link.autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link.autoFileCreateFile);
    if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
-   if (link.AccessGrp) printf("AccessGrp %s\n",link.AccessGrp);
+   if (link.numAccessGrp)
+   {
+     unsigned int i;
+
+     printf("AccessGrp ");
+     for (i = 0; i < link.numAccessGrp; i++)
+     {
+       if (i > 0) printf(", %s", link.AccessGrp[i]);
+       else printf("%s", link.AccessGrp[0]);
+     }
+     printf("\n");
+   }
    printf("AreaFix %s\n", (link.AreaFix) ? "on" : "off");
    printf("FileFix %s\n", (link.FileFix) ? "on" : "off");
    printf("Forward Requests from this link is %s\n",(link.forwardRequests)?"on":"off");

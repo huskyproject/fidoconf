@@ -209,7 +209,16 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       }
 
       dumpString(f, "linkGrp             %s\n", link.LinkGrp);
-      dumpString(f, "accessGrp           %s\n", link.AccessGrp);
+      if (link.numAccessGrp > 0)
+      {
+	fprintf(f, "accessGrp           ");
+	for (i = 0; i < link.numAccessGrp; i++)
+	{
+	  if (i > 0) fprintf(f, ", %s", link.AccessGrp[i]);
+	  else fprintf(f, "%s", link.AccessGrp[0]);
+	}
+	fprintf(f, "\n");
+      }
       dumpString(f, "autoAreaCreateFile  %s\n", link.autoAreaCreateFile);
       dumpString(f, "autoFileCreateFile  %s\n", link.autoFileCreateFile);
       dumpString(f, "autoAreaCreateDefaults %s\n", link.autoAreaCreateDefaults);
@@ -353,7 +362,7 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
     if (area->levelread != 0) fprintf(f, "-lr %d ", area->levelread);
     if (area->levelwrite != 0) fprintf(f, "-lw %d ", area->levelwrite);
 
-    if (area->group != '0') fprintf(f, "-g %c ", area->group);
+    if (area->group != NULL) fprintf(f, "-g %s ", area->group);
 
     /*if (area->rgrp != NULL) fprintf(f, "-r %s ", area->rgrp);
     if (area->wgrp != NULL) fprintf(f, "-w %s ", area->wgrp);
@@ -453,13 +462,23 @@ void dumpCarbons(s_fidoconfig *config, FILE *f)
 
 void dumpAreafix(s_fidoconfig *config, FILE *f)
 {
+    unsigned int i;
+
     if (config->areafixFromPkt != 0) fprintf(f, "areafixFromPkt\n");
     if (config->areafixKillReports != 0) fprintf(f, "areafixKillReports\n");
     if (config->areafixKillRequests != 0) fprintf(f, "areafixKillRequests\n");
 
     dumpString(f, "ReportTo            %s\n", config->ReportTo);
 
-    dumpString(f, "PublicGroup         %s\n", config->PublicGroup);
+    if (config->numPublicGroup > 0)
+    {
+      fprintf(f, "PublicGroup         ");
+      for (i = 0; i < config->numPublicGroup; i++)
+      {
+	if (i > 0) fprintf(f, ", %s", config->PublicGroup[i]);
+	else fprintf(f, "%s", config->PublicGroup[0]);
+      }
+    }
 
     fprintf(f, "\n");
 }

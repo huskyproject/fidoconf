@@ -99,7 +99,8 @@ struct link {
    s_pack *packerDef;
    e_flavour echoMailFlavour,fileEchoFlavour;
    char *LinkGrp;	      // link's group for autocreate areas
-   char *AccessGrp;	      // groups for echo access
+   char **AccessGrp;	      // groups for echo access
+   unsigned int numAccessGrp;
    char *autoAreaCreateFile;  // file where autocreated areas are written to
    char *autoFileCreateFile;
    char *autoAreaCreateDefaults;// add default string for autocreated area here
@@ -112,7 +113,8 @@ struct link {
    unsigned level;	          // 0-65535
    unsigned arcmailSize;      // max arcmail size in kb
    // Default link's options
-   char *export, *import, *mandatory, *optGrp;
+   char *export, *import, *mandatory, **optGrp;
+   unsigned int numOptGrp;
 };
 
 typedef struct link s_link;
@@ -164,7 +166,7 @@ struct area {
    void *newDupes;     // dito
    unsigned int imported;      // dito
 
-   char group;                      // used by reader (and areafix soon)
+   char *group;                      // used by reader (and areafix soon)
 
    int ccoff;          // 1 if carbon copy is not allowed from this area
 
@@ -194,7 +196,7 @@ struct fileareatype {
 
    char mandatory, hide, noPause;
 
-   char group;                      // used by reader (and areafix soon)
+   char *group;                      // used by reader (and areafix soon)
 };
 typedef struct fileareatype s_filearea;
 
@@ -319,7 +321,8 @@ struct fidoconfig {
    unsigned int areafixFromPkt, areafixKillReports, areafixKillRequests, areafixMsgSize;
    char *areafixSplitStr;
 
-   char     *PublicGroup;
+   char     **PublicGroup;
+   unsigned int numPublicGroup;
    char     *ReportTo;
 
    unsigned int logEchoToScreen;

@@ -325,7 +325,8 @@ void freeBbsArea(s_bbsarea area) {
 
 void disposeConfig(s_fidoconfig *config)
 {
-   int i;
+  int i;
+  unsigned int j;
 
    free(config->name);
    free(config->sysop);
@@ -354,11 +355,15 @@ void disposeConfig(s_fidoconfig *config)
               free(config->links[i].handle);
            free(config->links[i].pktFile);
            free(config->links[i].packFile);
-           free(config->links[i].LinkGrp);
+	   free(config->links[i].LinkGrp);
+	   for (j = 0; j < config->links[i].numAccessGrp; j++)
+             free(config->links[i].AccessGrp[j]);
            free(config->links[i].AccessGrp);
 	   free(config->links[i].export);
 	   free(config->links[i].import);
 	   free(config->links[i].mandatory);
+	   for (j = 0; j < config->links[i].numOptGrp; j++)
+             free(config->links[i].optGrp[j]);
 	   free(config->links[i].optGrp);
 	   free(config->links[i].forwardRequestFile);
 	   free(config->links[i].autoAreaCreateDefaults);
@@ -386,6 +391,10 @@ void disposeConfig(s_fidoconfig *config)
    free(config->tempOutbound);
    free(config->fileAreaBaseDir);
    free(config->passFileAreaDir);
+   for (j = 0; j < config->numPublicGroup; j++)
+     free(config->PublicGroup[j]);
+   free(config->PublicGroup);
+
 
    for (i = 0; i< config->netMailAreaCount; i++)
    freeArea(config->netMailAreas[i]);

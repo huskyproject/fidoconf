@@ -40,9 +40,9 @@
 
 int writeArea(FILE *f, s_area *area, char type) {
 
-   if (area->group == 0) area->group = '0';
+   if (area->group == NULL) area->group = "0";
 
-   fprintf(f, "areadef %s \"%s\" %c ", area->areaName, 
+   fprintf(f, "areadef %s \"%s\" %s ", area->areaName,
              (area->description!=NULL) ? area->description : area->areaName,              area->group);
 
    switch (type) {
