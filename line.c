@@ -2767,6 +2767,7 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "forwardrequestmask")==0) rc = parseGroup(getRestOfLine(), config, 4);
      else if (strcmp(iToken, "denyfwdmask")==0) rc = parseGroup(getRestOfLine(), config, 5);
      else if (strcmp(iToken, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->level));
+     else if (strcmp(iToken, "areafixecholimit")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->afixEchoLimit));
 #ifdef __TURBOC__
      else unrecognised++;
 #else

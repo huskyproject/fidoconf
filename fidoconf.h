@@ -153,6 +153,9 @@ typedef struct link {
 	unsigned int numFrMask;
 	char **dfMask; // don't forward this
 	unsigned int numDfMask;
+
+	unsigned int afixEchoLimit;
+
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;

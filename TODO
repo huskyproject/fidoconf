@@ -18,6 +18,7 @@
 
 - dump remaps
 - for htick developers (add to doc & tparser):
+    filefix
     filefixkillreports
     filefixkillrequests
     semadir
@@ -41,4 +42,6 @@
     AdvancedAreaFix
     what is [module]
     set, if, if not, else, elseif, ifdef, ifndef, endif
+    areafix
     areafixhelp
+    areafixEchoLimit

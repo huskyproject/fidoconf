@@ -252,6 +252,8 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	fprintf(f, "autoFileCreate      on\n");
       if (link.AreaFix != 1)
 	fprintf(f, "areafix             off\n");
+	  if (link.afixEchoLimit)
+		  fprintf(f, "AreaFixEchoLimit %u\n", link.afixEchoLimit);
       if (link.FileFix != 1)
 	fprintf(f, "fileFix             off\n");
       if (link.forwardRequests != 0)

@@ -307,6 +307,7 @@ void printLink(s_link link) {
      printf("\n");
    }
    printf("AreaFix %s\n", (link.AreaFix) ? "on" : "off");
+   if (link.afixEchoLimit) printf("AreaFixEchoLimit %u\n", link.afixEchoLimit);
    printf("FileFix %s\n", (link.FileFix) ? "on" : "off");
    printf("Forward Requests to this link is %s\n",(link.forwardRequests)?"on":"off");
    printf("Forward Request from this link is %s\n",(link.fReqFromUpLink)?"on":"off");
