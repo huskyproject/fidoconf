@@ -145,7 +145,7 @@ static char *_configline(void)
   if (line == NULL)
     return NULL;
   actualLineNr++;
-  return vars_expand(line);
+  return line;
 }
 
 char *vars_expand(char *line)

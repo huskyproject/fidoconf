@@ -2997,8 +2997,9 @@ int parseLine(char *line, s_fidoconfig *config)
     static token_list_t tl;
     static token_list_t *ptl = NULL;
     
-    actualLine = temp = (char *) smalloc(strlen(line)+1);
+    temp = (char *) smalloc(strlen(line)+1);
     strcpy(temp, line);
+    actualLine = temp = vars_expand(temp);
     
     if (ptl == NULL)
     {
