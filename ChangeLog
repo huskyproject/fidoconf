@@ -1,3 +1,17 @@
+2002-09-17 Tuesday 09:35  sfpavel
+
+	* Makefile, cfg.c, common.c, dirlayer.c, dirlayer.h, makefile.aix,
+	makefile.mvc, makefile.mvcdll, syslogp.h, temp.c, tree.c,
+	typesize.h, xstr.c, debian/changelog,
+	debian/libfidoconf0-dev.preinst, doc/Makefile
+	(fidoconf-0_14-stable.[3,2,2,1,1,1,1,1,1,2,1,1,1,7,2,3]): Ver.
+	0.14-RC2: merge fixes from current branch
+
+2002-09-17 Tuesday 07:10  sfpavel
+
+	* doc/: Makefile, makefile.unx (fidoconf-0_14-stable.[2,2]):
+	Updates from stable branch
+
 2002-09-14 Saturday 19:05  stas_degteff
 
 	* temp.c (fidoconf-0_14-stable.1): Fix mktemp() declaration for
