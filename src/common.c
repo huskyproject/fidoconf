@@ -882,12 +882,24 @@ s_robot *getRobot(ps_fidoconfig config, char *name, int create)
     if (sstricmp(config->robot[i]->name, "*") == 0) def = config->robot[i];
     if (sstricmp(config->robot[i]->name, name) == 0) return config->robot[i];
   }
-  if (create) {
+  if (create > 0) {
     r = (s_robot*)smalloc(sizeof(s_robot));
-    if (def) memcpy(r, def, sizeof(*r)); else memset(r, 0, sizeof(*r));
+    memset(r, 0, sizeof(*r));
     r->name = sstrdup(name);
+    if (def) {
+      if (def->names) r->names = sstrdup(def->names);
+      if (def->fromName) r->fromName = sstrdup(def->fromName);
+      if (def->helpFile) r->helpFile = sstrdup(def->helpFile);
+      if (def->newAreaRefuseFile) r->newAreaRefuseFile = sstrdup(def->newAreaRefuseFile);
+      if (def->autoCreateFlag) r->autoCreateFlag = sstrdup(def->autoCreateFlag);
+      if (def->queueFile) r->queueFile = sstrdup(def->queueFile);
+      r->reportsAttr = def->reportsAttr;
+      if (def->reportsFlags) r->reportsFlags = sstrdup(def->reportsFlags);
+      r->killRequests = def->killRequests;
+    }
     config->robot = srealloc(config->robot, sizeof(ps_robot)*(config->robotCount+1));
     return (config->robot[ config->robotCount++ ] = r);
   }
-  return NULL;
+  else if (create < 0) return def;
+  else return NULL;
 }
