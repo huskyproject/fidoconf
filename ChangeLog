@@ -1,3 +1,13 @@
+2004-01-08 Thursday 17:08  d_sergienko
+
+	* line.c, doc/proposal.texi (fidoconf-1_4-stable.[8,4]): add link
+	autocreation for all our AKAs
+
+2004-01-08 Thursday 00:06  d_sergienko
+
+	* log.c (fidoconf-1_4-stable.1): change date format in log files
+	(from hh.mm.ss to hh:mm:ss)
+
 2004-01-07 Wednesday 04:49  d_sergienko
 
 	* common.c, line.c, doc/proposal.texi
