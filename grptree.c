@@ -30,6 +30,7 @@
 #include <string.h>
 #include "tree.h"
 #include "common.h"
+#include "xstr.h"
 #include "grptree.h"
 
 tree *groupTree = NULL;

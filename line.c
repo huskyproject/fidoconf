@@ -1105,6 +1105,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
    char *tok, addr[24], *ptr;
    unsigned int rc = 0, i,j;
    int toklen;
+   grp_t *group;
 
    if (token == NULL) {
       prErr("There are parameters missing after %s!", actualKeyword);
@@ -1125,6 +1126,24 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
    } else { /* netmail - don't copy defaults */
        memset(area, 0, sizeof(s_area));
    }
+
+   tok = strtok(token, " \t");
+   if (tok == NULL) {
+      prErr("There is an areaname missing after %s!", actualKeyword);
+      return 1;         /*  if there is no areaname */
+   }
+
+   if (useDefs && (group = findGroupForArea(tok)))
+       memcpy(area, group->area,sizeof(s_area));
+
+   if (token[strlen(tok)] == '\0')
+       token[strlen(tok)] = ' ';
+   area->areaName= (char *) smalloc(strlen(tok)+1);
+   if (*tok=='\"' && tok[strlen(tok)-1]=='\"' && tok[1]) {
+      strcpy(area->areaName, tok+1);
+      area->areaName[strlen(area->areaName)-1] = '\0';
+   } else
+      strcpy(area->areaName, tok);
 
 
    /* not pointing to the group of the default --> freeArea() will cause
@@ -1167,26 +1186,14 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
 #endif
 
    tok = strtok(token, " \t");
-   if (tok == NULL) {
-      prErr("There is an areaname missing after %s!", actualKeyword);
-      return 1;         /*  if there is no areaname */
-   }
-
-   area->areaName= (char *) smalloc(strlen(tok)+1);
-   if (*tok=='\"' && tok[strlen(tok)-1]=='\"' && tok[1]) {
-      strcpy(area->areaName, tok+1);
-      area->areaName[strlen(area->areaName)-1] = '\0';
-   } else
-      strcpy(area->areaName, tok);
-
    tok = strtok(NULL, " \t");
 
    if (tok==NULL) {
 	   /*  was default settings.. */
 	   if (area->msgbType==MSGTYPE_PASSTHROUGH) return 0;
 	   else {
-		   prErr("There is a pathname missing %s!", actualLine);
-		   return 2; /*  if there is no filename */
+               prErr("There is a pathname missing %s!", actualLine);
+               return 2; /*  if there is no filename */
 	   }
    }
 
