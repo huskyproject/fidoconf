@@ -44,12 +44,12 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#define SYSLOG_NAMES
-#include <sys/syslog.h>
 #else
 #include <process.h>
 #include <io.h>
 #endif
+
+#include "syslogp.h"
 
 #include <limits.h>
 
@@ -2886,36 +2886,49 @@ int parseFilelist(char *line, s_fidoconfig *config)
 
 int parseSyslog(char *line, int *value)
 {
-  int i;
+    int rv=0;
+#ifndef HAVE_SYSLOG
+    prErr("%s: Syslogging is not supported on your platform!", actualKeyword);
+    rv=1;
+#else
+    int i;
 
-  if (line == NULL) {
-    prErr("Parameter missing after %s!", actualKeyword);
-    return 1;
-  }
+    if (line == NULL) {
+        prErr("Parameter missing after %s!", actualKeyword);
+        return 1;
+    }
 
-#ifndef SYSLOG_NAMES
-  prErr("%s: Syslogging is not supported on your platform!", actualKeyword);
-  return 1;
-#else  
-
-  for (i = 0; facilitynames[i].c_name != NULL; i++)
-  {
-     if (!strcmp(line, facilitynames[i].c_name))
-     {
-        *value = facilitynames[i].c_val;
-        break;
-     }
-  }
-
-  if (facilitynames[i].c_name == NULL)
-  {
-     prErr("%s: %s is an unknown syslog facility on this system.",
-           actualKeyword, line);
-     return 1;
-  }
+    if (isdigit(line[0]))
+    {
+        *value = atoi(line);
+    }
+    else
+    {
+        
+               /* | if you get an error about undefined symbol "facilitynames"
+                  | add your operating system after "sun" to the ifdef line
+                  | in syslogp.h which comes below the
+                  | "unix systems that have syslog, but not facilitynames"
+                  | comment
+                  V          */
+        for (i = 0; facilitynames[i].c_name != NULL; i++)
+        {
+            if (!strcmp(line, facilitynames[i].c_name))
+            {
+                *value = facilitynames[i].c_val;
+                break;
+            }
+        }
+        
+        if (facilitynames[i].c_name == NULL)
+        {
+            prErr("%s: %s is an unknown syslog facility on this system.",
+                  actualKeyword, line);
+            rv=1;
+        }
+    }
 #endif  
-
-  return 0;
+  return rv;
 }
 
 
