@@ -778,7 +778,9 @@ FCONF_EXT int grpInArray(char *group, char **strarray, unsigned int len);
 FCONF_EXT void fc_freeEchoArea(s_area     *area);
 
 
-void setLinkAccess( const s_fidoconfig *config, s_area *area, s_arealink *arealink);
+void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink);
+
+void processPermissions (s_fidoconfig *config);
 
 /*  define exit codes for non unix systems */
 #ifndef _SYSEXITS_H

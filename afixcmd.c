@@ -391,7 +391,7 @@ int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd) {
     return 0;
 }
 
-void Addlink(const s_fidoconfig *config, s_link *link, s_area *area)
+void Addlink(s_fidoconfig *config, s_link *link, s_area *area)
 {
     if(area)
     {
@@ -401,6 +401,7 @@ void Addlink(const s_fidoconfig *config, s_link *link, s_area *area)
         arealink->link = link;
         
         setLinkAccess(config, area, arealink);
+        processPermissions(config);
         area->downlinkCount++;
     }
 }

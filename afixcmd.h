@@ -76,6 +76,6 @@ FCONF_EXT   int IsAreaAvailable(char *areaName, char *fileName, char **desc, int
 
 FCONF_EXT   void RemoveLink(s_link*, s_area*);
 
-FCONF_EXT   void Addlink(const s_fidoconfig*, s_link*, s_area*);
+FCONF_EXT   void Addlink(s_fidoconfig*, s_link*, s_area*);
 
 #endif

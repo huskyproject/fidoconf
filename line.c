@@ -567,7 +567,7 @@ int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 	return 0;
 }
 
-void setLinkAccess( const s_fidoconfig *config, s_area *area, s_arealink *arealink)
+void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
 {
     
     s_link *link=arealink->link;
@@ -601,505 +601,528 @@ void setLinkAccess( const s_fidoconfig *config, s_area *area, s_arealink *areali
 }
 
 
-int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
+int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
 {
-   char *error;
-   char *token;
-   char *iOption;
-   char *iToken;
-   size_t i;
-   long il;
-
-   if (option == NULL) {
-      prErr("There are parameters missing after %s!", actualKeyword);
-      return 1;
-   }
-
-   iOption = strLower(sstrdup(option));
-   if (strcmp(iOption, "b")==0) {
-     if( area->areaType == ECHOAREA ) {
-      token = strtok(NULL, " \t");
-      if (token == NULL) {
-         prErr("An msgbase type is missing after -b in areaOptions!");
-         nfree(iOption);
-         return 1;
-      }
-      iToken = strLower(sstrdup(token));
-      if (strcmp(iToken, "squish")==0) {
-        if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-           prErr("Logical Defect!! You could not make a Squish Area Passthrough!");
-	   nfree(iOption);
-	   nfree(iToken);
-           return 1;
+    char *error;
+    char *token;
+    char *iOption;
+    char *iToken;
+    size_t i;
+    long il;
+    
+    if (option == NULL) {
+        prErr("There are parameters missing after %s!", actualKeyword);
+        return 1;
+    }
+    
+    iOption = strLower(sstrdup(option));
+    if (strcmp(iOption, "b")==0) {
+        if( area->areaType == ECHOAREA ) {
+            token = strtok(NULL, " \t");
+            if (token == NULL) {
+                prErr("An msgbase type is missing after -b in areaOptions!");
+                nfree(iOption);
+                return 1;
+            }
+            iToken = strLower(sstrdup(token));
+            if (strcasecmp(iToken, "squish")==0) {
+                if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+                    prErr("Logical Defect!! You could not make a Squish Area Passthrough!");
+                    nfree(iOption);
+                    nfree(iToken);
+                    return 1;
+                }
+                area->msgbType = MSGTYPE_SQUISH;
+            }
+            else if (strcasecmp(iToken, "jam")==0) {
+                if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+                    prErr("Logical Defect!! You could not make a Jam Area Passthrough!");
+                    nfree(iOption);
+                    nfree(iToken);
+                    return 1;
+                }
+                area->msgbType = MSGTYPE_JAM;
+            }
+            else if (strcasecmp(iToken, "msg")==0) {
+                if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+                    prErr("Logical Defect!! You could not make a *.msg Area Passthrough!");
+                    nfree(iOption);
+                    nfree(iToken);
+                    return 1;
+                }
+                area->msgbType = MSGTYPE_SDM;
+            }
+            else
+            {
+                prErr("MsgBase type %s not valid after -b in areaOptions!", token);
+                nfree(iOption);
+                nfree(iToken);
+                return 1;
+            }
+        }else{
+            prErr("Option '-b' is allowed for echoareas and localareas only!");
+            nfree(iOption);
+            return 1;     /*  error */
         }
-        area->msgbType = MSGTYPE_SQUISH;
-      }
-      else if (strcmp(iToken, "jam")==0) {
-        if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-           prErr("Logical Defect!! You could not make a Jam Area Passthrough!");
-	   nfree(iOption);
-	   nfree(iToken);
-           return 1;
+    }
+    else if (strcmp(iOption, "p")==0) {
+        token = strtok(NULL, " \t");
+        if (token == NULL) {
+            prErr("Number is missing after -p in areaOptions!");
+            nfree(iOption);
+            return 1;
         }
-        area->msgbType = MSGTYPE_JAM;
-      }
-      else if (strcmp(iToken, "msg")==0) {
-        if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-	   prErr("Logical Defect!! You could not make a *.msg Area Passthrough!");
-	   nfree(iOption);
-	   nfree(iToken);
-           return 1;
+        area->nopack = 0;
+        il = strtol(token, &error, 0);
+        if ((error != NULL) && (*error != '\0')) {
+            prErr("Number is wrong after -p in areaOptions!");
+            nfree(iOption);
+            return 1;     /*  error occured; */
         }
-        area->msgbType = MSGTYPE_SDM;
-      }
-      else
-      {
-	prErr("MsgBase type %s not valid after -b in areaOptions!", token);
-	nfree(iOption);
-	nfree(iToken);
-	return 1;
-      }
-     }else{
-       prErr("Option '-b' is allowed for echoareas and localareas only!");
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   }
-   else if (strcmp(iOption, "p")==0) {
-       token = strtok(NULL, " \t");
-       if (token == NULL) {
-           prErr("Number is missing after -p in areaOptions!");
-           nfree(iOption);
-           return 1;
-       }
-       area->nopack = 0;
-       il = strtol(token, &error, 0);
-       if ((error != NULL) && (*error != '\0')) {
-           prErr("Number is wrong after -p in areaOptions!");
-           nfree(iOption);
-           return 1;     /*  error occured; */
-       }
-       if(area->areaType == ECHOAREA) {
-           area->purge = il<0? config->EchoAreaDefault.purge : (UINT) il ;
-       }
-       else if(area->areaType == FILEAREA) {
-           area->purge = il<0? config->FileAreaDefault.purge : (UINT) il ;
-       }
-   }
-   else if (strcmp(iOption, "$m")==0) {
-     if( area->areaType == ECHOAREA ) {
-       token = strtok(NULL, " \t");
-       if (token == NULL) {
-           prErr("Number is missing after -$m in areaOptions!");
-           nfree(iOption);
-           return 1;
-       }
-       area->nopack = 0;
-       il = strtol(token, &error, 0);
-       if ((error != NULL) && (*error != '\0')) {
-           prErr("Number is wrong after -$m in areaOptions!");
-           nfree(iOption);
-           return 1;     /*  error */
-       }
-       area->max = il<0? config->EchoAreaDefault.max : (UINT) il ;
-     }else{
-       prErr("Option '-$m' is allowed for echoareas and localareas only!");
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   }
-   else if (strcmp(iOption, "a")==0) {
-      token = strtok(NULL, " \t");
-      if (token == NULL)
-	{
-	  prErr("Address is missing after -a in areaOptions!");
-	  nfree(iOption);
-	  return 1;
-	}
-      area->useAka = getAddr(config, token);
-      if (area->useAka == NULL) {
-         prErr("%s not found as address.", token);
-         nfree(iOption);
-         return 1;
-      }
-   }
-   else if (strcmp(iOption, "lr")==0) {
-       token = strtok(NULL, " \t");
-       if (token == NULL) {
-           prErr("Number is missing after -lr in areaOptions!");
-	   nfree(iOption);
-	   return 1;
-       }
-       for (i=0; i<strlen(token); i++) {
-           if (isdigit(token[i]) == 0) break;
-       }
-       if (i != strlen(token)) {
-           prErr("Number is wrong after -lr in areaOptions!");
-	   nfree(iOption);
-	   return 1;
-       }
-       il = strtol(token, &error, 0);
-       if ((error != NULL) && (*error != '\0')) {
-           prErr("Number is wrong after -lr in areaOptions!");
-           nfree(iOption);
-           return 1;     /*  error occured; */
-       }
-       if (il<0) {
-           prErr("Number is wrong after -lr in areaOptions (negative values not alloved)!");
-           nfree(iOption);
-           return 1;     /*  error occured; */
-       }
-       area->levelread = (UINT) il ;
-
-       /* if link was added before -lr setting it must be updated */
-       for(i=0;i<area->downlinkCount;++i)
-           setLinkAccess( config, area, area->downlinks[i]);
-
-   }
-   else if (strcmp(iOption, "lw")==0) {
-       token = strtok(NULL, " \t");
-       if (token == NULL) {
-           prErr("Number is missing after -lw in areaOptions!");
-	   nfree(iOption);
-	   return 1;
-       }
-       for (i=0; i<strlen(token); i++) {
-           if (isdigit(token[i]) == 0) break;
-       }
-       if (i != strlen(token)) {
-           prErr("Number is wrong after -lw in areaOptions!");
-	   nfree(iOption);
-	   return 1;
-       }
-       il = strtol(token, &error, 0);
-       if ((error != NULL) && (*error != '\0')) {
-           prErr("Number is wrong after -lw in areaOptions!");
-           nfree(iOption);
-           return 1;     /*  error occured; */
-       }
-       if (il<0) {
-           prErr("Number is wrong after -lw in areaOptions (negative values not alloved)!");
-           nfree(iOption);
-           return 1;     /*  error occured; */
-       }
-       area->levelwrite = (UINT) il ;
-       /* if link was added before -lw setting it must be updated */
-       for(i=0;i<area->downlinkCount;++i)
-           setLinkAccess( config, area, area->downlinks[i]);
-
-   }
-   else if (strcmp(iOption, "tinysb")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->tinySB = 1;
-     }else{
-       prErr("Option '-tinysb' is allowed for echoareas only!");
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "notinysb")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->tinySB = 0;
-     }else{
-       prErr("Option '-notinysb' is allowed for echoareas only!");
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "killsb")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->killSB = 1;
-     }else{
-       prErr("Option '-killsb' is allowed for echoareas only!");
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nokillsb")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->killSB = 0;
-     }else{
-       prErr("Option '-nokillsb' is allowed for echoareas only!");
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "keepunread")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->keepUnread = 1;
-     }else{
-       prErr("Option '-keepunread' is allowed for echoareas and localareas only!");
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nokeepunread")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->keepUnread = 0;
-     }else{
-       prErr("Option '-nokeepunread' is allowed for echoareas and localareas only!");
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "killread")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->killRead = 1;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nokillread")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->killRead = 0;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "h")==0) area->hide = 1;
-   else if (strcmp(iOption, "hide")==0) area->hide = 1;
-   else if (strcmp(iOption, "nohide")==0) area->hide = 0;
-   else if (strcmp(iOption, "k")==0) area->killMsgBase = 1;
-   else if (strcmp(iOption, "kill")==0) area->killMsgBase = 1;
-   else if (strcmp(iOption, "nokill")==0) area->killMsgBase = 0;
-   else if (strcmp(iOption, "manual")==0) area->manual = 1;
-   else if (strcmp(iOption, "nomanual")==0) area->manual = 0;
-   else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
-   else if (strcmp(iOption, "pause")==0) area->noPause = 0;
-   else if (strcmp(iOption, "nolink")==0) area->nolink = 1;
-   else if (strcmp(iOption, "link")==0) area->nolink = 0;
-   else if (strcmp(iOption, "mandatory")==0) area->mandatory = 1;
-   else if (strcmp(iOption, "nomandatory")==0) area->mandatory = 0;
-   else if (strcmp(iOption, "debug")==0) area->debug = 1;
-   else if (strcmp(iOption, "nodebug")==0) area->debug = 0;
-   else if (strcmp(iOption, "dosfile")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->DOSFile = 1;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nodosfile")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->DOSFile = 0;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
-   else if (strcmp(iOption, "pack")==0) area->nopack = 0;
-   else if (strcmp(iOption, "ccoff")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->ccoff=1;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "noccoff")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->ccoff=0;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "ccon")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->ccoff=0;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "keepsb")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->keepsb=1;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nokeepsb")==0)
-     if( area->areaType == ECHOAREA ) {
-       area->keepsb=0;
-     }else{
-       prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-
-   else if (strcmp(iOption, "sendorig")==0)
-     if( area->areaType == FILEAREA ) {
-       area->sendorig = 1;
-     }else{
-       prErr("Option '%s' is allowed for fileareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nosendorig")==0)
-     if( area->areaType == FILEAREA ) {
-       area->sendorig = 0;
-     }else{
-       prErr("Option '%s' is allowed for fileareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "crc")==0)
-     if( area->areaType == FILEAREA ) {
-       area->noCRC = 0;
-     }else{
-       prErr("Option '%s' is allowed for fileareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nocrc")==0)
-     if( area->areaType == FILEAREA ) {
-       area->noCRC = 1;
-     }else{
-       prErr("Option '%s' is allowed for fileareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "replace")==0)
-     if( area->areaType == FILEAREA ) {
-       area->noreplace = 0;
-     }else{
-       prErr("Option '%s' is allowed for fileareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "noreplace")==0)
-     if( area->areaType == FILEAREA ) {
-       area->noreplace = 1;
-     }else{
-       prErr("Option '%s' is allowed for fileareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "diz")==0)
-     if( area->areaType == FILEAREA ) {
-       area->nodiz = 0;
-     }else{
-       prErr("Option '%s' is allowed for fileareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-   else if (strcmp(iOption, "nodiz")==0)
-     if( area->areaType == FILEAREA ) {
-       area->nodiz = 1;
-     }else{
-       prErr("Option '%s' is allowed for fileareas only!",iOption);
-       nfree(iOption);
-       return 1;     /*  error */
-     }
-
-   else if (strcmp(iOption, "dupecheck")==0) {
-     token = strtok(NULL, " \t");
-     if (token == NULL) {
-       prErr("Missing dupeCheck parameter!");
-       nfree(iOption);
-       return 1;
-     }
-     if (stricmp(token, "off")==0) area->dupeCheck = dcOff;
-     else if (stricmp(token, "move")==0) area->dupeCheck = dcMove;
-     else if (stricmp(token, "del")==0) area->dupeCheck = dcDel;
-     else {
-       prErr("Wrong dupeCheck parameter!");
-       nfree(iOption);
-       return 1; /*  error */
-     }
-   }
-   else if (strcmp(iOption, "dupehistory")==0) {
-     token = strtok(NULL, " \t");
-     if (token == NULL) {
-        prErr("Number is missing after -dupehistory in areaOptions!");
+        if(area->areaType == ECHOAREA) {
+            area->purge = il<0? config->EchoAreaDefault.purge : (UINT) il ;
+        }
+        else if(area->areaType == FILEAREA) {
+            area->purge = il<0? config->FileAreaDefault.purge : (UINT) il ;
+        }
+    }
+    else if (strcmp(iOption, "$m")==0) {
+        if( area->areaType == ECHOAREA ) {
+            token = strtok(NULL, " \t");
+            if (token == NULL) {
+                prErr("Number is missing after -$m in areaOptions!");
+                nfree(iOption);
+                return 1;
+            }
+            area->nopack = 0;
+            il = strtol(token, &error, 0);
+            if ((error != NULL) && (*error != '\0')) {
+                prErr("Number is wrong after -$m in areaOptions!");
+                nfree(iOption);
+                return 1;     /*  error */
+            }
+            area->max = il<0? config->EchoAreaDefault.max : (UINT) il ;
+        }else{
+            prErr("Option '-$m' is allowed for echoareas and localareas only!");
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "a")==0) {
+        token = strtok(NULL, " \t");
+        if (token == NULL)
+        {
+            prErr("Address is missing after -a in areaOptions!");
+            nfree(iOption);
+            return 1;
+        }
+        area->useAka = getAddr(config, token);
+        if (area->useAka == NULL) {
+            prErr("%s not found as address.", token);
+            nfree(iOption);
+            return 1;
+        }
+    }
+    else if (strcmp(iOption, "lr")==0) {
+        token = strtok(NULL, " \t");
+        if (token == NULL) {
+            prErr("Number is missing after -lr in areaOptions!");
+            nfree(iOption);
+            return 1;
+        }
+        for (i=0; i<strlen(token); i++) {
+            if (isdigit(token[i]) == 0) break;
+        }
+        if (i != strlen(token)) {
+            prErr("Number is wrong after -lr in areaOptions!");
+            nfree(iOption);
+            return 1;
+        }
+        il = strtol(token, &error, 0);
+        if ((error != NULL) && (*error != '\0')) {
+            prErr("Number is wrong after -lr in areaOptions!");
+            nfree(iOption);
+            return 1;     /*  error occured; */
+        }
+        if (il<0) {
+            prErr("Number is wrong after -lr in areaOptions (negative values not alloved)!");
+            nfree(iOption);
+            return 1;     /*  error occured; */
+        }
+        area->levelread = (UINT) il ;
+        
+        /* if link was added before -lr setting it must be updated */
+        for(i=0;i<area->downlinkCount;++i)
+            setLinkAccess( config, area, area->downlinks[i]);
+        
+    }
+    else if (strcmp(iOption, "lw")==0) {
+        token = strtok(NULL, " \t");
+        if (token == NULL) {
+            prErr("Number is missing after -lw in areaOptions!");
+            nfree(iOption);
+            return 1;
+        }
+        for (i=0; i<strlen(token); i++) {
+            if (isdigit(token[i]) == 0) break;
+        }
+        if (i != strlen(token)) {
+            prErr("Number is wrong after -lw in areaOptions!");
+            nfree(iOption);
+            return 1;
+        }
+        il = strtol(token, &error, 0);
+        if ((error != NULL) && (*error != '\0')) {
+            prErr("Number is wrong after -lw in areaOptions!");
+            nfree(iOption);
+            return 1;     /*  error occured; */
+        }
+        if (il<0) {
+            prErr("Number is wrong after -lw in areaOptions (negative values not alloved)!");
+            nfree(iOption);
+            return 1;     /*  error occured; */
+        }
+        area->levelwrite = (UINT) il ;
+        /* if link was added before -lw setting it must be updated */
+        for(i=0;i<area->downlinkCount;++i)
+            setLinkAccess( config, area, area->downlinks[i]);
+        
+    }
+    else if (strcmp(iOption, "tinysb")==0) {
+        
+        if( area->areaType == ECHOAREA )  {
+            area->tinySB = 1;
+        } else {
+            prErr("Option '-tinysb' is allowed for echoareas only!");
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "notinysb")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->tinySB = 0;
+        }else{
+            prErr("Option '-notinysb' is allowed for echoareas only!");
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "killsb")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->killSB = 1;
+        }else{
+            prErr("Option '-killsb' is allowed for echoareas only!");
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "nokillsb")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->killSB = 0;
+        }else{
+            prErr("Option '-nokillsb' is allowed for echoareas only!");
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "keepunread")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->keepUnread = 1;
+        }else{
+            prErr("Option '-keepunread' is allowed for echoareas and localareas only!");
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "nokeepunread")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->keepUnread = 0;
+        }else{
+            prErr("Option '-nokeepunread' is allowed for echoareas and localareas only!");
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "killread")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->killRead = 1;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "nokillread")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->killRead = 0;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    
+    else if (strcmp(iOption, "h")==0) area->hide = 1;
+    else if (strcmp(iOption, "hide")==0) area->hide = 1;
+    else if (strcmp(iOption, "nohide")==0) area->hide = 0;
+    else if (strcmp(iOption, "k")==0) area->killMsgBase = 1;
+    else if (strcmp(iOption, "kill")==0) area->killMsgBase = 1;
+    else if (strcmp(iOption, "nokill")==0) area->killMsgBase = 0;
+    else if (strcmp(iOption, "manual")==0) area->manual = 1;
+    else if (strcmp(iOption, "nomanual")==0) area->manual = 0;
+    else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
+    else if (strcmp(iOption, "pause")==0) area->noPause = 0;
+    else if (strcmp(iOption, "nolink")==0) area->nolink = 1;
+    else if (strcmp(iOption, "link")==0) area->nolink = 0;
+    else if (strcmp(iOption, "mandatory")==0) area->mandatory = 1;
+    else if (strcmp(iOption, "nomandatory")==0) area->mandatory = 0;
+    else if (strcmp(iOption, "debug")==0) area->debug = 1;
+    else if (strcmp(iOption, "nodebug")==0) area->debug = 0;
+    else if (strcmp(iOption, "dosfile")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->DOSFile = 1;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "nodosfile")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->DOSFile = 0;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        } 
+    }
+    else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
+    else if (strcmp(iOption, "pack")==0) area->nopack = 0;
+    else if (strcmp(iOption, "ccoff")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->ccoff=1;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "noccoff")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->ccoff=0;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "ccon")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->ccoff=0;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "keepsb")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->keepsb=1;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "nokeepsb")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->keepsb=0;
+        }else{
+            prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "sendorig")==0) {
+        if( area->areaType == FILEAREA ) {
+            area->sendorig = 1;
+        }else{
+            prErr("Option '%s' is allowed for fileareas only!",iOption);
+            nfree(iOption);
+                        return 1;     /*  error */
+                    }
+    }
+    else if (strcmp(iOption, "nosendorig")==0) {
+                        if( area->areaType == FILEAREA ) {
+                            area->sendorig = 0;
+                        }else{
+                            prErr("Option '%s' is allowed for fileareas only!",iOption);
+                            nfree(iOption);
+                            return 1;     /*  error */
+                        }
+    }
+    else if (strcmp(iOption, "crc")==0) {
+                            if( area->areaType == FILEAREA ) {
+                                area->noCRC = 0;
+                            }else{
+                                prErr("Option '%s' is allowed for fileareas only!",iOption);
+                                nfree(iOption);
+                                return 1;     /*  error */
+                            }
+    }
+    else if (strcmp(iOption, "nocrc")==0) {
+        if( area->areaType == FILEAREA ) {
+            area->noCRC = 1;
+        }else{
+            prErr("Option '%s' is allowed for fileareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "replace")==0) {
+        if( area->areaType == FILEAREA ) {
+            area->noreplace = 0;
+        }else{
+            prErr("Option '%s' is allowed for fileareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "noreplace")==0) {
+        if( area->areaType == FILEAREA ) {
+            area->noreplace = 1;
+        }else{
+            prErr("Option '%s' is allowed for fileareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "diz")==0) {
+        if( area->areaType == FILEAREA ) {
+            area->nodiz = 0;
+        }else{
+            prErr("Option '%s' is allowed for fileareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "nodiz")==0) {
+        if( area->areaType == FILEAREA ) {
+            area->nodiz = 1;
+        }else{
+            prErr("Option '%s' is allowed for fileareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }     
+    else if (strcmp(iOption, "dupecheck")==0) {
+        token = strtok(NULL, " \t");
+        if (token == NULL) {
+            prErr("Missing dupeCheck parameter!");
+            nfree(iOption);
+            return 1;
+        }
+        if (stricmp(token, "off")==0) area->dupeCheck = dcOff;
+        else if (stricmp(token, "move")==0) area->dupeCheck = dcMove;
+        else if (stricmp(token, "del")==0) area->dupeCheck = dcDel;
+        else {
+            prErr("Wrong dupeCheck parameter!");
+            nfree(iOption);
+            return 1; /*  error */
+        }
+    }
+    else if (strcmp(iOption, "dupehistory")==0) {
+        token = strtok(NULL, " \t");
+        if (token == NULL) {
+            prErr("Number is missing after -dupehistory in areaOptions!");
+            nfree(iOption);
+            return 1;
+        }
+        area->dupeHistory = (UINT) strtol(token, &error, 0);
+        if ((error != NULL) && (*error != '\0')) {
+            prErr("Number is wrong after -dupeHistory in areaOptions!");
+            nfree(iOption);
+            return 1;     /*  error occured; */
+        }
+    }
+    else if (strcmp(iOption, "g")==0) {
+        token = strtok(NULL, " \t");
+        if (token == NULL) {
+            nfree(iOption);
+            return 1;
+        }
+        nfree(area->group);
+        area->group = sstrdup(token);
+    }
+    else if (strcmp(iOption, "$")==0) ;
+    else if (strcmp(iOption, "0")==0) ;
+    else if (strcmp(iOption, "d")==0) {
+        if ((area->description=getDescription())==NULL) {
+            nfree(iOption);
+            return 1;
+        }
+    }
+    else if (strcmp(iOption, "fperm")==0) {
+        token = strtok(NULL, " \t");
+        if (token==NULL) {
+            prErr("Missing permission parameter!");
+            nfree(iOption);
+            return 1;
+        }
+        else
+        {
+            nfree(iOption);
+            return parseNumber(token, 8, &(area->fperm));
+        }
+    }
+    else if (strcmp(iOption, "fowner")==0) {
+        token = strtok(NULL, " \t");
+        if (token==NULL)
+            prErr("Missing ownership parameter!");
+        else {
+            nfree(iOption);
+            return parseOwner(token, &(area->uid), &(area->gid));
+        }
+    }
+    else if (strncmp(iOption, "sbadd(", 6)==0) {
+        parseSeenBy2D(iOption,&(area->sbadd),&(area->sbaddCount));
+    }
+    else if (strncmp(iOption, "sbign(", 6)==0) {
+        parseSeenBy2D(iOption,&(area->sbign),&(area->sbignCount));
+    }
+    else {
+        prErr("unknown area option \"-%s\"!", option);
         nfree(iOption);
         return 1;
-     }
-     area->dupeHistory = (UINT) strtol(token, &error, 0);
-     if ((error != NULL) && (*error != '\0')) {
-        prErr("Number is wrong after -dupeHistory in areaOptions!");
-        nfree(iOption);
-        return 1;     /*  error occured; */
-     }
-   }
-   else if (strcmp(iOption, "g")==0) {
-     token = strtok(NULL, " \t");
-     if (token == NULL) {
-       nfree(iOption);
-       return 1;
-     }
-     nfree(area->group);
-     area->group = sstrdup(token);
-   }
-   else if (strcmp(iOption, "$")==0) ;
-   else if (strcmp(iOption, "0")==0) ;
-   else if (strcmp(iOption, "d")==0) {
-     if ((area->description=getDescription())==NULL) {
-       nfree(iOption);
-       return 1;
-     }
-   }
-   else if (strcmp(iOption, "fperm")==0) {
-     token = strtok(NULL, " \t");
-     if (token==NULL) {
-       prErr("Missing permission parameter!");
-       nfree(iOption);
-       return 1;
-     }
-     else
-     {
-       nfree(iOption);
-       return parseNumber(token, 8, &(area->fperm));
-     }
-   }
-   else if (strcmp(iOption, "fowner")==0) {
-     token = strtok(NULL, " \t");
-     if (token==NULL)
-       prErr("Missing ownership parameter!");
-     else {
-       nfree(iOption);
-       return parseOwner(token, &(area->uid), &(area->gid));
-     }
-   }
-   else if (strncmp(iOption, "sbadd(", 6)==0) {
-	   parseSeenBy2D(iOption,&(area->sbadd),&(area->sbaddCount));
-   }
-   else if (strncmp(iOption, "sbign(", 6)==0) {
-	   parseSeenBy2D(iOption,&(area->sbign),&(area->sbignCount));
-   }
-   else {
-     prErr("unknown area option \"-%s\"!", option);
-     nfree(iOption);
-     return 1;
-   }
-
-   nfree(iOption);
-   return 0;
+    }
+    
+    nfree(iOption);
+    return 0;
 }
 
 int parseLinkOption(s_arealink *alink, char *token)
 {
-  char *iToken;
-
-  if (token == NULL) {
-     prErr("There are parameters missing after %s!", actualKeyword);
-     return 1;
-  }
-  iToken = strLower(sstrdup(token));
-  if (strcmp(iToken, "r")==0) alink->import = 0;
-  else if (strcmp(iToken, "w")==0) alink->export = 0;
-  else if (strcmp(iToken, "mn")==0) alink->mandatory = 1;
-  else if (strcmp(iToken, "def")==0) alink->defLink = 1;
-  else {
+    char *iToken;
+    
+    if (token == NULL) {
+        prErr("There are parameters missing after %s!", actualKeyword);
+        return 1;
+    }
+    iToken = strLower(sstrdup(token));
+    if (strcmp(iToken, "r")==0) alink->import = 0;
+    else if (strcmp(iToken, "w")==0) alink->export = 0;
+    else if (strcmp(iToken, "mn")==0) alink->mandatory = 1;
+    else if (strcmp(iToken, "def")==0) alink->defLink = 1;
+    else {
+        nfree(iToken);
+        return 1;
+    }
+    
     nfree(iToken);
-    return 1;
-  }
-
-  nfree(iToken);
-  return 0;
+    return 0;
 }
 
-int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok)
+int parseAreaLink(s_fidoconfig *config, s_area *area, char *tok)
 {
     s_arealink *arealink;
     s_link *link;
@@ -1134,7 +1157,7 @@ int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok)
 useDefs
 uses enum pauses { NOPAUSE, ECHOAREA, FILEAREA } for choosing  defaults
 */
-int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs)
+int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
 {
    char *tok, addr[24], *ptr;
    unsigned int rc = 0, i,j;
@@ -1340,7 +1363,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
     return rc;
 }
 
-int parseAreaDefault(const s_fidoconfig *config, char *token, s_area *adef, int cleanup)
+int parseAreaDefault(s_fidoconfig *config, char *token, s_area *adef, int cleanup)
 {
    char *tok, addr[24];
    unsigned int rc = 0, i;
