@@ -1,3 +1,13 @@
+2002-07-05 Friday 23:47  stas
+
+	* line.c (1.310): Implement quoted Origin; for empty origin use
+	double quote
+
+2002-07-05 Friday 23:30  stas
+
+	* line.c (1.309): Implement quoted areafixOrigin; for empty areafix
+	origin use double quote
+
 2002-07-04 Thursday 08:18  stas
 
 	* debian/: changelog (1.14), control (1.11): new Debian version
