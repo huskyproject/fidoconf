@@ -198,6 +198,8 @@ typedef struct link {
     char **dfMask; /*  don't forward this */
     unsigned int numDfMask;
 
+    long areafixReportsAttr;
+    char *areafixReportsFlags;
     unsigned int afixEchoLimit;
     unsigned int ffixEchoLimit;
 

@@ -4193,7 +4193,11 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseFileName(getRestOfLine(), &(config->areafixQueueFile), NULL);
             break;
         case ID_AREAFIXREPORTSATTR:
-            rc = parseAttr(getRestOfLine(), &(config->areafixReportsFlags), &(config->areafixReportsAttr));
+            if (config->describeLinkDefaults || config->linkCount) {
+                 s_link *link = getDescrLink(config);
+                 rc = parseAttr(getRestOfLine(), &(link->areafixReportsFlags), &(link->areafixReportsAttr));
+            }
+            else rc = parseAttr(getRestOfLine(), &(config->areafixReportsFlags), &(config->areafixReportsAttr));
             break;
         case ID_AREAFIXKILLREQUESTS:
             rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));

@@ -693,6 +693,11 @@ int printLink(s_link link) {
      printf("\n");
    }
    printf("AreaFix %s\n", (link.AreaFix) ? "on" : "off");
+   if (link.areafixReportsAttr || link.areafixReportsFlags) {
+     char *attrs = attr2str(link.areafixReportsAttr);
+     printf("areafixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", link.areafixReportsFlags ? link.areafixReportsFlags : "");
+     nfree(attrs);
+   }
    if (link.afixEchoLimit) printf("AreaFixEchoLimit %u\n", link.afixEchoLimit);
    if (link.ffixEchoLimit) printf("FileFixEchoLimit %u\n", link.ffixEchoLimit);
    printf("FileFix %s\n", (link.FileFix) ? "on" : "off");
