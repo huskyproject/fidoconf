@@ -1,3 +1,7 @@
+2004-01-14 Wednesday 22:18  i_zkh
+
+	* doc/rus/proposal.texi (1.4): Fixed doc about quoted strings
+
 2004-01-11 Sunday 15:10  mche
 
 	* src/afixcmd.c (1.8): fix MSVC7 compilations and some warnings
