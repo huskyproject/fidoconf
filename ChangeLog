@@ -1,3 +1,13 @@
+2004-12-26 Sunday 21:17  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.26), src/fidoconf.c (1.19): add fields to
+	robot struct to contain strings for 'area', 'filearea' words
+
+2004-12-26 Sunday 20:43  val_khokhlov
+
+	* src/common.c (1.16): use sstrdup() to fix a crash when free()'ing
+	robots
+
 2004-12-25 Saturday 21:47  val_khokhlov
 
 	* fidoconf/common.h (1.7), fidoconf/fidoconf.h (1.25),
