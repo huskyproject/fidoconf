@@ -376,10 +376,10 @@ void setConfigDefaults(s_fidoconfig *config)
 {
    if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"AreaFix AreaMgr hpt");
    if (config->filefixNames==NULL) xstrcat(&config->filefixNames,"FileFix FileMgr AllFix FileScan htick");
-   config->forwardRequestTimeout = config->forwardRequestTimeout <= 0 ? 7 : config->forwardRequestTimeout;
-   config->idlePassthruTimeout = config->idlePassthruTimeout     <  0 ? 4 : config->idlePassthruTimeout;
-   config->killedRequestTimeout = config->killedRequestTimeout   <= 0 ? 3 : config->killedRequestTimeout;
-   RebuildEchoAreaTree(config);   
+   config->forwardRequestTimeout = config->forwardRequestTimeout ? 7 : config->forwardRequestTimeout;
+   config->idlePassthruTimeout   = config->idlePassthruTimeout   ? 4 : config->idlePassthruTimeout;
+   config->killedRequestTimeout  = config->killedRequestTimeout  ? 3 : config->killedRequestTimeout;
+   RebuildEchoAreaTree(config);
    if (!config->tempDir) {
       char *p=NULL;
       if ((p=getenv("TEMP")) != NULL ||
