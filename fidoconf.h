@@ -659,7 +659,13 @@ typedef struct {
     // for future usage
 } sApp;
 
-extern sApp theApp;
+
+
+#ifndef _MAKE_DLL_MVC_
+	extern sApp theApp;
+#else
+	FCONF_EXT sApp theApp;
+#endif
 
 FCONF_EXT void SetAppModule(int mod); // setup struct sApp
 
