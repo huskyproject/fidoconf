@@ -681,10 +681,16 @@ int move_file(const char *from, const char *to)
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
     int rc;
 
+#if (defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__DJGPP__) || defined(__MINGW32__) || defined(__CYGWIN__)
+    if ( cmpfnames((char*)from, (char*)to) == 0 )
+	return 0;
+#endif
     rc = rename(from, to);
     if (!rc) {               /* rename succeeded. fine! */
 #elif defined(__NT__) && defined(USE_SYSTEM_COPY)
     int rc;
+    if ( cmpfnames((char*)from, (char*)to) == 0 )
+	return 0;
     rc = MoveFile(from, to);
     if (rc == TRUE) {
 #elif defined(OS2) && defined(USE_SYSTEM_COPY)
@@ -713,9 +719,10 @@ int copy_file(const char *from, const char *to)
     struct stat st;
     struct utimbuf ut;
 
-    /* Rename did not succeed, probably because the move is accross
-       file system boundaries. We have to copy the file. */
-
+#if (defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__DJGPP__) || defined(__MINGW32__) || defined(__CYGWIN__)
+    if ( cmpfnames((char*)from, (char*)to) == 0 )
+	return 0;
+#endif
     buffer = malloc(MOVE_FILE_BUFFER_SIZE);
     if (buffer == NULL)	return -1;
 
