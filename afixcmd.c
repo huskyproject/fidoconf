@@ -223,7 +223,7 @@ int DelLinkFromString(char *line, s_addr linkAddr)
         }
         else
         {
-            *end--;
+            end--;
             *end = '\0';
         }
     }
