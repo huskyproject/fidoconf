@@ -407,7 +407,7 @@ FCONF_EXT hs_addr *SelectPackAka(s_link *link);
  * exit code by buggy shell, e.g. command.com)
  * Return exit code of the executed command.
  */
-#if defined(HAS_SPAWNVP) && ( defined(__DOS__) || defined(__WIN32__) )
+#if defined(HAS_spawnvp) && ( defined(__DOS__) || defined(__WIN32__) )
 FCONF_EXT int cmdcall(const char *cmd);
 #else
 #  define cmdcall(cmd) system(cmd)

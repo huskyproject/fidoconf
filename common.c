@@ -58,7 +58,7 @@ int cmpfnames(char *file1, char *file2);
 #include <dos.h>
 #endif
 
-#ifdef __UNIX__
+#ifdef HAS_PWD_H
 #include <pwd.h>
 #endif
 
@@ -203,9 +203,9 @@ char *fc_stristr(const char *str, const char *find)
                     str++;
                     if ((sc = *(str-1)) == 0) return (NULL);
                 } while (tolower((unsigned char) sc) != tolower((unsigned char) ch));
-                
+
                 for(str1=str,find1=find; *find1 && *str1 && tolower(*find1)==tolower(*str1); str1++,find1++);
-                
+
             } while (*find1);
             str--;
         }
@@ -1581,7 +1581,7 @@ char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
 
     beginOfSuffix = newFileName+length+1; /*last 2 chars*/
     for (i=1; fexist(newFileName) && (i<255); i++) {
-#ifdef HAVE_SNPRINTF
+#ifdef HAS_snprintf
         snprintf(buff, 3, "%02x", i);
 #else
         sprintf(buff, "%02x", i);
@@ -1656,7 +1656,7 @@ int lockFile(const char *lockfile, int advisoryLock)
 
     if(!lockfile)
         return fh;
-    
+
     if (advisoryLock > 0) {
         while(advisoryLock > 0)
         {
@@ -1689,7 +1689,7 @@ int lockFile(const char *lockfile, int advisoryLock)
 		fprintf(stderr,"cannot create new lock file: %s\n",lockfile);
 		fprintf(stderr,"lock file probably used by another process! exit...\n");
 	}
-    return fh;    
+    return fh;
 }
 
 int FreelockFile(const char *lockfile, int fh)
@@ -1698,8 +1698,8 @@ int FreelockFile(const char *lockfile, int fh)
     	close(fh);
     if(lockfile)
 	    remove(lockfile);
-    
-    return 0;   
+
+    return 0;
 }
 
 hs_addr *SelectPackAka(s_link *link)
@@ -1711,7 +1711,8 @@ hs_addr *SelectPackAka(s_link *link)
 }
 
 
-#if defined(HAS_SPAWNVP) && ( defined(__DOS__) || defined(__WIN32__) )
+/*#if defined(HAS_spawnvp) && ( defined(__DOS__) || defined(__WIN32__) )*/
+#ifndef cmdcall
 /* Workaround for command.com bug: cmdcall() */
 
 #if !defined(P_WAIT) && defined(_P_WAIT)

@@ -32,8 +32,8 @@
 #include "common.h"
 
 #if defined(VSPRINTF_ONLY)
-#undef HAS_VSNPRINTF
-#undef HAS_VASPRINTF
+#undef HAS_vsnprintf
+#undef HAS_vasprintf
 #endif
 
 #define N_PRINTFBUF     1024
@@ -81,9 +81,9 @@ char *xstrscat(char **s, ...)
 int xscatprintf(char **s, const char *format, ...)
 {
     va_list ap;
-#if defined(HAS_VASPRINTF)
+#if defined(HAS_vasprintf)
     char *addline;
-#elif defined(HAS_VSNPRINTF)
+#elif defined(HAS_vsnprintf)
     char *addline;
     int  nmax;
 #else
@@ -92,9 +92,9 @@ int xscatprintf(char **s, const char *format, ...)
     int  nprint;
 
     va_start(ap, format);
-#if defined(HAS_VASPRINTF)
+#if defined(HAS_vasprintf)
     vasprintf(&addline, format, ap);
-#elif defined(HAS_VSNPRINTF)
+#elif defined(HAS_vsnprintf)
     addline = NULL;
     for (nmax = N_PRINTFBUF; ; ) {
 	    xstralloc(&addline, nmax);
@@ -121,7 +121,7 @@ int xscatprintf(char **s, const char *format, ...)
 #endif
     va_end(ap);
     xstrcat(s, addline);
-#if defined(HAS_VASPRINTF) || defined(HAS_VSNPRINTF)
+#if defined(HAS_vasprintf) || defined(HAS_vsnprintf)
     free(addline);
 #endif
     return nprint;
