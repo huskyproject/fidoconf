@@ -1,3 +1,21 @@
+2001-12-26 Wednesday 18:33  mche
+
+	* common.c (1.69), common.h (1.34): moved functions fputUINT16,
+	fgetsUntil0, getUINT16 from fidoconfig to pktread.c pktwrite.c to
+	avoid error with I/O file operations when HPT is made with dlls
+
+2001-12-26 Wednesday 17:30  mche
+
+	* cfg.c (1.12), fidoconf.h (1.86): added functions
+	getCurConfName(); getCurConfPos(); get_hcfgPos(); to avoid external
+	variables
+
+2001-12-26 Wednesday 08:37  mche
+
+	* common.c (1.68), common.h (1.33): redesign of functions smalloc
+	srealloc sstrdup for for using them as dll extern functions under
+	win32
+
 2001-12-24 Monday 14:10  mche
 
 	* common.c (1.67), common.h (1.32): redesign of macro "nfree" for
