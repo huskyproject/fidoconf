@@ -809,6 +809,7 @@ int main(int argc, char **argv) {
 	 printf("ScreenLogLevels %s\n", config->screenloglevels);
 
       if (config->echotosslog != NULL) printf("EchoTossLog:     %s\n", config->echotosslog);
+      if (config->importlog != NULL) printf("ImportLog:     %s\n", config->importlog);
       if (config->statlog != NULL) printf("StatLog:         %s\n", config->statlog);
 
       if (config->inbound != NULL) printf("Inbound:         %s\n", config->inbound);
