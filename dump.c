@@ -313,6 +313,9 @@ void dumpRoute(s_route *route, int count, char *prefix, FILE *f)
 	  case noroute:
 	      fprintf(f, "noroute             ");
 	      break;
+	  case nopack:
+	      fprintf(f, "nopack              ");
+	      break;
 	  }
       }
 
@@ -445,9 +448,13 @@ void dumpCarbon(s_carbon *carbon, FILE *f)
     case ct_msgtext:
 	fprintf(f, "CarbonText          ");
 	break;
+    case ct_addr:
+		fprintf(f, "CarbonAddr          ");
+		break;
     }
     
-    fprintf(f, "%s\n", carbon->str);
+    if (carbon->ctype != ct_addr) fprintf(f, "%s\n", carbon->str);
+	else printf("%s", aka2str(carbon->addr));
 
     if (carbon -> extspawn) {
 	    dumpString(f, "CarbonExtern        %s\n", carbon->areaName);

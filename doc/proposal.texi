@@ -181,6 +181,7 @@ a comment and will be ignored.
  
 * carbonTo::                    make carbonCopy using to-field of msg
 * carbonFrom::                  make carbonCopy using from-field of msg
+* carbonAddr::                  make carbonCopy using from address of msg
 * carbonKludge::                make carbonCopy using kludge lines of msg
 * carbonSubj::                  make carbonCopy using subject-field of msg
 * carbonText::                  make carbonCopy using text-field of msg
@@ -1815,6 +1816,8 @@ hub
 boss
 @item
 no-route
+@item
+no-pack
 @end enumerate
 
 linkWW is a dos pattern with ? and *.
@@ -1835,8 +1838,8 @@ Pseudo-code:
   
 @end example
 
-if no route statement found whose pattern matchs witch the aka, then the mail
-is left alone.
+if no-route statement found, mail forward to links directly accroding the flavour.
+if no-pack statement found, mail will be untouched.
 
 @node routeFile, routeMail, route, Keywords
 @subsection routeFile
@@ -1877,7 +1880,7 @@ an exact match.
 
 This statement can be repeated.
 
-@node carbonFrom, carbonKludge, carbonTo, Keywords
+@node carbonFrom,  carbonAddr, carbonTo, Keywords
 @subsection carbonFrom
 @table @asis
 @item Syntax:
@@ -1892,7 +1895,22 @@ an exact match.
 
 This statement can be repeated.
 
-@node carbonKludge, carbonSubj, carbonFrom, Keywords
+@node carbonAddr, carbonKludge, carbonFrom, Keywords
+@subsection  carbonAddr
+@table @asis
+@item Syntax:
+@code{carbonAddr <addr>}
+@item Example:
+@code{carbonAddr 2:5000/100}
+@end table
+
+If an echomail is tossed whose from address field is the same as <addr>, 
+the echomail is copied to the area specified by the carbonArea keyword.
+The names must be an exact match.
+
+This statement can be repeated.
+
+@node carbonKludge, carbonSubj, carbonAddr, Keywords
 @subsection carbonKludge
 @table @asis
 @item Syntax:

@@ -8,6 +8,8 @@ Sun Jun  4 14:19:57 NOVST 2000
 max:
 * readConfig(void) changed to readConfig(char *cfgFile)
 * tparser support command via cmdline (run tparser --help)
+* carbonAddr token
+* route flavour nopack ...
 
 ----- cvs ci ------
 Sat Jun  3 21:57:51 NOVST 2000

@@ -469,9 +469,9 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->lockfile);
 
    for (i = 0; i< config->carbonCount; i++) {
-	nfree(config->carbons[i].str);
-	if (config->carbons[i].areaName) nfree(config->carbons[i].areaName);
-	if (config->carbons[i].reason) nfree(config->carbons[i].reason);
+	   nfree(config->carbons[i].str);
+	   nfree(config->carbons[i].areaName);
+	   nfree(config->carbons[i].reason);
    }
    nfree(config->carbons);
 

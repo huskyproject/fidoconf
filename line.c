@@ -1247,6 +1247,8 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
       else if (stricmp(option, "boss")==0) actualRoute->routeVia = boss;
       else if (stricmp(option, "noroute")==0) actualRoute->routeVia = noroute;
       else if (stricmp(option, "no-route")==0) actualRoute->routeVia = noroute;
+      else if (stricmp(option, "nopack")==0) actualRoute->routeVia = nopack;
+      else if (stricmp(option, "no-pack")==0) actualRoute->routeVia = nopack;
       else if (isdigit(option[0]) || (option[0] == '*') || (option[0] == '?')) {
 		  if ((actualRoute->routeVia == 0) && (actualRoute->target == NULL)) {
 			  actualRoute->target = getLink(*config, option);
@@ -1791,6 +1793,11 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
 
    config->carbons[config->carbonCount-1].ctype = ctype;
    copyString(token, &(config->carbons[config->carbonCount-1].str));
+
+   if (ctype == ct_addr) {
+	   string2addr(token, &(config->carbons[config->carbonCount-1].addr));
+	   nfree(config->carbons[config->carbonCount-1].str);
+   }
 
    return 0;
 }
@@ -2410,6 +2417,7 @@ int parseLine(char *line, s_fidoconfig *config)
 
    else if (stricmp(token, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, ct_to);
    else if (stricmp(token, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, ct_from);
+   else if (stricmp(token, "carbonaddr")==0) rc = parseCarbon(getRestOfLine(), config, ct_addr);
    else if (stricmp(token, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, ct_kludge);
    else if (stricmp(token, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, ct_subject);
    else if (stricmp(token, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, ct_msgtext);

@@ -133,7 +133,7 @@ typedef struct link {
    unsigned int numOptGrp;
 } s_link, *ps_link;
 
-typedef enum routing {route_zero, host, hub, boss, noroute} e_routing;
+typedef enum routing {route_zero, host, hub, boss, noroute, nopack} e_routing;
 
 typedef struct route {
    e_flavour flavour;
@@ -218,13 +218,15 @@ typedef struct bbsareatype {
    char *description;
 } s_bbsarea, *ps_bbsarea;
 
-typedef enum carbonType {ct_to, ct_from, ct_kludge, ct_subject, ct_msgtext} e_carbonType;
+typedef enum carbonType {ct_to, ct_from, ct_kludge, ct_subject,
+						 ct_msgtext, ct_addr} e_carbonType;
 
 typedef struct carbon {
    e_carbonType ctype;
    char         *str;     // string to compare
    char         *reason;  // reason of copy
-   ps_area      area;    // area to copy messages
+   ps_area      area;     // area to copy messages
+   s_addr       addr;     // from addr to compare
    char         *areaName;// name of area to copy messages
    int          export;   // export copied msg?
    int          netMail;  // do this in netmail, not echomail

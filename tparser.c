@@ -400,7 +400,12 @@ int main(int argc, char **argv) {
 		  else if (config->carbons[i].ctype == ct_kludge)  printf("CarbonKludge: ");
 		  else if (config->carbons[i].ctype == ct_subject) printf("CarbonSubj:   ");
 		  else if (config->carbons[i].ctype == ct_msgtext) printf("CarbonText:   ");
-		  printf("%s\n",config->carbons[i].str);
+		  if (config->carbons[i].ctype != ct_addr)
+			  printf("%s\n",config->carbons[i].str);
+		  else {
+			  printf("CarbonAddr:   ");
+			  printf("%s\n", aka2str(config->carbons[i].addr));
+		  }
 		  if (config->carbons[i].extspawn) {
 			  printf("CarbonExtern: \"%s\"", config->carbons[i].areaName);
 		  } else {
@@ -442,6 +447,7 @@ int main(int argc, char **argv) {
             switch (config->route[i].routeVia) {
                case route_zero: printf("zero\n"); break;
                case noroute:  printf("direct\n"); break;
+               case nopack:   printf("nopack\n"); break;
                case host:     printf("via host\n"); break;
                case hub:      printf("via hub\n"); break;
                case boss:     printf("via boss\n"); break;
