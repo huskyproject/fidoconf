@@ -1,3 +1,40 @@
+2002-09-02 Monday 15:45  mche
+
+	* fc2tor_g.c (1.2), fc2tor_g.h (1.2), makefile.mvc (1.17),
+	makefile.mvcdll (1.19): fix compilation fc2tor
+
+2002-09-02 Monday 15:37  mche
+
+	* fidoconf.h (1.137), line.c (1.323), makefile.mvcdll (1.18),
+	tokens.h (1.46), tparser.c (1.195): new tokens for Htick's reports:
+	AnnFileRFrom AnnFileOrigin
+
+2002-09-02 Monday 13:50  stas_degteff
+
+	* common.c (1.94), common.h (1.53): New function: aka2str5d, return
+	string representation of the 5D FTN address (dinamic string:
+	malloc())
+
+2002-09-02 Monday 13:48  d_sergienko
+
+	* Makefile (1.47): added installation of temp.h
+
+2002-09-02 Monday 06:48  mche
+
+	* tparser.c (1.194): fix function parametr passing
+
+2002-09-02 Monday 05:52  stas_degteff
+
+	* fc2binkd.c (1.6): Fix version string generation; cosmetic fix
+
+2002-09-02 Monday 05:27  stas_degteff
+
+	* fc2binkd.c (1.5): Fix: check fopen() result
+
+2002-09-02 Monday 05:15  stas_degteff
+
+	* fc2binkd.c (1.4): Modufy usage()
+
 2002-09-01 Sunday 20:13  stas_degteff
 
 	* Makefile (1.46): Fix makefile: add install fconf2binkd, fix
