@@ -364,7 +364,7 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
 //    if (area->manual != 0) fprintf(f, "-manual ");
     if (area->keepUnread != 0) fprintf(f, "-keepUnread ");
     if (area->killRead != 0) fprintf(f, "-killRead ");
-    if (area->hide != 0) fprintf(f, "-hide ");
+    if (area->hide != 0) fprintf(f, "-h ");
     if (area->noPause != 0) fprintf(f, "-noPause ");
     if (area->mandatory != 0) fprintf(f, "-mandatory ");
     if (area->DOSFile != 0) fprintf(f, "-DOSFile ");

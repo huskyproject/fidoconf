@@ -234,7 +234,7 @@ int parseRemap(char *token, s_fidoconfig *config)
 int parsePath(char *token, char **var)
 {
    char limiter;
-   DIR  *dirent;
+/*   DIR  *dirent; */
 
    if (token == NULL) {
       printf("Line %d: There is a path missing after %s!\n", actualLineNr, actualKeyword);
@@ -256,13 +256,21 @@ int parsePath(char *token, char **var)
       (*var)[strlen(token)+1] = '\0';
    }
 
+/*
    dirent = opendir(*var);
    if (dirent == NULL) {
       printf("Line %d: Path %s not found!\n", actualLineNr, *var);
       return 1;
    }
+*/
 
-   closedir(dirent);
+   if (!direxist(*var))
+   {
+      printf("Line %d: Path %s not found!\n", actualLineNr, *var);
+      return 1;
+   }
+
+/*   closedir(dirent); */
    return 0;
 }
 
