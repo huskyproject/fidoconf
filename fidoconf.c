@@ -150,6 +150,8 @@ char *stripComment(char *line)
     }
   }
 
+  striptwhite(line);
+
   return line;
 }
 
