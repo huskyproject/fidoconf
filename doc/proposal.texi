@@ -126,6 +126,7 @@ There are following modules available:
 @item hpt (Highy Portable Tosser)
 @item htick (Husky Tick)
 @item hptutil
+@item hpucode
 @end table
 
 Also @strong{external} variables van be parsed:
@@ -155,6 +156,16 @@ List of the additional commands:
 @table @asis
 set, if, if not, else, elseif, ifdef, ifndef, endif.
 @end table
+
+You can compare with a pattern by using =~ and !~ instead of == and !=:
+@example
+if [VAR] =~ *substr*
+...
+endif
+if [VAR] !~ bla?bla*
+...
+endif
+@end example
 
 @node Keywords, HPT, Syntax, config file
 @section Common keywords for HUSKY-programs
