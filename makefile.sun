@@ -1,18 +1,13 @@
-#Settings for Digital UNIX
-
-#installation directires
-LIBDIR = /homes3/info-e/mtt/fido/fidoconfig
-INSTDIR = /homes3/info-e/mtt/fido/fidoconfig
-INCDIR = /home3/info-e/mtt/fido/fidoconfig
+# Fidoconfig makefile for SUN Solaris
 
 # program settings
-CC = gcc -g
+CC = gcc
 AR = ar
 AR_R = r
 RM = rm
 
-COPT = -c -O3 -DUNIX -I$(INCDIR)
-LOPT = -L. 
+COPT = -g -c -O3 -DUNIX -I..
+LOPT = -L.
 
 # filename settings
 OBJ = .o
@@ -26,7 +21,7 @@ FCONF2MSGED  = fconf2msged
 FCONF2FIDOGATE = fconf2fidogate
 FCONF2SQUISH = fconf2squish
 LIBFIDOCONFIG = libfidoconfig
-LINKSMAPI = -L../smapi -lsmapisun 
+LINKSMAPI = -L../smapi -lsmapisun
 LINKFIDOCONFIG = -L. -l$(FIDOCONFIG)
 
 default: all
@@ -43,14 +38,3 @@ distclean: commondistclean
 
 %.o: %.c
 	$(CC) $(COPT) $*.c
-
-install: 
-	cp -f libfidoconfig.so.$(VER) $(LIBDIR)
-	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
-	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
-	cp -f  fconf2msged  $(INSTDIR)/bin
-	cp -f  fconf2golded $(INSTDIR)/bin
-	cp -f  fconf2aquaed $(INSTDIR)/bin
-	cp -f  fconf2fidogate $(INSTDIR)/bin
-	cp -f  fconf2squish $(INSTDIR)/bin
-	cp -f  tparser      $(INSTDIR)/bin

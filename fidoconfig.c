@@ -159,17 +159,9 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
    char *ret;
 
 #ifdef CFGDIR
-   char *osSpecificPrefix = malloc(strlen(CFGDIR)+2);
-
-   strcpy(osSpecificPrefix, CFGDIR);
-   i = strlen(osSpecificPrefix);
-   if (i && osSpecificPrefix[i - 1] != '/' && osSpecificPrefix[i - 1] != '\\')
-      strcat(osSpecificPrefix, "/");
-
+   char *osSpecificPrefix = CFGDIR;
 #elif   defined(__linux__)
    char *osSpecificPrefix = "/etc/fido/";
-#elif defined(UNIX)
-   char *osSpecificPrefix = "/usr/local/etc/fido/";
 #else
    char *osSpecificPrefix = "";
 #endif
@@ -181,8 +173,15 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
       if (configName == NULL) return NULL;
       
       //try osSpecificName
-      osSpecificName = (char *) malloc(strlen(osSpecificPrefix)+strlen(configName)+1);
+      osSpecificName = (char *) malloc(strlen(osSpecificPrefix)+strlen(configName)+2); // +1 - for training delimiter
       strcpy(osSpecificName, osSpecificPrefix);
+
+      i = strlen(osSpecificName);
+      if (i && osSpecificName[i - 1] != '/' && osSpecificName[i - 1] != '\\') {
+         osSpecificName[i] = PATH_DELIM;
+         osSpecificName[i+1] = '\0';
+      }
+
       strcat(osSpecificName, configName);
       
       f = fopen(osSpecificName, "r");
