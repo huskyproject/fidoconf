@@ -136,7 +136,7 @@ a comment and will be ignored.
 * arcmailsize::			size of arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
 * allowPktAddrDiffer::          allow addresses in PKT and MSG differ for areafix request
-* noTIC                         do not send a TIC file to this link
+* noTIC::                       do not send a TIC file to this link
 
 * nodelistdir::                 path for nodelists
 * fidouserlist::                name of compiled fido user list file
