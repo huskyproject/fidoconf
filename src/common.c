@@ -51,7 +51,6 @@
 
 #ifdef HAS_IO_H
 #  include <io.h>
-#define COMMON_C_HAVE_CMPFNAMES
 #endif
 
 #ifdef HAS_DOS_H
@@ -104,8 +103,7 @@ int copyStringUntilSep(char *str, char *seps, char **dest)
   if (sepPos)
   {
     *dest = malloc(sepPos - str + 1);
-    strncpy(*dest, str, sepPos - str);
-    (*dest)[sepPos - str] = 0;
+    strnzcpy(*dest, str, sepPos - str);
 
     return (sepPos - str);
   }
@@ -630,8 +628,8 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
     if(*path)
     GetFullPathName(path, sizeof(fullpath), fullpath, &p);
 #else
-    strcpy(fullpath,path);
-    strcpy(fullarch,archiv);
+    strnzcpy(fullpath,path);
+    strnzcpy(fullarch,archiv);
 #endif
 
     *cmd = '\0';  start = NULL;
@@ -644,7 +642,7 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
             strncat(cmd, tmp, (size_t) (start - tmp + 1));
             start--; continue;
         };
-        strncat(cmd, tmp, (size_t) (start - tmp));
+        strnzcat(cmd, tmp, (size_t) (start - tmp));
         strcat(cmd, add);
     };
     strcat(cmd, tmp);
@@ -694,11 +692,11 @@ char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
     beginOfSuffix = newFileName+length+1; /*last 2 chars*/
     for (i=1; fexist(newFileName) && (i<255); i++) {
 #ifdef HAS_snprintf
-        snprintf(buff, 3, "%02x", i);
+        snprintf(buff, sizeof(buff), "%02x", i);
 #else
         sprintf(buff, "%02x", i);
 #endif
-        strncpy(beginOfSuffix, buff, 2);
+        strnzcpy(beginOfSuffix, buff, 2);
     }
 
     w_log(LL_DEBUGF, __FILE__ ":%u: old: '%s' new: '%s'",__LINE__, fileName, newFileName);
