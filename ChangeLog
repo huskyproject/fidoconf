@@ -1,3 +1,8 @@
+2001-10-16 Tuesday 08:45  tobi
+
+	* fidoconf.c (1.54): Fixed out of range array access when parsing
+	empty lines in fidoconfig.
+
 2001-09-04 Tuesday 07:55  ml
 
 	* fidoconf.c (1.53): allow CR chars in unix configs (in empty
