@@ -56,6 +56,11 @@
 #include <KernelKit.h>
 #endif
 
+#ifdef _MAKE_DLL_MVC_
+#	include <Windows.h>
+#	undef s_addr
+#endif
+
 #include "fidoconf.h"
 #include "common.h"
 #include <smapi/patmat.h>
@@ -330,7 +335,7 @@ char *shell_expand(char *str)
     ret = smalloc(strlen(slash) + strlen(pfix) + 1);
     strcpy(ret, pfix);
     strcat(ret, slash);
-    free(str);
+    nfree(str);
     return ret;
 }
 
@@ -683,16 +688,16 @@ int move_file(const char *from, const char *to)
     if (buffer == NULL)	return -1;
 
     fin = fopen(from, "rb");
-    if (fin == NULL) { free(buffer); return -1; }
+    if (fin == NULL) { nfree(buffer); return -1; }
 
     fout = fopen(to, "wb");
-    if (fout == NULL) { free(buffer); fclose(fin); return -1; }
+    if (fout == NULL) { nfree(buffer); fclose(fin); return -1; }
 
     while ((read = fread(buffer, 1, MOVE_FILE_BUFFER_SIZE, fin)) > 0)
     {
 	if (fwrite(buffer, 1, read, fout) != read)
 	{
-	    fclose(fout); fclose(fin); remove(to); free(buffer);
+	    fclose(fout); fclose(fin); remove(to); nfree(buffer);
 	    return -1;
 	}
     }
@@ -701,14 +706,14 @@ int move_file(const char *from, const char *to)
     {
 	fclose(fout);
 	fclose(fin);
-	free(buffer);
+	nfree(buffer);
 	remove(to);
 	return -1;
     }
 
     fclose(fout);
     fclose(fin);
-    free(buffer);
+    nfree(buffer);
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
     rc = CopyFile(from, to, FALSE);
     if (rc == FALSE) {
@@ -742,16 +747,16 @@ int copy_file(const char *from, const char *to)
     if (buffer == NULL)	return -1;
 
     fin = fopen(from, "rb");
-    if (fin == NULL) { free(buffer); return -1; }
+    if (fin == NULL) { nfree(buffer); return -1; }
 
     fout = fopen(to, "wb");
-    if (fout == NULL) { free(buffer); fclose(fin); return -1; }
+    if (fout == NULL) { nfree(buffer); fclose(fin); return -1; }
 
     while ((read = fread(buffer, 1, MOVE_FILE_BUFFER_SIZE, fin)) > 0)
     {
 	if (fwrite(buffer, 1, read, fout) != read)
 	{
-	    fclose(fout); fclose(fin); remove(to); free(buffer);
+	    fclose(fout); fclose(fin); remove(to); nfree(buffer);
 	    return -1;
 	}
     }
@@ -760,14 +765,14 @@ int copy_file(const char *from, const char *to)
     {
 	fclose(fout);
 	fclose(fin);
-	free(buffer);
+	nfree(buffer);
         remove(to);
 	return -1;
     }
 
     fclose(fout);
     fclose(fin);
-    free(buffer);
+    nfree(buffer);
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
     int rc = CopyFile(from, to, FALSE);
     if (rc == FALSE) {
@@ -801,8 +806,8 @@ int patimat(char *raw,char *pat)
     upraw=strUpper(sstrdup(raw));
     uppat=strUpper(sstrdup(pat));
     i=patmat(upraw,uppat);
-    free(upraw);
-    free(uppat);
+    nfree(upraw);
+    nfree(uppat);
 
     return(i);
 }
@@ -814,10 +819,10 @@ void freeGroups(char **grps, int numGroups)
 	if ( grps == NULL) return;
 
 	for ( i = 0; i < numGroups; i++) {
-		free (grps[i]);
+		nfree (grps[i]);
 	}
 
-	free (grps);
+	nfree (grps);
 }
 
 void freeLink (s_link *link)
@@ -826,14 +831,14 @@ void freeLink (s_link *link)
   if (link == NULL) return;
 
   nfree (link->hisAka.domain);
-  if (link->handle != link->name) free(link->handle);
+  if (link->handle != link->name) nfree(link->handle);
   nfree (link->name);
-  if (link->pktPwd != link->defaultPwd)free(link->pktPwd);
-  if (link->ticPwd != link->defaultPwd)free(link->ticPwd);
-  if (link->areaFixPwd != link->defaultPwd) free(link->areaFixPwd);
-  if (link->fileFixPwd != link->defaultPwd) free(link->fileFixPwd);
-  if (link->bbsPwd != link->defaultPwd) free(link->bbsPwd);
-  if (link->sessionPwd != link->sessionPwd) free(link->sessionPwd);
+  if (link->pktPwd != link->defaultPwd)nfree(link->pktPwd);
+  if (link->ticPwd != link->defaultPwd)nfree(link->ticPwd);
+  if (link->areaFixPwd != link->defaultPwd) nfree(link->areaFixPwd);
+  if (link->fileFixPwd != link->defaultPwd) nfree(link->fileFixPwd);
+  if (link->bbsPwd != link->defaultPwd) nfree(link->bbsPwd);
+  if (link->sessionPwd != link->sessionPwd) nfree(link->sessionPwd);
   nfree(link->email);
   nfree(link->emailFrom);
   nfree(link->emailSubj);
@@ -943,35 +948,45 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 
 void *smalloc(size_t size)
 {
-    void *ptr = malloc(size);
-#ifndef _MAKE_DLL
+	void *ptr = NULL;
+#ifndef _MAKE_DLL_MVC_
+    ptr = malloc(size);
     if (ptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
+#else
+	ptr = HeapAlloc(GetProcessHeap(), HEAP_NO_SERIALIZE, size);
 #endif
     return ptr;
 }
 
 void *srealloc(void *ptr, size_t size)
 {
-    void *newptr = realloc(ptr, size);
-#ifndef _MAKE_DLL
+    void *newptr;
+#ifndef _MAKE_DLL_MVC_
+	newptr = realloc(ptr, size);
     if (newptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
+#else
+	if(ptr)
+		newptr = HeapReAlloc(GetProcessHeap(), HEAP_NO_SERIALIZE, ptr, size);
+	else
+		newptr = smalloc(size);
 #endif
     return newptr;
 }
 
 void *scalloc(size_t nmemb, size_t size)
 {
-    void *ptr = smalloc(size*nmemb);
-#ifndef _MAKE_DLL
+	void *ptr = NULL;
+#ifndef _MAKE_DLL_MVC_
+    ptr = smalloc(size*nmemb);
 	memset(ptr,'\0',size*nmemb);
 #else 
-    if(ptr) memset(ptr,'\0',size*nmemb);
+    ptr = HeapAlloc(GetProcessHeap(), HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, size*nmemb);
 #endif
     return ptr;
 }
@@ -980,18 +995,22 @@ char *sstrdup(const char *src)
 {
     char *ptr;
     if (src == NULL) return NULL;
+#ifndef _MAKE_DLL_MVC_    
     ptr = strdup (src);
-#ifndef _MAKE_DLL    
     if (ptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
+#else
+	ptr = smalloc(strlen(src)+1);
+	strcpy(ptr,src);
 #endif
     return ptr;
 }
 
-#ifdef _MAKE_DLL
-#   if defined(_MSC_VER) && (_MSC_VER >= 1200)
-void ffree(void* ptr) { if(ptr) free (ptr); }
-#   endif
+#ifdef _MAKE_DLL_MVC_
+void ffree(void* ptr) 
+{ 
+	if(ptr) HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, ptr);
+}
 #endif

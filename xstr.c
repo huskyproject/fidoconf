@@ -29,6 +29,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include "xstr.h"
+#include "common.h"
 
 #define N_PRINTFBUF	512
 
@@ -36,9 +37,9 @@ char *xstralloc(char **s, size_t add)
 {
     int n;
     if (*s == NULL) {
-        *s = malloc(add + 1); **s = '\0'; n = 0;
+        *s = smalloc(add + 1); **s = '\0'; n = 0;
     } else {
-        *s = realloc(*s, (n = strlen(*s)) + add + 1);
+        *s = srealloc(*s, (n = strlen(*s)) + add + 1);
     };
     if (*s == NULL) {
 	fprintf(stderr, "out of memory");

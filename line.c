@@ -536,15 +536,15 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       token = strtok(NULL, " \t");
       if (token == NULL) {
          prErr("An msgbase type is missing after -b in areaOptions!");
-         free(iOption);
+         nfree(iOption);
          return 1;
       }
       iToken = strLower(sstrdup(token));
       if (strcmp(iToken, "squish")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            prErr("Logical Defect!! You could not make a Squish Area Passthrough!");
-	   free(iOption);
-	   free(iToken);
+	   nfree(iOption);
+	   nfree(iToken);
            return 1;
         }
         area->msgbType = MSGTYPE_SQUISH;
@@ -552,8 +552,8 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       else if (strcmp(iToken, "jam")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            prErr("Logical Defect!! You could not make a Jam Area Passthrough!");
-	   free(iOption);
-	   free(iToken);
+	   nfree(iOption);
+	   nfree(iToken);
            return 1;
         }
         area->msgbType = MSGTYPE_JAM;
@@ -561,8 +561,8 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       else if (strcmp(iToken, "msg")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
 	   prErr("Logical Defect!! You could not make a *.msg Area Passthrough!");
-	   free(iOption);
-	   free(iToken);
+	   nfree(iOption);
+	   nfree(iToken);
            return 1;
         }
         area->msgbType = MSGTYPE_SDM;
@@ -570,8 +570,8 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       else
       {
 	prErr("MsgBase type %s not valid after -b in areaOptions!", token);
-	free(iOption);
-	free(iToken);
+	nfree(iOption);
+	nfree(iToken);
 	return 1;
       }
    }
@@ -579,13 +579,13 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       token = strtok(NULL, " \t");
       if (token == NULL) {
          prErr("Number is missing after -p in areaOptions!");
-	 free(iOption);
+	 nfree(iOption);
          return 1;
       }
       area->purge = (UINT) strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
          prErr("Number is wrong after -p in areaOptions!");
-	 free(iOption);
+	 nfree(iOption);
          return 1;     // error occured;
       }
    }
@@ -593,12 +593,12 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       token = strtok(NULL, " \t");
       if (token == NULL) {
          prErr("Number is missing after -$m in areaOptions!");
-	 free(iOption);
+	 nfree(iOption);
          return 1;
       }
       area->max = (UINT) strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
-	 free(iOption);
+	 nfree(iOption);
          return 1;     // error
       }
    }
@@ -607,13 +607,13 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
       if (token == NULL)
 	{
 	  prErr("Address is missing after -a in areaOptions!");
-	  free(iOption);
+	  nfree(iOption);
 	  return 1;
 	}
       area->useAka = getAddr(*config, token);
       if (area->useAka == NULL) {
          prErr("%s not found as address.", token);
-         free(iOption);
+         nfree(iOption);
          return 1;
       }
    }
@@ -621,7 +621,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        token = strtok(NULL, " \t");
        if (token == NULL) {
            prErr("Number is missing after -lr in areaOptions!");
-	   free(iOption);
+	   nfree(iOption);
 	   return 1;
        }
        for (i=0; i<strlen(token); i++) {
@@ -629,7 +629,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        }
        if (i != strlen(token)) {
            prErr("Number is wrong after -lr in areaOptions!");
-	   free(iOption);
+	   nfree(iOption);
 	   return 1;
        }
        area->levelread = (unsigned)atoi(token);
@@ -643,7 +643,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        token = strtok(NULL, " \t");
        if (token == NULL) {
            prErr("Number is missing after -lw in areaOptions!");
-	   free(iOption);
+	   nfree(iOption);
 	   return 1;
        }
        for (i=0; i<strlen(token); i++) {
@@ -651,7 +651,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        }
        if (i != strlen(token)) {
            prErr("Number is wrong after -lw in areaOptions!");
-	   free(iOption);
+	   nfree(iOption);
 	   return 1;
        }
        area->levelwrite = (unsigned)atoi(token);
@@ -675,7 +675,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      token = strtok(NULL, " \t");
      if (token == NULL) {
        prErr("Missing dupeCheck parameter!");
-       free(iOption);
+       nfree(iOption);
        return 1;
      }
      if (stricmp(token, "off")==0) area->dupeCheck = dcOff;
@@ -683,7 +683,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      else if (stricmp(token, "del")==0) area->dupeCheck = dcDel;
      else {
        prErr("Wrong dupeCheck parameter!");
-       free(iOption);
+       nfree(iOption);
        return 1; // error
      }
    }
@@ -691,7 +691,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      token = strtok(NULL, " \t");
      if (token == NULL) {
         prErr("Number is missing after -dupehistory in areaOptions!");
-        free(iOption);
+        nfree(iOption);
         return 1;
      }
      area->dupeHistory = (UINT) strtol(token, &error, 0);
@@ -700,7 +700,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    else if (strcmp(iOption, "g")==0) {
      token = strtok(NULL, " \t");
      if (token == NULL) {
-       free(iOption);
+       nfree(iOption);
        return 1;
      }
      nfree(area->group);
@@ -713,7 +713,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    else if (strcmp(iOption, "0")==0) ;
    else if (strcmp(iOption, "d")==0) {
      if ((area->description=getDescription())==NULL) {
-       free(iOption);
+       nfree(iOption);
        return 1;
      }
    }
@@ -721,12 +721,12 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      token = strtok(NULL, " \t");
      if (token==NULL) {
        prErr("Missing permission parameter!");
-       free(iOption);
+       nfree(iOption);
        return 1;
      }
      else
      {
-       free(iOption);
+       nfree(iOption);
        return parseNumber(token, 8, &(area->fperm));
      }
    }
@@ -735,7 +735,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
      if (token==NULL)
        prErr("Missing ownership parameter!");
      else {
-       free(iOption);
+       nfree(iOption);
        return parseOwner(token, &(area->uid), &(area->gid));
      }
    }
@@ -747,11 +747,11 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    }
    else {
      prErr("unknown area option \"-%s\"!", option);
-     free(iOption);
+     nfree(iOption);
      return 1;
    }
 
-   free(iOption);
+   nfree(iOption);
    return 0;
 }
 
@@ -766,13 +766,13 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
     token = strtok(NULL, " \t");
     if (token == NULL) {
       prErr("Address is missing after -a in areaOptions!");
-      free(iOption);
+      nfree(iOption);
       return 1;
     }
     area->useAka = getAddr(*config, token);
     if (area->useAka == NULL) {
       prErr("%s not found as address.", token);
-      free(iOption);
+      nfree(iOption);
       return 1;
     }
   }
@@ -780,7 +780,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
     token = strtok(NULL, " \t");
     if (token == NULL) {
       prErr("Number is missing after -lr in areaOptions!");
-      free(iOption);
+      nfree(iOption);
       return 1;
     }
     for (i=0; i<strlen(token); i++) {
@@ -788,7 +788,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
     }
     if (i != strlen(token)) {
       prErr("Number is wrong after -lr in areaOptions!");
-      free(iOption);
+      nfree(iOption);
       return 1;
     }
     area->levelread = (unsigned)atoi(token);
@@ -801,7 +801,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
     token = strtok(NULL, " \t");
     if (token == NULL) {
       prErr("Number is missing after -lw in areaOptions!");
-      free(iOption);
+      nfree(iOption);
       return 1;
     }
     for (i=0; i<strlen(token); i++) {
@@ -809,7 +809,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
     }
     if (i != strlen(token)) {
       prErr("Number is wrong after -lw in areaOptions!");
-      free(iOption);
+      nfree(iOption);
       return 1;
     }
     area->levelwrite = (unsigned)atoi(token);
@@ -826,7 +826,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   else if (strcmp(iOption, "g")==0) {
     token = strtok(NULL, " \t");
     if (token == NULL) {
-      free(iOption);
+      nfree(iOption);
       return 1;
     }
     nfree(area->group);
@@ -834,13 +834,13 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   }
   else if (strcmp(iOption, "d")==0) {
     if ((area->description=getDescription())==NULL) {
-      free(iOption);
+      nfree(iOption);
       return 1;
     }
   }
   else {
     prErr("unknown area option \"-%s\"!", option);
-    free(iOption);
+    nfree(iOption);
     return 1;
   }
 
@@ -857,11 +857,11 @@ int parseLinkOption(s_arealink *alink, char *token)
   else if (strcmp(iToken, "mn")==0) alink->mandatory = 1;
   else if (strcmp(iToken, "def")==0) alink->defLink = 1;
   else {
-    free(iToken);
+    nfree(iToken);
     return 1;
   }
 
-  free(iToken);
+  nfree(iToken);
   return 0;
 }
 
@@ -1650,10 +1650,10 @@ int parseBool (char *token, unsigned int *value)
   if ((strcmp(iToken, "on")==0) || (strcmp(iToken, "yes")==0) || (strcmp(iToken, "1")==0)) *value = 1;
   else if ((strcmp(iToken, "off")==0) || (strcmp(iToken, "no")==0) || (strcmp(iToken, "0")==0)) *value = 0;
   else {
-    free(iToken);
+    nfree(iToken);
     return 2;
   }
-  free(iToken);
+  nfree(iToken);
   return 0;
 }
 
@@ -1803,7 +1803,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
          rc = 2;
       }
     }
-    free(iOption);
+    nfree(iOption);
     option = strtok(NULL, " \t");
   }
 
@@ -2005,11 +2005,11 @@ int parseFileName(char *line, char **name) {
    } else {
       prErr("File not found or no permission: %s!", token);
       if (line[0]=='\"')
-        free(token);
+        nfree(token);
       return 2;
    }
    if (line[0]=='\"')
-     free(token);
+     nfree(token);
    return 0;
 }
 
@@ -2054,10 +2054,10 @@ int parseEchoMailFlavour(char *line, e_flavour *flavour)
   else if (strcmp(iLine, "immediate")==0) *flavour = immediate;
   else {
     prErr("Unknown echomail flavour %s!", line);
-    free(iLine);
+    nfree(iLine);
     return 2;
   }
-  free(iLine);
+  nfree(iLine);
   return 0;
 }
 
@@ -2078,10 +2078,10 @@ int parseFileEchoFlavour(char *line, e_flavour *flavour)
   else if (strcmp(iLine, "immediate")==0) *flavour = immediate;
   else {
     prErr("Unknown fileecho flavour %s!", line);
-    free(iLine);
+    nfree(iLine);
     return 2;
   }
-  free(iLine);
+  nfree(iLine);
   return 0;
 }
 
@@ -2499,11 +2499,11 @@ int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
   else if (strcmp(iToken, "points4d") == 0)
     nodelist->format = points4d;
   else {
-    free(iToken);
+    nfree(iToken);
     return 2;
   }
 
-  free(iToken);
+  nfree(iToken);
   return 0;
 }
 
@@ -2526,10 +2526,10 @@ int parseTypeDupes(char *line, e_typeDupeCheck *typeDupeBase, unsigned *DayAge)
   }
   else {
     prErr("Unknown type base of dupes %s!", line);
-    free(iLine);
+    nfree(iLine);
     return 2;
   }
-  free(iLine);
+  nfree(iLine);
   return 0;
 }
 
@@ -2649,7 +2649,7 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
        else if (stricmp(token, "destroy")==0) {
 		   config->describeLinkDefaults = 0;
 		   freeLink(config->linkDefaults);
-		   free(config->linkDefaults);
+		   nfree(config->linkDefaults);
 		   config->linkDefaults = NULL;
        }
        else return 2;
@@ -2711,10 +2711,10 @@ int parseNamesCaseConversion(char *line, e_nameCaseConvertion *value)
   else if (strcmp(iLine, "same") == 0) *value = cDontTouch;
   else {
     prErr("Unknown case convertion parameter %s!", line);
-    free(iLine);
+    nfree(iLine);
     return 2;
   }
-  free(iLine);
+  nfree(iLine);
   return 0;
 }
 
@@ -2734,10 +2734,10 @@ int parseBundleNameStyle(char *line, e_bundleFileNameStyle *value)
   else if (strcmp(iLine, "amiga") == 0) *value = eAmiga;
   else {
     prErr("Unknown bundle name style %s!", line);
-    free(iLine);
+    nfree(iLine);
     return 2;
   }
-  free(iLine);
+  nfree(iLine);
   return 0;
 }
 
@@ -2762,10 +2762,10 @@ int parseLinkWithILogType(char *line, e_linkWithImportLog *value)
   else if (strcmp(iLine, "kill") == 0) *value = lwiKill;
   else {
     prErr("Unknown LinkWithImportLog value %s!", line);
-    free(iLine);
+    nfree(iLine);
     return 2;
    }
-  free(iLine);
+  nfree(iLine);
   return 0;
 }
 
@@ -2789,10 +2789,10 @@ int parseKludgeAreaNetmailType(char *line, e_kludgeAreaNetmail *value)
   else if (strcmp(iLine, "echomail") == 0) *value = kanEcho;
   else {
 	  prErr("Unknown klugdeAreaNetmail value %s!", line);
-	  free(iLine);
+	  nfree(iLine);
 	  return 2;
   }
-  free(iLine);
+  nfree(iLine);
   return 0;
 }
 
@@ -2813,10 +2813,10 @@ int parseEmailEncoding(char *line, e_emailEncoding *value)
   else
   {
     prErr("Unknown email encoding parameter %s!", line);
-    free(iLine);
+    nfree(iLine);
     return 2;
   }
-  free(iLine);
+  nfree(iLine);
   return 0;
 }
 
@@ -3905,18 +3905,18 @@ int parseLine(char *line, s_fidoconfig *config)
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;
-            free(iToken);
-            free(actualLine);
+            nfree(iToken);
+            nfree(actualLine);
             return 1;
         }
 
-        free(iToken);
+        nfree(iToken);
     }
     if (rc != 0) {
         prErr( "error %d in: %s", rc, line);
         wasError = 1;
     }
     
-    free(actualLine);
+    nfree(actualLine);
     return rc;
 }

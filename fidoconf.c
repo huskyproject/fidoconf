@@ -51,7 +51,7 @@ char *readLine(FILE *f)
 
    line = (char *) smalloc(81);
    if (fgets(line, 81, f) == NULL) {
-      free(line);                      // end of file...
+      nfree(line);                      // end of file...
       return NULL;
    }
 
@@ -75,7 +75,7 @@ char *trimLine(char *line)
 
    while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
    xstrcat(&temp, striptwhite(start));
-   free(line);
+   nfree(line);
    return temp;
 }
 
@@ -174,7 +174,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
       if (f==NULL) {
          if (NULL != (envFidoConfig = getenv("FIDOCONFIG"))) {
             if (strrchr(envFidoConfig, PATH_DELIM) != NULL) {
-               free (osSpecificName);
+               nfree (osSpecificName);
                i = strlen(envFidoConfig) - strlen(strrchr(envFidoConfig,PATH_DELIM)) + strlen(configName)+1;
                osSpecificName = smalloc (i+1);
                strncpy (osSpecificName,envFidoConfig,i);
@@ -364,7 +364,7 @@ s_fidoconfig *readConfig(char *cfgFile)
          line = shell_expand(line);
          parseLine(line, config);
       }
-      free(line);
+      nfree(line);
    }
 
    if (wasError == 1) {
@@ -574,7 +574,7 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->aacFlag);
    nfree(config->notValidFNChars);
 
-   free(config);
+   nfree(config);
    config = NULL;
 }
 
