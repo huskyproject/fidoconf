@@ -85,7 +85,7 @@ typedef unsigned short     UINT16;              /*  2 byte */
 
 #if defined(__EMX__)
 #if !defined(__OS2_H__) && !defined(_OS2_H) && !defined(_WINNT_H)   /*  os2.h defines it already */
-typedef          char       CHAR;               /*  1 byte */
+typedef   signed char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 #endif
 typedef   signed short      INT16;              /*  2 byte */
@@ -103,7 +103,7 @@ typedef          void       VOID;
 #endif                                          /*  #if defined(__EMX__) */
 
 #if (defined(__linux__) && !defined(__alpha)) || defined(__FreeBSD__) || defined(__DJGPP__) || defined(__BEOS__) || defined(__OpenBSD__)
-typedef          char       CHAR;               /*  1 byte */
+typedef   signed char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 typedef   signed int        INT32;              /*  4 byte */
 typedef unsigned int       UINT32;              /*  4 byte */
@@ -120,7 +120,7 @@ typedef unsigned short     UINT16;              /*  2 byte */
 /* Alpha AXP running Digital Unix (and possibly also Linux/Alpha?)
    This is a 64 bit architecture */
 #if defined(__alpha)
-typedef          char       CHAR;               /*  1 byte */
+typedef   signed char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
@@ -141,7 +141,7 @@ typedef          void       VOID;
    probably not work there. */
 
 #if defined(_AIX)
-typedef          char       CHAR;               /*  1 byte */
+typedef   signed char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
@@ -156,7 +156,7 @@ typedef          void       VOID;
 #endif
 
 #if defined(__sun__)
-typedef          char       CHAR;               /*  1 byte */
+typedef   signed char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
@@ -171,7 +171,7 @@ typedef          void       VOID;
 #endif
 
 #if defined(__hpux)
-typedef          char       CHAR;               /*  1 byte */
+typedef   signed char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
@@ -213,7 +213,7 @@ typedef          void       VOID;
 
 #if defined(__IBMC__) || defined(__IBMCPP__)
 #ifndef __OS2_H__       /*  os2.h defines it already */
-typedef          char       CHAR;               /*  1 byte */
+typedef   signed char       CHAR;               /*  1 byte */
 typedef unsigned char      UCHAR;               /*  1 byte */
 #endif
 typedef   signed short      INT16;              /*  2 byte */
@@ -233,7 +233,7 @@ typedef          void       VOID;
 /*   the uSoft 16bit compiler family for DOS */
 
 #if defined(_MSC_VER) && (_MSC_VER < 1200)
-typedef          char        CHAR;              /*  1 byte */
+typedef   signed char        CHAR;              /*  1 byte */
 typedef unsigned char       UCHAR;              /*  1 byte */
 typedef   signed int        INT16;              /*  2 byte */
 typedef unsigned int       UINT16;              /*  2 byte */
@@ -272,7 +272,7 @@ typedef          void        VOID;
 
 /*  MacOS X with gcc */
 #if defined(__APPLE__) && defined(__MACH__)
-typedef          char        CHAR;              /*  1 byte */
+typedef   signed char        CHAR;              /*  1 byte */
 typedef unsigned char       UCHAR;              /*  1 byte */
 typedef   signed short      INT16;              /*  2 byte */
 typedef unsigned short     UINT16;              /*  2 byte */
