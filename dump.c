@@ -92,7 +92,7 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
   dumpString(f, "Magic               %s\n", config->magic);
   for (i = 0; i < config->publicCount; i++)
     {
-      fprintf(f, "Public            %s\n", config->publicDir[i]);
+      fprintf(f, "Public              %s\n", config->publicDir[i]);
     }
   dumpString(f, "FileAreaBaseDir     %s\n", config->fileAreaBaseDir);
   dumpString(f, "PassFileAreaDir     %s\n", config->passFileAreaDir);
@@ -118,7 +118,7 @@ void dumpPaths(s_fidoconfig *config, FILE *f)
 
 void dumpLinks(s_fidoconfig *config, FILE *f)
 {
-  int i;
+  int i, j;
   s_link link;
 
   for (i = 0; i < config->linkCount; i++)
@@ -221,9 +221,9 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       if (link.numAccessGrp > 0)
       {
 	fprintf(f, "accessGrp           ");
-	for (i = 0; i < link.numAccessGrp; i++)
+	for (j = 0; j < link.numAccessGrp; j++)
 	{
-	  if (i > 0) fprintf(f, ", %s", link.AccessGrp[i]);
+	  if (j > 0) fprintf(f, ", %s", link.AccessGrp[j]);
 	  else fprintf(f, "%s", link.AccessGrp[0]);
 	}
 	fprintf(f, "\n");
@@ -250,7 +250,7 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	  else fprintf(f, "import              off\n");
 
       if (link.mandatory) fprintf(f, "mandatory          on\n");
-	  else fprintf(f, "mandatory             off\n");
+	  else fprintf(f, "mandatory           off\n");
 	  
       fprintf(f, "\n");
     }
@@ -393,10 +393,10 @@ void dumpMsgAreas(s_fidoconfig *config, FILE *f)
   
   for (i = 0; i < config->netMailAreaCount; i++)
   {
-    dumpMsgArea(&config->netMailAreas[i], "netMailArea          ", f);
+    dumpMsgArea(&config->netMailAreas[i], "netMailArea        ", f);
   }
   fprintf(f, "this");
-  dumpMsgArea(&config->dupeArea, "dupeArea           ", f);
+  dumpMsgArea(&config->dupeArea, "dupeArea       ", f);
   dumpMsgArea(&config->badArea, "badArea            ", f);
 
   fprintf(f, "\n");
@@ -499,14 +499,14 @@ void dumpTicker(s_fidoconfig *config, FILE *f)
 
     if (config->fileSingleDescLine != 0) fprintf(f, "FileSingleDescLine\n");
     if (config->fileCheckDest != 0) fprintf(f, "FileCheckDest\n");
-    fprintf(f, "FileDescPos        %u\n", config->fileDescPos);
-    dumpString(f, "FileLDescString    %s\n", config->fileLDescString);
+    fprintf(f, "FileDescPos         %u\n", config->fileDescPos);
+    dumpString(f, "FileLDescString     %s\n", config->fileLDescString);
     if (config->addDLC != 0) fprintf(f, "AddDLC\n");
-    fprintf(f, "DLCDigits          %u\n", config->DLCDigits);
-    fprintf(f, "FileMaxDupeAge     %u\n", config->fileMaxDupeAge);
-    fprintf(f, "FileFileUMask      %o\n", config->fileFileUMask);
-    fprintf(f, "FileDirUMask       %o\n", config->fileDirUMask);
-    dumpString(f, "FileLocalPwd       %s\n", config->fileLocalPwd);
+    fprintf(f, "DLCDigits           %u\n", config->DLCDigits);
+    fprintf(f, "FileMaxDupeAge      %u\n", config->fileMaxDupeAge);
+    fprintf(f, "FileFileUMask       %o\n", config->fileFileUMask);
+    fprintf(f, "FileDirUMask        %o\n", config->fileDirUMask);
+    dumpString(f, "FileLocalPwd        %s\n", config->fileLocalPwd);
 
     for (i = 0; i < config->execonfileCount; i++) {
        fprintf(f, "ExecOnFile: Area %s File %s Call %s\n",
@@ -524,30 +524,30 @@ void dumpNodelists(s_fidoconfig *config, FILE *f)
 
   if (config->fidoUserList != NULL)
     {
-      fprintf(f, "FidoUserList       %s\n", config->fidoUserList);
+      fprintf(f, "FidoUserList        %s\n", config->fidoUserList);
       fprintf(f, "\n");
     }
 
   for (i = 0; i < config->nodelistCount; i++)
     {
-      fprintf(f, "NodeList           %s\n",
+      fprintf(f, "NodeList            %s\n",
               config->nodelists[i].nodelistName);
       if (config->nodelists[i].diffUpdateStem != NULL)
-        fprintf(f, "DiffUpdate         %s\n",
+        fprintf(f, "DiffUpdate          %s\n",
                 config->nodelists[i].diffUpdateStem);
       if (config->nodelists[i].fullUpdateStem != NULL)
-        fprintf(f, "FullUpdate         %s\n",
+        fprintf(f, "FullUpdate          %s\n",
                 config->nodelists[i].fullUpdateStem);
       if (config->nodelists[i].defaultZone != 0)
-        fprintf (f, "DefaultZone        %d\n",
+        fprintf (f, "DefaultZone          %d\n",
                  config->nodelists[i].defaultZone);
       switch (config->nodelists[i].format)
         {
         case fts5000:
-          fprintf (f, "NodelistFormat     Standard\n");
+          fprintf (f, "NodelistFormat      Standard\n");
           break;
         case points24:
-          fprintf (f, "NodelistFormat     Points24\n");
+          fprintf (f, "NodelistFormat      Points24\n");
           break;
         }
       fprintf(f, "\n");
