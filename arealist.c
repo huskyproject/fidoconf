@@ -108,7 +108,7 @@ int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char 
 }
 
 static int compare_arealistitems(const void *a, const void *b)
-{ return stricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag); }
+{ return sstricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag); }
 
 void sortAreaList(ps_arealist al)
 {
@@ -121,7 +121,7 @@ static int compare_arealistitems_and_desc(const void *a, const void *b)
   register int r;
 
   /* compare areatags */
-  r = stricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag);
+  r = sstricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag);
   if (r!=0)
   	return r;
   /* comapre descriptions: if both presents it's eq; if both absence then eq also;
@@ -165,7 +165,7 @@ void sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes)
 
   for(i=0; i<al->count; i++)
   {
-    if (prev&&(stricmp(prev, al->areas[i].tag)==0))
+    if (prev&&(sstricmp(prev, al->areas[i].tag)==0))
     {
       nfree(al->areas[i].tag);
       nfree(al->areas[i].desc);
