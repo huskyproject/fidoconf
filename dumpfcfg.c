@@ -31,6 +31,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #if !defined(MSDOS) || defined(__DJGPP__)
 #include "fidoconfig.h"
@@ -38,7 +39,7 @@
 #include "fidoconf.h"
 #endif
 
-int syntax()
+int syntax(void)
 {
     printf("dumpfcfg - dump fidoconfig to file or stdout\n");
     printf("Syntax: dumpfcfg [OutFile]\n");

@@ -45,6 +45,7 @@
 
 #include <limits.h>
 #include <smapi/patmat.h>
+#include <smapi/unused.h>
 
 #include "dirlayer.h"
 
@@ -388,6 +389,8 @@ int parseOwner(char *token, unsigned int *uid, unsigned int *gid)
 	}
 	*gid = grp ? grp -> gr_gid : -1 ;		
    }
+#else
+   unused(token); unused(uid); unused(gid);
 #endif   
    return 0;
 }
@@ -986,6 +989,8 @@ int parseBbsArea(const s_fidoconfig *config, char *token, s_bbsarea *area)
 {
    char *tok;
    int rc = 0;
+
+   unused(config);
 
    if (token == NULL) {
       printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
@@ -1690,12 +1695,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 						
-				link->AccessGrp[link->numAccessGrp]=malloc(cpos-token+1);
+				link->AccessGrp[link->numAccessGrp]=malloc((size_t)(cpos-token+1));
 						
 				for (j = 0; j < cpos - token; j++)
 					link->AccessGrp[link->numAccessGrp][j] = token[j];
 						
-				link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
+				link->AccessGrp[link->numAccessGrp][(size_t)(cpos - token)] = '\0';
 				token = cpos+1;
 			}
 			else {
@@ -1705,12 +1710,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				link->AccessGrp[link->numAccessGrp] = malloc(cpos - token + 1);
+				link->AccessGrp[link->numAccessGrp] = malloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					link->AccessGrp[link->numAccessGrp][j] = token[j];
 
-				link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
+				link->AccessGrp[link->numAccessGrp][(size_t)(cpos - token)] = '\0';
 				token = cpos;
 			}
 		}
@@ -1734,12 +1739,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				config->PublicGroup[config->numPublicGroup] = malloc(cpos - token + 1);
+				config->PublicGroup[config->numPublicGroup] = malloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					config->PublicGroup[config->numPublicGroup][j] = token[j];
 
-				config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
+				config->PublicGroup[config->numPublicGroup][(size_t)(cpos - token)] = '\0';
 				token = cpos+1;
 			} else {
 				cpos = token + strlen(token);
@@ -1748,12 +1753,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				config->PublicGroup[config->numPublicGroup] = malloc(cpos - token + 1);
+				config->PublicGroup[config->numPublicGroup] = malloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					config->PublicGroup[config->numPublicGroup][j] = token[j];
 
-				config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
+				config->PublicGroup[config->numPublicGroup][(size_t)(cpos - token)] = '\0';
 				token = cpos;
 			}
 		}
@@ -1773,12 +1778,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				link->optGrp[link->numOptGrp] = malloc(cpos - token + 1);
+				link->optGrp[link->numOptGrp] = malloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					link->optGrp[link->numOptGrp][j] = token[j];
 
-				link->optGrp[link->numOptGrp][cpos - token] = '\0';
+				link->optGrp[link->numOptGrp][(size_t)(cpos - token)] = '\0';
 				token = cpos+1;
 			} else {
 				cpos = token + strlen(token);
@@ -1787,12 +1792,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
 					   (cpos > token)) cpos--;
 
-				link->optGrp[link->numOptGrp] = malloc(cpos - token + 1);
+				link->optGrp[link->numOptGrp] = malloc((size_t)(cpos - token + 1));
 
 				for (j = 0; j < cpos - token; j++)
 					link->optGrp[link->numOptGrp][j] = token[j];
 
-				link->optGrp[link->numOptGrp][cpos - token] = '\0';
+				link->optGrp[link->numOptGrp][(size_t)(cpos - token)] = '\0';
 				token = cpos;
 			}
 		}
@@ -1908,6 +1913,8 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
 
 int parseForwardPkts(char *token, s_fidoconfig *config, s_link *link)
 { 
+   unused(config);
+
    if (token == NULL) {
            printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
            return 1;
@@ -1922,6 +1929,8 @@ int parseForwardPkts(char *token, s_fidoconfig *config, s_link *link)
 
 int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
 { 
+   unused(config);
+
    if (token == NULL) {
            printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
            return 1;
@@ -1936,6 +1945,9 @@ int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
 
 int parseAllowPktAddrDiffer(char *token, s_fidoconfig *config, s_link *link)
 {
+
+   unused(config);
+
    if (token == NULL) {
 	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
 	   return 1;
@@ -1950,6 +1962,8 @@ int parseAllowPktAddrDiffer(char *token, s_fidoconfig *config, s_link *link)
 
 int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
 {
+  unused(config);
+
   if (token  == NULL) {
     printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
     return 1;
@@ -1990,6 +2004,8 @@ int parseSaveTic(const s_fidoconfig *config, char *token, s_savetic *savetic)
 {
    char *tok;
    DIR  *dirent;
+
+   unused(config);
 
    if (token == NULL) {
       printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);

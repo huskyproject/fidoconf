@@ -11,6 +11,10 @@ else
   LFLAGS = $(OPTLFLAGS)
 endif
 
+ifndef EXENAMEFLAG
+  EXENAMEFLAG=-o
+endif
+
 CDEFS=-D$(OSTYPE) $(ADDCDEFS) -DCFGDIR=\"$(CFGDIR)\"
 
 LOPT = -L. -L$(LIBDIR)

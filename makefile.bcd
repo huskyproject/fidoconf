@@ -1,78 +1,40 @@
-# include Husky-Makefile-Config
-!include ..\huskymak.cfg
+# Makefile for Borland C (DOS)
+# no support for huskymak.cfg
 
 CC=	bcc
-CFLAGS=	-w -ml
+EXENAMEFLAG=-e
+CFLAGS=	-w -ml -I.. -I../smapi -v
 CDEFS=	-DMSDOS
+COPT=	-O2
+LFLAGS=
+# we always enerate debug info with -v; the linker will strip it
 
-!IF $(DEBUG) == 1
-  COPT=	-O2 -I$(INCDIR) -v
-!ELSE
-  COPT=	-O2 -I$(INCDIR)
-!ENDIF
+OBJ=.obj
+EXE=.exe
+RM=del
+LIB=.lib
+AR=tlib_sup
+AR_R=
 
-LIB=	tlib
-ASM=	tasm
-LINK=	tlink.exe
+LINKFIDOCONFIG=fconfbcd.lib
+LINKSMAPI=..\smapi\smapibcd.lib
+LIBPREFIX=
 
-LIBS=  fidoconf.lib 
-ALLIBS= $(LIBS) $(LIBDIR)\smapibcd.lib 
+FIDOCONFIG     = fconfbcd
+FCONF2AQUAED   = fc2aed
+FCONF2GOLDED   = fc2ged
+FCONF2MSGED    = fc2msged
+FCONF2FIDOGATE = fc2fgate
+FCONF2SQUISH   = fc2sq
+FECFG2FCONF    = fecfg2fc
+LIBFIDOCONFIG  = fconfbcd
 
-HDRS=  common.h \
-       dirlayer.h \
-       fidoconf.h \
-       typesize.h 
+default: all
 
-OBJS=  line.obj \
-       fidoconf.obj \
-       dirlayer.obj \
-       common.obj
+!include makefile.com
 
-LOBJS=  -+line.obj \
-        -+fidoconf.obj \
-        -+dir.obj \
-        -+common.obj 
+all: commonlibs commonprogs
 
-all:	fidoconf.lib fc2msged.exe fc2ged.exe tparser.exe
+clean: commonclean
 
-fidoconf.lib: $(OBJS)
-	$(LIB) $(LIBS) @&&!
-$(LOBJS)
-!
-	del fidoconf.bak >NUL
-	
-
-fc2msged.exe: $(LIBS) $(HDRS) fc2msged.c
-
-fc2ged.exe: $(LIBS) $(HDRS) fc2ged.c
-
-tparser.exe: $(LIBS) $(HDRS) tparser.c
-
-clean:
-	del *.obj
-	del fidoconf.bak
-
-distclean: clean
-	del fidoconf.lib fc2ged.exe fc2msged.exe tparser.exe
-
-install: commonlibs commonprogs
-	copy fidoconf.lib $(LIBDIR)
-	copy tparser.exe $(BINDIR)
-	copy fc2msged.exe $(BINDIR)
-	copy fc2ged.exe $(BINDIR)
-	copy fidoconf.h $(INCDIR)
-	copy dirlayer.h $(INCDIR)
-	copy adcase.h $(INCDIR)
-	copy common.h $(INCDIR)
-	copy typesize.h $(INCDIR)
-	copy fidoconf.pas $(INCDIR)
-
-.c.obj: 
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
-
-.asm.obj:
-	$(ASM) -ml $<
-
-.c.exe: 
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) $< $(ALLIBS)
-
+distclean: commondistclean
