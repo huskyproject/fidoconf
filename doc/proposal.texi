@@ -128,6 +128,7 @@ a comment and will be ignored.
 * autoCreateFile::              file where autoCreated Areas by this links are going
 * forwardRequests::             allow forward requests to this link
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
+* remoteRobotName::             remote "areafix" name
 * forwardPkts::                 shall we forward inbound packets for this node?
 * pause::                       don't export mail for this link
 * arcmailsize::			size of arcmail bundle
@@ -987,7 +988,7 @@ By default "forwardRequests off".
 
 This statement can only be repeated for different links.
 
-@node forwardRequestFile, forwardPkts, forwardRequests, Keywords
+@node forwardRequestFile, remoteRobotName, forwardRequests, Keywords
 @subsection forwardRequestFile
 @table @asis
 @item Syntax:
@@ -1001,7 +1002,21 @@ if not defined then forward requests unconditional
 
 This statement can only be repeated for different links.
 
-@node forwardPkts, pause, forwardRequestFile, Keywords
+@node remoteRobotName, forwardPkts, forwardRequestFile, Keywords
+@subsection remoteRobotName
+@table @asis
+@item Syntax:
+@code{remoteRobotName <string>}
+@item Example:
+@code{remoteRobotName allfix}
+@end table
+
+Set remote system "areafix" to new name. This token used when requests
+to subscribe/unsubscribe new areas forwarded to this link.
+
+This statement can only be repeated for different links.
+
+@node forwardPkts, pause, remoteRobotName, Keywords
 @subsection forwardPkts
 @table @asis
 @item Syntax:
