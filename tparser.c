@@ -32,7 +32,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifndef  MSDOS
 #include "fidoconfig.h"
+#else
+#include "fidoconf.h"
+#endif
 
 void printArea(s_area area) {
    int i;
@@ -84,7 +88,7 @@ void printLink(s_link link) {
 
 int main() {
    s_fidoconfig *config = readConfig();
-   int i;
+   int i, j;
 
    if (config != NULL) {
       printf("=== MAIN CONFIG ===\n");
@@ -136,6 +140,16 @@ int main() {
       printf("\n=== PACK CONFIG ===\n");
       for (i = 0; i < config->packCount; i++) {
          printf("Packer: %s      Call: %s\n", config->pack[i].packer, config->pack[i].call);
+      }
+      printf("\n=== UNPACK CONFIG ===\n");
+      for (i = 0; i < config->unpackCount; i++) {
+         printf("UnPacker:  Call: %s Offset %d Match code ", config->unpack[i].call, config->unpack[i].offset);
+         for (j = 0; j < config->unpack[i].codeSize; j++)
+           printf("%x", (int) config->unpack[i].matchCode[j]);
+         printf(" Mask : ");
+         for (j = 0; j < config->unpack[i].codeSize; j++)
+           printf("%x", (int) config->unpack[i].mask[j]);
+         printf("\n");
       }
       disposeConfig(config);
    } /* endif */

@@ -33,7 +33,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef MSDOS
 #include "fidoconfig.h"
+#else
+#include "fidoconf.h"
+#endif
+
 #include "typesize.h"
 #include "common.h"
 
@@ -50,11 +55,13 @@ char *readLine(FILE *f)
 
    while ((strlen(line) % 80) == 0) {
       if (fgets(temp, 81, f) == NULL) break; // eof encountered
-      if (temp[strlen(temp)-1] == '\n') {
-         temp[strlen(temp)-1] = 0; // kill \n
-      }
+      
       line = realloc(line, strlen(line)+strlen(temp)+1);
       strcat(line, temp);
+      if (temp[strlen(temp)-1] == '\n') {
+         temp[strlen(temp)-1] = 0; // kill \n
+         break;
+      }
    }
 
    if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = 0;
@@ -77,22 +84,23 @@ void parseConfig(FILE *f, s_fidoconfig *config)
    char *line;
 
    actualLineNr = 1;
-   while ((line = readLine(f))) {
+   while ((line = readLine(f)) != NULL) {
       line = trimLine(line);
       if ((line[0] != '#') && (line[0] != 0)) {
          line = shell_expand(line);
          parseLine(line, config);
       }
       actualLineNr++;
+      free(line);
    }
 }
 
 void initConfig(s_fidoconfig *config) {
    // set all to 0
-   memset(config, sizeof(s_fidoconfig), 0);
+   memset(config, 0, sizeof(s_fidoconfig));
 }
 
-char *getConfigFileName() {
+char *getConfigFileName(void) {
 
    char *envFidoConfig = getenv("FIDOCONFIG");
 
@@ -107,6 +115,7 @@ char *getConfigFileName() {
 #else
    char *osSpecificName = "fidoconfig";
 #endif
+   char *ret;
 
    //try env-var fidoconfig
    if (envFidoConfig != NULL) f = fopen(envFidoConfig, "r");
@@ -114,8 +123,12 @@ char *getConfigFileName() {
       //try osSpecificName
       f = fopen(osSpecificName, "r");
       if (f==NULL) return NULL;
-      else return osSpecificName;
-   } else return envFidoConfig;
+      else ret =  osSpecificName;
+   } else ret = envFidoConfig;
+
+   fclose(f);
+   
+   return ret;
 }
 
 s_fidoconfig *readConfig()
@@ -198,6 +211,7 @@ void disposeConfig(s_fidoconfig *config)
    free(config->protInbound);
    free(config->listInbound);
    free(config->localInbound);
+   free(config->tempInbound);
    free(config->logFileDir);
    free(config->dupeHistoryDir);
    free(config->nodelistDir);
@@ -230,6 +244,7 @@ void disposeConfig(s_fidoconfig *config)
 
    for (i = 0; i < config->unpackCount; i++) {
 	   free(config->unpack[i].matchCode);
+	   free(config->unpack[i].mask);
 	   free(config->unpack[i].call);
    }
    free(config->unpack);

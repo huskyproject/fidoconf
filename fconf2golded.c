@@ -31,7 +31,11 @@
 
 #include <stdlib.h>
 
+#ifndef MSDOS
 #include "fidoconfig.h"
+#else
+#include "fidoconf.h"
+#endif
 
 int writeArea(FILE *f, s_area *area, char netmail) {
 
@@ -115,7 +119,13 @@ int main (int argc, char *argv[]) {
 
 	  if (argv[2]!=NULL) readDefaultConfig (argv[1], argv[2]);
 	  else {
-		  sprintf(cmd, "rm -f %s", argv[1]);
+		  sprintf(cmd,
+                  #ifndef MSDOS
+                  "rm -f %s",
+                  #else
+                  "del %s",
+                  #endif
+                  argv[1]);
 		  system (cmd);
 	  }
       generateMsgEdConfig(config, argv[1]);

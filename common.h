@@ -75,7 +75,7 @@ int    fputUINT16(FILE *out, UINT16 word);
   FZ:     fputUINT16 writes word into the stream using the order lowByte, highByte.
 */
 
-INT    fgetsUntil0(CHAR *str, INT n, FILE *f);
+INT    fgetsUntil0(CHAR *str, size_t n, FILE *f);
 /*DOC
   Input:  n-1 chars are read at most.
           str is a buffer with the length n.

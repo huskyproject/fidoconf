@@ -137,8 +137,10 @@ struct carbon {
 typedef struct carbon s_carbon;
 
 struct unpack {
-   unsigned int  offset;
-   char    *matchCode;
+   int     offset;
+   unsigned char *matchCode;
+   unsigned char *mask;
+   int     codeSize;
    char    *call;
 };
 typedef struct unpack s_unpack;
@@ -156,7 +158,7 @@ struct fidoconfig {
    unsigned int  linkCount;
    s_link   *links;
 
-   char     *inbound, *outbound, *protInbound, *listInbound, *localInbound;
+   char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
    char     *magic, *areafixhelp, *autoCreateDefaults, *tempOutbound;
 
@@ -190,7 +192,7 @@ struct fidoconfig {
 };
 typedef struct fidoconfig s_fidoconfig;
 
-s_fidoconfig *readConfig();
+s_fidoconfig *readConfig(void);
 
 void disposeConfig(s_fidoconfig *config);
 
@@ -205,7 +207,7 @@ s_area *getArea(s_fidoconfig *config, char *areaName);
 char *readLine(FILE *F);
 int parseLine(char *line, s_fidoconfig *config);
 void parseConfig(FILE *f, s_fidoconfig *config);
-char *getConfigFileName();
+char *getConfigFileName(void);
 char *trimLine(char *line);
 
 #endif

@@ -152,6 +152,12 @@ void string2addr(const char *string, s_addr *addr)
    default:
      break;
    } /* endswitch */
+   /* all-catch for domain = NULL */
+   /* if  (addr->domain == NULL) {
+   	  addr->domain  = malloc(1);
+        *(addr->domain) = '\0';
+      };
+   */
    return;
 }
 
@@ -173,9 +179,9 @@ int fputUINT16(FILE *out, UINT16 word)
   return fputc(dummy, out);
 }
 
-INT   fgetsUntil0(CHAR *str, int n, FILE *f)
+INT   fgetsUntil0(CHAR *str, size_t n, FILE *f)
 {
-   int i;
+   size_t i;
 
    for (i=0;i<n-1 ;i++ ) {
       str[i] = getc(f);

@@ -33,11 +33,16 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "patmat.h"
 
 #include "dir.h"
 
+#ifndef MSDOS
 #include "fidoconfig.h"
+#else
+#include "fidoconf.h"
+#endif
 #include "common.h"
 #include "typesize.h"
 
@@ -50,7 +55,7 @@ int  actualLineNr;
 char wasError = 0;
 
 
-char *getRestOfLine() {
+char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
 
@@ -207,14 +212,14 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
          printf("Line %d: Number is missing after -p in areaOptions!\n", actualLineNr);
          return 1;
       }
-      area->purge = strtol(token, &error, 0);
+      area->purge = (UINT) strtol(token, &error, 0);
       if ((error != NULL) && (*error != '\0')) {
          printf("Line %d: Number is wrong after -p in areaOptions!\n", actualLineNr);
          return 1;     // error occured;
       }
    }
    else if (stricmp(option, "m")==0) {
-      area->max = strtol(strtok(NULL, " \t"), &error, 0);
+      area->max = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) {
          return 1;     // error
       }
@@ -246,7 +251,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
       }
    }
    else if (stricmp(option, "dupehistory")==0) {
-      area->dupeHistory = strtol(strtok(NULL, " \t"), &error, 0);
+      area->dupeHistory = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) return 1;    // error
    }
    else if (stricmp(option, "g")==0) {
@@ -528,7 +533,104 @@ int parsePack(char *line, s_fidoconfig *config) {
 
 int parseUnpack(char *line, s_fidoconfig *config) {
 
-	return 0;   
+    char   *p, *c;
+    char   *error;
+    s_unpack *unpack;
+    UCHAR  code;
+    int    i;
+
+    if (line == NULL) {
+       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+       return 1;
+    }
+
+    // ToDo: Create replacement for strtok which handles "str"
+
+    for (p = line; ((*p == ' ') || (*p == '\t')) && (*p != '\0'); p++);
+
+    if (p != '\0') {
+       if (*p == '\"')
+          for (c = ++p; (*c != '\"') && (*c != '\0'); c++);
+       else
+          for (c = p; (*c != ' ') && (*c != '\t') && (*c != '\0'); c++);
+       if (*c != '\0') {
+          *c++ = '\0';
+          stripLeadingChars(c, " \t");
+       };
+    } else
+       c = NULL;
+
+    if ((p != NULL) && (c != NULL)) {
+
+       // add new pack statement
+       config->unpackCount++;
+       config->unpack = realloc(config->unpack, config->unpackCount * sizeof(s_unpack));
+
+       // fill new pack statement
+       unpack = &(config->unpack[config->unpackCount-1]);
+       unpack->call   = (char *) malloc(strlen(p)+1);
+       strcpy(unpack->call, p);
+
+       if (strstr(unpack->call, "$a")==NULL) {
+          printf("Line %d: $a missing in unpack statement %s!\n", actualLineNr, actualLine);
+          return 2;
+       }
+       if (strstr(unpack->call, "$f")==NULL) {
+          printf("Line %d: $f missing in unpack statement %s!\n", actualLineNr, actualLine);
+          return 2;
+       }
+
+       p = strtok(c, " \t"); // p is containing offset now
+       c = strtok(NULL, " \t"); // t is containing match code now
+
+       if ((p == NULL) || (c == NULL)) {
+          printf("Line %d: offset or match code missing in unpack statement %s!\n", actualLineNr, actualLine);
+          return 1;
+       };
+
+       unpack->offset = (UINT) strtol(p, &error, 0);
+
+       if ((error != NULL) && (*error != '\0')) {
+          printf("Line %d: Number is wrong for offset in unpack!\n", actualLineNr);
+          return 1;     // error occured;
+       }
+
+       unpack->matchCode = (UCHAR *) malloc(strlen(c) / 2 + 1);
+       unpack->mask      = (UCHAR *) malloc(strlen(c) / 2 + 1);
+
+       // parse matchcode statement
+       // this looks a little curvy, I know. Remember, I programmed this at 23:52 :)
+       for (i = 0, error = NULL; c[i] != '\0' && error == NULL; i++) {
+          code = toupper(c[i]);
+          // if code equals to '?' set the corresponding bits  of  mask[] to 0
+          unpack->mask[i / 2] = i % 2  == 0 ? (code != '?' ? 0xF0 : 0) :
+                                unpack->mask[i / 2] | (code != '?' ? 0xF : 0);
+
+          // find the numeric representation of hex code
+          // if this is a '?' code equals to 0
+          code = (isdigit(code) ? code - '0' :
+                 (isxdigit(code) ? code - 'A' + 10 :
+                 (code == '?' ? 0 : (error = c + i, 0xFF))));
+          unpack->matchCode[i / 2] = i % 2 == 0 ? code << 4 : unpack->matchCode[i / 2] | code;
+       }
+
+       if (error) {
+          printf("Line %d: matchCode can\'t contain %c in in unpack statement %s!\n", actualLineNr, *error, actualLine);
+          return 1;
+       };
+
+       if (i % 2 != 0)  {
+          printf("Line %d: matchCode must be byte-aligned in unpack statement %s!\n", actualLineNr, actualLine);
+          return 1;
+       };
+
+       unpack->codeSize = i / 2;
+
+       return 0;
+    } else {
+       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+       return 1;
+    }
 }
 
 int parseFileName(char *line, char **name) {
@@ -730,6 +832,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound));
    else if (stricmp(token, "listinbound")==0) rc = parsePath(getRestOfLine(), &(config->listInbound));
    else if (stricmp(token, "localinbound")==0) rc= parsePath(getRestOfLine(), &(config->localInbound));
+   else if (stricmp(token, "tempinbound")==0) rc= parsePath(getRestOfLine(), &(config->tempInbound));
    else if (stricmp(token, "outbound")==0) rc = parsePath(getRestOfLine(), &(config->outbound));
    else if (stricmp(token, "public")==0) rc = parsePublic(getRestOfLine(), config);
    else if (stricmp(token, "logFileDir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
@@ -790,6 +893,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "routeMail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
 
    else if (stricmp(token, "pack")==0) rc = parsePack(getRestOfLine(), config);
+   else if (stricmp(token, "unpack")==0) rc = parseUnpack(getRestOfLine(), config);
    else if (stricmp(token, "packer")==0) rc = parsePackerDef(getRestOfLine(), config, &(config->links[config->linkCount-1].packerDef));
 
    else if (stricmp(token, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));

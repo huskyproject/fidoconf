@@ -8,9 +8,38 @@ Sysop Matthias Tichy
 Address 2:2433/1247 
 Address 2:2432/601.29
 
-Pack zip zip -9 -g -q $a $f 
-
 AutoCreateDefaults -m 14 -dupeCheck move -dupeHistory 11
+
+# This is taken from Serge Koghin's ParToss
+# Hope he wouldn't be angry for this
+ 
+Unpack  "pkunzip -^ -o -e $a $p $f" 0 504b0304
+Pack  zip zip -9 -j -g -q $a $f
+ 
+Unpack  "pkunpak /r $a $p $f" 0 1a
+Pack  arc pkpak -oct a $a $f
+ 
+Unpack  "pak e /wn $a $p $f" -2 fe
+Pack  pak pak a $a $f
+ 
+Unpack  "lha e /m $a $p $f" 2 2d6c68
+Pack  lha lha a /o /m $a $f
+ 
+Unpack  "zoo e:O $a $p $f" 0 5a4f4f
+Pack  zoo zoo a: $a $f
+ 
+Unpack  "arj e -+ -y $a $p $f" 0 60ea
+Pack  arj arj a -+ -e -y $a $f
+
+Unpack  "rar e -std -o+ $a $p $f"  0 52617221
+Pack  rar rar a -std -ep $a $f
+ 
+Unpack  "jar e -y $a $p $f" 14 1a4a61721b
+Pack  jar jar a -y $a $f
+ 
+Unpack  "ha eyq $a $f"  0 4841
+Pack  ha ha a21eq $a $f
+
 
 Link Dirk Fischer
 Aka 2:2432/601
@@ -39,6 +68,7 @@ Route crash 2:2432/601 *
 
 Inbound		/home/mtt/fido/in/
 ProtInbound	/home/mtt/fido/in.sec
+TempInbound	/tmp/fido/
 Outbound	/home/mtt/fido/out/
 tempOutbound	/home/mtt/fido/out.tmp
 MsgBaseDir      /home/mtt/fido/msgb
