@@ -262,6 +262,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
 {
    char *error;
    char *token;
+   int i;
 
    if (stricmp(option, "p")==0) {
       token = strtok(NULL, " \t");
@@ -289,10 +290,41 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
          return 1;
       }
    }
+   else if (stricmp(option, "lr")==0) {
+       token = strtok(NULL, " \t");
+       if (token == NULL) {
+           printf("Line %d: Number is missing after -lr in areaOptions!\n", actualLineNr);
+	   return 1;
+       }
+       for (i=0; i<strlen(token); i++) {
+           if (isdigit(token[i]) == 0) break;
+       }
+       if (i != strlen(token)) {
+           printf("Line %d: Number is wrong after -lr in areaOptions!\n", actualLineNr);
+	   return 1;
+       }
+       area->levelread = (unsigned)atoi(token);
+   }
+   else if (stricmp(option, "lw")==0) {
+       token = strtok(NULL, " \t");
+       if (token == NULL) {
+           printf("Line %d: Number is missing after -lw in areaOptions!\n", actualLineNr);
+	   return 1;
+       }
+       for (i=0; i<strlen(token); i++) {
+           if (isdigit(token[i]) == 0) break;
+       }
+       if (i != strlen(token)) {
+           printf("Line %d: Number is wrong after -lw in areaOptions!\n", actualLineNr);
+	   return 1;
+       }
+       area->levelwrite = (unsigned)atoi(token);
+   }
    else if (stricmp(option, "tinysb")==0) area->tinySB = 1;
    else if (stricmp(option, "h")==0) area->hide = 1;
    else if (stricmp(option, "manual")==0) area->manual = 1;
    else if (stricmp(option, "nopause")==0) area->noPause = 1;
+   else if (stricmp(option, "mandatory")==0) area->mandatory = 1;   
    else if (stricmp(option, "dupeCheck")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
@@ -407,8 +439,18 @@ int parseFileAreaOption(s_fidoconfig config, char *option, s_filearea *area)
    return 0;
 }
 
+int parseLinkOption(s_arealink *alink, char *token)
+{
+    if (stricmp(token, "r")==0) alink->import = 0;
+    else if (stricmp(token, "w")==0) alink->export = 0;
+    else if (stricmp(token, "m")==0) alink->mandatory = 1;
+    else return 1;
+    return 0;
+}
+
 int parseArea(s_fidoconfig config, char *token, s_area *area)
 {
+   s_link *link;
    char *tok;
    int rc = 0;
 
@@ -449,7 +491,9 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
       area->msgbType = MSGTYPE_PASSTHROUGH;
    }
 
-   while ((tok = strtok(NULL, " \t"))!= NULL) {
+   tok = strtok(NULL, " \t");
+   
+   while (tok != NULL) {
       if (stricmp(tok, "Squish")==0) {
          if (area->msgbType == MSGTYPE_PASSTHROUGH) {
             printf("Line %d: Logical Defect!! You could not make a Squish Area Passthrough!\n", actualLineNr);
@@ -459,18 +503,54 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
       }
       else if(tok[0]=='-') rc += parseAreaOption(config, tok+1, area);
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
-         area->downlinks = realloc(area->downlinks, sizeof(s_link*)*(area->downlinkCount+1));
-         area->downlinks[area->downlinkCount] = getLink(config, tok);
-         if (area->downlinks[area->downlinkCount] == NULL) {
+         area->downlinks = realloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+	 area->downlinks[area->downlinkCount] = (s_arealink*)calloc(1, sizeof(s_arealink));
+         area->downlinks[area->downlinkCount]->link = getLink(config, tok);
+         if (area->downlinks[area->downlinkCount]->link == NULL) {
             printf("Line %d: Link for this area is not found!\n", actualLineNr);
             rc += 1;
          }
+	 
+	 link = area->downlinks[area->downlinkCount]->link;
+	 if (link->optGrp) tok = strchr(link->optGrp, area->group);
+	 
+	 // default set export on, import on, mandatory off
+	 area->downlinks[area->downlinkCount]->export = 1;
+         area->downlinks[area->downlinkCount]->import = 1;
+         area->downlinks[area->downlinkCount]->mandatory = 0;
+	 
+	 // check export for link
+	 if (link->export) if (*link->export == 0) {
+	     if (link->optGrp == NULL || (link->optGrp && tok))
+	         area->downlinks[area->downlinkCount]->export = 0;
+	 } 
+	 
+	 // check import from link
+	 if (link->import) if (*link->import == 0) {
+	     if (link->optGrp == NULL || (link->optGrp && tok))
+	         area->downlinks[area->downlinkCount]->import = 0;
+	 }
+	 
+	 // check mandatory to link
+	 if (link->mandatory) if (*link->mandatory == 1) {
+	     if (link->optGrp == NULL || (link->optGrp && tok))
+	         area->downlinks[area->downlinkCount]->mandatory = 1;
+	 }
          area->downlinkCount++;
+	 tok = strtok(NULL, " \t");
+	 while (tok) {
+	     if (tok[0]=='-') {
+	         rc += parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1);
+		 tok = strtok(NULL, " \t");
+	     } else break;
+	 }
+	 continue;
       }
       else {
          printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
          rc +=1;
       }
+      tok = strtok(NULL, " \t");
    }
 
    return rc;
@@ -574,10 +654,7 @@ int parseLink(char *token, s_fidoconfig *config)
    config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
    // set areafix default to on
    config->links[config->linkCount].AreaFix = 1;
-   // set pause default off
-   config->links[config->linkCount].Pause = 0;
-   // forwardRequests default off
-   config->links[config->linkCount].forwardRequests = 0;
+
    strcpy(config->links[config->linkCount].name, token);
 
    // if handle not given use name as handle
@@ -586,6 +663,58 @@ int parseLink(char *token, s_fidoconfig *config)
 
    config->linkCount++;
    return 0;
+}
+
+int parseExport(char *token, char **export) {
+    if (token == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+    }
+    *export = (char*)calloc(1, sizeof(char));
+    if (stricmp(token, "on")==0) **export = 1;
+    else **export = 0;
+    return 0;
+}
+
+int parseImport(char *token, char **import) {
+    if (token == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+    }
+    *import = (char*)calloc(1, sizeof(char));
+    if (stricmp(token, "on")==0) **import = 1;
+    else **import = 0;
+    return 0;
+}
+
+int parseMandatory(char *token, char **mandatory) {
+    if (token == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+    }
+    *mandatory = (char*)calloc(1, sizeof(char));
+    if (stricmp(token, "on")==0) **mandatory = 1;
+    else **mandatory = 0;
+    return 0;
+}
+
+int parseOptGrp(char *token, char **optgrp) {
+    if (token == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+    }
+    copyString(token, optgrp);
+    return 0;
+}
+
+int parseLevel(char *token, unsigned *level) {
+
+    if (token == NULL) {
+	printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+	return 1;
+    }
+    sscanf(token, "%u", level);
+    return 0;
 }
 
 int parsePWD(char *token, char **pwd) {
@@ -928,12 +1057,12 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
    }
 
    switch (i) {
-   case 0: if (config->links[config->linkCount-1].DenyGrp != NULL) {
+   case 0: if (config->links[config->linkCount-1].AccessGrp != NULL) {
            fprintf(stderr, "Line %d: Dublicate parameter after %s!\n", actualLineNr, actualKeyword);
            return 1;
    }
    break;
-   case 1: if (config->links[config->linkCount-1].TossGrp != NULL) {
+   case 1: if (config->links[config->linkCount-1].LinkGrp != NULL) {
            fprintf(stderr, "Line %d: Dublicate parameter after %s!\n", actualLineNr, actualKeyword);
            return 1;
    }
@@ -941,9 +1070,9 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
    }
 
    switch (i) {
-   case 0: copyString(token, &(config->links[config->linkCount-1].DenyGrp));
+   case 0: copyString(token, &(config->links[config->linkCount-1].AccessGrp));
            break;
-   case 1: copyString(token, &(config->links[config->linkCount-1].TossGrp));
+   case 1: copyString(token, &(config->links[config->linkCount-1].LinkGrp));
            break;
    }
    return 0;
@@ -1101,6 +1230,11 @@ int parseLine(char *line, s_fidoconfig *config)
      config->links[config->linkCount-1].Pause = 1;
      rc = 0;
    }
+   else if (stricmp(token, "export")==0) rc = parseExport(getRestOfLine(), &(config->links[config->linkCount-1].export));
+   else if (stricmp(token, "import")==0) rc = parseImport(getRestOfLine(), &(config->links[config->linkCount-1].import));
+   else if (stricmp(token, "mandatory")==0) rc = parseMandatory(getRestOfLine(), &(config->links[config->linkCount-1].mandatory));
+   else if (stricmp(token, "optgrp")==0) rc = parseOptGrp(getRestOfLine(), &(config->links[config->linkCount-1].optGrp));
+   else if (stricmp(token, "level")==0) rc = parseLevel(getRestOfLine(), &(config->links[config->linkCount-1].level));
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));
    else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].areaFixPwd));
@@ -1131,8 +1265,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "LogLevels")==0) rc = copyString(getRestOfLine(), &(config->loglevels));
    else if (stricmp(token, "include")==0) rc = parseInclude(getRestOfLine(), config);
 
-   else if (stricmp(token, "denygrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
-   else if (stricmp(token, "tossgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
+   else if (stricmp(token, "accessgrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
+   else if (stricmp(token, "linkgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
 
    else if (stricmp(token, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, to);
    else if (stricmp(token, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, from);
@@ -1144,6 +1278,7 @@ int parseLine(char *line, s_fidoconfig *config)
 	   config->AreaFixFromPkt = 1;
 	   rc = 0;
    }
+   else if (stricmp(token, "publicgroup")==0) rc = copyString(getRestOfLine(), &(config->PublicGroup));
 
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
 

@@ -89,12 +89,16 @@ struct link {
    char *floFile,*bsyFile;    // see up
    s_pack *packerDef;
    e_flavour echoMailFlavour;
-   char *TossGrp, *DenyGrp;   // groups for areafix & echo access
+   char *LinkGrp;	      // link's group for autocreate areas
+   char *AccessGrp;	      // groups for echo access
    char *autoCreateFile;      // file where autocreated areas are written to
    char *autoCreateDefaults;  // add default string for autocreated area here
    char *available;           // list of available areas from this link
    void *msg;                 // active msg to the link (used in areafix)
    int  Pause;                // 0 if no pause (default)
+   unsigned level;	      // 0-65535
+   // Default link's options
+   char *export, *import, *mandatory, *optGrp;
 };
 typedef struct link s_link;
 
@@ -113,6 +117,14 @@ typedef struct route s_route;
 enum dupeCheck {dcOff, dcMove, dcDel};
 typedef enum dupeCheck e_dupeCheck;
 
+struct arealink {
+   s_link *link;
+   char export;		// 1 - export yes, 0 - export no
+   char import;		// 1 - import yes, 0 - import no
+   char mandatory;	// 1 - mandatory yes, 0 - mandatory no
+};
+typedef struct arealink s_arealink;   
+
 struct area {
    char *areaName;
    char *fileName;
@@ -120,12 +132,15 @@ struct area {
    int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH or MSGTYPE_PASSTHROUGH
    s_addr *useAka;
    
-   s_link **downlinks;  // array of pointers to s_link
+   s_arealink **downlinks;  // array of pointers to s_link
    unsigned int downlinkCount;
 
    unsigned purge, max, dupeHistory;
    e_dupeCheck dupeCheck;
-   char tinySB, manual, hide, noPause;
+   char tinySB, manual, hide, noPause, mandatory;
+
+   unsigned levelread;	      // 0-65535
+   unsigned levelwrite;	      // 0-65535
 
    void *dupes;        // used internally by hpt. pointer to dupeDataBase
    void *newDupes;     // dito
@@ -233,6 +248,7 @@ struct fidoconfig {
    s_remap  *remaps;
 
    unsigned int AreaFixFromPkt;
+   char	    *PublicGroup;
 };
 
 

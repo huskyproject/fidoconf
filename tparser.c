@@ -62,7 +62,7 @@ void printArea(s_area area) {
    printf("\n");
    printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
    printf("Links: ");
-   for (i = 0; i<area.downlinkCount;i++) printAddr(area.downlinks[i]->hisAka);
+   for (i = 0; i<area.downlinkCount;i++) printAddr(area.downlinks[i]->link->hisAka);
 printf("\n");
    printf("Options: ");
    if (area.manual) printf("manual ");
@@ -97,9 +97,14 @@ void printLink(s_link link) {
    printf("areafixPwd: %s\n", link.areaFixPwd);
    printf("filefixPwd: %s\n", link.fileFixPwd);
    printf("bbsPwd:     %s\n", link.bbsPwd);
+   printf("Level:      %u\n", link.level);
+   if (link.export) printf("Export:     %d\n", link.export[0]);
+   if (link.import) printf("Import:     %d\n", link.import[0]);
+   if (link.mandatory) printf("Mandatory   %d\n", link.mandatory[0]);
+   if (link.optGrp) printf("OptGrp       %s\n", link.optGrp);
    if (link.autoCreateFile) printf("AutoCreateFile: %s\n", link.autoCreateFile);
-   if (link.TossGrp) printf("TossGrp %s\n",link.TossGrp);
-   if (link.DenyGrp) printf("DenyGrp %s\n",link.DenyGrp);
+   if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
+   if (link.AccessGrp) printf("AccessGrp %s\n",link.AccessGrp);
    if (link.autoAreaCreate) printf("AutoAreaCreate on    ");
    if (link.AreaFix) printf("AreaFix on\n"); else printf("AreaFix off\n");
    if (link.forwardRequests) printf("Forward Requests on\n");

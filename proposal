@@ -188,12 +188,26 @@ _Keyword definitions_
   [handle <name>]
   [TicGrp {<group>}]
   # group(s) for ticker
-  [TossGrp {<group>}]
-  # group(s) for areaFix
   [BBSGrp {<group>}]
   # group(s)
-  [DenyGrp {<groups>}]
-  # Echo security groups. like: DenyGrp ABC
+  [AccessGrp {<groups>}]
+  # this is a list of groups for echo acess
+  [OptGrp {<groups>}]
+  # this is personal groups for echo acess
+  # Export, Import & Mandatory uses OptGrp areas
+  # or AcessGrp if OptGrp not defined
+  [Export (on|off)]
+  # default on
+  # if Export is off, mail for groups defined in OptGrp not tossed to link
+  # and if OptGrp not defined, then no mail tossed to link at all.
+  [Import (on|off)]
+  # default on
+  # same as Export, but this is for mail from link
+  [Mandatory (on|off)]
+  # default off
+  # do not allow the link to sunscribe/unsubscribe areas
+  [Level {<integer>}]
+  # access level. used in echoareas to control read/write acess
   AutoAreaCreate (on|off)
   # "on" means link is allowed to create an area
   Packer (zip|tgz|rar|arj|arc....)
@@ -220,16 +234,31 @@ _Keyword definitions_
 
   # Echo Security:
   # by default everything all allowed.
-  # -l {<group>}
-  # read/write access for group
-  # -r {<group>}
-  # read access for group 
-  # -w {<group>}
-  # write access for group
-  #
-  # for example "-w ABC" option allows write to this AREA those links
-  # who has "DenyGrp A[BC]". if link not allowed to write in this area 
-  # message tosses to BadArea.
+
+  [-lr <integer>]
+  # required level for read access (see also "Level" in link options)
+ 
+  [-lw <integer>]
+  # required level for write access
+
+  [-mandatory]
+  # forbid to subscibe/unsubscribe from this echo
+
+  # AreaLinkOptions defined after each link (if needed)
+
+  [<aka> -r]
+  # this link is read only
+  # aka "Import off" in LinkOptions
+
+  [<aka> -w]
+  # this link is write only
+  # aka "Export off" in LinkOptions
+
+  [<aka> -m]
+  # this link is mandatory subscribed
+  # aka "Mandatory on" in LinkOptions
+
+  # you may also set: "<aka> -r -m" or "<aka> -w -r" and so on...
  
   # if you don't want to carbon from this echo
   # -ccoff
@@ -241,6 +270,10 @@ _Keyword definitions_
   # purge after n days, 
   # -m <integer>
   # leave max n messages after purge in area
+  # -h           
+  # hide area
+  # -nopause        
+  # %PAUSE has no effect to this area
 
   # options for further development, e.g.:
   # -mandatory {<group>}
@@ -255,10 +288,6 @@ _Keyword definitions_
   # keep only seen-by's of links listed in {link}
   # -manual      
   # disallow remote changes (only manual connect/disconnect)
-  # -h           
-  # hide area
-  # -nopause        
-  # %PAUSE has no effect to this area
   # -DupeCheck off|move|del
   # toss in dupes, move dupes to dupeArea
   #   or delete dupes.
