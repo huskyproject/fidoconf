@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Tue Dec  7 20:57:05 NOVT 1999
+max:
+* add token ignoreCapWord
+
+----- cvs ci ------
 Tue Nov 30 23:06:25 CET 1999
 mtt:
 * all areanames are now converted to lowercase during reading

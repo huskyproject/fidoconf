@@ -249,6 +249,8 @@ int main() {
       printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");
       printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
 
+      printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
+
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
 	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");

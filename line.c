@@ -1922,6 +1922,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "separatebundles")==0) config->separateBundles = 1;
    else if (stricmp(token, "carbonandquit")==0) config->carbonAndQuit = 1;
    else if (stricmp(token, "carbonkeepsb")==0) config->carbonKeepSb = 1;
+   else if (stricmp(token, "ignorecapword")==0) config->ignoreCapWord = 1;
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
    else if (stricmp(token, "defarcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
    else if (stricmp(token, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));

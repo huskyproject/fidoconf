@@ -327,6 +327,7 @@ struct fidoconfig {
    unsigned int logEchoToScreen;
    unsigned int separateBundles;
    unsigned int defarcmailSize;
+   unsigned int ignoreCapWord;
 
    char *afterUnpack, *beforePack;
 
