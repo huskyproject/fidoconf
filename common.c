@@ -317,13 +317,20 @@ char *shell_expand(char *str)
    Also note that the function does NOT test if a file of the generated name
    might already exist. If you wish to prevent this case, you have to test it
    on your own.
+
+   The config parameter is needed in order to calculate an offset based
+   on the primary AKA. This is done in an attempt to work around a Fastecho
+   bug (at our downlinks side ...) and trys to assure that different nodes 
+   running hpt also create somewhat distinct filenames.
 */
 
-char *makeUniqueDosFileName(const char *dir, const char *ext)
+char *makeUniqueDosFileName(const char *dir, const char *ext,
+			    s_fidoconfig *config)
 {
    char                *fileName;
    static unsigned      counter  = 0x100;
    static time_t        refTime  = 0x0;
+   unsigned long        pktnumber, offset;
    time_t               oldTime;
 
 #ifdef UNIX
@@ -354,6 +361,14 @@ char *makeUniqueDosFileName(const char *dir, const char *ext)
        time(&refTime);
    }
 
+   /* we make a node specific offset, so that two nodes that both run hpt
+      each generate more or less distinct pkt file names */
+
+   offset = (  ((((unsigned long)config->addr[0].node % 10000UL) * 6UL)
+	         +((unsigned long)config->addr[0].point % 6UL)) * 65536UL   +
+               ((unsigned long)config->addr[0].net % 256UL) * 256UL         +
+	       (((unsigned long)config->addr[0].point * 3UL) % 256UL)  );
+
    do
    {
        if (counter >= 0xFF)
@@ -372,9 +387,11 @@ char *makeUniqueDosFileName(const char *dir, const char *ext)
        {
 	   counter++;
        }
+
+       pktnumber = ((unsigned long)refTime * 256UL + counter) + offset;
           
-       sprintf(fileName + pathLen, "%06lx%02x.%s", (unsigned long)refTime,
-	       counter, ext);
+       sprintf(fileName + pathLen, "%08lx.%s", pktnumber, ext);
+
    } while (0); /* too slow because of readdir: fexist(fileName) == TRUE */;
 
    return fileName;

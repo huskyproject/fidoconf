@@ -33,6 +33,7 @@
 #define _COMMON_H
 
 #include "typesize.h"
+#include "fidoconfig.h"
 #include <stdio.h>
 
 /* common functions */
@@ -108,10 +109,11 @@ char   *shell_expand(char *str);
           see sh(1) for further explanations
 */
 
-char *makeUniqueDosFileName(const char *dir, const char *ext);
+char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoconfig *config);
 /*DOC
    Input:  dir: \0 terminated string designating the destination directory
            ext: \0 terminated string designating the file extension w/o dot
+           config: is used to generate a node specific offset         
    Output: a pointer to a malloc'ed \0 terminated string is returned.
    FZ:     Creates a unique DOS compatible file name inside the given directory.
            See the comments in common.c for further explanations
