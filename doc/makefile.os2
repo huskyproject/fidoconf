@@ -1,4 +1,15 @@
+all: FidoConf.INF
 
-FidoConf.INF: fidoconfig.texi proposal.texi
-	-texi2ipf.exe fidoconfig.texi > FidoConf.Ipf
-	ipfc.exe /CODEPAGE=850 /L=ENG /INF FidoConf.Ipf
+fconftmp.texi: fidoconfig.texi
+	sed -e "s/@dircategory.*//g" -e "s/@direntry.*//g" -e "s/@end direntry.*//g" -e "s/@email/@code/g" > fconftmp.texi
+
+FidoConf.INF: fconftmp.texi proposal.texi
+	texi2ipf.exe fconftmp.texi > FidoConf.Ipf
+	ipfc.exe /COUNTRY=001 /CODEPAGE=850 FidoConf.Ipf /Inf
+
+clean:
+	-cmd /c del fconftmp.texi
+	-cmd /c del FidoConf.INF
+
+distclean: clean
+	-cmd /c del fidconf.inf
