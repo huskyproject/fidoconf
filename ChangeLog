@@ -1,3 +1,20 @@
+2002-07-08 Monday 18:07  mche
+
+	* doc/: Makefile (1.15), makefile.lnx (1.2): The duplicated "RM"
+	options are removed patch by [Alexander Shiyan <shc@milas.spb.ru>]
+
+2002-07-08 Monday 00:28  stas
+
+	* doc/proposal.texi (1.135): Describe log level 'Q'
+
+2002-07-08 Monday 00:13  stas
+
+	* HISTORY (1.7): update HISTORY file
+
+2002-07-07 Sunday 23:52  stas
+
+	* HISTORY (1.6): update HISTORY file
+
 2002-07-06 Saturday 23:25  pavel.gulchouck
 
 	* common.c (1.87): save modification time in copy_file() and
