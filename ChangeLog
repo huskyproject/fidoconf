@@ -1,3 +1,7 @@
+2004-02-04 Wednesday 22:14  d_sergienko
+
+	* typesize.h (fidoconf-1_4-stable.2): support for NetBSD added
+
 2004-01-25 Sunday 17:41  d_sergienko
 
 	* doc/: proposal.texi, rus/proposal.texi
