@@ -41,7 +41,7 @@
 #  include <unistd.h>
 #endif
 
-#if ((defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__DJGPP__)) || defined(__MINGW32__) || defined(__CYGWIN__)
+#if (defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__MINGW32__) || defined(__CYGWIN__)
 #  include <io.h>
 int cmpfnames(char *file1, char *file2);
 #define COMMON_C_HAVE_CMPFNAMES
