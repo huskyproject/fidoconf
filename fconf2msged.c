@@ -36,7 +36,7 @@
 #endif
 #include "common.h"
 
-int writeArea(FILE *f, s_area *area, char netmail) {
+int writeArea(FILE *f, s_area *area, char netMail) {
    switch (area->msgbType) {
       
       case (MSGTYPE_SQUISH): fprintf(f, "Squish ");
@@ -49,11 +49,11 @@ int writeArea(FILE *f, s_area *area, char netmail) {
                              break;
    }
 
-   if (netmail == 1) fprintf(f, "mp");
+   if (netMail == 1) fprintf(f, "mp");
    else fprintf(f, "e");
    fprintf(f, "8u ");
 
-   fprintf(f, "\"%s\" %s %s ", area->areaName, area->fileName, (netmail!=1) ? area->areaName : "");
+   fprintf(f, "\"%s\" %s %s ", area->areaName, area->fileName, (netMail!=1) ? area->areaName : "");
 
    fprintf(f, "%u:%u/%u.%u", area->useAka->zone, area->useAka->net, area->useAka->node, area->useAka->point);
    
@@ -78,7 +78,10 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
       
       if (config->echotosslog != NULL) fprintf(f, "tossLog %s\n", config->echotosslog);
 
-      writeArea(f, &(config->netMailArea), 1);
+      for (i=0; i<config->netMailAreaCount; i++) {
+         writeArea(f, &(config->netMailAreas[i]), 1);
+      }
+
       writeArea(f, &(config->dupeArea), 0);
       writeArea(f, &(config->badArea), 0);
 

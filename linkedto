@@ -5,6 +5,10 @@ echo LinkedTo V 0.01 by Gabriel Plutzar, 2:31/1, gabriel@hit.priv.at
 echo This file is part of FidoConfig/Husky by Matthias Tichy
 echo ===============================================================
 
+if [ "$FIDOCONFIG" = "" ] ; then
+   $FIDOCONFIG = "/etc/fido/config"
+fi
+
 if [ "$1" = "" ] 
 then 
    echo Syntax: linkedto Adress
@@ -13,7 +17,7 @@ then
 else
 echo The Adress $1 is linked to the following Areas:
 echo
-cat /etc/fido/config|grep EchoArea|grep $1|cut -b10-40|cut -d\  -f1|sort
-cat /etc/fido/config|grep LocalArea|grep $1|cut -b11-40|cut -d\  -f1|sort
+cat "$FIDOCONFIG"|grep EchoArea|grep $1|cut -b10-40|cut -d\  -f1|sort
+cat "$FIDOCONFIG"|grep LocalArea|grep $1|cut -b11-40|cut -d\  -f1|sort
 fi
 

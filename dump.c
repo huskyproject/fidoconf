@@ -327,6 +327,8 @@ void dumpMsgArea(s_area *area, char *prefix, FILE *f)
 
     if (area->tinySB != 0) fprintf(f, "-tinySB ");
     if (area->manual != 0) fprintf(f, "-manual ");
+    if (area->keepUnread != 0) fprintf(f, "-keepUnread ");
+    if (area->killRead != 0) fprintf(f, "-killRead ");
     if (area->hide != 0) fprintf(f, "-hide ");
     if (area->noPause != 0) fprintf(f, "-noPause ");
     if (area->mandatory != 0) fprintf(f, "-mandatory ");
@@ -362,7 +364,11 @@ void dumpMsgAreas(s_fidoconfig *config, FILE *f)
 {
   int i;
   
-  dumpMsgArea(&config->netMailArea, "netMailArea        ", f);
+  for (i = 0; i < config->netMailAreaCount; i++)
+  {
+    dumpMsgArea(&config->netMailAreas[i], "netMailArea          ", f);
+  }
+  fprintf(f, "this");
   dumpMsgArea(&config->dupeArea, "dupeArea           ", f);
   dumpMsgArea(&config->badArea, "badArea            ", f);
 
@@ -406,7 +412,13 @@ void dumpCarbon(s_carbon *carbon, FILE *f)
     
     fprintf(f, "%s\n", carbon->str);
 
-    dumpString(f, "CarbonArea          %s\n", carbon->area->areaName);
+    if (carbon -> extspawn) {
+	    dumpString(f, "CarbonExtern        %s\n", carbon->areaName);
+    } else if (carbon->move) {
+	    dumpString(f, "CarbonMove          %s\n", carbon->area->areaName);
+    } else {
+	    dumpString(f, "CarbonCopy          %s\n", carbon->area->areaName);
+    };
 }
 
 void dumpCarbons(s_fidoconfig *config, FILE *f)

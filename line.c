@@ -765,6 +765,22 @@ int parseEchoArea(char *token, s_fidoconfig *config)
    return rc;
 }
 
+int parseNetMailArea(char *token, s_fidoconfig *config)
+{
+   int rc;
+
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   config->netMailAreas = realloc(config->netMailAreas, sizeof(s_area)*(config->netMailAreaCount+1));
+   rc = parseArea(*config, token, &(config->netMailAreas[config->netMailAreaCount]));
+   config->netMailAreaCount++;
+   return rc;
+}
+
+
 int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
 {
    char *tok;
@@ -1500,12 +1516,13 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
 
    config->carbons[config->carbonCount-1].areaName = NULL;
    config->carbons[config->carbonCount-1].export = 0;
+   config->carbons[config->carbonCount-1].move   = 0;
    config->carbons[config->carbonCount-1].reason = NULL;
 
    return 0;
 }
 
-int parseCarbonArea(char *token, s_fidoconfig *config) {
+int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
 
    if (token == NULL) {
 	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
@@ -1513,7 +1530,21 @@ int parseCarbonArea(char *token, s_fidoconfig *config) {
    }
    
    copyString(token, &(config->carbons[config->carbonCount-1].areaName));
+   config->carbons[config->carbonCount-1].extspawn = 0;
+   config->carbons[config->carbonCount-1].move = move;
+   return 0;
+}
 
+int parseCarbonExtern(char *token, s_fidoconfig *config) {
+
+   if (token == NULL) {
+	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+	   return 1;
+   }
+   
+   copyString(token, &(config->carbons[config->carbonCount-1].areaName));
+   config->carbons[config->carbonCount-1].extspawn = 1;
+   config->carbons[config->carbonCount-1].move = 0;
    return 0;
 }
 
@@ -1626,9 +1657,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic));
    else if (stricmp(token, "semadir")==0) rc = parsePath(getRestOfLine(), &(config->semaDir));
    else if (stricmp(token, "badfilesdir")==0) rc = parsePath(getRestOfLine(), &(config->badFilesDir));
-   else if ((stricmp(token, "netmailarea")==0) ||
+   else if ((stricmp(token, "netMailarea")==0) ||
 	    (stricmp(token, "netarea")==0))
-     rc = parseArea(*config,getRestOfLine(),&(config->netMailArea));
+     rc = parseNetMailArea(getRestOfLine(), config);
    else if (stricmp(token, "dupearea")==0) rc = parseArea(*config, getRestOfLine(), &(config->dupeArea));
    else if (stricmp(token, "badarea")==0) rc = parseArea(*config, getRestOfLine(), &(config->badArea));
    else if (stricmp(token, "echoarea")==0) rc = parseEchoArea(getRestOfLine(), config);
@@ -1834,8 +1865,12 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, kludge);
    else if (stricmp(token, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, subject);
    else if (stricmp(token, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, msgtext);
-   else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config);
+   else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
+   else if (stricmp(token, "carboncopy")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
+   else if (stricmp(token, "carbonmove")==0) rc = parseCarbonArea(getRestOfLine(), config, 1);
+   else if (stricmp(token, "carbonextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
    else if (stricmp(token, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
+   
    else if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
    else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
    else if (stricmp(token, "areafixfrompkt")==0) config->areafixFromPkt = 1;

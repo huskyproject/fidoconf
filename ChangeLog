@@ -2,6 +2,15 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Sun Oct 24 16:58:04 NOVST 1999
+max (patch from Kolya Nesterov):
+- killRead & keepUnread documented and support added to tparse & dumpfcfg
+- support for multiple netmail areas added
+- carbonCopy, carbonMove tokens added
+- carbonExtern token added
+- linkedto script enchanted to use $FIDOCONFIG variable
+
+----- cvs ci ------
 Thu Oct 16 13:40:00 MET DST 1999
 sms:
 - reorganized Makefiles, please read README.Makefiles in the husky-common

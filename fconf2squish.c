@@ -108,7 +108,9 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
    f = fopen(fileName, "a+");
    if (f!= NULL) {
 
-     writeArea(f, &(config->netMailArea), 1);
+     for (i=0; i<config->netMailAreaCount; i++) {
+         writeArea(f, &(config->netMailAreas[i]), 1);
+     }
      writeArea(f, &(config->dupeArea), 3);
      writeArea(f, &(config->badArea), 4);
 

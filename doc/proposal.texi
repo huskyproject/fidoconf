@@ -170,6 +170,9 @@ a comment and will be ignored.
 * carbonSubj::                  make carbonCopy using subject-field of msg
 * carbonText::                  make carbonCopy using text-field of msg
 * carbonArea::                  specify the area where the carbon copies go into
+* carbonCopy::                  specify the area where the carbon copies go into
+* carbonMove::                  specify the area where the carbon msg get moved into
+* carbonExtern::                specify the external program to pass msg text to
 * carbonAndQuit::               carbon message only one time
 * carbonKeepSb::                keep seen-by's and path
 * carbonReason::                string of carbon copy reason
@@ -1327,6 +1330,10 @@ you may also set: "<aka> -r -mn" or "<aka> -w -r" and so on...
 purge after n days, 
 @item -$m <integer>
 leave max n messages after purge in area
+@item -killRead
+kill read msgs in area on purging
+@item -keepUnread
+keep unread msgs in area on purging
 @item -a <aka>      
 aka to use
 @item -b <msgbase type>
@@ -1670,7 +1677,7 @@ arbonArea keyword.
 
 This statement can be repeated.
 
-@node carbonArea,  carbonAndQuit, carbonText, Keywords
+@node carbonArea, carbonCopy, carbonText, Keywords
 @subsection carbonArea
 @table @asis
 @item Syntax:
@@ -1686,7 +1693,59 @@ If this statement is ommitted. The carbon Copy goes to the badArea.
 This statement can be repeated for each different carbon@{To|From|Kludge@}
 statement.
 
-@node carbonAndQuit, carbonKeepSb, carbonArea, Keywords
+@node carbonCopy, carbonMove, carbonArea, Keywords
+@subsection carbonArea
+@table @asis
+@item Syntax:
+@code{carbonCopy <area-tag>}
+@item Example:
+@code{carbonCopy written.from.points}
+@end table
+
+This statement sets the area for the previous carbon@{To|From|Kludge@}
+statement.
+If this statement is ommitted. The carbon Copy goes to the badArea.
+
+This statement can be repeated for each different carbon@{To|From|Kludge@}
+statement.
+It's similiar to carbonArea, which I (KN) propose to remove
+
+@node carbonMove, carbonExtern, carbonCopy, Keywords
+@subsection carbonArea
+@table @asis
+@item Syntax:
+@code{carbonMove <area-tag>}
+@item Example:
+@code{carbonMove written.from.points}
+@end table
+
+This statement sets the area for the previous carbon@{To|From|Kludge@}
+statement.
+If this statement is ommitted. The carbon msg gets moved to the badArea.
+
+This statement can be repeated for each different carbon@{To|From|Kludge@}
+statement.
+Unlike carbonArea and carbonCopy msg gets moved, not copied into this area
+
+@node carbonExtern, carbonAndQuit, carbonMove, Keywords
+@subsection carbonArea
+@table @asis
+@item Syntax:
+@code{carbonExtern <program name>}
+@item Example:
+@code{carbonExtern douuedecode}
+@end table
+
+This statement specifies external program to run for the previous 
+carbon@{To|From|Kludge@} statement.
+If this statement is ommitted. The carbon msg gets moved to the badArea.
+
+This statement can be repeated for each different carbon@{To|From|Kludge@}
+statement.
+If program name is prepended with '|' sign, hpt tries to pass data thru the 
+pipe, not temporary file.
+
+@node carbonAndQuit, carbonKeepSb, carbonExtern, Keywords
 @subsection carbonAndQuit
 @table @asis
 @item Syntax:

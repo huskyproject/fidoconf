@@ -88,6 +88,8 @@ void printArea(s_area area) {
    if (area.mandatory) printf("mandatory ");
    if (area.ccoff) printf("ccoff ");
    if (area.keepsb) printf("keepsb ");
+   if (area.killRead) printf("killRead ");
+   if (area.keepUnread) printf("keepUnread ");
    printf("\n");
    printf("DupeCheck: ");
    if (area.dupeCheck==dcOff) printf("off");
@@ -280,8 +282,11 @@ int main() {
       for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
       
       printf("\n=== AREA CONFIG ===\n");
-      if (config->netMailArea.areaName != NULL) printArea(config->netMailArea);
-	else { printf("you must define NetmailArea!\n"); return 1; }
+      if (config->netMailAreaCount == 0) { printf("you must define at least one NetmailArea!\n"); return 1; }
+      printf("\n=== LocalAreas ===\n");
+      for (i = 0; i< config->netMailAreaCount; i++) {
+         printArea(config->netMailAreas[i]);
+      }
       if (config->dupeArea.areaName != NULL) printArea(config->dupeArea);
 	else { printf("you must define DupeArea!\n"); return 1; }
       if (config->badArea.areaName != NULL) printArea(config->badArea);
@@ -312,15 +317,21 @@ int main() {
 		  if (config->carbons[i].type == subject) printf("CarbonSubj:   ");
 		  if (config->carbons[i].type == msgtext) printf("CarbonText:   ");
 		  printf("%s\n",config->carbons[i].str);
-		  printf("CarbonArea:   \"%s\"",config->carbons[i].area->areaName);
-                  if (config->carbons[i].areaName) {
-                     if(stricmp(config->carbons[i].areaName, config->carbons[i].area->areaName)) printf(" !!! \"%s\" wanted !!!", config->carbons[i].areaName);
-                  } else {
-                     printf(" !!! No area specified !!!");
-                  }
+		  if (config->carbons[i].extspawn) {
+			  printf("CarbonExtern: \"%s\"", config->carbons[i].areaName);
+		  } else {
+			  printf("Carbon%s:   \"%s\"",config->carbons[i].move ? "Copy" : "Move", 
+					  config->carbons[i].area->areaName);
+                	  if (config->carbons[i].areaName) {
+	                     if(stricmp(config->carbons[i].areaName, config->carbons[i].area->areaName)) printf(" !!! \"%s\" wanted !!!", config->carbons[i].areaName);
+        	          } else {
+                	     printf(" !!! No area specified !!!");
+	                  }
+		  };
                   putchar('\n');
 		  if (config->carbons[i].reason) printf("CarbonReason: %s\n", config->carbons[i].reason);
 		  if (config->carbons[i].export) printf("Copied messages will be exported.\n");
+		  if (config->carbons[i].netMail) printf("Active on netMail\n");
 		  printf("-------\n");
       }
 

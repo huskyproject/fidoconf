@@ -216,7 +216,11 @@ struct carbon {
    s_area       *area;    // area to copy messages
    char         *areaName;// name of area to copy messages
    int          export;   // export copied msg?
+   int		netMail;  // do this in netmail, not echomail
+   int		move;	  // move (not copy) original msg
+   int		extspawn; // areaName is name of external program to exec
 };
+
 typedef struct carbon s_carbon;
 
 struct unpack {
@@ -270,7 +274,9 @@ struct fidoconfig {
    char     *semaDir, *badFilesDir;
    char     *loglevels;
 
-   s_area   netMailArea, dupeArea, badArea;
+   s_area   dupeArea, badArea;
+   unsigned int   netMailAreaCount;
+   s_area   *netMailAreas;
    unsigned int   echoAreaCount;
    s_area   *echoAreas;
    unsigned int   localAreaCount;
@@ -352,6 +358,7 @@ s_link *getLinkFromAddr(s_fidoconfig config, s_addr aka);
 s_addr *getAddr(s_fidoconfig config, char *addr);
 int    existAddr(s_fidoconfig config, s_addr aka);
 s_area *getArea(s_fidoconfig *config, char *areaName);
+s_area *getNetMailArea(s_fidoconfig *config, char *areaName);
 
 /**
  * This function return 0 if the link is not linked to the area,

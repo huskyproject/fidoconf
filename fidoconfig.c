@@ -208,30 +208,44 @@ char *getConfigFileName(void) {
 void carbonNames2Addr(s_fidoconfig *config)
 {
    int i, found, narea;
+   s_carbon *cb;
 
    for (i=0; i<config->carbonCount; i++) {
            /* Can't use getArea() - it doesn't say about export and doesn't look at localAreas */
            found=0;
-           if (config->carbons[i].areaName) {
+	   cb = &(config->carbons[i]);
+           if (cb->areaName && !(cb -> extspawn)) {
               for (narea=0; narea < config->echoAreaCount && !found; narea++) {
-                 if (stricmp(config->carbons[i].areaName, config->echoAreas[narea].areaName)==0) {
+                 if (stricmp(cb->areaName, config->echoAreas[narea].areaName)==0) {
                     found++;
-                    config->carbons[i].area = &(config->echoAreas[narea]);
-                    config->carbons[i].export = 1;
+                    cb->area = &(config->echoAreas[narea]);
+                    cb->export = 1;
+		    cb->netMail = 0;
                  }
               }
 
               for (narea=0; narea < config->localAreaCount && !found; narea++) {
-                 if (stricmp(config->carbons[i].areaName, config->localAreas[narea].areaName)==0) {
+                 if (stricmp(cb->areaName, config->localAreas[narea].areaName)==0) {
                     found++;
-                    config->carbons[i].area = &(config->localAreas[narea]);
-                    config->carbons[i].export = 0;
+                    cb->area = &(config->localAreas[narea]);
+                    cb->export = 0;
+		    cb->netMail = 0;
                  }
               }
+              for (narea=0; narea < config->netMailAreaCount && !found; narea++) {
+                 if (stricmp(cb->areaName, config->netMailAreas[narea].areaName)==0) {
+                    found++;
+                    cb->area = &(config->netMailAreas[narea]);
+                    cb->export = 0;
+		    cb->netMail = 1;
+                 }
+              }
+
            }
 
            if (!found) {
-              printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (config->carbons[i].areaName) ? config->carbons[i].areaName : "");
+	      if (!cb->extspawn)
+	              printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (config->carbons[i].areaName) ? config->carbons[i].areaName : "");
               config->carbons[i].area = &(config->badArea);
               config->carbons[i].export = 0;
            }
@@ -371,7 +385,8 @@ void disposeConfig(s_fidoconfig *config)
    free(config->fileAreaBaseDir);
    free(config->passFileAreaDir);
 
-   freeArea(config->netMailArea);
+   for (i = 0; i< config->netMailAreaCount; i++)
+   freeArea(config->netMailAreas[i]);
    freeArea(config->dupeArea);
    freeArea(config->badArea);
    for (i = 0; i< config->echoAreaCount; i++)
@@ -511,6 +526,17 @@ s_area *getArea(s_fidoconfig *config, char *areaName)
    }
 
    return &(config->badArea); // if all else fails, return badArea :-)
+}
+
+s_area *getNetMailArea(s_fidoconfig *config, char *areaName)
+{
+   UINT i;
+
+   for (i=0; i < config->netMailAreaCount; i++) {
+      if (stricmp(config->netMailAreas[i].areaName, areaName)==0)
+         return &(config->netMailAreas[i]);
+   }
+   return (NULL);
 }
 
 s_filearea *getFileArea(s_fidoconfig *config, char *areaName)
