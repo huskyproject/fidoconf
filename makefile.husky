@@ -4,10 +4,10 @@ include ../huskymak.cfg
 # program settings
 
 ifeq ($(DEBUG), 1)
-  COPT = $(WARNFLAGS) $(DEBCFLAGS) -I. -I../smapi -I$(INCDIR)
+  COPT = $(WARNFLAGS) $(DEBCFLAGS) -I. -I$(INCDIR)
   LFLAGS = $(DEBLFLAGS)
 else
-  COPT = $(WARNFLAGS) $(OPTCFLAGS) -I. -I../smapi -I$(INCDIR)
+  COPT = $(WARNFLAGS) $(OPTCFLAGS) -I. -I$(INCDIR)
   LFLAGS = $(OPTLFLAGS)
 endif
 
@@ -79,6 +79,7 @@ instdyn: commonlibs
 endif
 
 install: commonlibs commonprogs instdyn
+	-$(MKDIR) $(MKDIROPT) $(INCDIR)/$(FIDOCONFIG)
 	$(INSTALL) $(IBOPT) $(FCONF2MSGED)$(EXE)    $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2GOLDED)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
@@ -87,10 +88,10 @@ install: commonlibs commonprogs instdyn
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(IBOPT) dumpfcfg$(EXE)          $(BINDIR)
 	$(INSTALL) linkedto $(BINDIR)
-	$(INSTALL) $(IIOPT) fidoconfig.h   $(INCDIR)
-	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)
-	$(INSTALL) $(IIOPT) common.h       $(INCDIR)
-	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)
-	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)
-	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)
+	$(INSTALL) $(IIOPT) $(FIDOCONFIG).h   $(INCDIR)/$(FIDOCONFIG)
+	$(INSTALL) $(IIOPT) typesize.h     $(INCDIR)/$(FIDOCONFIG)
+	$(INSTALL) $(IIOPT) common.h       $(INCDIR)/$(FIDOCONFIG)
+	$(INSTALL) $(IIOPT) dirlayer.h     $(INCDIR)/$(FIDOCONFIG)
+	$(INSTALL) $(IIOPT) adcase.h       $(INCDIR)/$(FIDOCONFIG)
+	$(INSTALL) $(IIOPT) fidoconf.pas   $(INCDIR)/$(FIDOCONFIG)
 

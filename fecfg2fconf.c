@@ -12,10 +12,10 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <typedefs.h>
-#include <compiler.h>
-#include <stamp.h>
-#include <progprot.h>
+#include <smapi/typedefs.h>
+#include <smapi/compiler.h>
+#include <smapi/stamp.h>
+#include <smapi/progprot.h>
 
 //#define INC_FE_TYPES
 #define INC_FE_BAMPROCS

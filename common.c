@@ -50,7 +50,7 @@
 
 #include "fidoconfig.h"
 #include "common.h"
-#include "patmat.h"
+#include <smapi/patmat.h>
 
 void *memdup(void *p, size_t size)
 {

@@ -44,7 +44,7 @@
 #endif 
 
 #include <limits.h>
-#include "patmat.h"
+#include <smapi/patmat.h>
 
 #include "dirlayer.h"
 
@@ -56,9 +56,9 @@
 #include "common.h"
 #include "typesize.h"
 
-#include <compiler.h>
-#include <stamp.h>
-#include <progprot.h>
+#include <smapi/compiler.h>
+#include <smapi/stamp.h>
+#include <smapi/progprot.h>
 
 char *actualKeyword, *actualLine;
 int  actualLineNr;

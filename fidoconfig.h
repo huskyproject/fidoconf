@@ -32,7 +32,7 @@
 #ifndef FIDOCONFIG_H
 #define FIDOCONFIG_H
 #include <stdio.h>
-#include <msgapi.h>
+#include <smapi/msgapi.h>
 
 // #include "common.h"
 

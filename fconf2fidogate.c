@@ -30,7 +30,7 @@
 #include <string.h>
 
 #include "common.h"
-#include "patmat.h"
+#include <smapi/patmat.h>
 
 #if !defined(MSDOS) || defined(__DJGPP__)
 #include "fidoconfig.h"
