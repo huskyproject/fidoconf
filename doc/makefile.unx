@@ -11,7 +11,10 @@ ps fidoconfig.ps: fidoconfig.dvi
 	dvips fidoconfig.dvi -o fidoconfig.ps
 
 html fidoconfig_toc.html: fidoconfig.texi proposal.texi config
-	texi2html -number -menu fidoconfig.texi
+	export LC_ALL=C; \
+	makeinfo --html --no-split fidoconfig.texi
+# Old rules: build with texi2html
+#	texi2html -number -menu fidoconfig.texi
 
 clean:
 	-rm *~
@@ -30,7 +33,6 @@ clean:
 	-rm fidoconfig.pg
 	-rm fidoconfig.cps
 	-rm fidoconfig.log
-	-rm fidoconfig.fns
 
 distclean: clean
 	-rm fidoconfig.dvi

@@ -57,7 +57,6 @@ clean:
 	-$(RM) $(RMOPT) fidoconfig.pg
 	-$(RM) $(RMOPT) fidoconfig.cps
 	-$(RM) $(RMOPT) fidoconfig.log
-	-$(RM) $(RMOPT) fidoconfig.fns
 	-$(RM) $(RMOPT) *~
 
 distclean: clean
