@@ -457,8 +457,18 @@ static int cmpfnames(char *file1, char *file2)
 	return 1;
     return 0;
 }
-#elif (defined(NT) || defined(WINNT) || defined(__NT__)) && defined(_MSC_VER)
+#elif (defined(NT) || defined(WINNT) || defined(__NT__)) && (defined(_MSC_VER) || defined(__MINGW32__))
+#ifdef __MINGW32__
+typedef unsigned long DWORD;
+typedef char *LPWSTR;
+typedef const char *LPCWSTR;
+DWORD __stdcall GetFullPathNameW(LPCWSTR,DWORD,LPWSTR,LPWSTR*);
+DWORD __stdcall GetLongPathNameW(LPCWSTR,LPWSTR,DWORD);
+#define GetFullPathName GetFullPathNameW
+#define GetLongPathName GetLongPathNameW
+#else
 #include <windows.h>
+#endif
 static int cmpfnames(char *file1, char *file2)
 {
     char buf[256], path1[256], path2[256], *p;
