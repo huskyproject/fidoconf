@@ -1,3 +1,7 @@
+2002-11-11 Monday 07:41  mche
+
+	* afixcmn.c (1.21): fix coredump on scaning
+
 2002-11-10 Sunday 18:57  d_sergienko
 
 	* HISTORY (1.15), fidoconf.h (1.150), line.c (1.339), tokens.h
