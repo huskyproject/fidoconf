@@ -6,11 +6,6 @@
   manual means: subscription/unsubscription not allowed
   mandatory means: subscription allowed, unsubscription not allowed
 
-max:
-- add to doc:
-    what is [module]
-    set, if, if not, else, elseif, ifdef, ifndef, endif
-
 sms:
 - fix dumping of: Unpack, netMailArea, dupeArea, badArea, echoArea, origin,
 tearline, remaps

@@ -2,6 +2,8 @@
 Sun Mar  4 12:05:20 NOVT 2001
 max:
 * fix "0" groups (to NULL)
+* add to doc: set, if, if not, else, elseif, ifdef, ifndef, endif,
+  what is [module], etc...
 
 ----- cvs ci ------
 Sun Feb 25 19:41:44 NOVT 2001

@@ -87,6 +87,68 @@ only path. trailing slash may be included or not.
 
 Note! @code{[<parameter>]} means that it can be omitted.
 
+FIDOCONFIG library can set up internal variables:
+@example
+set basedir=/home/user/fido/
+@end example
+
+@code{[OS]} variable automatically setting up for following opetaring systems:
+@table @asis
+@item UNIX
+@item OS/2
+@item WIN
+@item MSDOS
+@end table
+
+You can set something like:
+@example
+if [OS]==UNIX
+tearline `uptime`
+endif
+@end example
+
+Some programs can be compiled with @strong{module} variavle. It can be
+used for config parsing speed up:
+
+@example
+if [module]==htick
+include /etc/ftn/fileareas
+endif
+@end example
+
+And if @strong{HPT} is running, fileareas don't parsed, because [module]==hpt.
+
+There are following modules available:
+@table @asis
+@item hpt (Highy Portable Tosser)
+@item htick (Husky Tick)
+@item hptutil
+@end table
+
+Also @strong{external} variables van be parsed:
+@example
+autoexec.bat:
+SET VAR=myvar
+
+fidoconfig:
+if [VAR]==myvar
+...
+else
+...
+endif
+@end example
+
+You can use external programs output via @code{`cmd`}. It is available
+only for UNIX & OS/2+EMX:
+@example
+Name Power Station under `uname -mrs`
+@end example
+
+List of the additional commands:
+@table @asis
+set, if, if not, else, elseif, ifdef, ifndef, endif.
+@end table
+
 @node Keywords, HPT, Syntax, config file
 @section Common keywords for HUSKY-programs
 This keywords may be used by several programs. More specific keywords
