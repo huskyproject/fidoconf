@@ -268,14 +268,17 @@ void fixRoute(s_fidoconfig *config)
 	for (i = 0; i < config->routeCount; i++) {
 		if (config->route[i].viaStr != NULL)
 			config->route[i].target = getLink(*config, config->route[i].viaStr);
+		nfree(config->route[i].viaStr);
 	}
 	for (i = 0; i < config->routeFileCount; i++) {
 		if (config->routeFile[i].viaStr != NULL)
 			config->routeFile[i].target = getLink(*config, config->routeFile[i].viaStr);
+		nfree(config->routeFile[i].viaStr);
 	}
 	for (i = 0; i < config->routeMailCount; i++) {
 		if (config->routeMail[i].viaStr != NULL)
 			config->routeMail[i].target = getLink(*config, config->routeMail[i].viaStr);
+		nfree(config->routeMail[i].viaStr);
 	}
 }
 
@@ -311,7 +314,7 @@ s_fidoconfig *readConfig()
       }
       fclose(f);
       carbonNames2Addr(config);
-	  fixRoute(config);
+      fixRoute(config);
       return config;
    } else {
       printf("Could not find config-file!\n");
@@ -410,20 +413,11 @@ void disposeConfig(s_fidoconfig *config)
    for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
    nfree(config->localAreas);
 
-   for (i = 0; i < config->routeCount; i++) {
-	   nfree(config->route[i].pattern);
-	   nfree(config->route[i].viaStr);
-   }
+   for (i = 0; i < config->routeCount; i++) nfree(config->route[i].pattern);
    nfree(config->route);
-   for (i = 0; i < config->routeFileCount; i++) {
-	   nfree(config->routeFile[i].pattern);
-	   nfree(config->routeFile[i].viaStr);
-   }
+   for (i = 0; i < config->routeFileCount; i++) nfree(config->routeFile[i].pattern);
    nfree(config->routeFile);
-   for (i = 0; i < config->routeMailCount; i++) {
-	   nfree(config->routeMail[i].pattern);
-	   nfree(config->routeMail[i].viaStr);
-   }
+   for (i = 0; i < config->routeMailCount; i++) nfree(config->routeMail[i].pattern);
    nfree(config->routeMail);
 
    for (i = 0; i < config->remapCount; i++) 
