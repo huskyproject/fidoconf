@@ -156,17 +156,22 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
    int i;
 
    FILE *f = NULL;
+   char *ret;
 
-#ifdef __linux__
+#ifdef CFGDIR
+   char *osSpecificPrefix = CFGDIR;
+
+   i = strlen(osSpecificPrefix);
+   if (i && osSpecificPrefix[i - 1] != '/' && osSpecificPrefix[i - 1] != '\\')
+      strcat(osSpecificPrefix, "/");
+
+#elif   defined(__linux__)
    char *osSpecificPrefix = "/etc/fido/";
-#elif __FreeBSD__
+#elif defined(UNIX)
    char *osSpecificPrefix = "/usr/local/etc/fido/";
-#elif defined (OS2) || defined(MSDOS) || defined(_NT_)
-   char *osSpecificPrefix = "c:\\fido\\";
 #else
    char *osSpecificPrefix = "";
 #endif
-   char *ret;
 
    //try env-var fidoconfig
    if (envFidoConfig != NULL) f = fopen(envFidoConfig, "r");
