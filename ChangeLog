@@ -1,3 +1,29 @@
+2002-12-05 Thursday 14:00  stas_degteff
+
+	* tparser.c (1.214): Add filefixhelp output
+
+2002-12-05 Thursday 08:32  stas_degteff
+
+	* makefile.wco (1.24), makefile.wcw (1.32): Update Watcom C
+	makefiles
+
+2002-12-05 Thursday 08:32  stas_degteff
+
+	* makefile.wcx (1.1): Makwfile for build DOS4GW executable by
+	Watcom C
+
+2002-12-05 Thursday 08:31  stas_degteff
+
+	* recode.c (1.3): Fix compiler warnings: Watcom C DOS4GW target
+
+2002-12-05 Thursday 08:29  stas_degteff
+
+	* cfg.c (1.57): Add cmpfnames() variant for Watcom/DOS4GW
+
+2002-12-05 Thursday 08:02  mche
+
+	* makefile.mvc (1.23), makefile.mvcdll (1.24): fix msvc compilation
+
 2002-12-03 Tuesday 14:03  stas_degteff
 
 	* version.h (1.4): Add extern "C" for C++ compilers
