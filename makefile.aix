@@ -22,6 +22,7 @@ FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded
 FCONF2MSGED  = fconf2msged
 FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH   = fconf2squish
 LIBFIDOCONFIG = libfidoconfig
 LINKSMAPI = -lsmapiunix
 LINKFIDOCONFIG = -l$(FIDOCONFIG)
@@ -45,5 +46,7 @@ install:
 	cp -f fconf2msged   $(INSTDIR)/bin
 	cp -f fconf2golded  $(INSTDIR)/bin
 	cp -f fconf2aquaed $(INSTDIR)/bin
+        cp -f fconf2fidoconfig $(INSTDIR)/bin
+        cp -f fconf2squish $(INSTDIR)/bin
 	cp -f tparser       $(INSTDIR)/bin
 

@@ -831,17 +831,23 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
             actualRoute->target = getLink(*config, option);
          else {
             if (actualRoute->pattern == NULL) {
-               actualRoute->pattern = (char *) malloc(strlen(option)+1);
-               strcpy(actualRoute->pattern, option);
-               (*count)++;
+	      actualRoute->pattern = (char *) malloc(strlen(option)+2+1); //2 for additional .0 if needed
+	      strcpy(actualRoute->pattern, option);
+	      if ((strchr(option, '.')==NULL) && (strchr(option, '?')==NULL)) {
+		strcat(actualRoute->pattern, ".0");
+	      }
+	      (*count)++;
             } else {
                // add new Route for additional patterns
                *route = realloc(*route, sizeof(s_route)*(*count+1));
                actualRoute = &(*route)[*count];
                memcpy(actualRoute, &(*route)[(*count)-1], sizeof(s_route));
 
-               actualRoute->pattern = (char *) malloc(strlen(option)+1);
+               actualRoute->pattern = (char *) malloc(strlen(option)+2+1);//2 for additional .0 if needed
                strcpy(actualRoute->pattern, option);
+	       if ((strchr(option, '.')==NULL) && (strchr(option, '?')==NULL)) {
+		 strcat(actualRoute->pattern, ".0");
+	       }
                (*count)++;
             }
 

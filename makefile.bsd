@@ -29,6 +29,7 @@ FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded
 FCONF2MSGED  = fconf2msged
 FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
 LIBFIDOCONFIG = libfidoconfig
 LINKSMAPI = -lsmapibsd
 LINKFIDOCONFIG = -l$(FIDOCONFIG)
@@ -57,6 +58,9 @@ libfidoconfig.so.$(VERH): $(LOBJS)
 install: 
 	install $(IBOPT) fconf2golded $(INSTBIN)
 	install $(IBOPT) fconf2msged $(INSTBIN)
+	install $(IBOPT) fconf2aquaed $(INSTBIN)
+	install $(IBOPT) fconf2fidoconfig $(INSTBIN)
+	install $(IBOPT) fconf2squish $(INSTBIN)
 	install $(IBOPT) tparser $(INSTBIN)
 	install $(ILOPT) $(LIBFIDOCONFIG)$(A) $(INSTLIB)
 	install $(ILOPT) libfidoconfig.so.$(VERH) $(INSTLIB)

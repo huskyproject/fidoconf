@@ -2,6 +2,13 @@ fidoconfig 0.8
 --------------
 
 ----- cvs ci ------
+Tue May 18 17:54:01 CEST 1999 
+mtt:
+* added fconf2squish which can be used for squish config based programs
+  like sqLink
+* fidoconfig now adds .0 to the pattern of a route when there is no . and no * in it.
+	
+----- cvs ci ------
 Sun May 16 23:26:39 CEST 1999
 mtt:
 + fidoInst for new config adapted
