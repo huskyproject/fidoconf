@@ -742,11 +742,7 @@ int copy_file(const char *from, const char *to)
     FILE *fin, *fout;
     struct stat st;
     struct utimbuf ut;
-
-    if(fexist(to)){
-      errno=EEXIST;
-      return -1;
-    }
+    int fh=-1;
 
     /* Rename did not succeed, probably because the move is accross
        file system boundaries. We have to copy the file. */
@@ -757,34 +753,44 @@ int copy_file(const char *from, const char *to)
     fin = fopen(from, "rb");
     if (fin == NULL) { nfree(buffer); return -1; }
 
-    fout = fopen(to, "wb");
-    if (fout == NULL) { nfree(buffer); fclose(fin); return -1; }
+    fh = open( to, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
+    if( fh<0 ){
+      fh=errno;
+      fclose(fin);
+      errno=fh;
+      return -1;
+    }
+    fout = fdopen(fh, "wb");
+    if (fout == NULL) { fh=errno; nfree(buffer); fclose(fin); errno=fh; return -1; }
 
     while ((read = fread(buffer, 1, MOVE_FILE_BUFFER_SIZE, fin)) > 0)
     {
 	if (fwrite(buffer, 1, read, fout) != read)
-	{
+	{   fh=errno;
 	    fclose(fout); fclose(fin); remove(to); nfree(buffer);
+            errno=fh;
 	    return -1;
 	}
     }
 
     nfree(buffer);
     if (ferror(fout) || ferror(fin))
-    {
+    {   fh=errno;
 	fclose(fout);
 	fclose(fin);
         remove(to);
+        errno=fh;
 	return -1;
     }
     memset(&st, 0, sizeof(st));
     fstat(fileno(fin), &st);
     fclose(fin);
     if (fclose(fout))
-    {
+    {   fh=errno;
 	fclose(fout);
 	fclose(fin);
         remove(to);
+        errno=fh;
 	return -1;
     }
     ut.actime = st.st_atime;
