@@ -36,6 +36,13 @@ extern "C" {
 #include "fidoconf.h"
 #include "typesize.h"
 
+
+/* CRC32 initial value */
+#define CRC32INIT ((UINT32)0xFFFFFFFFUL)
+/* CRC16 initial value */
+#define CRC16INIT ((UINT16)0)
+
+
 /* Define read() buffer */
 #if OSTYPE==UNIX
 #define CRC_BUFFER_SIZE 80000
@@ -49,7 +56,7 @@ extern "C" {
    size: array size
    initcrc: initial value (start from 0xFFFFFFFFUL)
  */
-FCONF_EXT   UINT32 memcrc32(char *str, int size, UINT32 initcrc);
+FCONF_EXT   UINT32 memcrc32(const char *str, int size, UINT32 initcrc);
 
 /* Alias for memcrc32() */
 #define crc32(x,y,z) memcrc32(x,y,z)
@@ -58,7 +65,7 @@ FCONF_EXT   UINT32 memcrc32(char *str, int size, UINT32 initcrc);
    str: string
    initcrc: initial value (start from 0xFFFFFFFFUL)
  */
-FCONF_EXT   UINT32 strcrc32(char *str, UINT32 initcrc);
+FCONF_EXT   UINT32 strcrc32(const char *str, UINT32 initcrc);
 
 /* Calculate CRC32 for file
    filename: file name for calculate CRC32
@@ -70,7 +77,7 @@ FCONF_EXT   UINT32 filecrc32(const char *filename);
    size: array size
    initcrc: initial value (start from 0x0000)
  */
-FCONF_EXT   UINT16 memcrc16(char *str, int size, UINT16 initcrc);
+FCONF_EXT   UINT16 memcrc16(const char *str, int size, UINT16 initcrc);
 
 /* Alias for memcrc16() */
 #define crc16(x,y,z) memcrc32(x,y,z)
@@ -79,7 +86,7 @@ FCONF_EXT   UINT16 memcrc16(char *str, int size, UINT16 initcrc);
    str: string
    initcrc: initial value (start from 0x0000)
  */
-FCONF_EXT   UINT16 strcrc16(char *str, UINT16 initcrc);
+FCONF_EXT   UINT16 strcrc16(const char *str, UINT16 initcrc);
 
 /* Calculate CRC16 for file
    filename: file name for calculate CRC16

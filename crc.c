@@ -143,7 +143,7 @@ UINT16 crc16tab[] =
 };
 
 
-UINT32 memcrc32(char *str, int size, UINT32 initcrc)
+UINT32 memcrc32(const char *str, int size, UINT32 initcrc)
 {
   UINT32 crc;
 
@@ -154,7 +154,7 @@ UINT32 memcrc32(char *str, int size, UINT32 initcrc)
 }
 
 
-UINT32 strcrc32(char *str, UINT32 initcrc)
+UINT32 strcrc32(const char *str, UINT32 initcrc)
 {
   UINT32 crc;
 
@@ -200,7 +200,7 @@ UINT32 filecrc32(const char *filename)
    size: array size
    initcrc: initial value (start from 0x0000)
  */
-UINT16 memcrc16(char *str, int size, UINT16 initcrc)
+UINT16 memcrc16(const char *str, int size, UINT16 initcrc)
 { UINT16 crc;
 
   for (crc = initcrc; size; str++, size--)
@@ -213,7 +213,7 @@ UINT16 memcrc16(char *str, int size, UINT16 initcrc)
    str: string
    initcrc: initial value (start from 0x0000)
  */
-UINT16 strcrc16(char *str, UINT16 initcrc)
+UINT16 strcrc16(const char *str, UINT16 initcrc)
 {
   UINT32 crc;
 

@@ -915,7 +915,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     return 0;
 }
 
-char *aka2str(s_addr aka) {
+char *aka2str(const s_addr aka) {
   static char straka[SIZE_aka2str];
 
     if (aka.point) sprintf(straka,"%u:%u/%u.%u",aka.zone,aka.net,aka.node,aka.point);

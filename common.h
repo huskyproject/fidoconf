@@ -250,7 +250,7 @@ FCONF_EXT ULONG fc_GetDiskFreeSpace(const char *path);
 
 // this function returns the string representation of an address.
 // it returns a static array!!!
-FCONF_EXT char *aka2str(s_addr aka);
+FCONF_EXT char *aka2str(const s_addr aka);
 
 /* This function returns the string representation of an 5D address.
  * Return malloc()'ed string!
