@@ -101,7 +101,7 @@ char *createKludges(ps_fidoconfig config, const char *area, const hs_addr *ourAk
 
 s_message *makeMessage (hs_addr *origAddr, hs_addr *destAddr,
 			char *fromName,	char *toName, char *subject,
-            int netmail, int  killreport)
+            int netmail, long attrs)
 {
     /*  netmail == 0 - echomail */
     /*  netmail == 1 - netmail */
@@ -128,12 +128,11 @@ s_message *makeMessage (hs_addr *origAddr, hs_addr *destAddr,
     xstrcat(&(msg->toUserName), toName);
     xstrcat(&(msg->subjectLine), subject);
 
-    msg->attributes |= MSGLOCAL;
-    if (netmail) {
-	msg->attributes |= MSGPRIVATE;
+    msg->attributes = attrs;
+    if (!netmail) {
+	msg->attributes &= ~(MSGPRIVATE|MSGKILL);
 	msg->netMail = 1;
     }
-    if (killreport) msg->attributes |= MSGKILL;
 
     fts_time((char*)msg->datetime, localtime(&time_cur));
 

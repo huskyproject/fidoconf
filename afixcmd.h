@@ -44,7 +44,7 @@ FCONF_EXT   char* createKludges    (ps_fidoconfig config, const char *area,
 FCONF_EXT   s_message* makeMessage (hs_addr *origAddr, hs_addr *destAddr,
 			                        char *fromName, char *toName,
                                     char *subject,
-                                    int netmail, int  killreport);
+                                    int netmail, long attrs);
 
 /* Free memory allocated for s_message structure */
 FCONF_EXT   void       freeMsgBuffers(s_message *msg);
