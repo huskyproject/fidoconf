@@ -3583,6 +3583,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = 0;
             if((clink = getDescrLink(config)) != NULL)
             {
+                nfree(clink->hisPackAka.domain);
                 string2addr(getRestOfLine(), &clink->hisPackAka);
             }
             else
