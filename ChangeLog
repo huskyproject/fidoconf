@@ -1,3 +1,8 @@
+2002-12-20 Friday 14:54  stas_degteff
+
+	* fidoconf.c (fidoconf-0_14-stable.3): Bugfix: trap if defined
+	carbonto into nonexistent area and badarea not specified
+
 2002-11-21 Thursday 11:09  stas_degteff
 
 	* doc/config (fidoconf-0_14-stable.1): Add unpacker exapmles: 
