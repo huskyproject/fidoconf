@@ -40,7 +40,7 @@ install: commonlibs commonprogs
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
 	$(INSTALL) $(ISOPT) linkedto                $(BINDIR)
 	$(INSTALL) $(ISOPT) $(FCONF2AREASBBS)       $(BINDIR)
-	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)        $(LIBDIR)
+	$(INSTALL) $(ILOPT) $(LIBFIDOCONFIG)$(LIB)  $(LIBDIR)
 	(cd doc && $(MAKE) install)
 	(cd man && $(MAKE) install)
 	@echo "To install C header files invoke 'gmake hinstall'"
