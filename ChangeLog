@@ -1,3 +1,40 @@
+2002-12-03 Tuesday 14:03  stas_degteff
+
+	* version.h (1.4): Add extern "C" for C++ compilers
+
+2002-12-03 Tuesday 13:58  stas_degteff
+
+	* HISTORY (1.18): Describe tokens changes: seqDir and seqOutrun and
+	MSGID generation algorithm
+
+2002-12-03 Tuesday 13:32  stas_degteff
+
+	* HISTORY (1.17): Describe tokens changes: areafixKillReports and
+	filefixKillReports, AreafixReportsAttr and FilefixReportsAttr
+
+2002-12-03 Tuesday 08:37  stas_degteff
+
+	* typesize.h (1.29): Set all CHAR typedefs as signed char (instead
+	char)
+
+2002-12-03 Tuesday 08:15  stas_degteff
+
+	* common.c (1.146): Fix parentness
+
+2002-12-03 Tuesday 08:11  stas_degteff
+
+	* typesize.h (1.28): Set all INT & LONG as signed: prevent compiler
+	defaults to unsigned
+
+2002-12-03 Tuesday 07:14  stas_degteff
+
+	* typesize.h (1.27): Fix Watcom C compilation for OS/2
+
+2002-12-03 Tuesday 07:08  stas_degteff
+
+	* common.c (1.145): Fix previous: set condition for MS Visual C
+	only
+
 2002-12-02 Monday 15:17  mche
 
 	* common.c (1.144): fix msvc compilation
