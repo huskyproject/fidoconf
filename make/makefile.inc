@@ -22,8 +22,9 @@ endif
 # Version
 VERMAJOR= 1
 VERMINOR= 9
+VERPATCH= 0
 VERH	= $(VERMAJOR).$(VERMINOR)
-VER	= $(VERH).0
+VER	= $(VERH).$(VERPATCH)
 
 # Object files: library
 LOBJS1	= afixcmd$(_OBJ) afixcmn$(_OBJ) arealist$(_OBJ) areatree$(_OBJ) stat$(_OBJ)
