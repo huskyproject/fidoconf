@@ -405,6 +405,7 @@ your fidoconfig file. Consult the individual program's documentation.
 @end table
 
 In example we output to log messages with levels 3,4,5,7,8,9.
+
 The log levels are following:
 
 @table @asis
