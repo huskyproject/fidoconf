@@ -305,7 +305,13 @@ void printLink(s_link link) {
    printf("Export:     %s\n",(link.export) ? "on" : "off");
    printf("Import:     %s\n",(link.import) ? "on" : "off");
    printf("Mandatory:  %s\n",(link.mandatory) ? "on" : "off");
-   if (link.Pause) printf("Link in Pause, no export\n");
+
+   if ((link.Pause & EPAUSE) == EPAUSE)
+	 printf("Link in Pause for Echos, no export\n");
+
+   if ((link.Pause & FPAUSE) == FPAUSE)
+	 printf("Link in Pause for fileEchos, no export\n");
+
    if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
    if (link.numOptGrp > 0) {
 	   printf("OptGrp       ");
