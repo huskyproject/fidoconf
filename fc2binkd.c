@@ -68,9 +68,9 @@ char *program_name=NULL;
 
 int force_flag = 0; /* Force rewriting flag */
 
-void printversion(FILE fd){
+void printversion(FILE *fd){
      char *temp;
-     printf(fd, "%s", temp=GenVersionStr( "fconf2binkd", FC_VER_MAJOR,
+     fprintf(fd, "%s", temp=GenVersionStr( "fconf2binkd", FC_VER_MAJOR,
 			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
      nfree(temp);
 }
