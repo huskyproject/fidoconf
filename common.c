@@ -177,7 +177,7 @@ void string2addr(char *string, s_addr *addr) {
 	addr->node = (UINT16) t;
 
 	// point
-	if (*endptr) str = endptr+1; 
+	if (*endptr && !isspace( endptr[0] )) str = endptr+1; 
 	else return; // end of string
 	t = strtoul(str,&endptr,10);
 	addr->point = (UINT16) t;
