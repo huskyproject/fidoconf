@@ -258,6 +258,8 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	fprintf(f, "fileFix             off\n");
       if (link.forwardRequests != 0)
 	fprintf(f, "forwardRequests     on\n");
+	  if (link.forwardAreaPriority)
+	printf("forwardAreaPriority %u\n", link.forwardAreaPriority);
       if (link.fReqFromUpLink != 0)
 	fprintf(f, "fRequestFromUpLink  on\n");
 

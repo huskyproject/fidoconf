@@ -310,6 +310,8 @@ void printLink(s_link link) {
    if (link.afixEchoLimit) printf("AreaFixEchoLimit %u\n", link.afixEchoLimit);
    printf("FileFix %s\n", (link.FileFix) ? "on" : "off");
    printf("Forward Requests to this link is %s\n",(link.forwardRequests)?"on":"off");
+   if (link.forwardAreaPriority)
+	   printf("ForwardAreaPriority: %u\n", link.forwardAreaPriority);
    printf("Forward Request from this link is %s\n",(link.fReqFromUpLink)?"on":"off");
    if (link.RemoteRobotName) printf("RemoteRobotName %s\n", link.RemoteRobotName);
    else printf("RemoteRobotName areafix\n");

@@ -112,6 +112,7 @@ a comment and will be ignored.
 * password::                    links default password 
 * pktpwd::                      pktpassword for this link
 * ticpwd::                      ticker password for this link
+* areafix::                     areafix access for this link
 * areafixpwd::                  areafix password for this link
 * filefixpwd::                  filefix password for this link
 * bbspwd::                      bbs password for this link (online user)
@@ -142,6 +143,7 @@ a comment and will be ignored.
 * createAreasCase::             case of autocreated areas names
 * areasFileNameCase::           case of filenames of autocreated areas
 * forwardRequests::             allow forward requests to this link
+* forwardAreaPriority::         forward requests priority
 * frequestfromuplink::          allow forward requests from this link
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
 * denyFwdFile::                 file with area list for denyed requests
@@ -849,7 +851,7 @@ An empty statement is allowed.
 
 This statement can only be repeated for different links.
 
-@node ticpwd, areafixpwd, pktpwd, Keywords
+@node ticpwd, areafix, pktpwd, Keywords
 @subsection ticpwd
 @table @asis
 @item Syntax:
@@ -865,7 +867,20 @@ An empty statement is allowed.
 
 This statement can only be repeated for different links.
 
-@node areafixpwd, filefixpwd, ticpwd, Keywords
+@node areafix, areafixpwd, ticpwd, Keywords
+@subsection areafix
+@table @asis
+@item Syntax:
+@code{areafix <bool>}
+@item Example:
+@code{areafix off}
+@end table
+
+By default areafix is on. You can turn off using of areafix by this link.
+
+This statement can only be repeated for different links.
+
+@node areafixpwd, filefixpwd, areafix, Keywords
 @subsection areafixpwd
 @table @asis
 @item Syntax:
@@ -1306,7 +1321,7 @@ Default is lower case.
 This statement defines case of filemanes of autocreated areas.
 Default is lower case.
 
-@node forwardRequests, frequestfromuplink, areasFileNameCase, Keywords
+@node forwardRequests, forwardAreaPriority, areasFileNameCase, Keywords
 @subsection forwardRequests
 @table @asis
 @item Syntax:
@@ -1322,7 +1337,22 @@ then forwardRequests unconditional.
 
 This statement can only be repeated for different links.
 
-@node frequestfromuplink, forwardRequestFile, forwardRequests, Keywords
+@node forwardAreaPriority, frequestfromuplink, forwardRequests, Keywords
+@subsection forwardAreaPriority
+@table @asis
+@item Syntax:
+@code{forwardAreaPriority <integer>}
+@item Example:
+@code{forwardAreaPriority 1}
+@end table
+
+By default forward requests processing for links in order as they
+defined in config. But you can set priority for some links... "1" is the 
+first link to forward requests.
+
+This statement can only be repeated for different links.
+
+@node frequestfromuplink, forwardRequestFile, forwardAreaPriority, Keywords
 @subsection frequestfromuplink
 @table @asis
 @item Syntax:

@@ -3,14 +3,6 @@
 - routeMail, route, routeFile must be "the same"
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
 - fix "0" groups (to NULL)
-- fix dumping of
-  - Unpack
-  - netMailArea
-  - dupeArea
-  - badArea
-  - echoArea
-  - origin
-  - tearline
 - fix "-manual" vs. "-mandatory": 
   manual means: subscription/unsubscription not allowed
   mandatory means: subscription allowed, unsubscription not allowed
@@ -38,10 +30,11 @@
     forwardFileRequests
     filefixhelp
 - add to doc & tparser for hpt
-    ForwardAreaPriority
     AdvancedAreaFix
     what is [module]
     set, if, if not, else, elseif, ifdef, ifndef, endif
-    areafix
     areafixhelp
     areafixEchoLimit
+
+- fix dumping of: Unpack, netMailArea, dupeArea, badArea, echoArea, origin,
+tearline
