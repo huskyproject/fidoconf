@@ -67,7 +67,7 @@ void printversion(){
       printf("%s %s\n",program_name,  cvs_date);
 }
 
-void usage(){
+void usage(int retcode){
       printversion();
       printf("fidoconfig to binkd config converter\n" COPYRIGHT "\n");
       printf("\nUsage:\n");
@@ -78,7 +78,7 @@ void usage(){
       printf("\t-c\tspecify alternate fidoconfig\n");
       printf("\t-f\tforce owerwrite file\n");
       printf("\t-p\tgenerate passwords file\n");
-      exit(1);
+      exit(retcode);
 }
 
 FILE *createOutputFile(const char *ofname){
@@ -224,8 +224,7 @@ int main (int argc, char *argv[]) {
                return 1;
      case 'h':
      case 'H': /* help request */
-               usage();
-               return 1;
+               usage(1);
      case 'f': /* Force rewriting file */
                force_flag = 1;
                break;
@@ -233,8 +232,7 @@ int main (int argc, char *argv[]) {
                if( ++i<argc ) fcfname = sstrdup( argv[i] );
                else{
                  fprintf(stderr, "'%s' option require parameter!\n", argv[i-1]);
-                 usage();
-                 return -1;
+                 usage(-1);
                }
                break;
      case 'p': /* generate passwords list */
@@ -242,7 +240,7 @@ int main (int argc, char *argv[]) {
                break;
      default:  /* unknown option */
                fprintf(stderr,"Illegal parameter: %s\n",argv[i]);
-               usage();
+               usage(1);
      }
    }
 
