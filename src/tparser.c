@@ -346,6 +346,7 @@ void printArea(s_area area) {
    else
      printAddr(area.useAka);
    printf("\n");
+   if (area.paused) printf("Area is paused\n");
    printf("DOS Style File (8+3) %s\n", (area.DOSFile) ? "on (-dosfile)" : "off (-nodosfile)");
    printf("Level read  (-lr): %d\n", area.levelread);
    printf("Level write (-lw): %d\n", area.levelwrite);
@@ -371,6 +372,7 @@ void printArea(s_area area) {
    if (area.nopack) printf("noPack "); else  printf("pack ");
    if (area.ccoff) printf("ccoff "); else  printf("noCCoff ");
    if (area.keepsb) printf("keepSB "); else  printf("noKeepSB ");
+   if (area.noautoareapause) printf("noAutoAreaPause "); else printf("autoAreaPause ");
    printf("\n");
    printf("DupeCheck: ");
    if (area.dupeCheck==dcOff) printf("off");
@@ -1434,6 +1436,7 @@ int main(int argc, char **argv) {
   	  printf("ForwardRequestTimeout: %d\n",config->forwardRequestTimeout);
   	  printf("IdlePassthruTimeout  : %d\n",config->idlePassthruTimeout);
   	  printf("KilledRequestTimeout : %d\n",config->killedRequestTimeout);
+  	  printf("autoAreaPause: %s\n",(config->autoAreaPause) ? "on": "off");
 
 
      if (hpt==0) {

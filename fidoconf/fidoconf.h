@@ -295,6 +295,9 @@ typedef struct area {
    int nopack;         /*  do not pack area */
    int killMsgBase;    /*  kill msg base */
 
+   int paused;         /*  1 if area is paused */
+   int noautoareapause;  /*  do not automatically pause area */
+
    ps_addr       sbadd;
    unsigned int  sbaddCount;
    ps_addr       sbign;
@@ -518,6 +521,7 @@ typedef struct fidoconfig {
    int idlePassthruTimeout;
    char *areafixSplitStr, *areafixOrigin, *robotsArea;
    char *areafixQueueFile;
+   unsigned int autoAreaPause;
 
    char     **PublicGroup;
    unsigned int numPublicGroup;

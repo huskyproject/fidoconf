@@ -303,7 +303,8 @@ enum {
     ID_FLAVOUR,
     ID_RECODEMSGBASE,
     ID_CREATEADDUPLINK,
-    ID_SENDNOTIFYMESSAGES
+    ID_SENDNOTIFYMESSAGES,
+    ID_AUTOAREAPAUSE
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -364,6 +365,7 @@ token_t parseline_tokens[] =
     { "autoareacreatefile", ID_AUTOAREACREATEFILE },
     { "autoareacreateflag", ID_AUTOAREACREATEFLAG },
     { "autoareacreatesubdirs", ID_AUTOAREACREATESUBDIRS },
+    { "autoareapause", ID_AUTOAREAPAUSE },
     { "autofilecreate", ID_AUTOFILECREATE },
     { "autofilecreatedefaults", ID_AUTOFILECREATEDEFAULTS },
     { "autofilecreatefile", ID_AUTOFILECREATEFILE },

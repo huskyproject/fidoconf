@@ -890,6 +890,9 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;     /*  error */
         } 
     }
+    else if (strcmp(iOption, "paused")==0) area->paused = 1;
+    else if (strcmp(iOption, "noautoareapause")==0) area->noautoareapause = 1;
+    else if (strcmp(iOption, "autoareapause")==0) area->noautoareapause = 0;
     else if (strcmp(iOption, "nopack")==0) area->nopack = 1;
     else if (strcmp(iOption, "pack")==0) area->nopack = 0;
     else if (strcmp(iOption, "ccoff")==0) {
@@ -4188,6 +4191,9 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_TEMPOUTBOUND:
             rc = parsePath(getRestOfLine(), &(config->tempOutbound), NULL);
+            break;
+        case ID_AUTOAREAPAUSE:
+            rc = parseBool(getRestOfLine(), &(config->autoAreaPause));
             break;
         case ID_AREAFIXFROMPKT:
             rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
