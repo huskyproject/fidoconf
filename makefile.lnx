@@ -14,7 +14,7 @@ AR_R = r
 RM = rm
 LDCONFIG = /sbin/ldconfig
 
-COPT = -O3 -c -fPIC -Wall -ggdb -DUNIX -I../smapi
+COPT = -O3 -c -fPIC -Wall -ggdb -DUNIX -I$(INCDIR)
 LOPT = -L. -L$(LIBDIR)
 # LOPT = 
 

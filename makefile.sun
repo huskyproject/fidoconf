@@ -3,6 +3,7 @@
 #installation directires
 LIBDIR = /homes3/info-e/mtt/fido/fidoconfig
 INSTDIR = /homes3/info-e/mtt/fido/fidoconfig
+INCDIR = /home3/info-e/mtt/fido/fidoconfig
 
 # program settings
 CC = gcc -g
@@ -10,7 +11,7 @@ AR = ar
 AR_R = r
 RM = rm
 
-COPT = -c -O3 -DUNIX -I../smapi
+COPT = -c -O3 -DUNIX -I$(INCDIR)
 LOPT = -L. 
 
 # filename settings

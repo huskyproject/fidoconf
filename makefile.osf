@@ -9,7 +9,7 @@ AR = ar
 AR_R = r
 RM = rm
 
-COPT = -c -DUNIX -I../smapi
+COPT = -c -DUNIX -I$(INCDIR)
 LOPT = -L. -L$(LIBDIR)
 
 # filename settings

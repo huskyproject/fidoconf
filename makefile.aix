@@ -1,13 +1,14 @@
 #Settings for AIX
 
-# include Husky-Makefile-Config
-include ../huskymak.cfg
-
 # program settings
 CC = cc
 AR = ar
 AR_R = r
 RM = rm
+INCDIR=/usr/local/include
+LIBDIR=/usr/local/lib
+BINDIR=/usr/local/bin
+DEBUG=0
 
 ifeq ($(DEBUG), 1)
   COPT = -c -O3 -qcpluscmt -DUNIX -I$(INCDIR) -g
