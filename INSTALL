@@ -23,7 +23,7 @@ Instruction to build fidoconfig
 
    windows, dos, os/2 & etc:
    -------------------------
-   d:\husky\                 -> hiskylib\
+   d:\husky\                 -> huskylib\
                              -> smapi\
 			     -> fidoconf\
                              -> hpt\
