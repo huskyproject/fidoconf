@@ -57,8 +57,9 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-
 #endif
+
+static s_fidoconfig *config;
 
 /* Test for required tokens */
 int testConfig(s_fidoconfig *config){
@@ -109,6 +110,192 @@ int testConfig(s_fidoconfig *config){
 
   if( rc ) putchar('\n');
 
+  return rc;
+}
+
+/* check to path accuracy */
+int testpath(const char *s, const char *t1, const char *t2, const char *t3)
+{
+  unsigned c;
+  int rc=0;
+  /* list of invalid substrings */
+  static char *invalids[] = { "/../",
+                              "\\..\\",
+                              ">",
+                              "<",
+                              "|",
+                              NULL };
+  /* list of reasons correspondings previous */
+  static char *reasons[]  = { "relative path",
+                              "relative path",
+                              "output redirect chars not allowed in path name",
+                              "input redirect chars not allowed in path name",
+                              "in/out pipe char not allowed in path name",
+                              NULL };
+
+  if(s) {
+    for (c=0;invalids[c];c++)
+      if (strstr(s,invalids[c])){
+        printf( "WARNING: mistake in %s%s%s%s%s value: %s\n", (t1?t1:""),
+               (t2? " " : ""), (t2?t2:""), (t3? " " : ""), (t3?t3:""), reasons[c] );
+        rc++;
+      }
+    if(!( strncmp(s,"./",2) && strncmp(s,"../",3) && strncmp(s,".\\",2) && strncmp(s,"..\\",3) )) {
+        printf( "WARNING: mistake in %s%s%s%s%s value: relative path\n", (t1?t1:""),
+               (t2? " " : ""), (t2?t2:""), (t3? " " : ""), (t3?t3:"") );
+    }
+  }
+
+  return rc;
+}
+
+/* check to plain file name accuracy */
+int testplainfile(const char *s, const char *t1, const char *t2, const char *t3)
+{
+  static char invalidc[]=":/\\><|";
+  register char *p;
+
+  if( s && (p=strpbrk(s,invalidc)) ){
+     printf("ERROR: %s%s%s%s%s can't contains %c\n", t1, (t2? " " : ""),
+               t2, (t3? " " : ""), t3, *p);
+     return -1;
+  }
+  return 0;
+}
+
+/* check to file names and paths accuracy. Return zero if success. */
+int testPathsAndFiles()
+{ int rc=0;
+  register int i;
+
+  rc+=testpath(config->inbound,"inbound",NULL,NULL );
+  rc+=testpath(config->outbound,"outbound",NULL,NULL );
+  rc+=testpath(config->protInbound,"protInbound",NULL,NULL );
+  rc+=testpath(config->listInbound,"listInbound",NULL,NULL );
+  rc+=testpath(config->localInbound,"localInbound",NULL,NULL );
+  rc+=testpath(config->tempInbound,"tempInbound",NULL,NULL );
+  rc+=testpath(config->logFileDir,"logFileDir",NULL,NULL );
+  rc+=testpath(config->dupeHistoryDir,"dupeHistoryDir",NULL,NULL );
+  rc+=testpath(config->nodelistDir,"nodelistDir",NULL,NULL );
+  rc+=testpath(config->msgBaseDir,"msgBaseDir",NULL,NULL );
+  rc+=testpath(config->magic,"magic",NULL,NULL );
+  rc+=testpath(config->areafixhelp,"areafixhelp",NULL,NULL );
+  rc+=testpath(config->filefixhelp,"filefixhelp",NULL,NULL );
+  rc+=testpath(config->tempOutbound,"tempOutbound",NULL,NULL );
+  rc+=testpath(config->ticOutbound,"ticOutbound",NULL,NULL );
+  rc+=testpath(config->tempDir,"tempDir",NULL,NULL );
+  rc+=testpath(config->fileAreaBaseDir,"fileAreaBaseDir",NULL,NULL );
+  rc+=testpath(config->passFileAreaDir,"passFileAreaDir",NULL,NULL );
+  rc+=testpath(config->busyFileDir,"busyFileDir",NULL,NULL );
+  rc+=testpath(config->semaDir,"semaDir",NULL,NULL );
+  rc+=testpath(config->badFilesDir,"badFilesDir",NULL,NULL );
+  rc+=testpath(config->hptPerlFile,"hptPerlFile",NULL,NULL );
+  rc+=testpath(config->advStatisticsFile,"advStatisticsFile",NULL,NULL );
+  rc+=testpath(config->newAreaRefuseFile,"newAreaRefuseFile",NULL,NULL );
+  rc+=testpath(config->intab,"intab",NULL,NULL );
+  rc+=testpath(config->outtab,"outtab",NULL,NULL );
+  rc+=testpath(config->echotosslog,"echotosslog",NULL,NULL );
+  rc+=testpath(config->statlog,"statlog",NULL,NULL );
+  rc+=testpath(config->importlog,"importlog",NULL,NULL );
+  rc+=testpath(config->lockfile,"lockfile",NULL,NULL );
+  rc+=testpath(config->fileAreasLog,"fileAreasLog",NULL,NULL );
+  rc+=testpath(config->fileNewAreasLog,"fileNewAreasLog",NULL,NULL );
+  rc+=testpath(config->longNameList,"longNameList",NULL,NULL );
+  rc+=testpath(config->fileArcList,"fileArcList",NULL,NULL );
+  rc+=testpath(config->filePassList,"filePassList",NULL,NULL );
+  rc+=testpath(config->fileDupeList,"fileDupeList",NULL,NULL );
+  rc+=testpath(config->netmailFlag,"netmailFlag",NULL,NULL );
+  rc+=testpath(config->aacFlag,"aacFlag",NULL,NULL );
+  rc+=testpath(config->afcFlag,"afcFlag",NULL,NULL );
+  rc+=testpath(config->reqidxDir,"reqidxDir",NULL,NULL );
+  rc+=testpath(config->rulesDir,"rulesDir",NULL,NULL );
+  rc+=testpath(config->seqDir,"seqDir",NULL,NULL );
+
+  rc+=testplainfile(config->fidoUserList,"fidoUserList",NULL,NULL );
+  /* extension = file name suffix test as file name */
+  rc+=testplainfile(config->tossingExt,"tossingExt",NULL,NULL );
+
+  /* checks area pathes */
+  rc+=testpath(config->dupeArea.fileName,"Dupearea filename",NULL,NULL );
+  rc+=testpath(config->badArea.fileName,"Badarea filename",NULL,NULL );
+
+  for (i=0;i<config->netMailAreaCount;i++)
+    rc+=testpath(config->netMailAreas[i].fileName,"Netmailarea",config->netMailAreas[i].areaName,
+                 config->netMailAreas[i].msgbType==MSGTYPE_SDM ?"pathname":"filename");
+
+  for (i=0;i<config->echoAreaCount;i++)
+    rc+=testpath(config->echoAreas[i].fileName,"Echoarea",config->echoAreas[i].areaName,
+                 config->echoAreas[i].msgbType==MSGTYPE_SDM ?"pathname":"filename");
+
+  for (i=0;i<config->localAreaCount;i++)
+    rc+=testpath(config->localAreas[i].fileName,"Localarea",config->localAreas[i].areaName,
+                 config->localAreas[i].msgbType==MSGTYPE_SDM ?"pathname":"filename");
+
+  for (i=0;i<config->fileAreaCount;i++)
+    rc+=testpath( config->fileAreas[i].pathName, "Filearea",
+                  config->fileAreas[i].areaName, "pathname" );
+
+  for (i=0;i<config->bbsAreaCount;i++)
+    rc+=testpath( config->bbsAreas[i].pathName, "BBSarea",
+                  config->bbsAreas[i].areaName, "pathname" );
+
+  for (i=0;i<config->nodelistCount;i++){
+    rc+=testplainfile( config->nodelists[i].nodelistName, "Nodelist",
+                       config->nodelists[i].nodelistName, NULL );
+    rc+=testpath( config->nodelists[i].diffUpdateStem, "Nodelist's",
+                  config->nodelists[i].nodelistName, "diffUpdateStem");
+    rc+=testpath( config->nodelists[i].fullUpdateStem, "Nodelist's",
+                  config->nodelists[i].nodelistName, "fullUpdateStem" );
+  }
+
+  for (i=0;i<config->filelistCount;i++) {
+    rc+=testplainfile( config->filelists[i].destFile, "Filelist",
+                       config->filelists[i].destFile, NULL );
+    rc+=testpath( config->filelists[i].dirHdrTpl, "Filelist's",
+                  config->filelists[i].destFile, "dirHdrTpl" );
+    rc+=testpath( config->filelists[i].dirEntryTpl, "Filelist's",
+                  config->filelists[i].destFile, "dirEntryTpl" );
+    rc+=testpath( config->filelists[i].dirFtrTpl, "Filelist's",
+                  config->filelists[i].destFile, "dirFtrTpl" );
+    rc+=testpath( config->filelists[i].globHdrTpl, "Filelist's",
+                  config->filelists[i].destFile, "globHdrTpl" );
+    rc+=testpath( config->filelists[i].globFtrTpl, "Filelist's",
+                  config->filelists[i].destFile, "globFtrTpl" );
+    rc+=testpath( config->filelists[i].dirListHdrTpl, "Filelist's",
+                  config->filelists[i].destFile, "dirListHdrTpl" );
+    rc+=testpath( config->filelists[i].dirListEntryTpl, "Filelist's",
+                  config->filelists[i].destFile, "dirListEntryTpl" );
+    rc+=testpath( config->filelists[i].dirListFtrTpl, "Filelist's",
+                  config->filelists[i].destFile, "dirListFtrTpl" );
+  }
+
+  /* test links */
+
+  for (i=0;i<config->linkCount;i++){
+    rc+=testpath( config->links[i].autoAreaCreateFile, "Link",
+                  config->links[i].name, "autoAreaCreateFile" );
+    rc+=testpath( config->links[i].autoFileCreateFile, "Link",
+                  config->links[i].name, "autoFileCreateFile" );
+    rc+=testpath( config->links[i].forwardRequestFile, "Link",
+                  config->links[i].name, "forwardRequestFile" );
+    rc+=testpath( config->links[i].denyFwdFile, "Link",
+                  config->links[i].name, "denyFwdFile" );
+    rc+=testpath( config->links[i].forwardFileRequestFile, "Link",
+                  config->links[i].name, "forwardFileRequestFile" );
+    rc+=testpath( config->links[i].msgBaseDir, "Link",
+                  config->links[i].name, "msgBaseDir" );
+    rc+=testpath( config->links[i].fileBaseDir, "Link",
+                  config->links[i].name, "fileBaseDir" );
+    rc+=testpath( config->links[i].fileBox, "Link",
+                  config->links[i].name, "fileBox" );
+  }
+
+/*
+  rc+=testplainfile(config->,"");
+  rc+=testplainfile(config->,"");
+  rc+=testpath(config->,"");
+  rc+=testpath(config->,"");
+*/
   return rc;
 }
 
@@ -946,7 +1133,7 @@ void usage()
 }
 
 int main(int argc, char **argv) {
-   s_fidoconfig *config = NULL;
+/*   s_fidoconfig *config = NULL;  use global variable */
    UINT i, j, hpt=0, preproc=0, rc=0;
    int k;
    char *cfgFile=NULL, *module;
@@ -1468,6 +1655,9 @@ int main(int argc, char **argv) {
        printf( "sendMailCmd: %s\n", config->sendmailcmd );
      }else
        printf( "sendMailCmd:\n" );
+
+     printf( "\n" );
+     rc = testPathsAndFiles();
 
      if( rc ) { puts("============================"); testConfig(config); puts("============================"); }
 
