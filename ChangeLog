@@ -1,3 +1,15 @@
+2003-02-14 Friday 15:31  stas_degteff
+
+	* line.c (1.378): Bugfix: check pointers for NULL value
+
+2003-02-14 Friday 15:29  stas_degteff
+
+	* tparser.c (1.244): Update version check to new -current
+
+2003-02-14 Friday 15:28  stas_degteff
+
+	* version.h (1.12): Change version number to 1.9-current
+
 2003-02-11 Tuesday 19:31  stas_degteff
 
 	* line.c (1.377): Display diagnostic message if OurAka is not
