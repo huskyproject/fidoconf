@@ -868,7 +868,6 @@ This statement can only be repeated for different links.
 
   Export, Import & Mandatory restrictions uses "optgrp" areas. If "optgrp"
   not defined - the restrictions will be applied to _all_ areas.
-  the levels of echo & link ignored for "optgrp"
 
 This statement can only be repeated for different links.
 
