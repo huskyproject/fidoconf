@@ -1,0 +1,5 @@
+all: FidoConf.INF
+
+FidoConf.INF: fidoconfig.texi proposal.texi
+	texi2ipf.exe fidoconfig.texi > FidoConf.Ipf
+	ipfc.exe -D:1 -C:850 -L:EN FidoConf.Ipf /Inf
