@@ -1,3 +1,8 @@
+2002-11-03 Sunday 03:53  d_sergienko
+
+	* README.TXT, doc/fidoconfig.texi (fidoconf-0_14-stable.[2,2]):
+	update docs
+
 2002-10-25 Friday 13:17  stas_degteff
 
 	* common.c (fidoconf-0_14-stable.6): Fix Watcom C win32 compilation
