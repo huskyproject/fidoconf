@@ -78,9 +78,14 @@ ifdef HTMLDIR
 	-$(MKDIR) $(MKDIROPT) $(HTMLDIR)
 	$(INSTALL)  fidoconfig*html $(HTMLDIR)
 endif
+ifdef DVIDIR
+	-$(MKDIR) $(MKDIROPT) $(DVIDIR)
+	$(INSTALL)  fidoconfig.dvi $(DVIDIR)
+endif
 
 uninstall:
 	-install-info --remove --info-dir=$(INFODIR) $(INFODIR)$(DIRSEP)fidoconfig.info
 	-$(RM) $(RMOPT) $(INFODIR)$(DIRSEP)fidoconfig.info
 	-$(RM) $(RMOPT) $(HTMLDIR)$(DIRSEP)fidoconfig*html
+	-$(RM) $(RMOPT) $(DVIDIR)$(DIRSEP)fidoconfig.dvi
 

@@ -80,7 +80,7 @@ FCONF_EXT DIR* readdir(DIR*);
 FCONF_EXT int  closedir(DIR*);
 #endif
 
-#ifdef __IBMC__   /* only define it for IBM VisualAge C++ */
+#if defined(__IBMC__) && !defined(UNIX)   /* only define it for IBM VisualAge C++ */
 #define DIR_H
 
 #include <direct.h>   /* include the other things out of direct.h */

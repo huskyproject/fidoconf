@@ -470,7 +470,7 @@ DWORD __stdcall GetShortPathNameA(LPCSTR,LPSTR,DWORD);
 #else
 #include <windows.h>
 #endif
-static int cmpfnames(char *file1, char *file2)
+int cmpfnames(char *file1, char *file2)
 {
     char buf[256], path1[256], path2[256], *p;
 

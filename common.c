@@ -41,8 +41,9 @@
 #  include <unistd.h>
 #endif
 
-#if ((defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__DJGPP__)) || defined(__MINGW32__)
+#if ((defined(_MSC_VER) && (_MSC_VER >= 1200)) || defined(__TURBOC__) || defined(__DJGPP__)) || defined(__MINGW32__) || defined(__CYGWIN__)
 #  include <io.h>
+int cmpfnames(char *file1, char *file2);
 #endif
 
 #include <signal.h>
@@ -667,15 +668,16 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
    return fileName;
 }
 
-#ifdef UNIX
-#define MOVE_FILE_BUFFER_SIZE 128000
-#else
+#if defined(__DOS__) && !defined(__FLAT__) || defined(_WINDOWS)
+/* _WINDOWS : 16-bit windows */
 #define MOVE_FILE_BUFFER_SIZE 16384
+#else
+#define MOVE_FILE_BUFFER_SIZE 128000
 #endif
 
 int move_file(const char *from, const char *to)
 {
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
     int rc;
 
     rc = rename(from, to);
@@ -703,7 +705,7 @@ int move_file(const char *from, const char *to)
 	
 int copy_file(const char *from, const char *to)
 {
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2))) || defined (__MINGW32__)
     char *buffer;
     size_t read;
     FILE *fin, *fout;
@@ -739,7 +741,7 @@ int copy_file(const char *from, const char *to)
         remove(to);
 	return -1;
     }
-
+    memset(&st, 0, sizeof(st));
     fstat(fileno(fin), &st);
     fclose(fin);
     if (fclose(fout))
@@ -753,7 +755,10 @@ int copy_file(const char *from, const char *to)
     ut.modtime = st.st_mtime;
     utime(to, &ut);
 #elif defined (__NT__) && defined(USE_SYSTEM_COPY)
-    int rc = CopyFile(from, to, FALSE);
+    int rc = 0;
+    if ( cmpfnames((char*)from, (char*)to) == 0 )
+	return 0;
+    rc = CopyFile(from, to, FALSE);
     if (rc == FALSE) {
       remove(to);
       return -1;

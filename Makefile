@@ -92,7 +92,7 @@ distclean: commondistclean
 
 ifeq (~$(MKSHARED)~, ~ld~)
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
-	$(LD) -s -shared -o $(LIBFIDOCONFIG).so.$(VER) \
+	$(LD) $(OPTLFLAGS) -o $(LIBFIDOCONFIG).so.$(VER) \
 	    $(LOBJS) $(LOPT)
 else
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)

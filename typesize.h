@@ -94,7 +94,7 @@ typedef          void       VOID;
 #endif
 #endif                                          // #if defined(__EMX__)
 
-#if (defined(__linux__) && !defined(__alpha)) || defined(__FreeBSD__) || defined(__DJGPP__) || defined(__MINGW32__) || defined(__BEOS__) || defined(__OpenBSD__)
+#if (defined(__linux__) && !defined(__alpha)) || defined(__FreeBSD__) || defined(__DJGPP__) || defined(__MINGW32__) || defined(__BEOS__) || defined(__OpenBSD__) || defined(__CYGWIN__)
 #if !defined(_WINNT_H)
 typedef          char       CHAR;               // 1 byte
 typedef unsigned char      UCHAR;               // 1 byte
@@ -275,6 +275,22 @@ typedef unsigned int       UINT;                // 4 byte
 typedef          long       LONG;               // 4 byte
 typedef unsigned long      ULONG;               // 4 byte
 //typedef          void       VOID;
+#endif
+
+// MacOS X with gcc
+#if defined(__APPLE__) && defined(__MACH__)
+typedef          char       CHAR;               // 1 byte
+typedef unsigned char      UCHAR;               // 1 byte
+typedef          short      INT16;              // 2 byte
+typedef unsigned short     UINT16;              // 2 byte
+typedef          int        INT32;              // 4 byte
+typedef unsigned int       UINT32;              // 4 byte
+// --------------------------------------------------------------------------
+typedef          int        INT;                // 4 byte
+typedef unsigned int       UINT;                // 4 byte
+typedef          long       LONG;               // 4 byte
+typedef unsigned long      ULONG;               // 4 byte
+typedef void               VOID;
 #endif
 
 #ifdef __cplusplus

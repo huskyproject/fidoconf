@@ -26,7 +26,7 @@
 
 /* ----- unix systems that have syslog, but not facilitynames */
 
-#if defined(sun)
+#if defined(sun) || defined(__CYGWIN__) || defined(_AIX)
 
 typedef struct _code {
         char    *c_name;

@@ -31,7 +31,7 @@
 #include "xstr.h"
 #include "common.h"
 
-#define N_PRINTFBUF	512
+#define N_PRINTFBUF	1024
 
 char *xstralloc(char **s, size_t add) 
 {

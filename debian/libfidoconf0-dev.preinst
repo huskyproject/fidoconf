@@ -7,4 +7,4 @@ if [ "$1" = "upgrade" ]; then
     fi
 fi
 
-#DEBHELER#
+#DEBHELPER#
