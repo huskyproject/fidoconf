@@ -372,6 +372,7 @@ s_fidoconfig *readConfig(char *cfgFile)
       fflush(stdout);
       exit(EX_CONFIG);
    }
+//   checkIncludeLogic(config);
    close_conf();
    carbonNames2Addr(config);
    processPermissions (config);

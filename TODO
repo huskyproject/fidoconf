@@ -3,5 +3,10 @@
 - fix "-manual" vs. "-mandatory": 
   manual means: subscription/unsubscription not allowed
   mandatory means: subscription allowed, unsubscription not allowed
-- create section for HTick in proposal.texi since some keywords (i. e. autofilecreate) aren't properly documented
-- add keyword (definable for each link) "FileFixFSC87Subset" (when on (default!) HTick will behave as if only a subset of FSC87 commands were implemented (useful for FileScan links) and *ignore* unknown TIC entries instead of stopping processing)) to the above HTick section
+- create section for HTick in proposal.texi since some keywords (i. e.
+  autofilecreate) aren't properly documented
+- add keyword (definable for each link) "FileFixFSC87Subset" (when on
+  (default!) HTick will behave as if only a subset of FSC87 commands were
+  implemented (useful for FileScan links) and *ignore* unknown TIC entries
+  instead of stopping processing)) to the above HTick section
+- FIX if "AutoAreaCreateFile file" not included
