@@ -94,12 +94,12 @@ typedef struct link {
         *sessionPwd;
    char *handle;              // nickname
    char *email;
-   int  autoAreaCreate;       // 0 if not allowed for autoareacreate
-   int  autoFileCreate;       // 0 if not allowed for autofilecreate
-   int  AreaFix;              // 0 if not allowed for areafix
-   int  FileFix;              // 0 if not allowed for filefix
-   int  forwardRequests;      // 0 if not allowed forward requests
-   int  fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
+   unsigned int autoAreaCreate;       // 0 if not allowed for autoareacreate
+   unsigned int autoFileCreate;       // 0 if not allowed for autofilecreate
+   unsigned int AreaFix;              // 0 if not allowed for areafix
+   unsigned int FileFix;              // 0 if not allowed for filefix
+   unsigned int forwardRequests;      // 0 if not allowed forward requests
+   unsigned int fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
    int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
                               //   PKT files found in the protected inbound
    int  allowPktAddrDiffer;   // 1 if you want to allow the originating address
@@ -110,7 +110,7 @@ typedef struct link {
    char *floFile, *bsyFile;   // dito
    ps_pack packerDef;
    e_flavour echoMailFlavour, fileEchoFlavour;
-   char *LinkGrp;	          // link's group for autocreate areas
+   char *LinkGrp;	      // link's group for autocreate areas
    char **AccessGrp;	      // groups for echo access
    unsigned int numAccessGrp;
    char *autoAreaCreateFile;  // file where autocreated areas are written to
@@ -120,13 +120,13 @@ typedef struct link {
    char *forwardRequestFile;  // list of available areas from this link
    char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
    void *msg;                 // active msg to the link (used in areafix)
-   int  noTIC;                // 0 if TIC files should be generated
-   int  Pause;                // 0 if no pause (default)
+   unsigned int noTIC;        // 0 if TIC files should be generated
+   unsigned int Pause;        // 0 if no pause (default)
    unsigned autoPause;        // in days
    unsigned level;	          // 0-65535
    unsigned arcmailSize;      // max arcmail size in kb
    unsigned pktSize;          // max .pkt size in kb
-   int export, import, mandatory; // Default link's options
+   unsigned int export, import, mandatory; // Default link's options
    char **optGrp; // groups for this options
    unsigned int numOptGrp;
 } s_link, *ps_link;

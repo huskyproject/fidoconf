@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sat Apr 21 2:44:00 MSK 2000
+Nestyurkin Nikolay:
+* bugfix of previous fix (int->uint)
+
+----- cvs ci ------
 Wed Apr 19 16:52:16 MSD 2000
 max (patch from Serguei Revtov):
 * unifying some boolean tokens parsing
