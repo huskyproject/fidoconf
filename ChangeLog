@@ -1742,16 +1742,18 @@
 
 2002-06-25 Tuesday 14:16  stas
 
-	* doc/.cvsignore (1.1, fidoconf-0_14-release): Add auxiliary file.
+	* doc/.cvsignore (1.1, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): Add auxiliary file.
 
 2002-06-24 Monday 13:19  stas
 
-	* log.h (1.7, fidoconf-0_14-release): New log level LL_LINKPASS
-	('Y'); add some aliases for other
+	* log.h (1.7, fidoconf-0_14_2-release, fidoconf-0_14-release): New
+	log level LL_LINKPASS ('Y'); add some aliases for other
 
 2002-06-23 Sunday 19:57  stas
 
-	* makefile.bsd (1.14, fidoconf-0_14-release): Add comments.
+	* makefile.bsd (1.14, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): Add comments.
 
 2002-06-21 Friday 13:22  stas
 
@@ -1797,14 +1799,14 @@
 
 	* Makefile (1.38), compiler.h (1.1), fidoconf.h (1.123), line.c
 	(1.306), makefile.inc (1.26), temp.c (1.1), temp.h (1.1), tokens.h
-	(1.36, fidoconf-0_14-release), tparser.c (1.181): New token:
-	tempDir; new functions: createTempFileIn(), createTempTextFile(),
-	createTempBinFile(), macro createTempFile()
+	(1.36, fidoconf-0_14_2-release, fidoconf-0_14-release), tparser.c
+	(1.181): New token: tempDir; new functions: createTempFileIn(),
+	createTempTextFile(), createTempBinFile(), macro createTempFile()
 
 2002-06-19 Wednesday 14:17  stas
 
-	* doc/keywords.hpt (1.26, fidoconf-0_14-release): Remove common for
-	fidoconfig keywords
+	* doc/keywords.hpt (1.26, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): Remove common for fidoconfig keywords
 
 2002-06-19 Wednesday 13:00  stas
 
@@ -1822,13 +1824,14 @@
 
 2002-06-17 Monday 17:44  stas
 
-	* fecfg2fc.c (1.5, fidoconf-0_14-release): Extend Fastecho to
-	fidoconfig conversion utility: packers, domain in FTN address &
-	etc.
+	* fecfg2fc.c (1.5, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	Extend Fastecho to fidoconfig conversion utility: packers, domain
+	in FTN address & etc.
 
 2002-06-17 Monday 17:41  stas
 
-	* crc.c (1.2, fidoconf-0_14-release): Fix warning.
+	* crc.c (1.2, fidoconf-0_14_2-release, fidoconf-0_14-release): Fix
+	warning.
 
 2002-06-17 Monday 04:50  stas
 
@@ -1854,8 +1857,8 @@
 
 2002-06-15 Saturday 13:04  stas
 
-	* .cvsignore (1.5, fidoconf-0_14-release): Modify not-commited
-	filemasks list
+	* .cvsignore (1.5, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	Modify not-commited filemasks list
 
 2002-06-15 Saturday 08:25  mche
 
@@ -1885,19 +1888,21 @@
 
 2002-06-14 Friday 10:26  mche
 
-	* common.h (1.49, fidoconf-0_14-release): fscmn.* contain some
-	functions works with files,directories	and their names.  taken
-	from fidoconf/common.h
+	* common.h (1.49, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	fscmn.* contain some functions works with files,directories  and
+	their names.  taken from fidoconf/common.h
 
 2002-06-13 Thursday 17:31  stas
 
-	* fconf2dir (1.1, fidoconf-0_14-release): New script: generate
-	fileareas directories listing for FREQ-processors & bbslist tool.
+	* fconf2dir (1.1, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	New script: generate fileareas directories listing for
+	FREQ-processors & bbslist tool.
 
 2002-06-13 Thursday 17:28  stas
 
-	* fconf2areasbbs (1.3, fidoconf-0_14-release): Fixes: passthrough
-	areas recognition, subscribed links list.
+	* fconf2areasbbs (1.3, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): Fixes: passthrough areas recognition,
+	subscribed links list.
 
 2002-06-13 Thursday 17:28  stas
 
@@ -1922,14 +1927,15 @@
 
 2002-06-11 Tuesday 16:22  mche
 
-	* afixcmd.c (1.8, fidoconf-0_14-release): remove cygwin warning
+	* afixcmd.c (1.8, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	remove cygwin warning
 
 2002-06-10 Monday 13:54  mche
 
 	* Makefile (1.37), makefile.inc (1.24), makefile.mvc (1.12),
-	makefile.mvcdll (1.13), arealist.c (1.1, fidoconf-0_14-release),
-	arealist.h (1.1, fidoconf-0_14-release): arealist.* moved to
-	fidoconfig from hpt
+	makefile.mvcdll (1.13), arealist.c (1.1, fidoconf-0_14_2-release,
+	fidoconf-0_14-release), arealist.h (1.1, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): arealist.* moved to fidoconfig from hpt
 
 2002-06-10 Monday 13:12  mche
 
@@ -1942,8 +1948,8 @@
 
 2002-06-08 Saturday 13:54  mche
 
-	* afixcmd.c (1.7), afixcmd.h (1.7, fidoconf-0_14-release):
-	IsAreaAvailable() moved to fidoconfig
+	* afixcmd.c (1.7), afixcmd.h (1.7, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): IsAreaAvailable() moved to fidoconfig
 
 2002-06-07 Friday 17:31  mche
 
@@ -1974,8 +1980,8 @@
 
 2002-06-04 Tuesday 07:32  oliver.grimm
 
-	* fc2sq.c (1.5, fidoconf-0_14-release): OG: Add an explanation of
-	"-" in the help output
+	* fc2sq.c (1.5, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	OG: Add an explanation of "-" in the help output
 
 2002-06-04 Tuesday 07:26  oliver.grimm
 
@@ -2023,7 +2029,8 @@
 
 2002-05-19 Sunday 09:08  pavel.gulchouck
 
-	* adcase.c (1.8, fidoconf-0_14-release): avoid warning
+	* adcase.c (1.8, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	avoid warning
 
 2002-05-17 Friday 20:05  pavel.gulchouck
 
@@ -2156,8 +2163,8 @@
 
 2002-04-20 Saturday 11:46  mche
 
-	* tree.c (1.3), tree.h (1.2, fidoconf-0_14-release): search and
-	insert algorithm
+	* tree.c (1.3), tree.h (1.2, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): search and insert algorithm
 
 2002-04-19 Friday 14:17  mche
 
@@ -2181,8 +2188,8 @@
 
 2002-04-15 Monday 10:36  mche
 
-	* adcase.h (1.4, fidoconf-0_14-release): makefile for mvcdll
-	version
+	* adcase.h (1.4, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	makefile for mvcdll version
 
 2002-04-13 Saturday 14:44  mche
 
@@ -2197,13 +2204,14 @@
 
 2002-04-11 Thursday 07:20  pavel.gulchouck
 
-	* man/Makefile (1.2, fidoconf-0_14-release): Installation manpages
-	bugfix
+	* man/Makefile (1.2, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): Installation manpages bugfix
 
 2002-04-11 Thursday 06:36  pavel.gulchouck
 
-	* areatree.c (1.5), log.c (1.5) (utags: fidoconf-0_14-release):
-	Fixed compiler warning -- no newline at end of file
+	* areatree.c (1.5), log.c (1.5) (utags: fidoconf-0_14_2-release,
+	fidoconf-0_14-release): Fixed compiler warning -- no newline at end
+	of file
 
 2002-04-09 Tuesday 16:20  mche
 
@@ -2233,9 +2241,9 @@
 
 2002-04-05 Friday 13:31  mche
 
-	* areatree.c (1.1), areatree.h (1.1, fidoconf-0_14-release): new
-	token "quickAreaSearch" added makes areasearch faster by using
-	b-tree
+	* areatree.c (1.1), areatree.h (1.1, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): new token "quickAreaSearch" added makes
+	areasearch faster by using b-tree
 
 2002-04-05 Friday 13:11  mche
 
@@ -2298,8 +2306,8 @@
 
 	* makefile.inc (1.18), makefile.mvc (1.8), makefile.mvcdll (1.9),
 	makeperl.mvcdll (1.4), tree.c (1.1), tree.h (1.1), vixie.h (1.1,
-	fidoconf-0_14-release), makeperl.mvc (1.5): b-tree moved from hpt
-	to fidoconfig
+	fidoconf-0_14_2-release, fidoconf-0_14-release), makeperl.mvc
+	(1.5): b-tree moved from hpt to fidoconfig
 
 2002-03-16 Saturday 10:23  mche
 
@@ -2325,8 +2333,8 @@
 2002-03-05 Tuesday 00:23  joerg.jaspert
 
 	* debian/: changelog (1.12), control (1.9), docs (1.3,
-	fidoconf-0_14-release), libfidoconf0.files (1.3), rules (1.8),
-	shlibs (1.4): New Debian Package built
+	fidoconf-0_14_2-release, fidoconf-0_14-release), libfidoconf0.files
+	(1.3), rules (1.8), shlibs (1.4): New Debian Package built
 
 2002-03-02 Saturday 13:44  mche
 
@@ -2345,10 +2353,10 @@
 
 2002-02-26 Tuesday 06:37  ml
 
-	* crc.h (1.4, fidoconf-0_14-release), makeperl.mvc (1.3),
-	makeperl.mvcdll (1.1), recode.h (1.3, fidoconf-0_14-release),
-	tparser.c (1.168): changes for compiling mscv6 dll version with
-	perl support
+	* crc.h (1.4, fidoconf-0_14_2-release, fidoconf-0_14-release),
+	makeperl.mvc (1.3), makeperl.mvcdll (1.1), recode.h (1.3,
+	fidoconf-0_14_2-release, fidoconf-0_14-release), tparser.c (1.168):
+	changes for compiling mscv6 dll version with perl support
 
 2002-02-25 Monday 12:44  mche
 
@@ -2369,8 +2377,8 @@
 
 2002-02-21 Thursday 14:43  mche
 
-	* TODO (1.59, fidoconf-0_14-release): - speedup getArea by using
-	b-tree
+	* TODO (1.59, fidoconf-0_14_2-release, fidoconf-0_14-release): -
+	speedup getArea by using b-tree
 
 2002-02-19 Tuesday 22:03  pavel.gulchouck
 
@@ -2463,8 +2471,9 @@
 2002-01-30 Wednesday 11:55  stas
 
 	* Makefile (1.31), fc2jt.c (1.2), makefile.cyg (1.3,
-	fidoconf-0_14-release), makefile.inc (1.17), makefile.mvc (1.7),
-	makefile.mvcdll (1.6): Remove converter to Just Tosser.
+	fidoconf-0_14_2-release, fidoconf-0_14-release), makefile.inc
+	(1.17), makefile.mvc (1.7), makefile.mvcdll (1.6): Remove converter
+	to Just Tosser.
 
 2002-01-29 Tuesday 10:33  ml
 
@@ -2547,14 +2556,15 @@
 2002-01-22 Tuesday 13:41  mche
 
 	* makefile.mvc (1.5), makefile.mvcdll (1.4), log.h (1.2), recode.h
-	(1.2), strsep.c (1.2, fidoconf-0_14-release): fixed bug with
-	compilation under MCVS compiler
+	(1.2), strsep.c (1.2, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): fixed bug with compilation under MCVS
+	compiler
 
 2002-01-21 Monday 19:18  ml
 
-	* linkedto (1.6, fidoconf-0_14-release), man/linkedto.1 (1.3):
-	'linkedto' script output change, man page updated. Path from Stas
-	Degteff 2:5080/102 <g@grumber.org>
+	* linkedto (1.6, fidoconf-0_14_2-release, fidoconf-0_14-release),
+	man/linkedto.1 (1.3): 'linkedto' script output change, man page
+	updated. Path from Stas Degteff 2:5080/102 <g@grumber.org>
 
 2002-01-21 Monday 18:16  ml
 
@@ -2565,10 +2575,10 @@
 
 	* Makefile (1.28), common.h (1.38), crc.c (1.1), crc.h (1.1), log.c
 	(1.1), log.h (1.1), makefile.inc (1.15), recode.c (1.1,
-	fidoconf-0_14-release), recode.h (1.1), strsep.c (1.1): Log file,
-	charset recoding, crc32 support and strseparate() GNU function
-	moved from hpt & htick. Path from Stas Degteff 2:5080/102
-	<g@grumber.org>
+	fidoconf-0_14_2-release, fidoconf-0_14-release), recode.h (1.1),
+	strsep.c (1.1): Log file, charset recoding, crc32 support and
+	strseparate() GNU function moved from hpt & htick. Path from Stas
+	Degteff 2:5080/102 <g@grumber.org>
 
 2002-01-19 Saturday 14:58  mche
 
@@ -2731,9 +2741,9 @@
 2001-12-22 Saturday 14:23  mche
 
 	* common.h (1.31), dirlayer.h (1.6), fidoconf.h (1.83), xstr.h
-	(1.3, fidoconf-0_14-release): conversion from static library to
-	dynamic under win32 makes fconfmvc.dll tparser.exe and so on under
-	windows with MSVC compiler
+	(1.3, fidoconf-0_14_2-release, fidoconf-0_14-release): conversion
+	from static library to dynamic under win32 makes fconfmvc.dll
+	tparser.exe and so on under windows with MSVC compiler
 
 2001-12-22 Saturday 14:16  mche
 
@@ -2843,12 +2853,13 @@
 
 2001-07-22 Sunday 11:22  twm
 
-	* fidoconf.pas (1.10, fidoconf-0_14-release): As of now I will stop
-	maintaining fidoconf.pas. It turned out that because of the
-	alignment of the structures passed between fidoconfig and calling
-	programs is left to the compiler, it is likely to need constant
-	rechecking whether the fields are still in sync. I am not going to
-	do that.  So this is the last update I will post.
+	* fidoconf.pas (1.10, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): As of now I will stop maintaining
+	fidoconf.pas. It turned out that because of the alignment of the
+	structures passed between fidoconfig and calling programs is left
+	to the compiler, it is likely to need constant rechecking whether
+	the fields are still in sync. I am not going to do that.  So this
+	is the last update I will post.
 
 2001-07-21 Saturday 13:53  twm
 
@@ -2902,12 +2913,13 @@
 	(1.7), control (1.6), dirs (1.2), doc-base (1.3), docs (1.2),
 	dumpfcfg.1 (1.2), fconf2.1 (1.2), fidoconf-runtime.dirs (1.1),
 	fidoconf-runtime.examples (1.1), fidoconf-runtime.files (1.1),
-	fidoconf-runtime.manpages (1.1, fidoconf-0_14-release),
-	huskymak.cfg (1.7), libfidoconf0-dev.dirs (1.1),
-	libfidoconf0-dev.files (1.1, fidoconf-0_14-release),
-	libfidoconf0.dirs (1.1), libfidoconf0.doc-base (1.1),
-	libfidoconf0.files (1.1), linkedto.1 (1.2), rules (1.5), tparser.1
-	(1.2): Rebuild the libfidoconf0 package.
+	fidoconf-runtime.manpages (1.1, fidoconf-0_14_2-release,
+	fidoconf-0_14-release), huskymak.cfg (1.7), libfidoconf0-dev.dirs
+	(1.1), libfidoconf0-dev.files (1.1, fidoconf-0_14_2-release,
+	fidoconf-0_14-release), libfidoconf0.dirs (1.1),
+	libfidoconf0.doc-base (1.1), libfidoconf0.files (1.1), linkedto.1
+	(1.2), rules (1.5), tparser.1 (1.2): Rebuild the libfidoconf0
+	package.
 
 2001-06-18 Monday 15:49  ml
 
@@ -2959,8 +2971,8 @@
 
 2001-05-07 Monday 22:01  tobi
 
-	* makefile.bcd (1.11, fidoconf-0_14-release): -DNOSEMAPHORES for
-	Turbo C
+	* makefile.bcd (1.11, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): -DNOSEMAPHORES for Turbo C
 
 2001-05-06 Sunday 19:52  ml
 
@@ -2999,7 +3011,8 @@
 
 2001-05-03 Thursday 11:25  ml
 
-	* .cvs2cl (1.1, fidoconf-0_14-release): added .cvs2cl file
+	* .cvs2cl (1.1, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	added .cvs2cl file
 
 2001-04-21 Saturday 15:34  joerg.jaspert
 
@@ -3083,9 +3096,10 @@
 
 2001-04-05 Thursday 12:07  joerg.jaspert
 
-	* man/: README (1.1, fidoconf-0_14-release), dumpfcfg.1 (1.1),
-	fconf2.1 (1.1), linkedto.1 (1.1), tparser.1 (1.1): Small manpages
-	for the binaries in Fidoconf. Please check for errors.
+	* man/: README (1.1, fidoconf-0_14_2-release,
+	fidoconf-0_14-release), dumpfcfg.1 (1.1), fconf2.1 (1.1),
+	linkedto.1 (1.1), tparser.1 (1.1): Small manpages for the binaries
+	in Fidoconf. Please check for errors.
 
 2001-04-02 Monday 23:05  tobi
 
@@ -3095,19 +3109,20 @@
 
 2001-03-10 Saturday 22:58  tobi
 
-	* findtok.c (1.2, fidoconf-0_14-release), line.c (1.234),
-	makefile.inc (1.11), tokens.h (1.1): Rewrote the parser core
-	function parseLine. Replaced the endless if/elseif chain with a
-	bsearch lookup and a consecutive switch/case construct. This should
-	give a performance gain both in terms of compile time as well as in
-	terms of run time.  The comments in the new file tokens.h describe
-	how to add new keywords to fidoconfig now.
+	* findtok.c (1.2, fidoconf-0_14_2-release, fidoconf-0_14-release),
+	line.c (1.234), makefile.inc (1.11), tokens.h (1.1): Rewrote the
+	parser core function parseLine. Replaced the endless if/elseif
+	chain with a bsearch lookup and a consecutive switch/case
+	construct. This should give a performance gain both in terms of
+	compile time as well as in terms of run time.  The comments in the
+	new file tokens.h describe how to add new keywords to fidoconfig
+	now.
 
 2001-03-09 Friday 11:28  tobi
 
 	* Makefile (1.23), findtok.c (1.1), findtok.h (1.1,
-	fidoconf-0_14-release), makefile.inc (1.10): added "findtok.c" and
-	"findtok.h"
+	fidoconf-0_14_2-release, fidoconf-0_14-release), makefile.inc
+	(1.10): added "findtok.c" and "findtok.h"
 
 2001-03-09 Friday 08:10  ml
 
@@ -3330,13 +3345,13 @@
 
 2000-10-09 Monday 17:36  tobi
 
-	* fecfg146.c (1.3, fidoconf-0_14-release): fix for fastecho
-	routines
+	* fecfg146.c (1.3, fidoconf-0_14_2-release, fidoconf-0_14-release):
+	fix for fastecho routines
 
 2000-10-09 Monday 10:25  ml
 
-	* fecfg146.h (1.4, fidoconf-0_14-release), fidoconf.c (1.26):
-	bugfix for last patch from yesterday
+	* fecfg146.h (1.4, fidoconf-0_14_2-release, fidoconf-0_14-release),
+	fidoconf.c (1.26): bugfix for last patch from yesterday
 
 2000-10-08 Sunday 18:35  ml
 
@@ -3456,8 +3471,8 @@
 
 2000-08-06 Sunday 19:46  tobi
 
-	* makefile.be (1.2, fidoconf-0_14-release): fixed UNIXID for BE
-	makefile
+	* makefile.be (1.2, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): fixed UNIXID for BE makefile
 
 2000-07-27 Thursday 11:28  ml
 
@@ -3469,8 +3484,8 @@
 
 2000-07-19 Wednesday 23:31  tobi
 
-	* doc/makefile.os2 (1.2, fidoconf-0_14-release): fixed os/2 docs
-	makefile
+	* doc/makefile.os2 (1.2, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): fixed os/2 docs makefile
 
 2000-07-13 Thursday 22:55  tobi
 
@@ -3483,8 +3498,9 @@
 
 2000-07-07 Friday 21:49  tobi
 
-	* makefile.mgw (1.5, fidoconf-0_14-release): Adapted MINGW32 code
-	to the latest mingw32 version available at www.mingw.org.
+	* makefile.mgw (1.5, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): Adapted MINGW32 code to the latest mingw32
+	version available at www.mingw.org.
 
 2000-07-07 Friday 01:15  tobi
 
@@ -3496,7 +3512,8 @@
 
 2000-07-05 Wednesday 19:56  tobi
 
-	* tlib_sup.bat (1.4, fidoconf-0_14-release): Re-added tlib_sup.bat
+	* tlib_sup.bat (1.4, fidoconf-0_14_2-release,
+	fidoconf-0_14-release): Re-added tlib_sup.bat
 
 2000-06-27 Tuesday 23:21  nestyurkin.nikolay
 
@@ -3529,8 +3546,9 @@
 
 2000-05-23 Tuesday 22:10  mt
 
-	* fidoInst (1.6, fidoconf-0_14-release, fidoconf-0_10c-release,
-	fidoconf-0_10b-release, fidoconf-0_10a-release): fixed fidoInst
+	* fidoInst (1.6, fidoconf-0_14_2-release, fidoconf-0_14-release,
+	fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release): fixed fidoInst
 
 2000-05-23 Tuesday 16:51  tobi
 
@@ -3625,8 +3643,8 @@
 2000-04-16 Sunday 16:05  tobi
 
 	* makefile.bsd (1.13), makefile.in2 (1.1), makefile.lnx (1.47,
-	fidoconf-0_14-release), makefile.sun (1.11) (utags:
-	fidoconf-0_10a-release, fidoconf-0_10b-release,
+	fidoconf-0_14_2-release, fidoconf-0_14-release), makefile.sun
+	(1.11) (utags: fidoconf-0_10a-release, fidoconf-0_10b-release,
 	fidoconf-0_10c-release): legacy makefile fixes
 
 2000-04-16 Sunday 14:29  tobi
@@ -3635,9 +3653,9 @@
 
 2000-04-16 Sunday 14:12  tobi
 
-	* makefile.bcd (1.9), makefile.rxw (1.4, fidoconf-0_14-release,
-	fidoconf-0_10c-release, fidoconf-0_10b-release,
-	fidoconf-0_10a-release): makefile fixes
+	* makefile.bcd (1.9), makefile.rxw (1.4, fidoconf-0_14_2-release,
+	fidoconf-0_14-release, fidoconf-0_10c-release,
+	fidoconf-0_10b-release, fidoconf-0_10a-release): makefile fixes
 
 2000-04-15 Saturday 23:20  nestyurkin.nikolay
 
@@ -3679,7 +3697,8 @@
 
 	* makefile.bcd (1.8), makefile.bco (1.4, fidoconf-0_14-release,
 	fidoconf-0_10c-release, fidoconf-0_10b-release,
-	fidoconf-0_10a-release), makefile.bcw (1.8, fidoconf-0_14-release,
+	fidoconf-0_10a-release), makefile.bcw (1.8,
+	fidoconf-0_14_2-release, fidoconf-0_14-release,
 	fidoconf-0_10c-release, fidoconf-0_10b-release,
 	fidoconf-0_10a-release), makefile.djg (1.8, fidoconf-0_10c-release,
 	fidoconf-0_10b-release, fidoconf-0_10a-release), makefile.emo
@@ -4463,10 +4482,10 @@
 1999-02-25 Thursday 22:02  gabriel
 
 	* fconf2fidogate.c (1.3), fconf2fidogate.cfg.sample (1.2,
-	fidoconf-0_14-release, fidoconf-0_10c-release,
-	fidoconf-0_10b-release, fidoconf-0_10a-release, fidoconfig-0_6): +
-	Added patimat to fconf2fidogate for better config-file
-	interpretation
+	fidoconf-0_14_2-release, fidoconf-0_14-release,
+	fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release, fidoconfig-0_6): + Added patimat to
+	fconf2fidogate for better config-file interpretation
 
 1999-02-25 Thursday 21:47  gabriel
 
@@ -4719,12 +4738,13 @@
 
 1998-12-16 Wednesday 22:58  mt
 
-	* COPYING (1.2, fidoconf-0_14-release, fidoconf-0_10c-release,
-	fidoconf-0_10b-release, fidoconf-0_10a-release, fidoconfig-0_6),
-	common.c (1.8), common.h (1.4), dir.c (1.2), dir.h (1.3),
-	fconf2aquaed.c (1.2), fconf2golded.c (1.6), fconf2msged.c (1.10),
-	fidoconfig.c (1.19), fidoconfig.h (1.23), line.c (1.38), tparser.c
-	(1.11): changed fidoconfig licence from gpl to lgpl
+	* COPYING (1.2, fidoconf-0_14_2-release, fidoconf-0_14-release,
+	fidoconf-0_10c-release, fidoconf-0_10b-release,
+	fidoconf-0_10a-release, fidoconfig-0_6), common.c (1.8), common.h
+	(1.4), dir.c (1.2), dir.h (1.3), fconf2aquaed.c (1.2),
+	fconf2golded.c (1.6), fconf2msged.c (1.10), fidoconfig.c (1.19),
+	fidoconfig.h (1.23), line.c (1.38), tparser.c (1.11): changed
+	fidoconfig licence from gpl to lgpl
 
 1998-12-14 Monday 15:22  mtt
 
