@@ -1,3 +1,19 @@
+2005-01-09 Sunday 17:27  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.31), src/common.c (1.20), src/line.c
+	(1.41), src/tparser.c (1.26): move link baseDir to s_link_robot
+
+2005-01-09 Sunday 16:45  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.30), src/common.c (1.19), src/fidoconf.c
+	(1.24), src/line.c (1.40), src/tparser.c (1.25): enable sending
+	echo rules for filefix too
+
+2005-01-09 Sunday 14:47  val_khokhlov
+
+	* src/line.c (1.39): fix: areafix/filefix prefix was not handled
+	correctly
+
 2005-01-02 Sunday 16:44  val_khokhlov
 
 	* fidoconf/fidoconf.h (1.29), fidoconf/tokens.h (1.16),
