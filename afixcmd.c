@@ -139,7 +139,7 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
     
     f_conf = fopen(confName, "r+b");
     if (f_conf == NULL) {
-        fprintf(stderr,"%cannot open config file %s \n",confName);
+        fprintf(stderr,"cannot open config file %s \n",confName);
         return 0;
     }
     fseek(f_conf, 0L, SEEK_END);
@@ -152,7 +152,11 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
     line[cfglen]='\0';
     fseek(f_conf, strbeg, SEEK_SET);
     setfsize( fileno(f_conf), strbeg );
-    fprintf(f_conf, "%s%s%s", cfgLine, cfgEol(), line);
+    if(cfgLine) { // line not deleted
+        fprintf(f_conf, "%s%s%s", cfgLine, cfgEol(), line);
+    } else {
+        fprintf(f_conf, "%s", line);
+    }
     fclose(f_conf);
     nfree(line);
     return 1;
