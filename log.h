@@ -140,7 +140,7 @@ FCONF_EXT void w_log(char key, char *logString, ...);
   FZ:     if the key is in keysAllowed the logString will be written to the log.
 */
 
-FCONF_EXT void writeLogEntry(s_log *log, char key, char *logString, ...);
+//FCONF_EXT void writeLogEntry(s_log *log, char key, char *logString, ...);
 
 #ifdef __cplusplus
 }

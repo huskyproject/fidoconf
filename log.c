@@ -157,6 +157,7 @@ void w_log(char key, char *logString, ...)
 }
 
 /* For compatibility with htick */
+/*
 void writeLogEntry(s_log *_log, char key, char *logString, ...)
 {
    time_t     currentTime;
@@ -194,3 +195,4 @@ void writeLogEntry(s_log *_log, char key, char *logString, ...)
         putc('\n', stderr);
    }
 }
+*/
