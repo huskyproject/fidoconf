@@ -55,5 +55,7 @@ fidoconf$(OBJ) : fidoconf.c
 all : commonlibs commonprogs $(SYMBOLIC)
 
 clean : commonclean $(SYMBOLIC)
+	-$(RM) *.err
 
 distclean : commondistclean $(SYMBOLIC)
+	-$(RM) *.err

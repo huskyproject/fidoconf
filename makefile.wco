@@ -48,5 +48,7 @@ default : all $(SYMBOLIC)
 all: commonlibs commonprogs $(SYMBOLIC)
 
 clean: commonclean $(SYMBOLIC)
+	-$(RM) *.err
 
 distclean: commondistclean $(SYMBOLIC)
+	-$(RM) *.err
