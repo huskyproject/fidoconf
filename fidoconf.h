@@ -412,8 +412,8 @@ typedef struct anndef /* announce definition */
   char *annfrom;         /* field FROMNAME: in announce message         */
   char *annsubj;         /* field SUBJ:     in announce message         */
   char *annorigin;       /* Origin          in announce message         */
-  s_addr* annadrto;      /* field ADRTO:    in announce message         */
-  s_addr* annadrfrom;    /* field ADRFROM:  in announce message         */
+  s_addr* annaddrto;      /* field ADDRTO:    in announce message         */
+  s_addr* annaddrfrom;    /* field ADDRFROM:  in announce message         */
   char *annmessflags;    /* message  flags string                       */
   dword  attributes;
   unsigned  annforigin;  /* announce address of system who hatched file */ 

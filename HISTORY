@@ -14,7 +14,7 @@ Changes after FIDOCONFIG 0.14
      create temporary files, also use system-default temporary directory.
 
 2. CONFIG changes:
-   - new tokens for htick: annAdrFrom, annAdrTo, annFrom, annTo, annSubj,
+   - new tokens for htick: annAddrFrom, annAddrTo, annFrom, annTo, annSubj,
      annExclude, annInclude, announceSpool, annAreatag, annFileRFrom,
      annFileOrigin, fileAreaCreatePerms, filefixFromName, FileFixEchoLimit;
    - new tokens for hpt: newAreaRefuseFile, redusedSeenBy, areaFixFromName,

@@ -1121,10 +1121,10 @@ int main(int argc, char **argv) {
                  printf("AnnTo     : %s\n",config->AnnDefs[i].annto);
               if(config->AnnDefs[i].annfrom)
                  printf("AnnFrom   : %s\n",config->AnnDefs[i].annfrom);
-              if(config->AnnDefs[i].annadrto)
-                 printf("AnnAddrTo : %s\n",aka2str(*(config->AnnDefs[i].annadrto)));
-              if(config->AnnDefs[i].annadrfrom)
-                 printf("AnnAddrFro: %s\n",aka2str(*(config->AnnDefs[i].annadrfrom)));
+              if(config->AnnDefs[i].annaddrto)
+                 printf("AnnAddrTo : %s\n",aka2str(*(config->AnnDefs[i].annaddrto)));
+              if(config->AnnDefs[i].annaddrfrom)
+                 printf("AnnAddrFrom: %s\n",aka2str(*(config->AnnDefs[i].annaddrfrom)));
               if(config->AnnDefs[i].annsubj)
                  printf("AnnSubj   : %s\n",config->AnnDefs[i].annsubj);
               if(config->AnnDefs[i].annorigin)

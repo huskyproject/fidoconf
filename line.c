@@ -1714,9 +1714,9 @@ int parseAnnDefAddres(char *token, s_fidoconfig *config, int i)
    string2addr(token,addr );
 
    if( i == 1)
-       cAnnDef->annadrto = addr;
+       cAnnDef->annaddrto = addr;
    if( i == 2)
-       cAnnDef->annadrfrom = addr;
+       cAnnDef->annaddrfrom = addr;
 
    return 0;
 }
@@ -4273,10 +4273,10 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_ANNFILERFROM:
             rc = parseBool(getRestOfLine(), &(getDescrAnnDef(config)->annfrfrom));
             break;
-        case ID_ANNADRTO:
+        case ID_ANNADDRTO:
             rc = parseAnnDefAddres(getRestOfLine(), config, 1);
             break;
-        case ID_ANNADRFROM:
+        case ID_ANNADDRFROM:
             rc = parseAnnDefAddres(getRestOfLine(), config, 2);
             break;
         case ID_FILEAREACREATEPERMS:
