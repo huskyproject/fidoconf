@@ -528,10 +528,11 @@ void printLink(s_link link) {
 
 /*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
-	int i,j,k;
+	register int i,j,k;
+	int robotsarea_ok=0;
 	s_link *link;
 	s_area *area;
-	char *areaName;
+	register char *areaName;
 
 	for (i=0; i+1<config->linkCount; i++) {
 		for (j=i+1; j<config->linkCount; j++) {
@@ -577,6 +578,9 @@ void checkLogic(s_fidoconfig *config) {
 		area = &(config->echoAreas[i]);
 		areaName = area->areaName;
 
+		if(config->robotsArea && sstricmp(config->robotsArea,areaName)==0)
+			robotsarea_ok = 1;
+
 		/*    j=i+1 */
 		for (j=i+1; j < config->echoAreaCount; j++) {
 			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
@@ -620,6 +624,9 @@ void checkLogic(s_fidoconfig *config) {
 
 		area = &(config->localAreas[i]);
 		areaName = config->localAreas[i].areaName;
+
+		if(config->robotsArea && sstricmp(config->robotsArea,areaName)==0)
+			robotsarea_ok = 1;
 
 		for (j=0; j < config->echoAreaCount; j++) {
 			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
@@ -665,6 +672,9 @@ void checkLogic(s_fidoconfig *config) {
 		area = &(config->netMailAreas[i]);
 		areaName = config->netMailAreas[i].areaName;
 
+		if(config->robotsArea && sstricmp(config->robotsArea,areaName)==0)
+			robotsarea_ok = 1;
+
 		for (j=0; j < config->echoAreaCount; j++) {
 			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
 				printf("ERROR: duplication of area %s\n", areaName);
@@ -702,6 +712,10 @@ void checkLogic(s_fidoconfig *config) {
 				}
 			}
 		}
+	}
+	if( !robotsarea_ok ) {
+		printf("ERROR: robotsarea value is not an existing area\n");
+		exit(-1);
 	}
 }
 
