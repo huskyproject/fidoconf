@@ -39,6 +39,8 @@ LIBFIDOCONFIG  = $(LIBPREFIX)fconfwco
 .DEFAULT
 	$(NULL)
 
+default : all
+
 !include makefile.inc
 
 all: commonlibs commonprogs $(SYMBOLIC)

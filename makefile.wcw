@@ -8,7 +8,7 @@ CC          = wcl386
 EXENAMEFLAG = -fe=
 CDEFS       =
 COPT        = -zq -wx -wcd=202 -i=.. -oneatx -5 -c -bt=nt -fpi87
-COPT_WO_X   = -zq -wx -wcd=202 -i=.. -oneat  -5 -c -bt=nt -fpi87
+COPT_WO_X   = -zq -wx          -i=.. -oneat  -5 -c -bt=nt -fpi87
 LFLAGS      = -bt=nt -l=nt
 # Also see compilation rule for fidoconf.c !
 
@@ -41,9 +41,11 @@ LIBFIDOCONFIG  = $(LIBPREFIX)fconfwcw
 .DEFAULT
 	$(NULL)
 
+default : all
+
 !include makefile.inc
 
-fidoconf$(OBJ) :
+fidoconf$(OBJ) : fidoconf.c
 	$(CC) $(COPT_WO_X) $(CDEFS) $<
 # Relax some optimization because of bug in WCL 11.0 - removed 'x' option
 
