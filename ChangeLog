@@ -1,3 +1,12 @@
+2001-08-27 Monday 10:09  ml
+
+	* line.c (1.260): don't check file boxes existence (for fileBox
+	autocreation) [patch by SR]
+
+2001-08-27 Monday 10:07  ml
+
+	* cfg.c (1.8): fix OS var under win32
+
 2001-08-24 Friday 15:20  ml
 
 	* syslogp.h (1.5): syslog under BeOS it turned off
