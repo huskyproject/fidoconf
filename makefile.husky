@@ -69,6 +69,7 @@ instdyn:
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.$(VER) \
           $(LIBDIR)/$(LIBFIDOCONFIG).so.0
 	$(LN) $(LNOPT) $(LIBDIR)/$(LIBFIDOCONFIG).so.0 $(LIBDIR)/$(LIBFIDOCONFIG).so
+        $(LDCONFIG)
 
 else
 instdyn: commonlibs

@@ -12,6 +12,7 @@ CC = gcc
 AR = ar
 AR_R = r
 RM = rm
+LDCONFIG = /sbin/ldconfig
 
 COPT = -O3 -c -fPIC -Wall -ggdb -DUNIX -I../smapi
 LOPT = -L. -L$(LIBDIR)
@@ -59,3 +60,5 @@ install:
 	install linkedto $(INSTDIR)
 	install $(IBOPT) tparser      $(INSTDIR)
 	install $(IBOPT) dumpfcfg     $(INSTDIR)
+        $(LDCONFIG)
+
