@@ -1026,6 +1026,33 @@ int sstrcmp(const char *str1, const char *str2)
   return strcmp(str1,str2);   /* compare strings */
 }
 
+/* safety strncmp */
+int sstrncmp(const char *str1, const char *str2, size_t length)
+{
+  if( str1==str2 ) return 0;  /* strings match */
+  if( str1==NULL ) return -1; /* str1(NULL) < str2(not NULL) */
+  if( str2==NULL ) return 1;  /* str1(not NULL) > str2(NULL) */
+  return strncmp(str1,str2, length);  /* compare strings */
+}
+
+/* safe stricmp (case-insencitive) */
+int sstricmp(const char *str1, const char *str2)
+{
+  if( str1==str2 ) return 0;  /* strings match */
+  if( str1==NULL ) return -1; /* str1(NULL) < str2(not NULL) */
+  if( str2==NULL ) return 1;  /* str1(not NULL) > str2(NULL) */
+  return stricmp(str1,str2);   /* compare strings */
+}
+
+/* safety strnicmp (case-insencitive) */
+int sstrnicmp(const char *str1, const char *str2, size_t length)
+{
+  if( str1==str2 ) return 0;  /* strings match */
+  if( str1==NULL ) return -1; /* str1(NULL) < str2(not NULL) */
+  if( str2==NULL ) return 1;  /* str1(not NULL) > str2(NULL) */
+  return strnicmp(str1,str2, length);  /* compare strings */
+}
+
 
 char    *GetFilenameFromPathname(char* pathname)
 {

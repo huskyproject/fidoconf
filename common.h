@@ -2,7 +2,7 @@
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
  * Copyright (C) 1998-1999
- *  
+ *
  * Matthias Tichy
  *
  * Fido:     2:2433/1245 2:2433/1247 2:2432/605.14
@@ -65,12 +65,12 @@ int copyStringUntilSep(char *str, char *seps, char **dest);
 FCONF_EXT void *memdup(void *p, size_t size);
 /*DOC
  * Input:  a chunk of memory, with size bytes
- * Output: a copy of it 
+ * Output: a copy of it
  */	
 
 FCONF_EXT long str2attr(const char *str);
 /*DOC
-  Input:  Msg flag name 
+  Input:  Msg flag name
   Output: value with corresponding bit set or -1L else
 */
 
@@ -187,7 +187,7 @@ FCONF_EXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoco
 /*DOC
    Input:  dir: \0 terminated string designating the destination directory
            ext: \0 terminated string designating the file extension w/o dot
-           config: is used to generate a node specific offset         
+           config: is used to generate a node specific offset
    Output: a pointer to a malloc'ed \0 terminated string is returned.
    FZ:     Creates a unique DOS compatible file name inside the given directory.
            See the comments in common.c for further explanations
@@ -255,7 +255,7 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
 // '\x0003' no access import
 // '\x0004' not linked
 
-/* 
+/*
    safe malloc, realloc, calloc, strdup
    if no memory allocated -- abort()
 */
@@ -278,6 +278,15 @@ FCONF_EXT char *sstrdup(const char *src);
 
 /* safe strcmp */
 FCONF_EXT int sstrcmp(const char *str1, const char *str2);
+
+/* safe strncmp */
+FCONF_EXT int sstrncmp(const char *str1, const char *str2, size_t length);
+
+/* safe stricmp (case-insencitive) */
+FCONF_EXT int sstricmp(const char *str1, const char *str2);
+
+/* safety strnicmp (case-insencitive) */
+FCONF_EXT int sstrnicmp(const char *str1, const char *str2, size_t length);
 
 /* strsep.c
 */
