@@ -67,7 +67,16 @@ commonlibs: $(TARGETLIB) $(SYMBOLIC)
 	$(NULL)
 
 commonprogs: $(PROGRAMS) $(FC2TOR) $(FECFG2FC) $(SYMBOLIC)
-	$(NULL)
+	ifdef LONGNAMES
+	    $(MV) fc2aed$(_EXE) fconf2aquaed$(_EXE)
+	    $(MV) fc2binkd$(_EXE) fconf2binkd$(_EXE)
+	    $(MV) fc2fgate$(_EXE) fconf2fidogate$(_EXE)
+	    $(MV) fc2ged$(_EXE) fconf2golded$(_EXE)
+	    $(MV) fc2msged$(_EXE) fconf2msged$(_EXE)
+	    $(MV) fc2sq$(_EXE) fconf2squish$(_EXE)
+	    $(MV) fc2tor$(_EXE) fconf2tornado$(_EXE)
+	    $(MV) fecfg2fc$(_EXE) fecfg2fconf$(_EXE)
+	endif
 
 
 %$(_OBJ): $(_SRC_DIR)%.c
