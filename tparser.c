@@ -594,7 +594,8 @@ int printLink(s_link link) {
 
 /*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
-	register UINT i,j,k;
+	register UINT i,j;
+	register INT k;
 	int robotsarea_ok;
 	s_link *link;
 	s_area *area;
