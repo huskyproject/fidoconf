@@ -4,6 +4,12 @@ fidoconfig 0.10
 
 
 ----- cvs ci ------
+Sat Aug 27 19:31:04 NOVST 2000
+* "tparser -Dmodule=hpt" prints only hpt keywords
+* excludePassthroughCarbon token
+* packer none (no pack mail)
+
+----- cvs ci ------
 Fri Aug 25 12:37:46 NOVST 2000
 max (patch from Serguei Revtov):
 * token BundleNameStyle

@@ -1468,6 +1468,11 @@ int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
       return 1;
    }
 
+   if (stricmp(line,"none")==0) {
+	   (*packerDef) = NULL;
+	   return 0;
+   }
+
    for(i = 0; i < config->packCount; i++)
       if (stricmp(line, config->pack[i].packer)==0) {
          (*packerDef) = &(config->pack[i]);
@@ -2422,6 +2427,7 @@ int parseLine(char *line, s_fidoconfig *config)
    /* -AS- */
    else if (stricmp(token, "carbondelete")==0) rc = parseCarbonDelete(getRestOfLine(), config);
    else if (stricmp(token, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
+   else if (stricmp(token, "excludepassthoughcarbon")==0) rc = parseBool(getRestOfLine(), &(config->exclPassCC));
 #ifdef __TURBOC__
    else unrecognised++;
 #else   

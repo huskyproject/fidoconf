@@ -196,6 +196,7 @@ a comment and will be ignored.
 * carbonKeepSb::                keep seen-by's and path
 * carbonOut::                   carbon outgoing messages
 * carbonReason::                string of carbon copy reason
+* excludePassthroughCarbon::    don't carbon in passthrough areas
 
 * areafixFromPkt::              process areafix requests on the fly
 * areafixKillReports::          set kill/sent flag to areafix reports
@@ -1088,8 +1089,8 @@ This statement can only be repeated for different links.
 
 This statement sets the packer for the link. You can use the packer which you
 has set up using the pack statement.
-If you omit this statement no mail will be packed. The pkt´s will be put in
-the outbound.
+If you omit this statement or set @code{packer none} no mail will be
+packed. The pkt´s will be put in the outbound.
 
 This statement can only be repeated for different links.
 
@@ -2115,7 +2116,7 @@ set up @code{-keepsb} in options of echoarea where you carbon messages.
 This statament makes possible carbon your outgoing mail (scanned &
 packed). Don't forget to set carbon rules.
 
-@node carbonReason, areafixFromPkt, carbonOut, Keywords
+@node carbonReason, excludePassthroughCarbon, carbonOut, Keywords
 @subsection carbonReason
 @table @asis
 @item Syntax:
@@ -2136,7 +2137,18 @@ No reason string is printed if this statement is ommitted.
 This statement can be repeated for each different
 carbon@{To|From|Kludge|Subj|Text@} statement.
 
-@node areafixFromPkt, areafixKillReports, carbonReason, Keywords
+@node excludePassthroughCarbon, areafixFromPkt, carbonReason, Keywords
+@subsection excludePassthroughCarbon
+@table @asis
+@item Syntax:
+@code{excludePassthroughCarbon [on|off|yes|no|1|0]}
+@item Example:
+@code{excludePassthroughCarbon}
+@end table
+
+Don't carbon from passthrough areas.
+
+@node areafixFromPkt, areafixKillReports, excludePassthroughCarbon, Keywords
 @subsection areafixFromPkt
 @table @asis
 @item Syntax:

@@ -252,8 +252,8 @@ void printLink(s_link link) {
 
 int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
-   int i, j;
-   char *cfgFile=NULL;
+   int i, j, hpt=0;
+   char *cfgFile=NULL, *module;
 
    for (i=1; i<argc; i++)
    {
@@ -275,6 +275,13 @@ int main(int argc, char **argv) {
        } else
            xstrcat(&cfgFile, argv[i]);
    }
+
+   module = getvar("module");
+   printf("module: ");
+   if (module) {
+       printf("%s\n", module);
+       if (stricmp(module,"hpt")==0) hpt=1;
+   } else printf("all modules\n");
 
    config = readConfig(cfgFile);
    nfree(cfgFile);
@@ -317,8 +324,11 @@ int main(int argc, char **argv) {
       if (config->badFilesDir) printf("BadFilesDir: %s\n", config->badFilesDir);
       if (config->msgidfile) printf("MsgIDFile: %s\n", config->msgidfile);
 //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
-      printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");
-      printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
+
+      if (hpt==0) {
+          printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");
+          printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
+      }
 
       printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
       printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
@@ -375,6 +385,7 @@ int main(int argc, char **argv) {
 	  if (config->areafixSplitStr) printf("areafixSplitStr - \"%s\"\n", config->areafixSplitStr);
 	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
 
+  if (hpt==0) {
       printf("\n=== FILEFIX CONFIG ===\n");
 	  printf("filefixKillReports: %s\n",(config->filefixKillReports)?"on":"off");
 	  printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
@@ -395,7 +406,7 @@ int main(int argc, char **argv) {
       printf("FileFileUMask: %o\n", config->fileFileUMask);
       printf("FileDirUMask: %o\n", config->fileDirUMask);
       if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
-
+  }
       printf("\n=== LINKER CONFIG ===\n");
       if (config->LinkWithImportlog != NULL) printf("LinkWithImportlog: %s\n", config->LinkWithImportlog);
       printf("\n=== LINK CONFIG ===\n");
@@ -404,7 +415,7 @@ int main(int argc, char **argv) {
       
       printf("\n=== AREA CONFIG ===\n");
       if (config->netMailAreaCount == 0) { printf("you must define at least one NetmailArea!\n"); return 1; }
-      printf("\n=== LocalAreas ===\n");
+      printf("\n=== Net&EchoAreas ===\n");
       for (i = 0; i< config->netMailAreaCount; i++) {
          printArea(config->netMailAreas[i]);
       }
@@ -423,6 +434,8 @@ int main(int argc, char **argv) {
       for (i = 0; i< config->localAreaCount; i++) {
          printArea(config->localAreas[i]);
       }
+
+   if (hpt==0) {
       printf("\n=== FileAreas ===\n");
       for (i=0; i<config->fileAreaCount; i++) {
         printFileArea(config->fileAreas[i]);
@@ -431,10 +444,12 @@ int main(int argc, char **argv) {
       for (i=0; i<config->bbsAreaCount; i++) {
         printBbsArea(config->bbsAreas[i]);
       }
+   }
       printf("\n=== CarbonCopy ===\n");
       printf("CarbonAndQuit %s\n", (config->carbonAndQuit) ? "on" : "off");
       printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
       printf("CarbonOut %s\n", (config->carbonOut) ? "on" : "off");
+      printf("ExcludePassthroughCarbon %s\n", (config->exclPassCC) ? "on" : "off");
 	  printf("\n");
       for (i = 0; i< config->carbonCount; i++) {
 		  if (config->carbons[i].ctype == ct_to)      printf("CarbonTo:     ");
@@ -498,6 +513,7 @@ int main(int argc, char **argv) {
          }
       }
 
+   if (hpt==0) {
       printf("\n=== NODELIST CONFIG ===\n");
       if (config->nodelistDir != NULL)
         {
@@ -508,7 +524,7 @@ int main(int argc, char **argv) {
           printf("Fidouser List File: %s\n", config->fidoUserList);
         }
       printf("-------\n");
-
+   
       for (i = 0; i < config->nodelistCount; i++)
         {
           printf("Nodelist %s\n", config->nodelists[i].nodelistName);
@@ -538,7 +554,7 @@ int main(int argc, char **argv) {
             }
           printf("-------\n");
         }
-
+   }
       printf("\n=== PACK CONFIG ===\n");
       for (i = 0; i < config->packCount; i++) {
          printf("Packer: %s      Call: %s\n", config->pack[i].packer, config->pack[i].call);
@@ -559,6 +575,8 @@ int main(int argc, char **argv) {
       if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
 
       if (config->ReportTo) printf("ReportTo\t%s\n", config->ReportTo);
+
+   if (hpt==0) {
       printf("\n=== EXEC CONFIG ===\n");
       for (i = 0; i < config->execonfileCount; i++) {
          printf("ExecOnFile: Area %s File %s Call %s\n",
@@ -566,6 +584,8 @@ int main(int argc, char **argv) {
                  config->execonfile[i].filename,
                  config->execonfile[i].command);
       }
+   }
+
       disposeConfig(config);
    } /* endif */
    return 0;

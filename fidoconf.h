@@ -338,6 +338,7 @@ typedef struct fidoconfig {
    unsigned int   carbonAndQuit;
    unsigned int   carbonKeepSb;  // keep SeenBy's and PATH in carbon area
    unsigned int   carbonOut;     // carbon outgoing messages
+   unsigned int   exclPassCC;    // don't carbon passthough
 
    unsigned int  remapCount;
    ps_remap remaps;
