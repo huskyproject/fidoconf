@@ -353,7 +353,7 @@ int main (int argc, char *argv[]) {
       return 1;
 
    }
-   printf("Reading fidoconfig... ", argv[cont]);
+   printf("Reading fidoconfig ... ");
 
    config = readConfig(NULL);
 

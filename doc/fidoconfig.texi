@@ -138,6 +138,6 @@ fidosoft.husky (english)
 @end example
 
 The actual fidoconfig library and other fido software will be on
-@url{http://husky.physcip.uni-stuttgart.de}.
+@url{http://husky.sourceforge.net}.
 
 @bye

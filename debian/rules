@@ -84,7 +84,8 @@ binary-arch: build install
 	ln -s fconf2.1 fconf2msged.1 ;\
 	ln -s fconf2.1 fconf2fidogate.1 ;\
 	ln -s fconf2.1 fconf2squish.1 ;\
-	ln -s fconf2.1 fecfg2fconf.1
+	ln -s fconf2.1 fecfg2fconf.1 ;\
+	ln -s fconf2.1 fconf2tornado.1
 	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs ChangeLog
