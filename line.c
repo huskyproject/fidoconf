@@ -3122,6 +3122,11 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parsePath(getRestOfLine(),
                            &(getDescrLink(config)->msgBaseDir));
             break;
+        case ID_LINKFILEBASEDIR:
+            rc = parsePath(getRestOfLine(),
+                           &(getDescrLink(config)->fileBaseDir));
+            break;
+
         case ID_MAGIC:
             rc = parsePath(getRestOfLine(), &(config->magic));
             break;

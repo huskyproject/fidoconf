@@ -263,7 +263,8 @@ enum {
     ID_KILLEDREQUESTTIMEOUT,
     ID_PACKNETMAILONSCAN,
     ID_UUEECHOGROUP,
-    ID_TICKERPACKTOBOX
+    ID_TICKERPACKTOBOX,
+    ID_LINKFILEBASEDIR
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -422,6 +423,7 @@ token_t parseline_tokens[] =
     { "link", ID_LINK },
     { "linkbundlenamestyle", ID_LINKBUNDLENAMESTYLE },
     { "linkdefaults", ID_LINKDEFAULTS },
+    { "linkfilebasedir", ID_LINKFILEBASEDIR },
     { "linkgrp", ID_LINKGRP },
     { "linkmsgbasedir", ID_LINKMSGBASEDIR },
     { "linkwithimportlog", ID_LINKWITHIMPORTLOG },

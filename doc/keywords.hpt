@@ -95,6 +95,7 @@ level
 link
 linkbundlenamestyle
 linkdefaults
+linkfilebasedir
 linkgrp
 linkmsgbasedir
 linkwithimportlog

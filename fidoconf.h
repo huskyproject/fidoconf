@@ -181,6 +181,7 @@ typedef struct link {
    unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
    e_bundleFileNameStyle linkBundleNameStyle; // Style bundle filenames (timeStamp, addrDiff...
     char *msgBaseDir;
+    char *fileBaseDir;
     char **frMask; // forwardRequestMask groups
     unsigned int numFrMask;
     char **dfMask; // don't forward this
