@@ -1,3 +1,12 @@
+fidoconfig 0.91
+--------------
+
+----- cvs ci ------
+Tue Sep 28 16:42:08 NOVST 1999
+max:
+* fixed bug in string2addr() // core dumps on some msg's
+
+
 fidoconfig 0.9
 --------------
 (released on Thu Sep 23 23:05:24 CEST 1999)

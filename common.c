@@ -79,6 +79,8 @@ void string2addr(const char *string, s_addr *addr)
 
   addr->domain = NULL;
 
+  if (strchr(start,':')==0 || strchr(start,'/')==0) return;
+
   while ((*start != ':')&&(*start != ' ')&&(i < 31)) {    // copy zone info or preceding domain
       buffer[i] = *(start++);
       i++;
@@ -87,8 +89,8 @@ void string2addr(const char *string, s_addr *addr)
    if (!isdigit(buffer[0])) {
       // Domain name could be in front of the addr, not FTS-compatible!!!!!
       // software which is such crap generating should be xxxx
-      addr->domain = (char *) malloc(strlen(buffer)+1);
-      strcpy(addr->domain, buffer);
+//      addr->domain = (char *) malloc(strlen(buffer)+1);
+//      strcpy(addr->domain, buffer);
    } else addr->zone = atoi(buffer);
 
    i = 0;
@@ -127,9 +129,9 @@ void string2addr(const char *string, s_addr *addr)
          i++; start++;
       } /* endwhile */
       buffer[i] = '\0';
-      free(addr->domain);
-      addr->domain = (char *) malloc(strlen(buffer)+1);
-      strcpy(addr->domain, buffer);
+//      free(addr->domain);
+//      addr->domain = (char *) malloc(strlen(buffer)+1);
+//      strcpy(addr->domain, buffer);
       addr->point = 0;
       break;
    case '.':                            // point info / maybe domain info
@@ -148,12 +150,12 @@ void string2addr(const char *string, s_addr *addr)
             i++; start++;
          } /* endwhile */
          buffer[i] = '\0';
-         free(addr->domain);
-         addr->domain = (char *) malloc(strlen(buffer)+1);
-         strcpy(addr->domain, buffer);
+//         free(addr->domain);
+//         addr->domain = (char *) malloc(strlen(buffer)+1);
+//         strcpy(addr->domain, buffer);
       } else {
-         free(addr->domain);
-         addr->domain = NULL; //no domain
+//         free(addr->domain);
+//         addr->domain = NULL; //no domain
       } /* endif */
       break;
    default:
