@@ -1,3 +1,8 @@
+2003-04-08 Tuesday 10:27  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.9), src/line.c (1.8), src/tparser.c (1.5):
+	areafixReportsAttr can be applied to individual links
+
 2003-04-03 Thursday 09:44  mche
 
 	* src/afixcmn.c (1.4): fix freeMsgBuffers
