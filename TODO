@@ -4,7 +4,8 @@
   more bugs like this in the current sources
 - dump remaps, bbsareas and fileareas
 - unify routes (make route, routeMail & routeFile "the same", so that routing
-  depends on their order in the config)
+  depends on their order in the config), add NoPack (ignore mails to this
+  address, leave them in the netmail area)
 - document ExecOnFile, filefixkillreports [ to Georgy :-> ]
 - fix "0" groups (to NULL)
 - ArcMailAddr (address PKT etc. to <Addr>, but send it to <ArcMailAddr>)
