@@ -27,7 +27,9 @@
  * You should have received a copy of the GNU Library General Public
  * License along with this library; see file COPYING. If not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *****************************************************************************/
+ *****************************************************************************
+ * $Id$
+ */
 
 #ifndef _COMMON_H
 #define _COMMON_H
@@ -39,6 +41,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define SIZE_aka2str 24   /* Size of static variable returned by aka2str() */
 
 #define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
 

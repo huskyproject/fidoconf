@@ -27,7 +27,9 @@
  * You should have received a copy of the GNU Library General Public
  * License along with this library; see file COPYING. If not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *****************************************************************************/
+ *****************************************************************************
+ * $Id$
+ */
 
 #include <time.h>
 #include <string.h>
@@ -786,7 +788,7 @@ int copy_file(const char *from, const char *to)
 }
 
 char *aka2str(s_addr aka) {
-  static char straka[24];
+  static char straka[SIZE_aka2str];
 
     if (aka.point) sprintf(straka,"%u:%u/%u.%u",aka.zone,aka.net,aka.node,aka.point);
     else sprintf(straka,"%u:%u/%u",aka.zone,aka.net,aka.node);
