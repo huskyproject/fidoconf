@@ -1,3 +1,7 @@
+2003-02-17 Monday 08:49  sfpavel
+
+	* recode.c (fidoconf-1_4-stable.1): Fix compiler warnings
+
 2003-02-16 Sunday 17:24  stas_degteff
 
 	* INSTALL (fidoconf-1_4-stable.2): Update build documentation
