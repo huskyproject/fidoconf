@@ -1,3 +1,17 @@
+2002-11-15 Friday 19:14  pgul
+
+	* afixcmd.c (1.15): Small fix for previous patch
+
+2002-11-15 Friday 19:04  pgul
+
+	* afixcmd.c (1.14): More clean changing config
+
+2002-11-15 Friday 15:52  stas_degteff
+
+	* fecfg146.c (1.4), fecfg146.h (1.6), fecfg2fc.c (1.7),
+	makefile.inc (1.34): Improve functionality to fastecho ->
+	fidoconfig conversion
+
 2002-11-14 Thursday 08:31  stas_degteff
 
 	* tparser.c (1.207): Print delNotReceivedTIC value
