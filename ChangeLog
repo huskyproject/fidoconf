@@ -1,3 +1,12 @@
+2003-10-16 Thursday 07:16  mche
+
+	* src/fidoconf.c (1.12): add links for all our akas if it is not
+	defined in config
+
+2003-10-07 Tuesday 12:03  stas_degteff
+
+	* src/fc2binkd.c (1.3): Fix version output. Thanks to Kostya Falkov
+
 2003-10-05 Sunday 17:21  d_sergienko
 
 	* HISTORY (1.25), fidoconf/fidoconf.h (1.16), fidoconf/tokens.h
