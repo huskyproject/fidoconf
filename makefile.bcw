@@ -1,52 +1,40 @@
-CC=     bcc32
-CFLAGS=
-CDEFS=  -D__NT__ -DNT -DWINNT
-COPT=   -O -I..\smapi
-LIB=    tlib
+# Makefile for Borland C (Win32)
+# no support for huskymak.cfg
 
-LIBS=  fidoconfig.lib
-ALLIBS= $(LIBS) ..\smapi\smapibcw.lib
+CC=	bcc32
+EXENAMEFLAG=-e
+CFLAGS=	-w -DNT -D__NT__ -DWINNT -WC -I.. -I../smapi -v
+CDEFS=	-DMSDOS
+COPT=	-O2
+LFLAGS= -WC
+# we always enerate debug info with -v; the linker will strip it
 
-HDRS=  common.h \
-       dirlayer.h \
-       fidoconfig.h \
-       adcase.h \
-       typesize.h
+OBJ=.obj
+EXE=.exe
+RM=del
+LIB=.lib
+AR=tlib_sup
+AR_R=
 
-OBJS=  adcase.obj \
-       line.obj \
-       fidoconfig.obj \
-       dirlayer.obj \
-       common.obj
+LINKFIDOCONFIG=fconfbcw.lib
+LINKSMAPI=..\smapi\smapibcw.lib
+LIBPREFIX=
 
-LOBJS=  -+patmat.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj +-adcase.obj
+FIDOCONFIG = fidoconfig
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+FECFG2FCONF = fecfg2fconf
+LIBFIDOCONFIG = $(LIBPREFIX)fconfbcw
 
-all:    fidoconfig.lib fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe
+default: all
 
-fidoconfig.lib: $(OBJS)
-        $(LIB) $(LIBS) $(LOBJS)
+!include makefile.common
 
+all: commonlibs commonprogs
 
-fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
+clean: commonclean
 
-fconf2golded.exe: $(LIBS) $(HDRS) fconf2golded.c
-
-tparser.exe: $(LIBS) $(HDRS) tparser.c
-
-# Thunderbirds are go!
-
-clean:
-        del $(OBJS)
-        del $(LOBJS)
-        del fidoconfig.bak
-        del fconf2golded.obj fconf2msged.obj fconf2golded.exe fconf2msged.exe tparser.obj tparser.exe
-
-.c.obj:
-        $(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
-
-.c.exe:
-        $(CC) $(CFLAGS) $(CDEFS) $(COPT) $< $(ALLIBS)
-
-
-
-
+distclean: commondistclean
