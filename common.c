@@ -1179,7 +1179,7 @@ int needUseFileBoxForLink (ps_fidoconfig config, s_link *link)
     // link->useFileBox == 0 -> still don't know
 
     if ( (link->fileBox==NULL && config->fileBoxesDir==NULL) ||
-         (theApp.module == 2  && !link->tickerPackToBox)
+         (theApp.module == M_HTICK  && !link->tickerPackToBox)
        )
     {
         link->useFileBox = 1;
