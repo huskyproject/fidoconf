@@ -18,9 +18,8 @@ LOPT = -L. -L$(LIBDIR)
 ifneq ($(OSTYPE), UNIX)
   LIBPREFIX=
 else
-  LIBPREFIX="lib"
+  LIBPREFIX=lib
 endif
-
 
 # filename settings
 ifeq ($(SHORTNAMES), 1)
@@ -86,7 +85,7 @@ instdyn: commonlibs
 endif
 
 ranlib:	commonlibs
-	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)/patmat.o
+#	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)/patmat.o
 ifdef RANLIB
 	$(RANLIB) $(LIBFIDOCONFIG)$(LIB)
 endif

@@ -17,7 +17,7 @@ commonprogs:    tparser$(EXE) \
 		$(FCONF2FIDOGATE)$(EXE) \
 	        $(FCONF2GOLDED)$(EXE) \
 		$(FCONF2SQUISH)$(EXE) \
-		$(FECFG2FCONF)$(EXE) \
+                $(FECFG2FCONF)$(EXE) \
                 dumpfcfg$(EXE)
 
 $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
@@ -49,6 +49,9 @@ $(FCONF2SQUISH)$(EXE): $(FCONF2SQUISH)$(OBJ) $(LIBFIDOCONFIG)$(LIB)
 ifeq ($(CC), gcc)
 $(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(OBJ)
 	$(CC) -fpack-struct $(FECFG2FCONF)$(OBJ) -o $(FECFG2FCONF)$(EXE)
+else
+.PHONY: $(FECFG2FCONF)($EXE)
+$(FECFG2FCONF)($EXE):
 endif
 
 
