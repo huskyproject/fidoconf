@@ -132,7 +132,7 @@ int writeEchoArea(FILE *f, s_area *area, char type) {
    return 0;
 }
 
-int writeFileArea(FILE *f, s_filearea *area) {
+int writeFileArea(FILE *f, s_area *area) {
 
    fprintf(f, "[FileArea]\n");
 

@@ -277,11 +277,11 @@ int Changepause(char *confName, s_link *link, int opt, int type)
     if       (link->Pause == NOPAUSE) {
         if(InsertCfgLine(confName, "Pause off", strbeg, strend)) 
             w_log('8', "areafix: system %s set active",	aka2str(link->hisAka));
-    } else if(link->Pause == (EPAUSE|FPAUSE)) { 
+    } else if(link->Pause == (ECHOAREA|FILEAREA)) { 
         if(InsertCfgLine(confName, "Pause on", strbeg, strend)) 
             w_log('8', "%s: system %s set passive",
             opt ? "autopause" : "areafix", aka2str(link->hisAka));
-    } else if(link->Pause == EPAUSE) {
+    } else if(link->Pause == ECHOAREA) {
         if(InsertCfgLine(confName, "Pause Earea", strbeg, strend)) 
             w_log('8', "%s: system %s set passive only for echos",
             opt ? "autopause" : "areafix", aka2str(link->hisAka));
@@ -391,105 +391,30 @@ int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd) {
     return 0;
 }
 
-void Addlink(s_link *link, s_area *earea, s_filearea *farea) {
-    
-    s_arealink *arealink;
-    
-    if(farea)
+void Addlink(const s_fidoconfig *config, s_link *link, s_area *area)
+{
+    if(area)
     {
-        farea->downlinks = srealloc(farea->downlinks, sizeof(s_arealink*)*(farea->downlinkCount+1));
-        arealink = farea->downlinks[farea->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
+        s_arealink *arealink;
+        area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+        arealink = area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
         arealink->link = link;
         
-        if (link->numOptGrp > 0) {
-            /*  default set export on, import on, mandatory off, manual off */
-            arealink->export = 1;
-            arealink->import = 1;
-            arealink->mandatory = 0;
-            arealink->manual = 0;
-            
-            if (grpInArray(farea->group,link->optGrp,link->numOptGrp)) {
-                arealink->export = link->export;
-                arealink->import = link->import;
-                arealink->mandatory = link->mandatory;
-                arealink->manual = link->manual;
-            }
-            
-        } else {
-            arealink->export = link->export;
-            arealink->import = link->import;
-            arealink->mandatory = link->mandatory;
-            arealink->manual = link->manual;
-        }
-        if (farea->mandatory) arealink->mandatory = 1;
-        if (farea->manual) arealink->manual = 1;
-        if (link->level < farea->levelread)	arealink->export=0;
-        if (link->level < farea->levelwrite) arealink->import=0;
-        /*  paused link can't receive mail */
-        if ((link->Pause & FPAUSE) == FPAUSE) arealink->export = 0;
-        
-        farea->downlinkCount++;
-    }
-    
-    if(earea)
-    {
-        earea->downlinks = srealloc(earea->downlinks, sizeof(s_arealink*)*(earea->downlinkCount+1));
-        arealink = earea->downlinks[earea->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
-        arealink->link = link;
-        
-        if (link->numOptGrp > 0) {
-            /*  default set export on, import on, mandatory off, manual off */
-            arealink->export = 1;
-            arealink->import = 1;
-            arealink->mandatory = 0;
-            arealink->manual = 0;
-            
-            if (grpInArray(earea->group,link->optGrp,link->numOptGrp)) {
-                arealink->export = link->export;
-                arealink->import = link->import;
-                arealink->mandatory = link->mandatory;
-                arealink->manual = link->manual;
-            }
-            
-        } else {
-            arealink->export = link->export;
-            arealink->import = link->import;
-            arealink->mandatory = link->mandatory;
-            arealink->manual = link->manual;
-        }
-        if (earea->mandatory) arealink->mandatory = 1;
-        if (earea->manual) arealink->manual = 1;
-        if (link->level < earea->levelread)	arealink->export=0;
-        if (link->level < earea->levelwrite) arealink->import=0;
-        /*  paused link can't receive mail */
-        if ((link->Pause & EPAUSE) == EPAUSE) arealink->export = 0;
-        
-        earea->downlinkCount++;
+        setLinkAccess(config, area, arealink);
+        area->downlinkCount++;
     }
 }
 
-void RemoveLink(s_link *link, s_area *earea, s_filearea *farea) {
-	unsigned int i;
-
-    if(earea) /* remove link from echoarea */
+void RemoveLink(s_link *link, s_area *area)
+{
+    if(area) /* remove link from echoarea */
     {
-        if ( (i=isAreaLink(link->hisAka, earea)) != -1) {
-            nfree(earea->downlinks[i]);
-            earea->downlinks[i] = earea->downlinks[earea->downlinkCount-1];
-            earea->downlinkCount--;
+        UINT i;
+        if ( (i=isAreaLink(link->hisAka, area)) != -1) {
+            nfree(area->downlinks[i]);
+            area->downlinks[i] = area->downlinks[area->downlinkCount-1];
+            area->downlinkCount--;
         }
-    }
-    if(farea) /* remove link from fileechoarea */
-    {
-        s_link *links;
-        
-        for (i=0; i < farea->downlinkCount; i++) {
-            links = farea->downlinks[i]->link;
-            if (addrComp(link->hisAka, links->hisAka)==0) break;
-        }
-        nfree(farea->downlinks[i]);
-        farea->downlinks[i] = farea->downlinks[farea->downlinkCount-1];
-        farea->downlinkCount--;
     }
 }
 

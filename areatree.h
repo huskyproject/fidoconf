@@ -39,6 +39,6 @@ FCONF_EXT   int      RebuildEchoAreaTree(ps_fidoconfig config);
             ps_area  FindAreaInTree(char* areaName);
 
 FCONF_EXT   int      RebuildFileAreaTree(ps_fidoconfig config);
-            ps_filearea  FindFileAreaInTree(char* areaName);
+            ps_area  FindFileAreaInTree(char* areaName);
 
 #endif 

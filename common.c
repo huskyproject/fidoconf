@@ -1056,7 +1056,8 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     /*  rc == '\x0003' no access export */
     /*  rc == '\x0004' not linked */
 
-    unsigned int i, rc = 0;
+    UINT i, rc = 0;
+    UINT Pause = echo->areaType;
 
     for (i=0; i<echo->downlinkCount; i++) {
 		if (link == echo->downlinks[i]->link) break;
@@ -1064,7 +1065,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     if (i == echo->downlinkCount) return 4;
 
     /*  pause */
-    if (((link->Pause & EPAUSE) == EPAUSE) && echo->noPause==0) return 3;
+    if (((link->Pause & Pause) == Pause) && echo->noPause==0) return 3;
 
     if (echo->group) {
 		if (link->numAccessGrp) {

@@ -170,6 +170,12 @@ void initConfig(s_fidoconfig *config) {
        MSGPRIVATE | MSGKILL | MSGLOCAL;
    config -> areafixReportsFlags = sstrdup("NPD");
    config -> filefixReportsFlags = sstrdup("NPD");
+
+   config->dupeArea.areaType = ECHOAREA;
+   config->badArea.areaType = ECHOAREA;
+   config->EchoAreaDefault.areaType = ECHOAREA;
+   config->FileAreaDefault.areaType = FILEAREA;
+
    initGroupTree();
 }
 
@@ -520,16 +526,6 @@ void fc_freeEchoArea(s_area *area) {
 	nfree(area->sbign);
 }
 
-void fc_freeFileArea(s_filearea *area) {
-    unsigned int i;
-	nfree(area->areaName);
-	nfree(area->pathName);
-	nfree(area->description);
-	nfree(area->group);
-	for (i=0; i < area->downlinkCount; i++) nfree(area->downlinks[i]);
-	nfree(area->downlinks);
-}
-
 void freeBbsArea(s_bbsarea area) {
         nfree(area.areaName);
         nfree(area.pathName);
@@ -601,7 +597,7 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->echoAreas);
 
    for (i = 0; i< config->fileAreaCount; i++)
-       fc_freeFileArea(&(config->fileAreas[i]));
+       fc_freeEchoArea(&(config->fileAreas[i]));
    nfree(config->fileAreas);
 
    for (i = 0; i< config->bbsAreaCount; i++)
@@ -615,7 +611,7 @@ void disposeConfig(s_fidoconfig *config)
    freeGrpTree();
 
    fc_freeEchoArea(&(config->EchoAreaDefault));
-   fc_freeFileArea(&(config->FileAreaDefault));
+   fc_freeEchoArea(&(config->FileAreaDefault));
 
    for (i = 0; i < config->routeCount; i++) nfree(config->route[i].pattern);
    nfree(config->route);
@@ -762,27 +758,6 @@ s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 	return NULL;
 }
 
-s_link *getLinkForFileArea(const s_fidoconfig *config, char *addr, s_filearea *area) {
-	hs_addr aka;
-	UINT i;
-
-	string2addr(addr, &aka);
-
-	/*  we must find "right" link */
-	for (i = 0; i< config->linkCount; i++) {
-		if (addrComp(aka, config->links[i].hisAka)==0 &&
-			addrComp(*area->useAka, *(config->links[i].ourAka))==0)
-			return &(config->links[i]);
-	}
-
-	/*  backward compatibility */
-	for (i = 0; i< config->linkCount; i++) {
-	    if (addrComp(aka, config->links[i].hisAka)==0) return &(config->links[i]);
-	}
-
-	return NULL;
-}
-
 hs_addr *getAddr(const s_fidoconfig *config, char *addr) {
    hs_addr aka;
    UINT i;
@@ -830,7 +805,7 @@ s_area *getNetMailArea(s_fidoconfig *config, char *areaName)
    return (NULL);
 }
 
-s_filearea *getFileArea(char *areaName)
+s_area *getFileArea(char *areaName)
 {
    return FindFileAreaInTree(areaName);
 }
@@ -846,16 +821,6 @@ int isLinkOfArea(s_link *link, s_area *area)
    return 0;
 }
 
-int isLinkOfFileArea(s_link *link, s_filearea *area)
-{
-   unsigned int i;
-
-   for (i = 0; i < area->downlinkCount; i++)
-   {
-      if (link == area->downlinks[i]->link) return 1;
-   }
-   return 0;
-}
 
 int isOurAka(ps_fidoconfig config, hs_addr link)
 {

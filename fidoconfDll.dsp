@@ -132,6 +132,10 @@ SOURCE=.\findtok.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\grptree.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\log.h
 # End Source File
 # Begin Source File
@@ -218,6 +222,10 @@ SOURCE=.\findtok.c
 # Begin Source File
 
 SOURCE=.\getfree.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\grptree.c
 # End Source File
 # Begin Source File
 

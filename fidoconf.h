@@ -122,8 +122,7 @@ typedef enum nameCase { eLower, eUpper} e_nameCase;
 typedef enum nameCaseConvertion { cLower, cUpper, cDontTouch } e_nameCaseConvertion;
 typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlways, eAmiga, eAddrsCRC32, eAddrsCRC32Always} e_bundleFileNameStyle;
 typedef enum emailEncoding { eeMIME, eeSEAT, eeUUE } e_emailEncoding;
-typedef enum pauses        { NOPAUSE, EPAUSE, FPAUSE } e_pauses;
-
+typedef enum pauses        { NOPAUSE, ECHOAREA, FILEAREA } e_pauses;
 
 typedef struct link {
     hs_addr hisAka, *ourAka, hisPackAka;
@@ -250,6 +249,8 @@ typedef struct area {
 
    int msgbType;        /*  MSGTYPE_SDM or MSGTYPE_SQUISH or */
                         /*  MSGTYPE_JAM or MSGTYPE_PASSTHROUGH */
+
+   int areaType;         /* ECHOAREA, FILEAREA */
    ps_addr useAka;
 
    ps_arealink *downlinks;  /*  array of pointers to s_link */
@@ -287,33 +288,41 @@ typedef struct area {
    unsigned int  sbignCount;
 
    HAREA harea;        /*   for internal usage; */
-
-} s_area, *ps_area;
-
-typedef struct fileareatype {
-   char *areaName;
-   char *pathName;
-   char *description;
+   
+  /* filecho options */
 
    int sendorig;       /*  1 - Send Original */
-   int pass;           /*  1 - Passthrough File Area */
    int noCRC;          /*  0 if CRC check should be done on incoming files */
    int noreplace;      /*  1 - no replace files in this filearea */
    int nodiz;          /*  1 - do not try to get description from <fileDescName> */
-   ps_addr useAka;
 
-   unsigned purge;     /*  number of days to keep files. if 0 purging is disabled */
 
-   ps_arealink *downlinks;  /*  array of pointers to s_link */
-   unsigned int downlinkCount;
+} s_area, *ps_area;
 
-   unsigned levelread;	      /*  0-65535 */
-   unsigned levelwrite;	      /*  0-65535 */
-
-   char mandatory, manual, hide, noPause;
-
-   char *group;                      /*  used by reader (and areafix soon) */
-} s_filearea, *ps_filearea;
+//typedef struct fileareatype {
+//   char *areaName;
+//   char *pathName;
+//   char *description;
+//
+//   int sendorig;       /*  1 - Send Original */
+//   int pass;           /*  1 - Passthrough File Area */
+//   int noCRC;          /*  0 if CRC check should be done on incoming files */
+//   int noreplace;      /*  1 - no replace files in this filearea */
+//   int nodiz;          /*  1 - do not try to get description from <fileDescName> */
+//   ps_addr useAka;
+//
+//   unsigned purge;     /*  number of days to keep files. if 0 purging is disabled */
+//
+//   ps_arealink *downlinks;  /*  array of pointers to s_link */
+//   unsigned int downlinkCount;
+//
+//   unsigned levelread;	      /*  0-65535 */
+//   unsigned levelwrite;	      /*  0-65535 */
+//
+//   char mandatory, manual, hide, noPause;
+//
+//   char *group;                      /*  used by reader (and areafix soon) */
+//} s_filearea, *ps_filearea;
 
 typedef struct bbsareatype {
    char *areaName;
@@ -466,12 +475,12 @@ typedef struct fidoconfig {
    unsigned int   localAreaCount;
    ps_area  localAreas;
    unsigned int   fileAreaCount;
-   ps_filearea  fileAreas;
+   ps_area  fileAreas;
    unsigned int   bbsAreaCount;
    ps_bbsarea  bbsAreas;
 
    s_area  EchoAreaDefault;
-   s_filearea FileAreaDefault;
+   s_area  FileAreaDefault;
 
    unsigned int   routeCount;
    ps_route route;
@@ -702,7 +711,6 @@ FCONF_EXT void disposeConfig(ps_fidoconfig config);
 
 FCONF_EXT ps_link getLink(s_fidoconfig *config, char *addr);
 FCONF_EXT ps_link getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area);
-FCONF_EXT ps_link getLinkForFileArea(const s_fidoconfig *config, char *addr, s_filearea *area);
 FCONF_EXT ps_link getLinkFromAddr(s_fidoconfig *config, hs_addr aka);
 FCONF_EXT ps_addr getAddr(const s_fidoconfig *config, char *addr);
 int    existAddr(s_fidoconfig *config, hs_addr aka);
@@ -782,8 +790,7 @@ FCONF_EXT const char *cfgEol();
 
 char *getConfigFileNameForProgram(char *envVar, char *configName);
 
-int isLinkOfFileArea(ps_link link, ps_filearea area);
-FCONF_EXT ps_filearea getFileArea(char *areaName);
+FCONF_EXT ps_area getFileArea(char *areaName);
 
 /*  this function can be used to dump config to stdout or to an already opened file. */
 void dumpConfig(ps_fidoconfig config, FILE *f);
@@ -793,8 +800,9 @@ FCONF_EXT int grpInArray(char *group, char **strarray, unsigned int len);
 
 /* delete the area from in-core config */
 FCONF_EXT void fc_freeEchoArea(s_area     *area);
-FCONF_EXT void fc_freeFileArea(s_filearea *area);
 
+
+void setLinkAccess( const s_fidoconfig *config, s_area *area, s_arealink *arealink);
 
 /*  define exit codes for non unix systems */
 #ifndef _SYSEXITS_H

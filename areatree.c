@@ -33,8 +33,8 @@
 static tree* echoAreaTree = NULL;
 static tree* fileAreaTree = NULL;
 
-static ps_filearea fileAreaPtr = NULL;
-static ps_area     echoAreaPtr = NULL;
+static ps_area fileAreaPtr = NULL;
+static ps_area echoAreaPtr = NULL;
 
 
 
@@ -49,31 +49,10 @@ int fc_compareEntries(char *p_e1, char *p_e2)
     return 0;
 }
 
-int fc_compareFEntries(char *p_e1, char *p_e2)
-{
-    ps_filearea e1 = (ps_filearea)p_e1;
-    ps_filearea e2 = (ps_filearea)p_e2;
-    if(stricmp(e1->areaName,e2->areaName) < 0)
-        return -1;
-    else if(stricmp(e1->areaName,e2->areaName) > 0)
-        return 1;
-    return 0;
-}
-
-
 int fc_deleteEntry(char *p_e1) {
     return 1;
 }
 
-int  addAreaToTree(ps_area areaPtr)
-{
-    return tree_add(&echoAreaTree, fc_compareEntries, (char *)areaPtr, fc_deleteEntry);
-}
-
-int  addFileAreaToTree(ps_filearea areaPtr)
-{
-    return tree_add(&fileAreaTree, fc_compareEntries, (char *)areaPtr, fc_deleteEntry);
-}
 
 ps_area FindAreaInTree(char* areaName)
 {
@@ -86,14 +65,14 @@ ps_area FindAreaInTree(char* areaName)
     return echoAreaPtr;
 }
 
-ps_filearea FindFileAreaInTree(char* areaName)
+ps_area FindFileAreaInTree(char* areaName)
 {
-    static s_filearea areaSrc;
+    static s_area areaSrc;
     if(fileAreaPtr && stricmp(fileAreaPtr->areaName,areaName) == 0)
         return fileAreaPtr;
     else
         areaSrc.areaName = areaName;
-    fileAreaPtr = (ps_filearea)tree_srch(&fileAreaTree, fc_compareFEntries, (char *)(&areaSrc));
+    fileAreaPtr = (ps_area)tree_srch(&fileAreaTree, fc_compareEntries, (char *)(&areaSrc));
     return fileAreaPtr;
 }
 
@@ -101,14 +80,14 @@ ps_filearea FindFileAreaInTree(char* areaName)
 int    RebuildEchoAreaTree(ps_fidoconfig config)
 {
     unsigned int i = 0;
-
+    
     if (echoAreaTree)
         tree_mung(&echoAreaTree, fc_deleteEntry);
     tree_init(&echoAreaTree, 1);
-
+    
     for (i=0; i < config->echoAreaCount; i++)
     {
-        if ( addAreaToTree(&(config->echoAreas[i])) == 0 )
+        if ( tree_add(&echoAreaTree, fc_compareEntries, (char *)(&(config->echoAreas[i])), fc_deleteEntry ) == 0 )
         {
             fprintf(stderr, "\nArea [%s]  defined twice\n",config->echoAreas[i].areaName );
             return 0;
@@ -116,8 +95,9 @@ int    RebuildEchoAreaTree(ps_fidoconfig config)
     }
     for (i=0; i < config->localAreaCount; i++)
     {
-        if ( addAreaToTree(&(config->localAreas[i])) == 0 )
-        {    fprintf(stderr, "\nArea [%s]  defined twice\n",config->localAreas[i].areaName );
+        if ( tree_add(&echoAreaTree, fc_compareEntries, (char *)(&(config->localAreas[i])), fc_deleteEntry ) == 0 )
+        {    
+            fprintf(stderr, "\nArea [%s]  defined twice\n",config->localAreas[i].areaName );
             return 0;
         }
     }
@@ -129,14 +109,14 @@ int    RebuildEchoAreaTree(ps_fidoconfig config)
 int    RebuildFileAreaTree(ps_fidoconfig config)
 {
     unsigned int i = 0;
-
+    
     if (fileAreaTree)
         tree_mung(&fileAreaTree, fc_deleteEntry);
     tree_init(&fileAreaTree, 1);
-
+    
     for (i=0; i < config->fileAreaCount; i++)
     {
-        if ( addFileAreaToTree(&(config->fileAreas[i])) == 0 )
+        if ( tree_add(&fileAreaTree, fc_compareEntries, (char *)(&(config->fileAreas[i])), fc_deleteEntry) == 0 )
         {
             fprintf(stderr, "\nFileArea [%s]  defined twice\n",config->fileAreas[i].areaName );
             return 0;

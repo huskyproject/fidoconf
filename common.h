@@ -317,14 +317,14 @@ void freeGroups(char **grps, int numGroups);
 char **copyGroups(char **grps, int numGroups);
 void freeLink (s_link *link);
 
-int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
+FCONF_EXT int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
 /*  '\x0000' access o'k */
 /*  '\x0001' no access group */
 /*  '\x0002' no access level */
 /*  '\x0003' no access export */
 /*  '\x0004' not linked */
 
-int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
+FCONF_EXT int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
 /*  '\x0000' access o'k */
 /*  '\x0001' no access group */
 /*  '\x0002' no access level */

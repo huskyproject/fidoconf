@@ -233,7 +233,7 @@ int testPathsAndFiles()
                  config->localAreas[i].msgbType==MSGTYPE_SDM ?"pathname":"filename");
 
   for (i=0;i<config->fileAreaCount;i++)
-    rc+=testpath( config->fileAreas[i].pathName, "Filearea",
+    rc+=testpath( config->fileAreas[i].fileName, "Filearea",
                   config->fileAreas[i].areaName, "pathname" );
 
   for (i=0;i<config->bbsAreaCount;i++)
@@ -426,13 +426,13 @@ int printAreaGroup(char *group)
     return 1;
 }
 
-void printFileArea(s_filearea area) {
+void printFileArea(s_area area) {
    UINT i;
 
    printf("%s \n", area.areaName);
    printf("Description: %s\n",(area.description) ? area.description : "");
-   if (area.pass != 1)
-      printf("Path: %s\t", area.pathName);
+   if (area.msgbType != MSGTYPE_PASSTHROUGH)
+      printf("Path: %s\t", area.fileName);
    else
       printf("Passthrough filearea");
 
@@ -629,10 +629,10 @@ int printLink(s_link link) {
        break;
    }
 
-   if ((link.Pause & EPAUSE) == EPAUSE)
+   if ((link.Pause & ECHOAREA) == ECHOAREA)
 	 printf("Link in paused for echoes, no export\n");
 
-   if ((link.Pause & FPAUSE) == FPAUSE)
+   if ((link.Pause & FILEAREA) == FILEAREA)
 	 printf("Link in paused for fileEchoes, no export\n");
 
    if (link.autoPause) printf("AutoPause over %u days\n", link.autoPause);
