@@ -58,14 +58,6 @@ int cmpfnames(char *file1, char *file2);
                        where this flag has no effect */
 #endif
 
-#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
-#ifdef __MINGW32__
-#include <sys/utime.h>
-#else
-#include <utime.h>
-#endif
-#endif
-
 #if defined ( __WATCOMC__ )
 #include <dos.h>
 #endif
@@ -85,6 +77,15 @@ int cmpfnames(char *file1, char *file2);
 #include <smapi/compiler.h>
 #include <smapi/patmat.h>
 #include <smapi/progprot.h>
+
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
+#ifdef __MINGW32__
+#include <sys/utime.h>
+#else
+#include <utime.h>
+#endif
+#endif
+
 
 
 int copyString(char *str, char **pmem)
