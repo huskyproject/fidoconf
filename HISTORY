@@ -1,24 +1,25 @@
 FIDOCONFIG 0.15 current
+Changes after FIDOCONFIG 0.14
 
 1. MAJOR feature improvements:
-   - new parameter for bundlenamestyle: addrsCRC32
+   - new parameters for bundlenamestyle: addrsCRC32 and addrsCRC32Always
    - area definition options -manual & -mandatory are different:
      '-mandatory' prevent unsubscribe, '-manual' disable subscribe;
    - areafixorigin & origin statements parsing change: remove round quotes;
      empty origin may be defined as "";
    - compare with a pattern by using =~ and !~ instead of == and !=
      in "if" expressions in the config;
-   - add fconf2binkd and fconf2tornado converters;
+   - fconf2binkd and fconf2tornado converters;
    - use TEMP, TMP or TMPDIR enviroment variables to point to directory for
      create temporary files, also use system-default temporary directory.
 
 2. CONFIG changes:
    - new tokens for htick: annAdrFrom, annAdrTo, annFrom, annTo, annSubj,
      annExclude, annInclude, announceSpool, annAreatag, annFileRFrom,
-     annFileOrigin, fileAreaCreatePerms, filefixFromName;
+     annFileOrigin, fileAreaCreatePerms, filefixFromName, FileFixEchoLimit;
    - new tokens for hpt: newAreaRefuseFile, redusedSeenBy, areaFixFromName,
      disablePID;
-   - pause statement expanded to: Pause ON Pause OFF Pause FAREA Pause EAREA
+   - pause statement expanded to: Pause ON, Pause OFF, Pause FAREA, Pause EAREA.
 
 3. IMPORTANT bugfixes:
    - fix line parsing if comment ends line.
