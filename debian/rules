@@ -54,7 +54,7 @@ install: build
 	-mkdir -p debian/tmp/usr/bin
 	# Add here commands to install the package into debian/tmp
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
-	cp doc/config debian/fidoconf-runtime/etc/fido/config
+	cp doc/config debian/fidoconf-runtime/etc/husky/config
 	chmod 0755 debian/tmp/usr/bin/linkedto
 
 
