@@ -5,7 +5,7 @@
 CC=wcl386
 EXENAMEFLAG=-fe=
 CDEFS=
-COPT=-zq -wx -i=.. -oneatx -5 -c
+COPT=-zq -wx -i=.. -oneatx -5 -c -bt=nt
 LFLAGS=-bt=nt -l=nt
 
 TPU=.tpu
