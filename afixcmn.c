@@ -70,7 +70,7 @@ static ULONG DoMakeMSGIDStamp(void)
 }
 */
 
-char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
+char *createKludges(int disablePID, const char *area, const s_addr *ourAka,
                     const s_addr *destAka, const char* versionStr)
 {
    char *buff = NULL;
@@ -94,8 +94,7 @@ char *createKludges(int disableTID, const char *area, const s_addr *ourAka,
       xscatprintf(&buff, "\001MSGID: %u:%u/%u %08lx\r",
               ourAka->zone,ourAka->net,ourAka->node,msgid);
 
-   if (!disableTID) xscatprintf(&buff, "\001%s: %s\r",
-		        theApp.module == M_HPT ? "TID" : "PID", versionStr);
+   if (!disablePID) xscatprintf(&buff, "\001PID: %s\r", versionStr);
 
    return buff;
 }
