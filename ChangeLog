@@ -1,3 +1,15 @@
+2002-05-12 Sunday 14:06  mche
+
+	* tparser.c (1.175): expanded pauses in tparser
+
+2002-05-12 Sunday 13:54  mche
+
+	* line.c (1.294): fixed bug with pausing links for fileechoareas
+
+2002-05-12 Sunday 13:52  mche
+
+	* common.c (1.85): fixed bug with pausing links for echoareas
+
 2002-05-11 Saturday 15:32  mche
 
 	* afixcmn.c (1.7): fix cygwin warnings
