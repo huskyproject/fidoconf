@@ -42,6 +42,9 @@
 #   include <unistd.h>
 #endif
 
+#ifdef HAS_STRINGS_H
+#   include <strings.h>
+#endif
 
 /* export functions from DLL */
 #define DLLEXPORT

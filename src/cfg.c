@@ -40,6 +40,10 @@
 
 #include <huskylib/huskylib.h>
 
+#ifdef HAS_STRINGS_H
+#   include <strings.h>
+#endif /* HAS_STRINGS_H */
+
 #if defined (__OS2__)
 # define INCL_DOSFILEMGR
 # include <os2.h>

@@ -60,6 +60,10 @@
 #include <process.h>
 #endif
 
+#ifdef HAS_STRINGS_H
+#include <strings.h>
+#endif
+
 #ifdef __BEOS__
 #include <KernelKit.h>
 #endif

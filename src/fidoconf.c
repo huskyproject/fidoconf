@@ -42,6 +42,10 @@
 #include <sysexits.h>
 #endif
 
+#ifdef HAS_STRINGS_H
+#include <strings.h>
+#endif /* HAS_STRINGS_H */
+
 /* export functions from DLL */
 #define DLLEXPORT
 #include <huskylib/huskyext.h>
