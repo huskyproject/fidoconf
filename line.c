@@ -1523,189 +1523,186 @@ int parseFileEchoFlavour(char *line, e_flavour *flavour) {
 
 int parseGroup(char *token, s_fidoconfig *config, int i)
 {
-  unsigned int j;
-  char *cpos;
-  s_link *link = NULL;
+	unsigned int j;
+	char *cpos;
+	s_link *link = NULL;
 
-  if (token == NULL)
-  {
-    fprintf(stderr, "Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
-    return 1;
-  }
-
-  switch (i)
-  {
-  case 0:
-    link = &config->links[config->linkCount-1];
-    if (link->numAccessGrp != 0) {
-      fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
-      return 1;
+	if (token == NULL)
+		{
+			fprintf(stderr, "Line %d: Parameter missing after %s!\n",
+					actualLineNr, actualKeyword);
+			return 1;
+		}
+	
+	if ((config->linkCount < 1) && (i != 2)) {
+		fprintf(stderr, "Line %d: You must define link before setting %s!\n",
+				actualLineNr, actualKeyword);
+		return 1;
     }
-    break;
+	if (i != 2) link = &config->links[config->linkCount-1];
 
-  case 1:
-    link = &config->links[config->linkCount-1];
-    if (link->LinkGrp != NULL) {
-      fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-    }
-    break;
+	switch (i)
+		{
+		case 0:
+			if (link->numAccessGrp != 0) {
+				fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
+						actualLineNr, actualKeyword);
+				return 1;
+			}
+			break;
 
-  case 2:
-    if (config->numPublicGroup != 0)
-    {
-      fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-    }
-    break;
+		case 1:
+			if (link->LinkGrp != NULL) {
+				fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
+						actualLineNr, actualKeyword);
+				return 1;
+			}
+			break;
 
-  case 3:
-    link = &config->links[config->linkCount-1];
-    if (link->numOptGrp != 0)
-    {
-      fprintf(stderr, "Line %d: Duplicate parameter after %s!\n", actualLineNr, actualKeyword);
-      return 1;
-    }
-    break;
-  }
+		case 2:
+			if (config->numPublicGroup != 0)
+				{
+					fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
+							actualLineNr, actualKeyword);
+					return 1;
+				}
+			break;
 
-  switch (i)
-  {
-  case 0:
-    for (link->numAccessGrp = 0; *token != '\0'; link->numAccessGrp++)
-    {
-      link->AccessGrp = realloc(link->AccessGrp, (link->numAccessGrp+1) *
-				sizeof(char *));
+		case 3:
+			if (link->numOptGrp != 0)
+				{
+					fprintf(stderr, "Line %d: Duplicate parameter after %s!\n",
+							actualLineNr, actualKeyword);
+					return 1;
+				}
+			break;
+		}
 
-      // strip leading spaces/tabs
-      while ((*token == ' ') || (*token == '\t')) token++;
 
-      cpos = strchr(token, ',');
-      if (cpos != NULL)
-      {
-	// strip trailing spaces/tabs
-	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-	      (cpos > token)) cpos--;
+	switch (i) {
+	case 0:
+		for (link->numAccessGrp = 0; *token != '\0'; link->numAccessGrp++) {
+			link->AccessGrp = realloc (link->AccessGrp,
+									   (link->numAccessGrp+1)*sizeof(char *));
 
-	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token + 1);
+			// strip leading spaces/tabs
+			while ((*token == ' ') || (*token == '\t')) token++;
 
-	for (j = 0; j < cpos - token; j++)
-	  link->AccessGrp[link->numAccessGrp][j] = token[j];
+			cpos = strchr(token, ',');
+			if (cpos != NULL) {
+				// strip trailing spaces/tabs
+				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+					   (cpos > token)) cpos--;
+						
+				link->AccessGrp[link->numAccessGrp]=malloc(cpos-token+1);
+						
+				for (j = 0; j < cpos - token; j++)
+					link->AccessGrp[link->numAccessGrp][j] = token[j];
+						
+				link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
+				token = cpos+1;
+			}
+			else {
+				cpos = token + strlen(token);
 
-	link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
-	token = cpos+1;
-      }
-      else
-      {
-	cpos = token + strlen(token);
+				// strip trailing spaces/tabs
+				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+					   (cpos > token)) cpos--;
 
-	// strip trailing spaces/tabs
-	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-	      (cpos > token)) cpos--;
+				link->AccessGrp[link->numAccessGrp] = malloc(cpos - token + 1);
 
-	link->AccessGrp[link->numAccessGrp] = malloc(cpos - token + 1);
+				for (j = 0; j < cpos - token; j++)
+					link->AccessGrp[link->numAccessGrp][j] = token[j];
 
-	for (j = 0; j < cpos - token; j++)
-	  link->AccessGrp[link->numAccessGrp][j] = token[j];
+				link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
+				token = cpos;
+			}
+		}
+		break;
 
-	link->AccessGrp[link->numAccessGrp][cpos - token] = '\0';
-	token = cpos;
-      }
-    }
-    break;
+	case 1:
+		copyString(token, &(config->links[config->linkCount-1].LinkGrp));
+		break;
+		
+	case 2:
+		for (config->numPublicGroup = 0; *token != '\0'; config->numPublicGroup++) {
+			config->PublicGroup = realloc(config->PublicGroup,
+										  (config->numPublicGroup+1)*sizeof(char *));
 
-  case 1:
-    copyString(token, &(config->links[config->linkCount-1].LinkGrp));
-    break;
+			// strip leading spaces/tabs
+			while ((*token == ' ') || (*token == '\t')) token++;
 
-  case 2:
-    for (config->numPublicGroup = 0; *token != '\0'; config->numPublicGroup++)
-    {
-      config->PublicGroup = realloc(config->PublicGroup, (config->numPublicGroup+1) *
-				  sizeof(char *));
+			cpos = strchr(token, ',');
+			if (cpos != NULL) {
+				// strip trailing spaces/tabs
+				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+					   (cpos > token)) cpos--;
 
-      // strip leading spaces/tabs
-      while ((*token == ' ') || (*token == '\t')) token++;
+				config->PublicGroup[config->numPublicGroup] = malloc(cpos - token + 1);
 
-      cpos = strchr(token, ',');
-      if (cpos != NULL)
-      {
-	// strip trailing spaces/tabs
-	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-	      (cpos > token)) cpos--;
+				for (j = 0; j < cpos - token; j++)
+					config->PublicGroup[config->numPublicGroup][j] = token[j];
 
-	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token + 1);
+				config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
+				token = cpos+1;
+			} else {
+				cpos = token + strlen(token);
 
-	for (j = 0; j < cpos - token; j++)
-	  config->PublicGroup[config->numPublicGroup][j] = token[j];
+				// strip trailing spaces/tabs
+				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+					   (cpos > token)) cpos--;
 
-	config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
-	token = cpos+1;
-      }
-      else
-      {
-	cpos = token + strlen(token);
+				config->PublicGroup[config->numPublicGroup] = malloc(cpos - token + 1);
 
-	// strip trailing spaces/tabs
-	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-	      (cpos > token)) cpos--;
+				for (j = 0; j < cpos - token; j++)
+					config->PublicGroup[config->numPublicGroup][j] = token[j];
 
-	config->PublicGroup[config->numPublicGroup] = malloc(cpos - token + 1);
+				config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
+				token = cpos;
+			}
+		}
+		break;
 
-	for (j = 0; j < cpos - token; j++)
-	  config->PublicGroup[config->numPublicGroup][j] = token[j];
+	case 3:
+		for (link->numOptGrp = 0; *token != '\0'; link->numOptGrp++) {
+			link->optGrp = realloc(link->optGrp, (link->numOptGrp+1)*sizeof(char *));
 
-	config->PublicGroup[config->numPublicGroup][cpos - token] = '\0';
-	token = cpos;
-      }
-    }
-    break;
+			// strip leading spaces/tabs
+			while ((*token == ' ') || (*token == '\t')) token++;
 
-  case 3:
-    for (link->numOptGrp = 0; *token != '\0'; link->numOptGrp++)
-    {
-      link->optGrp = realloc(link->optGrp, (link->numOptGrp+1) *
-				sizeof(char *));
+			cpos = strchr(token, ',');
+			if (cpos != NULL) {
+				// strip trailing spaces/tabs
+				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+					   (cpos > token)) cpos--;
 
-      // strip leading spaces/tabs
-      while ((*token == ' ') || (*token == '\t')) token++;
+				link->optGrp[link->numOptGrp] = malloc(cpos - token + 1);
 
-      cpos = strchr(token, ',');
-      if (cpos != NULL)
-      {
-	// strip trailing spaces/tabs
-	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-	      (cpos > token)) cpos--;
+				for (j = 0; j < cpos - token; j++)
+					link->optGrp[link->numOptGrp][j] = token[j];
 
-	link->optGrp[link->numOptGrp] = malloc(cpos - token + 1);
+				link->optGrp[link->numOptGrp][cpos - token] = '\0';
+				token = cpos+1;
+			} else {
+				cpos = token + strlen(token);
 
-	for (j = 0; j < cpos - token; j++)
-	  link->optGrp[link->numOptGrp][j] = token[j];
+				// strip trailing spaces/tabs
+				while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
+					   (cpos > token)) cpos--;
 
-	link->optGrp[link->numOptGrp][cpos - token] = '\0';
-	token = cpos+1;
-      }
-      else
-      {
-	cpos = token + strlen(token);
+				link->optGrp[link->numOptGrp] = malloc(cpos - token + 1);
 
-	// strip trailing spaces/tabs
-	while (((*(cpos-1) == ' ') || (*(cpos-1) == '\t')) &&
-	      (cpos > token)) cpos--;
+				for (j = 0; j < cpos - token; j++)
+					link->optGrp[link->numOptGrp][j] = token[j];
 
-	link->optGrp[link->numOptGrp] = malloc(cpos - token + 1);
+				link->optGrp[link->numOptGrp][cpos - token] = '\0';
+				token = cpos;
+			}
+		}
+		break;
 
-	for (j = 0; j < cpos - token; j++)
-	  link->optGrp[link->numOptGrp][j] = token[j];
-
-	link->optGrp[link->numOptGrp][cpos - token] = '\0';
-	token = cpos;
-      }
-    }
-    break;
-
-  }
-  return 0;
+	}
+	return 0;
 }
 
 int parseLocalArea(char *token, s_fidoconfig *config)
