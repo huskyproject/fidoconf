@@ -2865,6 +2865,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_LINK:
             rc = parseLink(getRestOfLine(), config);
+			if (rc) exit(1); // 'cause of parsing aka and overriding prev. aka
             break;
         case ID_PASSWORD:
             if( (clink = getDescrLink(config)) != NULL ) {
