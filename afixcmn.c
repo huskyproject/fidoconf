@@ -227,29 +227,25 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
     sstrcpy((char *) msgHeader.from,msg->fromUserName);
     sstrcpy((char *) msgHeader.to, msg->toUserName);
 
+    /* val: strip directories and drives from filenames */
     if (((msgHeader.attr & MSGFILE) == MSGFILE)
 	&& (msg->netMail==1)
-	&& !strchr(msg->subjectLine, PATH_DELIM)) {
+	&& strpbrk(msg->subjectLine, "/\\:")) {
 
+        /* w_log('B', "Original subj: `%s'", msg->subjectLine); */
 	running = msg->subjectLine;
-	token = strseparate(&running, " \t");
+	token = strseparate(&running, " ,\t");
 
 	while (token != NULL) {
-	    for (i=0;i<4;i++) {
-		nfree(subject);
-		if (outbounds[i] && *outbounds[i]) xstrcat(&subject, *outbounds[i]);
-		xstrcat (&subject, token);
-		if (fexist(subject)) break;
-#if defined(__UNIX__)
-		subject = strLower(subject);
-		if (fexist(subject)) break;
-#endif
-	    }
-	    if (newSubj) xstrcat(&newSubj, " ");
-	    xstrcat (&newSubj, subject);
-	    token = strseparate(&running, " \t");
+	    int l = strlen(token) - 1;
+            while ( l >= 0 && 
+                    token[l] != '\\' && token[l] != '/' && token[l] != ':' )
+                l--;
+            if (newSubj) xstrcat(&newSubj, " ");
+            xstrcat(&newSubj, token + l + 1);
+	    token = strseparate(&running, " ,\t");
 	} /*  end while */
-	nfree(subject);
+        /* w_log('B', "Modified subj: `%s'", newSubj); */
     }
 
     if (newSubj) {

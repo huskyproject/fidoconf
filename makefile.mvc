@@ -1,18 +1,18 @@
 # Microsoft Visual C++ Makefile
 
 CC=     cl
-CFLAGS= -nologo -Zp1 -I..
+CFLAGS= -nologo -Zp1 -I..\smapi -I..\huskylib
 CDEFS=  -D__NT__ -DWIN32 -D_CONSOLE
 COPT=   -O2
 TLIB=   lib -nologo
 
 FCONFL=  fconfmvc.lib
-SMAPIL=  ..\smapi\smapimvc.lib
+SMAPIL=  ..\smapi\make\smapimvc.lib ..\huskylib\make\huskymvc.lib
 
-OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj   \
-        findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj \
-        crc.obj tree.obj areatree.obj afixcmd.obj afixcmn.obj      \
-        arealist.obj temp.obj getfree.obj version.obj grptree.obj
+OBJS =  line.obj fidoconf.obj common.obj \
+        findtok.obj cfg.obj \
+        areatree.obj afixcmd.obj afixcmn.obj \
+        arealist.obj version.obj grptree.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<

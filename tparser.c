@@ -369,6 +369,14 @@ void printArea(s_area area) {
    if (area.dupeCheck==dcMove) printf("move");
    if (area.dupeCheck==dcDel) printf("delete");
    printf("\n");
+/* val: scan */
+   printf("ScanMode: ");
+   if (area.scanMode==smNever) printf("never");
+   else if (area.scanMode==smManual) printf("manual");
+   else if (area.scanMode==smListed) printf("listed");
+   else printf("normal");
+   printf("\n");
+/* /val */
    printf("Messagebase permissions (unixes only): ");
    if(area.fperm!=-1) printf("%o ",area.fperm);
    else printf("system default ");

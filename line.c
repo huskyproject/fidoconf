@@ -1039,6 +1039,29 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;     /*  error occured; */
         }
     }
+    /* val: -scan listed|manual|never */
+    else if (strcmp(iOption, "scan")==0) {
+        if (area->areaType != ECHOAREA) {
+            prErr("Option '%s' is allowed for echoareas and localareas only!", iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+        token = strtok(NULL, " \t");
+        if (token == NULL) {
+            prErr("Missing scan parameter!");
+            nfree(iOption);
+            return 1;
+        }
+        if (stricmp(token, "never")==0) area->scanMode = smNever;
+        else if (stricmp(token, "manual")==0) area->scanMode = smManual;
+        else if (stricmp(token, "listed")==0) area->scanMode = smListed;
+        else {
+            prErr("Wrong scan parameter!");
+            nfree(iOption);
+            return 1; /* error */
+        }
+    }
+    /* /val */
     else if (strcmp(iOption, "g")==0) {
         token = strtok(NULL, " \t");
         if (token == NULL) {
@@ -1164,6 +1187,7 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
    }
 
     /*   memset(area, '\0', sizeof(s_area)); */
+   area->scanMode = smNone;		/* val: just to be sure it's set */
 
     /* need add checking for area->areaType == 0 aka NOPAUSE ) */
 
@@ -1400,6 +1424,9 @@ int parseAreaDefault(s_fidoconfig *config, char *token, s_area *adef, int cleanu
    /*  set default parameters of dupebase */
 
    adef->dupeHistory = 7; /* 7 days */
+
+   /* val: set defaul scan mode */
+   adef->scanMode = smNone;
 
    /*  set defaults for MS-DOS */
 #ifdef __DOS__

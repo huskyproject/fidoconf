@@ -235,6 +235,8 @@ typedef struct route {
 
 typedef enum dupeCheck {dcOff, dcMove, dcDel} e_dupeCheck;
 
+typedef enum scanMode { smNone=0, smNever, smManual, smListed} e_scanMode;
+
 typedef struct arealink {
    ps_link link;
    unsigned int export;		/*  1 - export yes, 0 - export no */
@@ -263,6 +265,7 @@ typedef struct area {
    char keepUnread, killRead;
 
    e_dupeCheck dupeCheck;
+   e_scanMode  scanMode;	/* val: conditions to scan area */
    char tinySB, killSB, hide, noPause, mandatory, manual, DOSFile, debug;
 
    unsigned levelread;	      /*  0-65535 */
