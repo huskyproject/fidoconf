@@ -1,4 +1,4 @@
-fidoconf (0.14-20020917-1) stable; urgency=low
+fidoconf (0.14-20020918-1) stable; urgency=low
 
   * New cvs version: 0.14-RC2
   * Make single html-doc and place it to /usr/share/doc/libfidoconf0
