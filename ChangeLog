@@ -2,6 +2,11 @@ fidoconfig 0.8
 --------------
 
 ----- cvs ci ------
+Sun May 16 23:26:39 CEST 1999
+mtt:
++ fidoInst for new config adapted
+
+----- cvs ci ------
 Wed May 12 13:05:10 NOVST 1999
 Max:
 + update documentation
