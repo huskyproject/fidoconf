@@ -424,6 +424,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
 int parseFileAreaOption(s_fidoconfig config, char *option, s_filearea *area)
 {
    char *token;
+   int i;
 
    if (stricmp(option, "a")==0) {
       token = strtok(NULL, " \t");
@@ -432,6 +433,36 @@ int parseFileAreaOption(s_fidoconfig config, char *option, s_filearea *area)
 //         printf("!!! %s not found as address.\n", token);
          return 1;
       }
+   }
+   else if (stricmp(option, "lr")==0) {
+       token = strtok(NULL, " \t");
+       if (token == NULL) {
+           printf("Line %d: Number is missing after -lr in areaOptions!\n", actualLineNr);
+	   return 1;
+       }
+       for (i=0; i<strlen(token); i++) {
+           if (isdigit(token[i]) == 0) break;
+       }
+       if (i != strlen(token)) {
+           printf("Line %d: Number is wrong after -lr in areaOptions!\n", actualLineNr);
+	   return 1;
+       }
+       area->levelread = (unsigned)atoi(token);
+   }
+   else if (stricmp(option, "lw")==0) {
+       token = strtok(NULL, " \t");
+       if (token == NULL) {
+           printf("Line %d: Number is missing after -lw in areaOptions!\n", actualLineNr);
+	   return 1;
+       }
+       for (i=0; i<strlen(token); i++) {
+           if (isdigit(token[i]) == 0) break;
+       }
+       if (i != strlen(token)) {
+           printf("Line %d: Number is wrong after -lw in areaOptions!\n", actualLineNr);
+	   return 1;
+       }
+       area->levelwrite = (unsigned)atoi(token);
    }
    else if (stricmp(option, "h")==0) area->hide = 1;
    else if (stricmp(option, "manual")==0) area->manual = 1;
