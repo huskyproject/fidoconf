@@ -34,13 +34,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if !defined(SHORTNAMES)
 #include "fidoconf.h"
-#else
-#include "fidoconf.h"
-#endif
-
 #include "common.h"
+
 #include <smapi/unused.h>
 
 int writeArea(FILE *f, s_area *area, char type) {

@@ -33,11 +33,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#if !defined(SHORTNAMES)
 #include "fidoconf.h"
-#else
-#include "fidoconf.h"
-#endif
 
 int syntax(void)
 {

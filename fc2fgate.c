@@ -29,14 +29,10 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "fidoconf.h"
 #include "common.h"
-#include <smapi/patmat.h>
 
-#if !defined(SHORTNAMES)
-#include "fidoconf.h"
-#else
-#include "fidoconf.h"
-#endif
+#include <smapi/patmat.h>
 
 char *areaconfig;
 int areaconfiganz=0;

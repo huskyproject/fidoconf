@@ -514,6 +514,9 @@ void dumpTicker(s_fidoconfig *config, FILE *f)
     fprintf(f, "FileMaxDupeAge      %u\n", config->fileMaxDupeAge);
     fprintf(f, "FileFileUMask       %o\n", config->fileFileUMask);
     fprintf(f, "FileDirUMask        %o\n", config->fileDirUMask);
+    fprintf(f, "ConvertLongNames    %s\n", (config->convertLongNames == cLower) ? "Lower" : ((config->convertLongNames == cUpper) ? "Upper" : "DontTouch"));
+    fprintf(f, "ConvertShortNames   %s\n", (config->convertShortNames == cLower) ? "Lower" : ((config->convertShortNames == cUpper) ? "Upper" : "DontTouch"));
+
     dumpString(f, "FileLocalPwd        %s\n", config->fileLocalPwd);
 
     for (i = 0; i < config->execonfileCount; i++) {

@@ -29,11 +29,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *****************************************************************************/
 
-#if !defined(SHORTNAMES)
 #include "fidoconf.h"
-#else
-#include "fidoconf.h"
-#endif
 #include "common.h"
 
 int writeArea(FILE *f, s_area *area, char netMail) {

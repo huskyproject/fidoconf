@@ -52,12 +52,7 @@
 #include <smapi/progprot.h>
 
 #include "dirlayer.h"
-
-#if !defined(SHORTNAMES)
 #include "fidoconf.h"
-#else
-#include "fidoconf.h"
-#endif
 #include "common.h"
 #include "typesize.h"
 
@@ -2110,6 +2105,26 @@ int parseNamesCase(char *line, e_nameCase *value)
    }
    return 0;
 }
+
+int parseNamesCaseConversion(char *line, e_nameCaseConvertion *value)
+{
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (stricmp(line, "lower") == 0) *value = cLower;
+   else if (stricmp(line, "upper") == 0) *value = cUpper;
+   else if (stricmp(line, "dont") == 0) *value = cDontTouch;
+   else if (stricmp(line, "donttouch") == 0) *value = cDontTouch;
+   else if (stricmp(line, "same") == 0) *value = cDontTouch;
+   else {
+      printf("Line %d: Unknown case convertion parameter %s!\n", actualLineNr, line);
+      return 2;
+   }
+   return 0;
+}
+
    
    
 
@@ -2497,6 +2512,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "linkdefaults")==0) rc = parseLinkDefaults(getRestOfLine(), config);
    else if (stricmp(token, "createareascase")==0) rc = parseNamesCase(getRestOfLine(), &(config->createAreasCase));
    else if (stricmp(token, "areasfilenamecase")==0) rc = parseNamesCase(getRestOfLine(), &(config->areasFileNameCase));
+   else if (stricmp(token, "convertlongnames")==0) rc = parseNamesCaseConversion(getRestOfLine(), &(config->convertLongNames));
+   else if (stricmp(token, "convertshortnames")==0) rc = parseNamesCaseConversion(getRestOfLine(), &(config->convertShortNames));
    else if (stricmp(token, "disabletid")==0) rc = parseBool(getRestOfLine(), &(config->disableTID));
    else if (stricmp(token, "tossingext")==0) {
       if ((temp=getRestOfLine()) != NULL)

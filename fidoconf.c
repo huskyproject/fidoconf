@@ -34,12 +34,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#if !defined(SHORTNAMES)
 #include "fidoconf.h"
-#else
-#include "fidoconf.h"
-#endif
-
 #include "typesize.h"
 #include "common.h"
 
@@ -148,6 +143,7 @@ void initConfig(s_fidoconfig *config) {
    memset(config, 0, sizeof(s_fidoconfig));
    config -> loguid = config -> loggid = config -> logperm = -1;
    config -> tossingExt = "tos";
+   config -> convertLongNames = config -> convertShortNames = cDontTouch;
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)
