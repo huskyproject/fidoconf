@@ -1,3 +1,9 @@
+2004-03-25 Thursday 10:06  stas_degteff
+
+	* makefile.cyg, makefile.in1, makefile.inc
+	(fidoconf-1_4-stable.[1,2,2]): Add fconf2pwd into builded programs
+	list
+
 2004-03-15 Monday 15:32  sfpavel
 
 	* common.c (fidoconf-1_4-stable.6): fix parsing AutoCreateDefaults
