@@ -70,5 +70,6 @@ commondistclean: clean $(SYMBOLIC)
 	-$(RM) $(RMOPT) $(FCONF2TORNADO)$(EXE)
 	-$(RM) $(RMOPT) $(FCONF2BINKD)$(EXE)
 	-$(RM) $(RMOPT) $(FECFG2FCONF)$(EXE)
+	-$(RM) $(RMOPT) linked$(EXE)
 	-$(RM) $(RMOPT) $(LIBFIDOCONFIG)$(LIB)
 

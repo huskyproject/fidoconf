@@ -146,6 +146,7 @@ install: commonlibs progs instdyn
 	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2TORNADO)$(EXE)  $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2BINKD)$(EXE)    $(BINDIR)
+	$(INSTALL) $(IBOPT) linked$(EXE)	    $(BINDIR)
 ifeq ($(CC), gcc)
 	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
 endif
@@ -190,6 +191,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2TORNADO)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2BINKD)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linked$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)fconf2na.pl
