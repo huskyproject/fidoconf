@@ -48,11 +48,6 @@
 #include "version.h"
 #include "cvsdate.h"
 
-#define VER_MAJOR 0
-#define VER_MINOR 15
-#define VER_PATCH 0
-#define VER_BRANCH BRANCH_CURRENT
-
 #endif
 
 int writeArea(FILE *f, s_area *area, char type) {
@@ -204,8 +199,8 @@ int main (int argc, char *argv[]) {
    int cont=1;
    
    { char *temp;
-     printf("%s\n", temp=GenVersionStr( "fconf2golded", VER_MAJOR,
-			VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+     printf("%s\n", temp=GenVersionStr( "fconf2golded", FC_VER_MAJOR,
+			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
      nfree(temp);
    }
 

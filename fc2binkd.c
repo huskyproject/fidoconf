@@ -51,11 +51,6 @@
 #include "version.h"
 #include "cvsdate.h"
 
-#define VER_MAJOR 0
-#define VER_MINOR 15
-#define VER_PATCH 0
-#define VER_BRANCH BRANCH_CURRENT
-
 #endif
 
 /* ANSI C knows nothing about this constant */
@@ -72,8 +67,8 @@ int force_flag = 0; /* Force rewriting flag */
 
 void printversion(){
      char *temp;
-     printf("%s\n\n", temp=GenVersionStr( "fconf2binkd", VER_MAJOR,
-			VER_MINOR, VER_PATCH, VER_BRANCH, cvs_date ));
+     printf("%s\n\n", temp=GenVersionStr( "fconf2binkd", FC_VER_MAJOR,
+			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
      nfree(temp);
 }
 
