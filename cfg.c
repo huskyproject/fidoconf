@@ -6,7 +6,7 @@
  *
  * Max Levenkov
  * Husky development team
- * http://husky.sourceforge.net/team/html
+ * http://husky.sourceforge.net/team.html
  *
  * This file is part of FIDOCONFIG.
  *
@@ -555,7 +555,7 @@ int cmpfnames(char *file1, char *file2)
     nfree(path2);
     return result;
 }
-#elif (defined(MSDOS) || defined(__MSDOS__)) && !defined(__DJGPP__)
+#elif (defined(MSDOS) || defined(__MSDOS__)) && !defined(__FLAT__) && !defined(__DJGPP__)
 #include <dos.h>
 int cmpfnames(char *file1, char *file2)
 {
@@ -572,6 +572,42 @@ int cmpfnames(char *file1, char *file2)
     r.r_es = FP_SEG(path2);
     r.r_di = FP_OFF(path2);
     r.r_ax = 0x6000;
+    intr(0x21, &r);
+    return sstricmp(path1, path2);
+}
+#elif defined(__WATCOMC__) && defined(__DOS__) && defined(__386__)
+#include <i86.h>
+/*
+struct REGPACKX {
+	unsigned int   eax, ebx, ecx, edx, ebp, esi, edi;
+	unsigned short ds, es, fs, gs;
+	unsigned int   flags;
+};
+union REGPACK {
+	struct REGPACKB h;
+	struct REGPACKW w;
+#if defined(__386__) && !defined(__WINDOWS_386__)
+	struct REGPACKX x;
+#else
+	struct REGPACKW x;
+#endif
+};
+*/
+int cmpfnames(char *file1, char *file2)
+{
+    union REGPACK r;
+    char path1[128], path2[128];
+    r.x.ds = (unsigned short)FP_SEG(file1);
+    r.x.esi = (unsigned int)  FP_OFF(file1);
+    r.x.es = (unsigned short)FP_SEG(path1);
+    r.x.edi = (unsigned int)  FP_OFF(path1);
+    r.x.eax = 0x6000;
+    intr(0x21, &r);
+    r.x.ds = (unsigned short)FP_SEG(file2);
+    r.x.esi = (unsigned int)  FP_OFF(file2);
+    r.x.es = (unsigned short)FP_SEG(path2);
+    r.x.edi = (unsigned int)  FP_OFF(path2);
+    r.x.eax = 0x6000;
     intr(0x21, &r);
     return sstricmp(path1, path2);
 }
