@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Sat Dec  2 01:59:28 UTC 2000
+* fixed error message for commentChar
+* fixed commentChar output in dump.c
+
+----- cvs ci ------
 Sat Dec  2 01:28:45 UTC 2000
 sms:
 * using strdup for string constants on init, so copyString can free them 

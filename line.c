@@ -108,7 +108,7 @@ int parseComment(char *token, s_fidoconfig *config)
     
    // if there is no token return error...
    if (token==NULL) {
-      printf("Line %d: There is a version number missing after %s!\n", actualLineNr, actualKeyword);
+      printf("Line %d: There is a comment character missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
    
