@@ -114,6 +114,7 @@ netarea
 netmailarea
 netmailextern
 netmailflag
+netmailflavour
 newarearefusefile
 noprocessbundles
 norules

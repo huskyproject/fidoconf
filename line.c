@@ -2330,7 +2330,7 @@ int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
    return 2;
 }
 
-int parseEchoMailFlavour(char *line, e_flavour *flavour)
+int parseFlavour(char *line, e_flavour *flavour)
 {
   char *iLine;
 
@@ -2346,31 +2346,7 @@ int parseEchoMailFlavour(char *line, e_flavour *flavour)
   else if (strcmp(iLine, "crash")==0) *flavour = crash;
   else if (strcmp(iLine, "immediate")==0) *flavour = immediate;
   else {
-    prErr("Unknown echomail flavour %s!", line);
-    nfree(iLine);
-    return 2;
-  }
-  nfree(iLine);
-  return 0;
-}
-
-int parseFileEchoFlavour(char *line, e_flavour *flavour)
-{
-  char *iLine;
-
-  if (line == NULL) {
-    prErr("Parameter missing after %s!", actualKeyword);
-    return 1;
-  }
-
-  iLine = strLower(sstrdup(line));
-  if (strcmp(iLine, "hold")==0) *flavour = hold;
-  else if (strcmp(iLine, "normal")==0) *flavour = normal;
-  else if (strcmp(iLine, "direct")==0) *flavour = direct;
-  else if (strcmp(iLine, "crash")==0) *flavour = crash;
-  else if (strcmp(iLine, "immediate")==0) *flavour = immediate;
-  else {
-    prErr("Unknown fileecho flavour %s!", line);
+    prErr("Unknown %s value %s!", actualKeyword, line);
     nfree(iLine);
     return 2;
   }
@@ -3932,13 +3908,17 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseEmailEncoding(getRestOfLine(),
                                     &(getDescrLink(config)->emailEncoding));
             break;
+        case ID_NETMAILFLAVOUR:
+            rc = parseFlavour(getRestOfLine(),
+                              &(getDescrLink(config)->netMailFlavour));
+            break;
         case ID_ECHOMAILFLAVOUR:
-            rc = parseEchoMailFlavour(getRestOfLine(),
-                                    &(getDescrLink(config)->echoMailFlavour));
+            rc = parseFlavour(getRestOfLine(),
+                              &(getDescrLink(config)->echoMailFlavour));
             break;
         case ID_FILEECHOFLAVOUR:
-            rc = parseFileEchoFlavour(getRestOfLine(),
-                                    &(getDescrLink(config)->fileEchoFlavour));
+            rc = parseFlavour(getRestOfLine(),
+                              &(getDescrLink(config)->fileEchoFlavour));
             break;
         case ID_ROUTE:
             rc = parseRoute(getRestOfLine(), config, &(config->route),

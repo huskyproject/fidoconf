@@ -789,6 +789,7 @@ int printLink(s_link link) {
          break;
    }
    printf("arcNetmail %s\n", (link.arcNetmail) ? "on" : "off");
+   printf("netMailFlavour %s\n", cvtFlavour(link.netMailFlavour));
    printf("echoMailFlavour %s\n", cvtFlavour(link.echoMailFlavour));
    printf("fileEchoFlavour %s\n", cvtFlavour(link.fileEchoFlavour));
    printf("noRules %s\n", (link.noRules) ? "on" : "off");

@@ -295,7 +295,8 @@ enum {
     ID_ADVSTATISTICSFILE,
     ID_PACKAKA,
     ID_AREAGROUP,
-    ID_AREAGROUPDEFAULTS
+    ID_AREAGROUPDEFAULTS,
+    ID_NETMAILFLAVOUR
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -507,6 +508,7 @@ token_t parseline_tokens[] =
     { "netmailarea", ID_NETMAILAREA },
     { "netmailextern", ID_NETMAILEXTERN },
     { "netmailflag", ID_NETMAILFLAG },
+    { "netmailflavour", ID_NETMAILFLAVOUR },
     { "newarearefusefile", ID_NEWAREAREFUSEFILE },
     { "nodelist", ID_NODELIST },
     { "nodelistdir", ID_NODELISTDIR },

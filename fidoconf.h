@@ -160,7 +160,7 @@ typedef struct link {
     char *pktFile, *packFile;  /*  used only internally by hpt */
     char *floFile, *bsyFile;   /*  dito */
     ps_pack packerDef;
-    e_flavour echoMailFlavour, fileEchoFlavour;
+    e_flavour netMailFlavour, echoMailFlavour, fileEchoFlavour;
     char *LinkGrp;         /*  link's group for autocreate areas */
     char **AccessGrp;      /*  groups for echo access */
     unsigned int numAccessGrp;
