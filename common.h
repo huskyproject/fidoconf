@@ -145,6 +145,14 @@ FCONF_EXT char   *strLower(char *str);
   FZ:     strLower converts the string from upper case to lower case.
 */
 
+FCONF_EXT  char    *GetFilenameFromPathname(char* pathname);
+/*   Get the object name from the end of a full or partial pathname.
+    The GetFilenameFromPathname function gets the file (or directory) name
+    from the end of a full or partial pathname. Returns The file (or directory)
+    name
+*/
+
+
 FCONF_EXT char   *shell_expand(char *str);
 /*DOC
    Input: str is a \0 terminated string which must have been malloc'ed

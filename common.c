@@ -983,3 +983,13 @@ char *sstrdup(const char *src)
     }
     return ptr;
 }
+
+char    *GetFilenameFromPathname(char* pathname)
+{
+    char *fname = strrchr(pathname,PATH_DELIM);
+    if(fname)
+        fname++;
+    else
+        fname = pathname;
+    return fname;
+}
