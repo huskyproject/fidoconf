@@ -1,5 +1,5 @@
 INFODIR = /usr/local/info
-IOPT	= -m 644
+IMOPT	= -m 644
 
 info fidoconfig.info: fidoconfig.texi proposal.texi config
 	makeinfo --no-split fidoconfig.texi
