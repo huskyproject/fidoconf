@@ -1,3 +1,20 @@
+2002-08-23 Friday 18:53  stas_degteff
+
+	* xstr.c (1.6): Enlarge string buffer.
+
+2002-08-23 Friday 16:30  d_sergienko
+
+	* fc2tor.c (1.1): forgot to make cvs add before cvs ci :)
+
+2002-08-23 Friday 16:26  d_sergienko
+
+	* Makefile (1.42), makefile.bcd (1.12), makefile.bco (1.5),
+	makefile.bcw (1.9), makefile.cyg (1.4), makefile.djg (1.9),
+	makefile.emo (1.13), makefile.emx (1.7), makefile.ibo (1.8),
+	makefile.in2 (1.2), makefile.inc (1.28), makefile.mgw (1.6),
+	makefile.rxw (1.5), makefile.unx (1.4), makefile.wco (1.19),
+	makefile.wcw (1.27): added fidoconfig -> tornadoBBS converter
+
 2002-08-22 Thursday 07:06  sfpavel
 
 	* debian/: changelog (1.15), control (1.12), copyright (1.2), rules
