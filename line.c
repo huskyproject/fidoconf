@@ -2353,7 +2353,7 @@ int parseAttr(char *token, char **attrs, long *bitattr) {
 	*p = c;
 	token = p;
     }
-    if(*attrs) strUpper(*attrs);
+/*    if(*attrs) strUpper(*attrs);*/
     return 0;
 }
 

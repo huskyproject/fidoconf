@@ -1078,7 +1078,7 @@ int main(int argc, char **argv) {
   	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
   	  printf("areafixQueryReports: %s\n",(config->areafixQueryReports)?"on":"off");
 	  { char *attrs = attr2str(config->areafixReportsAttr);
-	    printf("areafixReportsAttr: %s%s%s\n", attrs ? attrs : "", attrs ? " " : "", config->areafixReportsFlags ? config->areafixReportsFlags : "");
+	    printf("areafixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", config->areafixReportsFlags ? config->areafixReportsFlags : "");
 	    nfree(attrs);
 	  }
   	  printf("areafixKillRequests: %s\n",(config->areafixKillRequests)?"on":"off");
@@ -1097,7 +1097,7 @@ int main(int argc, char **argv) {
      if (hpt==0) {
         printf("\n=== FILEFIX CONFIG ===\n");
 	{ char *attrs = attr2str(config->filefixReportsAttr);
-	  printf("filefixReportsAttr: %s%s%s\n", attrs ? attrs : "", attrs ? " " : "", config->filefixReportsFlags ? config->filefixReportsFlags : "");
+	  printf("filefixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", config->filefixReportsFlags ? config->filefixReportsFlags : "");
 	  nfree(attrs);
 	}
         printf("filefixKillRequests: %s\n",(config->filefixKillRequests)?"on":"off");
