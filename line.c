@@ -4153,6 +4153,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_NEWAREAREFUSEFILE:
             rc = copyString(getRestOfLine(), &(config->newAreaRefuseFile));
             break;
+        case ID_AREAFIXFROMNAME:
+            rc = copyString(getRestOfLine(), &(config->areafixFromName));
+            break;
 
 
         default:

@@ -282,7 +282,8 @@ enum {
     ID_ANNMESSFLAGS,
     ID_FILEAREACREATEPERMS,
     ID_NEWAREAREFUSEFILE,
-    ID_REDUCEDSEENBY
+    ID_REDUCEDSEENBY,
+    ID_AREAFIXFROMNAME
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -319,6 +320,7 @@ token_t parseline_tokens[] =
     { "arcnetmail", ID_ARCNETMAIL },
     { "areafix", ID_AREAFIX },
     { "areafixecholimit", ID_AREAFIXECHOLIMIT },
+    { "areafixfromname", ID_AREAFIXFROMNAME },
     { "areafixfrompkt", ID_AREAFIXFROMPKT },
     { "areafixhelp", ID_AREAFIXHELP },
     { "areafixkillreports", ID_AREAFIXKILLREPORTS },
