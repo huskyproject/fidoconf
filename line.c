@@ -596,6 +596,57 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
    return 0;
 }
 
+int parseLocalArea(char *token, s_fidoconfig *config)
+{
+   int rc;
+
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+   
+   config->localAreas = realloc(config->localAreas, sizeof(s_area)*(config->localAreaCount+1));
+   rc = parseArea(*config, token, &(config->localAreas[config->localAreaCount]));
+   config->localAreaCount++;
+   return rc;
+}
+
+int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
+{
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+   
+   config->carbons = realloc(config->carbons,sizeof(s_carbon)*(config->carbonCount+1));
+   config->carbonCount++;
+
+   config->carbons[config->carbonCount-1].type = type;
+   copyString(token, &(config->carbons[config->carbonCount-1].str));
+
+   config->carbons[config->carbonCount-1].area = &(config->badArea);
+   
+   return 0;
+}
+
+int parseCarbonArea(char *token, s_fidoconfig *config) {
+   int i;
+	
+   if (token == NULL) {
+	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+	   return 1;
+   }
+   
+   for (i=0; i<config->localAreaCount; i++) {
+	   if (strcasecmp(config->localAreas[i].areaName,token)==0) {
+		   config->carbons[config->carbonCount-1].area = &(config->localAreas[i]);
+		   return 0;
+	   }
+   }
+
+   return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -629,6 +680,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "dupeArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->dupeArea));
    else if (stricmp(token, "badArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->badArea));
    else if (stricmp(token, "echoArea")==0) rc = parseEchoArea(getRestOfLine(), config);
+   else if (stricmp(token, "localArea")==0) rc = parseLocalArea(getRestOfLine(), config);
    else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
    else if (stricmp(token, "password")==0) {
       rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].defaultPwd));
@@ -684,6 +736,11 @@ int parseLine(char *line, s_fidoconfig *config)
 
    else if (stricmp(token, "denygrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
    else if (stricmp(token, "tossgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
+
+   else if (stricmp(token, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, to);
+   else if (stricmp(token, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, from);
+   else if (stricmp(token, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, kludge);
+   else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config);
    
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
                                                           

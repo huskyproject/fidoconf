@@ -73,8 +73,20 @@ struct area {
 
    char group;                      // used by reade (and areafix soon)
    char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
+
+   int ccoff;          // 1 if carbon copy is not allowed from this area
 };
 typedef struct area s_area;
+
+enum carbonType {to, from, kludge};
+typedef enum carbonType e_carbonType;
+
+struct carbon {
+   e_carbonType type;
+   char         *str;     //string to compare
+   s_area       *area;    // area to copy messages
+};
+typedef struct carbon s_carbon;
 
 struct unpack {
    UINT    offset;
@@ -103,6 +115,8 @@ struct fidoconfig {
    s_area   netMailArea, dupeArea, badArea;
    UINT     echoAreaCount;
    s_area   *echoAreas;
+   UINT     localAreaCount;
+   s_area   *localAreas;
 
    UINT     routeCount;
    s_route  *route;
@@ -116,8 +130,12 @@ struct fidoconfig {
    s_pack   *packDefault;
    UINT     unpackCount;
    s_unpack *unpack;
+   
    char     *intab, *outtab;
    char     *echotosslog, *importlog;
+
+   UINT     carbonCount;
+   s_carbon *carbons;
 };
 typedef struct fidoconfig s_fidoconfig;
 
