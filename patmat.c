@@ -19,6 +19,7 @@
 **                  ters from its first appearance to the next spec-  **
 **                  ific character.The character ? is a wild card     **
 **                  for only one character in the position it appears.**
+**                  The hash mark "#" matches a single decimal figure.**
 **                  Combinations such as "*?" or "?*" or "**" are     **
 **                  illegal for obvious reasons & the functions may   **
 **                  goof,though I think it will still work.           **
@@ -73,7 +74,8 @@ int patmat(char *raw,char *pat)
    else
     { if (*raw == '\0')                     /*  if end of raw then    */
          return( 0 ) ;                      /*     mismatch           */
-      if ((*pat == '?') || (*pat == *raw))  /*  if chars match then   */
+      if ((*pat == '?') || (*pat == '#') ||  /*  if chars match then   */
+        (*pat == *raw))
         if (patmat(raw+1,pat+1) == 1)       /*  try & match rest of it*/
            return( 1 ) ;
     }
