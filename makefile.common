@@ -62,6 +62,13 @@ commonclean:
 	-$(RM) core
 
 commondistclean: clean
-	-$(RM) tparser$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2SQUISH)$(EXE) $(FECFG2FCONF)$(EXE) dumpfcfg$(EXE)
+	-$(RM) tparser$(EXE)
+	-$(RM) $(FCONF2GOLDED)$(EXE)
+	-$(RM) $(FCONF2MSGED)$(EXE) 
+	-$(RM) $(FCONF2AQUAED)$(EXE)
+	-$(RM) $(FCONF2FIDOGATE)$(EXE)
+	-$(RM) $(FCONF2SQUISH)$(EXE)
+	-$(RM) $(FECFG2FCONF)$(EXE)
+	-$(RM) dumpfcfg$(EXE)
 	-$(RM) $(LIBFIDOCONFIG)$(LIB)
 
