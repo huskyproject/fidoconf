@@ -193,6 +193,7 @@ typedef struct link {
     unsigned int numDfMask;
 
     unsigned int afixEchoLimit;
+    unsigned int ffixEchoLimit;    
 
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;

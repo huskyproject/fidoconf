@@ -3563,6 +3563,10 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseNumber(getRestOfLine(), 10,
                              &(getDescrLink(config)->afixEchoLimit));
             break;
+        case ID_FILEFIXECHOLIMIT:
+            rc = parseNumber(getRestOfLine(), 10,
+                              &(getDescrLink(config)->ffixEchoLimit));
+            break;	    	   	    
         case ID_ARCMAILSIZE:
             rc = parseNumber(getRestOfLine(), 10,
                              &(getDescrLink(config)->arcmailSize));

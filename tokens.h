@@ -289,7 +289,8 @@ enum {
     ID_NEWAREAREFUSEFILE,
     ID_REDUCEDSEENBY,
     ID_AREAFIXFROMNAME,
-    ID_FILEFIXFROMNAME
+    ID_FILEFIXECHOLIMIT,
+    ID_FILEFIXFROMNAME    
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -428,6 +429,7 @@ token_t parseline_tokens[] =
     { "fileechoflavour", ID_FILEECHOFLAVOUR },
     { "filefileumask", ID_FILEFILEUMASK },
     { "filefix", ID_FILEFIX },
+    { "filefixecholimit", ID_FILEFIXECHOLIMIT },
     { "filefixfromname", ID_FILEFIXFROMNAME },
     { "filefixfsc87subset", ID_FILEFIXFSC87SUBSET },
     { "filefixhelp", ID_FILEFIXHELP },
