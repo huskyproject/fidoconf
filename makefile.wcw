@@ -1,53 +1,54 @@
+# $Id$
 # Makefile for Watcom C (Win32)
 # no support for huskymak.cfg
 #
+# Predefines: __WATCOMC__, __NT__
 
-CC=wcl386
-EXENAMEFLAG=-fe=
-CDEFS=
-COPT=-zq -wx -i=.. -oneatx -5 -c -bt=nt
-LFLAGS=-bt=nt -l=nt
+CC          = wcl386
+EXENAMEFLAG = -fe=
+CDEFS       =
+COPT        = -zq -wx -wcd=202 -i=.. -oneatx -5 -c -bt=nt -fpi87
+COPT_WO_X   = -zq -wx -wcd=202 -i=.. -oneat  -5 -c -bt=nt -fpi87
+LFLAGS      = -bt=nt -l=nt
 # Also see compilation rule for fidoconf.c !
 
-TPU=.tpu
-OBJ=.obj
-EXE=.exe
-RM=del
-LIB=.lib
-AR=wlib
-AR_R=-b -q
+TPU         = .tpu
+OBJ         = .obj
+EXE         = .exe
+RM          = del
+LIB         = .lib
+AR          = wlib
+AR_R        = -b -q
 
-NULL=%null
-SYMBOLIC=.SYMBOLIC
+NULL           = @%null
+SYMBOLIC       = .SYMBOLIC
 
-LINKFIDOCONFIG=fconfwcw.lib
-LINKSMAPI=..\smapi\smapiwcw.lib
-LIBPREFIX=
+LINKFIDOCONFIG =fconfwcw.lib
+LINKSMAPI      = ..\smapi\smapiwcw.lib
+LIBPREFIX      =
 
-FIDOCONFIG = fidoconfig
-FCONF2AQUAED = fconf2aquaed
-FCONF2GOLDED = fconf2golded
-FCONF2MSGED  = fconf2msged
+FIDOCONFIG     = fidoconfig
+FCONF2AQUAED   = fconf2aquaed
+FCONF2GOLDED   = fconf2golded
+FCONF2MSGED    = fconf2msged
 FCONF2FIDOGATE = fconf2fidogate
-FCONF2SQUISH = fconf2squish
-FCONF2TORNADO = fconf2tornado
+FCONF2SQUISH   = fconf2squish
+FCONF2TORNADO  = fconf2tornado
 FCONF2BINKD    = fconf2binkd
-FECFG2FCONF = fecfg2fconf
-LIBFIDOCONFIG = $(LIBPREFIX)fconfwcw
+FECFG2FCONF    = fecfg2fconf
+LIBFIDOCONFIG  = $(LIBPREFIX)fconfwcw
 
-default: all
+.DEFAULT
+	$(NULL)
 
 !include makefile.inc
 
-fidoconf.obj:
-	wcl386 -zq -wx -i=.. -oneat -5 -c -bt=nt  fidoconf.c
+fidoconf$(OBJ) :
+	$(CC) $(COPT_WO_X) $(CDEFS) $<
 # Relax some optimization because of bug in WCL 11.0 - removed 'x' option
 
-all: commonlibs commonprogs $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
-	$(NULL)
+all : commonlibs commonprogs $(SYMBOLIC)
 
-clean: commonclean $(SYMBOLIC)
-	$(NULL)
+clean : commonclean $(SYMBOLIC)
 
-distclean: commondistclean $(SYMBOLIC)
-	$(NULL)
+distclean : commondistclean $(SYMBOLIC)
