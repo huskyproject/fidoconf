@@ -1,3 +1,16 @@
+2003-05-25 Sunday 12:49  lmike
+
+	* fidoconf/syslogp.h (1.2): Added syslog.h file placement switch.
+
+2003-05-25 Sunday 12:46  lmike
+
+	* doc/makefile.qnx (1.1), make/makefile.qnx (1.1): Added support
+	for QNX 6.x
+
+2003-05-25 Sunday 12:35  lmike
+
+	* README.TXT (1.5): Added line about QNX
+
 2003-05-22 Thursday 20:57  d_sergienko
 
 	* src/tparser.c (1.9): make remaps output more pretty
