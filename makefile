@@ -3,8 +3,8 @@ AR = ar
 COPT = -g -s -c -O2 -Wall -I../smapi -DUNIX
 
 ALL: fidoconfig.a \
-     tparser \
-    libfidoconfig.so.0.1
+     libfidoconfig.so.0.1 \
+     tparser 
 
 fidoconfig.a: fidoconfig.o line.o common.o 
 	$(AR) r fidoconfig.a fidoconfig.o line.o common.o
