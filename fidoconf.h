@@ -194,6 +194,7 @@ typedef struct link {
     char useFileBox; // internal
     char sb; // internal
     unsigned int noRules;
+    FILE *pkt;	// for internal usage
 
 
 } s_link, *ps_link;
