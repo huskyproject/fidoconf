@@ -1,3 +1,9 @@
+2003-05-14 Wednesday 20:39  d_sergienko
+
+	* HISTORY (1.23), fidoconf/fidoconf.h (1.12), fidoconf/tokens.h
+	(1.4), src/fidoconf.c (1.7), src/line.c (1.11), src/tparser.c
+	(1.8): add token recodeMsgBase
+
 2003-05-12 Monday 04:44  d_sergienko
 
 	* src/fc2binkd.c (1.2): fix compiling after links reallocation
