@@ -38,6 +38,9 @@
 #ifdef UNIX
 #include <pwd.h>
 #include <grp.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #endif 
 
 #include <limits.h>
@@ -1351,6 +1354,29 @@ int parseUnpack(char *line, s_fidoconfig *config) {
     }
 }
 
+static int f_accessable(char *token)
+{
+    /* We don't need a real fexist function here, and we don't want to
+       be dependent on SMAPI just because of this. For us, it is enough
+       to see if the file is accessible */
+
+#ifdef UNIX       
+    struct stat sb;
+    
+    if (stat(token, &sb))
+	return 0;  /* cannot stat the file */
+    if (access(token, R_OK))
+	return 0;  /* cannot access the file */
+    return 1;
+#else
+    FILE *f = fopen(token, "rb");
+    if (f == NULL)
+        return 0;
+    fclose(f);
+    return 1;
+#endif
+}
+
 int parseFileName(char *line, char **name) {
    char *token;
 
@@ -1365,11 +1391,11 @@ int parseFileName(char *line, char **name) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
-   if (fexist(token)) {
+   if (f_accessable(token)) {
       (*name) = malloc(strlen(token)+1);
       strcpy((*name), token);
    } else {
-      printf("Line %d: File not found %s!\n", actualLineNr, token);
+      printf("Line %d: File not found or no permission: %s!\n", actualLineNr, token);
       if (line[0]=='\"')
         free(token);
       return 2;
