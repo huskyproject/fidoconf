@@ -2,6 +2,12 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sat Feb 12 16:45:00 IZH 2000
+Georgi (patch from Nestyurkin Nikolay, 2:5020/3600):
+* added new keyword for htick:
+  SaveTic <FileEchoMask> <DirToSaveTic>
+
+----- cvs ci ------
 Mon Feb  7 22:37:12 NOVT 2000
 max:
 * fconf2squish: don't write "-$g0" for "0" groups
