@@ -15,6 +15,7 @@
 - fix "-manual" vs. "-mandatory": 
   manual means: subscription/unsubscription not allowed
   mandatory means: subscription allowed, unsubscription not allowed
+- print name of config file with error
 
 - dump remaps, bbsareas and fileareas
 - for htick developers (add to doc & tparser):
@@ -41,4 +42,4 @@
     AdvancedAreaFix
     what is [module]
     set, if, if not, else, elseif, ifdef, ifndef, endif
-    araefixhelp
+    areafixhelp

@@ -824,7 +824,9 @@ int parseFileArea(const s_fidoconfig *config, char *token, s_filearea *area)
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
          area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
-         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
+//         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
+         area->downlinks[area->downlinkCount]->link = getLinkForFileArea(*config,tok,area);
+
          if (area->downlinks[area->downlinkCount]->link == NULL) {
             printf("Line %d: Link for this area is not found!\n", actualLineNr);
             rc += 1;

@@ -421,6 +421,7 @@ void disposeConfig(ps_fidoconfig config);
 
 ps_link getLink(s_fidoconfig config, char *addr);
 ps_link getLinkForArea(s_fidoconfig config, char *addr, s_area *area);
+ps_link getLinkForFileArea(s_fidoconfig config, char *addr, s_filearea *area);
 ps_link getLinkFromAddr(s_fidoconfig config, s_addr aka);
 ps_addr getAddr(s_fidoconfig config, char *addr);
 int    existAddr(s_fidoconfig config, s_addr aka);
