@@ -227,9 +227,7 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 
     strcpy((char *) msgHeader.from,msg->fromUserName);
     strcpy((char *) msgHeader.to, msg->toUserName);
-    strcpy((char *) msgHeader.subj, msg->subjectLine);
-// val: this code is completely wrong and should be moved to scan.c
-/*
+
     if (((msgHeader.attr & MSGFILE) == MSGFILE)
 	&& (msg->netMail==1)
 	&& !strchr(msg->subjectLine, PATH_DELIM)) {
@@ -265,7 +263,7 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 	}
 	nfree(newSubj);
     } else strcpy((char *) msgHeader.subj, msg->subjectLine);
-*/
+
     msgHeader.orig.zone  = (word) msg->origAddr.zone;
     msgHeader.orig.node  = (word) msg->origAddr.node;
     msgHeader.orig.net   = (word) msg->origAddr.net;
