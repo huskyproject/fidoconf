@@ -1,3 +1,13 @@
+2002-11-20 Wednesday 11:29  stas_degteff
+
+	* arealist.c (1.7): Fix for '2002-11-18 Monday 12:43'. Patch from
+	Alexander Reznikov, 2:4600/220
+
+2002-11-20 Wednesday 08:35  stas_degteff
+
+	* common.c (1.136), common.h (1.71): New common function:
+	OS_independed_basename()
+
 2002-11-19 Tuesday 12:08  stas_degteff
 
 	* fidoconf.h (1.156): Fix Watcom C compilation errors
