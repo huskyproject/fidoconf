@@ -293,106 +293,308 @@ char *shell_expand(char *str)
     return ret;
 }
 
+/* ================================================================ 
 
-/* This function creates a "unique" file with a name of 8 characters in
-   the given directory witht the given extension. The file is "unique" over
-   a period of 194 days, and the function can generate 256 filenames per
-   second. If it is called more frequently, it sleeps until a new second has
-   arrived.
+Function: makeUniqueDosFileName 
 
-   This function does only guarrantee uniqueness if no two processes that
-   use the function are running at the same time. I.E., a Fidonet EDITOR
-   should NOT use it, because an editor runs parrallel to the tosser, while
-   Tosser, Ticker, Router, etc. can use it, because they are usually called
-   subsequently.
+OVERVIEW:
 
-   This is only a temporary solution. The function should be rewritten to
-   use a counter file (accessed via record locking serialization mechanisms),
-   which would also allow processes that run parallel to use it.
-   
-   Note that the file stem name is unique. I.e. if you want to create three
-   unique files with different extensions, you only need to call this
-   function once and then you can substitute arbitrary extensions safely.
+The following function is used to create "unique" 8.3 filenames.  This is
+a major concerning when creating fidonet PKT files.  If you use this
+function to create PKT filenames, and your node only runs programs that use
+the same revision of the fidoconfig library, it will be guranteed that your
+program will emit unique PKT filenames throughout the whole epoch (!), and
+in almost all cases you can also be sure that your packets will not have
+name clashes with packets from other nodes that run fidoconfig programs
+during a period of about two days.  (Normally, the tosser of your uplink
+should not have a problem with clashes of pkt filenames from different links
+anyway, but just in case he uses a brain-dead tosser ...).
 
-   Also note that the function does NOT test if a file of the generated name
-   might already exist. If you wish to prevent this case, you have to test it
-   on your own.
+CALLING:
 
-   The config parameter is needed in order to calculate an offset based
-   on the primary AKA. This is done in an attempt to work around a Fastecho
-   bug (at our downlinks side ...) and trys to assure that different nodes 
-   running hpt also create somewhat distinct filenames.
-*/
+The function takes a directory name as argument (which is prepended to the
+generated file name, but has no further meaning), an extension (which again
+is appended to the gernated file name, but has no furhter meaning), and a
+fidoconfig structure.  The fidoconfig sturcture is used to create a basic
+offset number that distinguishes your node/point from another node/point.
 
+DETAILS:
+
+The function guarantees to create
+  - 36 filenames per second (if the average number of filenames created
+    per second over the whole lifetime of the program is greater, the
+    program will be delayed for the appropriate time via an atexit
+    handler). That is, you can poll as many filenames out of the function
+    as you wish, and you will get them quickly when you poll them, the
+    worst case is that if your program ran a very short time it will be
+    delayed before finally exiting.
+  - If the fidoconfig file always has the same primary AKA, and no two
+    programs that use that use the function run at the same time on your
+    system, it will emit unique filenames during the whole epoch (!).
+    That is, a Fidonet editor should NOT use this function (because a
+    editor usually runs parallel to the tossertask), while the tosser,
+    router, ticker, ... may safely use it as those programs usually run
+    serialized.
+  - If the primary AKA in the fidoconfig changes, the file names will
+    change substantially, so that different nodes who both run hpt
+    or other fidoconfig programs will generate substantially different file
+    names.
+  - ATTENTION: This function presently does not check if the file
+    names that it calculates do already exist. If you are afraid of
+    this (because you also use non-fidoconfig programs), you must
+    check it yourself in the application.
+
+IMPLEMENTATION NOTES:
+
+The alogrithm for creating pkt file names works as follows:
+
+ - Step 1:  Based on OUR AKA, a static offset number is computed.  This is
+   done so that two systems which both run hpt create somewhat different
+   PKT file name. The offset number is computed as follows:
+
+      We imagine the node numbe decomposed in its digits:
+         node  = node1000 * 1000 + node100 * 100 + node10 *10 + node1
+      analoguous for the net number:
+         net   = net1000 * 1000 + net100 * 100 + net10 * 10 + net1
+      and the point number:
+         point = point1000 * 1000 + point100 * 100 + point10 * 10 + point1
+
+      Then the decimal digits of "offset" are composed as follows:
+
+      8         7         6        5        4        3        2        1
+  (I) node10    node1     net10    net1     node100  node1000 net100   net1000
+ (II) node10    node1     point10  point1   node100  node1000 net100   net1000
+
+      where line (I) is used if point!=0, and line (II) is used if point==0.
+
+      Then the offset number is multiplied by 21 * 36. (This will overflow
+      a 32 bit unsigned integer, so in the code we only multiply by 21 and
+      then do other tricks).
+
+ - Step 2: If this is the first start, the value of time() is obtained and
+      increased by one. That value is the "base packet number" for the file
+      name about to be created.
+
+ - Step 3: The base packet number is added to the offset number and printed
+      as a seven digit number in a 36-based number system using the digits
+      0..9 and a..z. (We need all alphanumeric characters to assure all
+      uniquenesses that we guranteed ... hexadezimal characters are not
+      enough for this).
+
+ - Step The last (eight) character in the generated file name is
+      is a counter to allow for creating more than one filename per second.
+      The initial value of the counter is:
+
+            (net10 * 10 + net1 + point100) modulo 36
+
+ - Step 5: The counter is printed as the eight character using characters
+      0..9, and a..z (for counter values from 10 to 35).
+
+ - Step 6: On subsequent calls of this routine, the counter value is
+      increased by one. If it becomes greater than 35 it is wrapped to zero.
+      If all counter values have been used up (i.E. after the increasement
+      and possibly wrapping the counter value is again the initial value),
+      the base packet number is increased by one.
+
+  - Step 7: At program exit, the program sleeps until the value of time()
+      is greater or at least equal to the highest base packet number that
+      has been used.
+      (This is done via atexit. If the registering of the atexit program
+      fails, the algorithm above is modified so that every time that
+      the base packet number is increased, the program immediately waits
+      until time() is equal the base packet number. This is slower, but
+      it is a secure fallback in case atexit fails).
+
+The result is:
+
+  - The routine is able to create 36 filenames per second. If more filenames
+    are requested within a single second, calling the routine might delay
+    program execution, but the routine will still produce as many file names
+    as you request.
+
+  - As long as the AKA that is based for calculating the offset does not
+    change, and of course as long as the system clock is running continously
+    without being turned backwards, the routine will create unique filenames
+    during the whole epoch!
+
+  - For different nodes that have different AKAs, there will usually be a
+    considerable distance between the filenames created by the one node and
+    those created by another node. Especially, different points of the same
+    node will usually have different file names, and different nodes of the
+    same hubs will usually have very different file names over a period
+    of at least one day, and usually much more. There is no exact guarantee
+    that always two different nodes create different file names within this
+    period, but the chances are high. (Note that any decent tosser should
+    not have any problem with receving arcmail bundles from two different
+    nodes that contain pkt files with the same name; however, Fastecho
+    and probably others do have this problem unless the sysop installs
+    special scripts to circument it, and this is why we do the whole shit
+    of sender specific offset numbers ...)
+
+  - Remark: This code requires sizeof(unsinged long) >= 4. This is true
+    for all known 16, 32 and 64 bit architectures.
+
+   ================================================================ */
+
+static time_t last_reftime_used;
+static int may_run_ahead;
+
+static void atexit_wait_handler_function(void)
+{
+    time_t t;
+
+    time(&t);
+    while (t < last_reftime_used)
+    {
+#ifdef UNIX
+        usleep(10);
+#else
+        sleep(1);
+#endif
+        time (&t);
+    }
+}
+    
 char *makeUniqueDosFileName(const char *dir, const char *ext,
 			    s_fidoconfig *config)
 {
    char                *fileName;
-   static unsigned      counter  = 0x100;
+   
+   static unsigned      counter  = 0x100, refcounter = 0x100;
    static time_t        refTime  = 0x0;
-   unsigned long        pktnumber, offset;
-   time_t               oldTime;
+   static short         reftime36[7];
+   static volatile int  flag = 0;
 
-#ifdef UNIX
-   char                 delim    = '/';
-#else
-   char                 delim    = '\\';
-#endif   
-
+   unsigned             icounter;
+   time_t               tmpt;
+   static char          digits[37]="0123456789abcdefghijklmnopqrstuvwxyz";
+   int                  i, digit;
+   short                offset36[7];
+   unsigned long        node10, node1, digit6, digit5, node100, node1000,
+                        net100, net1000, tempoffset, net10, net1, point100;
    size_t               pathLen  = strlen(dir);
+
+   /* make it reentrant */
+   while (flag)
+   {
+#if defined(UNIX) || defined(EMX)   
+       usleep(10);       /* wait to get a fresh number */
+#else
+       sleep(1);
+#endif
+   }
+
+   flag = 1;
 
    if ((fileName = malloc(pathLen + 1 + 8 + 1 + strlen(ext) + 1)) == NULL)
    {                            /* delim file . ext null */
+       flag = 0;
        return NULL;
    }
                            
    memcpy(fileName, dir, pathLen + 1);
 
    if (pathLen && fileName[pathLen - 1] != '\\' &&
-                  fileName[pathLen - 1] != '/')
+                  fileName[pathLen - 1] != '/' &&
+                  fileName[pathLen - 1] != PATH_DELIM)
    {
        fileName[pathLen + 1] = '\0';
-       fileName[pathLen] = delim;
+       fileName[pathLen] = PATH_DELIM;
        pathLen++;
    }
 
-   if (refTime == NULL)
+   if (refTime == 0x0)
    {
        time(&refTime);
+       may_run_ahead = !atexit(atexit_wait_handler_function);
+       last_reftime_used = refTime;
    }
 
    /* we make a node specific offset, so that two nodes that both run hpt
       each generate more or less distinct pkt file names */
 
-   offset = (  ((((unsigned long)config->addr[0].node % 10000UL) * 6UL)
-	         +((unsigned long)config->addr[0].point % 6UL)) * 65536UL   +
-               ((unsigned long)config->addr[0].net % 256UL) * 256UL         +
-	       (((unsigned long)config->addr[0].point * 3UL) % 256UL)  );
+   node10 = (config->addr[0].node % 100) / 10;
+   node1  = (config->addr[0].node % 10);
+   if (config->addr[0].point != 0)
+   {
+       digit6 = (config->addr[0].point % 100) / 10;
+       digit5 = config->addr[0].point % 10;
+   }
+   else
+   {
+       digit6 = (config->addr[0].net % 100) / 10;
+       digit5 = (config->addr[0].net % 10);
+   }
+   node100  = (config->addr[0].node % 1000) / 100;
+   node1000 = (config->addr[0].node % 10000) / 1000;
+   net100   = (config->addr[0].net % 1000) / 100;
+   net1000  = (config->addr[0].net % 10000) / 1000;
+   net10    = (config->addr[0].net % 100) / 10;
+   net1     = config->addr[0].net % 10;
+   point100 = (config->addr[0].point % 1000) / 100;
+ 
+
+   tempoffset = (node10   * 10000000UL +
+                 node1    * 1000000UL  +
+                 digit6   * 100000UL   +
+                 digit5   * 10000UL    +
+                 node100  * 1000UL     +
+                 node1000 * 100UL      +
+                 net100   * 10UL       +
+                 net1000  * 1UL          ) * 21UL;
+
+   icounter = (unsigned)((net10 * 10U + net1 + point100) % 36U);
+
+   offset36[0] = 0;  /* this is the multiplication by 36! */
+   for (i = 1; i <= 6; i++)
+   {
+       offset36[i] = tempoffset % 36;
+       tempoffset = tempoffset / 36;
+   }
 
    do
    {
-       if (counter >= 0xFF)
+       if (counter == icounter || icounter != refcounter)
        {
-	   counter = 0;
-	   oldTime = refTime;
-	   time (&refTime);
+	   counter = refcounter = icounter;
+           last_reftime_used = ++refTime;
+
+           if (!may_run_ahead)
+           {
+               time (&tmpt);
 	   
-	   while (oldTime == refTime)
-	   {
-	       sleep(1); /* wait to get a fresh time number */
-	       time(&refTime);
-	   }
-       }
-       else
-       {
-	   counter++;
+               while (tmpt < refTime)
+               {
+#if defined(UNIX) || defined(EMX)   
+                   usleep(50);       /* wait to get a fresh number */
+#else
+                   sleep(1);
+#endif
+                   time(&tmpt);
+               }
+           }
+
+           tmpt = refTime;
+           for (i = 0; i <= 6; i++)
+           {
+               reftime36[i] = tmpt % 36;
+               tmpt         = tmpt / 36;
+           }
        }
 
-       pktnumber = ((unsigned long)refTime * 256UL + counter) + offset;
-          
-       sprintf(fileName + pathLen, "%08lx.%s", pktnumber, ext);
+       for (i = 0, digit = 0; i < 7; i++)
+       {
+           digit = digit + reftime36[i] + offset36[i];
+           fileName[pathLen + (6 - i)] = digits[digit % 36];
+           digit = digit / 36;
+       }
+
+       sprintf(fileName + pathLen + 7, "%c.%s", digits[counter], ext);
+       counter = ((counter + 1) % 36);
 
    } while (0); /* too slow because of readdir: fexist(fileName) == TRUE */;
+
+   flag = 0;
 
    return fileName;
 }

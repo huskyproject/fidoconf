@@ -18,7 +18,7 @@ AR_R = r
 RM = rm -f
 
 COPT = -fpic -O2 -pipe -Wall -DUNIX -I../smapi
-LOPT = -L $(INSTLIB) -L../smapi
+LOPT = -L$(INSTLIB) -L../smapi -L.
 
 # filename settings
 O = .o
