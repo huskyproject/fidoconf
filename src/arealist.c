@@ -89,7 +89,7 @@ void freeAreaList(ps_arealist al)
     return;
 }
 
-int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc, char *grp)
+int addAreaListItem(ps_arealist al, int active, int rescanable, int import, int export, int mandatory, char *tag, char *desc, char *grp)
 {
 	ps_arealistitem areas;
 	int l;
@@ -101,6 +101,10 @@ int addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char 
     }
     al->areas[al->count].active     = active;
     al->areas[al->count].rescanable = rescanable ? 2 : 0;
+    al->areas[al->count].readonly   = import ? 0 : 3;
+    al->areas[al->count].writeonly  = export ? 0 : 4;
+    al->areas[al->count].fullaccess = (export && import) ? 5 : 0;
+    al->areas[al->count].mandatory  = mandatory ? 6 : 0;
     al->areas[al->count].tag        = sstrdup(tag);
     al->areas[al->count].grp        = sstrdup(grp ? grp : "");
     if(desc) {
@@ -296,7 +300,7 @@ HUSKYEXT char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int
 
 	if(!al || !al->count || !al->areas) return NULL;
 
-	tlen = al->count * (maxlen+3);
+	tlen = al->count * (maxlen+5);
 
 	if(NULL == (text = malloc(tlen))) return NULL;
 	text[tpos] = '\x00';
@@ -304,7 +308,7 @@ HUSKYEXT char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int
 	for(i = 0; i < al->count; i++) {
 		clen = 0;
 		if(tpos >= tlen) {
-			tlen += (maxlen+3) * 32;
+			tlen += (maxlen+5) * 32;
 			if(NULL == (text = realloc(text,tlen))) return NULL;
 		}
 
@@ -323,6 +327,15 @@ HUSKYEXT char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int
 		if(activechars) {
 			text[tpos++] = activechars[al->areas[i].active];
 			text[tpos++] = activechars[al->areas[i].rescanable];
+                        if (al->areas[i].fullaccess) {
+				text[tpos++] = activechars[al->areas[i].fullaccess];
+                        } else {
+				if (al->areas[i].readonly)
+					text[tpos++] = activechars[al->areas[i].readonly];
+				else
+					text[tpos++] = activechars[al->areas[i].writeonly];
+                        }
+			text[tpos++] = activechars[al->areas[i].mandatory];
 			clen++;
 		}
 		text[tpos++] = ' ';
@@ -340,22 +353,22 @@ HUSKYEXT char *formatAreaList(ps_arealist al, int maxlen, char *activechars, int
 
         clen += strlen(al->areas[i].tag);
         wlen = strlen(al->areas[i].desc);
-        if(clen + 3 + wlen <= maxlen) {
+        if(clen + 5 + wlen <= maxlen) {
 			text[tpos++] = ' ';
 			text[tpos] = '\x00';
-	        if(NULL == (text = addchars(text,'.',maxlen-(clen+2+wlen),&tpos,&tlen))) return NULL;
+	        if(NULL == (text = addchars(text,'.',maxlen-(clen+4+wlen),&tpos,&tlen))) return NULL;
 			text[tpos++] = ' ';
 			text[tpos] = '\x00';
 	        if(NULL == (text = addline(text,al->areas[i].desc,&tpos,&tlen))) return NULL;
         } else {
         	p = strchr(al->areas[i].desc,' ');
-        	if(p && (p - al->areas[i].desc) + clen + 3 <= maxlen) {
+        	if(p && (p - al->areas[i].desc) + clen + 5 <= maxlen) {
         		wlen = p - al->areas[i].desc;
 				*p = '\x00';				
 
 				text[tpos++] = ' ';
 				text[tpos] = '\x00';
-			if(NULL == (text = addchars(text,'.',maxlen-(clen+2+wlen),&tpos,&tlen))) {
+			if(NULL == (text = addchars(text,'.',maxlen-(clen+4+wlen),&tpos,&tlen))) {
 	        		*p = ' ';
 	        		return NULL;
 			}
