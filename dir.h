@@ -5,7 +5,7 @@
 
 #ifndef __IBMC__     /* all other include their own dirent.h */
   #ifndef __WATCOMC__
-    #ifdef __EMX__
+    #if defined(__EMX__) || defined(__FreeBSD__)
       #include <sys/types.h>
     #endif
     #include <dirent.h>
