@@ -127,7 +127,7 @@ typedef struct link {
    unsigned int numOptGrp;
 } s_link, *ps_link;
 
-typedef enum routing {host = 1, hub, boss, noroute} e_routing;
+typedef enum routing {route_zero, host, hub, boss, noroute} e_routing;
 
 typedef struct route {
    e_flavour flavour;
