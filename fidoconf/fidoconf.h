@@ -200,8 +200,8 @@ typedef struct link {
     char **dfMask; /*  don't forward this */
     unsigned int numDfMask;
 
-    long areafixReportsAttr;
-    char *areafixReportsFlags;
+    long areafixReportsAttr, filefixReportsAttr;
+    char *areafixReportsFlags, *filefixReportsFlags;
     unsigned int afixEchoLimit;
     unsigned int ffixEchoLimit;
 
@@ -459,7 +459,7 @@ typedef struct fidoconfig {
    char     *loglevels, *screenloglevels;
    char     *hptPerlFile;
    char     *advStatisticsFile;
-   char     *newAreaRefuseFile;
+   char     *newAreaRefuseFile, *newFileAreaRefuseFile;
    unsigned int fileAreaCreatePerms;
 
    s_area   dupeArea, badArea;
@@ -520,7 +520,7 @@ typedef struct fidoconfig {
    unsigned int killedRequestTimeout;
    int idlePassthruTimeout;
    char *areafixSplitStr, *areafixOrigin, *robotsArea;
-   char *areafixQueueFile;
+   char *areafixQueueFile, *filefixQueueFile;
    unsigned int autoAreaPause;
 
    char     **PublicGroup;
@@ -636,6 +636,10 @@ typedef struct fidoconfig {
    unsigned int ADCount;
 
 } s_fidoconfig, *ps_fidoconfig;
+
+/* flags for message.recode */
+#define REC_HDR 0x0001
+#define REC_TXT 0x0002
 
 struct message {
    /* Address block */

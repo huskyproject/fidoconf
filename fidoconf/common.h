@@ -165,7 +165,6 @@ HUSKYEXT int e_writeCheck(s_fidoconfig *config, s_area *echo, s_link *link);
 /* Select PackAka: link->hisPackAka if PackAka defined, link->hisAka otherwise. */
 HUSKYEXT hs_addr *SelectPackAka(s_link *link);
 
-
 #ifdef __cplusplus
 }
 #endif
