@@ -103,8 +103,6 @@ localarea
 localinbound
 lockfile
 logechotoscreen
-logfiledir
-loglevels
 mandatory
 mindiskfreespace
 msgbasedir
@@ -140,7 +138,6 @@ route
 routefile
 routemail
 rulesdir
-screenloglevels
 separatebundles
 setconsoletitle
 statlog
