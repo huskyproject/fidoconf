@@ -3,6 +3,12 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Sat Sep 23 17:52:53 NOVST 2000
+max (patch from Serguei Revtov):
+* token linkBundleNameStyle
+* additional checks with LinkWithImportLog
+
+----- cvs ci ------
 Fri Sep 15 15:47:22 NOVST 2000
 max:
 * choose "right" link for filearea

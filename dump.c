@@ -31,14 +31,17 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   if (config->processPkt != NULL) fprintf(f, "processPkt %s\n", config->processPkt);
   if (config->tossingExt != NULL) fprintf(f, "tossingExt %s\n", config->tossingExt);
   switch (config->bundleNameStyle) {
-  case addrDiff:
+  case eUndef:
+	  // Can't print undeclared value
+	  break;
+  case eAddrDiff:
 	  printf("BundleNameStyle: addrDiff\n");
 	  break;
-  case timeStamp:
+  case eTimeStamp:
 	  printf("BundleNameStyle: timeStamp\n");
 	  break;
   default:
-	  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
+	  printf("Warning: BundleNameStyle is UNKNOWN! Update dump please!\n");
 	  break;
 	  
   }		  
@@ -292,7 +295,23 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 
       if (link.mandatory) fprintf(f, "mandatory          on\n");
 	  else fprintf(f, "mandatory           off\n");
-	  
+
+      switch (link.linkBundleNameStyle) {
+      case eUndef:
+	      // Can't print undeclared value
+	      break;
+      case eAddrDiff:
+	      printf("linkBundleNameStyle: addrDiff\n");
+	      break;
+      case eTimeStamp:
+	      printf("linkBundleNameStyle: timeStamp\n");
+	      break;
+      default:
+	      printf("Warning: linkBundleNameStyle is UNKNOWN! Update dump please!\n");
+	      break;
+
+      }		  
+  
       fprintf(f, "\n");
     }
 }

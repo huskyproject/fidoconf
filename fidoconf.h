@@ -78,7 +78,7 @@ typedef enum emptypktpwd {eOff, eSecure, eOn} e_emptypktpwd;
 typedef enum pktheaderdiffer {pdOff, pdOn} e_pktheaderdiffer;
 typedef enum nameCase { eLower, eUpper} e_nameCase;
 typedef enum nameCaseConvertion { cLower, cUpper, cDontTouch } e_nameCaseConvertion;
-typedef enum bundleFileNameStyle { timeStamp, addrDiff} e_bundleFileNameStyle;
+typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff} e_bundleFileNameStyle;
 
 typedef struct link {
    s_addr hisAka, *ourAka;
@@ -134,6 +134,7 @@ typedef struct link {
    unsigned int numOptGrp;
    unsigned int delNotRecievedTIC; //1 - if file not recieved, then remove TIC
    unsigned int advancedAreafix;  // 1 - send ~areatag when area delete
+   e_bundleFileNameStyle linkBundleNameStyle; // Style bundle filenames (timeStamp, addrDiff...
 } s_link, *ps_link;
 
 typedef enum routing {route_zero, host, hub, boss, noroute, nopack, route_extern} e_routing;
@@ -409,7 +410,7 @@ typedef struct fidoconfig {
    char *tearline, *origin;
 
    e_bundleFileNameStyle bundleNameStyle;
-   
+
    unsigned int keepTrsMail; // Keep Transit Netmail
 
 } s_fidoconfig, *ps_fidoconfig;

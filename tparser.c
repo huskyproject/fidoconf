@@ -247,6 +247,21 @@ void printLink(s_link link) {
    }
    printf("AdvancedAreaFix %s\n", (link.advancedAreafix) ? "on" : "off");
    
+   switch (link.linkBundleNameStyle) {
+      case eUndef:
+         //Don't print senseless information... printf("linkBundleNameStyle: undefined (like BundleNameStyle)\n");
+         break;
+      case eAddrDiff:
+         printf("linkBundleNameStyle: addrDiff\n");
+         break;
+      case eTimeStamp:
+         printf("linkBundleNameStyle: timeStamp\n");
+         break;
+      default:
+         printf("Warning: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
+         break;
+   }
+
    printf("-------\n");
 }
 
@@ -333,10 +348,13 @@ int main(int argc, char **argv) {
       printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
       printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
 	  switch (config->bundleNameStyle) {
-	  case addrDiff:
+	  case eUndef:
+		  printf("BundleNameStyle: undefined (timeStamp)\n");
+		  break;
+	  case eAddrDiff:
 		  printf("BundleNameStyle: addrDiff\n");
 		  break;
-	  case timeStamp:
+	  case eTimeStamp:
 		  printf("BundleNameStyle: timeStamp\n");
 		  break;
 	  default:

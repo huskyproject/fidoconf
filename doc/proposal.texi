@@ -212,6 +212,7 @@ a comment and will be ignored.
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
 * bundleNameStyle::             style of filenames of arcmail bundles
+* linkBundleNameStyle::         style of filenames of arcmail bundles for link
 * defarcmailsize::		default size for arcmail bundle
 * ignoreCapWord::		ignore Capability Word in pkt files
 * noProcessBundles::            no unpack arcmail bundles
@@ -2303,7 +2304,7 @@ Remap mail to other address.
 
 This statament move echomail for all links to his own directory.
 
-@node bundleNameStyle, defarcmailsize, SeparateBundles, Keywords
+@node bundleNameStyle, linkBundleNameStyle, SeparateBundles, Keywords
 @subsection bundleNameStyle
 @table @asis
 @item Syntax:
@@ -2316,7 +2317,24 @@ This statament sets rule for creating names of arcmail bundles.
 addrDiff - create name from difference of source and destination addreses. Always the same filename for every pair of links.
 timeStamp - some kind of random names (current time + some counter)
 
-@node defarcmailsize, ignoreCapWord, bundleNameStyle, Keywords
+@node linkBundleNameStyle, defarcmailsize, bundleNameStyle, Keywords
+@subsection linkBundleNameStyle
+@table @asis
+@item Syntax:
+@code{linkBundleNameStyle addrDiff|timeStamp}
+@item Example:
+@code{bundleNameStyle}
+@end table
+
+This statament sets rule for creating names of arcmail bundles for link.
+Used in link description and overwrides definition set in bundleNameStyle.
+addrDiff - create name from difference of source and destination addreses. Alway
+s the same filename for every pair of links.
+timeStamp - some kind of random names (current time + some counter)
+
+This statement can only be repeated for different links.
+
+@node defarcmailsize, ignoreCapWord, linkBundleNameStyle, Keywords
 @subsection defarcmailsize
 @table @asis
 @item Syntax:

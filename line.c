@@ -2087,10 +2087,34 @@ int parseBundleNameStyle(char *line, e_bundleFileNameStyle *value)
       return 1;
    }
 
-   if (stricmp(line, "addrDiff") == 0) *value = addrDiff;
-   else if (stricmp(line, "timeStamp") == 0) *value = timeStamp;
+   if (stricmp(line, "addrDiff") == 0) *value = eAddrDiff;
+   else if (stricmp(line, "timeStamp") == 0) *value = eTimeStamp;
    else {
       printf("Line %d: Unknown bundle name style %s!\n", actualLineNr, line);
+      return 2;
+   }
+   return 0;
+}
+
+int parseLinkWithILogType(char *line, char **value)
+{
+   static char *yes="yes", *no="no", *kill="kill";
+
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   if (*value) {
+      printf("Line %d: LinkWithImportLog redefinition\n", actualLineNr);
+      return 2;
+   }
+
+   if (stricmp(line, yes) == 0) *value = yes;
+   else if (stricmp(line, no) == 0) *value = no;
+   else if (stricmp(line, kill) == 0) *value = kill;
+   else {
+      printf("Line %d: Unknown LinkWithImportLog value %s!\n", actualLineNr, line);
       return 2;
    }
    return 0;
@@ -2396,11 +2420,12 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "forwardfilerequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardFileRequestFile));
    else if (stricmp(token, "autoareacreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
    else if (stricmp(token, "autofilecreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));
+   else if (stricmp(token, "linkbundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(getDescrLink(config)->linkBundleNameStyle));
 
 
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
    else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
-   else if (stricmp(token, "linkwithimportlog")==0) rc = copyString(getRestOfLine(), &(config->LinkWithImportlog));
+   else if (stricmp(token, "linkwithimportlog")==0) rc = parseLinkWithILogType(getRestOfLine(), &(config->LinkWithImportlog));
    else if (stricmp(token, "fileareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));
    else if (stricmp(token, "filenewareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog));
    else if (stricmp(token, "longnamelist")==0) rc = parseFileName(getRestOfLine(), &(config->longNameList));

@@ -430,7 +430,6 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->intab);
    nfree(config->outtab);
    nfree(config->importlog);
-   nfree(config->LinkWithImportlog);
    nfree(config->fileAreasLog);
    nfree(config->fileNewAreasLog);
    nfree(config->longNameList);
