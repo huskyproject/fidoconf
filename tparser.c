@@ -211,7 +211,7 @@ void printLink(s_link link) {
    if (link.packerDef) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
    if (link.arcmailSize != 0) printf("arcmailSize - %u kb\n",link.arcmailSize);
-   printf("TIC files %s\n" (link.noTIC == 0) ? "on" : "off");
+   printf("TIC files %s\n", (link.noTIC == 0) ? "on" : "off");
    printf("forwardPkts ");
    switch (link.forwardPkts){
    case fOff : printf("off\n");
