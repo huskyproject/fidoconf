@@ -1423,7 +1423,7 @@ void fillCmdStatement(char *cmd, const char *call, const char *archiv, const cha
 char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
     
     int   i = 1;
-    char  buff[255];
+    static char buff[255];
     
     char *beginOfSuffix = strrchr(fileName, '.')+1;
     char *newFileName;
