@@ -1,6 +1,12 @@
 fidoconfig 0.91
 ---------------
 
+
+----- cvs ci ------
+Thu Jan 27 20:59:22 CET 2000
+mtt:
+* changed in makefile.common $(A) to $(LIB)
+
 ----- cvs ci ------
 Thu Jan 27 18:42:50 CET 2000
 mtt (patch from Alex Semyanka)
