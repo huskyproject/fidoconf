@@ -62,6 +62,8 @@
 #include "common.h"
 #include "typesize.h"
 #include "xstr.h"
+#include "findtok.h"
+#include "tokens.h"
 
 char *actualKeyword, *actualLine;
 int  actualLineNr;
@@ -2392,476 +2394,835 @@ int parseFilelist(char *line, s_fidoconfig *config)
 
 int parseLine(char *line, s_fidoconfig *config)
 {
-   char *token, *temp;
-   char *iToken;
-   int rc = 0;
-   s_link   *clink = NULL;
+    char *token, *temp;
+    char *iToken;
+    int rc = 0, id;
+    s_link   *clink = NULL;
+    static token_list_t tl;
+    static token_list_t *ptl = NULL;
+    
+    actualLine = temp = (char *) smalloc(strlen(line)+1);
+    strcpy(temp, line);
+    
+    if (ptl == NULL)
+    {
+        ptl = &tl;
+        make_token_list(ptl, parseline_tokens);
+    }
+    
+    actualKeyword = token = strtok(temp, " \t");
+    
+    /* printf("Parsing: %s\n", line);
+       printf("token: %s - %s\n", line, strtok(NULL, "\0")); */
 
-#ifdef __TURBOC__
-   int unrecognised = 0;
-#endif
+    if (token)
+    {
+        iToken = strLower(sstrdup(token));
 
-   actualLine = temp = (char *) smalloc(strlen(line)+1);
-   strcpy(temp, line);
+        id = find_token(ptl, iToken);
 
-   actualKeyword = token = strtok(temp, " \t");
-
-   //printf("Parsing: %s\n", line);
-   //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
-   if (token)
-   {
-     iToken = strLower(sstrdup(token));
-     if (strcmp(iToken, "commentchar")==0) rc = parseComment(getRestOfLine(), config);
-     else if (strcmp(iToken, "version")==0) rc = parseVersion(getRestOfLine(), config);
-     else if (strcmp(iToken, "name")==0) rc = copyString(getRestOfLine(), &(config->name));
-     else if (strcmp(iToken, "location")==0) rc = copyString(getRestOfLine(), &(config->location));
-     else if (strcmp(iToken, "sysop")==0) rc = copyString(getRestOfLine(), &(config->sysop));
-     else if (strcmp(iToken, "address")==0) rc = parseAddress(getRestOfLine(), config);
-     else if (strcmp(iToken, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound));
-     else if (strcmp(iToken, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound));
-     else if (strcmp(iToken, "listinbound")==0) rc = parsePath(getRestOfLine(), &(config->listInbound));
-     else if (strcmp(iToken, "localinbound")==0) rc= parsePath(getRestOfLine(), &(config->localInbound));
-     else if (strcmp(iToken, "tempinbound")==0) rc= parsePath(getRestOfLine(), &(config->tempInbound));
-     else if (strcmp(iToken, "outbound")==0) rc = parsePath(getRestOfLine(), &(config->outbound));
-     else if (strcmp(iToken, "ticoutbound")==0) rc = parsePath(getRestOfLine(), &(config->ticOutbound));
-     else if (strcmp(iToken, "public")==0) rc = parsePublic(getRestOfLine(), config);
-     else if (strcmp(iToken, "logfiledir")==0) rc = parsePath(getRestOfLine(), &(config->logFileDir));
-     else if (strcmp(iToken, "dupehistorydir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
-     else if (strcmp(iToken, "nodelistdir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
-     else if (strcmp(iToken, "fileareabasedir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir));
-     else if (strcmp(iToken, "passfileareadir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir));
-     else if (strcmp(iToken, "busyfiledir")==0) rc = parsePath(getRestOfLine(), &(config->busyFileDir));
-     else if (strcmp(iToken, "msgbasedir")==0) rc = parsePath(getRestOfLine(), &(config->msgBaseDir));
-	 else if (strcmp(iToken, "linkmsgbasedir")==0) rc = parsePath(getRestOfLine(), &(getDescrLink(config)->msgBaseDir));
-     else if (strcmp(iToken, "magic")==0) rc = parsePath(getRestOfLine(), &(config->magic));
-     else if (strcmp(iToken, "semadir")==0) rc = parsePath(getRestOfLine(), &(config->semaDir));
-     else if (strcmp(iToken, "badfilesdir")==0) rc = parsePath(getRestOfLine(), &(config->badFilesDir));
-     else if ((strcmp(iToken, "netmailarea")==0) ||
-	      (strcmp(iToken, "netarea")==0))
-       rc = parseNetMailArea(getRestOfLine(), config);
-     else if (strcmp(iToken, "dupearea")==0) rc = parseArea(config, getRestOfLine(), &(config->dupeArea));
-     else if (strcmp(iToken, "badarea")==0) rc = parseArea(config, getRestOfLine(), &(config->badArea));
-     else if (strcmp(iToken, "echoarea")==0) rc = parseEchoArea(getRestOfLine(), config);
-     else if (strcmp(iToken, "filearea")==0) rc = parseFileAreaStatement(getRestOfLine(), config);
-     else if (strcmp(iToken, "bbsarea")==0) rc = parseBbsAreaStatement(getRestOfLine(), config);
-     else if (strcmp(iToken, "localarea")==0) rc = parseLocalArea(getRestOfLine(), config);
-     else if (strcmp(iToken, "remap")==0) rc = parseRemap(getRestOfLine(),config);
-     else if (strcmp(iToken, "link")==0) rc = parseLink(getRestOfLine(), config);
-#ifdef __TURBOC__
-     else unrecognised++;
-#else
-     else
-#endif
-     if (strcmp(iToken, "password")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parsePWD(getRestOfLine(), &clink->defaultPwd);
-	 // this way used because of redefinition
-	 // defaultPwd from linkdefaults (if exist)
-	 clink->pktPwd = clink->defaultPwd;
-	 clink->ticPwd = clink->defaultPwd;
-	 clink->areaFixPwd = clink->defaultPwd;
-	 clink->fileFixPwd = clink->defaultPwd;
-	 clink->bbsPwd = clink->defaultPwd;
-	 clink->sessionPwd = clink->defaultPwd;
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "aka")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 string2addr(getRestOfLine(), &clink->hisAka);
-       }
-       else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "ouraka")==0) {
-       rc = 0;
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 clink->ourAka = getAddr(*config, getRestOfLine());
-	 if (clink->ourAka == NULL) rc = 2;
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "autoareacreate")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->autoAreaCreate);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "autofilecreate")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->autoFileCreate);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "forwardrequests")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->forwardRequests);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "forwardfilerequests")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->forwardFileRequests);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "denyfwdreqaccess") == 0) {
-		 if( (clink = getDescrLink(config)) != NULL ) {
-			 rc = parseBool (getRestOfLine(), &clink->denyFRA);
-		 } else rc = 1;
-     }
-     else if (strcmp(iToken, "forwardpkts")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseForwardPkts(getRestOfLine(), config, clink);
-       }
-       else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "allowemptypktpwd")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseAllowEmptyPktPwd(getRestOfLine(), config, clink);
-       }
-       else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "packnetmail")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool(getRestOfLine(), &clink->packNetmail);
-       }
-       else rc = 1;
-     }
-     else if (strcmp(iToken, "allowpktaddrdiffer")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);
-       }
-       else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "autoareacreatedefaults")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = copyString(getRestOfLine(), &clink->autoAreaCreateDefaults);
-       }
-       else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "autofilecreatedefaults")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = copyString(getRestOfLine(), &clink->autoFileCreateDefaults);
-       }
-       else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "areafix")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->AreaFix);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "filefix")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->FileFix);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "pause")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->Pause);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "notic")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->noTIC);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "delnotrecievedtic")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->delNotRecievedTIC);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "advancedareafix")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->advancedAreafix);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(getDescrLink(config)->autoPause));
-     else if (strcmp(iToken, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName));
-     else if (strcmp(iToken, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName));
-     else if (strcmp(iToken, "forwardareapriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardAreaPriority));
-     else if (strcmp(iToken, "forwardfilepriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardFilePriority));
-	 else if (strcmp(iToken, "denyuncondfwdreqaccess")==0) rc = parseBool(getRestOfLine(), &(getDescrLink(config)->denyUFRA));
-
-     else if (strcmp(iToken, "export")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->export);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "import")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->import);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "mandatory")==0 || strcmp(iToken, "manual")==0) {
-       if( (clink = getDescrLink(config)) != NULL ) {
-	 rc = parseBool (getRestOfLine(), &clink->mandatory);
-       } else {
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "optgrp")==0) rc = parseGroup(getRestOfLine(), config, 3);
-     else if (strcmp(iToken, "forwardrequestmask")==0) rc = parseGroup(getRestOfLine(), config, 4);
-     else if (strcmp(iToken, "denyfwdmask")==0) rc = parseGroup(getRestOfLine(), config, 5);
-     else if (strcmp(iToken, "level")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->level));
-     else if (strcmp(iToken, "areafixecholimit")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->afixEchoLimit));
-#ifdef __TURBOC__
-     else unrecognised++;
-#else
-     else
-#endif
-       if (strcmp(iToken, "arcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->arcmailSize));
-     else if (strcmp(iToken, "pktsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->pktSize));
-     else if (strcmp(iToken, "maxunpackednetmail")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->maxUnpackedNetmail));
-     else if (strcmp(iToken, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->pktPwd));
-     else if (strcmp(iToken, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->ticPwd));
-     else if (strcmp(iToken, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->areaFixPwd));
-     else if (strcmp(iToken, "filefixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->fileFixPwd));
-     else if (strcmp(iToken, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->bbsPwd));
-     else if (strcmp(iToken, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->sessionPwd));
-     else if (strcmp(iToken, "handle")==0) rc = parseHandle(getRestOfLine(), config);
-     else if (strcmp(iToken, "email")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
-     else if (strcmp(iToken, "emailfrom")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->emailFrom));
-     else if (strcmp(iToken, "emailsubj")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->emailSubj));
-     else if (strcmp(iToken, "emailencoding")==0) rc = parseEmailEncoding(getRestOfLine(), &(getDescrLink(config)->emailEncoding));
-     else if (strcmp(iToken, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(getDescrLink(config)->echoMailFlavour));
-     else if (strcmp(iToken, "fileechoflavour")==0) rc = parseFileEchoFlavour(getRestOfLine(), &(getDescrLink(config)->fileEchoFlavour));
-     else if (strcmp(iToken, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount), id_route);
-     else if (strcmp(iToken, "routefile")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount), id_routeFile);
-     else if (strcmp(iToken, "routemail")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount), id_routeMail);
-     else if (strcmp(iToken, "pack")==0) rc = parsePack(getRestOfLine(), config);
-     else if (strcmp(iToken, "unpack")==0) rc = parseUnpack(getRestOfLine(), config);
-     else if (strcmp(iToken, "packer")==0) rc = parsePackerDef(getRestOfLine(), config, &(getDescrLink(config)->packerDef));
-
-     else if (strcmp(iToken, "intab")==0) rc = parseFileName(getRestOfLine(), &(config->intab));
-     else if (strcmp(iToken, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
-
-     else if (strcmp(iToken, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
-     else if (strcmp(iToken, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
-     else if (strcmp(iToken, "forwardrequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardRequestFile));
-     else if (strcmp(iToken, "denyfwdfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->denyFwdFile));
-     else if (strcmp(iToken, "forwardfilerequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardFileRequestFile));
-     else if (strcmp(iToken, "autoareacreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
-     else if (strcmp(iToken, "autofilecreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));
-     else if (strcmp(iToken, "linkbundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(getDescrLink(config)->linkBundleNameStyle));
-
-
-     else if (strcmp(iToken, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
-     else if (strcmp(iToken, "statlog")==0) rc = copyString(getRestOfLine(), &(config->statlog));
-     else if (strcmp(iToken, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
-     else if (strcmp(iToken, "linkwithimportlog")==0) rc = parseLinkWithILogType(getRestOfLine(), &(config->LinkWithImportlog));
-     else if (strcmp(iToken, "kludgeareanetmail")==0) rc = parseKludgeAreaNetmailType(getRestOfLine(), &(config->kludgeAreaNetmail));
-     else if (strcmp(iToken, "fileareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));
-     else if (strcmp(iToken, "filenewareaslog")==0) rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog));
-     else if (strcmp(iToken, "longnamelist")==0) rc = parseFileName(getRestOfLine(), &(config->longNameList));
-     else if (strcmp(iToken, "filearclist")==0) rc = parseFileName(getRestOfLine(), &(config->fileArcList));
-     else if (strcmp(iToken, "filepasslist")==0) rc = parseFileName(getRestOfLine(), &(config->filePassList));
-     else if (strcmp(iToken, "filedupelist")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
-     else if (strcmp(iToken, "msgidfile")==0) rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
-     else if (strcmp(iToken, "loglevels")==0) rc = copyString(getRestOfLine(), &(config->loglevels));
-     else if (strcmp(iToken, "screenloglevels")==0) rc = copyString(getRestOfLine(), &(config->screenloglevels));
-
-     else if (strcmp(iToken, "accessgrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
-     else if (strcmp(iToken, "linkgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
-
-     else if (strcmp(iToken, "carbonto")==0) rc = parseCarbon(getRestOfLine(),config, ct_to);
-     else if (strcmp(iToken, "carbonfrom")==0) rc = parseCarbon(getRestOfLine(), config, ct_from);
-     else if (strcmp(iToken, "carbonaddr")==0) rc = parseCarbon(getRestOfLine(), config, ct_addr);
-     else if (strcmp(iToken, "carbonkludge")==0) rc = parseCarbon(getRestOfLine(), config, ct_kludge);
-     else if (strcmp(iToken, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, ct_subject);
-     else if (strcmp(iToken, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, ct_msgtext);
-     else if (strcmp(iToken, "carboncopy")==0) rc = parseCarbonArea(getRestOfLine(), config, 0);
-     else if (strcmp(iToken, "carbonmove")==0) rc = parseCarbonArea(getRestOfLine(), config, 1);
-     else if (strcmp(iToken, "carbonextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
-/* +AS+ */
-     else if (strcmp(iToken, "netmailextern")==0) rc = parseCarbonExtern(getRestOfLine(), config);
-/* -AS- */
-     else if (strcmp(iToken, "carbondelete")==0) rc = parseCarbonDelete(getRestOfLine(), config);
-     else if (strcmp(iToken, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
-     else if (strcmp(iToken, "excludepassthroughcarbon")==0) rc = parseBool(getRestOfLine(), &(config->exclPassCC));
-#ifdef __TURBOC__
-     else unrecognised++;
-#else
-     else
-#endif
-       if (strcmp(iToken, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
-     else if (strcmp(iToken, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
-     else if (strcmp(iToken, "areafixfrompkt")==0) rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
-     else if (strcmp(iToken, "areafixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
-     else if (strcmp(iToken, "areafixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));
-     else if (strcmp(iToken, "filefixkillreports")==0) rc = parseBool(getRestOfLine(), &(config->filefixKillReports));
-     else if (strcmp(iToken, "filefixkillrequests")==0) rc = parseBool(getRestOfLine(), &(config->filefixKillRequests));
-     else if (strcmp(iToken, "createdirs")==0) rc = parseBool(getRestOfLine(), &(config->createDirs));
-     else if (strcmp(iToken, "longdirnames")==0) rc = parseBool(getRestOfLine(), &(config->longDirNames));
-     else if (strcmp(iToken, "splitdirs")==0) rc = parseBool(getRestOfLine(), &(config->splitDirs));
-     else if (strcmp(iToken, "adddlc")==0) rc = parseBool(getRestOfLine(), &(config->addDLC));
-     else if (strcmp(iToken, "filesingledescline")==0) rc = parseBool(getRestOfLine(), &(config->fileSingleDescLine));
-     else if (strcmp(iToken, "filecheckdest")==0) rc = parseBool(getRestOfLine(), &(config->fileCheckDest));
-     else if (strcmp(iToken, "publicgroup")==0) rc = parseGroup(getRestOfLine(), config, 2);
-     else if (strcmp(iToken, "logechotoscreen")==0) rc = parseBool(getRestOfLine(), &(config->logEchoToScreen));
-     else if (strcmp(iToken, "separatebundles")==0) rc = parseBool(getRestOfLine(), &(config->separateBundles));
-     else if (strcmp(iToken, "carbonandquit")==0) rc = parseBool(getRestOfLine(), &(config->carbonAndQuit));
-     else if (strcmp(iToken, "carbonkeepsb")==0) rc = parseBool(getRestOfLine(), &(config->carbonKeepSb));
-     else if (strcmp(iToken, "carbonout")==0) rc = parseBool(getRestOfLine(), &(config->carbonOut));
-     else if (strcmp(iToken, "ignorecapword")==0) rc = parseBool(getRestOfLine(), &(config->ignoreCapWord));
-     else if (strcmp(iToken, "noprocessbundles")==0) rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
-     else if (strcmp(iToken, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
-     else if (strcmp(iToken, "execonfile")==0) rc = parseExecOnFile(getRestOfLine(), config);
-     else if (strcmp(iToken, "defarcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
-     else if (strcmp(iToken, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
-     else if (strcmp(iToken, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));
-     else if (strcmp(iToken, "beforepack")==0) rc = copyString(getRestOfLine(), &(config->beforePack));
-     else if (strcmp(iToken, "processpkt")==0) rc = copyString(getRestOfLine(), &(config->processPkt));
-     else if (strcmp(iToken, "areafixsplitstr")==0) rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
-     else if (strcmp(iToken, "areafixorigin")==0) rc = copyString(getRestOfLine(), &(config->areafixOrigin));
-     else if (strcmp(iToken, "robotsarea")==0) rc = copyString(getRestOfLine(), &(config->robotsArea));
-     else if (strcmp(iToken, "filedescpos")==0) rc = parseUInt(getRestOfLine(), &(config->fileDescPos));
-     else if (strcmp(iToken, "dlcdigits")==0) rc = parseUInt(getRestOfLine(), &(config->DLCDigits));
-     else if (strcmp(iToken, "filemaxdupeage")==0) rc = parseUInt(getRestOfLine(), &(config->fileMaxDupeAge));
-     else if (strcmp(iToken, "filefileumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileFileUMask));
-     else if (strcmp(iToken, "filedirumask")==0) rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
-     else if (strcmp(iToken, "origininannounce")==0) rc = parseBool(getRestOfLine(), &(config->originInAnnounce));
-     else if (strcmp(iToken, "maxticlinelength")==0) rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
-     else if (strcmp(iToken, "filelocalpwd")==0) rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
-     else if (strcmp(iToken, "fileldescstring")==0) rc = copyString(getRestOfLine(), &(config->fileLDescString));
-     else if (strcmp(iToken, "savetic")==0) rc = parseSaveTicStatement(getRestOfLine(), config);
-     else if (strcmp(iToken, "areasmaxdupeage")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areasMaxDupeAge));
-     else if (strcmp(iToken, "dupebasetype")==0) rc = parseTypeDupes(getRestOfLine(), &(config->typeDupeBase), &(config->areasMaxDupeAge));
-#ifdef __TURBOC__
-     else unrecognised++;
-#else
-     else
-#endif
-       if (strcmp(iToken, "fidouserlist") ==0)
-         rc = copyString(getRestOfLine(), &(config->fidoUserList));
-     else if (strcmp(iToken, "nodelist") ==0)
-       rc = parseNodelist(getRestOfLine(), config);
-     else if (strcmp(iToken, "diffupdate") ==0) {
-       rc = 0;
-       if (config->nodelistCount > 0) {
-	 rc = copyString(getRestOfLine(),
-			 &(config->nodelists[config->nodelistCount-1].diffUpdateStem));
-       }
-       else {
-	 printNodelistError();
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "fullupdate") ==0) {
-       rc = 0;
-       if (config->nodelistCount > 0) {
-	 rc = copyString(getRestOfLine(),
-			 &(config->nodelists[config->nodelistCount-1].fullUpdateStem));
-       }
-       else {
-	 printNodelistError();
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "defaultzone") ==0) {
-       rc = 0;
-       if (config->nodelistCount > 0) {
-	 rc = parseUInt(getRestOfLine(),
-			&(config->nodelists[config->nodelistCount-1].defaultZone));
-       }
-       else {
-	 printNodelistError();
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "nodelistformat") ==0) {
-       if (config->nodelistCount > 0) {
-	 rc = parseNodelistFormat(getRestOfLine(), config,
-				  &(config->nodelists[config->nodelistCount-1]));
-       }
-       else {
-	 printNodelistError();
-	 rc = 1;
-       }
-     }
-     else if (strcmp(iToken, "logowner")==0) rc = parseOwner(getRestOfLine(), &(config->loguid), &(config->loggid));
-     else if (strcmp(iToken, "logperm")==0) rc = parseNumber(getRestOfLine(), 8, &(config->logperm));
-     else if (strcmp(iToken, "linkdefaults")==0) rc = parseLinkDefaults(getRestOfLine(), config);
-     else if (strcmp(iToken, "createareascase")==0) rc = parseNamesCase(getRestOfLine(), &(config->createAreasCase));
-     else if (strcmp(iToken, "areasfilenamecase")==0) rc = parseNamesCase(getRestOfLine(), &(config->areasFileNameCase));
-     else if (strcmp(iToken, "convertlongnames")==0) rc = parseNamesCaseConversion(getRestOfLine(), &(config->convertLongNames));
-     else if (strcmp(iToken, "convertshortnames")==0) rc = parseNamesCaseConversion(getRestOfLine(), &(config->convertShortNames));
-     else if (strcmp(iToken, "disabletid")==0) rc = parseBool(getRestOfLine(), &(config->disableTID));
-     else if (strcmp(iToken, "tossingext")==0) {
-       if ((temp=getRestOfLine()) != NULL)
-	 rc = copyString(temp, &(config->tossingExt));
-       else config->tossingExt = NULL;
-     }
-
+        switch (id)
+        {
+        case ID_COMMENTCHAR:
+            rc = parseComment(getRestOfLine(), config);
+            break;
+        case ID_VERSION:
+            rc = parseVersion(getRestOfLine(), config);
+            break;
+        case ID_NAME:
+            rc = copyString(getRestOfLine(), &(config->name));
+            break;
+        case ID_LOCATION:
+            rc = copyString(getRestOfLine(), &(config->location));
+            break;
+        case ID_SYSOP:
+            rc = copyString(getRestOfLine(), &(config->sysop));
+            break;
+        case ID_ADDRESS:
+            rc = parseAddress(getRestOfLine(), config);
+            break;
+        case ID_INBOUND:
+            rc = parsePath(getRestOfLine(), &(config->inbound));
+            break;
+        case ID_PROTINBOUND:
+            rc = parsePath(getRestOfLine(), &(config->protInbound));
+            break;
+        case ID_LISTINBOUND:
+            rc = parsePath(getRestOfLine(), &(config->listInbound));
+            break;
+        case ID_LOCALINBOUND:
+            rc= parsePath(getRestOfLine(), &(config->localInbound));
+            break;
+        case ID_TEMPINBOUND:
+            rc= parsePath(getRestOfLine(), &(config->tempInbound));
+            break;
+        case ID_OUTBOUND:
+            rc = parsePath(getRestOfLine(), &(config->outbound));
+            break;
+        case ID_TICOUTBOUND:
+            rc = parsePath(getRestOfLine(), &(config->ticOutbound));
+            break;
+        case ID_PUBLIC:
+            rc = parsePublic(getRestOfLine(), config);
+            break;
+        case ID_LOGFILEDIR:
+            rc = parsePath(getRestOfLine(), &(config->logFileDir));
+            break;
+        case ID_DUPEHISTORYDIR:
+            rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
+            break;
+        case ID_NODELISTDIR:
+            rc = parsePath(getRestOfLine(), &(config->nodelistDir));
+            break;
+        case ID_FILEAREABASEDIR:
+            rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir));
+            break;
+        case ID_PASSFILEAREADIR:
+            rc = parsePath(getRestOfLine(), &(config->passFileAreaDir));
+            break;
+        case ID_BUSYFILEDIR:
+            rc = parsePath(getRestOfLine(), &(config->busyFileDir));
+            break;
+        case ID_MSGBASEDIR:
+            rc = parsePath(getRestOfLine(), &(config->msgBaseDir));
+            break;
+        case ID_LINKMSGBASEDIR:
+            rc = parsePath(getRestOfLine(),
+                           &(getDescrLink(config)->msgBaseDir));
+            break;
+        case ID_MAGIC:
+            rc = parsePath(getRestOfLine(), &(config->magic));
+            break;
+        case ID_SEMADIR:
+            rc = parsePath(getRestOfLine(), &(config->semaDir));
+            break;
+        case ID_BADFILESDIR:
+            rc = parsePath(getRestOfLine(), &(config->badFilesDir));
+            break;
+        case ID_NETMAILAREA:
+        case ID_NETAREA:
+            rc = parseNetMailArea(getRestOfLine(), config);
+            break;
+        case ID_DUPEAREA:
+            rc = parseArea(config, getRestOfLine(), &(config->dupeArea));
+            break;
+        case ID_BADAREA:
+            rc = parseArea(config, getRestOfLine(), &(config->badArea));
+            break;
+        case ID_ECHOAREA:
+            rc = parseEchoArea(getRestOfLine(), config);
+            break;
+        case ID_FILEAREA:
+            rc = parseFileAreaStatement(getRestOfLine(), config);
+            break;
+        case ID_BBSAREA:
+            rc = parseBbsAreaStatement(getRestOfLine(), config);
+            break;
+        case ID_LOCALAREA:
+            rc = parseLocalArea(getRestOfLine(), config);
+            break;
+        case ID_REMAP:
+            rc = parseRemap(getRestOfLine(),config);
+            break;
+        case ID_LINK:
+            rc = parseLink(getRestOfLine(), config);
+            break;
+        case ID_PASSWORD:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parsePWD(getRestOfLine(), &clink->defaultPwd);
+                /* this way used because of redefinition   */
+                /* defaultPwd from linkdefaults (if exist) */
+                clink->pktPwd = clink->defaultPwd;
+                clink->ticPwd = clink->defaultPwd;
+                clink->areaFixPwd = clink->defaultPwd;
+                clink->fileFixPwd = clink->defaultPwd;
+                clink->bbsPwd = clink->defaultPwd;
+                clink->sessionPwd = clink->defaultPwd;
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_AKA:
+            if ((clink = getDescrLink(config)) != NULL ) {
+                string2addr(getRestOfLine(), &clink->hisAka);
+            }
+            else {
+                rc = 1;
+            }
+            break;
+        case ID_OURAKA:
+            rc = 0;
+            if( (clink = getDescrLink(config)) != NULL ) {
+                clink->ourAka = getAddr(*config, getRestOfLine());
+                if (clink->ourAka == NULL) rc = 2;
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_AUTOAREACREATE:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->autoAreaCreate);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_AUTOFILECREATE:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->autoFileCreate);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_FORWARDREQUESTS:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->forwardRequests);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_FORWARDFILEREQUESTS:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->forwardFileRequests);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_DENYFWDREQACCESS:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->denyFRA);
+            } else rc = 1;
+            break;
+        case ID_FORWARDPKTS:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseForwardPkts(getRestOfLine(), config, clink);
+            }
+            else {
+                rc = 1;
+            }
+            break;
+        case ID_ALLOWEMPTYPKTPWD:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseAllowEmptyPktPwd(getRestOfLine(), config, clink);
+            }
+            else {
+                rc = 1;
+            }
+            break;
+        case ID_PACKNETMAIL:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool(getRestOfLine(), &clink->packNetmail);
+            }
+            else rc = 1;
+            break;
+        case ID_ALLOWPKTADDRDIFFER:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);
+            }
+            else {
+                rc = 1;
+            }
+            break;
+        case ID_AUTOAREACREATEDEFAULTS:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = copyString(getRestOfLine(),
+                                &clink->autoAreaCreateDefaults);
+            }
+            else {
+                rc = 1;
+            }
+            break;
+        case ID_AUTOFILECREATEDEFAULTS:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = copyString(getRestOfLine(),
+                                &clink->autoFileCreateDefaults);
+            }
+            else {
+                rc = 1;
+            }
+            break;
+        case ID_AREAFIX:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->AreaFix);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_FILEFIX:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->FileFix);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_PAUSE:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->Pause);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_NOTIC:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->noTIC);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_DELNOTRECIEVEDTIC:
+        case ID_DELNOTRECEIVEDTIC:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->delNotRecievedTIC);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_ADVANCEDAREAFIX:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->advancedAreafix);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_AUTOPAUSE:
+            rc = parseAutoPause(getRestOfLine(),
+                                &(getDescrLink(config)->autoPause));
+            break;
+        case ID_REMOTEROBOTNAME:
+            rc = copyString(getRestOfLine(),
+                            &(getDescrLink(config)->RemoteRobotName));
+            break;
+        case ID_REMOTEFILEROBOTNAME:
+            rc = copyString(getRestOfLine(),
+                            &(getDescrLink(config)->RemoteFileRobotName));
+            break;
+        case ID_FORWARDAREAPRIORITY:
+            rc = parseUInt(getRestOfLine(),
+                           &(getDescrLink(config)->forwardAreaPriority));
+            break;
+        case ID_FORWARDFILEPRIORITY:
+            rc = parseUInt(getRestOfLine(),
+                           &(getDescrLink(config)->forwardFilePriority));
+            break;
+        case ID_DENYUNCONDFWDREQACCESS:
+            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->denyUFRA));
+            break;
+        case ID_EXPORT:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->export);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_IMPORT:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->import);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_MANDATORY:
+        case ID_MANUAL:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool (getRestOfLine(), &clink->mandatory);
+            } else {
+                rc = 1;
+            }
+            break;
+        case ID_OPTGRP:
+            rc = parseGroup(getRestOfLine(), config, 3);
+            break;
+        case ID_FORWARDREQUESTMASK:
+            rc = parseGroup(getRestOfLine(), config, 4);
+            break;
+        case ID_DENYFWDMASK:
+            rc = parseGroup(getRestOfLine(), config, 5);
+            break;
+        case ID_LEVEL:
+            rc = parseNumber(getRestOfLine(), 10,
+                             &(getDescrLink(config)->level));
+            break;
+        case ID_AREAFIXECHOLIMIT:
+            rc = parseNumber(getRestOfLine(), 10,
+                             &(getDescrLink(config)->afixEchoLimit));
+            break;
+        case ID_ARCMAILSIZE:
+            rc = parseNumber(getRestOfLine(), 10,
+                             &(getDescrLink(config)->arcmailSize));
+            break;
+        case ID_PKTSIZE:
+            rc = parseNumber(getRestOfLine(), 10,
+                             &(getDescrLink(config)->pktSize));
+            break;
+        case ID_MAXUNPACKEDNETMAIL:
+            rc = parseNumber(getRestOfLine(), 10,
+                             &(getDescrLink(config)->maxUnpackedNetmail));
+            break;
+        case ID_PKTPWD:
+            rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->pktPwd));
+            break;
+        case ID_TICPWD:
+            rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->ticPwd));
+            break;
+        case ID_AREAFIXPWD:
+            rc = parsePWD(getRestOfLine(),
+                          &(getDescrLink(config)->areaFixPwd));
+            break;
+        case ID_FILEFIXPWD:
+            rc = parsePWD(getRestOfLine(),
+                          &(getDescrLink(config)->fileFixPwd));
+            break;
+        case ID_BBSPWD:
+            rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->bbsPwd));
+            break;
+        case ID_SESSIONPWD:
+            rc = parsePWD(getRestOfLine(),
+                          &(getDescrLink(config)->sessionPwd));
+            break;
+        case ID_HANDLE:
+            rc = parseHandle(getRestOfLine(), config);
+            break;
+        case ID_EMAIL:
+            rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
+            break;
+        case ID_EMAILFROM:
+            rc = copyString(getRestOfLine(),
+                            &(getDescrLink(config)->emailFrom));
+            break;
+        case ID_EMAILSUBJ:
+            rc = copyString(getRestOfLine(),
+                            &(getDescrLink(config)->emailSubj));
+            break;
+        case ID_EMAILENCODING:
+            rc = parseEmailEncoding(getRestOfLine(),
+                                    &(getDescrLink(config)->emailEncoding));
+            break;
+        case ID_ECHOMAILFLAVOUR:
+            rc = parseEchoMailFlavour(getRestOfLine(),
+                                    &(getDescrLink(config)->echoMailFlavour));
+            break;
+        case ID_FILEECHOFLAVOUR:
+            rc = parseFileEchoFlavour(getRestOfLine(),
+                                    &(getDescrLink(config)->fileEchoFlavour));
+            break;
+        case ID_ROUTE:
+            rc = parseRoute(getRestOfLine(), config, &(config->route),
+                            &(config->routeCount), id_route);
+            break;
+        case ID_ROUTEFILE:
+            rc = parseRoute(getRestOfLine(), config, &(config->route),
+                            &(config->routeCount), id_routeFile);
+            break;
+        case ID_ROUTEMAIL:
+            rc = parseRoute(getRestOfLine(), config, &(config->route),
+                            &(config->routeCount), id_routeMail);
+            break;
+        case ID_PACK:
+            rc = parsePack(getRestOfLine(), config);
+            break;
+        case ID_UNPACK:
+            rc = parseUnpack(getRestOfLine(), config);
+            break;
+        case ID_PACKER:
+            rc = parsePackerDef(getRestOfLine(), config,
+                                &(getDescrLink(config)->packerDef));
+            break;
+        case ID_INTAB:
+            rc = parseFileName(getRestOfLine(), &(config->intab));
+            break;
+        case ID_OUTTAB:
+            rc = parseFileName(getRestOfLine(), &(config->outtab));
+            break;
+        case ID_AREAFIXHELP:
+            rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
+            break;
+        case ID_FILEFIXHELP:
+            rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
+            break;
+        case ID_FORWARDREQUESTFILE:
+            rc = parseFileName(getRestOfLine(),
+                               &(getDescrLink(config)->forwardRequestFile));
+            break;
+        case ID_DENYFWDFILE:
+            rc = parseFileName(getRestOfLine(),
+                               &(getDescrLink(config)->denyFwdFile));
+            break;
+        case ID_FORWARDFILEREQUESTFILE:
+            rc = parseFileName(getRestOfLine(),
+                             &(getDescrLink(config)->forwardFileRequestFile));
+            break;
+        case ID_AUTOAREACREATEFILE:
+            rc = parseFileName(getRestOfLine(),
+                               &(getDescrLink(config)->autoAreaCreateFile));
+            break;
+        case ID_AUTOFILECREATEFILE:
+            rc = parseFileName(getRestOfLine(),
+                               &(getDescrLink(config)->autoFileCreateFile));
+            break;
+        case ID_LINKBUNDLENAMESTYLE:
+            rc = parseBundleNameStyle(getRestOfLine(),
+                               &(getDescrLink(config)->linkBundleNameStyle));
+            break;
+        case ID_ECHOTOSSLOG:
+            rc = copyString(getRestOfLine(), &(config->echotosslog));
+            break;
+        case ID_STATLOG:
+            rc = copyString(getRestOfLine(), &(config->statlog));
+            break;
+        case ID_IMPORTLOG:
+            rc = copyString(getRestOfLine(), &(config->importlog));
+            break;
+        case ID_LINKWITHIMPORTLOG:
+            rc = parseLinkWithILogType(getRestOfLine(),
+                                       &(config->LinkWithImportlog));
+            break;
+        case ID_KLUDGEAREANETMAIL:
+            rc = parseKludgeAreaNetmailType(getRestOfLine(),
+                                            &(config->kludgeAreaNetmail));
+            break;
+        case ID_FILEAREASLOG:
+            rc = parseFileName(getRestOfLine(), &(config->fileAreasLog));
+            break;
+        case ID_FILENEWAREASLOG:
+            rc = parseFileName(getRestOfLine(), &(config->fileNewAreasLog));
+            break;
+        case ID_LONGNAMELIST:
+            rc = parseFileName(getRestOfLine(), &(config->longNameList));
+            break;
+        case ID_FILEARCLIST:
+            rc = parseFileName(getRestOfLine(), &(config->fileArcList));
+            break;
+        case ID_FILEPASSLIST:
+            rc = parseFileName(getRestOfLine(), &(config->filePassList));
+            break;
+        case ID_FILEDUPELIST:
+            rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
+            break;
+        case ID_MSGIDFILE:
+            rc = parseFileName(getRestOfLine(), &(config->fileDupeList));
+            break;
+        case ID_LOGLEVELS:
+            rc = copyString(getRestOfLine(), &(config->loglevels));
+            break;
+        case ID_SCREENLOGLEVELS:
+            rc = copyString(getRestOfLine(), &(config->screenloglevels));
+            break;
+        case ID_ACCESSGRP:
+            rc = parseGroup(getRestOfLine(), config, 0);
+            break;
+        case ID_LINKGRP:
+            rc = parseGroup(getRestOfLine(), config, 1);
+            break;
+        case ID_CARBONTO:
+            rc = parseCarbon(getRestOfLine(),config, ct_to);
+            break;
+        case ID_CARBONFROM:
+            rc = parseCarbon(getRestOfLine(), config, ct_from);
+            break;
+        case ID_CARBONADDR:
+            rc = parseCarbon(getRestOfLine(), config, ct_addr);
+            break;
+        case ID_CARBONKLUDGE:
+            rc = parseCarbon(getRestOfLine(), config, ct_kludge);
+            break;
+        case ID_CARBONSUBJ:
+            rc = parseCarbon(getRestOfLine(), config, ct_subject);
+            break;
+        case ID_CARBONTEXT:
+            rc = parseCarbon(getRestOfLine(), config, ct_msgtext);
+            break;
+        case ID_CARBONCOPY:
+            rc = parseCarbonArea(getRestOfLine(), config, 0);
+            break;
+        case ID_CARBONMOVE:
+            rc = parseCarbonArea(getRestOfLine(), config, 1);
+            break;
+        case ID_CARBONEXTERN:
+            rc = parseCarbonExtern(getRestOfLine(), config);
+            break;
+        case ID_NETMAILEXTERN:
+            rc = parseCarbonExtern(getRestOfLine(), config);
+            break;
+        case ID_CARBONDELETE:
+            rc = parseCarbonDelete(getRestOfLine(), config);
+            break;
+        case ID_CARBONREASON:
+            rc = parseCarbonReason(getRestOfLine(), config);
+            break;
+        case ID_EXCLUDEPASSTHROUGHCARBON:
+            rc = parseBool(getRestOfLine(), &(config->exclPassCC));
+            break;
+        case ID_LOCKFILE:
+            rc = copyString(getRestOfLine(), &(config->lockfile));
+            break;
+        case ID_TEMPOUTBOUND:
+            rc = parsePath(getRestOfLine(), &(config->tempOutbound));
+            break;
+        case ID_AREAFIXFROMPKT:
+            rc = parseBool(getRestOfLine(), &(config->areafixFromPkt));
+            break;
+        case ID_AREAFIXKILLREPORTS:
+            rc = parseBool(getRestOfLine(), &(config->areafixKillReports));
+            break;
+        case ID_AREAFIXKILLREQUESTS:
+            rc = parseBool(getRestOfLine(), &(config->areafixKillRequests));
+            break;
+        case ID_FILEFIXKILLREPORTS:
+            rc = parseBool(getRestOfLine(), &(config->filefixKillReports));
+            break;
+        case ID_FILEFIXKILLREQUESTS:
+            rc = parseBool(getRestOfLine(), &(config->filefixKillRequests));
+            break;
+        case ID_CREATEDIRS:
+            rc = parseBool(getRestOfLine(), &(config->createDirs));
+            break;
+        case ID_LONGDIRNAMES:
+            rc = parseBool(getRestOfLine(), &(config->longDirNames));
+            break;
+        case ID_SPLITDIRS:
+            rc = parseBool(getRestOfLine(), &(config->splitDirs));
+            break;
+        case ID_ADDDLC:
+            rc = parseBool(getRestOfLine(), &(config->addDLC));
+            break;
+        case ID_FILESINGLEDESCLINE:
+            rc = parseBool(getRestOfLine(), &(config->fileSingleDescLine));
+            break;
+        case ID_FILECHECKDEST:
+            rc = parseBool(getRestOfLine(), &(config->fileCheckDest));
+            break;
+        case ID_PUBLICGROUP:
+            rc = parseGroup(getRestOfLine(), config, 2);
+            break;
+        case ID_LOGECHOTOSCREEN:
+            rc = parseBool(getRestOfLine(), &(config->logEchoToScreen));
+            break;
+        case ID_SEPARATEBUNDLES:
+            rc = parseBool(getRestOfLine(), &(config->separateBundles));
+            break;
+        case ID_CARBONANDQUIT:
+            rc = parseBool(getRestOfLine(), &(config->carbonAndQuit));
+            break;
+        case ID_CARBONKEEPSB:
+            rc = parseBool(getRestOfLine(), &(config->carbonKeepSb));
+            break;
+        case ID_CARBONOUT:
+            rc = parseBool(getRestOfLine(), &(config->carbonOut));
+            break;
+        case ID_IGNORECAPWORD:
+            rc = parseBool(getRestOfLine(), &(config->ignoreCapWord));
+            break;
+        case ID_NOPROCESSBUNDLES:
+            rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
+            break;
+        case ID_REPORTTO:
+            rc = copyString(getRestOfLine(), &(config->ReportTo));
+            break;
+        case ID_EXECONFILE:
+            rc = parseExecOnFile(getRestOfLine(), config);
+            break;
+        case ID_DEFARCMAILSIZE:
+            rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
+            break;
+        case ID_AREAFIXMSGSIZE:
+            rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
+            break;
+        case ID_AFTERUNPACK:
+            rc = copyString(getRestOfLine(), &(config->afterUnpack));
+            break;
+        case ID_BEFOREPACK:
+            rc = copyString(getRestOfLine(), &(config->beforePack));
+            break;
+        case ID_PROCESSPKT:
+            rc = copyString(getRestOfLine(), &(config->processPkt));
+            break;
+        case ID_AREAFIXSPLITSTR:
+            rc = copyString(getRestOfLine(), &(config->areafixSplitStr));
+            break;
+        case ID_AREAFIXORIGIN:
+            rc = copyString(getRestOfLine(), &(config->areafixOrigin));
+            break;
+        case ID_ROBOTSAREA:
+            rc = copyString(getRestOfLine(), &(config->robotsArea));
+            break;
+        case ID_FILEDESCPOS:
+            rc = parseUInt(getRestOfLine(), &(config->fileDescPos));
+            break;
+        case ID_DLCDIGITS:
+            rc = parseUInt(getRestOfLine(), &(config->DLCDigits));
+            break;
+        case ID_FILEMAXDUPEAGE:
+            rc = parseUInt(getRestOfLine(), &(config->fileMaxDupeAge));
+            break;
+        case ID_FILEFILEUMASK:
+            rc = parseOctal(getRestOfLine(), &(config->fileFileUMask));
+            break;
+        case ID_FILEDIRUMASK:
+            rc = parseOctal(getRestOfLine(), &(config->fileDirUMask));
+            break;
+        case ID_ORIGININANNOUNCE:
+            rc = parseBool(getRestOfLine(), &(config->originInAnnounce));
+            break;
+        case ID_MAXTICLINELENGTH:
+            rc = parseUInt(getRestOfLine(), &(config->MaxTicLineLength));
+            break;
+        case ID_FILELOCALPWD:
+            rc = copyString(getRestOfLine(), &(config->fileLocalPwd));
+            break;
+        case ID_FILELDESCSTRING:
+            rc = copyString(getRestOfLine(), &(config->fileLDescString));
+            break;
+        case ID_SAVETIC:
+            rc = parseSaveTicStatement(getRestOfLine(), config);
+            break;
+        case ID_AREASMAXDUPEAGE:
+            rc = parseNumber(getRestOfLine(), 10, &(config->areasMaxDupeAge));
+            break;
+        case ID_DUPEBASETYPE:
+            rc = parseTypeDupes(getRestOfLine(), &(config->typeDupeBase),
+                                &(config->areasMaxDupeAge));
+            break;
+        case ID_FIDOUSERLIST:
+            rc = copyString(getRestOfLine(), &(config->fidoUserList));
+            break;
+        case ID_NODELIST:
+            rc = parseNodelist(getRestOfLine(), config);
+            break;
+        case ID_DIFFUPDATE:
+            rc = 0;
+            if (config->nodelistCount > 0) {
+                rc = copyString(getRestOfLine(),
+                 &(config->nodelists[config->nodelistCount-1].diffUpdateStem));
+            }
+            else {
+                printNodelistError();
+                rc = 1;
+            }
+            break;
+        case ID_FULLUPDATE:
+            rc = 0;
+            if (config->nodelistCount > 0) {
+                rc = copyString(getRestOfLine(),
+                 &(config->nodelists[config->nodelistCount-1].fullUpdateStem));
+            }
+            else {
+                printNodelistError();
+                rc = 1;
+            }
+            break;
+        case ID_DEFAULTZONE:
+            rc = 0;
+            if (config->nodelistCount > 0) {
+                rc = parseUInt(getRestOfLine(),
+                 &(config->nodelists[config->nodelistCount-1].defaultZone));
+            }
+            else {
+                printNodelistError();
+                rc = 1;
+            }
+            break;
+        case ID_NODELISTFORMAT:
+            if (config->nodelistCount > 0) {
+                rc = parseNodelistFormat(getRestOfLine(), config,
+                               &(config->nodelists[config->nodelistCount-1]));
+            }
+            else {
+                printNodelistError();
+                rc = 1;
+            }
+            break;
+        case ID_LOGOWNER:
+            rc = parseOwner(getRestOfLine(), &(config->loguid),
+                            &(config->loggid));
+            break;
+        case ID_LOGPERM:
+            rc = parseNumber(getRestOfLine(), 8, &(config->logperm));
+            break;
+        case ID_LINKDEFAULTS:
+            rc = parseLinkDefaults(getRestOfLine(), config);
+            break;
+        case ID_CREATEAREASCASE:
+            rc = parseNamesCase(getRestOfLine(), &(config->createAreasCase));
+            break;
+        case ID_AREASFILENAMECASE:
+            rc = parseNamesCase(getRestOfLine(), &(config->areasFileNameCase));
+            break;
+        case ID_CONVERTLONGNAMES:
+            rc = parseNamesCaseConversion(getRestOfLine(),
+                                          &(config->convertLongNames));
+            break;
+        case ID_CONVERTSHORTNAMES:
+            rc = parseNamesCaseConversion(getRestOfLine(),
+                                          &(config->convertShortNames));
+            break;
+        case ID_DISABLETID:
+            rc = parseBool(getRestOfLine(), &(config->disableTID));
+            break;
+        case ID_TOSSINGEXT:
+            if ((temp=getRestOfLine()) != NULL)
+                rc = copyString(temp, &(config->tossingExt));
+            else
+                config->tossingExt = NULL;
+            break;
 #if defined ( __NT__ )
-     else if (strcmp(iToken, "setconsoletitle")==0) rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
+        case ID_SETCONSOLETITLE:
+            rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
+            break;
 #endif
-     else if (strcmp(iToken,"addtoseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->addToSeen), &(config->addToSeenCount));
-     else if (strcmp(iToken,"ignoreseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->ignoreSeen), &(config->ignoreSeenCount));
-     else if (strcmp(iToken, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline));
-     else if (strcmp(iToken, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
-     else if (strcmp(iToken, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
-     else if (strcmp(iToken, "keeptrsmail")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
-     else if (strcmp(iToken, "keeptrsfiles")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsFiles));
-     else if (strcmp(iToken, "filelist")==0) rc = parseFilelist(getRestOfLine(), config);
-     else if (strcmp(iToken, "createfwdnonpass")==0) rc = parseBool(getRestOfLine(), &(config->createFwdNonPass));
-	 else if (strcmp(iToken, "autopassive")==0) rc = parseBool(getRestOfLine(), &(config->autoPassive));
-     else if (strcmp(iToken, "netmailflag")==0) rc = copyString(getRestOfLine(), &(config->netmailFlag));
-     else if (strcmp(iToken, "autoareacreateflag")==0) rc = copyString(getRestOfLine(), &(config->aacFlag));
+        case ID_ADDTOSEEN:
+            rc = parseSeenBy2D(getRestOfLine(),&(config->addToSeen),
+                               &(config->addToSeenCount));
+            break;
+        case ID_IGNORESEEN:
+            rc = parseSeenBy2D(getRestOfLine(),&(config->ignoreSeen),
+                               &(config->ignoreSeenCount));
+            break;
+        case ID_TEARLINE:
+            rc = copyString(getRestOfLine(), &(config->tearline));
+            break;
+        case ID_ORIGIN:
+            rc = copyString(getRestOfLine(), &(config->origin));
+            break;
+        case ID_BUNDLENAMESTYLE:
+            rc = parseBundleNameStyle(getRestOfLine(),
+                                      &(config->bundleNameStyle));
+            break;
+        case ID_KEEPTRSMAIL:
+            rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
+            break;
+        case ID_KEEPTRSFILES:
+            rc = parseBool(getRestOfLine(), &(config->keepTrsFiles));
+            break;
+        case ID_FILELIST:
+            rc = parseFilelist(getRestOfLine(), config);
+            break;
+        case ID_CREATEFWDNONPASS:
+            rc = parseBool(getRestOfLine(), &(config->createFwdNonPass));
+            break;
+        case ID_AUTOPASSIVE:
+            rc = parseBool(getRestOfLine(), &(config->autoPassive));
+            break;
+        case ID_NETMAILFLAG:
+            rc = copyString(getRestOfLine(), &(config->netmailFlag));
+            break;
+        case ID_AUTOAREACREATEFLAG:
+            rc = copyString(getRestOfLine(), &(config->aacFlag));
+            break;
 
-#ifdef __TURBOC__
-     else unrecognised++;
-     if (unrecognised == 5) {
-#else
-     else {
-#endif
-       prErr( "unrecognized: %s", line);
-       wasError = 1;
-       free(iToken);
-       free(actualLine);
-       return 1;
-     }
+        default:
+            prErr( "unrecognized: %s", line);
+            wasError = 1;
+            free(iToken);
+            free(actualLine);
+            return 1;
+        }
 
-     free(iToken);
-   }
-   if (rc != 0) {
-      prErr( "error %d in: %s", rc, line);
-      wasError = 1;
-   }
-
-   free(actualLine);
-   return rc;
+        free(iToken);
+    }
+    if (rc != 0) {
+        prErr( "error %d in: %s", rc, line);
+        wasError = 1;
+    }
+    
+    free(actualLine);
+    return rc;
 }

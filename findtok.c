@@ -1,7 +1,6 @@
 #include <stdlib.h>             /* bsearch           */
 #include <stdio.h>              /* fprintf to stderr */
-#include <smapi/compiler.h>     /* for stricmp       */
-#include <string.h>             /* also for stricmp on some platforms ... */
+#include <string.h>             /* strcmp            */
 
 #include "findtok.h"
 
@@ -34,7 +33,7 @@ void make_token_list (token_list_t *dst, token_t *src)
 
     for (i = 1; src[i].token != NULL; i++)
     {
-        if (dst->bsearchable && stricmp(src[i-1].token, src[i].token) >= 0)
+        if (dst->bsearchable && strcmp(src[i-1].token, src[i].token) >= 0)
         {
             fprintf (stderr, "Warning: Token array is not bsearchable. This "
                      "will result in a performance\npenalty. The offending "
@@ -51,7 +50,7 @@ static int token_compare (const void *a, const void *b)
     const token_t *pa = (const token_t *)a;
     const token_t *pb = (const token_t *)b;
 
-    return stricmp(pa->token, pb->token);
+    return strcmp(pa->token, pb->token);
 }
 
 
@@ -69,7 +68,7 @@ int find_token(token_list_t *tokenlist, const char *key)
     {
         for (i = 0; i < tokenlist->ntokens; i++)
         {
-            if (!stricmp(tokenlist->tokens[i].token, key))
+            if (!strcmp(tokenlist->tokens[i].token, key))
                 return tokenlist->tokens[i].id;
         }
         return -1;

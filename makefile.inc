@@ -16,6 +16,9 @@ commonprogs: tparser$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FI
 $(LIBFIDOCONFIG)$(LIB): $(LOBJS)
 	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(LIB) $(LOBJS)
 
+line$(OBJ): line.c tokens.h
+	$(CC) $(COPT) $(CDEFS) line.c
+
 .c$(OBJ):
 	$(CC) $(COPT) $(CDEFS) $<
 

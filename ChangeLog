@@ -1,4 +1,14 @@
 ----- cvs ci ------
+Sat Mar 10 23:09:47 MEZ 2001
+tobi:
+* Rewrote the parser core function parseLine. Replaced the endless
+  if/elseif chain with a bsearch lookup and a consecutive switch/case
+  construct. This should give a performance gain both in terms of
+  compile time as well as in terms of run time.
+  The comments in the new file tokens.h describe how to add new
+  keywords to fidoconfig now.
+
+----- cvs ci ------
 Sat Mar 10 16:28:13 NOVT 2001
 max:
 * fixed arealinks masks: now *:*/* is possible
@@ -89,7 +99,7 @@ sms:
 + dumping packNetmail and maxUnpackedNetmail
 
 ----- cvs ci ------
-Mon Dec 25 19:15:50 EET 2000 
+Mon Dec 25 19:15:50 EET 2000
 dmitry:
 + added processing of tokens packNetmail & maxUnpackedNetmail in tparser
 
@@ -174,7 +184,7 @@ sms:
 ----- cvs ci ------
 Sat Dec  2 01:28:45 UTC 2000
 sms:
-* using strdup for string constants on init, so copyString can free them 
+* using strdup for string constants on init, so copyString can free them
   safely
 
 ----- cvs ci ------
@@ -489,12 +499,12 @@ max:
 Wed May 24 00:15:52 CEST 2000
 mtt:
 * fixed fidoInst
-	
+
 ----- cvs ci ------
 Tue May 23 22:36:28 NOVST 2000
 max (patch from Lev Serebryakov):
 * added tokens ConvertShortNames, ConvertLongNames for htick
-	
+
 ----- cvs ci ------
 Mon May 22 14:03:38 CEST 2000
 mtt:
@@ -779,7 +789,7 @@ Sat  22 Jan 2000 00:36:55 CET
 tobi (patch from Eduard Dulich)
 * improved linkedto srcipt (now also searches include files, and finds
   exact matches)
-	
+
 ----- cvs ci ------
 Fri Jan 21 19:53:20 NOVT 2000
 max (patch from Serguei Revtov):
@@ -802,12 +812,12 @@ sms:
 * added "-I../smapi" to husky.lnx
 
 ----- cvs ci ------
-Mon Jan  3 17:45:54 NOVT 2000                                                   
+Mon Jan  3 17:45:54 NOVT 2000
 max (patch from Kolya Nesterov):
 * added carbonDelete token (this is really a twit feature)
 
 ----- cvs ci ------
-Mon Dec 27 23:03:29 NOVT 1999                                                   
+Mon Dec 27 23:03:29 NOVT 1999
 max:
 * manual means mandatory
 
@@ -827,13 +837,13 @@ mtt:
 * added fconf2areabbs (hacked by Grischa Brockhaus)
 
 ----- cvs ci ------
-Sat Dec 11 19:27:40 1999 
+Sat Dec 11 19:27:40 1999
 Georgi (patch from Nestyurkin Nikolay, 2:5020/3600):
 * added token fileEchoFlavour (flavour for fileecho)
   Warning, please put this token in config, if you use htick!
 
 ----- cvs ci ------
-Wed Dec  8 11:05:56 MET 1999 
+Wed Dec  8 11:05:56 MET 1999
 mtt
 * added new fidoInst script developed by Stefano Zano
 
@@ -846,7 +856,7 @@ max:
 Tue Nov 30 23:06:25 CET 1999
 mtt:
 * all areanames are now converted to lowercase during reading
-	
+
 ----- cvs ci ------
 Tue Nov 30 22:07:07 CET 1999
 sms:
@@ -868,7 +878,7 @@ max:
 * moved patimat() to common.c
 
 ----- cvs ci ------
-Thu Oct 28 13:09:52 CEST 1999 
+Thu Oct 28 13:09:52 CEST 1999
 mtt:
 * fixed some documentation problems
 
@@ -920,7 +930,7 @@ max (patch from Kolya Nesterov):
 ----- cvs ci ------
 Fri Oct  8 16:11:26 MET DST 1999
 tobi:
-* added nodelist specific keywords for the new nltools project     
+* added nodelist specific keywords for the new nltools project
   fidouserlist
   nodelist
   diffupdate
@@ -942,7 +952,7 @@ max:
 fidoconfig 0.9
 --------------
 (released on Thu Sep 23 23:05:24 CEST 1999)
-	
+
 ----- cvs ci ------
 Sat Sep 18 20:16:07 NOVST 1999
 max: (patch from Serguei Revtov)
@@ -958,14 +968,14 @@ mtt:
 Wed Sep 15 15:18:50 MET DST 1999
 mtt:
 + added sun makefiles
-* dumpCfg puts address out now 
+* dumpCfg puts address out now
 
 ----- cvs ci ------
 Sat Sep 11 13:00:16 NOVST 1999
 max:
 * added carbonReason token (patch from Serguei Revtov)
 * described "-g <char>" if documentation
-	
+
 ----- cvs ci ------
 Fri Sep 10  11:05:00
 sms:
@@ -1028,7 +1038,7 @@ Fri Aug 20 14:42:16 NOVST 1999
 max:
 + added token areafixSplitStr
 * changes in tparser (print all new tokens)
-	
+
 ----- cvs ci ------
 Mon Aug 16 12:33:46 NOVST 1999
 max:
@@ -1046,7 +1056,7 @@ Fri Aug 13 13:30:54 NOVST 1999
 max:
 + added token carbonKeepSb
 + added token -keepsb in echoarea option
-	
+
 Thu Aug 12
 sms:
 + some work on dump.c
@@ -1057,11 +1067,11 @@ Wed Aug 11 02:20:37 NOVST 1999
 max:
 + added carbonSubj and carbonText tokens
 + added carbonAndQuit token
-	
+
 ----- cvs ci ------
 Mon Aug  9 15:34:24 NOVST 1999
 max:
-+ added token for Hash Dupes by Oleg Zrozhevsky 
++ added token for Hash Dupes by Oleg Zrozhevsky
 
 ----- cvs ci ------
 Thu Aug 03 11:38:30 1999
@@ -1074,10 +1084,10 @@ Georgi:
 + Added token BbsArea <name> <directory> "<description>"
 
 ----- cvs ci ------
-Thu Jul 29 10:43:22 CEST 1999 	
+Thu Jul 29 10:43:22 CEST 1999
 mtt:
 + added logEchoToScreen to tparser
-	
+
 ----- cvs ci ------
 Sun Jul 18 15:21:25 1999
 Georgi:
@@ -1087,7 +1097,7 @@ Georgi:
 ----- cvs ci ------
 Sat Jul 10 17:08:44 CEST 1999
 mtt:
-* changed void main to int main (fecfg2fconf.c) 
+* changed void main to int main (fecfg2fconf.c)
 * futher work on dump.c
 
 ----- cvs ci ------
@@ -1109,13 +1119,13 @@ Fedor:
 ----- cvs ci ------
 Thu Jun 24 17:24:42 CEST 1999
 mtt:
-* fixed tparser while displaying forwardPkts 
+* fixed tparser while displaying forwardPkts
 
 ----- cvs ci ------
 Tue Jun 22 22:10:45 CEST 1999
 mtt:
 * version number updated
-	
+
 ----- cvs ci ------
 Thu Jun 17 12:38:26 NOVST 1999
 max:
@@ -1125,7 +1135,7 @@ max:
 Wed Jun  16 18:20:00
 Fedor:
 * change token AutoCreateFile to AutoAreaCreateFile (from link)
-+ added token AutoFileCreateFile 
++ added token AutoFileCreateFile
 * change token AutoCreateDefaults to AutoAreaCreateDefaults
 * moved global AutoFileCreateDefaults to link
   Do it for used htick in future
@@ -1145,7 +1155,7 @@ mtt:
 * fixed some null-pointer issues.
 
 ----- cvs ci ------
-Sun May 30 22:26:26 CEST 1999	
+Sun May 30 22:26:26 CEST 1999
 mtt:
 * fixed a bug in (2)
 
@@ -1156,12 +1166,12 @@ Fedor:
   and fRequestFromUpLink - link's access for Forward Requests.
 
 ----- cvs ci ------
-Tue May 18 17:54:01 CEST 1999 
+Tue May 18 17:54:01 CEST 1999
 mtt:
 * added fconf2squish which can be used for squish config based programs
   like sqLink
 * (2) fidoconfig now adds .0 to the pattern of a route when there is no . and no * in it.
-	
+
 ----- cvs ci ------
 Sun May 16 23:26:39 CEST 1999
 mtt:
@@ -1175,9 +1185,9 @@ Max:
 ----- cvs ci ------
 Tue May 11 21:55:03 CEST 1999
 mtt:
-+ netmailarea can now also be netarea, and if you have $ in your squish area definition, 
++ netmailarea can now also be netarea, and if you have $ in your squish area definition,
   golded may read the fidoconfig file directly. (kolya)
-	
+
 fidoconfig 0.7
 (released on Wed Apr 21 18:44:22 CEST 1999)
 --------------
@@ -1202,12 +1212,12 @@ Max:
 Fri Apr 16 21:27:53 NOVST 1999
 Max:
 + update proposal.texi
-     
+
 ----- cvs ci ------
 Wed Apr 14 14:54:14 CEST 1999
 mtt:
-+ Comments are now removed from the line before the parsing. 
-  If the # is between two " it is no comment. 
++ Comments are now removed from the line before the parsing.
+  If the # is between two " it is no comment.
   Take a look at the state-machine in stripComment() if it is correct.
 + if you use a statement which specifies information about a link (ourAka,
   autocreateDefaults...) it is first tested now, if a link exists.
@@ -1224,9 +1234,9 @@ Antonio:
 Sat Apr  10 22:25:12
 Max:
 removed $f from unpack code
-	
+
 ----- cvs ci ------
-Tue Apr  6 18:23:17 CEST 1999	
+Tue Apr  6 18:23:17 CEST 1999
 Antonio: (applied by mtt)
 + Fidoconfig and hpt now supports descriptions for areas. See docs for
   more info and examples. fconf2golded supports too.
@@ -1261,7 +1271,7 @@ Max:
 + win32 port by Edgar Chupit (chupit@mail.lv)
 + logEchoToScreen
 + update tparser
-	
+
 ----- cvs ci ------
 Wed Mar  10 15:37
 Max:
@@ -1269,7 +1279,7 @@ Max:
 + "areafixKillReports"
 + update proposal
 + update tparser
-	
+
 ----- cvs ci ------
 Mon Mar  8 21:42
 Max:
@@ -1278,15 +1288,15 @@ Max:
 Mon, Mar 1 22:00
   Gabriel Plutzar
 + included new keywords & features needed by Husky Tick:
-  * FileAreaBaseDir <directory>                                
-    Where the directories for all File areas shall be made at autocreate  
-    Same as MsgBaseDir                                                    
-  * AutoFileCreateDefaults <string>                                       
-    Defaults for File Area Autocreate                                     
-  * FileFixHelp <file>                                                    
-    Help file for FileFix  (Same as AreaFixHelp for AreaFix)              
-  * FileArea <name> <fileareapath> <uplink> [options] <downlinks>         
-    Same as EchoArea, most options are valid                              
+  * FileAreaBaseDir <directory>
+    Where the directories for all File areas shall be made at autocreate
+    Same as MsgBaseDir
+  * AutoFileCreateDefaults <string>
+    Defaults for File Area Autocreate
+  * FileFixHelp <file>
+    Help file for FileFix  (Same as AreaFixHelp for AreaFix)
+  * FileArea <name> <fileareapath> <uplink> [options] <downlinks>
+    Same as EchoArea, most options are valid
 + included generic new keyword fpr HPT & HTICK
   * LogLevels <string>
     You can specify all Loglevels you want in your log
@@ -1294,7 +1304,7 @@ Mon, Mar 1 22:00
     sessions in your logfile (eg when you start hpt once a minute)
 - Minor Bugfixes
 
-fidoconfig 0.6 
+fidoconfig 0.6
 (released on Mon Mar  1 19:49:03 CET 1999)
 --------------
 
@@ -1313,14 +1323,14 @@ Thu Feb 25
 ----- cvs ci ------
 Mon Feb 22 11:09:53 MET 199
   Tobias Ernst:
-+ Added patimat for case insensitive pattern matching	
++ Added patimat for case insensitive pattern matching
 
 Sat Feb 20 21:18:51 MET 1999
   Tobias Ernst:
-+ Wrote documentation for the packet forwarding feature.	
++ Wrote documentation for the packet forwarding feature.
 - Removed some things from the link structure that I did not need any
   longer for the PKT forwarder.
-	
+
 Sat Feb 20 19:26:54 MET 1999
   Tobias Ernst:
 - Added the move_file routine. Use it to move files instead of rename,
@@ -1334,7 +1344,7 @@ Wed Feb 17 20:07:00 CET 1999
   ToName,OldAddr,NewAddr, seperated by commas. ToName or OldAddr may be *.
   If a Netmail meets the ToName and OldAddr Criteria, it is sent to NewAddr.
 
------ cvs ci ------	
+----- cvs ci ------
 Mon Feb 15 18:28:21 CET 1999
 - included sergeys patch for a correct readLine()
   Max Levenkov:
@@ -1342,7 +1352,7 @@ Mon Feb 15 18:28:21 CET 1999
 - changed the name of some enumerations
 - added forwardPkt statement (on, secure, off) it will be implemented by tobi
 - added autoCreateFile statement
-	
+
 ----- cvs ci ------
 Sun Feb 14 12:57:04 CET 1999
 - included new fconf2fidogate from Gabriel
@@ -1358,10 +1368,10 @@ Fr  12 Feb 1999 14:02:37 CET [tobi]
 Thu Feb 11 15:33:36 CET 1999
 - fixed a small warning, where a time was compared to a NULL Pointer
 
------ cvs ci ------	
+----- cvs ci ------
 Wed Feb 10 16:04:46 MET 1999
 - fixed a null pointer bug in tparser
-	
+
 ----- cvs ci ------
 Wed Feb 10 14:50:04 MET 1999 [tobi]
 - added makeUniqueDosFilename() which can be used to create more or
