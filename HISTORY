@@ -1,8 +1,8 @@
-FIDOCONFIG 0.14.3 release
+FIDOCONFIG 0.14.4 release
 
 1. MAJOR feature improvements:
-   - log maintnance functions included
-   - temp files maintnance functions included
+   - log maintenance functions included
+   - temp files maintenance functions included
 
 2. CONFIG changes:
 
