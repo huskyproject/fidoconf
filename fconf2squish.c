@@ -40,7 +40,10 @@
 #include "fidoconf.h"
 #endif
 
+#include "common.h"
+
 int writeArea(FILE *f, s_area *area, char type) {
+   int i;
 
    switch (type) {
      case 0: fprintf(f, "EchoArea ");
@@ -57,20 +60,23 @@ int writeArea(FILE *f, s_area *area, char type) {
    fprintf(f, "%s", area->areaName);
 
    if (area->msgbType != MSGTYPE_PASSTHROUGH) fprintf(f, " %s", area->fileName);
+      else fprintf(f, " passthrough");
 
    if (area->msgbType == MSGTYPE_SQUISH) fprintf(f, " -$");
    if (area->msgbType == MSGTYPE_PASSTHROUGH) fprintf(f, " -0");
 
    if (area->description!=NULL) fprintf(f, " -$n\"%s\"", area->description);
 
-   if (area->group && !strcmp(area->group,"0")) fprintf(f, " -$g%s",area->group);
+   if (area->group && strcmp(area->group,"0")) fprintf(f, " -$g%s",area->group);
 
    if (area->purge) fprintf(f, " -$d%u", area->purge);
 
    if (area->max) fprintf(f, " -$m%u", area->max);
 
-   fprintf(f, " -p%u:%u/%u.%u", area->useAka->zone, area->useAka->net, 
-				area->useAka->node, area->useAka->point);
+   fprintf(f, " -p%s", aka2str(*area->useAka));
+
+   for (i=0; i<area->downlinkCount; i++)
+       fprintf(f, " %s", aka2str(area->downlinks[i]->link->hisAka));
 
    fprintf(f, "\n");
 
