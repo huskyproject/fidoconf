@@ -1,3 +1,8 @@
+2002-05-25 Saturday 16:32  d.sergienko
+
+	* afixcmd.c (1.4): added #include <ctype.h> for isspace(),
+	isdigit().
+
 2002-05-24 Friday 08:34  pavel.gulchouck
 
 	* line.c (1.298): fix spelling
