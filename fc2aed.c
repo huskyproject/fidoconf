@@ -118,7 +118,7 @@ int main (int argc, char *argv[]) {
 
    printf("Generating Config-file %s\n", argv[1]);
 
-   config = readConfig();
+   config = readConfig(NULL);
    if (config!= NULL) {
 
       if (argc == 3)

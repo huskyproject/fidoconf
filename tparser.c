@@ -246,7 +246,7 @@ void printLink(s_link link) {
 }
 
 int main() {
-   s_fidoconfig *config = readConfig();
+   s_fidoconfig *config = readConfig(NULL);
    int i, j;
 
    if (config != NULL) {

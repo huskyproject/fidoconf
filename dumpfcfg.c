@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	outf = stdout;
     }
 
-    config = readConfig();
+    config = readConfig(NULL);
     dumpConfig(config, outf);
 
     if (outf != stdout) fclose(outf);

@@ -279,11 +279,13 @@ void fixRoute(s_fidoconfig *config)
 	}
 }
 
-s_fidoconfig *readConfig()
+s_fidoconfig *readConfig(char *cfgFile)
 {
    FILE *f;
    s_fidoconfig *config;
-   char *fileName = getConfigFileName();
+   char *fileName = cfgFile;
+
+   if (fileName==NULL) fileName = getConfigFileName();
 
    if (fileName == NULL) {
         printf("Could not find Config-file\n");

@@ -193,7 +193,7 @@ int main (int argc, char *argv[]) {
 
    areaconfig=(char *)malloc(65536);
 
-   config = readConfig();
+   config = readConfig(NULL);
    if (config!= NULL) {
 
 	  if (argv[2]!=NULL) readDefaultConfig (argv[1], argv[2]);

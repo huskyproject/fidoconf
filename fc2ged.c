@@ -151,7 +151,7 @@ int main (int argc, char *argv[]) {
      
    printf("Generating Config-file %s\n", argv[cont]);
 
-   config = readConfig();
+   config = readConfig(NULL);
    if (config!= NULL) {
 
 	  if (argv[cont+1]!=NULL) readDefaultConfig (argv[cont], argv[cont+1]);

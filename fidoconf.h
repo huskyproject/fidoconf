@@ -396,7 +396,7 @@ typedef struct fidoconfig {
 } s_fidoconfig, *ps_fidoconfig;
 
 
-ps_fidoconfig readConfig(void);
+ps_fidoconfig readConfig(char *cfgFile);
 
 void disposeConfig(ps_fidoconfig config);
 
