@@ -283,11 +283,14 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 
 void freeMsgBuffers(s_message *msg)
 {
-  nfree(msg->text);
-  nfree(msg->subjectLine);
-  nfree(msg->toUserName);
-  nfree(msg->fromUserName);
-/*   if (msg->destAddr.domain) free(msg->destAddr.domain); */
-  /*  do not free the domains of the adresses of the message, because they */
-  /*  come from fidoconfig structures and are needed more than once. */
+    if (!msg)
+        return;
+    
+    nfree(msg->text);
+    nfree(msg->subjectLine);
+    nfree(msg->toUserName);
+    nfree(msg->fromUserName);
+    /*   if (msg->destAddr.domain) free(msg->destAddr.domain); */
+    /*  do not free the domains of the adresses of the message, because they */
+    /*  come from fidoconfig structures and are needed more than once. */
 }
