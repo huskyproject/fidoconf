@@ -1,3 +1,16 @@
+2003-02-16 Sunday 17:24  stas_degteff
+
+	* INSTALL (fidoconf-1_4-stable.2): Update build documentation
+
+2003-02-16 Sunday 16:49  stas_degteff
+
+	* INSTALL, README.TXT (fidoconf-1_4-stable.[1,1]): Rewrite
+	installation instructions
+
+2003-02-16 Sunday 16:48  stas_degteff
+
+	* makefile.bsd (fidoconf-1_4-stable.1): Change BSD clones makefile
+
 2003-02-14 Friday 15:39  stas_degteff
 
 	* line.c (fidoconf-1_4-stable.2): Bugfix: check pointer for NULL
