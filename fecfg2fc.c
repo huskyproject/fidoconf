@@ -158,7 +158,7 @@ void Usage(const char *program)
   
   printf("\nUsage:\n"
          "\t%s [path]fastecho.cfg [output file]\n",
-          basename(program));
+          OS_independed_basename(program));
 }
 
 
@@ -403,9 +403,20 @@ void print_areas()
   }
 }
 
+char  *check_sys_zone(FEAddress *a)
+{
+   int i;
+
+   for (i=0; i < config.AkaCnt; i++)
+      if (*(char*)&sysaddr[i])
+        if (a->zone == sysaddr[i].main.zone)
+          return sysaddr[i].domain;
+   return NULL;
+}
 
 void  print_links()
 {  int i, c;
+   char *tmp;
 
    for (i = 0; i < config.NodeCnt; i++) {
       fprintf(f_hpt, "\nLink                     %s\n", node[i]->name);
@@ -415,7 +426,19 @@ void  print_links()
       else
         fprintf(f_hpt, "Aka                      %s\n", FEaka2str(node[i]->addr));
 
-      fprintf( f_hpt, "OurAka                   %s\n", sysAddress2str(sysaddr[node[i]->aka]) );
+        fprintf(f_hpt, "OurAka                   %s\n", sysAddress2str(sysaddr[node[i]->aka]) );
+
+      if (node[i]->addr.zone  != node[i]->arcdest.zone || node[i]->addr.net   != node[i]->arcdest.net  ||
+          node[i]->addr.node  != node[i]->arcdest.node || node[i]->addr.point != node[i]->arcdest.point   )
+      {
+        tmp = check_sys_zone(&node[i]->arcdest);
+        fprintf( f_hpt, "if \"[module]\"==\"hpt\"\n");
+        if (tmp)
+          fprintf( f_hpt, "  PackAka                %s@%s\n", FEaka2str(node[i]->arcdest), tmp);
+        else
+          fprintf( f_hpt, "  PackAka                %s\n", FEaka2str(node[i]->arcdest));
+        fprintf( f_hpt, "endif\n");
+      }
 
       if ( node[i]->password && node[i]->password[0] )
          fprintf(f_hpt, "PktPwd                   %s\n", strLower(node[i]->password));
@@ -430,7 +453,10 @@ void  print_links()
       else
          fprintf(f_hpt, "LinkGrp                  %d\n", node[i]->newgroup-25);
 
-      fprintf(f_hpt, "AccessGrp                %s\n", grp2str(node[i]->groups));
+      tmp = grp2str(node[i]->groups);
+      
+      if (*tmp != 0)
+         fprintf(f_hpt, "AccessGrp                %s\n", tmp);
 
       if (node[i]->flags.allowareacreate) {
          fprintf(f_hpt, "AutoAreaCreate           on\n");
@@ -440,14 +466,8 @@ void  print_links()
             {
                fprintf(f_hpt, "AutoAreaCreateDefaults  ");
 
-/*
-               if (groupdef[c]->group <= 25)
-                  fprintf(f_hpt, " -g %c", 'A'+groupdef[c]->group);
-               else if (groupdef[c]->group <= 35)
-                  fprintf(f_hpt, " -g %d", groupdef[c]->group-25);
-*/
-               if( parseFEgroup(groupdef[c]->group) )
-                  fprintf(f_hpt, " -g %c", parseFEgroup(groupdef[c]->group) );
+               if( (tmp[0]=parseFEgroup(groupdef[c]->group)) )
+                  fprintf(f_hpt, " -g %c", tmp[0] );
 
                if (groupdef[c]->area.read_sec)
                   fprintf(f_hpt, " -lr %d", groupdef[c]->area.read_sec);
@@ -486,7 +506,7 @@ void  print_links()
       case NetCrash:
          fprintf(f_hpt, "Crash%s\n", node[i]->flags.arc_direct? "     # +Direct" : "");
          break;
-/* Not implemented yet */
+/* Not implemented yet in hpt */
 /*      case NetImm;
          fprintf(f_hpt, "Immediate%s\n", node[i]->flags.arc_direct? "     # +Direct" : "");
          break;
@@ -498,34 +518,29 @@ void  print_links()
       if (node[i]->flags.noattach)
         fprintf(f_hpt, "Export                   off   # This is not precision usage \"Echomail flavour: No attach\" from fastecho's configuration");
 
-/* To future */
-      fprintf(f_hpt, "#EchomailPackTo           %s   # Will be implement in hpt\n", FEaka2str(node[i]->arcdest));
-
-/* To future */
-      fprintf(f_hpt, "#AreafixFlavour           ");
-      switch (node[i]->flags.mgr_status) {
-      case NetNormal:
-         if (node[i]->flags.mgr_direct) {
-            fprintf(f_hpt, "Direct\n");
-         } else {
-            fprintf(f_hpt, "Normal\n");
-         } /* endif */
-         break;
-      case NetHold:
-         fprintf(f_hpt, "Hold%s\n", node[i]->flags.mgr_direct? "     # +Direct" : "");
-         break;
-      case NetCrash:
-         fprintf(f_hpt, "Crash%s\n", node[i]->flags.mgr_direct? "     # +Direct" : "");
-         break;
-/* Not implemented yet */
-/*      case NetImm;
-         fprintf(f_hpt, "Immediate%s\n", node[i]->flags.mgr_direct? "     # +Direct" : "");
-         break;
-*/
-      default:
-        break;
-      } /* endswitch */
-
+      if (node[i]->flags.mgr_status!=NetNormal || node[i]->flags.mgr_direct)
+      {
+        fprintf(f_hpt, "AreafixReportsAttr       pvt,loc,npd");
+        if(!(config.AreaFixFlags & KEEPRECEIPT))
+           fprintf(f_hpt, ",k/s");
+        switch (node[i]->flags.mgr_status)
+        {
+        case NetHold:
+           fprintf(f_hpt, ",hld");
+           break;
+        case NetCrash:
+           fprintf(f_hpt, ",crash");
+           break;
+        case NetImm:
+           fprintf(f_hpt, ",imm");
+           break;
+        default:
+           break;
+        }
+        if (node[i]->flags.mgr_direct)
+              fprintf(f_hpt, ",dir");
+        fprintf(f_hpt, "\n");
+      } 
 
 /* To future */
 /*
@@ -845,9 +860,7 @@ int main(int argc, char **argv)
 
    fprintf( f_hpt, "\n");
    fprintf( f_hpt, "AreafixKillRequests      %s\n",
-            config.AreaFixFlags & KEEPREQUEST ? "on" : "off" );
-   fprintf( f_hpt, "AreafixKillReports       %s\n",
-            config.AreaFixFlags & KEEPRECEIPT ? "on" : "off" );
+            config.AreaFixFlags & KEEPREQUEST ? "off" : "on" );
    fprintf( f_hpt, "areafixQueryReports      %s\n",
             config.AreaFixFlags & ADDRECEIPTLIST ? "on" : "off" );
 
@@ -894,6 +907,10 @@ int main(int argc, char **argv)
    if( config.maxPKT )
      fprintf(f_hpt, "PktSize                  %u\n", config.maxPKT);
    fprintf(f_hpt, "AllowEmptyPktPwd         %s\n", config.security>1 ? "off" : "on");
+   if(config.AreaFixFlags & KEEPRECEIPT)
+     fprintf(f_hpt, "AreafixReportsAttr       pvt,loc,npd\n");
+   else
+     fprintf(f_hpt, "AreafixReportsAttr       pvt,loc,npd,k/s\n");
 /*   if( config. && *config. )
      fprintf(f_hpt, "                         %s\n", config.);
    if( config. && *config. )

@@ -229,7 +229,7 @@ enum ARCers
 
 enum NetmailStatus
 {
-    NetNormal = 0, NetHold, NetCrash /* , NetImm */
+    NetNormal = 0, NetHold, NetCrash, NetImm
 };
 
 enum AreaFixType
