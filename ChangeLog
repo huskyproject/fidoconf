@@ -1,3 +1,14 @@
+2003-03-31 Monday 21:17  d_sergienko
+
+	* fidoconf/fidoconf.h (1.8), src/common.c (1.10): fixed bug with
+	incorrect fill of cmd statements during executing packer/unpacker
+	(thanx to Alexander N. Skovpen)
+
+2003-03-31 Monday 18:59  mche
+
+	* fidoconfDll.vcproj (1.1): vcproj Project File added for building
+	dynamyc fidoconfig library in Microsoft Visual Studio .NET
+
 2003-03-30 Sunday 19:54  d_sergienko
 
 	* make/makefile.inc (1.9): make makefile.inc more comfortable and
