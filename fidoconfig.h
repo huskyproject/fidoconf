@@ -438,6 +438,8 @@ int parseLine(char *line, s_fidoconfig *config);
 void parseConfig(FILE *f, s_fidoconfig *config);
 char *getConfigFileName(void);
 char *trimLine(char *line);
+void carbonNames2Addr(s_fidoconfig *config);
+
 
 /**
  * This method can be used to get a program-specifically config-filename, in the same directories which are searched for fidoconfig.
