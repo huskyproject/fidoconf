@@ -359,7 +359,7 @@ FCONF_EXT char *sstrdup(const char *src);
  *  - if dst is NULL doing nothing and return NULL
  *  - if src is NULL and dst not NULL store '\0' into dst[0] and return it.
  */
-char *strnzcpy (char *dst, const char *src, size_t len);
+FCONF_EXT char *strnzcpy (char *dst, const char *src, size_t len);
 
 /* Concantenates not more than len chars from src into dst, but, unlike
  * strncat(), it appends '\0' even if src is longer than len.
@@ -368,7 +368,7 @@ char *strnzcpy (char *dst, const char *src, size_t len);
  *  - if dst is NULL doing nothing and return NULL
  *  - if src is NULL doing nothing and return dst.
  */
-char *strnzcat (char *dst, const char *src, size_t len);
+FCONF_EXT char *strnzcat (char *dst, const char *src, size_t len);
 
 /* safe strstr: if str==NULL or find==NULL return NULL */
 #define sstrstr(str,find) ( (str)&&(find) ? strstr(str,find) : NULL )

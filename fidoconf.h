@@ -60,6 +60,8 @@ extern "C" {
 #define MSGTYPE_PASSTHROUGH 0x04
 #endif
 
+#define AREANAMELEN     60
+
 /* PATH_DELIM used for consruct full pathname
  */
 #ifndef PATH_DELIM

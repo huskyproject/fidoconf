@@ -1231,8 +1231,7 @@ char *strnzcat (char *dst, const char *src, size_t len)
   if (!dst) return NULL;
   if (!src) return dst;
   x = strlen (dst);
-  if (len <= x) return dst;
-  return strnzcpy (dst + x, src, len - x);
+  return strnzcpy (dst + x, src, len);
 }
 
 
