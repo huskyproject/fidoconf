@@ -311,9 +311,9 @@ int main(int argc, char **argv)
          } else {
             fprintf(f_hpt, " %s", area[i]->path);
             if (area[i]->flags.storage == SQUISH) {
-               fprintf(f_hpt, "-b Squish");
+               fprintf(f_hpt, " -b Squish");
             } else if (area[i]->flags.storage == JAM) {
-               fprintf(f_hpt, "-b Jam");
+               fprintf(f_hpt, " -b Jam");
             } /* endif */
 
          } /* endif */

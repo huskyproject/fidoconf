@@ -1381,13 +1381,18 @@ static int f_accessable(char *token)
 int parseFileName(char *line, char **name) {
    char *token;
 
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
    if (line[0]=='\"') {
      token=(char *) malloc (strlen(line)+1);
      sscanf(line,"\"%[^\"]s",token);
    }
    else
      token = strtok(line, " \t");     
-     
+
    if (token == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;

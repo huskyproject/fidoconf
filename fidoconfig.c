@@ -243,7 +243,7 @@ void carbonNames2Addr(s_fidoconfig *config)
 
            }
 
-           if (!found) {
+           if (cb->areaName && !found) {
 	      if (!cb->extspawn)
 	              printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (config->carbons[i].areaName) ? config->carbons[i].areaName : "");
               config->carbons[i].area = &(config->badArea);
