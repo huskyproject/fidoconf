@@ -1,3 +1,12 @@
+2002-09-12 Thursday 11:17  stas_degteff
+
+	* HISTORY (1.9): Info about previous fix
+
+2002-09-12 Thursday 11:11  stas_degteff
+
+	* fidoconf.c (1.80): Fix commented line parsing (if comment ends
+	line)
+
 2002-09-11 Wednesday 18:15  stas_degteff
 
 	* tparser.c (1.197): Add remap section in tparser's output
