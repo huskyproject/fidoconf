@@ -120,6 +120,7 @@ link definition:
 * autoareacreate::      right to auto create areas on your system
 * packer::              default packer for link
 * echomailflavour::     flavour for outgoing echomail
+* autoCreateFile::      file where autoCreated Areas by this links are going
 
 area definition:
 * netmailarea::         definition of netmailarea
@@ -812,7 +813,7 @@ the outbound.
 
 This statement can only be repeated for different links.
 
-@node echomailflavour, netmailarea, packer, Keywords
+@node echomailflavour, autoCreateFile, packer, Keywords
 @subsection echomailflavour
 @table @asis
 @item Syntax:
@@ -826,7 +827,25 @@ For example set echomailFlavour for points to hold and for uplink crash.
 
 This statement can only be repeated for different links.
 
-@node netmailarea, badarea, echomailflavour, Keywords
+@node autoCreateFile, netmailarea, echomailflavour, Keywords
+@subsection autoCreateFile
+@table @asis
+@item Syntax:
+@code{autoCreateFile <fileName>}
+@item Example:
+@code{autoCreateFile /etc/fido/areas.matthias}
+@end table
+
+This statement defines where autocreated areas by this link are going to.
+If you omit this statement the default configuration file will be used.
+The tosser must have the rights to create and change the file.
+
+@strong{You must include the specified file for yourself into fidoconfig,
+so these autocreated areas are found in subsequent tosser-runs.}
+
+This statement can only be repeated for different links.
+
+@node netmailarea, badarea, autoCreateFile, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:

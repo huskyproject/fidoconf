@@ -68,6 +68,8 @@ typedef struct pack s_pack;
 
 enum flavour {normal, hold, crash, direct, immediate};
 typedef enum flavour e_flavour;
+enum forward {fOff, fSecure, fOn};
+typedef enum forward e_forward;
 
 struct link {
    s_addr hisAka, *ourAka;
@@ -81,11 +83,14 @@ struct link {
    char *handle;
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
    int  AreaFix;              // 0 if not allowed for areafix
+   int  forwardRequests;      // 0 if not allowed forward requests
+   e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
    char *pktFile,*packFile;   // used only internally by hpt
    char *floFile,*bsyFile;    // see up
    s_pack *packerDef;
    e_flavour echoMailFlavour;
-   char *TossGrp, *DenyGrp;   //groups for areafix & echo access
+   char *TossGrp, *DenyGrp;   // groups for areafix & echo access
+   char *autoCreateFile;      // file where autocreated areas are written to
 };
 typedef struct link s_link;
 
@@ -101,7 +106,7 @@ struct route {
 };
 typedef struct route s_route;
 
-enum dupeCheck {off, move, del};
+enum dupeCheck {dcOff, dcMove, dcDel};
 typedef enum dupeCheck e_dupeCheck;
 
 struct area {

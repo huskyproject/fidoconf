@@ -242,9 +242,9 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
          printf("Lind %d: Missing dupeCheck parameter!\n", actualLineNr);
          return 1;
       }
-      if (stricmp(token, "off")==0) area->dupeCheck = off;
-      else if (stricmp(token, "move")==0) area->dupeCheck = move;
-      else if (stricmp(token, "del")==0) area->dupeCheck = del;
+      if (stricmp(token, "off")==0) area->dupeCheck = dcOff;
+      else if (stricmp(token, "move")==0) area->dupeCheck = dcMove;
+      else if (stricmp(token, "del")==0) area->dupeCheck = dcDel;
       else {
          printf("Line %d: Wrong dupeCheck parameter!\n", actualLineNr);
          return 1; // error
@@ -391,6 +391,8 @@ int parseLink(char *token, s_fidoconfig *config)
    config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
    // set areafix default to on
    config->links[config->linkCount].AreaFix = 1;
+   // forwardRequests default off
+   config->links[config->linkCount].forwardRequests = 0;
    strcpy(config->links[config->linkCount].name, token);
 
    // if handle not given use name as handle
@@ -813,6 +815,20 @@ int parseCarbonArea(char *token, s_fidoconfig *config) {
    return 0;
 }
 
+int parseForwardPkts(char *token, s_fidoconfig *config, s_link *link)
+{ 
+   if (token == NULL) {
+           printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+           return 1;
+   }
+
+   if (stricmp(token, "secure")==0) link->forwardPkts = fSecure;
+   else if (stricmp(token, "on")==0) link->forwardPkts = fOn;
+   else return 2;
+   
+   return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -878,6 +894,14 @@ int parseLine(char *line, s_fidoconfig *config)
       if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].autoAreaCreate = 1;
       else rc = 2;
    }
+   else if (stricmp(token, "forwardRequests")==0) {
+      rc = 0;
+      if (stricmp(getRestOfLine(), "on")==0) config->links[config->linkCount-1].forwardRequests = 1;
+      else rc = 2;
+   }
+   else if (stricmp(token, "forwardPkts")==0) {
+      rc = parseForwardPkts(getRestOfLine(), config, &(config->links[config->linkCount-1]));
+   }
    else if (stricmp(token, "autoCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoCreateDefaults));
    else if (stricmp(token, "AreaFix")==0) {
           rc = 0;
@@ -903,6 +927,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "outtab")==0) rc = parseFileName(getRestOfLine(), &(config->outtab));
 
    else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
+   else if (stricmp(token, "autoCreateFile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateFile));
+
 
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
    else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));

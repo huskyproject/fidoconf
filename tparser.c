@@ -71,9 +71,9 @@ printf("\n");
    if (area.tinySB) printf("tinySB ");
    printf("\n");
    printf("DupeCheck: ");
-   if (area.dupeCheck==off) printf("off");
-   if (area.dupeCheck==move) printf("move");
-   if (area.dupeCheck==del) printf("delete");
+   if (area.dupeCheck==dcOff) printf("off");
+   if (area.dupeCheck==dcMove) printf("move");
+   if (area.dupeCheck==dcDel) printf("delete");
    printf("\n");
    printf("-------\n");
 }
@@ -97,12 +97,20 @@ void printLink(s_link link) {
    printf("areafixPwd: %s\n", link.areaFixPwd);
    printf("filefixPwd: %s\n", link.fileFixPwd);
    printf("bbsPwd:     %s\n", link.bbsPwd);
+   if (link.autoCreateFile) printf("AutoCreateFile: %s\n", link.autoCreateFile);
    if (link.TossGrp) printf("TossGrp %s\n",link.TossGrp);
    if (link.DenyGrp) printf("DenyGrp %s\n",link.DenyGrp);
    if (link.autoAreaCreate) printf("AutoAreaCreate on    ");
    if (link.AreaFix) printf("AreaFix on\n"); else printf("AreaFix off\n");
+   if (link.forwardRequests) printf("Forward Requests on\n");
    if (link.packerDef != NULL) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
+   printf("forwardPkts ");
+   switch (link.forwardPkts){
+   case fOff : printf("off\n");
+   case fSecure : printf("secure\n");
+   case fOn : printf("on\n");
+   }
    
    printf("-------\n");
 }

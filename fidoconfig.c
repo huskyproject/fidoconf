@@ -54,7 +54,7 @@ char *readLine(FILE *f)
       return NULL;
    }
 
-   while ((strlen(line) % 80) == 0) {
+   /*   while ((strlen(line) % 80) == 0) {
       if (fgets(temp, 81, f) == NULL) break; // eof encountered
 
       line = realloc(line, strlen(line)+strlen(temp)+1);
@@ -63,6 +63,18 @@ char *readLine(FILE *f)
          temp[strlen(temp)-1] = 0; // kill \n
          break;
       }
+      }*/
+
+   if (line[strlen(line)-1] != '\n') {
+     while ((strlen(line) % 80) == 0) {
+       if (fgets(temp, 81, f) == NULL) break; // eof encountered
+       line = realloc(line, strlen(line)+strlen(temp)+1);
+       strcat(line, temp);
+       if (temp[strlen(temp)-1] == '\n') {
+	 temp[strlen(temp)-1] = 0; // kill \n
+	 break;
+       }
+     }
    }
 
    if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = 0;

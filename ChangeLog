@@ -1,11 +1,19 @@
-
 fidoconfig 0.6
 --------------
 
+	
+Mon Feb 15 18:28:21 CET 1999
+- included sergeys patch for a correct readLine()
+  Max Levenkov:
+- forwardRequests option supported by fidoconfig and tparser
+- changed the name of some enumerations
+- added forwardPkt statement (on, secure, off) it will be implemented by tobi
+- added autoCreateFile statement
+	
 ----- cvs ci ------
 Sun Feb 14 12:57:04 CET 1999
 - included new fconf2fidogate from Gabriel
-- applied patches from a spanish guy (forgot the name, sorry...) so there is
+- applied patches from Antonio Perez so there is
   no need for the system calls in fconf2*
 
 ----- cvs ci ------
