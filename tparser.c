@@ -190,6 +190,10 @@ void printFilelist(s_filelist *fl)
     printf("dirlist entry template: %s\n", fl->dirListEntryTpl);
     printf("dirlist footer template: %s\n", fl->dirListFtrTpl);
     break;
+
+  case flDir:
+    // just avoid a warning
+    break;
   }
   printf("-------\n");
 }

@@ -2431,6 +2431,10 @@ int parseFilelist(char *line, s_fidoconfig *config)
     numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirListFtrTpl));
     if (!numCopied) return 1;
     break;
+
+  case flDir:
+    // just avoid a warning
+    break;
   }
 
   return 0;
