@@ -223,11 +223,21 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 
    tok = strtok(NULL, " \t");
    if (tok == NULL) return 2;         // if there is no filename
-   area->fileName = (char *) malloc(strlen(tok)+1);
-   strcpy(area->fileName, tok);
+   if (stricmp(tok, "Passthrough") != 0) {
+      // msgbase on disk
+      area->fileName = (char *) malloc(strlen(tok)+1);
+      strcpy(area->fileName, tok);
+   } else {
+      // passthrough area
+      area->fileName = NULL;
+      area->msgbType = MSGTYPE_PASSTHROUGH;
+   }
 
    while ((tok = strtok(NULL, " \t"))!= NULL) {
-      if (stricmp(tok, "Squish")==0) area->msgbType = MSGTYPE_SQUISH;
+      if (stricmp(tok, "Squish")==0) {
+         if (area->msgbType == MSGTYPE_PASSTHROUGH) rc = 3;
+         area->msgbType = MSGTYPE_SQUISH;
+      }
       else if(tok[0]=='-') rc = parseAreaOption(config, tok+1, area);
       else if(isdigit(tok[0])) {
          area->downlinks = realloc(area->downlinks, sizeof(s_link*)*(area->downlinkCount+1));
@@ -390,6 +400,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));
    else if (stricmp(token, "routeFile")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeFile), &(config->routeFileCount));
    else if (stricmp(token, "routeMail")==0) rc = parseRoute(getRestOfLine(), config, &(config->routeMail), &(config->routeMailCount));
+   else printf("Unrecognized line: %s\n", line);
                                                           
    if (rc != 0) {
       printf("Error %d in: %s\n", rc, line);

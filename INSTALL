@@ -12,11 +12,11 @@ Unix:
 
 2. compile fidoconfig
 
-3. copy the library libfidoconfig.so.0.1 to a dir like /usr/local/lib
+3. copy the library libfidoconfig.so.0.2 to a dir like /usr/local/lib
 
 4. create syslinks:
 	[ cd /usr/local/lib ]
-	ln -s libfidoconfig.so.0.1 libfidoconfig.so.0
+	ln -s libfidoconfig.so.0.2 libfidoconfig.so.0
 	ln -s libfidoconfig.so.0 libfidoconfig.so
 
 You're ready. Now you can install hpt, and other software which uses fidoconfig. 

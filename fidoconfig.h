@@ -4,6 +4,8 @@
 
 #include "common.h"
 
+#define MSGTYPE_PASSTHROUGH 0x04
+
 struct link {
    s_addr hisAka, *ourAka;
    char *name;
@@ -43,7 +45,7 @@ struct area {
    char *areaName;
    char *fileName;
    
-   int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH
+   int msgbType;        // MSGTYPE_SDM or MSGTYPE_SQUISH or MSGTYPE_PASSTHROUGH
    s_addr *useAka;
    
    s_link **downlinks;  // array of pointers to s_link
@@ -52,6 +54,8 @@ struct area {
    UINT purge, max, dupeHistory;
    e_dupeCheck dupeCheck;
    char noDC, tinySB, manual, hide, noPause;
+
+   void *dupes;        // use internally for hpt pointer to dupeDataBase
 };
 
 typedef struct area s_area;
