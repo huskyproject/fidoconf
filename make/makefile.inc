@@ -30,9 +30,9 @@ LOBJS	= $(LOBJS1) $(LOBJS2) $(LOBJS3)
 # Object files: programs
 OBJS1	= fc2aed$(_OBJ) fc2binkd$(_OBJ) fc2fgate$(_OBJ) fc2ged$(_OBJ)
 OBJS2	= fc2msged$(_OBJ) fc2sq$(_OBJ) linked$(_OBJ) tparser$(_OBJ)
+OBJS	= $(OBJS1) $(OBJS2)
 TOROBJS	= fc2tor$(_OBJ) fc2tor_g$(_OBJ)
 FEOBJS	= fecfg146$(_OBJ) fecfg2fc$(_OBJ) 
-OBJS	= $(LOBJS) $(OBJS1) $(OBJS2) $(TOROBJS) $(FEOBJS)
 
 # Header files
 HEADERS1= afixcmd.h arealist.h areatree.h common.h grptree.h fidoconf.h
@@ -48,7 +48,11 @@ PROGRAMS= $(PROGS1) $(PROGS2)
 FC2TOR	= fc2tor$(_EXE)
 # 3) $(FECFG2FC) - fecfg2fc build from two sources
 FECFG2FC= fecfg2fc$(_EXE)
-
+# 4) programs with long names (for distclean & install rules)
+LPROGS1	= fconf2aquaed$(_EXE) fconf2binkd$(_EXE) fconf2fidogate$(_EXE)
+LPROGS2	= fconf2golded$(_EXE) fconf2msged$(_EXE) fconf2squish$(_EXE)
+LPROGS3	= fconf2tornado$(_EXE) fecfg2fconf$(_EXE)
+LPROGRAMS= $(LPROGS1) $(LPROGS2) $(LPROGS3)
 
 # Usually compose from LIBPREFIX, LIBSUFFIX and LIB.
 # Static library name
@@ -60,7 +64,8 @@ TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
 PACKAGEBASE=$(LIBNAME)$(LIBSUFFIX)-$(VER)
 PACKAGENAME=$(LIBNAME)$(LIBSUFFIX)$(VER)$(_ARC)
 
-LIBS	= -l$(LIBPREFIX)husky$(_LIB) -l$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB)
+LIBS	= -lhusky -lsmapi -L. -l$(LIBNAME)
+
 
 commonlibs: $(TARGETLIB) $(SYMBOLIC)
 	$(NULL)
@@ -77,26 +82,26 @@ commonprogs: $(PROGRAMS) $(FC2TOR) $(FECFG2FC) $(SYMBOLIC)
 
 
 %$(_OBJ): $(_SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(DEBUG) $(CDEFS) $(CINCL) $(OBJOPT) $<
+	$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $<
 
 $(TARGETLIB): $(LOBJS)
-	$(AR) $(ARFLAGS) $@ $?
+	$(AR) $(AR_R) $@ $?
 	$(RANLIB) $@
 
 
-$(PROGRAMS): $(TARGETLIB)
-	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEFLAG)$@ $@$(_OBJ) $(LIBS) $<
+$(PROGRAMS): $(OBJS)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $(LIBS) $<
 
-$(FC2TOR): $(TOROBJS) $(TARGETLIB)
-	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEFLAG)$@ $@$(_OBJ) $(LIBS) $<
+$(FC2TOR): $(TOROBJS)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $(LIBS) $?
 
-$(FECFG2FC): $(FEOBJS) $(TARGETLIB)
-	$(CC) $(LFLAGS) $(STRIP) $(EXENAMEFLAG)$@ $@$(_OBJ) $(LIBS) $<
+$(FECFG2FC): $(FEOBJS)
+	$(CC) $(LFLAGS) $(EXENAMEFLAG) $@ $(LIBS) $?
 
 
 commonclean: $(SYMBOLIC)
 	-$(RM) $(RMOPT) *$(_OBJ)
 
-commondistclean: clean $(SYMBOLIC)
-	-$(RM) $(RMOPT) $(PROGRAMS) $(FC2TOR) $(FECFG2FC)
+commondistclean: commonclean $(SYMBOLIC)
+	-$(RM) $(RMOPT) $(PROGRAMS) $(LPROGRAMS) $(FC2TOR) $(FECFG2FC)
 	-$(RM) $(RMOPT) $(TARGETLIB)

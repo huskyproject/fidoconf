@@ -16,10 +16,6 @@ export PACKAGE=libfidoconf1
 # Next Line to build debug-versions !
 # export DEB_BUILD_OPTIONS=nostrip
 
-# shared library versions, option 1
-version=1.3.0
-major=1
-
 build: build-stamp
 build-stamp:
 	dh_testdir
