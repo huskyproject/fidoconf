@@ -1,3 +1,25 @@
+2002-06-14 Friday 18:49  mche
+
+	* line.c (1.303): fixed incorrect function defenition
+
+2002-06-14 Friday 18:04  mche
+
+	* .cvsignore (1.4): no message
+
+2002-06-14 Friday 16:33  stas
+
+	* doc/proposal.texi (1.131): Description for sendMailCmd added.
+
+2002-06-14 Friday 16:07  stas
+
+	* fidoconf.h (1.121), line.c (1.302), tokens.h (1.33): New token
+	sendMailCmd (for emailpkt).
+
+2002-06-14 Friday 12:26  mche
+
+	* common.h (1.49): fscmn.* contain some functions works with
+	files,directories  and their names.  taken from fidoconf/common.h
+
 2002-06-13 Thursday 19:31  stas
 
 	* fconf2dir (1.1): New script: generate fileareas directories
