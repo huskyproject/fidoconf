@@ -42,9 +42,10 @@
 #include <sysexits.h>
 #endif
 
+#include <huskylib/huskyext.h>
 #include <huskylib/patmat.h>
-#include "fidoconf.h"
 #include "typesize.h"
+#include "fidoconf.h"
 #include "common.h"
 #include "xstr.h"
 #include "areatree.h"

@@ -34,12 +34,14 @@
 #define FIDOCONFIG_H
 #include <time.h>
 #include <stdio.h>
-#include <smapi/msgapi.h>
-#include "typesize.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include <huskylib/compiler.h>
+#include <smapi/msgapi.h>
+#include "typesize.h"
 
 #ifdef _MAKE_DLL
 #   if defined(_MSC_VER) && (_MSC_VER >= 1200)
