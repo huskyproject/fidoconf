@@ -1,0 +1,3 @@
+- route statements which are defined in the middle of several link statements
+are broken, because there is a realloc of config->links! Maybe there are bugs
+like this in the current sources
