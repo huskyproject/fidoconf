@@ -61,13 +61,16 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
    platform = "/lnx";
 
 #elif defined(__FreeBSD__)            /*  gcc on FreeBSD                  */
-   platform = "/freebsd";
+   platform = "/fbsd";
 
 #elif defined(__NetBSD__)             /*  gcc on NetBSD                   */
-   platform = "/netbsd";
+   platform = "/nbsd";
 
 #elif defined(__OpenBSD__)            /*  gcc on OpenBSD                  */
-   platform = "/openbsd";
+   platform = "/obsd";
+
+#elif defined(__BSD__)                /*  gcc on other BSD clone          */
+   platform = "/bsd";
 
 #elif defined(__sun__)                /*  SunOS (Solaris)                 */
 #  if defined(__GNUC__)
@@ -113,7 +116,7 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
    platform = "/os2-ibmc";
 
 #elif defined(__NT__)
-#  if defined(_MSC_VER) && (_MSC_VER >= 1200)
+#  if defined(__MSVC__)
 #    if defined(_MAKE_DLL_MVC_)
      platform = "/w32-mvcdll";
 #    else
@@ -151,7 +154,7 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
    platform = "/dos-wc";
 #  elif defined(__TURBOC__)
    platform = "/dos-bc";
-#  elif defined(_MSC_VER) /* Microsoft C or Microsoft QuickC for MS-DOS */
+#  elif defined(__MSC__) /* Microsoft C or Microsoft QuickC for MS-DOS */
    platform = "/dos-msc";
 #  elif defined(__FLAT__)
    platform = "/dpmi";
@@ -165,7 +168,7 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
 #elif defined(SASC)                          /* SAS C for AmigaDOS */
    platform = "/amiga-sasc";
 
-#elif defined(UNIX)
+#elif defined(__UNIX__)
    platform = "/unix";
 
 #else
@@ -184,20 +187,24 @@ FCONF_EXT char *GenVersionStr( const char *programname, unsigned major,
 /*                         pathlevel = 0;*/
                        }
                        break;
-  case BRANCH_STABLE:  cbranch = "-stable";
+  case BRANCH_STABLE:  cbranch = "-sta";
                        if( minor & 1 ){
                          fprintf(stderr, __FILE__ ":%u: illegal usage of GenVersionStr(): minor value for stable branch must be even!\n", __LINE__);
                        }
                        break;
-  case BRANCH_RELEASE: cbranch = "-release";
+  case BRANCH_RELEASE: cbranch = "-rel";
                        if( minor & 1 ){
                          fprintf(stderr, __FILE__ ":%u: illegal usage of GenVersionStr(): minor value for release branch must be even!\n", __LINE__);
                        }
   }
 
-  xscatprintf( &_version_str, "%s%s %u.%u.%u%s %s",
-                     programname, platform, major, minor, patchlevel, cbranch,
-  /* Release date are known always */ branch==BRANCH_RELEASE ? "" : cvsdate );
+  if(branch==BRANCH_RELEASE)
+    /* Release date are known always */
+    xscatprintf( &_version_str, "%s%s %u.%u.%u%s",
+                     programname, platform, major, minor, patchlevel, cbranch);
+  else
+    xscatprintf( &_version_str, "%s%s %u.%u.%u%s %s",
+            programname, platform, major, minor, patchlevel, cbranch, cvsdate);
 
   return _version_str;
 }
