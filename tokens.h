@@ -281,7 +281,8 @@ enum {
     ID_ANNORIGIN,
     ID_ANNMESSFLAGS,
     ID_FILEAREACREATEPERMS,
-    ID_NEWAREAREFUSEFILE
+    ID_NEWAREAREFUSEFILE,
+    ID_REDUCEDSEENBY
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -511,6 +512,7 @@ token_t parseline_tokens[] =
     { "public", ID_PUBLIC },
     { "publicgroup", ID_PUBLICGROUP },
     { "readonly", ID_READONLY },
+    { "reducedseenby", ID_REDUCEDSEENBY },
     { "remap", ID_REMAP },
     { "remotefilerobotname", ID_REMOTEFILEROBOTNAME },
     { "remoterobotname", ID_REMOTEROBOTNAME },

@@ -3497,6 +3497,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_DENYUNCONDFWDREQACCESS:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->denyUFRA));
             break;
+        case ID_REDUCEDSEENBY:
+            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->reducedSeenBy));
+            break;
         case ID_EXPORT:
             if( (clink = getDescrLink(config)) != NULL ) {
                 rc = parseBool (getRestOfLine(), &clink->export);

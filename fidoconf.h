@@ -199,12 +199,12 @@ typedef struct link {
     char  *fileBox;
     unsigned int fileBoxAlways;
     unsigned int tickerPackToBox;
-    unsigned int  arcNetmail; // 1 if pack netmail into arcmail bundles
+    unsigned int arcNetmail; // 1 if pack netmail into arcmail bundles
     char useFileBox; // internal
     char sb; // internal
     unsigned int noRules;
-    FILE *pkt;	// for internal usage
-
+    FILE *pkt;  // for internal usage
+    unsigned int reducedSeenBy; // reduces Seen-BYs (fsc-0093)
 
 } s_link, *ps_link;
 
