@@ -1,3 +1,12 @@
+2004-01-07 Wednesday 05:13  d_sergienko
+
+	* doc/proposal.texi (1.154): fix docs about quoted strings
+
+2004-01-07 Wednesday 05:11  d_sergienko
+
+	* src/line.c (1.23): move back reporting that there is a parameter
+	missing after ...; ignore rounding quotes while copying string.
+
 2004-01-06 Tuesday 13:44  andrew_ladutsko
 
 	* fidoconf/afixcmd.h (1.5), src/afixcmd.c (1.7): added option for
