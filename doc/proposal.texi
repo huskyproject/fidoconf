@@ -1567,7 +1567,7 @@ group for this echoarea
 @item -keepsb
 keep seen-by's (used in CarbonCopy)
 @item -tinysb
-keep only seen-by's of links listed in @{link@} @strong{This statement is currently not supported.}
+no seen-by & path kludges stored to message base
 @item -manual
 disallow remote changes (only manual connect/disconnect). same as mandatory.
 @item -dosfile
