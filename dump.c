@@ -132,7 +132,7 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       case fOn:
 	fprintf(f, "forwardPkts on\n");
 	break;
-      default:
+      default:;
       }
       
       if (link.packerDef != NULL)
@@ -151,7 +151,7 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       case immediate:
 	fprintf(f, "echoMailFlavour immediate\n");
 	break;
-      default:
+      default:;
       }
 
       dumpString(f, "linkGrp %s\n", link.LinkGrp);
