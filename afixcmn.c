@@ -90,6 +90,7 @@ char *createKludges(int disablePID, const char *area, const s_addr *ourAka,
       if (destAka->point) xscatprintf(&buff, "\001TOPT %d\r", destAka->point);
    }
 
+   if(!msgno) sleep(1);  /* Wait one second to prevent generate equvalence msgid in two sequental program call */
    msgids.n = msgno++;
    msgids.t = time(NULL);
 
