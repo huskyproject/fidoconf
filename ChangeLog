@@ -1,3 +1,9 @@
+2004-01-08 Thursday 16:02  andrew_ladutsko
+
+	* fidoconf/fidoconf.h (1.20), fidoconf/tokens.h (1.9), src/line.c
+	(1.24), src/tparser.c (1.14): added allowRemoteControl token to
+	s_link structure
+
 2004-01-07 Wednesday 05:13  d_sergienko
 
 	* doc/proposal.texi (1.154): fix docs about quoted strings
