@@ -255,10 +255,10 @@ typedef unsigned char      UCHAR;               /*  1 byte */
 #endif
 typedef signed   short int  INT16;              /*  2 byte */
 typedef unsigned short int UINT16;              /*  2 byte */
-#if !defined(__OS2_H__)
+/*#if !defined(__OS2_H__)*/
 typedef signed   long  int  INT32;              /*  4 byte */
 typedef unsigned long  int UINT32;              /*  4 byte */
-#endif
+/*#endif*/
 /*  -------------------------------------------------------------------------- */
 #if !defined(__OS2_H__) && !defined(__NT__)  /*  os2.h and windows.h defines it already */
 typedef signed   int        INT;                /*  2/4 byte */
