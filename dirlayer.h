@@ -35,12 +35,15 @@
 #ifndef DIR_H
 /* all other include their own dirent.h */
 
-#include <io.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 
 #include <smapi/compiler.h>
+
+#ifdef HAS_IO_H
+#include <io.h>
+#endif
 
 #ifdef HAS_DIR_H
 #include <dir.h>
