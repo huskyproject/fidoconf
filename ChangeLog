@@ -1,3 +1,9 @@
+2005-01-02 Sunday 16:44  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.29), fidoconf/tokens.h (1.16),
+	src/fidoconf.c (1.23), src/line.c (1.38), src/tparser.c (1.24):
+	move some vars from s_link into s_link_robot
+
 2004-12-31 Friday 20:24  val_khokhlov
 
 	* src/fidoconf.c (1.22): use correct token for filefix robot's strC
