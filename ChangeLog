@@ -1,4 +1,9 @@
------ cvs ci ------
+
+Mon Oct  9 01:38:41 NOVST 2000
+max (patch from Alex Bronin):
+* allowing to use any length passwords.
+  pktPwd will stripped to 8 symbols, others remains unchanged.
+
 Sat Oct  7 16:58:58 MSZ 2000
 tobi:
 * fecfg2fconf is now platform independent

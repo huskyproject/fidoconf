@@ -1155,10 +1155,8 @@ int parsePWD(char *token, char **pwd) {
       return 0;
    }
 
-   *pwd = (char *) smalloc(9);
-   strncpy(*pwd, token, 8);        // only use 8 characters of password
-   (*pwd)[8] = '\0';
-   if (strlen(token)>8) return 1;
+   *pwd = strdup(token);
+   if (*pwd == NULL) return 1;
    else return 0;
 }
 
