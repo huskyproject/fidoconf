@@ -195,7 +195,11 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
 	}
 	openro = 1;
     }
-    fseek(f_conf, 0L, SEEK_END);
+    if (fseek(f_conf, 0L, SEEK_END) != 0) {
+	w_log(LL_ERR, "Cannot seek config file %s: %s\n", confName, strerror(errno));
+	fclose(f_conf);
+	return 0;
+    }
     endpos = ftell(f_conf);
     curpos = strend;
     cfglen = endpos - curpos;
