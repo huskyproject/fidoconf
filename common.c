@@ -71,14 +71,6 @@ int cmpfnames(char *file1, char *file2);
 #include <KernelKit.h>
 #endif
 
-#include "fidoconf.h"
-#include "common.h"
-#include "xstr.h"
-#include "log.h"
-#include <smapi/compiler.h>
-#include <smapi/patmat.h>
-#include <smapi/progprot.h>
-
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2) || defined(__OS2__)))
 #if ( defined(__MINGW32__) || defined(__WATCOMC__) )
 #include <sys/utime.h>
@@ -87,6 +79,14 @@ int cmpfnames(char *file1, char *file2);
 #endif
 #endif
 
+#include <smapi/compiler.h>
+#include <smapi/progprot.h>
+#include <smapi/patmat.h>
+
+#include "fidoconf.h"
+#include "common.h"
+#include "xstr.h"
+#include "log.h"
 
 
 int copyString(char *str, char **pmem)
