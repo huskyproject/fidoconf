@@ -1,3 +1,14 @@
+2002-11-04 Monday 13:02  stas_degteff
+
+	* doc/proposal.texi (1.145): Add pack & unpack statements
+	description from hpt.texi, modified
+
+2002-11-04 Monday 11:02  stas_degteff
+
+	* common.c (1.130), common.h (1.69): Add GetDirnameFromPathname();
+	replace basename() with macro to GetFilenameFromPAthname; add
+	dirname() macros for GetDirnameFromPathname()
+
 2002-11-03 Sunday 03:53  d_sergienko
 
 	* README.TXT (1.2), doc/fidoconfig.texi (1.23): update docs
