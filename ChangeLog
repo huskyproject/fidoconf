@@ -1,3 +1,13 @@
+2001-12-09 Sunday 16:30  ml
+
+	* fidoconf.h (1.79), line.c (1.266), tokens.h (1.16), tparser.c
+	(1.152), doc/keywords.hpt (1.15): new token areafixQueryReports for
+	hpt
+
+2001-12-09 Sunday 12:58  ml
+
+	* fecfg2fc.c (1.4): carbonarea changed to carboncopy
+
 2001-11-18 Sunday 20:34  ml
 
 	* line.c (1.265): fixed some strtok() calls [patch by Alexander
