@@ -393,6 +393,24 @@ typedef struct permissions
   char *areaMask;       /* area mask */
 } s_permissions;
 
+/*  htick announcer */
+typedef struct anndef /* announce definition */
+{
+  char  *annAreaTag;     /* name of area when annouce will be placed    */
+  char **annInclude;     /* array of fileecho names|masks that will be  */
+                         /* announced in this annAreaTag                */
+  unsigned numbI;        /* number of annInclude masks                  */
+  char **annExclude;     /* array of fileecho names|masks that won't be */
+                         /* announced in this annAreaTag                */
+  unsigned numbE;        /* number of annExclude masks                  */
+
+  char *annto;           /* field TONAME  : in announce message         */
+  char *annfrom;         /* field FROMNAME: in announce message         */
+  char *annsubj;         /* field SUBJ:     in announce message         */
+  s_addr* annadrto;      /* field ADRTO:    in announce message         */
+  s_addr* annadrfrom;    /* field ADRFROM:  in announce message         */
+} s_anndef, *ps_anndef;
+
 typedef struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop, *email;
@@ -566,7 +584,10 @@ typedef struct fidoconfig {
 
    /* for emailpkt */
    char *sendmailcmd;   /* send e-mail command line*/
-    
+   /*  htick announcer */
+   ps_anndef AnnDefs;
+   unsigned int ADCount;
+   
 } s_fidoconfig, *ps_fidoconfig;
 
 struct message {

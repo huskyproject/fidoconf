@@ -1027,7 +1027,43 @@ int main(int argc, char **argv) {
   		printf("SaveTic for %s in %s\n", config->saveTic[i].fileAreaNameMask,
                                            config->saveTic[i].pathName );
         }
+        printf("\n=== FILE ANNOUNCER CONFIG ===\n");
 		if (config->announceSpool) printf("AnnounceSpool: %s\n", config->announceSpool);		
+        if(config->ADCount)
+        {
+			for (i = 0; i< config->ADCount; i++) {
+            	printf("\n----- announce group -----\n");    
+	            if(config->AnnDefs[i].annAreaTag) 
+    	        printf("AnnAreaTag: %s\n",config->AnnDefs[i].annAreaTag); 
+        	    if(config->AnnDefs[i].annInclude == NULL)
+            	printf("AnnInclude: *\n"); 
+	            else {
+	            	printf("AnnInclude:");                     
+					for (j = 0; j < config->AnnDefs[i].numbI; j++) {
+		            	printf(" %s",config->AnnDefs[i].annInclude[j]); 
+	                } 
+   	            	printf("\n"); 
+	    		}
+        	    if(config->AnnDefs[i].annExclude != NULL)
+	            {
+	            	printf("AnnExclude:");                     
+					for (j = 0; j < config->AnnDefs[i].numbE; j++) {
+		            	printf(" %s",config->AnnDefs[i].annExclude[j]); 
+	                } 
+   	            	printf("\n"); 
+	    		}
+	            if(config->AnnDefs[i].annto) 
+    	        printf("AnnTo     : %s\n",config->AnnDefs[i].annto); 
+	            if(config->AnnDefs[i].annfrom) 
+    	        printf("AnnFrom   : %s\n",config->AnnDefs[i].annfrom); 
+	            if(config->AnnDefs[i].annsubj) 
+    	        printf("AnnSubj   : %s\n",config->AnnDefs[i].annsubj); 
+	            if(config->AnnDefs[i].annadrto) 
+    	        printf("AnnAddrTo : %s\n",aka2str(*(config->AnnDefs[i].annadrto))); 
+	            if(config->AnnDefs[i].annadrfrom) 
+    	        printf("AnnAddrFro: %s\n",aka2str(*(config->AnnDefs[i].annadrfrom))); 
+			}
+        }
     }
 
         printf("\n=== FILELIST CONFIG ===\n");

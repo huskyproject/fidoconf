@@ -269,7 +269,15 @@ enum {
     ID_LINKFILEBASEDIR,
     ID_SENDMAILCMD,
     ID_TEMPDIR,
-    ID_ANNOUNCESPOOL
+    ID_ANNOUNCESPOOL,
+    ID_ANNAREATAG,
+    ID_ANNINCLUDE,
+    ID_ANNEXCLUDE,
+    ID_ANNTO,
+    ID_ANNFROM,
+    ID_ANNSUBJ,
+    ID_ANNADRTO,
+    ID_ANNADRFROM,
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -289,7 +297,17 @@ token_t parseline_tokens[] =
     { "aka", ID_AKA },
     { "allowemptypktpwd", ID_ALLOWEMPTYPKTPWD },
     { "allowpktaddrdiffer", ID_ALLOWPKTADDRDIFFER },
+    /*  htick announcer */
+    { "annadrfrom", ID_ANNADRFROM},
+    { "annadrto", ID_ANNADRTO},
+    { "annareatag", ID_ANNAREATAG},
+    { "annexclude", ID_ANNEXCLUDE},
+    { "annfrom", ID_ANNFROM},
+    { "anninclude", ID_ANNINCLUDE},
     { "announcespool", ID_ANNOUNCESPOOL},
+    { "annsubj", ID_ANNSUBJ},
+    { "annto", ID_ANNTO},
+
     { "arcmailsize", ID_ARCMAILSIZE },
     { "arcnetmail", ID_ARCNETMAIL },
     { "areafix", ID_AREAFIX },

@@ -185,6 +185,18 @@ s_link *getDescrLink(s_fidoconfig *config)
    }
 }
 
+ps_anndef getDescrAnnDef(s_fidoconfig *config)
+{
+    if (config->ADCount) {
+        return &config->AnnDefs[config->ADCount-1];
+    } else {
+        prErr( "You must define a AnnAreaTag first before you use %s!", actualKeyword);
+        exit(EX_CONFIG);
+    }
+    return NULL;
+}
+
+
 int parseAddress(char *token, s_fidoconfig *config)
 {
    char *aka;
@@ -1595,6 +1607,44 @@ int parseLink(char *token, s_fidoconfig *config)
    return 0;
 }
 
+int parseAnnDef(char *token, s_fidoconfig *config)
+{
+   ps_anndef   cAnnDef;
+
+   if (token == NULL) {
+      prErr("There is a name missing after %s!", actualKeyword);
+      return 1;
+   }
+   config->AnnDefs = srealloc(config->AnnDefs, sizeof(s_anndef)*(config->ADCount+1));
+   cAnnDef = &(config->AnnDefs[config->ADCount]);
+   memset(cAnnDef, 0, sizeof(s_anndef));
+
+   cAnnDef->annAreaTag = sstrdup(token);
+   config->ADCount++;
+   return 0;
+}
+
+int parseAnnDefAddres(char *token, s_fidoconfig *config, int i)
+{
+   ps_anndef  cAnnDef = NULL;
+   s_addr* addr;
+   cAnnDef = getDescrAnnDef(config);
+   if (token == NULL) {
+      prErr("There is a name missing after %s!", actualKeyword);
+      return 1;
+   }
+   addr = scalloc(1,sizeof(s_addr));
+   string2addr(token,addr );
+
+   if( i == 1)
+       cAnnDef->annadrto = addr;
+   if( i == 2)
+       cAnnDef->annadrfrom = addr;
+   
+   return 0;
+}
+
+
 int parseNodelist(char *token, s_fidoconfig *config)
 {
    if (token == NULL) {
@@ -2113,6 +2163,7 @@ int parseGrp(char *token, char **grp[], unsigned int *count) {
 int parseGroup(char *token, s_fidoconfig *config, int i)
 {
 	s_link *link = NULL;
+    ps_anndef cAnnDef = NULL;
 
 	if (token == NULL)
 		{
@@ -2120,7 +2171,10 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 			return 1;
 		}
 
-	if (i != 2) link = getDescrLink(config);
+	if (i != 2) 
+        link    = getDescrLink(config);
+    if (i == 6 || i == 7)
+        cAnnDef = getDescrAnnDef(config);
 
 	switch (i) {
 	case 0:
@@ -2163,7 +2217,23 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		link->numDfMask = 0;
 		parseGrp(token, &(link->dfMask), &(link->numDfMask));
 		break;
+
+    case 6:
+		if (cAnnDef->annInclude) freeGroups(cAnnDef->annInclude, cAnnDef->numbI);
+		cAnnDef->annInclude = NULL;
+		cAnnDef->numbI       = 0;
+		parseGrp(token, &(cAnnDef->annInclude), &(cAnnDef->numbI));
+		break;
+    
+    case 7:
+		if (cAnnDef->annExclude) freeGroups(cAnnDef->annExclude, cAnnDef->numbE);
+		cAnnDef->annExclude = NULL;
+		cAnnDef->numbE       = 0;
+		parseGrp(token, &(cAnnDef->annExclude), &(cAnnDef->numbE));
+		break;
 	}
+
+
 
    return 0;
 }
@@ -3954,9 +4024,36 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_TEMPDIR:
             rc = parsePath(getRestOfLine(), &(config->tempDir));
             break;
+
+        /*  htick announcer */
         case ID_ANNOUNCESPOOL:
             rc = parsePath(getRestOfLine(), &(config->announceSpool));
             break;
+       case ID_ANNAREATAG:
+            rc = parseAnnDef(getRestOfLine(), config);
+            break;
+        case ID_ANNINCLUDE:
+            rc = parseGroup(getRestOfLine(), config, 6);
+            break;
+        case ID_ANNEXCLUDE:
+            rc = parseGroup(getRestOfLine(), config, 7);
+            break;
+        case ID_ANNTO:
+            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annto));
+            break;
+        case ID_ANNFROM:
+            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annfrom));
+            break;
+        case ID_ANNSUBJ:
+            rc = copyString(getRestOfLine(), &(getDescrAnnDef(config)->annsubj));
+            break;
+        case ID_ANNADRTO:
+            rc = parseAnnDefAddres(getRestOfLine(), config, 1);
+            break;
+        case ID_ANNADRFROM:
+            rc = parseAnnDefAddres(getRestOfLine(), config, 2);
+            break;
+
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;
