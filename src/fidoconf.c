@@ -175,6 +175,7 @@ void initConfig(s_fidoconfig *config) {
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
    config -> typeDupeBase = hashDupesWmsgid;
    config -> packNetMailOnScan = 1;
+   config -> recodeMsgBase = 1;
    config -> areafixReportsAttr = config->filefixReportsAttr =
        MSGPRIVATE | MSGKILL | MSGLOCAL;
    config -> areafixReportsFlags = sstrdup("NPD");

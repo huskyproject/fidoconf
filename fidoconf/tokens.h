@@ -299,7 +299,8 @@ enum {
     ID_GRPDESC,
     ID_LISTECHO,
     ID_NETMAILFLAVOUR,
-    ID_FLAVOUR
+    ID_FLAVOUR,
+    ID_RECODEMSGBASE
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -543,6 +544,7 @@ token_t parseline_tokens[] =
     { "public", ID_PUBLIC },
     { "publicgroup", ID_PUBLICGROUP },
     { "readonly", ID_READONLY },
+    { "recodemsgbase", ID_RECODEMSGBASE },
     { "reducedseenby", ID_REDUCEDSEENBY },
     { "remap", ID_REMAP },
     { "remotefilerobotname", ID_REMOTEFILEROBOTNAME },

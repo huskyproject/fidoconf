@@ -483,6 +483,7 @@ typedef struct fidoconfig {
    ps_unpack unpack;
 
    char     *intab, *outtab;
+   unsigned int recodeMsgBase;
    char     *echotosslog, *statlog, *importlog, *lockfile;
    unsigned loguid, loggid, logperm;
    char     *fileAreasLog, *longNameList, *fileNewAreasLog;

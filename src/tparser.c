@@ -1291,6 +1291,7 @@ int main(int argc, char **argv) {
         if (config->logFileDir != NULL) printf("LogFileDir:      %s\n", config->logFileDir);
         if (config->tempDir != NULL) printf("TempDir:      %s\n", config->tempDir);
         if (config->msgBaseDir != NULL) printf("MsgBaseDir:      %s\n", config->msgBaseDir);
+        printf("RecodeMsgBase: %s\n", config->recodeMsgBase?"on":"off");
         if (config->fileAreaBaseDir) printf("FileAreaBaseDir: %s\n", config->fileAreaBaseDir);
         if (config->passFileAreaDir) printf("passFileAreaDir: %s\n", config->passFileAreaDir);
         if (config->busyFileDir) printf("busyFileDir:     %s\n", config->busyFileDir);

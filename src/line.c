@@ -4056,6 +4056,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_OUTTAB:
             rc = parseFileName(getRestOfLine(), &(config->outtab), NULL);
             break;
+        case ID_RECODEMSGBASE:
+            rc = parseBool (getRestOfLine(), &config->recodeMsgBase);
+            break;
         case ID_AREAFIXHELP:
             rc = parseFileName(getRestOfLine(), &(config->areafixhelp), NULL);
             break;
