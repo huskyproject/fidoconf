@@ -62,6 +62,8 @@ int fc_compareFEntries(char *p_e1, char *p_e2)
 
 
 int fc_deleteEntry(char *p_e1) {
+    /* ugly hack to prevent compiler warnings */
+    p_e1 = p_e1;
     return 1;
 }
 

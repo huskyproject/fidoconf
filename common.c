@@ -975,7 +975,9 @@ int patimat(char *raw,char *pat)
 
 void freeGroups(char **grps, int numGroups)
 {
-	nfree (grps);
+    nfree (grps);
+    /* ugly hack to prevent compiler warnings */
+    numGroups = numGroups;
 }
 
 char **copyGroups(char **grps, int numGroups)

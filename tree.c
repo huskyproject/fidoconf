@@ -513,6 +513,8 @@ void tree_mung(tree **ppr_tree, int (*pfi_uar)(char *))
 
 int countEach(char *pc_data)
 {
+    /* ugly hack to prevent compiler warnings */
+    pc_data = pc_data;
    ENTER("count")
    tr_count++;
    EXIT(TRUE)
