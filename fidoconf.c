@@ -322,41 +322,72 @@ void processPermissions (s_fidoconfig *config)
     unsigned int narea, nalink;
     ps_area aptr;
     ps_arealink *dlink;
-
-
+    char *ExclMask;
+    
+    
     if (config->readOnlyCount) {
-	for (i=0; i < config->readOnlyCount; i++) {
-	    for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
-		if (patimat (aptr->areaName, config->readOnly[i].areaMask)) {
-		    for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
-			if (patmat (aka2str((*dlink)->link->hisAka),
-				    config->readOnly[i].addrMask)) {
-			    (*dlink)->import = 0;
-			}
-		    }
-		}
-	    }
-	    nfree (config->readOnly[i].areaMask);
-	    nfree (config->readOnly[i].addrMask);
-	}
-	nfree (config->readOnly);
+        for (i=0; i < config->readOnlyCount; i++) {
+            if(config->readOnly[i].areaMask[0] != '!') {
+                for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+                    if (patimat (aptr->areaName, config->readOnly[i].areaMask)) {
+                        for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
+                            if (patmat (aka2str((*dlink)->link->hisAka),
+                                config->readOnly[i].addrMask)) {
+                                (*dlink)->import = 0;
+                            }
+                        }
+                    }
+                }
+            } else {
+                ExclMask = config->readOnly[i].areaMask;
+                ExclMask++;
+                for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+                    if (patimat (aptr->areaName, ExclMask)) {
+                        for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
+                            if (patmat (aka2str((*dlink)->link->hisAka),
+                                config->readOnly[i].addrMask)) {
+                                (*dlink)->import = 1;
+                            }
+                        }
+                    }
+                }
+            }
+            nfree (config->readOnly[i].areaMask);
+            nfree (config->readOnly[i].addrMask);
+        }
+        nfree (config->readOnly);
     }
-
+    
     if (config->writeOnlyCount) {
-	for (i=0; i < config->writeOnlyCount; i++) {
-	    for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
-		if (patimat (aptr->areaName, config->writeOnly[i].areaMask)) {
-		    for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
-			if (patmat (aka2str((*dlink)->link->hisAka),
-				    config->writeOnly[i].addrMask)) {
-			    (*dlink)->export = 0;
-			}
-		    }
-		}
-	    }
-	    nfree (config->writeOnly[i].areaMask);
-	    nfree (config->writeOnly[i].addrMask);
-	}
+        for (i=0; i < config->writeOnlyCount; i++) {
+            if(config->writeOnly[i].areaMask[0] != '!') {
+                for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+                    if (patimat (aptr->areaName, config->writeOnly[i].areaMask)) {
+                        for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
+                            if (patmat (aka2str((*dlink)->link->hisAka),
+                                config->writeOnly[i].addrMask)) {
+                                (*dlink)->export = 0;
+                            }
+                        }
+                    }
+                }
+            } else {
+                ExclMask = config->writeOnly[i].areaMask;
+                ExclMask++;
+                for (aptr=config->echoAreas, narea=0; narea < config->echoAreaCount; narea++, aptr++) {
+                    if (patimat (aptr->areaName, ExclMask)) {
+                        for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
+                            if (patmat (aka2str((*dlink)->link->hisAka),
+                                config->writeOnly[i].addrMask)) {
+                                (*dlink)->export = 1;
+                            }
+                        }
+                    }
+                }
+            }
+            nfree (config->writeOnly[i].areaMask);
+            nfree (config->writeOnly[i].addrMask);
+        }
     }
     nfree (config->writeOnly);
 }
@@ -467,10 +498,10 @@ s_fidoconfig *readConfig(const char *fileName)
       fflush(stdout);
       exit(EX_CONFIG);
    }
+   setConfigDefaults(config);
    processPermissions (config);
    fixRoute(config);
    stripPktPwd(config);
-   setConfigDefaults(config);
    return config;
 }
 
