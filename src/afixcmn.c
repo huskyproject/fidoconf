@@ -288,6 +288,7 @@ void freeMsgBuffers(s_message *msg)
         return;
     
     nfree(msg->text);
+    nfree(msg->ctl);
     nfree(msg->subjectLine);
     nfree(msg->toUserName);
     nfree(msg->fromUserName);
