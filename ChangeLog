@@ -1,3 +1,9 @@
+2004-01-06 Tuesday 13:44  andrew_ladutsko
+
+	* fidoconf/afixcmd.h (1.5), src/afixcmd.c (1.7): added option for
+	FindTokenPos4Link(): try to find the position after the alternative
+	token
+
 2003-12-26 Friday 16:39  andrew_ladutsko
 
 	* src/afixcmd.c (1.6): Addlink() speedup: do not call slow
