@@ -453,6 +453,8 @@ void setConfigDefaults(s_fidoconfig *config)
    r = getRobot(config, "areafix", 1);
    r->areas = &(config->echoAreas);
    r->areaCount = &(config->echoAreaCount);
+   r->strA = sstrdup("area");
+   r->strC = sstrdup("echoarea");
    if (!r->names) xstrcat(&r->names,"AreaFix AreaMgr hpt");
    if (!r->reportsAttr) r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
    if (!r->reportsFlags) r->reportsFlags = sstrdup("NPD");
@@ -460,6 +462,8 @@ void setConfigDefaults(s_fidoconfig *config)
    r = getRobot(config, "filefix", 1);
    r->areas = &(config->fileAreas);
    r->areaCount = &(config->fileAreaCount);
+   r->strA = sstrdup("filearea");
+   r->strC = sstrdup("echoarea");
    if (!r->names) xstrcat(&r->names,"FileFix FileMgr AllFix FileScan htick");
    if (!r->reportsAttr) r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
    if (!r->reportsFlags) r->reportsFlags = sstrdup("NPD");
@@ -685,6 +689,8 @@ void disposeConfig(s_fidoconfig *config)
 
    for (i = 0; i < config->robotCount; i++) {
      nfree(config->robot[i]->name);
+     nfree(config->robot[i]->strA);
+     nfree(config->robot[i]->strC);
      nfree(config->robot[i]->names);
      nfree(config->robot[i]->fromName);
      nfree(config->robot[i]->helpFile);

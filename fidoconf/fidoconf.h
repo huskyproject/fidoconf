@@ -445,6 +445,8 @@ typedef struct anndef /* announce definition */
 
 typedef struct robot {
    char *name;              /* name of the robot, "*" for default */
+   char *strA;              /* string for the `area' word (area, filearea) */
+   char *strC;              /* string for the conf token (echoarea, filearea) */
    ps_area        *areas;     /* pointer to pointer to areas list */
    unsigned int   *areaCount; /* pointer to areas count */
    char *names;             /* (was: areafixNames) */
