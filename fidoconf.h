@@ -255,8 +255,9 @@ typedef struct bbsareatype {
    char *description;
 } s_bbsarea, *ps_bbsarea;
 
-typedef enum carbonType {ct_to, ct_from, ct_kludge, ct_subject,
-						 ct_msgtext, ct_addr} e_carbonType;
+typedef enum carbonType {ct_to, ct_from, ct_kludge, ct_subject, ct_group,
+                         ct_fromarea, ct_msgtext, ct_addr} e_carbonType;
+enum {CC_OR=0, CC_AND, CC_NOT};
 
 typedef struct carbon {
    e_carbonType ctype;
@@ -269,6 +270,7 @@ typedef struct carbon {
    int          netMail;  // do this in netmail, not echomail
    int          move;	  // move (not copy) original msg
    int          extspawn; // areaName is name of external program to exec
+   int          rule;     // OR|AND|NOT with next carbon expr.
 } s_carbon, *ps_carbon;
 
 typedef struct unpack {

@@ -835,47 +835,11 @@ This statement can only be repeated for different links.
 
 @node BSOpack, Other, EmailPkt, config file
 @section BSOpack keywords
+This section contains only keyword-list. Read BsoPack Manual for more info.
 
-@menu
-* packNetmail::                 allow pack outgoing netmail
-* maxUnpackedNetmail::          set size of outgoing netmail to leave unpacked
-@end menu
-
-@node packNetmail, maxUnpackedNetmail, BSOpack, BSOpack
-@subsection packNetmail
-@table @asis
-@item Syntax:
-@code{packNetmail <bool>}
-@item Example:
-@code{packNetmail on}
-@end table
-
-This statement allows you to pack outgoing netmail packets into arcmail bundles
-You also need bsopack to do this.
-
-Attention: If you use @code{packNetmail on} - you must define packer for this
-link.
-
-This statement can only be repeated for different links.
-
-@node maxUnpackedNetmail, , packNetmail, BSOpack
-@subsection maxUnpackedNetmail
-@table @asis
-@item Syntax:
-@code{maxUnpackedNetmail <integer>}
-@item Example:
-@code{maxUnpackedNetmail 20}
-@end table
-
-This statement defines how much unpacked netmail in kb we should leave for link
-in outbound. If we have more outgoing netmail - it will be packed into bundles.
-You also can have packed &  unpacked netmail in your outbound
-simultaneously - packet, which had had size more than @code{maxUnpackedNetmail}
-was packed into bundle and new packed with size less than
-@code{maxUnpackedNetmail} was created.
-If you select 0 kb - all netmail will be packed.
-
-This statement can only be repeated for different links.
+@example
+@include keywords.bp
+@end example
 
 @node Other, Example, BSOpack, config file
 @section Other keywords

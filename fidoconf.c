@@ -222,58 +222,67 @@ void carbonNames2Addr(s_fidoconfig *config)
 {
    int i, found, narea;
    s_carbon *cb;
-   char *aptr=NULL;
+   ps_area aptr;
+/*   char *aptr=NULL;*/
 
    /* put areaname in every carbon[] */
-   if (config->carbonCount > 0)
+/*   if (config->carbonCount > 0)
    {
        cb=&(config->carbons[config->carbonCount-1]);
        for(i=config->carbonCount-1; i>=0; i--,cb--) {
            if (cb->areaName) aptr=cb->areaName;
            else if (aptr) copyString(aptr, &(cb->areaName));
        }
-   }
+   }*/
 
-   for (i=0; i<config->carbonCount; i++) {
-	   /* Can't use getArea() - it doesn't say about export and
-		  doesn't look at localAreas */
-	   /* now getArea can found local areas */
+   if(!config->carbonCount)
+       return;
+
+   cb = &(config->carbons[0]);
+
+   for (i=0; i<config->carbonCount; i++, cb++) {
+           /* Can't use getArea() - it doesn't say about export and
+           doesn't look at localAreas */
+          /* now getArea can found local areas */
            found=0;
-	   cb = &(config->carbons[i]);
+           if(cb->rule) /* area is not used with AND and NOT */
+               continue;
            if (cb->areaName && !(cb -> extspawn)) {
-              for (narea=0; narea < config->echoAreaCount && !found; narea++) {
-                 if (stricmp(cb->areaName, config->echoAreas[narea].areaName)==0) {
-                    found++;
-                    cb->area = &(config->echoAreas[narea]);
-                    cb->export = 1;
-		    cb->netMail = 0;
-                 }
-              }
-
-              for (narea=0; narea < config->localAreaCount && !found; narea++) {
-                 if (stricmp(cb->areaName, config->localAreas[narea].areaName)==0) {
-                    found++;
-                    cb->area = &(config->localAreas[narea]);
-                    cb->export = 0;
-		    cb->netMail = 0;
-                 }
-              }
-              for (narea=0; narea < config->netMailAreaCount && !found; narea++) {
-                 if (stricmp(cb->areaName, config->netMailAreas[narea].areaName)==0) {
-                    found++;
-                    cb->area = &(config->netMailAreas[narea]);
-                    cb->export = 0;
-		    cb->netMail = 1;
-                 }
-              }
-
+               aptr=config->echoAreas;
+               for (narea=0; narea < config->echoAreaCount && !found; narea++, aptr++) {
+                   if (stricmp(cb->areaName, aptr->areaName)==0) {
+                       found++;
+                       cb->area = aptr;
+                       cb->export = 1;
+                       cb->netMail = 0;
+                   }
+               }
+               aptr=config->localAreas;
+               for (narea=0; narea < config->localAreaCount && !found; narea++, aptr++) {
+                   if (stricmp(cb->areaName, aptr->areaName)==0) {
+                       found++;
+                       cb->area = aptr;
+                       cb->export = 0;
+                       cb->netMail = 0;
+                   }
+               }
+               aptr=config->netMailAreas;
+               for (narea=0; narea < config->netMailAreaCount && !found; narea++, aptr++) {
+                   if (stricmp(cb->areaName, aptr->areaName)==0) {
+                       found++;
+                       cb->area = aptr;
+                       cb->export = 0;
+                       cb->netMail = 1;
+                   }
+               }
            }
 
-	   if (!found && (cb->move != 2) && !cb->extspawn) {// move==2 - delete
-		printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (config->carbons[i].areaName) ? config->carbons[i].areaName : "");
-		config->carbons[i].area = &(config->badArea);
-		copyString(config->badArea.areaName, &(config->carbons[i].areaName));
-		config->carbons[i].export = 0;
+
+           if (!found && (cb->move != 2) && !cb->extspawn) {// move==2 - delete
+               printf("Could not find area \"%s\" for carbon copy. Use BadArea\n", (cb->areaName) ? cb->areaName : "");
+               cb->area = &(config->badArea);
+               copyString(config->badArea.areaName, &(cb->areaName));
+               cb->export = 0;
            }
    }
 }

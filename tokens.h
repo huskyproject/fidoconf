@@ -234,7 +234,11 @@ enum {
     ID_AUTOAREACREATEFLAG,
     ID_MINDISKFREESPACE,
     ID_ECHOAREADEFAULT,
-    ID_FILEAREADEFAULT
+    ID_FILEAREADEFAULT,
+    ID_CARBONRULE,
+    ID_CARBONFROMAREA,
+    ID_CARBONGROUPS
+
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -288,11 +292,14 @@ token_t parseline_tokens[] =
     { "carbondelete", ID_CARBONDELETE },
     { "carbonextern", ID_CARBONEXTERN },
     { "carbonfrom", ID_CARBONFROM },
+    { "carbonfromarea", ID_CARBONFROMAREA },
+    { "carbongroups", ID_CARBONGROUPS },
     { "carbonkeepsb", ID_CARBONKEEPSB },
     { "carbonkludge", ID_CARBONKLUDGE },
     { "carbonmove", ID_CARBONMOVE },
     { "carbonout", ID_CARBONOUT },
     { "carbonreason", ID_CARBONREASON },
+    { "carbonrule", ID_CARBONRULE },
     { "carbonsubj", ID_CARBONSUBJ },
     { "carbontext" , ID_CARBONTEXT },
     { "carbonto", ID_CARBONTO },

@@ -2142,97 +2142,259 @@ int parseLocalArea(char *token, s_fidoconfig *config)
    return rc;
 }
 
-
-int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
+int parseCarbonRule(char *token, s_fidoconfig *config)
 {
-   if (token == NULL) {
-      prErr("There are parameters missing after %s!", actualKeyword);
+    s_carbon *cb=&(config->carbons[config->carbonCount-1]);
+
+    if(config->carbonCount==0 || cb->areaName!=NULL){
+      prErr("Expression missing before %s!", actualKeyword);
       return 1;
    }
 
-   config->carbonCount++;
-   config->carbons = srealloc(config->carbons,sizeof(s_carbon)*(config->carbonCount));
-   memset(&(config->carbons[config->carbonCount-1]), 0, sizeof(s_carbon));
+   if (token == NULL) {
+      prErr("There is AND|NOT missing after %s!", actualKeyword);
+      return 1;
+   }
 
-   config->carbons[config->carbonCount-1].ctype = ctype;
-   copyString(token, &(config->carbons[config->carbonCount-1].str));
+   if(cb->reason!=NULL){
+      prErr("carbonReason will be lost before %s!", actualKeyword);
+      return 1;
+   }
 
-   if (ctype == ct_addr) {
-	   string2addr(token, &(config->carbons[config->carbonCount-1].addr));
-	   nfree(config->carbons[config->carbonCount-1].str);
+   if(!stricmp(token,"NOT"))
+       cb->rule|=CC_NOT|CC_AND;
+   else
+   if(!stricmp(token,"OR")) /* just to make it complete, but it has no effect */
+       cb->rule=CC_OR; /* =0 */
+   else
+   if(!stricmp(token,"AND"))
+       cb->rule|=CC_AND;
+   else{
+      prErr("There is AND|NOT missing after %s!", actualKeyword);
+      return 1;
    }
 
    return 0;
+}
+
+int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
+{
+    int c=config->carbonCount;
+    s_carbon *cb;
+
+
+    if (token == NULL) {
+        prErr("There are parameters missing after %s!", actualKeyword);
+        return 1;
+    }
+
+
+    config->carbonCount++;
+    config->carbons = srealloc(config->carbons,sizeof(s_carbon)*(config->carbonCount));
+
+    cb=&(config->carbons[c]);
+    memset(cb, 0, sizeof(s_carbon));
+
+    cb->ctype = ctype;
+
+    if(ctype==ct_addr)
+        string2addr(token, &(cb->addr));
+    else
+        copyString(token, &(cb->str));
+
+    return 0;
 }
 
 int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
 
-   if (token == NULL) {
+    char *Eptr=NULL, *areaName;
+    int c=config->carbonCount-1;
+    s_carbon *cb=&(config->carbons[c]);
+
+    if (token == NULL) {
 	   prErr("There are parameters missing after %s!", actualKeyword);
 	   return 1;
    }
 
-   if (config->carbonCount == 0) {
+    if(!config->carbonCount || (cb->str==NULL && cb->addr.zone==0)){
           prErr("No carbon codition specified before %s", actualKeyword);
           return 1;
    }
-   copyString(token, &(config->carbons[config->carbonCount-1].areaName));
-   config->carbons[config->carbonCount-1].extspawn = 0;
-   config->carbons[config->carbonCount-1].move = move;
-   return 0;
+
+    if(cb->move==2){
+          prErr("CarbonDelete was specified before %s", actualKeyword);
+          return 1;
+   }
+
+
+    /* carbonArea works only with carbonRule OR, because after AND and NOT another */
+    /* expression must follow, not an area */
+    if(cb->rule){
+        if(cb->rule&CC_AND)
+            Eptr="AND";
+        if(cb->rule&CC_NOT)
+            Eptr="NOT";
+        /* AND|NOT specified, but no 2nd expression */
+        prErr("CarbonRule %s used without 2nd expression before %s", Eptr,actualKeyword);
+        return 1;
+    }
+
+    if(cb->extspawn){
+        prErr("Extspawn already defined before %s", actualKeyword);
+        return 1;
+    }
+    if(cb->areaName!=NULL){
+        prErr("CarbonArea already defined before %s", actualKeyword);
+        return 1;
+    }
+
+    copyString(token, &(cb->areaName));
+    cb->move = move;
+
+    /* checking area*/
+    /* it is possible to have several groups of expressions and each of them */
+    /* should have a carbonArea in the last expression */
+    /* so now the area is known, the previous expressions must be checked */
+    areaName=cb->areaName;
+    while(c--){
+        cb--;
+        /* this was the end of a previous set expressions */
+        if(cb->areaName!=NULL)
+            break;
+        /* this was the end of a previous set expressions */
+        if(cb->extspawn)
+            break;
+        if(!cb->rule) /* OR */
+            copyString(areaName, &(cb->areaName));
+    }
+
+    return 0;
 }
 
 int parseCarbonDelete(char *token, s_fidoconfig *config) {
+
+   unsigned int c=config->carbonCount-1;
+   s_carbon *cb=&(config->carbons[c]);
 
    if (token != NULL) {
 	   prErr("There are extra parameters after %s!", actualKeyword);
 	   return 1;
    }
-   if (config->carbonCount == 0) {
+
+   /*   if (config->carbonCount == 0) {*/
+   if(config->carbonCount == 0 || (cb->str==NULL && cb->addr.zone==0)){
           prErr("No carbon codition specified before %s", actualKeyword);
           return 1;
    }
-   config->carbons[config->carbonCount-1].areaName = NULL;
-   config->carbons[config->carbonCount-1].move = 2;
-   config->carbons[config->carbonCount-1].extspawn = 0;
+
+   if(cb->areaName!=NULL){
+          prErr("CarbonArea was specified before %s", actualKeyword);
+          return 1;
+   }
+
+   if(cb->extspawn){
+          prErr("CarbonExtern was specified before %s", actualKeyword);
+          return 1;
+   }
+
+   cb->move = 2;
+
+   /* checking area*/
+   /* it is possible to have several groups of expressions and each of them */
+   /* should have a carbonArea in the last expression */
+   /* so now the area is known, the previous expressions must be checked */
+   while(c--){
+       cb--;
+       if(cb->areaName!=NULL)
+           break; /* this was the end of a previous set expressions */
+       if(cb->extspawn)
+           break;
+       if(cb->move==2)
+           break;
+       if(!cb->rule) /* OR */
+           cb->move=2;
+   }
    return 0;
 }
 
 int parseCarbonExtern(char *token, s_fidoconfig *config) {
 
+    unsigned int c=config->carbonCount-1;
+    s_carbon *cb=&(config->carbons[c]);
+
    if (token == NULL) {
 	   prErr("There are parameters missing after %s!", actualKeyword);
 	   return 1;
    }
-   if (config->carbonCount == 0) {
+   if(config->carbonCount == 0 || (cb->str==NULL && cb->addr.zone==0)){
           prErr("No carbon codition specified before %s", actualKeyword);
           return 1;
    }
+   if (cb->areaName!= NULL) {
+       prErr("CarbonArea defined before %s!", actualKeyword);
+       return 1;
+   }
+   if (cb->move==2) {
+       prErr("CarbonDelete defined before %s!", actualKeyword);
+       return 1;
+   }
 
-   copyString(token, &(config->carbons[config->carbonCount-1].areaName));
-   config->carbons[config->carbonCount-1].extspawn = 1;
-   config->carbons[config->carbonCount-1].move = 0;
+   copyString(token, &(cb->areaName));
+   cb->extspawn = 1;
+   cb->move = 0;
+
+
+   /* checking area*/
+   /* it is possible to have several groups of expressions and each of them */
+   /* should have a carbonArea in the last expression */
+   /* so now the area is known, the previous expressions must be checked */
+   while(c--){
+       cb--;
+       if(cb->areaName!=NULL)
+           break; /* this was the end of a previous set expressions */
+       if(cb->extspawn)
+           break;
+       if(cb->move==2)
+           break;
+       if(!cb->rule){ /* OR */
+           copyString(token, &(cb->areaName));
+           cb->extspawn=1;
+           cb->move=0;
+       }
+   }
+
    /* +AS+ */
    if (tolower(*actualKeyword) == 'n')
-     config->carbons[config->carbonCount-1].netMail = 1;
+     cb->netMail = 1;
    else
-     config->carbons[config->carbonCount-1].netMail = 0;
+     cb->netMail = 0;
    /* -AS- */
    return 0;
 }
 
 int parseCarbonReason(char *token, s_fidoconfig *config) {
 
+   s_carbon *cb=&(config->carbons[config->carbonCount-1]);
+   /* I know, when count==0 this will give strange results, but */
+   /* in that case, cb will not be used */
+
    if (token == NULL) {
 	   prErr("There are parameters missing after %s!", actualKeyword);
 	   return 1;
    }
-   if (config->carbonCount == 0) {
+
+   /*   if (config->carbonCount == 0) {*/
+   if(config->carbonCount == 0 || (cb->str==NULL && cb->addr.zone==0)){
           prErr("No carbon codition specified before %s", actualKeyword);
           return 1;
    }
 
-   copyString(token, &(config->carbons[config->carbonCount-1].reason));
+   if(cb->rule){
+	   prErr("Reason cannot follow carbonRule NOT|AND in %s!", actualKeyword);
+	   return 1;
+   }
+
+   copyString(token, &(cb->reason));
    return 0;
 }
 
@@ -3270,6 +3432,12 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_CARBONTEXT:
             rc = parseCarbon(getRestOfLine(), config, ct_msgtext);
             break;
+        case ID_CARBONFROMAREA:
+            rc = parseCarbon(getRestOfLine(), config, ct_fromarea);
+            break;
+        case ID_CARBONGROUPS:
+            rc = parseCarbon(getRestOfLine(), config, ct_group);
+            break;
         case ID_CARBONCOPY:
             rc = parseCarbonArea(getRestOfLine(), config, 0);
             break;
@@ -3287,6 +3455,9 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_CARBONREASON:
             rc = parseCarbonReason(getRestOfLine(), config);
+            break;
+        case ID_CARBONRULE:
+            rc = parseCarbonRule(getRestOfLine(), config);
             break;
         case ID_EXCLUDEPASSTHROUGHCARBON:
             rc = parseBool(getRestOfLine(), &(config->exclPassCC));

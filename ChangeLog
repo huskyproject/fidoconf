@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Thu Apr 12 12:12:34 NOVST 2001
+max (patch from kees):
+* added CarbonRule, CarbonGroups, CarbonFromArea
+
+----- cvs ci ------
 Sat Apr  7 17:41:59 NOVST 2001
 max (patch from Kees Bergwerf):
 * echoareadefaults, fileareadefaults

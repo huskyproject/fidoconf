@@ -573,6 +573,7 @@ int main(int argc, char **argv) {
    s_fidoconfig *config = NULL;
    int i, j, hpt=0;
    char *cfgFile=NULL, *module;
+   s_carbon *cb;
 
    for (i=1; i<argc; i++)
    {
@@ -839,49 +840,54 @@ int main(int argc, char **argv) {
       printf("CarbonOut %s\n", (config->carbonOut) ? "on" : "off");
       printf("ExcludePassthroughCarbon %s\n", (config->exclPassCC) ? "on" : "off");
 	  printf("\n");
-      for (i = 0; i< config->carbonCount; i++) {
-		  if (config->carbons[i].ctype == ct_to)      printf("CarbonTo:     ");
-		  else if (config->carbons[i].ctype == ct_from)    printf("CarbonFrom:   ");
-		  else if (config->carbons[i].ctype == ct_kludge)  printf("CarbonKludge: ");
-		  else if (config->carbons[i].ctype == ct_subject) printf("CarbonSubj:   ");
-		  else if (config->carbons[i].ctype == ct_msgtext) printf("CarbonText:   ");
-		  if (config->carbons[i].ctype != ct_addr)
-			  printf("%s\n",config->carbons[i].str);
-		  else {
-			  printf("CarbonAddr:   ");
-			  printf("%s\n", aka2str(config->carbons[i].addr));
-		  }
-		  if (config->carbons[i].extspawn) {
-			  printf("CarbonExtern: \"%s\"", config->carbons[i].areaName);
-		  } else {
-                          switch (config->carbons[i].move) {
-                             case 0: printf("CarbonCopy:   ");
-                             break;
-
-                             case 2: printf("CarbonDelete");
-                             break;
-
-                             case 1:
-                             default: printf("CarbonMove:  ");
-                             break;
+      for (i = 0, cb=&(config->carbons[0]); i< config->carbonCount; i++, cb++) {
+                  if (cb->ctype == ct_to)      printf("CarbonTo:       ");
+		  else if (cb->ctype == ct_from)    printf("CarbonFrom:     ");
+		  else if (cb->ctype == ct_kludge)  printf("CarbonKludge:   ");
+		  else if (cb->ctype == ct_subject) printf("CarbonSubj:     ");
+		  else if (cb->ctype == ct_msgtext) printf("CarbonText:     ");
+                  else if (cb->ctype == ct_fromarea) printf("CarbonFromArea: ");
+                  else if (cb->ctype == ct_group) printf("CarbonGroup:    ");
+		  if (cb->ctype != ct_addr)
+			  printf("%s\n",cb->str);
+                  else {
+                      printf("CarbonAddr:     ");
+		      printf("%s\n", aka2str(cb->addr));
+                  }
+                  if (cb->rule&CC_NOT)
+                      printf("  and NOT\n");
+                  else if (cb->rule&CC_AND)
+                      printf("  AND\n");
+                  else {
+                      if (cb->extspawn) {
+                          printf("CarbonExtern: \"%s\"", cb->areaName);
+                      } else {
+                          switch (cb->move) {
+                          case 0: printf("CarbonCopy:     ");
+                          break;
+                          case 2: printf("CarbonDelete");
+                          break;
+                          case 1:
+                          default: printf("CarbonMove:     ");
+                          break;
                           }
-                	  if (config->carbons[i].areaName) {
-	                     if(stricmp(config->carbons[i].areaName, config->carbons[i].area->areaName)) {
-                                printf(" !!! \"%s\" wanted !!! using \"%s\"", config->carbons[i].areaName, config->carbons[i].area->areaName);
+                          if (cb->areaName) {
+	                     if(stricmp(cb->areaName, cb->area->areaName)) {
+                                printf(" !!! \"%s\" wanted !!! using \"%s\"", cb->areaName, cb->area->areaName);
                              } else {
-                                printf("\"%s\"", config->carbons[i].area->areaName);
+                                printf("\"%s\"", cb->area->areaName);
                              }
         	          } else {
-                	     if (config->carbons[i].move != 2) printf(" !!! No area specified !!!");
-	                  }
-		  };
+                	     if (cb->move != 2) printf(" !!! No area specified !!!");
+                          }
+                      }
                   putchar('\n');
-		  if (config->carbons[i].reason) printf("CarbonReason: %s\n", config->carbons[i].reason);
-		  if (config->carbons[i].export) printf("Copied messages will be exported.\n");
-		  if (config->carbons[i].netMail) printf("Active on netMail\n");
-		  printf("-------\n");
+		  if (cb->reason) printf("CarbonReason:   %s\n", cb->reason);
+		  if (cb->export) printf("Copied messages will be exported.\n");
+		  if (cb->netMail) printf("Active on netMail\n");
+                  printf("-------\n");
+                  }
       }
-
 
       printf("\n=== ROUTE CONFIG ===\n");
       for (i = 0; i < config->routeCount; i++) {
