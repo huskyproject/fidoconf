@@ -767,6 +767,11 @@ void dumpConfig(ps_fidoconfig config, FILE *f);
 /*  return 1 if group found in array of strings, else return 0 */
 FCONF_EXT int grpInArray(char *group, char **strarray, unsigned int len);
 
+/* delete the area from in-core config */
+FCONF_EXT void fc_freeEchoArea(s_area     *area);
+FCONF_EXT void fc_freeFileArea(s_filearea *area);
+
+
 /*  define exit codes for non unix systems */
 #ifndef _SYSEXITS_H
 #define _SYSEXITS_H

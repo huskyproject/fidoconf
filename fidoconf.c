@@ -450,26 +450,26 @@ s_fidoconfig *readConfig(char *cfgFile)
    return config;
 }
 
-void freeArea(s_area area) {
+void fc_freeEchoArea(s_area *area) {
     unsigned int i;
-	nfree(area.areaName);
-	nfree(area.fileName);
-	nfree(area.description);
-	nfree(area.group);
-	for (i=0; i < area.downlinkCount; i++) nfree(area.downlinks[i]);
-	nfree(area.downlinks);
-	nfree(area.sbadd);
-	nfree(area.sbign);
+	nfree(area->areaName);
+	nfree(area->fileName);
+	nfree(area->description);
+	nfree(area->group);
+	for (i=0; i < area->downlinkCount; i++) nfree(area->downlinks[i]);
+	nfree(area->downlinks);
+	nfree(area->sbadd);
+	nfree(area->sbign);
 }
 
-void freeFileArea(s_filearea area) {
+void fc_freeFileArea(s_filearea *area) {
     unsigned int i;
-	nfree(area.areaName);
-	nfree(area.pathName);
-	nfree(area.description);
-	nfree(area.group);
-	for (i=0; i < area.downlinkCount; i++) nfree(area.downlinks[i]);
-	nfree(area.downlinks);
+	nfree(area->areaName);
+	nfree(area->pathName);
+	nfree(area->description);
+	nfree(area->group);
+	for (i=0; i < area->downlinkCount; i++) nfree(area->downlinks[i]);
+	nfree(area->downlinks);
 }
 
 void freeBbsArea(s_bbsarea area) {
@@ -529,25 +529,30 @@ void disposeConfig(s_fidoconfig *config)
 
 
    for (i = 0; i< config->netMailAreaCount; i++)
-   freeArea(config->netMailAreas[i]);
-   freeArea(config->dupeArea);
-   freeArea(config->badArea);
-   for (i = 0; i< config->echoAreaCount; i++)
-   freeArea(config->echoAreas[i]);
-   nfree(config->echoAreas);
-   for (i = 0; i< config->fileAreaCount; i++)
-   freeFileArea(config->fileAreas[i]);
-   nfree(config->fileAreas);
-   for (i = 0; i< config->bbsAreaCount; i++)
-   freeBbsArea(config->bbsAreas[i]);
-   nfree(config->bbsAreas);
-   for (i = 0; i< config->localAreaCount; i++) freeArea(config->localAreas[i]);
-   nfree(config->localAreas);
+       fc_freeEchoArea(&(config->netMailAreas[i]));
 
+   fc_freeEchoArea(&(config->dupeArea));
+   fc_freeEchoArea(&(config->badArea));
+
+   for (i = 0; i< config->echoAreaCount; i++)
+       fc_freeEchoArea(&(config->echoAreas[i]));
+   nfree(config->echoAreas);
+
+   for (i = 0; i< config->fileAreaCount; i++)
+       fc_freeFileArea(&(config->fileAreas[i]));
+   nfree(config->fileAreas);
+
+   for (i = 0; i< config->bbsAreaCount; i++)
+       freeBbsArea(config->bbsAreas[i]);
+   nfree(config->bbsAreas);
+   for (i = 0; i< config->localAreaCount; i++) 
+       fc_freeEchoArea(&(config->localAreas[i]));
+   nfree(config->localAreas);
+   
    FreeAreaTree();
 
-   freeArea(config->EchoAreaDefault);
-   freeFileArea(config->FileAreaDefault);
+   fc_freeEchoArea(&(config->EchoAreaDefault));
+   fc_freeFileArea(&(config->FileAreaDefault));
 
    for (i = 0; i < config->routeCount; i++) nfree(config->route[i].pattern);
    nfree(config->route);

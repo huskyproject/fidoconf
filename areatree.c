@@ -33,6 +33,11 @@
 static tree* echoAreaTree = NULL;
 static tree* fileAreaTree = NULL;
 
+static ps_filearea fileAreaPtr = NULL;
+static ps_area     echoAreaPtr = NULL;
+
+
+
 int fc_compareEntries(char *p_e1, char *p_e2)
 {
     ps_area e1 = (ps_area)p_e1;
@@ -72,26 +77,24 @@ int  addFileAreaToTree(ps_filearea areaPtr)
 
 ps_area FindAreaInTree(char* areaName)
 {
-    static ps_area areaPtr = NULL;
     static s_area areaSrc;
-    if(areaPtr && stricmp(areaPtr->areaName,areaName) == 0)
-        return areaPtr;
+    if(echoAreaPtr && stricmp(echoAreaPtr->areaName,areaName) == 0)
+        return echoAreaPtr;
     else
         areaSrc.areaName = areaName;
-    areaPtr = (ps_area)tree_srch(&echoAreaTree, fc_compareEntries, (char *)(&areaSrc));
-    return areaPtr;
+    echoAreaPtr = (ps_area)tree_srch(&echoAreaTree, fc_compareEntries, (char *)(&areaSrc));
+    return echoAreaPtr;
 }
 
 ps_filearea FindFileAreaInTree(char* areaName)
 {
-    static ps_filearea areaPtr = NULL;
     static s_filearea areaSrc;
-    if(areaPtr && stricmp(areaPtr->areaName,areaName) == 0)
-        return areaPtr;
+    if(fileAreaPtr && stricmp(fileAreaPtr->areaName,areaName) == 0)
+        return fileAreaPtr;
     else
         areaSrc.areaName = areaName;
-    areaPtr = (ps_filearea)tree_srch(&fileAreaTree, fc_compareFEntries, (char *)(&areaSrc));
-    return areaPtr;
+    fileAreaPtr = (ps_filearea)tree_srch(&fileAreaTree, fc_compareFEntries, (char *)(&areaSrc));
+    return fileAreaPtr;
 }
 
 
@@ -115,6 +118,7 @@ int    RebuildEchoAreaTree(ps_fidoconfig config)
             return 0;
         }
     }
+    echoAreaPtr = NULL;
     return 1;
 }
 
@@ -132,6 +136,7 @@ int    RebuildFileAreaTree(ps_fidoconfig config)
             return 0;
         }
     }
+    fileAreaPtr = NULL;
     return 1;
 }
 

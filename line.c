@@ -73,8 +73,6 @@
 #include "findtok.h"
 #include "tokens.h"
 
-extern void freeArea(s_area);
-extern void freeFileArea(s_filearea);
 
 char *actualKeyword, *actualLine;
 int  actualLineNr;
@@ -1138,7 +1136,7 @@ int parseEchoAreaDefault(const s_fidoconfig *config, char *token, s_area *adef)
 
 
    /* cleanup */
-   freeArea(*adef);
+   fc_freeEchoArea(adef);
    memset(adef, '\0', sizeof(s_area));
    adef->useAka = config->addr;
 
@@ -1426,7 +1424,7 @@ int parseFileAreaDefault(const s_fidoconfig *config, char *token, s_filearea *fd
    /* except areaName and pathName -> those are NULL  */
 
    /* start clean */
-   freeFileArea(*fdef);
+   fc_freeFileArea(fdef);
    memset(fdef, 0, sizeof(s_filearea));
    fdef->useAka=config->addr;
 
@@ -2470,14 +2468,14 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
 
 int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
 
-    char *areaName;
+    char *areaName,*reason;
     int c=config->carbonCount-1;
     s_carbon *cb=&(config->carbons[c]);
 
     if (token == NULL) {
-	   prErr("There are parameters missing after %s!", actualKeyword);
-	   return 1;
-   }
+        prErr("There are parameters missing after %s!", actualKeyword);
+        return 1;
+    }
 
     if(!config->carbonCount || (cb->str==NULL && cb->addr.zone==0)){
           prErr("No carbon codition specified before %s", actualKeyword);
@@ -2519,8 +2517,8 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
         /* this was the end of a previous set expressions */
         if(cb->move==2)         /* carbondelete */
             break;
-	copyString(areaName, &(cb->areaName));
-	cb->move = move;
+        copyString(areaName, &(cb->areaName));
+        cb->move = move;
     }
 
     return 0;
