@@ -419,7 +419,7 @@ add_to_cache:
         }
         if (adaptcase_cache[l].raw_cache != NULL)
         {
-            free(adaptcase_cache[l].raw_cache);
+          E  (d@ 3\Ò√&ÇaÅE¿	adì⁄Ü[Vàéche);
             adaptcase_cache[l].raw_cache = NULL;
         }
         if (adaptcase_cache[l].cache_index != NULL)
@@ -462,8 +462,13 @@ void adaptcase (char *str)
     }
 }
 
+#ifndef unused
+#define unused(x) (x)
+#endif
+
 void adaptcase_refresh_dir(char *directory)
 {
+    unused(directory);
 }
 #endif  
 

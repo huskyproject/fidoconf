@@ -10,18 +10,16 @@ ALLIBS= $(LIBS) ..\smapi\smapibcw.lib
 HDRS=  common.h \
        dir.h \
        fidoconfig.h \
-       patmat.h \
        adcase.h \
        typesize.h
 
-OBJS=  patmat.obj \
-       adcase.obj \
+OBJS=  adcase.obj \
        line.obj \
        fidoconfig.obj \
        dir.obj \
        common.obj
 
-LOBJS=  -+patmat.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj
+LOBJS=  -+patmat.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj +-adcase.obj
 
 all:    fidoconfig.lib fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe
 
@@ -39,7 +37,7 @@ tparser.exe: $(LIBS) $(HDRS) tparser.c
 
 clean:
         del $(OBJS)
-        del $(OBLS)
+        del $(LOBJS)
         del fidoconfig.bak
         del fconf2golded.obj fconf2msged.obj fconf2golded.exe fconf2msged.exe tparser.obj tparser.exe
 
