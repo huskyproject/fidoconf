@@ -66,6 +66,11 @@ s_log *openLog(char *fileName, char *appN, s_fidoconfig *config)
    time_t     currentTime;
    struct tm  *locTime;
 
+   if (!fileName || !fileName[0]) {
+      fprintf( stderr, "Logfile not defined, log into screen instead\n" );
+      return NULL;
+   }
+
    husky_log = (s_log *) smalloc(sizeof(s_log));
    memset(husky_log, '\0', sizeof(s_log));
    husky_log->logFile = fopen(fileName, "a");
