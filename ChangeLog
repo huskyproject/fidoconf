@@ -1,3 +1,67 @@
+2003-01-10 Friday 11:30  sfpavel
+
+	* debian/: changelog (1.21), control (1.14), copyright (1.4),
+	huskymak.cfg (1.13), libfidoconf0-dev.files (1.2),
+	libfidoconf0-dev.links (1.2), libfidoconf0-dev.preinst (1.2),
+	libfidoconf0.doc-base (1.3), libfidoconf0.files (1.6),
+	libfidoconf1-dev.files (1.1), libfidoconf1-dev.links (1.1),
+	libfidoconf1.doc-base (1.1), libfidoconf1.files (1.1), rules
+	(1.14), shlibs (1.6): New debian package
+
+2003-01-10 Friday 11:30  sfpavel
+
+	* makefile.inc (1.39), version.h (1.7): Change version to 1.3
+
+2003-01-10 Friday 10:38  sfpavel
+
+	* man/: Makefile (1.5), linked.1 (1.1): Add linked.1 manual page
+
+2003-01-10 Friday 09:55  stas_degteff
+
+	* tparser.c (1.232): Try to improve performance (after previous
+	patch)
+
+2003-01-10 Friday 08:37  sfpavel
+
+	* version.h (1.6): Define version of FidoConfig
+
+2003-01-10 Friday 08:33  mche
+
+	* tparser.c (1.231): Fix output version info
+
+2003-01-10 Friday 08:06  andr_lukyanov
+
+	* fc2fgate.c (1.6), fc2ged.c (1.9), fc2aed.c (1.8), fc2binkd.c
+	(1.10): Fix output version info
+
+2003-01-10 Friday 08:00  andr_lukyanov
+
+	* fc2msged.c (1.7), fc2sq.c (1.8): Fix output version info
+
+2003-01-10 Friday 07:56  andr_lukyanov
+
+	* linked.c (1.7), fecfg2fc.c (1.16), fc2tor.c (1.8): Fix output
+	version info
+
+2003-01-10 Friday 07:46  andr_lukyanov
+
+	* version.h (1.5): Fix output version info
+
+2003-01-10 Friday 06:04  andr_lukyanov
+
+	* line.c (1.366): Small bugfix
+
+2003-01-10 Friday 04:16  andr_lukyanov
+
+	* fc2aed.c (1.7), fc2binkd.c (1.9), fc2fgate.c (1.5), fc2ged.c
+	(1.8), fc2msged.c (1.6), fc2sq.c (1.7), fc2tor.c (1.7), fecfg2fc.c
+	(1.15): Add display message about version info
+
+2003-01-10 Friday 01:50  andr_lukyanov
+
+	* makefile.wco (1.25), makefile.wcw (1.33), makefile.wcx (1.2):
+	small fix for Watcom C
+
 2003-01-09 Thursday 15:29  mche
 
 	* tparser.c (1.230): fix compiler warnings
