@@ -3,6 +3,11 @@ fidoconfig 0.6
 --------------
 
 ----- cvs ci ------	
+Fr  12 Feb 1999 14:02:37 CET [tobi]
+- Revised makeUniqueDosFilename. It does not have to sleep before
+  returning a file name now and is even more unique than previously :-)
+	
+----- cvs ci ------	
 Wed Feb 10 16:04:46 MET 1999
 - fixed a null pointer bug in tparser
 	
