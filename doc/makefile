@@ -10,7 +10,7 @@ ps fidoconfig.ps: fidoconfig.dvi
 	dvips fidoconfig.dvi -o fidoconfig.ps
 
 html fidoconfig_toc.html: fidoconfig.texi proposal.texi config
-	texi2html -split_node -number -menu fidoconfig.texi
+	texi2html -number -menu fidoconfig.texi
 
 clean:
 	-rm *~

@@ -1598,9 +1598,9 @@ is left alone.
 @subsection routeFile
 @table @asis
 @item Syntax:
-@code{route <flavour> [enc|noenc] <target> @{<linkWW>@}}
+@code{routeFile <flavour> [enc|noenc] <target> @{<linkWW>@}}
 @item Example:
-@code{route crash 2:2433/1245 2:2433/* 2:2432/*}
+@code{routeFile crash 2:2433/1245 2:2433/* 2:2432/*}
 @end table
 
 This statement is the same as the route statement, but considers only
@@ -1610,9 +1610,9 @@ msgs with an file attached.
 @subsection routeMail
 @table @asis
 @item Syntax:
-@code{route <flavour> [enc|noenc] <target> @{<linkWW>@}}
+@code{routeMail <flavour> [enc|noenc] <target> @{<linkWW>@}}
 @item Example:
-@code{route crash 2:2433/1245 2:2433/* 2:2432/*}
+@code{routeMail crash 2:2433/1245 2:2433/* 2:2432/*}
 @end table
 
 This statement is the same as the route statement, but considers only
