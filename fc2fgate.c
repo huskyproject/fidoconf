@@ -40,7 +40,7 @@
 
 #endif
 
-#include <huskylib/patmat.h>
+#include <huskylib/huskylib.h>
 
 char *areaconfig;
 int areaconfiganz=0;

@@ -67,7 +67,6 @@ int cmpfnames(char *file1, char *file2);
 #endif
 
 #include <huskylib/huskylib.h>
-#include <huskylib/patmat.h>
 
 #include "fidoconf.h"
 #include "common.h"
