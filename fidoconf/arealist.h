@@ -19,7 +19,7 @@ typedef struct arealist {
 	ps_arealistitem areas;
 } s_arealist, *ps_arealist;
 
-HUSKYEXT ps_arealist newAreaList(void);
+HUSKYEXT ps_arealist newAreaList(s_fidoconfig *cfg);
 HUSKYEXT void        freeAreaList(ps_arealist al);
 HUSKYEXT int         addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc, char *grp);
 HUSKYEXT void        sortAreaList(ps_arealist al);

@@ -51,12 +51,13 @@
 
 #define LIST_PAGE_SIZE  256
 
-extern s_fidoconfig *config;
+static s_fidoconfig *config;
 
-ps_arealist newAreaList(void)
+ps_arealist newAreaList(s_fidoconfig *cfg)
 {
     ps_arealist al;
     
+    config = cfg;
     if(NULL == (al = malloc(sizeof(s_arealist)))) 
         return NULL;
     al->areas = NULL;
