@@ -1068,7 +1068,8 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             nfree(iOption);
             return 1;
         }
-        nfree(area->group);
+        /* dmitry: this overrides group in EchoAreaDefaults */
+/*        nfree(area->group); */
         area->group = sstrdup(token);
     }
     else if (strcmp(iOption, "$")==0) ;
@@ -1408,30 +1409,22 @@ int parseAreaDefault(s_fidoconfig *config, char *token, s_area *adef, int cleanu
        memset(adef, '\0', sizeof(s_area));
        adef->useAka = config->addr;
        adef->areaType = aType;
+       adef->fperm = adef->uid = adef->gid = -1;
+       adef->msgbType = MSGTYPE_SDM;
+       /*  set default parameters of dupebase */
+       adef->dupeHistory = 7; /* 7 days */
+       /* val: set defaul scan mode */
+       adef->scanMode = smNone;
+       /*  set defaults for MS-DOS */
+#ifdef __DOS__
+       adef->DOSFile = 1;
+#endif
    }
 
    if (token == NULL) /* all defaults off */
        return 0;
    if(!strncasecmp(token,"off",3))
        return 0; /* default off */
-
-
-   adef->fperm = adef->uid = adef->gid = -1;
-
-   adef->msgbType = MSGTYPE_SDM;
-
-
-   /*  set default parameters of dupebase */
-
-   adef->dupeHistory = 7; /* 7 days */
-
-   /* val: set defaul scan mode */
-   adef->scanMode = smNone;
-
-   /*  set defaults for MS-DOS */
-#ifdef __DOS__
-   adef->DOSFile = 1;
-#endif
 
    tok = strtok(token, " \t");
    if (tok == NULL) { /* does this ever happen?? */
