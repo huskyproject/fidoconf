@@ -183,7 +183,7 @@ FCONF_EXT  char    *GetFilenameFromPathname(const char* pathname);
     may be used in Windows NT OS family).
     Returns the file (or directory) name: pointer to part of all original pathname.
 */
-char *OS_independed_basename(const char *pathname);
+FCONF_EXT char *OS_independed_basename(const char *pathname);
 
 /* will be moved to huskylib */
 /* Return directory part of pathname (without filename, '/' or '\\' present at end)

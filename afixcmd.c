@@ -144,6 +144,7 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
     long endpos,curpos,cfglen;
     int  openro = 0;
 
+    f_conf = f_newconf = NULL;
     if ((strbeg == 0 && strend == 0) || confName == NULL)
 	return 0;
     
@@ -165,85 +166,86 @@ int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend)
 	strcat(newname, ".tmp");
     else
 	strcpy(p, ".tmp");
-    if (fexist(newname) || (f_newconf = fopen(newname, "wb")) == NULL) {
-	/* we have no write access to this directory? */
-	/* change config "in place" */
-	if (openro) {
-	    fprintf(stderr, "Cannot open temp file %s: %s\n", newname, strerror(errno));
-	    nfree(newname);
-	    fclose(f_conf);
-	    return 0;
-	}
-	nfree(newname);
-	line = (char*) smalloc((size_t) cfglen);
-	fseek(f_conf, curpos, SEEK_SET);
-	if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
-	    fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
-	    nfree(line);
-	    fclose(f_conf);
-	    return 0;
-	}
-	fseek(f_conf, strbeg, SEEK_SET);
-	setfsize( fileno(f_conf), strbeg );
-	if (cfgLine) /*  line not deleted */
+    if ( (f_newconf = fopen(newname, "wb")) == NULL ) {
+        /* we have no write access to this directory? */
+        /* change config "in place" */
+        if (openro) {
+            fprintf(stderr, "Cannot open temp file %s: %s\n", newname, strerror(errno));
+            nfree(newname);
+            fclose(f_conf);
+            return 0;
+        }
+        nfree(newname);
+        line = (char*) smalloc((size_t) cfglen);
+        fseek(f_conf, curpos, SEEK_SET);
+        if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
+            fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
+            nfree(line);
+            fclose(f_conf);
+            return 0;
+        }
+        fseek(f_conf, strbeg, SEEK_SET);
+        setfsize( fileno(f_conf), strbeg );
+        if (cfgLine) /*  line not deleted */
             if (fprintf(f_conf, "%s%s", cfgLine, cfgEol()) != strlen(cfgLine)+strlen(cfgEol()))
-		fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
-        if (fwrite(line, sizeof(char), cfglen, f_conf) != cfglen ||
-	    fflush(f_conf) != 0)
-	    fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
-	fclose(f_conf);
-	nfree(line);
+                fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
+            if (fwrite(line, sizeof(char), cfglen, f_conf) != cfglen ||
+                fflush(f_conf) != 0)
+                fprintf(stderr, "Cannot write config file %s: %s\n", confName, strerror(errno));
+            fclose(f_conf);
+            nfree(line);
     } else {
-	/* make new config-file and rename it */
+        /* make new config-file and rename it */
 #ifdef UNIX
-	struct stat st;
-	if (fstat(fileno(f_conf), &st) == 0)
-	    fchmod(fileno(f_newconf), (st.st_mode & 01777) | 0400);
+        struct stat st;
+        if (fstat(fileno(f_conf), &st) == 0)
+            fchmod(fileno(f_newconf), (st.st_mode & 01777) | 0400);
 #endif
-	line = (char*) smalloc(cfglen > strbeg ? cfglen : strbeg);
-	if (fread(line, sizeof(char), strbeg, f_conf) < strbeg) {
-	    fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
+        line = (char*) smalloc(cfglen > strbeg ? cfglen : strbeg);
+        fseek(f_conf, 0L, SEEK_SET);
+        if (fread(line, sizeof(char), strbeg, f_conf) < strbeg) {
+            fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
 errwriteconf:
-	    fclose(f_conf);
-	    fclose(f_newconf);
-	    unlink(newname);
-	    nfree(line);
-	    nfree(newname);
-	    return 0;
-	}
-	if (fwrite(line, sizeof(char), strbeg, f_newconf) < strbeg) {
-	    fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
-	    goto errwriteconf;
-	}
-	if (cfgLine) {
-	    if (fprintf(f_newconf, "%s%s", cfgLine, cfgEol()) !=
-	        strlen(cfgLine)+strlen(cfgEol())) {
-		fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
-		goto errwriteconf;
-	    }
-	}
-	if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
-	    fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
-	    goto errwriteconf;
-	}
-	if (fwrite(line, sizeof(char), cfglen, f_newconf) != cfglen ||
-	    fflush(f_newconf) != 0) {
-	    fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
-	    goto errwriteconf;
-	}
-	fclose(f_newconf);
-	fclose(f_conf);
-	nfree(line);
-	/* save old config as *.bak? */
+            fclose(f_conf);
+            fclose(f_newconf);
+            unlink(newname);
+            nfree(line);
+            nfree(newname);
+            return 0;
+        }
+        if (fwrite(line, sizeof(char), strbeg, f_newconf) < strbeg) {
+            fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
+            goto errwriteconf;
+        }
+        if (cfgLine) {
+            if (fprintf(f_newconf, "%s%s", cfgLine, cfgEol()) !=
+                strlen(cfgLine)+strlen(cfgEol())) {
+                fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
+                goto errwriteconf;
+            }
+        }
+        if (fread(line, sizeof(char), cfglen, f_conf) != cfglen) {
+            fprintf(stderr, "Cannot read config file %s: %s\n", confName, strerror(errno));
+            goto errwriteconf;
+        }
+        if (fwrite(line, sizeof(char), cfglen, f_newconf) != cfglen ||
+            fflush(f_newconf) != 0) {
+            fprintf(stderr, "Cannot write config file %s: %s\n", newname, strerror(errno));
+            goto errwriteconf;
+        }
+        fclose(f_newconf);
+        fclose(f_conf);
+        nfree(line);
+        /* save old config as *.bak? */
 #ifndef UNIX
-	unlink(confName);
+        unlink(confName);
 #endif
-	if (rename(newname, confName)) {
+        if (rename(newname, confName)) {
             fprintf(stderr, "Cannot rename config file %s->%s: %s\n", newname, confName, strerror(errno));
-	    nfree(newname);
-	    return 0;
-	}
-	nfree(newname);
+            nfree(newname);
+            return 0;
+        }
+        nfree(newname);
     }
     return 1;
 }
