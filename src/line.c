@@ -3677,8 +3677,8 @@ int parseLine(char *line, s_fidoconfig *config)
         id = find_token(ptl, iToken);
         /* val: handle ^(area|file)fix.* */
         if (id == -1) {
-          link_robot =   (!strnicmp(iToken, "areafix", 7) & 1)
-                       | (!strnicmp(iToken, "filefix", 7) & 2);
+          link_robot =   (!strnicmp(iToken, "areafix", 7) << 0)
+                       | (!strnicmp(iToken, "filefix", 7) << 1);
           if (link_robot) id = find_token(ptl, iToken + 7);
         }
 
