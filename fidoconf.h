@@ -588,9 +588,9 @@ typedef struct fidoconfig {
    int syslogFacility;     /* facility to use when logging via syslog */
 
    s_permissions *readOnly; /* temporary storage of address & area masks */
-   int readOnlyCount;
+   unsigned int readOnlyCount;
    s_permissions *writeOnly;
-   int writeOnlyCount;
+   unsigned int writeOnlyCount;
    char *fileBoxesDir;
    char *announceSpool;
    char *notValidFNChars;

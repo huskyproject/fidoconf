@@ -399,10 +399,10 @@ void Addlink(s_fidoconfig *config, s_link *link, s_area *area)
         area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
         arealink = area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
         arealink->link = link;
+        area->downlinkCount++;
         
         setLinkAccess(config, area, arealink);
         processPermissions(config);
-        area->downlinkCount++;
     }
 }
 

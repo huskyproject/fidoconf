@@ -326,8 +326,7 @@ int carbonNames2Addr(s_fidoconfig *config)
 /* set link-area permissions stored in readOnly[], writeOnly[] */
 void processPermissions (s_fidoconfig *config)
 {
-    int i;
-    unsigned int narea, nalink;
+    UINT i,narea, nalink;
     ps_area aptr;
     ps_arealink *dlink;
     char *ExclMask;
@@ -360,10 +359,7 @@ void processPermissions (s_fidoconfig *config)
                     }
                 }
             }
-            nfree (config->readOnly[i].areaMask);
-            nfree (config->readOnly[i].addrMask);
         }
-        nfree (config->readOnly);
     }
     
     if (config->writeOnlyCount) {
@@ -393,11 +389,8 @@ void processPermissions (s_fidoconfig *config)
                     }
                 }
             }
-            nfree (config->writeOnly[i].areaMask);
-            nfree (config->writeOnly[i].addrMask);
         }
     }
-    nfree (config->writeOnly);
 }
 
 void fixRoute(s_fidoconfig *config)
@@ -667,6 +660,19 @@ void disposeConfig(s_fidoconfig *config)
 	   nfree(config->carbons[i].reason);
    }
    nfree(config->carbons);
+
+   for (i=0; i < config->readOnlyCount; i++) {
+       nfree (config->readOnly[i].areaMask);
+       nfree (config->readOnly[i].addrMask);
+   }
+   nfree (config->readOnly);
+
+   for (i=0; i < config->writeOnlyCount; i++) {
+       nfree (config->writeOnly[i].areaMask);
+       nfree (config->writeOnly[i].addrMask);
+   }
+   nfree (config->writeOnly);
+
 
    nfree(config->ReportTo);
 
