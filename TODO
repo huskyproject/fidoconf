@@ -5,7 +5,7 @@
 - unify routes (make route, routeMail & routeFile "the same", so that routing
   depends on their order in the config)
 - document linkGrp
-- document ExecOnFile
+- document ExecOnFile, filefixkillreports [ to Georgy :-> ]
 - fix "0" groups (to NULL)
 - ArcMailAddr (address PKT etc. to <Addr>, but send it to <ArcMailAddr>)
 
