@@ -1,3 +1,8 @@
+2002-01-14 Monday 20:03  ml
+
+	* line.c (1.271.2.1): bugfix: carbonmove not carboncopy after ORed
+	carbonmove rules
+
 2002-01-03 Thursday 11:29  ml
 
 	* HISTORY (1.2.2.1), README (1.6.4.1), TODO (1.57.2.1), VERSION
