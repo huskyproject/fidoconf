@@ -50,8 +50,10 @@ void printArea(s_area area) {
    int i;
    
    printf("%s \n", area.areaName);
-   printf("Description: %s\n",area.description);
-   printf("-> %s\t", area.fileName);
+   printf("Description: %s");
+   if (area.description != NULL)
+     printf("%s",area.description);
+   printf("\n-> %s\t", area.fileName);
    if (area.msgbType == MSGTYPE_SDM) printf("SDM");  
    else if (area.msgbType == MSGTYPE_SQUISH) printf("Squish");
    else printf("Passthrough");
@@ -143,12 +145,18 @@ void printLink(s_link link) {
 	   link.ourAka->zone, link.ourAka->net, link.ourAka->node, link.ourAka->point);
     }
    printf("Name: %s\n", link.name);
-   printf("defaultPwd: %s\n", link.defaultPwd);
-   printf("pktPwd:     %s\n", link.pktPwd);
-   printf("ticPwd:     %s\n", link.ticPwd);
-   printf("areafixPwd: %s\n", link.areaFixPwd);
-   printf("filefixPwd: %s\n", link.fileFixPwd);
-   printf("bbsPwd:     %s\n", link.bbsPwd);
+   if (link.defaultPwd != NULL)
+     printf("defaultPwd: %s\n", link.defaultPwd);
+   if (link.pktPwd != NULL)
+     printf("pktPwd:     %s\n", link.pktPwd);
+   if (link.ticPwd != NULL)
+     printf("ticPwd:     %s\n", link.ticPwd);
+   if (link.areafixPwd != NULL)
+     printf("areafixPwd: %s\n", link.areaFixPwd);
+   if (link.filefixPwd != NULL)
+     printf("filefixPwd: %s\n", link.fileFixPwd);
+   if (link.bbsPwd != NULL)
+     printf("bbsPwd:     %s\n", link.bbsPwd);
    printf("Level:      %u\n", link.level);
    if (link.export) {
        printf("Export:     ");
