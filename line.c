@@ -1524,6 +1524,7 @@ int parseLine(char *line, s_fidoconfig *config)
        if (config->links[config->linkCount-1].areaFixPwd == NULL) config->links[config->linkCount-1].areaFixPwd = config->links[config->linkCount-1].defaultPwd;
        if (config->links[config->linkCount-1].fileFixPwd == NULL) config->links[config->linkCount-1].fileFixPwd = config->links[config->linkCount-1].defaultPwd;
        if (config->links[config->linkCount-1].bbsPwd == NULL) config->links[config->linkCount-1].bbsPwd = config->links[config->linkCount-1].defaultPwd;
+       if (config->links[config->linkCount-1].sessionPwd == NULL) config->links[config->linkCount-1].sessionPwd = config->links[config->linkCount-1].defaultPwd;
      }
      else {
        printLinkError();
@@ -1664,6 +1665,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].areaFixPwd));
    else if (stricmp(token, "filefixpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].fileFixPwd));
    else if (stricmp(token, "bbspwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].bbsPwd));
+   else if (stricmp(token, "sessionpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].sessionPwd));
    else if (stricmp(token, "handle")==0) rc = parseHandle(getRestOfLine(), config);
    else if (stricmp(token, "echomailflavour")==0) rc = parseEchoMailFlavour(getRestOfLine(), &(config->links[config->linkCount-1].echoMailFlavour));
    else if (stricmp(token, "route")==0) rc = parseRoute(getRestOfLine(), config, &(config->route), &(config->routeCount));

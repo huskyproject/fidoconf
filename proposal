@@ -211,6 +211,8 @@ _Keyword definitions_
   # Filefix password
   [BBSPwd <pwd>]
   # password for Online user.
+  [SessionPwd <pwd>]
+  # session password used by mailer
   [handle <name>]
   [TicGrp {<group>}]
   # group(s) for ticker

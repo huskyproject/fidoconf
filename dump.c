@@ -138,6 +138,8 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	fprintf(f, "fileFixPwd          %s\n", link.fileFixPwd);
       if (stricmp(link.bbsPwd, link.defaultPwd)!=0)
 	fprintf(f, "bbsPwd              %s\n", link.bbsPwd);
+      if (stricmp(link.sessionPwd, link.defaultPwd)!=0)
+	fprintf(f, "sessionPwd              %s\n", link.sessionPwd);
       dumpString(f, "handle              %s\n", link.handle);
       if (link.autoAreaCreate != 0)
 	fprintf(f, "autoAreaCreate      on\n");

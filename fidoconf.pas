@@ -87,6 +87,7 @@ interface
           areaFixPwd : Pchar;
           fileFixPwd : Pchar;
           bbsPwd : Pchar;
+          sessionPwd : Pchar;
           handle : Pchar;
           autoAreaCreate : longint;
           autoFileCreate : longint;

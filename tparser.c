@@ -159,6 +159,7 @@ void printLink(s_link link) {
    if (link.areaFixPwd) printf("areafixPwd: %s\n", link.areaFixPwd);
    if (link.fileFixPwd) printf("filefixPwd: %s\n", link.fileFixPwd);
    if (link.bbsPwd) printf("bbsPwd:     %s\n", link.bbsPwd);
+   if (link.sessionPwd) printf("sessionPwd: %s\n", link.sessionPwd);
    printf("Level:      %u\n", link.level);
    if (link.export) printf("Export:     %s\n",(link.export[0]) ? "on" : "off");
    if (link.import) printf("Import:     %s\n",(link.import[0]) ? "on" : "off");

@@ -81,7 +81,8 @@ struct link {
         *ticPwd,
         *areaFixPwd,
         *fileFixPwd,
-        *bbsPwd;
+	*bbsPwd,
+	*sessionPwd;
    char *handle;
    int  autoAreaCreate;       // 0 if not allowed for autoareacreate
    int  autoFileCreate;       // 0 if not allowed for autofilecreate
