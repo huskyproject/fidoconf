@@ -2,7 +2,7 @@ Source: fidoconf
 Section: contrib/libs
 Priority: optional
 Maintainer: Pavel Andreew <pavel@collage.etel.ru>
-Build-Depends: debhelper (>> 4.0.0), binutils, libsmapi2-dev(>=2.3.0-1), texinfo
+Build-Depends: debhelper (>> 4.0.0), binutils, libsmapi2-dev(>=2.4.0-1), texinfo
 Standards-Version: 3.5.8
 
 Package: libfidoconf1
