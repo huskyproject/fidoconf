@@ -1,3 +1,14 @@
+fidoconf (0.15-20021004-1) unstable; urgency=low
+
+  * New cvs version
+  * Make single html-doc and place it to /usr/share/doc/libfidoconf0
+  * Install man pages from man/Makefile instead of debian/rules
+  * Drop unnecessary debian/*.dirs
+  * fidoconf-runtime: link binary with libfidoconfig.so, no static
+  * libfidoconf0: drop depends for fidoconf-runtime
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Fri,  4 Oct 2002 15:47:28 +0600
+
 fidoconf (0.15-20020829-1) unstable; urgency=low
 
   * Install linkedto and fconf2areasbbs into /usr/bin directory

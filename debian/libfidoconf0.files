@@ -1,4 +1,4 @@
 usr/lib/libfidoconfig.so.0.15
 usr/lib/libfidoconfig.so.0
-usr/share/doc/libfidoconf0/html/*
+usr/share/doc/libfidoconf0/*.html
 usr/share/info/fidoconfig.info

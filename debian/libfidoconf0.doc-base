@@ -6,7 +6,7 @@ Abstract: This manual describes what the Fidoconfig is
 Section: mail
 
 Format: HTML
-Index: /usr/share/doc/libfidoconf0/html/fidoconfig.html
-Files: /usr/share/doc/libfidoconf0/html/*.html
+Index: /usr/share/doc/libfidoconf0/fidoconfig.html
+Files: /usr/share/doc/libfidoconf0/*.html
 
   
