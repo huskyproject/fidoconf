@@ -2720,6 +2720,7 @@ int parseLinkWithILogType(char *line, e_linkWithImportLog *value)
   }
 
   iLine = strLower(sstrdup(line));
+  striptwhite(iLine);
   if (strcmp(iLine, "yes") == 0) *value = lwiYes;
   else if (strcmp(iLine, "no") == 0) *value = lwiNo;
   else if (strcmp(iLine, "kill") == 0) *value = lwiKill;

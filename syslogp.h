@@ -29,6 +29,10 @@
 
 /* ----- unix systems that have syslog, but not facilitynames */
 
+#if defined (__BEOS__)
+#undef facilitynames
+#endif
+
 #if defined(sun) || defined(__BEOS__)
 
 typedef struct _code {
