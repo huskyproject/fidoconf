@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Wed Dec  8 11:05:56 MET 1999 
+mtt
+* added new fidoInst script developed by Stefano Zano
+
+----- cvs ci ------
 Tue Dec  7 20:57:05 NOVT 1999
 max:
 * add token ignoreCapWord
