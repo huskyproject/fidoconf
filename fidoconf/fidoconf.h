@@ -559,6 +559,8 @@ typedef struct fidoconfig {
 
    char     *fileLocalPwd, *fileLDescString;
 
+   char     *fileDescription;
+
    unsigned int   saveTicCount;
    ps_savetic    saveTic;
 

@@ -4324,6 +4324,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_FILEDESCNAME:
             rc = parseUUEechoAreas(getRestOfLine(),&(config->fileDescNames),&(config->fDescNameCount));
             break;
+        case ID_FILEDESCRIPTION:
+            rc = fc_copyString(getRestOfLine(), &(config->fileDescription));
+            break;
         case ID_FILEDESCPOS:
             rc = parseUInt(getRestOfLine(), &(config->fileDescPos));
             break;

@@ -1433,6 +1433,7 @@ int main(int argc, char **argv) {
   	  if (config->areafixOrigin) printf("areafixOrigin - \"%s\"\n", config->areafixOrigin);
   	  if (config->areafixFromName) printf("areafixFromName - \"%s\"\n", config->areafixFromName);
   	  printf("RobotsArea: %s\n",(config->robotsArea)?config->robotsArea:"all areas");
+          if (config->ReportTo) printf("ReportTo: %s\n", config->ReportTo);
   	  if (config->areafixhelp) printf("areafixHelp: %s\n",config->areafixhelp);
   	  if (config->areafixQueueFile) printf("areafixQueueFile: %s\n",config->areafixQueueFile);
   	  printf("ForwardRequestTimeout: %d\n",config->forwardRequestTimeout);
@@ -1453,6 +1454,11 @@ int main(int argc, char **argv) {
         if (config->filefixhelp) printf("filefixHelp:  %s\n", config->filefixhelp);
 
         printf("\n=== TICKER CONFIG ===\n");
+        if(config->fileDescription) {
+            printf("fileDescription: %s\n", config->fileDescription);
+        } else {
+            printf("fileDescription: files.bbs\n");
+        }
         /* not used
         if (config->fileAreasLog) printf("FileAreasLog: %s\n", config->fileAreasLog);
         if (config->fileNewAreasLog) printf("FileNewAreasLog: %s\n", config->fileNewAreasLog);
@@ -1460,17 +1466,19 @@ int main(int argc, char **argv) {
         if (config->filePassList) printf("FileArcList: %s\n", config->filePassList);
         if (config->fileDupeList) printf("FileArcList: %s\n", config->fileDupeList);
         */
-        printf("AddDLC: %s\n",(config->addDLC) ? "on": "off");
         /* not used
         printf("FileSingleDescLine: %s\n",(config->fileSingleDescLine) ? "on": "off");
         printf("FileCheckDest: %s\n",(config->fileCheckDest) ? "on": "off");
         */
+
         if(config->fDescNameCount) {
             for(i = 0; i < config->fDescNameCount; i++)
                 printf("FileDescName: %s\n", config->fileDescNames[i]);
         } else {
-            printf("FileDescName: off");
+            printf("FileDescName: off\n");
         }
+
+        printf("AddDLC: %s\n",(config->addDLC) ? "on": "off");
 
         printf("FileDescPos: %u\n", config->fileDescPos);
         if (config->fileLDescString) printf("FileLDescString: %s\n", config->fileLDescString);
@@ -1718,8 +1726,6 @@ int main(int argc, char **argv) {
 
         if (config->beforePack) printf("Before Pack - \"%s\"\n",config->beforePack);
         if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
-
-        if (config->ReportTo) printf("ReportTo\t%s\n", config->ReportTo);
 
      if (hpt==0) {
         printf("\n=== EXEC CONFIG ===\n");
