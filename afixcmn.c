@@ -130,8 +130,7 @@ s_message *makeMessage (hs_addr *origAddr, hs_addr *destAddr,
 
     msg->attributes = attrs;
     if (!netmail) {
-	msg->attributes &= ~(MSGPRIVATE|MSGKILL);
-	msg->netMail = 1;
+        msg->attributes &= ~(MSGPRIVATE|MSGKILL);
     }
 
     fts_time((char*)msg->datetime, localtime(&time_cur));
