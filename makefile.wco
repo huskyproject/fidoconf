@@ -4,13 +4,16 @@ COPT = -oneatx -5
 LIB = wlib
 LIBS = ..\smapi\smapiwco.lib
 
-OBJS =  adcase.obj line.obj fidoconf.obj fc2msged.obj fc2ged.obj fc2aed.obj tparser.obj dirlayer.obj common.obj fc2sq.obj xstr.obj
+OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj xstr.obj
 
 .c.obj:
         $(CC) $(CFLAGS) $(COPT) -c $<
         $(LIB) -b -q fconfwco.lib -+$@
 
-all:    $(OBJS) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fc.obj fe2fconf.exe
+all:    $(OBJS) dumpfcfg.exe tparser.exe fconf2msged.exe fconf2golded.exe fconf2aquaed.exe fconf2squish.exe fe2fconf.exe
+
+dumpfcfg.exe:
+        $(CC) $(CFLAGS) $(COPT) dumpfcfg.c dump.c fconfwcw.lib $(LIBS)
 
 tparser.exe:
         $(CC) $(CFLAGS) $(COPT) tparser.c fconfwco.lib $(LIBS)
@@ -27,11 +30,8 @@ fconf2aquaed.exe:
 fconf2squish.exe:
         $(CC) $(CFLAGS) $(COPT) -fe=fconf2squish.exe fc2sq.c fconfwco.lib $(LIBS)
 
-fecfg2fc.obj: fecfg2fc.c
-	$(CC) $(CFLAGS) $(COPT) fecfg2fc.c -5r
-
-fe2fconf.exe: fecfg2fc.obj
-	wlink FILE fecfg2fc.obj NAME fe2fconf.exe
+fe2fconf.exe:
+	$(CC) $(CFLAGS) $(COPT) -fe=fe2fconf.exe fecfg2fc.c
 
 clean:
         del *.exe *.obj *.bak *.lib

@@ -529,7 +529,7 @@ void dumpTicker(s_fidoconfig *config, FILE *f)
     dumpString(f, "FileLocalPwd        %s\n", config->fileLocalPwd);
 
     for (i = 0; i < config->execonfileCount; i++) {
-       fprintf(f, "ExecOnFile: Area %s File %s Call %s\n",
+       fprintf(f, "ExecOnFile %s %s %s\n",
                    config->execonfile[i].filearea,
                    config->execonfile[i].filename,
                    config->execonfile[i].command);
