@@ -242,10 +242,13 @@ errwriteconf:
         fclose(f_conf);
         nfree(line);
         /* save old config as *.bak? */
+/*
 #ifndef UNIX
-        unlink(confName);
+        unlink(confName);                
 #endif
-        if (rename(newname, confName)) {
+*/
+/*        if (rename(newname, confName)) { */
+        if (move_file(newname, confName,1)) {
             w_log(LL_ERR, "Cannot rename config file %s->%s: %s\n", newname, confName, strerror(errno));
             nfree(newname);
             return 0;
