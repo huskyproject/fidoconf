@@ -154,6 +154,6 @@ int  closedir(DIR* dir)
 
    return res==0;
 }
-
+#else
+static const int tinaesf=0; /* this is not an empty source file :-))) */
 #endif
-
