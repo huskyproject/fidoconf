@@ -119,4 +119,12 @@ char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoconfig *conf
            See the comments in common.c for further explanations
 */
 
+int move_file(const char *from, const char *to);
+/* DOC
+   Input:  source and destination filename
+   Output: 0 if OK, != 0 and errno set on error
+   FZ:     Move a file, works even over file system boundaries, or if
+           the destination file already exists.
+*/
+
 #endif

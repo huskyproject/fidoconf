@@ -598,3 +598,64 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 
    return fileName;
 }
+
+#ifdef UNIX
+#define MOVE_FILE_BUFFER_SIZE 128000
+#else
+#define MOVE_FILE_BUFFER_SIZE 16384
+#endif
+
+int move_file(const char *from, const char *to)
+{
+    int rc;
+    char *buffer;
+    size_t read;
+    FILE *fin, *fout;
+	
+
+    rc = rename(from, to);
+    if (!rc) return 0;      /* rename succeeded. fine! */
+
+    /* Rename did not succeed, probably because the move is accross
+       file system boundaries. We have to copy the file. */
+
+    buffer = malloc(MOVE_FILE_BUFFER_SIZE);
+    if (buffer == NULL)	return -1;
+
+    fin = fopen(from, "rb");
+    if (fin == NULL) { free(buffer); return -1; }
+
+    fout = fopen(to, "wb");
+    if (fout == NULL) { free(buffer); return -1; }
+
+    while ((read = fread(buffer, 1, MOVE_FILE_BUFFER_SIZE, fin)) > 0)
+    {
+	if (fwrite(buffer, 1, read, fout) != read)
+	{
+	    fclose(fout); fclose(fin); remove(to); free(buffer);
+	    return -1;
+	}
+    }
+
+    if (ferror(fout) || ferror(fin))
+    {
+	fclose(fout);
+	fclose(fin);
+	free(buffer);
+	remove(to);
+	return -1;
+    }
+
+    fclose(fout);
+    fclose(fin);
+    free(buffer);
+    return 0;
+}
+
+	
+
+    
+	
+	
+    
+  
