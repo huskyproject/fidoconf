@@ -79,15 +79,11 @@ endif
 
 clean: commonclean
 	-$(RM) so_locations
-ifdef INFODIR
 	(cd doc && $(MAKE) clean)
-endif
 
 distclean: commondistclean
 	-$(RM) $(LIBFIDOCONFIG).so.$(VER)
-ifdef INFODIR
 	(cd doc && $(MAKE) distclean)
-endif
 
 ifeq (~$(MKSHARED)~, ~ld~)
 $(LIBFIDOCONFIG).so.$(VER): $(LOBJS)
