@@ -2,7 +2,10 @@
   are broken, because there is a realloc of config->links! Maybe there are
   more bugs like this in the current sources
 - dump remaps, bbsareas and fileareas
-- unify routes
+- unify routes (make route, routeMail & routeFile "the same", so that routing
+  depends on their order in the config)
 - document linkGrp
 - document ExecOnFile
 - fix "0" groups (to NULL)
+- ArcMailAddr (address PKT etc. to <Addr>, but send it to <ArcMailAddr>)
+
