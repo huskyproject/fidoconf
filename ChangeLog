@@ -1,3 +1,7 @@
+2003-11-01 Saturday 22:07  i_zkh
+
+	* doc/fidoconfig.texi (fidoconf-1_4-stable.2): Minor fix
+
 2003-10-07 Tuesday 11:59  stas_degteff
 
 	* fc2binkd.c (fidoconf-1_4-stable.3): Cosmetics
