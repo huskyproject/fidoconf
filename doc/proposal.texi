@@ -208,6 +208,7 @@ a comment and will be ignored.
 * defarcmailsize::		default size for arcmail bundle
 * ignoreCapWord::		ignore Capability Word in pkt files
 * noProcessBundles::            no unpack arcmail bundles
+* DisableTID::			disable adding TID to messages
 
 @end menu
 
@@ -2199,7 +2200,7 @@ ignoring Capability Word in pkt files.
 if some pkt moved to bad. this may help, but not recommended.
 it is better to change old software.
 
-@node noProcessBundles, ,ignoreCapWord, Keywords
+@node noProcessBundles, DisableTID, ignoreCapWord, Keywords
 @subsection noProcessBundles
 @table @asis
 @item Syntax:
@@ -2209,6 +2210,17 @@ it is better to change old software.
 @end table
 
 don't unpack arcmail bundles
+
+@node DisableTID, ,noProcessBundles, Keywords
+@subsection DisableTID
+@table @asis
+@item Syntax:
+@code{DisableTID [on|off|yes|no|1|0]}
+@item Example:
+@code{DisableTID}
+@end table
+
+don't add TID-line to scanned messages
 
 @node Example,  , Keywords, config file
 @section Working sample config

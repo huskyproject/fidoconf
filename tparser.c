@@ -308,7 +308,8 @@ int main() {
 
       printf("createAreasCase: %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
       printf("areasFileNameCase: %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
-
+      printf("DisableTID: %s\n", (config->disableTID) ? "on" : "off");
+      
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
 	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");

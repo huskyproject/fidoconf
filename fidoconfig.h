@@ -347,6 +347,7 @@ typedef struct fidoconfig {
    unsigned int defarcmailSize;
    unsigned int ignoreCapWord;
    unsigned int noProcessBundles;
+   unsigned int disableTID;
 
    char *afterUnpack, *beforePack;
    /* +AS+ */
@@ -358,7 +359,7 @@ typedef struct fidoconfig {
 
    unsigned int addDLC, fileSingleDescLine, fileCheckDest;
    unsigned int filefixKillReports, filefixKillRequests;
-
+   
    unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
    unsigned int fileFileUMask, fileDirUMask;
    unsigned int originInAnnounce; //Show origin in announce (for htick)

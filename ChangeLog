@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sat Apr 15 10:47:38 NOVST 2000
+max:
+* add disableTID token
+
+----- cvs ci ------
 Sun Apr 10 16:40:00 CET 2000
 sms:
 * some changes to fidoconfig.h and affected files needed to automatically

@@ -2543,6 +2543,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "linkdefaults")==0) rc = parseLinkDefaults(getRestOfLine(), config);
    else if (stricmp(token, "createareascase")==0) rc = parseNamesCase(getRestOfLine(), &(config->createAreasCase));
    else if (stricmp(token, "areasfilenamecase")==0) rc = parseNamesCase(getRestOfLine(), &(config->areasFileNameCase));
+   else if (stricmp(token, "disabletid")==0) rc = parseBool(getRestOfLine(), &config->disableTID);
 
 #ifdef __TURBOC__
    else unrecognised++;

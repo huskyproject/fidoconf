@@ -26,6 +26,7 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   if (config->splitDirs != 0) fprintf(f, "SplitDirs\n");
   fprintf(f, "createAreasCase %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
   fprintf(f, "areasFileNameCase %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
+  if (config->disableTID != 0) fprintf(f, "DisableTID\n");
   
   fprintf(f, "\n");
 }
