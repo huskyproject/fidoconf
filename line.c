@@ -789,6 +789,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   else if (strcmp(iOption, "nopause")==0) area->noPause = 1;
   else if (strcmp(iOption, "nocrc")==0) area->noCRC = 1;
   else if (strcmp(iOption, "noreplace")==0) area->noreplace = 1;
+  else if (strcmp(iOption, "nodiz")==0) area->nodiz = 1;
   else if (strcmp(iOption, "g")==0) {
     token = strtok(NULL, " \t");
     if (token == NULL) {
