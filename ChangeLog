@@ -1,3 +1,17 @@
+2001-12-23 Sunday 21:26  pavel.gulchouck
+
+	* tokens.h (1.19): bugfix
+
+2001-12-23 Sunday 21:20  pavel.gulchouck
+
+	* fidoconf.h (1.85), line.c (1.269), tokens.h (1.18),
+	doc/keywords.hpt (1.17): added keyword arcNetmail for link
+
+2001-12-23 Sunday 13:49  ml
+
+	* cfg.c (1.11), fidoconf.c (1.59), fidoconf.h (1.84): check if
+	autoarea(file)createfile included in config or not
+
 2001-12-22 Saturday 15:34  mche
 
 	* makefile.mvcdll (1.2): conversion from static library to dynamic
