@@ -633,6 +633,7 @@ int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
 
    memset(area, 0, sizeof(s_filearea));
 
+   area->pass = 0;
    area->useAka = &(config.addr[0]);
 
    // set default group for reader
@@ -652,8 +653,21 @@ int parseFileArea(s_fidoconfig config, char *token, s_filearea *area)
       printf("Line %d: There is a pathname missing %s!\n", actualLineNr, actualLine);
       return 2;         // if there is no filename
    }
-   area->pathName = (char *) malloc(strlen(tok)+1);
-   strcpy(area->pathName, tok);
+   if (stricmp(tok, "Passthrough") != 0) {
+      if (tok[strlen(tok)-1] == PATH_DELIM) {
+         area->pathName = (char *) malloc(strlen(tok)+1);
+         strcpy(area->pathName, tok);
+      } else {
+         area->pathName = (char *) malloc(strlen(tok)+2);
+         strcpy(area->pathName, tok);
+         area->pathName[strlen(tok)] = PATH_DELIM;
+         area->pathName[strlen(tok)+1] = '\0';
+      }
+   } else {
+      // passthrough area
+      area->pathName = NULL;
+      area->pass = 1;
+   }
 
    tok = strtok(NULL, " \t");
 
@@ -1317,6 +1331,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "dupeHistoryDir")==0) rc = parsePath(getRestOfLine(), &(config->dupeHistoryDir));
    else if (stricmp(token, "nodelistDir")==0) rc = parsePath(getRestOfLine(), &(config->nodelistDir));
    else if (stricmp(token, "FileAreaBaseDir")==0) rc = parsePath(getRestOfLine(), &(config->fileAreaBaseDir));
+   else if (stricmp(token, "PassFileAreaDir")==0) rc = parsePath(getRestOfLine(), &(config->passFileAreaDir));
    else if (stricmp(token, "msgbasedir")==0) {
       temp = getRestOfLine();
       if (stricmp(temp, "passthrough")==0)

@@ -102,7 +102,10 @@ void printFileArea(s_filearea area) {
    
    printf("%s \n", area.areaName);
    printf("Description: %s\n",area.description);
-   printf("Path: %s\t", area.pathName);
+   if (area.pass != 1)
+      printf("Path: %s\t", area.pathName);
+   else
+      printf("Passthrough filearea");
 
    if (area.useAka->domain != NULL)
      printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);

@@ -167,6 +167,7 @@ struct fileareatype {
    char *pathName;
    char *description;
    
+   int pass;           // 1 - Passthrough File Area
    s_addr *useAka;
    
    s_arealink **downlinks;  // array of pointers to s_link
@@ -226,6 +227,7 @@ struct fidoconfig {
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
    char     *magic, *areafixhelp, *filefixhelp, *tempOutbound;
    char     *fileAreaBaseDir;
+   char     *passFileAreaDir; //Passthrough File Area
    char     *loglevels;
 
    s_area   netMailArea, dupeArea, badArea;
