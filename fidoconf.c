@@ -482,7 +482,6 @@ void freeSaveTic(s_savetic savetic) {
 void disposeConfig(s_fidoconfig *config)
 {
   unsigned int i;
-  unsigned int j;
 
    nfree(config->name);
    nfree(config->sysop);
