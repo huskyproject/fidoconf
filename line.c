@@ -441,6 +441,14 @@ int parsePack(char *line, s_fidoconfig *config) {
       strcpy(pack->packer, p);
       pack->call   = (char *) malloc(strlen(c)+1);
       strcpy(pack->call, c);
+      if (strstr(pack->call, "$a")==NULL) {
+         printf("Line %d: $a missing in pack statement %s!\n", actualLineNr, actualLine);
+         return 2;
+      }
+      if (strstr(pack->call, "$f")==NULL) {
+         printf("Line %d: $f missing in pack statement %s!\n", actualLineNr, actualLine);
+         return 2;
+      }
 
       return 0;
    } else {

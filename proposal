@@ -345,8 +345,8 @@ _Keyword definitions_
   pack zip|tgz|rar|arc|arj|..... <call>
   # Definition for Packer
   # call: command line call of this packer
-  #       one filename can be passed to the packer as %s,
-  #       a list of files can be passed to the packer as %l
+  #       $a will be replaced by the archiv file
+  #       $f will be replaced by the file  which should be packed into the archiv
   #       in <call>
 
 /etc/fido/nodelist:

@@ -1,6 +1,6 @@
 # sample fido config file
 
-version 0.13
+version 0.14
 Name LeeteBrok BBS III
 Location Paderborn, GER
 Sysop Matthias Tichy
@@ -8,22 +8,31 @@ Sysop Matthias Tichy
 Address 2:2433/1247 
 Address 2:2432/601.29
 
-Pack zip zip -9 -g -q %s %l 
+Pack zip zip -9 -g -q $a $f 
+
+AutoCreateDefaults -m 14 -dupeCheck move -dupeHistory 11
 
 Link Dirk Fischer
 Aka 2:2432/601
 ourAka 2:2432/601.29
-Password xxxxxxxx
+Password xxxxxx
+Packer Zip
 
 Link Matthias Tichy
 Aka 2:2433/1245
 OurAka 2:2433/1247
-Password yyyyyyy
+Password xxxxx
 autoAreaCreate on
 
-route crash 2:2433/1245 *
-# route Crash  2:2433/1245 2:2433/* 2:2431/*
-# Route normal 2:2432/601 *
+Link edde
+AKA 2:2433/1247.100
+OurAka 2:2433/1247
+password xxxxx
+
+# route crash 2:2433/1245 *
+# route hold  2:2433/1247.100 2:2433/1247.100
+# route Crash  2:2433/1245 2:2433/* 
+Route crash 2:2432/601 *
 
 
 Inbound		/home/mtt/fido/in/
@@ -45,7 +54,10 @@ DupeHistoryDir	/home/mtt/fido/dupes
 NodelistDir	/home/mtt/fido/nodelist
 magic		/home/mtt/fido/magic
 
+areafixhelp     /home/mtt/hpt/misc/areafix.hlp
+
 NetmailArea NetmailArea /home/mtt/fido/msgb/netmail 
+# NetmailArea NetmailArea /home/mtt/fido/msgb/net Squish
 BadArea     BadArea     /home/mtt/fido/msgb/bad squish
 DupeArea    DupeArea    /home/mtt/fido/msgb/dupe squish
 
@@ -58,8 +70,10 @@ EchoArea Binkley.ger      /home/mtt/fido/msgb/binkley_g         -a 2:2432/601.29
 EchoArea Dolphin.Points   /home/mtt/fido/msgb/dolphin/point -a 2:2432/601.29 Squish 2:2432/601 -p 14
 EchoArea Dolphin.announce /home/mtt/fido/msgb/dolphin/announce  -a 2:2432/601.29  Squish 2:2432/601 -p 14
 EchoArea hardrock.ger     /home/mtt/fido/msgb/hardrock_g        -a 2:2432/601.29  squish 2:2432/601 -p 14
-EchoArea linux.ger        /home/mtt/fido/msgb/linux/ger           -a 2:2433/1247  squish 2:2433/1245 -p 14 -dupeCheck move -dupeHiStory 11
-EchoArea linux.develop.ger /home/mtt/fido/msgb/linux/develop_g   -a 2:2433/1247 squish  2:2433/1245 -dupeCheck move -dupeHistory 11
+EchoArea linux.ger        /home/mtt/fido/msgb/linux/ger           -a 2:2432/601.29  squish 2:2432/601 -p 14 -dupecheck move -dupeHistory 11 
+echoArea linux.develop.ger /home/mtt/fido/msgb/linux/develop_g   -a 2:2432/601.29 squish  2:2432/601 -dupeCheck move -dupeHistory 11 
+# echoarea linux.ger /home/mtt/fido/msgb/linux/ger -a 2:2433/1247 squish 2:2433/1245
+# echoarea linux.develop.ger /home/mtt/fido/msgb/linux/develop_g -a 2:2433/1247 squish 2:2433/1245
 EchoArea os2.base.ger     /home/mtt/fido/msgb/os2/base_g        -a 2:2432/601.29  squish 2:2432/601 -p 14
 EchoArea os2.beta.ger     /home/mtt/fido/msgb/os2/beta_g        -a 2:2432/601.29  squish 2:2432/601 -p 14
 EchoArea os2bbs.ger       /home/mtt/fido/msgb/os2/bbs_g         -a 2:2432/601.29  squish 2:2432/601 -p 14
