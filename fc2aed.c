@@ -38,6 +38,7 @@
 #include <stdlib.h>
 
 #include "fidoconf.h"
+#include "common.h"
 
 int writeArea(FILE *f, s_area *area, char type) {
 
@@ -119,7 +120,7 @@ int parseOptions(char *line){
 int options=0;
 char chr=0;
 
-if (strcmp(line,"-a")==0) chr='a';
+if (sstrcmp(line,"-a")==0) chr='a';
 else  (chr=line[2]);
 
  switch (chr){
