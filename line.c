@@ -2331,6 +2331,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else
 #endif       
        if (stricmp(token, "arcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->arcmailSize));
+   else if (stricmp(token, "pktsize")==0) rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->pktSize));
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->ticPwd));
    else if (stricmp(token, "areafixpwd")==0) rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->areaFixPwd));

@@ -123,6 +123,7 @@ struct link {
    unsigned autoPause;        // in days
    unsigned level;	          // 0-65535
    unsigned arcmailSize;      // max arcmail size in kb
+   unsigned pktSize;          // max .pkt size in kb
    int export, import, mandatory; // Default link's options
    char **optGrp; // groups for this options
    unsigned int numOptGrp;

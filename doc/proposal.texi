@@ -138,6 +138,7 @@ a comment and will be ignored.
 * forwardPkts::                 shall we forward inbound packets for this node?
 * pause::                       don't export mail for this link
 * arcmailsize::			size of arcmail bundle
+* pktsize::			max size of pkt in arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
 * allowPktAddrDiffer::          allow addresses in PKT and MSG differ for areafix request
 * noTIC::                       do not send a TIC file to this link
@@ -1202,7 +1203,19 @@ Stop export echomail for this link.
 maximum arcmail size in kb for this link.
 default is 500kb.
 
-@node allowEmptyPktPwd, allowPktAddrDiffer, arcmailsize, Keywords
+@node pktsize, allowEmptyPktPwd, arcmailsize, Keywords
+@subsection pktsize
+@table @asis
+@item Syntax:
+@code{pktsize <integer>}
+@item Example:
+@code{pktsize 300}
+@end table
+
+maximum pkt size in kb for this link.
+default - unlimited.
+
+@node allowEmptyPktPwd, allowPktAddrDiffer, pktsize, Keywords
 @subsection allowEmptyPktPwd
 @table @asis
 @item Syntax:

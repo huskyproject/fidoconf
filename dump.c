@@ -242,6 +242,8 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	fprintf(f, "level                %u\n", link.level);
       if (link.arcmailSize != 0)
 	fprintf(f, "arcmailSize          %u\n", link.arcmailSize);
+      if (link.pktSize != 0)
+	fprintf(f, "pktSize          %u\n", link.pktSize);
 
 	  if (link.export) fprintf(f, "export              on\n");
 	  else fprintf(f, "export              off\n");
