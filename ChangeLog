@@ -1,3 +1,7 @@
+2004-01-11 Sunday 15:10  mche
+
+	* src/afixcmd.c (1.8): fix MSVC7 compilations and some warnings
+
 2004-01-10 Saturday 17:35  andrew_ladutsko
 
 	* HISTORY (1.26), fidoconf/fidoconf.h (1.21), fidoconf/tokens.h
