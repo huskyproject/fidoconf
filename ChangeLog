@@ -1,3 +1,14 @@
+2002-10-10 Thursday 12:21  sfpavel
+
+	* debian/: changelog, control, fidoconf-runtime.dirs,
+	libfidoconf0-dev.dirs, libfidoconf0.dirs
+	(fidoconf-0_14-stable.[10,4,2,1,1]): New debian packages
+
+2002-10-10 Thursday 11:54  sfpavel
+
+	* Makefile (fidoconf-0_14-stable.4): Apply fix from sfpavel (Fix
+	build fconf2*: no link with static libfidoconf)
+
 2002-09-28 Saturday 08:42  pgul
 
 	* fidoconf.h (fidoconf-0_14-stable.2): correct previous patch
