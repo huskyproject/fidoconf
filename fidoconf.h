@@ -333,6 +333,7 @@ typedef struct fidoconfig {
    ps_carbon carbons;
    unsigned int   carbonAndQuit;
    unsigned int   carbonKeepSb;  // keep SeenBy's and PATH in carbon area
+   unsigned int   carbonOut;     // carbon outgoing messages
 
    char     **includeFiles;
    unsigned int includeCount;

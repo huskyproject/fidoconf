@@ -194,6 +194,7 @@ a comment and will be ignored.
 * carbonDelete::                specify that the carbon msg should be deleted
 * carbonAndQuit::               carbon message only one time
 * carbonKeepSb::                keep seen-by's and path
+* carbonOut::                   carbon outgoing messages
 * carbonReason::                string of carbon copy reason
 
 * areafixFromPkt::              process areafix requests on the fly
@@ -2062,7 +2063,7 @@ statement.
 @subsection carbonAndQuit
 @table @asis
 @item Syntax:
-@code{carbonAndQuit}
+@code{carbonAndQuit [<bool>]}
 @item Example:
 @code{carbonAndQuit}
 @end table
@@ -2073,11 +2074,11 @@ For example: you set CarbonTo "max" to echoarea MY.MAIL and CarbonSubj
 subject line carbons to each echoarea.
 If you turn on <carbonAndQuit> message will copy to MY.MAIL only.
 
-@node carbonKeepSb, carbonReason, carbonAndQuit, Keywords
+@node carbonKeepSb, carbonOut, carbonAndQuit, Keywords
 @subsection carbonKeepSb
 @table @asis
 @item Syntax:
-@code{carbonKeepSb}
+@code{carbonKeepSb [<bool>]}
 @item Example:
 @code{carbonKeepSb}
 @end table
@@ -2086,7 +2087,19 @@ For each CC message SEEN-BY's and PATH fields are killed. If you set up
 @code{carbonKeepSb} then all kludges will be saved. But you may also
 set up @code{-keepsb} in options of echoarea where you carbon messages.
 
-@node carbonReason, areafixFromPkt, carbonKeepSb, Keywords
+@node carbonOut, carbonReason, carbonKeepSb, Keywords
+@subsection carbonOut
+@table @asis
+@item Syntax:
+@code{carbonOut [<bool>]}
+@item Example:
+@code{carbonOut}
+@end table
+
+This statament makes possible carbon your outgoing mail (scanned &
+packed). Don't forget to set carbon rules.
+
+@node carbonReason, areafixFromPkt, carbonOut, Keywords
 @subsection carbonReason
 @table @asis
 @item Syntax:

@@ -2460,6 +2460,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "separatebundles")==0) rc = parseBool(getRestOfLine(), &(config->separateBundles));
    else if (stricmp(token, "carbonandquit")==0) rc = parseBool(getRestOfLine(), &(config->carbonAndQuit));
    else if (stricmp(token, "carbonkeepsb")==0) rc = parseBool(getRestOfLine(), &(config->carbonKeepSb));
+   else if (stricmp(token, "carbonout")==0) rc = parseBool(getRestOfLine(), &(config->carbonOut));
    else if (stricmp(token, "ignorecapword")==0) rc = parseBool(getRestOfLine(), &(config->ignoreCapWord));
    else if (stricmp(token, "noprocessbundles")==0) rc = parseBool(getRestOfLine(), &(config->noProcessBundles));
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));

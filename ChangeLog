@@ -3,6 +3,11 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Wed Jun 21 13:44:01 NOVST 2000
+max:
+* carbonOut token
+
+----- cvs ci ------
 Wed Jun 21 01:21:00 MSK 2000
 Nestyurkin Nikolay:
 * added $(FECFG2FCONF)$(EXE) to makefile.inc

@@ -406,6 +406,7 @@ int main(int argc, char **argv) {
       printf("\n=== CarbonCopy ===\n");
       printf("CarbonAndQuit %s\n", (config->carbonAndQuit) ? "on" : "off");
       printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
+      printf("CarbonOut %s\n", (config->carbonOut) ? "on" : "off");
 	  printf("\n");
       for (i = 0; i< config->carbonCount; i++) {
 		  if (config->carbons[i].ctype == ct_to)      printf("CarbonTo:     ");
