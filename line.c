@@ -390,6 +390,40 @@ int parseNumber(char *token, int radix, unsigned *level) {
     return 0;
 }
 
+int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
+{
+	char buf[6];
+	UINT net=0,node=0,i;
+
+	if (token==NULL) {
+		printf("Line %d: There is an address missing after %s!\n",
+			   actualLineNr, actualKeyword);
+		return 1;
+	}
+
+	while (*token) {
+		while(!isdigit(*token)) token++; i=0;
+		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
+		buf[i]='\0'; net=atoi(buf);
+
+		if (*token == ':') continue;
+
+		while(!isdigit(*token)) token++; i=0;
+		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
+		buf[i]='\0'; node=atoi(buf);
+
+		if (*token == '.') { token++; while(isdigit(*token)) token++; }
+
+		(*addr) = srealloc(*addr, sizeof(s_addr)*(*count+1));
+		(*addr)[*count].net  = net;
+		(*addr)[*count].node = node;
+		(*count)++;
+
+		if (*token == ')') break;
+	}
+	return 0;
+}
+
 int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
 {
    char *error;
@@ -585,8 +619,14 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
        return parseOwner(token, &(area->uid), &(area->gid));
      }
    }
+   else if (strncmp(iOption, "sbadd(", 6)==0) {
+	   parseSeenBy2D(iOption,&(area->sbadd),&(area->sbaddCount));
+   }
+   else if (strncmp(iOption, "sbign(", 6)==0) {
+	   parseSeenBy2D(iOption,&(area->sbign),&(area->sbignCount));
+   }
    else {
-     printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
+     printf("Line %d: unknown area option \"-%s\"!\n", actualLineNr, option);
      free(iOption);
      return 1;
    }
@@ -667,7 +707,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
     }
   }
   else {
-    printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
+    printf("Line %d: unknown area option \"-%s\"!\n", actualLineNr, option);
     free(iOption);
     return 1;
   }
@@ -693,12 +733,52 @@ int parseLinkOption(s_arealink *alink, char *token)
   return 0;
 }
 
+int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
+	s_link *link;
+	s_arealink *arealink;
+	
+	area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+	area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
+	area->downlinks[area->downlinkCount]->link = getLinkForArea(*config,tok,area);
+	
+	if (area->downlinks[area->downlinkCount]->link == NULL) {
+		printf("Line %d: no links like \"%s\" in config!\n",
+			   actualLineNr, tok);
+		return 1;
+	}
+
+	link = area->downlinks[area->downlinkCount]->link;
+	arealink = area->downlinks[area->downlinkCount];
+	area->downlinkCount++;
+
+	if (link->numOptGrp > 0) {
+		// default set export on, import on, mandatory off
+		arealink->export = 1;
+		arealink->import = 1;
+		arealink->mandatory = 0;
+
+		if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
+			arealink->export = link->export;
+			arealink->import = link->import;
+			arealink->mandatory = link->mandatory;
+		}
+
+	} else {
+		arealink->export = link->export;
+		arealink->import = link->import;
+		arealink->mandatory = link->mandatory;
+	}
+	if (area->mandatory) arealink->mandatory = 1;
+	if (e_readCheck(config, area, link)) arealink->export = 0;
+	if (e_writeCheck(config, area, link)) arealink->import = 0;
+
+	return 0;
+}
+
 int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 {
-   s_link *link;
-   s_arealink *arealink;
-   char *tok;
-   unsigned int rc = 0;
+   char *tok, addr[24];
+   unsigned int rc = 0, i;
 
    if (token == NULL) {
       printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
@@ -755,49 +835,31 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
 	  if (rc) return rc;
       }
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
-         area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
-	 area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
-//         area->downlinks[area->downlinkCount]->link = getLink(*config, tok);
-         area->downlinks[area->downlinkCount]->link = getLinkForArea(*config,tok,area);
-         if (area->downlinks[area->downlinkCount]->link == NULL) {
-            printf("Line %d: Link for this area is not found!\n", actualLineNr);
-            rc += 1;
-	    return rc;
-         }
+		  
+		  if (strchr(tok, '*')) {
+			  for (i=0; i<config->linkCount; i++) {
+				  sprintf(addr, aka2str(config->links[i].hisAka));
+				  if (patmat(addr, tok)) {
+					  parseAreaLink(config,area,addr);
+					  area->downlinks[area->downlinkCount-1]->mandatory = 1;
+				  }
+			  }
+			  tok = strtok(NULL, " \t");
+			  continue;
+		  }
 
-		 link = area->downlinks[area->downlinkCount]->link;
-		 arealink = area->downlinks[area->downlinkCount];
-         area->downlinkCount++;
+		  rc += parseAreaLink(config, area, tok);
+		  if (rc) return rc;
 
-		 if (link->numOptGrp > 0) {
-			 // default set export on, import on, mandatory off
-			 arealink->export = 1;
-			 arealink->import = 1;
-			 arealink->mandatory = 0;
-
-			 if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
-				 arealink->export = link->export;
-				 arealink->import = link->import;
-				 arealink->mandatory = link->mandatory;
-			 }
-
-		 } else {
-			 arealink->export = link->export;
-			 arealink->import = link->import;
-			 arealink->mandatory = link->mandatory;
-		 }
-		 if (area->mandatory) arealink->mandatory = 1;
-		 if (e_readCheck(config, area, link)) arealink->export = 0;
-		 if (e_writeCheck(config, area, link)) arealink->import = 0;
-
-	 tok = strtok(NULL, " \t");
-	 while (tok) {
-		 if (tok[0]=='-') {
-			 if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1)) break;
-			 tok = strtok(NULL, " \t");
-		 } else break;
-	 }
-	 continue;
+		  tok = strtok(NULL, " \t");
+		  while (tok) {
+			  if (tok[0]=='-') {
+				  if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1))
+					  break;
+				  tok = strtok(NULL, " \t");
+			  } else break;
+		  }
+		  continue;
       }
       else {
 		  printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
@@ -2280,38 +2342,6 @@ int parseKludgeAreaNetmailType(char *line, e_kludgeAreaNetmail *value)
   return 0;
 }
 
-int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
-{
-	char buf[6];
-	UINT net=0,node=0,i;
-
-	if (token==NULL) {
-		printf("Line %d: There is an address missing after %s!\n",
-			   actualLineNr, actualKeyword);
-		return 1;
-	}
-
-	while (*token) {
-		while(!isdigit(*token)) token++; i=0;
-		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
-		buf[i]='\0'; net=atoi(buf);
-
-		if (*token == ':') continue;
-
-		while(!isdigit(*token)) token++; i=0;
-		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
-		buf[i]='\0'; node=atoi(buf);
-
-		if (*token == '.') { token++; while(isdigit(*token)) token++; }
-
-		(*addr) = srealloc(*addr, sizeof(s_addr)*(*count+1));
-		(*addr)[*count].net  = net;
-		(*addr)[*count].node = node;
-		(*count)++;
-	}
-	return 0;
-}
-
 int parseEmailEncoding(char *line, e_emailEncoding *value)
 {
   char *iLine;
@@ -2891,6 +2921,7 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
      else if (strcmp(iToken, "keeptrsmail")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
      else if (strcmp(iToken, "filelist")==0) rc = parseFilelist(getRestOfLine(), config);
+     else if (strcmp(iToken, "createfwdnonpass")==0) rc = parseBool(getRestOfLine(), &(config->createFwdNonPass));
 
 #ifdef __TURBOC__
      else unrecognised++;

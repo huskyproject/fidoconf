@@ -3,6 +3,9 @@
 Mon Jan 15 14:19:26 NOVT 2001
 max:
 + linkmsgbasedir token
++ mask support in echoArea links (auto-mandatory users)
++ -sbadd() -sbign() echoArea options
++ createFwdNonPass
 
 ----- cvs ci ------
 Wed Jan  3 15:40:56 UTC 2001

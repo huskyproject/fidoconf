@@ -324,6 +324,8 @@ void freeArea(s_area area) {
 	nfree(area.group);
 	for (i=0; i < area.downlinkCount; i++) nfree(area.downlinks[i]);
 	nfree(area.downlinks);
+	nfree(area.sbadd);
+	nfree(area.sbign);
 }
 
 void freeFileArea(s_filearea area) {
@@ -487,6 +489,7 @@ void disposeConfig(s_fidoconfig *config)
 		nfree(config->execonfile[i].command);
    }
    nfree(config->addToSeen);
+   nfree(config->ignoreSeen);
    nfree(config->tearline);
    nfree(config->origin);
 

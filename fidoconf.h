@@ -207,6 +207,12 @@ typedef struct area {
    int keepsb;         // keep seen-by's and path
    int scn;            // 1 if scanned
    int nopack;         // do not pack area
+
+   ps_addr       sbadd;
+   unsigned int  sbaddCount;
+   ps_addr       sbign;
+   unsigned int  sbignCount;
+
 } s_area, *ps_area;
 
 typedef struct fileareatype {
@@ -447,6 +453,7 @@ typedef struct fidoconfig {
    e_bundleFileNameStyle bundleNameStyle;
 
    unsigned int keepTrsMail; // Keep Transit Netmail
+   unsigned int createFwdNonPass;
    
 #define TRUE_COMMENT	"!#$%;"
    char CommentChar;

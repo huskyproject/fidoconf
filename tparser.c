@@ -101,6 +101,18 @@ void printArea(s_area area) {
    if (area.dupeCheck==dcMove) printf("move");
    if (area.dupeCheck==dcDel) printf("delete");
    printf("\n");
+   if (area.sbaddCount) {
+	   printf("addSeenBys: ");
+	   for (i=0; i<area.sbaddCount; i++) 
+		   printf("%u/%u ", area.sbadd[i].net,area.sbadd[i].node);
+	   printf("\n");
+   }
+   if (area.sbignCount) {
+	   printf("IgnoreSeenBys: ");
+	   for (i=0; i<area.sbignCount; i++) 
+		   printf("%u/%u ", area.sbign[i].net,area.sbign[i].node);
+	   printf("\n");
+   }
    printf("-------\n");
 }
 
@@ -636,6 +648,7 @@ int main(int argc, char **argv) {
       printf("areasFileNameCase: %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
       printf("DisableTID: %s\n", (config->disableTID) ? "on" : "off");
       printf("keepTrsMail: %s\n", (config->keepTrsMail) ? "on" : "off");
+	  printf("createFwdNonPass: %s\n", config->createFwdNonPass ? "on" : "off");
 #if defined ( __NT__ )
       printf("SetConsoleTitle: %s\n", (config->setConsoleTitle) ? "on" : "off");
 #endif

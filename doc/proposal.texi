@@ -232,6 +232,7 @@ a comment and will be ignored.
 * origin::                      add specified origin to hpt messages
 * keepTrsMail::                 keep transit netmail messages
 * kludgeAreaNetmail::           how to process netmail with kludge "AREA:NETMAIL"
+* createFwdNonPass::            autocreate non-passthru echoes in fwd.req. operations
 
 * filelist::                    filelist and templates
 @end menu
@@ -1702,7 +1703,9 @@ set as an passthrough area
 @item msgbase:
 *.msg is standard. Write Squish for an Squish-msgbase
 @item LinkAKA:
-aka's of up- and down links
+aka's of up- and down links.
+you can use masks like: "2:*" - all downlinks from you config with
+from zone2. this links auto-mandatory.
 @end table
 
 Options:
@@ -1763,6 +1766,10 @@ size of dupecheck history file in days (7 days if not defined)
 disables reply-linking for this area
 @item -debug
 write debug info about this area to areaname.dbg (or common.dbg if "-dosfile" is used)
+@item -sbadd(<addr2D>,...)
+add seen-by(s)
+@item -sbign(<addr2D>,...)
+ignore seen-by(s) and toss mail to link(s)
 @end table
 
 LinkOption:
@@ -2612,7 +2619,7 @@ Save transit messages in NetmailArea.
 If this statement is ommitted. Transit messages wouldn't be kept in
 NetmailArea.
 
-@node kludgeAreaNetmail, filelist, keepTrsMail, Keywords
+@node kludgeAreaNetmail, createFwdNonPass, keepTrsMail, Keywords
 @subsection kludgeAreaNetmail
 @table @asis
 @item Syntax:
@@ -2631,7 +2638,21 @@ If message started with "AREA:NETMAIL" we have three ways:
 
 This statement cannot be repeated.
 
-@node filelist, , kludgeAreaNetmail, Keywords
+@node createFwdNonPass, filelist, kludgeAreaNetmail, Keywords
+@subsection createFwdNonPass
+@table @asis
+@item Syntax:
+@code{createFwdNonPass <bool>}
+@item Example:
+@code{createFwdNonPass}
+@end table
+
+Autocreate non-passthru echoes in forward request operations.
+MsgBaseDir should be not passthrough!
+
+This statement cannot be repeated.
+
+@node filelist, , createFwdNonPass, Keywords
 @subsection filelist
 @table @asis
 @item Syntax:

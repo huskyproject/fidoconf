@@ -927,6 +927,7 @@ void freeLink (s_link *link)
   nfree(link->autoFileCreateFile);
   nfree(link->RemoteRobotName);
   nfree(link->RemoteFileRobotName);
+  nfree(link->msgBaseDir);
   return;
 }
 
