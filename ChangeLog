@@ -1,3 +1,9 @@
+2004-12-08 Wednesday 22:18  d_sergienko
+
+	* afixcmd.c, line.c (fidoconf-1_4-stable.[1,12]): fixes from Nick
+	Voronin: - fix error renaming links.tmp - prevent packer definition
+	when links are already defined.
+
 2004-07-13 Tuesday 06:50  andr_lukyanov
 
 	* doc/: proposal.texi, rus/proposal.texi
