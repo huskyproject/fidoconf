@@ -1,3 +1,25 @@
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/fidoconf-runtime.install (1.1): file
+	fidoconf-runtime.install was initially added on branch
+	fidoconf-1_4-stable.
+
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/compat (1.1): file compat was initially added on branch
+	fidoconf-1_4-stable.
+
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/libfidoconf1-dev.install (1.1): file
+	libfidoconf1-dev.install was initially added on branch
+	fidoconf-1_4-stable.
+
+2004-04-13 Tuesday 10:25  sfpavel
+
+	* debian/libfidoconf1.install (1.1): file libfidoconf1.install was
+	initially added on branch fidoconf-1_4-stable.
+
 2004-03-27 Saturday 21:29  mche
 
 	* fidoconf/fidoconf.h (1.23), src/line.c (1.29): new option
