@@ -749,7 +749,9 @@ int move_file(const char *from, const char *to, const int force_rewrite)
         return 0;
 #endif
 
+#ifdef DEBUG
     w_log( LL_DEBUGY, __FILE__ ":%u:move_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
+#endif
     if(force_rewrite)
       remove(to);
     else if(fexist(to)){
@@ -757,7 +759,9 @@ int move_file(const char *from, const char *to, const int force_rewrite)
       return -1;
     }
 
+#ifdef DEBUG
     w_log( LL_DEBUGY, __FILE__ ":%u:move_file()", __LINE__ );
+#endif
     rc = rename(from, to);
     if (!rc) {               /* rename succeeded. fine! */
 #elif defined(__NT__) && defined(USE_SYSTEM_COPY)
@@ -815,7 +819,9 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     struct utimbuf ut;
     int fh=-1;
 
+#ifdef DEBUG
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
+#endif
 
 #ifdef COMMON_C_HAVE_CMPFNAMES  /* check cmpfnames for all OS and remove this condition */
     if ( cmpfnames((char*)from,(char*)to) == 0 )
@@ -828,13 +834,16 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     memset(&st, 0, sizeof(st));
     if (stat(from, &st)) return -1; /* file does not exist */
 
+#ifdef DEBUG
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
+#endif
     fin = fopen(from, "rb");        /* todo: use open( ..., O_CREAT| ..., ...)
                                      * to prevent file overwrite */
     if (fin == NULL) { nfree(buffer); return -1; }
-
+#ifdef DEBUG
     w_log( LL_DEBUGY, __FILE__ ":%u:copy_file()", __LINE__);
-    fh = open( to, (force_rewrite ? 0 : O_EXCL) | O_CREAT | O_RDWR | O_BINARY, S_IREAD | S_IWRITE );
+#endif
+    fh = open( to, (force_rewrite ? 0 : O_EXCL) | O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, S_IREAD | S_IWRITE );
     if( fh<0 ){
       fh=errno;
       fclose(fin);
