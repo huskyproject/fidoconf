@@ -1275,9 +1275,9 @@ see the proper 5D point numbers instead of the fakenet numbers.
 @subsection netmailarea
 @table @asis
 @item Syntax:
-@code{NetmailArea <name> <file> [<msgbase>] @{Option@}}
+@code{NetmailArea <name> <file> -b [<msgbase>] @{Option@}}
 @item Example:
-@code{NetmailArea netmail /var/spool/fido/msgb/netmail Squish}
+@code{NetmailArea netmail /var/spool/fido/msgb/netmail -b Squish}
 @end table
 
 This statement specifies the netmailarea.
@@ -1290,9 +1290,9 @@ This statement can be repeated to use different netmailareas.
 @subsection badarea
 @table @asis
 @item Syntax:
-@code{badArea <name> <file> [<msgbase>] @{Option@}}
+@code{badArea <name> <file> -b [<msgbase>] @{Option@}}
 @item Example:
-@code{BadArea badarea /var/spool/fido/msgb/bad Squish}
+@code{BadArea badarea /var/spool/fido/msgb/bad -b Squish}
 @end table
 
 This statement specifies the badarea. Messages which have no area on your
@@ -1306,9 +1306,9 @@ This statement cannot be repeated.
 @subsection dupeArea
 @table @asis
 @item Syntax:
-@code{dupeArea <name> <file> [<msgbase>] @{Option@}}
+@code{dupeArea <name> <file> -b [<msgbase>] @{Option@}}
 @item Example:
-@code{dupeArea dupeArea  /var/spool/fido/msgb/dupes Squish}
+@code{dupeArea dupeArea  /var/spool/fido/msgb/dupes -b Squish}
 @end table
 
 This statement specifies the dupeArea. Messages which area dupes e.g. come
@@ -1322,7 +1322,7 @@ This statement cannot be repeated.
 @subsection echoArea
 @table @asis
 @item Syntax:
-@code{EchoArea <name> <file> [<msgbase>] @{Option@} @{linkAka@} @{linkOption@}}
+@code{EchoArea <name> <file> -b [<msgbase>] @{Option@} @{linkAka@} @{linkOption@}}
 @item Example:
 @code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger
 -b Squish -a 2:2433/1247 -g A -dupeCheck move -dupehistory 11 -d "Linux
@@ -1410,9 +1410,9 @@ This statement can be repeated.
 @subsection localArea
 @table @asis
 @item Syntax:
-@code{localArea <name> <file> [<msgbase>] @{Option@}}
+@code{localArea <name> <file> -b [<msgbase>] @{Option@}}
 @item Example:
-@code{localArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 -d "Linux development"}
+@code{localArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger -b Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 -d "Linux development"}
 @end table
 
 This statement creates an localArea. The only difference between a localArea
