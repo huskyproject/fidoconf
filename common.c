@@ -2,6 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+#ifdef UNIX
+#include <pwd.h>
+#endif
 
 #include "common.h"
 
@@ -176,4 +182,66 @@ char *strUpper(char *str)
       str++;
    }
    return temp;
+}
+
+char *shell_expand(char *str)
+{
+    char *slash = NULL, *ret = NULL, c;
+#ifdef UNIX
+    struct passwd *pw = NULL;
+#endif
+    char *pfix = NULL;
+
+    if (str == NULL)
+    {
+        return str;
+    }
+    if (*str == '\0' || str[0] != '~')
+    {
+        return str;
+    }
+    for (slash = str; *slash != '/' && *slash != '\0'
+#ifndef UNIX
+                     && *slash != '\\'
+#endif
+         ; slash++);
+    c = *slash;
+    *slash = 0;
+
+    if (str[1] == '\0')
+    {
+        pfix = getenv("HOME");
+#ifdef UNIX        
+        if (pfix == NULL)
+        {
+            pw = getpwuid(getuid());
+            if (pw != NULL)
+            {
+                pfix = pw->pw_dir;
+            }
+        }
+#endif
+    }
+#ifdef UNIX
+    else
+    {
+        pw = getpwnam(str + 1);
+        if (pw != NULL)
+        {
+            pfix = pw->pw_dir;
+        }
+    }
+#endif
+    *slash = c;
+
+    if (pfix == NULL)  /* could not find an expansion */
+    {
+        return str;
+    }
+
+    ret = malloc(strlen(slash) + strlen(pfix) + 1);
+    strcpy(ret, pfix);
+    strcat(ret, slash);
+    free(str);
+    return ret;
 }

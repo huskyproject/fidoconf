@@ -46,8 +46,10 @@ void parseConfig(FILE *f, s_fidoconfig *config)
    
    while ((line = readLine(f))) {
       line = trimLine(line);
-      if ((line[0] != '#') && (line[0] != 0))
+      if ((line[0] != '#') && (line[0] != 0)) {
+         line = shell_expand(line);
          parseLine(line, config);
+      }
    }
 }
 

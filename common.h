@@ -76,6 +76,14 @@ char   *strUpper(char *str);
   Input:  str is a \0 terminated string
   Output: a pointer to a \0 terminated string is returned.
   FZ:     strUpper converts the string from lower case to upper case.
+  */
+
+char   *shell_expand(char *str);
+/*DOC
+   Input: str is a \0 terminated string
+   Ouput: a pointer to a \o terminated string is returned
+   FZ:    shell_expand expands the strings just like ~/.msged to /home/mtt/.msged
+          see sh(1) for further explanations
 */
 
 #endif

@@ -113,7 +113,7 @@ int parsePath(char *token, char **var)
       (*var)[strlen(token)] = limiter;
       (*var)[strlen(token)+1] = '\0';
    }
-      
+
    return 0;
 }
 
@@ -139,7 +139,7 @@ int parsePublic(char *token, s_fidoconfig *config)
       (config->public[config->publicCount])[strlen(token)] = limiter;
       (config->public[config->publicCount])[strlen(token)+1] = '\0';
    }
-      
+
    config->publicCount++;
    return 0;
 }
@@ -383,7 +383,8 @@ int parseLine(char *line, s_fidoconfig *config)
 
    //printf("Parsing: %s\n", line);
    //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
-   if (stricmp(token, "version")==0) rc = parseVersion(getRestOfLine(), config);
+   if (token == NULL);
+   else if (stricmp(token, "version")==0) rc = parseVersion(getRestOfLine(), config);
    else if (stricmp(token, "name")==0) rc = copyString(&(config->name), getRestOfLine(), config);
    else if (stricmp(token, "location")==0) rc = copyString(&(config->location), getRestOfLine(), config);
    else if (stricmp(token, "sysop")==0) rc = copyString(&(config->sysop), getRestOfLine(), config);

@@ -14,5 +14,7 @@ Unix:
 	$ make
 
 3. write a fido config according to the proposal which is also in this package.
+   If your are just some normal point, give the shell script fidoInst a
+   chance.
 
 You're ready. Now you can install hpt, and other software which uses fidoconfig. 
