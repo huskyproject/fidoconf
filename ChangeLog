@@ -1,3 +1,14 @@
+2002-01-30 Wednesday 19:57  ml
+
+	* fidoconf.c (1.65): readLine can read lines without \r on Watcom
+	C/WinDOs [patch by SR]
+
+2002-01-30 Wednesday 12:55  stas
+
+	* Makefile (1.31), fc2jt.c (1.2), makefile.cyg (1.3), makefile.inc
+	(1.17), makefile.mvc (1.7), makefile.mvcdll (1.6): Remove converter
+	to Just Tosser.
+
 2002-01-29 Tuesday 11:33  ml
 
 	* cfg.c (1.21): checkIncludeLogic changes by pavel, modyfied by me
