@@ -2,6 +2,11 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Thu Nov  4 23:10:31 NOVT 1999
+max:
+* moved patimat() to common.c
+
+----- cvs ci ------
 Thu Oct 28 13:09:52 CEST 1999 
 mtt:
 * fixed some documentation problems

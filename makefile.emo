@@ -19,11 +19,9 @@ SMLIB= $(LIBDIR)/smapiemo.lib
 HDRS=  common.h \
        dir.h \
        fidoconfig.h \
-       patmat.h \
        typesize.h 
 
-OBJS=  patmat.obj \
-       line.obj \
+OBJS=  line.obj \
        fidoconfig.obj \
        dir.obj \
        common.obj

@@ -13,18 +13,16 @@ ALLIBS= $(LIBS) $(LIBDIR)\smapiibo.lib
 HDRS=  common.h \
        dir.h \
        fidoconfig.h \
-       patmat.h \
        adcase.h \
        typesize.h
 
-OBJS=  patmat.obj \
-       adcase.obj \
+OBJS=  adcase.obj \
        line.obj \
        fidoconfig.obj \
        dir.obj \
        common.obj
 
-LOBJS=  -+patmat.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj;
+LOBJS=  -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj;
 
 all:    fidoconfig.lib fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe
 

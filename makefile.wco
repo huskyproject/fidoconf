@@ -20,18 +20,16 @@ ALLIBS= $(LIBS) $(LIBDIR)\smapiwco.lib
 HDRS=  common.h \
        dir.h \
        fidoconfig.h \
-       patmat.h \
        adcase.h \
        typesize.h
 
-OBJS=  patmat.obj \
-       adcase.obj \
+OBJS=  adcase.obj \
        line.obj \
        fidoconfig.obj \
        dir.obj \
        common.obj
 
-LOBJS=  -+patmat.obj -+adcase.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj
+LOBJS=  -+adcase.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj
 
 all:    fidoconfig.lib fconf2squish.exe fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fe2fconf.exe
 

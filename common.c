@@ -50,6 +50,7 @@
 
 #include "fidoconfig.h"
 #include "common.h"
+#include "patmat.h"
 
 static char *attrStr[] = { "pvt", "crash", "read", "sent", "att", 
                        "fwd", "orphan", "k/s", "loc", "hld", 
@@ -733,4 +734,18 @@ char *aka2str(s_addr aka) {
     else sprintf(straka,"%u:%u/%u",aka.zone,aka.net,aka.node);
 	
     return straka;
+}
+
+int patimat(char *raw,char *pat)
+{
+    char *upraw,*uppat;
+    int i;
+
+    upraw=strUpper(strdup(raw));
+    uppat=strUpper(strdup(pat));
+    i=patmat(upraw,uppat);
+    free(upraw);
+    free(uppat);
+
+    return(i);
 }

@@ -21,17 +21,14 @@ ALLIBS= $(LIBS) $(LIBDIR)\smapibcd.lib
 HDRS=  common.h \
        dir.h \
        fidoconf.h \
-       patmat.h \
        typesize.h 
 
-OBJS=  patmat.obj \
-       line.obj \
+OBJS=  line.obj \
        fidoconf.obj \
        dir.obj \
        common.obj
 
-LOBJS=  -+patmat.obj \
-        -+line.obj \
+LOBJS=  -+line.obj \
         -+fidoconf.obj \
         -+dir.obj \
         -+common.obj 

@@ -139,4 +139,6 @@ int copy_file(const char *from, const char *to);
 // it returns a static array!!!
 char *aka2str(s_addr aka);
 
+int patimat(char *raw, char *pat); /* case insensitive */
+
 #endif
