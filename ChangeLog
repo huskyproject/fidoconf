@@ -1,3 +1,13 @@
+2002-09-18 Wednesday 13:36  sfpavel
+
+	* debian/changelog (fidoconf-0_14-stable.9): Correct release date
+
+2002-09-18 Wednesday 10:15  sfpavel
+
+	* debian/: changelog, huskymak.cfg, libfidoconf0.doc-base,
+	libfidoconf0.files (fidoconf-0_14-stable.[8,1,1,2]): Fix install of
+	html doc
+
 2002-09-17 Tuesday 09:35  sfpavel
 
 	* Makefile, cfg.c, common.c, dirlayer.c, dirlayer.h, makefile.aix,
