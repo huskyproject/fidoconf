@@ -1,3 +1,13 @@
+2002-05-03 Friday 14:30  mche
+
+	* afixcmd.h (1.2), makefile.inc (1.23), makefile.mvc (1.10),
+	makefile.mvcdll (1.12): createKludgesmoved to fidoconfig for common
+	use in hpt htick txt2pkt
+
+2002-05-03 Friday 13:28  mche
+
+	* afixcmn.c (1.1): here is some common Areafix function
+
 2002-05-01 Wednesday 17:25  pavel.gulchouck
 
 	* cfg.c (1.36): cmpfnames() for windows changed
