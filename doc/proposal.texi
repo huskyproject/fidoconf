@@ -105,12 +105,13 @@ a comment and will be ignored.
 * link::                        adding a link to your config
 * aka::                         links adress
 * ouraka::                      our aka for link
-* password::                    links session and default password 
+* password::                    links default password 
 * pktpwd::                      pktpassword for this link
-* ticpwd::                      ticcer password for this link
+* ticpwd::                      ticker password for this link
 * areafixpwd::                  areafix password for this link
 * filefixpwd::                  filefix password for this link
 * bbspwd::                      bbs password for this link (online user)
+* sessionpwd::                  session password for this link
 * handle::                      nickname or handle for link
 * tossgrp::                     tosser groups which link belongs to
 * ticgrp::                      ticcer groups which link belongs to
@@ -659,7 +660,7 @@ This statement can only be repeated for different links.
 @code{password secret}
 @end table
 
-This statement sets the session and the default password for the link.
+This statement sets the default password for the link.
 If you do not change the other passwords, they are set to this password.
 Only passwords with maximal 8 characters are valid because of limitations of
 other software packages.
@@ -740,6 +741,22 @@ This statement can only be repeated for different links.
 @end table
 
 This statement sets the bbs password for the actual link.
+Only passwords with maximal 8 characters are valid because of limitations of
+other software packages.
+An empty statement is allowed.
+
+This statement can only be repeated for different links.
+
+@node sessionpwd, password, Keywords
+@subsection sessionpwd
+@table @asis
+@item Syntax:
+@code{sessionpwd [<string>]}
+@item Example:
+@code{sessionpwd geheim}
+@end table
+
+This statement sets the session password for the actual link.
 Only passwords with maximal 8 characters are valid because of limitations of
 other software packages.
 An empty statement is allowed.

@@ -198,9 +198,8 @@ _Keyword definitions_
   ourAka <aka>
   # our aka which is used for link
   Password <pwd>
-  #session- and default-Pwd
-  # also default-password, if PktPwd, TicPwd, 
-  #   AreaFixPwd or BBSPwd is not given
+  # default-Pwd, used for SessionPwd, PktPwd, TicPwd, AreaFixPwd and BBSPwd if
+  # they are not given explicitly
   [PktPwd <pwd>]
   # Packet- password
   [TicPwd <pwd>]
