@@ -244,7 +244,8 @@ enum {
     ID_AREAFIXNAMES,
     ID_REQIDXDIR,
     ID_SYSLOG_FACILITY,
-    ID_FILEFIXFSC87SUBSET
+    ID_FILEFIXFSC87SUBSET,
+    ID_FILEBOXDIR
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -350,6 +351,7 @@ token_t parseline_tokens[] =
     { "fileareabasedir", ID_FILEAREABASEDIR },
     { "fileareadefaults", ID_FILEAREADEFAULT },
     { "fileareaslog", ID_FILEAREASLOG },
+    { "filebox", ID_FILEBOXDIR },
     { "filecheckdest", ID_FILECHECKDEST },
     { "filedescpos", ID_FILEDESCPOS },
     { "filedirumask", ID_FILEDIRUMASK },

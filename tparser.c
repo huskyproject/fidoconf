@@ -348,6 +348,7 @@ void printLink(s_link link) {
    if (link.msgBaseDir) printf("MsgBaseDir %s\n",link.msgBaseDir);
    if (link.packerDef) printf("PackerDefault %s\n", link.packerDef->packer);
    else printf("PackerDefault none\n");
+   if (link.fileBox)  printf("fileBox %s\n", link.fileBox);
    if (link.pktSize != 0) printf("pktSize - %u kb\n",link.pktSize);
    if (link.arcmailSize != 0) printf("arcmailSize - %u kb\n",link.arcmailSize);
 

@@ -65,6 +65,7 @@ echomailflavour
 echotosslog
 excludepassthroughcarbon
 export
+filebox
 forwardareapriority
 forwardpkts
 forwardrequestfile

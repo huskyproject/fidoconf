@@ -3786,6 +3786,10 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_SYSLOG_FACILITY:
             rc = parseSyslog(getRestOfLine(), &(config->syslogFacility));
             break;
+        case ID_FILEBOXDIR:
+            rc = parsePath(getRestOfLine(),
+                           &(getDescrLink(config)->fileBox));
+            break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

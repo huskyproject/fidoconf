@@ -1,3 +1,6 @@
+Tue May 22 14:16:02 MSD 2001
+	* token fileBox
+
 2001-05-16 Wednesday 12:08  ml
 
 	* fidoconf.h (1.70), line.c (1.250): fixed parsing forwardpkts

@@ -161,6 +161,7 @@ typedef struct link {
 
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;
+    char  *fileBox;
 
 } s_link, *ps_link;
 
