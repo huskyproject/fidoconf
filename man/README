@@ -1,0 +1,7 @@
+Some small manpages for the binaries supplied with Fidoconf.
+Please check for errors.
+
+Written for the last stable Release.
+
+Because all fconf2* Binaries are doing the same there is only fconf2.1
+Create a symlink for every Binary to it to let man find the man-page.
