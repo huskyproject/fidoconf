@@ -60,6 +60,13 @@
 #include <os2.h>
 #endif
 
+#if defined ( __NT__ )
+#define WIN32_LEAN_AND_MEAN
+#define NOMSG
+#define NOGDI
+#include <windows.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -218,7 +225,7 @@ typedef          void       VOID;
 //  the Watcom 16/32bit compilers
 
 #if defined(__WATCOMC__)
-#ifndef __OS2_H__       // os2.h defines it already
+#if !defined(__OS2_H__) && !defined(__NT__)  // os2.h and windows.h defines it already
 typedef signed   char       CHAR;               // 1 byte
 typedef unsigned char      UCHAR;               // 1 byte
 #endif
@@ -227,7 +234,7 @@ typedef unsigned short int UINT16;              // 2 byte
 typedef signed   long  int  INT32;              // 4 byte
 typedef unsigned long  int UINT32;              // 4 byte
 // --------------------------------------------------------------------------
-#ifndef __OS2_H__       // os2.h defines it already
+#if !defined(__OS2_H__) && !defined(__NT__)  // os2.h and windows.h defines it already
 typedef signed   int        INT;                // 2/4 byte
 typedef unsigned int       UINT;                // 2/4 byte
 typedef signed   long       LONG;               // 4 byte

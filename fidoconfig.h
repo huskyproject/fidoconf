@@ -66,6 +66,12 @@ struct pack {
 };
 typedef struct pack s_pack;
 
+typedef struct execonfile {
+   char    *filearea;
+   char    *filename;
+   char    *command;
+} s_execonfile;
+
 enum flavour {normal, hold, crash, direct, immediate};
 typedef enum flavour e_flavour;
 enum forward {fOff, fSecure, fOn};
@@ -326,6 +332,9 @@ struct fidoconfig {
    char     **PublicGroup;
    unsigned int numPublicGroup;
    char     *ReportTo;
+
+   unsigned int   execonfileCount;
+   s_execonfile *execonfile;
 
    unsigned int logEchoToScreen;
    unsigned int separateBundles;

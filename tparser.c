@@ -459,6 +459,13 @@ int main() {
       if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
 
       if (config->ReportTo) printf("ReportTo\t%s\n", config->ReportTo);
+      printf("\n=== EXEC CONFIG ===\n");
+      for (i = 0; i < config->execonfileCount; i++) {
+         printf("ExecOnFile: Area %s File %s Call %s\n",
+                 config->execonfile[i].filearea,
+                 config->execonfile[i].filename,
+                 config->execonfile[i].command);
+      }
       disposeConfig(config);
    } /* endif */
    return 0;

@@ -478,6 +478,12 @@ void disposeConfig(s_fidoconfig *config)
    free(config->fileLocalPwd);
    free(config->fileLDescString);
 
+   for (i = 0; i < config->execonfileCount; i++) {
+		free(config->execonfile[i].filearea);
+		free(config->execonfile[i].filename);
+		free(config->execonfile[i].command);
+   }
+
    free(config);
    config = NULL;
 }
@@ -533,6 +539,11 @@ s_area *getEchoArea(s_fidoconfig *config, char *areaName)
    for (i=0; i < config->echoAreaCount; i++) {
       if (stricmp(config->echoAreas[i].areaName, areaName)==0)
          return &(config->echoAreas[i]);
+   }
+
+   for (i=0; i < config->localAreaCount; i++) {
+		if (stricmp(config->localAreas[i].areaName, areaName)==0)
+		return &(config->localAreas[i]);
    }
 
    return &(config->badArea); // if all else fails, return badArea :-)

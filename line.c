@@ -1850,6 +1850,40 @@ void printLinkError(void)
   printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
 }
 
+int parseExecOnFile(char *line, s_fidoconfig *config) {
+   char   *a, *f, *c;
+   s_execonfile *execonfile;
+
+   if (line == NULL) {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   a = strtok(line, " \t");
+   f = strtok(NULL, " \t");
+   c = getRestOfLine();
+   if ((a != NULL) && (f != NULL) && (c != NULL)) {
+
+      // add new execonfile statement
+      config->execonfileCount++;
+      config->execonfile = realloc(config->execonfile, config->execonfileCount * sizeof(s_execonfile));
+
+      // fill new execonfile statement
+      execonfile = &(config->execonfile[config->execonfileCount-1]);
+      execonfile->filearea = (char *) malloc(strlen(a)+1);
+      strcpy(execonfile->filearea, a);
+      execonfile->filename = (char *) malloc(strlen(f)+1);
+      strcpy(execonfile->filename, f);
+      execonfile->command = (char *) malloc(strlen(c)+1);
+      strcpy(execonfile->command, c);
+      return 0;
+
+   } else {
+      printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+}
+
 void printNodelistError(void)
 {
   printf("Line %d: You must define a nodelist first before you use %s!\n", actualLineNr, actualKeyword);
@@ -2152,6 +2186,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "ignorecapword")==0) config->ignoreCapWord = 1;
    else if (stricmp(token, "noprocessbundles")==0) config->noProcessBundles = 1;
    else if (stricmp(token, "reportto")==0) rc = copyString(getRestOfLine(), &(config->ReportTo));
+   else if (stricmp(token, "execonfile")==0) rc = parseExecOnFile(getRestOfLine(), config);
    else if (stricmp(token, "defarcmailsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->defarcmailSize));
    else if (stricmp(token, "areafixmsgsize")==0) rc = parseNumber(getRestOfLine(), 10, &(config->areafixMsgSize));
    else if (stricmp(token, "afterunpack")==0) rc = copyString(getRestOfLine(), &(config->afterUnpack));

@@ -486,6 +486,8 @@ void dumpFilefix(s_fidoconfig *config, FILE *f)
 
 void dumpTicker(s_fidoconfig *config, FILE *f)
 {
+    int i;
+
     if (config->fileSingleDescLine != 0) fprintf(f, "FileSingleDescLine\n");
     if (config->fileCheckDest != 0) fprintf(f, "FileCheckDest\n");
     fprintf(f, "FileDescPos        %u\n", config->fileDescPos);
@@ -496,6 +498,13 @@ void dumpTicker(s_fidoconfig *config, FILE *f)
     fprintf(f, "FileFileUMask      %o\n", config->fileFileUMask);
     fprintf(f, "FileDirUMask       %o\n", config->fileDirUMask);
     dumpString(f, "FileLocalPwd       %s\n", config->fileLocalPwd);
+
+    for (i = 0; i < config->execonfileCount; i++) {
+       fprintf(f, "ExecOnFile: Area %s File %s Call %s\n",
+                   config->execonfile[i].filearea,
+                   config->execonfile[i].filename,
+                   config->execonfile[i].command);
+    }
 
     fprintf(f, "\n");
 }

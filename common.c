@@ -659,6 +659,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 
 int move_file(const char *from, const char *to)
 {
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
     int rc;
     char *buffer;
     size_t read;
@@ -666,8 +667,20 @@ int move_file(const char *from, const char *to)
 	
 
     rc = rename(from, to);
-    if (!rc) return 0;      /* rename succeeded. fine! */
+    if (!rc) {               /* rename succeeded. fine! */
+#elif defined(__NT__) && defined(USE_SYSTEM_COPY)
+    int rc;
+    rc = MoveFile(from, to);
+    if (rc == TRUE) {
+#elif defined(OS2) && defined(USE_SYSTEM_COPY)
+    USHORT rc;
+    rc = DosMove((PSZ)from, (PSZ)to);
+    if (!rc) {
+#endif
+      return 0;
+    }
 
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
     /* Rename did not succeed, probably because the move is accross
        file system boundaries. We have to copy the file. */
 
@@ -701,6 +714,19 @@ int move_file(const char *from, const char *to)
     fclose(fout);
     fclose(fin);
     free(buffer);
+#elif defined (__NT__) && defined(USE_SYSTEM_COPY)
+    rc = CopyFile(from, to, FALSE);
+    if (rc == FALSE) {
+      remove(to);
+      return -1;
+    }       
+#elif defined (OS2) && defined(USE_SYSTEM_COPY)
+    rc = DosCopy((PSZ)from, (PSZ)to, 1);
+    if (rc) {
+      remove(to);
+      return -1;
+    }       
+#endif
     remove(from);
     return 0;
 }
@@ -708,6 +734,7 @@ int move_file(const char *from, const char *to)
 	
 int copy_file(const char *from, const char *to)
 {
+#if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(OS2)))
     char *buffer;
     size_t read;
     FILE *fin, *fout;
@@ -746,6 +773,19 @@ int copy_file(const char *from, const char *to)
     fclose(fout);
     fclose(fin);
     free(buffer);
+#elif defined (__NT__) && defined(USE_SYSTEM_COPY)
+    int rc = CopyFile(from, to, FALSE);
+    if (rc == FALSE) {
+      remove(to);
+      return -1;
+    }       
+#elif defined (OS2) && defined(USE_SYSTEM_COPY)
+    USHORT rc = DosCopy((PSZ)from, (PSZ)to, 1);
+    if (rc) {
+      remove(to);
+      return -1;
+    }       
+#endif
     return 0;
 }
 

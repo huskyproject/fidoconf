@@ -4,3 +4,5 @@
 - dump remaps, bbsareas and fileareas
 - unify routes
 - document linkGrp
+- document ExecOnFile
+- fix "0" groups (to NULL)
