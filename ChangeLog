@@ -1,3 +1,7 @@
+2003-01-18 Saturday 22:08  i_zkh
+
+	* doc/proposal.texi (1.147): Fixed spelling, misprints etc
+
 2003-01-18 Saturday 19:59  stas_degteff
 
 	* common.c (1.161), makefile.cyg (1.14): fix cygwin biuld
