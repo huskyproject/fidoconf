@@ -1,3 +1,14 @@
+2003-02-25 Tuesday 11:02  mche
+
+	* afixcmd.c (1.27), fidoconf.c (1.109), fidoconf.h (1.174): fix
+	processpermisions
+
+2003-02-25 Tuesday 09:45  stas_degteff
+
+	* fidoconf.c (1.108), fidoconf.h (1.173): Update known modules
+	list: add bsopack, emailpkt, hptkill, hptsqfix, hptutil, hpucode,
+	huskmisc, mpost, msged, nltools, sqpack
+
 2003-02-24 Monday 17:54  pgul
 
 	* cfg.c (1.62): Fix previous patch
