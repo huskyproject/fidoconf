@@ -8,6 +8,7 @@ TLIB=   lib -nologo
 LINK=   link
 
 FCONFL=	fconfmvc.lib
+FCONFDLL= fconfmvc.dll
 SMAPIL=	..\smapi\smapimvc.lib msvcrt.lib Kernel32.lib /link /opt:nowin98
 LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
@@ -72,7 +73,9 @@ fecfg2fconf.exe:
 
 clean:
 	-del *.obj
-	-del *.lib
+	-del $(FCONFL)
 
 distclean: clean
 	-del *.exe
+	-del $(FCONFDLL)
+	-del fconfmvc.exp
