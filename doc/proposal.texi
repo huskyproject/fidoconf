@@ -434,7 +434,7 @@ The log levels are following:
 @item M - File create
 @item N - File delete
 @item O - operations with opened file (read, write, seek, ...)
-@item P - reserved
+@item P - Directory operations (create, delete, rename, ...)
 @item R - Truncate file
 @item S - File send/sent
 @item T - Test files (exist, permittions, etc.)
@@ -446,6 +446,8 @@ The log levels are following:
 @item Z - debug messages: source lines (functions control points).
 @item a-z - debug messages
 @end table
+
+Default value: 1234567890ABCDEF
 
 This statement cannot be repeated.
 

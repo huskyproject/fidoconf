@@ -43,7 +43,7 @@
 #include <stdio.h>
 #include "fidoconf.h"
 
-#define DefaultLogLevels "1234567890"
+#define DefaultLogLevels "1234567890ABCDEF"
 #define DefaultScreenLogLevels DefaultLogLevels
 
 #define LL_START        '1'      /* Program start */
@@ -94,6 +94,8 @@
 #define LL_CREAT        'M'      /* Create file */
 #define LL_DEL     	'N'      /* Delete file */
 #define LL_FILE    	'O'      /* Other file operations (read, write, seek, ...) */
+#define LL_DIR     	'P'      /* Directory create/delete/etc */
+#define LL_PATH       LL_DIR
 #define LL_TRUNC   	'R'      /* Truncate file */
 #define LL_DELETE     LL_DEL
 #define LL_TRUNCATE   LL_TRUNC
