@@ -1,3 +1,11 @@
+fidoconf (0.15-20020822-1) unstable; urgency=low
+
+  * New maintainer
+  * debian/rules: DH_COMPAT=4
+  * Setup new location for apt: http://husky.sourceforge.net/debian
+
+ -- Pavel Andreew <pavel@collage.etel.ru>  Thu, 22 Aug 2002 13:01:28 +0600
+
 fidoconf (0.15-20020704-1) unstable; urgency=low
 
   * New cvs version
