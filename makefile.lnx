@@ -12,7 +12,7 @@ AR = ar
 AR_R = r
 RM = rm
 
-COPT = -c -fPIC -Wall -ggdb -O6 -mpentium -DUNIX -I../smapi
+COPT = -c -fPIC -Wall -ggdb -O6 -DUNIX -I../smapi
 LOPT = -L. -L$(LIBDIR)
 # LOPT = 
 

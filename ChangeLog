@@ -4,6 +4,11 @@ fidoconfig 0.9
 ----- cvs ci ------
 Wed Sep 15 15:18:50 MET DST 1999
 mtt:
+* new example config
+
+----- cvs ci ------
+Wed Sep 15 15:18:50 MET DST 1999
+mtt:
 + added sun makefiles
 * dumpCfg puts address out now 
 
