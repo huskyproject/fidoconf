@@ -509,50 +509,51 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
          if (area->downlinks[area->downlinkCount]->link == NULL) {
             printf("Line %d: Link for this area is not found!\n", actualLineNr);
             rc += 1;
+	    return rc;
          }
 	 
-	 link = area->downlinks[area->downlinkCount]->link;
-	 if (link->optGrp) tok = strchr(link->optGrp, area->group);
+		 link = area->downlinks[area->downlinkCount]->link;
+		 if (link->optGrp) tok = strchr(link->optGrp, area->group);
 	 
-	 // default set export on, import on, mandatory off
-	 area->downlinks[area->downlinkCount]->export = 1;
+		 // default set export on, import on, mandatory off
+		 area->downlinks[area->downlinkCount]->export = 1;
          area->downlinks[area->downlinkCount]->import = 1;
          area->downlinks[area->downlinkCount]->mandatory = 0;
 	 
-	 // check export for link
-	 if (link->export) if (*link->export == 0) {
-	     if (link->optGrp == NULL || (link->optGrp && tok))
-	         area->downlinks[area->downlinkCount]->export = 0;
-	 } 
-	 
-	 // check import from link
-	 if (link->import) if (*link->import == 0) {
-	     if (link->optGrp == NULL || (link->optGrp && tok))
-	         area->downlinks[area->downlinkCount]->import = 0;
-	 }
-	 
-	 // check mandatory to link
-	 if (link->mandatory) if (*link->mandatory == 1) {
-	     if (link->optGrp == NULL || (link->optGrp && tok))
-	         area->downlinks[area->downlinkCount]->mandatory = 1;
-	 }
+		 // check export for link
+		 if (link->export) if (*link->export == 0) {
+			 if (link->optGrp == NULL || (link->optGrp && tok))
+				 area->downlinks[area->downlinkCount]->export = 0;
+		 } 
+		 
+		 // check import from link
+		 if (link->import) if (*link->import == 0) {
+			 if (link->optGrp == NULL || (link->optGrp && tok))
+				 area->downlinks[area->downlinkCount]->import = 0;
+		 }
+		 
+		 // check mandatory to link
+		 if (link->mandatory) if (*link->mandatory == 1) {
+			 if (link->optGrp == NULL || (link->optGrp && tok))
+				 area->downlinks[area->downlinkCount]->mandatory = 1;
+		 }
          area->downlinkCount++;
-	 tok = strtok(NULL, " \t");
-	 while (tok) {
-	     if (tok[0]=='-') {
-	         rc += parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1);
 		 tok = strtok(NULL, " \t");
-	     } else break;
-	 }
-	 continue;
+		 while (tok) {
+			 if (tok[0]=='-') {
+				 rc += parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1);
+				 tok = strtok(NULL, " \t");
+			 } else break;
+		 }
+		 continue;
       }
       else {
-         printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
-         rc +=1;
+		  printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
+		  rc +=1;
       }
       tok = strtok(NULL, " \t");
    }
-
+   
    return rc;
 }
 
