@@ -1,3 +1,10 @@
+2003-12-04 Thursday 15:33  mche
+
+	* fidoconf/arealist.h (1.4), src/arealist.c (1.7): %list, %linked
+	command extension
+	
+	patch by Andrew Ladutsko 2:450/210
+
 2003-12-03 Wednesday 18:23  mche
 
 	* fidoconf/fidoconf.h (1.17), fidoconf/tokens.h (1.8), src/line.c
