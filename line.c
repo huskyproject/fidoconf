@@ -163,7 +163,10 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
       rc = testExpression(ADDREXPRESSION, token);
       if (rc != 0) return rc;
       area->useAka = getAddr(config, token);
-      if (area->useAka == NULL) return 1;
+      if (area->useAka == NULL) {
+//         printf("!!! %s not found as address.\n", token);
+         return 1;
+      }
    }
    else if (stricmp(option, "tinysb")==0) area->tinySB = 1;
    else if (stricmp(option, "h")==0) area->hide = 1;
@@ -216,14 +219,14 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 
    while ((tok = strtok(NULL, " \t"))!= NULL) {
       if (stricmp(tok, "Squish")==0) {
-         if (area->msgbType == MSGTYPE_PASSTHROUGH) rc = 3;
+         if (area->msgbType == MSGTYPE_PASSTHROUGH) rc += 3;
          area->msgbType = MSGTYPE_SQUISH;
       }
-      else if(tok[0]=='-') rc = parseAreaOption(config, tok+1, area);
+      else if(tok[0]=='-') rc += parseAreaOption(config, tok+1, area);
       else if(isdigit(tok[0])) {
          area->downlinks = realloc(area->downlinks, sizeof(s_link*)*(area->downlinkCount+1));
          area->downlinks[area->downlinkCount] = getLink(config, tok);
-         if (area->downlinks[area->downlinkCount] == NULL) return 1;
+         if (area->downlinks[area->downlinkCount] == NULL) rc += 1;
          area->downlinkCount++;
       }
    }
