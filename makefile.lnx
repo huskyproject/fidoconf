@@ -20,7 +20,7 @@ TPU = .ppu
 # the questionmark is important because this file is included by
 # the BSD and possibly other Unix makefiles
 
-UNIXID ?= linux
+UNIXID?=linux
 
 LIBPREFIX = lib
 FIDOCONFIG = fidoconfig$(UNIXID)
