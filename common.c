@@ -1533,7 +1533,7 @@ int createLock(char *lockFile)
 {
     FILE *fp;
     char s_pid[64];
-    long pid;
+    long pid = 0;
     int process_active=0;
 
     if(!access(lockFile, R_OK | W_OK))
@@ -1553,7 +1553,7 @@ int createLock(char *lockFile)
     if(process_active) return 0;
 
     fp = fopen(lockFile, "w");
-    fprintf(fp, "%lu\n", getpid());
+    fprintf(fp, "%lu\n", (unsigned long)getpid());
     fclose(fp);
     return 1;
 }
