@@ -40,13 +40,9 @@
 extern "C" {
 #endif
 
-#ifdef _MAKE_DLL
-#   if defined(_MSC_VER) && (_MSC_VER >= 1200)
-        FCONF_EXT void ffree(void* ptr);
-#       define nfree(a) { ffree(a); a = NULL; } 
-#   else
-#       define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
-#   endif
+#ifdef _MAKE_DLL_MVC_
+        FCONF_EXT void   ffree(void* ptr);
+#       define nfree(a)         { ffree(a); a = NULL; } 
 #else 
 #   define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
 #endif
@@ -104,16 +100,14 @@ FCONF_EXT void string2addr(char *string, s_addr *addr);
   FZ:     string2addr converts a char[] to an addr. If string is not an addr NULL ist returned.
 */
 
-#ifndef _MAKE_DLL
-
-UINT16 getUINT16(FILE *in);
+FCONF_EXT UINT16 getUINT16(FILE *in);
 /*DOC
   Input:  in is an file stream opened for reading.
   Output: getUINT16 returns an UINT16
   FZ:     the UINT15 is read from the stream using the method lowByte, highByte.
 */
 
-int    fputUINT16(FILE *out, UINT16 word);
+FCONF_EXT int    fputUINT16(FILE *out, UINT16 word);
 /*DOC
   Input:  out is an file opened for writing.
           word is the UINT16 which should be written
@@ -121,7 +115,7 @@ int    fputUINT16(FILE *out, UINT16 word);
   FZ:     fputUINT16 writes word into the stream using the order lowByte, highByte.
 */
 
-INT    fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter);
+FCONF_EXT INT    fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter);
 /*DOC
   Input:  n-1 chars are read at most.
           str is a buffer with the length n.
@@ -130,8 +124,6 @@ INT    fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter);
   Output: fgetsUntil0 returns the number of chars read including the last \0
   FZ:     fgetsUntil0 reads chars into the buffer until eof(f) || n-1 are read || a \0 is encountered.
 */
-
-#endif //_MAKE_DLL
 
 char   *stripLeadingChars(char *str, const char *chr);
 /*DOC

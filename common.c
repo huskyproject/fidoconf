@@ -183,8 +183,6 @@ void string2addr(char *string, s_addr *addr) {
 	return;
 }
 
-#ifndef _MAKE_DLL
-
 #ifdef __TURBOC__
 #pragma warn -sig
 #endif
@@ -237,8 +235,6 @@ INT   fgetsUntil0(UCHAR *str, size_t n, FILE *f, char *filter)
    str[n-1] = 0;
    return n;
 }
-
-#endif //_MAKE_DLL
 
 char *stripLeadingChars(char *str, const char *chr)
 {

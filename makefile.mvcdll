@@ -1,15 +1,15 @@
 # Microsoft Visual C++ Makefile
 
 CC=     cl
-CFLAGS= -nologo -Zp1 -I..
+CFLAGS= -nologo -MD -Zp1 -I..
 CDEFS=  -D__NT__ -DNT -DWINNT -D_CONSOLE -DUSE_SYSTEM_COPY -D_MAKE_DLL 
 COPT=   -O2
 TLIB=   lib -nologo
 LINK=   link
 
 FCONFL=	fconfmvc.lib
-SMAPIL=	..\smapi\smapimvc.lib
-LINKOPTS = $(SMAPIL) /nologo /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
+SMAPIL=	..\smapi\smapimvc.lib msvcrt.lib Kernel32.lib 
+LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
 SRC1  =  adcase.c line.c fidoconf.c dirlayer.c common.c findtok.c xstr.c cfg.c
 OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj
