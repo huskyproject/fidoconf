@@ -123,10 +123,13 @@ int fc_copyStringWOstrip(char *str, char **pmem)
    return copyString(str, pmem);
 }
 
-
+#if 0
+#define getRestOfLine() stripLeadingChars(strtok(NULL, "\0"), " \t")
+#else
 char *getRestOfLine(void) {
    return stripLeadingChars(strtok(NULL, "\0"), " \t");
 }
+#endif
 
 void prErr ( char *string, ...)
 {
@@ -1769,8 +1772,7 @@ int parseLink(char *token, s_fidoconfig *config)
 
    if (config->linkDefaults) {
 
-      memcpy ( clink, config->linkDefaults, sizeof(s_link));
-      deflink = config->linkDefaults;
+      memcpy(clink, deflink = config->linkDefaults, sizeof(s_link));
 
 	  clink->hisAka.domain = sstrdup(deflink->hisAka.domain);
 	  clink->hisPackAka.domain = sstrdup(deflink->hisPackAka.domain);
@@ -1788,15 +1790,15 @@ int parseLink(char *token, s_fidoconfig *config)
       } else {
 		  clink->ticPwd = clink->defaultPwd;
       }
-  	  if (deflink->areaFixPwd != deflink->defaultPwd ) {
-		  clink->areaFixPwd = sstrdup (deflink->areaFixPwd);
+  	  if (deflink->areafix.pwd != deflink->defaultPwd ) {
+		  clink->areafix.pwd = sstrdup (deflink->areafix.pwd);
       } else {
-		  clink->areaFixPwd = clink->defaultPwd;
+		  clink->areafix.pwd = clink->defaultPwd;
       }
-  	  if (deflink->fileFixPwd != deflink->defaultPwd ) {
-		  clink->fileFixPwd = sstrdup (deflink->fileFixPwd);
+  	  if (deflink->filefix.pwd != deflink->defaultPwd ) {
+		  clink->filefix.pwd = sstrdup (deflink->filefix.pwd);
       } else {
-		  clink->fileFixPwd = clink->defaultPwd;
+		  clink->filefix.pwd = clink->defaultPwd;
       }
   	  if (deflink->bbsPwd != deflink->defaultPwd ) {
 		  clink->bbsPwd = sstrdup(deflink->bbsPwd);
@@ -1812,26 +1814,24 @@ int parseLink(char *token, s_fidoconfig *config)
 	  clink->email = sstrdup (deflink->email);
 	  clink->emailFrom = sstrdup (deflink->emailFrom);
 	  clink->emailSubj = sstrdup (deflink->emailSubj);
-          clink->emailEncoding = deflink->emailEncoding;
 	  clink->LinkGrp = sstrdup (deflink->LinkGrp);
-	  clink->numAccessGrp = deflink->numAccessGrp;
 	  clink->AccessGrp = copyGroups(deflink->AccessGrp, deflink->numAccessGrp);
-	  clink->autoAreaCreateFile = sstrdup (deflink->autoAreaCreateFile);
-	  clink->autoFileCreateFile = sstrdup (deflink->autoFileCreateFile);
-	  clink->autoAreaCreateDefaults = sstrdup (deflink->autoAreaCreateDefaults);
-	  clink->autoFileCreateDefaults = sstrdup (deflink->autoFileCreateDefaults);
-	  clink->forwardRequestFile = sstrdup (deflink->forwardRequestFile);
-	  clink->denyFwdFile = sstrdup (deflink->denyFwdFile);
-	  clink->RemoteRobotName = sstrdup (deflink->RemoteRobotName);
-	  clink->forwardFileRequestFile = sstrdup (deflink->forwardFileRequestFile);
-	  clink->RemoteFileRobotName = sstrdup (deflink->RemoteFileRobotName);
+	  clink->areafix.autoCreateFile = sstrdup (deflink->areafix.autoCreateFile);
+	  clink->filefix.autoCreateFile = sstrdup (deflink->filefix.autoCreateFile);
+	  clink->areafix.autoCreateDefaults = sstrdup (deflink->areafix.autoCreateDefaults);
+	  clink->filefix.autoCreateDefaults = sstrdup (deflink->filefix.autoCreateDefaults);
+	  clink->areafix.fwdFile = sstrdup (deflink->areafix.fwdFile);
+	  clink->filefix.fwdFile = sstrdup (deflink->filefix.fwdFile);
+	  clink->areafix.denyFwdFile = sstrdup (deflink->areafix.denyFwdFile);
+	  clink->filefix.denyFwdFile = sstrdup (deflink->filefix.denyFwdFile);
+	  clink->areafix.name = sstrdup (deflink->areafix.name);
+	  clink->filefix.name = sstrdup (deflink->filefix.name);
 	  clink->msgBaseDir = sstrdup (deflink->msgBaseDir);
-	  clink->numOptGrp = deflink->numOptGrp;
 	  clink->optGrp = copyGroups(deflink->optGrp, deflink->numOptGrp);
-	  clink->numFrMask = deflink->numFrMask;
-	  clink->frMask = copyGroups(deflink->frMask, deflink->numFrMask);
-	  clink->numDfMask = deflink->numDfMask;
-	  clink->dfMask = copyGroups(deflink->dfMask, deflink->numDfMask);
+	  clink->areafix.frMask = copyGroups(deflink->areafix.frMask, deflink->areafix.numFrMask);
+	  clink->filefix.frMask = copyGroups(deflink->filefix.frMask, deflink->filefix.numFrMask);
+	  clink->areafix.dfMask = copyGroups(deflink->areafix.dfMask, deflink->areafix.numDfMask);
+	  clink->filefix.dfMask = copyGroups(deflink->filefix.dfMask, deflink->filefix.numDfMask);
 
    } else {
 
@@ -2444,12 +2444,12 @@ int parseFlavour(char *line, e_flavour *flavour)
 }
 
 int parseAttr(char *token, char **attrs, long *bitattr) {
-    char *p, *flag, c;
-    long attr;
+  char *p, *flag, c;
+  long attr;
 
-    nfree(*attrs);
-    *bitattr = 0;
-    while (token && *token) {
+  nfree(*attrs);
+  *bitattr = 0;
+  while (token && *token) {
 	while (*token && (isspace(*token) || *token==','))
 	    token++;
 	if (!*token) break;
@@ -2461,15 +2461,16 @@ int parseAttr(char *token, char **attrs, long *bitattr) {
 	else if ((flag = extattr(token)) != NULL)
 	    xstrscat(attrs, *attrs ? " " : "", flag, NULL);
 	else {
+   	    *p = c;
 	    prErr("Unknown flag %s!", token);
 	    nfree(*attrs);
 	    return 2;
 	}
 	*p = c;
 	token = p;
-    }
+  }
 /*    if(*attrs) strUpper(*attrs);*/
-    return 0;
+  return 0;
 }
 
 int parseUUEechoAreas(char *token, char **grp[], unsigned int *count) {
@@ -2565,17 +2566,29 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		break;
 
 	case 4:
-		if (link->frMask) freeGroups(link->frMask, link->numFrMask);
-		link->frMask = NULL;
-		link->numFrMask = 0;
-		parseGrp(token, &(link->frMask), &(link->numFrMask));
+		if (link->areafix.frMask) freeGroups(link->areafix.frMask, link->areafix.numFrMask);
+		link->areafix.frMask = NULL;
+		link->areafix.numFrMask = 0;
+		parseGrp(token, &(link->areafix.frMask), &(link->areafix.numFrMask));
+		break;
+	case 14:
+		if (link->filefix.frMask) freeGroups(link->filefix.frMask, link->filefix.numFrMask);
+		link->filefix.frMask = NULL;
+		link->filefix.numFrMask = 0;
+		parseGrp(token, &(link->filefix.frMask), &(link->filefix.numFrMask));
 		break;
 
 	case 5:
-		if (link->dfMask) freeGroups(link->dfMask, link->numDfMask);
-		link->dfMask = NULL;
-		link->numDfMask = 0;
-		parseGrp(token, &(link->dfMask), &(link->numDfMask));
+		if (link->areafix.dfMask) freeGroups(link->areafix.dfMask, link->areafix.numDfMask);
+		link->areafix.dfMask = NULL;
+		link->areafix.numDfMask = 0;
+		parseGrp(token, &(link->areafix.dfMask), &(link->areafix.numDfMask));
+		break;
+	case 15:
+		if (link->filefix.dfMask) freeGroups(link->filefix.dfMask, link->filefix.numDfMask);
+		link->filefix.dfMask = NULL;
+		link->filefix.numDfMask = 0;
+		parseGrp(token, &(link->filefix.dfMask), &(link->filefix.numDfMask));
 		break;
 
     case 6:
@@ -3634,10 +3647,11 @@ int parseListEcho(char *line, e_listEchoMode *value) {
  */
 int parseLine(char *line, s_fidoconfig *config)
 {
-    char *token, *temp;
+    char *token, *temp, *s;
     char *iToken;
     int rc = 0, id;
     s_link   *clink = NULL;
+    int link_robot = -1;
     static token_list_t tl;
     static token_list_t *ptl = NULL;
 
@@ -3661,6 +3675,12 @@ int parseLine(char *line, s_fidoconfig *config)
         iToken = strLower(sstrdup(token));
 
         id = find_token(ptl, iToken);
+        /* val: handle ^(area|file)fix.* */
+        if (id == -1) {
+          link_robot =   (!strnicmp(iToken, "areafix", 7) & 1)
+                       | (!strnicmp(iToken, "filefix", 7) & 2);
+          if (link_robot) id = find_token(ptl, iToken + 7);
+        }
 
         switch (id)
         {
@@ -3668,7 +3688,16 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseVersion(getRestOfLine(), config);
             break;
         case ID_NAME:
-            rc = fc_copyString(getRestOfLine(), &(config->name));
+            if (link_robot == 1 || link_robot == 2) {
+              clink = getDescrLink(config);
+              if (clink)
+                if (link_robot == 1)
+                    fc_copyString(getRestOfLine(), &(clink->areafix.name));
+                else
+                    fc_copyString(getRestOfLine(), &(clink->filefix.name));
+            }
+            else
+              rc = fc_copyString(getRestOfLine(), &(config->name));
             break;
         case ID_LOCATION:
             rc = fc_copyString(getRestOfLine(), &(config->location));
@@ -3789,8 +3818,8 @@ int parseLine(char *line, s_fidoconfig *config)
                 /* defaultPwd from linkdefaults (if exist) */
                 clink->pktPwd = clink->defaultPwd;
                 clink->ticPwd = clink->defaultPwd;
-                clink->areaFixPwd = clink->defaultPwd;
-                clink->fileFixPwd = clink->defaultPwd;
+                clink->areafix.pwd = clink->defaultPwd;
+                clink->filefix.pwd = clink->defaultPwd;
                 clink->bbsPwd = clink->defaultPwd;
                 clink->sessionPwd = clink->defaultPwd;
             } else {
@@ -3851,14 +3880,10 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_FORWARDREQUESTS:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->forwardRequests);
-            } else {
-                rc = 1;
-            }
-            break;
-        case ID_FORWARDFILEREQUESTS:
-            if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->forwardFileRequests);
+                if (link_robot & 1)
+                    rc = parseBool (getRestOfLine(), &clink->areafix.forwardRequests);
+                if (link_robot & 2)
+                    rc = parseBool (getRestOfLine(), &clink->filefix.forwardRequests);
             } else {
                 rc = 1;
             }
@@ -3916,19 +3941,13 @@ int parseLine(char *line, s_fidoconfig *config)
                 rc = 1;
             }
             break;
-        case ID_AUTOAREACREATEDEFAULTS:
+        case ID_AUTOCREATEDEFAULTS:
+            s = getRestOfLine();
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = fc_copyStringWOstrip(getRestOfLine(),
-                                &clink->autoAreaCreateDefaults);
-            }
-            else {
-                rc = 1;
-            }
-            break;
-        case ID_AUTOFILECREATEDEFAULTS:
-            if( (clink = getDescrLink(config)) != NULL ) {
-                rc = fc_copyStringWOstrip(getRestOfLine(),
-                                &clink->autoFileCreateDefaults);
+                if (link_robot & 1)
+                    rc = fc_copyStringWOstrip(s, &clink->areafix.autoCreateDefaults);
+                if (link_robot & 2)
+                    rc = fc_copyStringWOstrip(s, &clink->filefix.autoCreateDefaults);
             }
             else {
                 rc = 1;
@@ -3980,17 +3999,13 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseAutoPause(getRestOfLine(),
                                 &(getDescrLink(config)->autoPause));
             break;
-        case ID_REMOTEROBOTNAME:
-            rc = fc_copyString(getRestOfLine(),
-                            &(getDescrLink(config)->RemoteRobotName));
-            break;
-        case ID_REMOTEFILEROBOTNAME:
-            rc = fc_copyString(getRestOfLine(),
-                            &(getDescrLink(config)->RemoteFileRobotName));
-            break;
-        case ID_FORWARDAREAPRIORITY:
-            rc = parseUInt(getRestOfLine(),
-                           &(getDescrLink(config)->forwardAreaPriority));
+        case ID_FWDPRIORITY:
+            if (link_robot & 1)
+                rc = parseUInt(getRestOfLine(),
+                               &(getDescrLink(config)->areafix.forwardPriority));
+            if (link_robot & 2)
+                rc = parseUInt(getRestOfLine(),
+                               &(getDescrLink(config)->filefix.forwardPriority));
             break;
         case ID_FORWARDREQUESTTIMEOUT:
             checkRobot();
@@ -4005,10 +4020,6 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseUInt(getRestOfLine(), &(curRobot->killedRequestTimeout));
             break;
 
-        case ID_FORWARDFILEPRIORITY:
-            rc = parseUInt(getRestOfLine(),
-                           &(getDescrLink(config)->forwardFilePriority));
-            break;
         case ID_DENYUNCONDFWDREQACCESS:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->denyUFRA));
             break;
@@ -4046,24 +4057,28 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_OPTGRP:
             rc = parseGroup(getRestOfLine(), config, 3);
             break;
-        case ID_FORWARDREQUESTMASK:
-            rc = parseGroup(getRestOfLine(), config, 4);
+        case ID_FWDMASK:
+            s = getRestOfLine();
+            if (link_robot & 1) rc = parseGroup(s, config, 4);
+            if (link_robot & 2) rc = parseGroup(s, config, 14);
             break;
-        case ID_DENYFWDMASK:
-            rc = parseGroup(getRestOfLine(), config, 5);
+        case ID_FWDDENYMASK:
+            s = getRestOfLine();
+            if (link_robot & 1) rc = parseGroup(s, config, 5);
+            if (link_robot & 2) rc = parseGroup(s, config, 15);
             break;
         case ID_LEVEL:
             rc = parseNumber(getRestOfLine(), 10,
                              &(getDescrLink(config)->level));
             break;
-        case ID_AREAFIXECHOLIMIT:
-            rc = parseNumber(getRestOfLine(), 10,
-                             &(getDescrLink(config)->afixEchoLimit));
+        case ID_ECHOLIMIT:
+            {
+            s_link *link = getDescrLink(config);
+            char *s = getRestOfLine();
+            if (link_robot & 1) rc |= parseNumber(s, 10, &(link->areafix.echoLimit));
+            if (link_robot & 2) rc |= parseNumber(s, 10, &(link->filefix.echoLimit));
             break;
-        case ID_FILEFIXECHOLIMIT:
-            rc = parseNumber(getRestOfLine(), 10,
-                              &(getDescrLink(config)->ffixEchoLimit));
-            break;	    	   	
+            }
         case ID_ARCMAILSIZE:
             rc = parseNumber(getRestOfLine(), 10,
                              &(getDescrLink(config)->arcmailSize));
@@ -4084,11 +4099,11 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_AREAFIXPWD:
             rc = parsePWD(getRestOfLine(),
-                          &(getDescrLink(config)->areaFixPwd));
+                          &(getDescrLink(config)->areafix.pwd));
             break;
         case ID_FILEFIXPWD:
             rc = parsePWD(getRestOfLine(),
-                          &(getDescrLink(config)->fileFixPwd));
+                          &(getDescrLink(config)->filefix.pwd));
             break;
         case ID_BBSPWD:
             rc = parsePWD(getRestOfLine(), &(getDescrLink(config)->bbsPwd));
@@ -4176,30 +4191,38 @@ int parseLine(char *line, s_fidoconfig *config)
             checkRobot();
             rc = parseFileName(getRestOfLine(), &(curRobot->helpFile), NULL);
             break;
-        case ID_FORWARDREQUESTFILE:
-            rc = parseFileName(getRestOfLine(),
-                               &(getDescrLink(config)->forwardRequestFile),
-                               &(linkDefined.forwardRequestFile));
+        case ID_FWDFILE:
+            s = getRestOfLine();
+            if (link_robot & 1)
+                rc = parseFileName(s,
+                                   &(getDescrLink(config)->areafix.fwdFile),
+                                   &(linkDefined.areafix.fwdFile));
+            if (link_robot & 2)
+                rc = parseFileName(s,
+                                   &(getDescrLink(config)->filefix.fwdFile),
+                                   &(linkDefined.filefix.fwdFile));
             break;
-        case ID_DENYFWDFILE:
-            rc = parseFileName(getRestOfLine(),
-                               &(getDescrLink(config)->denyFwdFile),
-                               &(linkDefined.denyFwdFile));
+        case ID_FWDDENYFILE:
+            s = getRestOfLine();
+            if (link_robot & 1)
+                rc = parseFileName(s,
+                                   &(getDescrLink(config)->areafix.denyFwdFile),
+                                   &(linkDefined.areafix.denyFwdFile));
+            if (link_robot & 2)
+                rc = parseFileName(s,
+                                   &(getDescrLink(config)->filefix.denyFwdFile),
+                                   &(linkDefined.filefix.denyFwdFile));
             break;
-        case ID_FORWARDFILEREQUESTFILE:
-            rc = parseFileName(getRestOfLine(),
-                             &(getDescrLink(config)->forwardFileRequestFile),
-                             &(linkDefined.forwardFileRequestFile));
-            break;
-        case ID_AUTOAREACREATEFILE:
-            rc = parseFileName(getRestOfLine(),
-                               &(getDescrLink(config)->autoAreaCreateFile),
-                               &(linkDefined.autoAreaCreateFile));
-            break;
-        case ID_AUTOFILECREATEFILE:
-            rc = parseFileName(getRestOfLine(),
-                               &(getDescrLink(config)->autoFileCreateFile),
-                               &(linkDefined.autoFileCreateFile));
+        case ID_AUTOCREATEFILE:
+            s = getRestOfLine();
+            if (link_robot & 1)
+              rc = parseFileName(s,
+                                 &(getDescrLink(config)->areafix.autoCreateFile),
+                                 &(linkDefined.areafix.autoCreateFile));
+            if (link_robot & 2)
+              rc = parseFileName(s,
+                                 &(getDescrLink(config)->filefix.autoCreateFile),
+                                 &(linkDefined.filefix.autoCreateFile));
             break;
         case ID_LINKBUNDLENAMESTYLE:
             rc = parseBundleNameStyle(getRestOfLine(),
@@ -4322,7 +4345,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_REPORTSATTR:
             if (config->describeLinkDefaults || config->linkCount) {
                  s_link *link = getDescrLink(config);
-                 rc = parseAttr(getRestOfLine(), &(link->areafixReportsFlags), &(link->areafixReportsAttr));
+                 char *s = getRestOfLine();
+                 if (link_robot & 1) rc |= parseAttr(s, &(link->areafix.reportsFlags), &(link->areafix.reportsAttr));
+                 if (link_robot & 2) rc |= parseAttr(s, &(link->filefix.reportsFlags), &(link->filefix.reportsAttr));
             }
             else {
               checkRobot();

@@ -124,14 +124,30 @@ typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlway
 typedef enum emailEncoding { eeMIME, eeSEAT, eeUUE } e_emailEncoding;
 typedef enum pauses        { NOPAUSE=0, ECHOAREA=1, FILEAREA=2 } e_pauses; /*bitmasks! ECHOAREA & FILEAREA use also in s_area.areatype*/
 
+typedef struct link_robot {
+    char *pwd;         /* (was: areaFixPwd) */
+    long reportsAttr;       /* (was: areafixReportsAttr) */
+    char *reportsFlags;     /* (was: areafixReportsFlags) */
+    unsigned int echoLimit; /* (was: afixEchoLimit) */
+    char *autoCreateFile;  /*  file where autocreated areas are written to (was: autoAreaCreateFile) */
+    char *autoCreateDefaults;/*  add default string for autocreated area here (was: autoAreaCreateDefaults) */
+    unsigned int forwardRequests; /*  0 if not allowed forward requests */
+    char *name;       /* remote robot (was: RemoteRobotName) */
+    unsigned int forwardPriority; /*  Priority when requests area from uplinks (was: forwardAreaPriority) */
+    char *fwdFile;     /* list of available areas from this link */
+    char *denyFwdFile;
+    char **frMask; /*  forwardRequestMask groups */
+    unsigned int numFrMask;
+    char **dfMask; /*  don't forward this */
+    unsigned int numDfMask;
+} s_link_robot, *ps_link_robot;
+
 typedef struct link {
     hs_addr hisAka, *ourAka, hisPackAka;
     char *name;
     char *defaultPwd,               /*  8 byte passwords */
         *pktPwd,
         *ticPwd,
-        *areaFixPwd,
-        *fileFixPwd,
         *bbsPwd,
         *sessionPwd;
     char *handle;              /*  nickname */
@@ -139,13 +155,15 @@ typedef struct link {
     char *emailFrom; /*  sender address for outgoing emails */
     char *emailSubj;
     e_emailEncoding emailEncoding;
+
+    s_link_robot areafix;              /* areafix data */
+    s_link_robot filefix;              /* filefix data */
+
     unsigned int autoAreaCreate;       /*  0 if not allowed for autoareacreate */
     unsigned int autoFileCreate;       /*  0 if not allowed for autofilecreate */
     unsigned int AreaFix;              /*  0 if not allowed for areafix */
     unsigned int FileFix;              /*  0 if not allowed for filefix */
     unsigned int FileFixFSC87Subset;   /*  1 if only FSC87-commands are allowable in TIC files */
-    unsigned int forwardRequests;      /*  0 if not allowed forward requests */
-    unsigned int forwardFileRequests;  /*  0 if not allowed forward requests for file areas */
     unsigned int denyFRA; /*  denyFwdReqAccess */
     unsigned int denyUFRA; /*  denyUncondFwdReqAccess */
 
@@ -162,17 +180,6 @@ typedef struct link {
     char *LinkGrp;         /*  link's group for autocreate areas */
     char **AccessGrp;      /*  groups for echo access */
     unsigned int numAccessGrp;
-    char *autoAreaCreateFile;  /*  file where autocreated areas are written to */
-    char *autoFileCreateFile;
-    char *autoAreaCreateDefaults;/*  add default string for autocreated area here */
-    char *autoFileCreateDefaults;
-    char *forwardRequestFile;  /*  list of available areas from this link */
-    char *denyFwdFile;
-    unsigned int forwardAreaPriority;/*  Priority when requests area from uplinks */
-    char *RemoteRobotName;     /*  Name remote robot (need for ForwardRequest) */
-    char *forwardFileRequestFile;  /*  list of available file-areas from this link */
-    unsigned int forwardFilePriority;/*  Priority when requests file-area from uplinks */
-    char *RemoteFileRobotName;     /*  Name of remote file (tic) robot (need for FileForwardRequest) */
     void *msg;                 /*  active msg to the link (used in areafix) */
     unsigned int noTIC;        /*  0 if TIC files should be generated */
     unsigned int Pause;        /*  0 if no pause (default) */
@@ -195,15 +202,6 @@ typedef struct link {
     e_bundleFileNameStyle linkBundleNameStyle; /*  Style bundle filenames (timeStamp, addrDiff... */
     char *msgBaseDir;
     char *fileBaseDir;
-    char **frMask; /*  forwardRequestMask groups */
-    unsigned int numFrMask;
-    char **dfMask; /*  don't forward this */
-    unsigned int numDfMask;
-
-    long areafixReportsAttr, filefixReportsAttr;
-    char *areafixReportsFlags, *filefixReportsFlags;
-    unsigned int afixEchoLimit;
-    unsigned int ffixEchoLimit;
 
     unsigned int autoAreaCreateSubdirs;
     unsigned int autoFileCreateSubdirs;

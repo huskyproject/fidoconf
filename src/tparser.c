@@ -284,16 +284,18 @@ int testPathsAndFiles()
   /* test links */
 
   for (i=0;i<config->linkCount;i++){
-    rc+=testpath( config->links[i]->autoAreaCreateFile, "Link",
-                  config->links[i]->name, "autoAreaCreateFile" );
-    rc+=testpath( config->links[i]->autoFileCreateFile, "Link",
-                  config->links[i]->name, "autoFileCreateFile" );
-    rc+=testpath( config->links[i]->forwardRequestFile, "Link",
-                  config->links[i]->name, "forwardRequestFile" );
-    rc+=testpath( config->links[i]->denyFwdFile, "Link",
-                  config->links[i]->name, "denyFwdFile" );
-    rc+=testpath( config->links[i]->forwardFileRequestFile, "Link",
-                  config->links[i]->name, "forwardFileRequestFile" );
+    rc+=testpath( config->links[i]->areafix.autoCreateFile, "Link",
+                  config->links[i]->name, "areafixAutoCreateFile" );
+    rc+=testpath( config->links[i]->filefix.autoCreateFile, "Link",
+                  config->links[i]->name, "filefixAutoCreateFile" );
+    rc+=testpath( config->links[i]->areafix.fwdFile, "Link",
+                  config->links[i]->name, "areafixFwdFile" );
+    rc+=testpath( config->links[i]->areafix.denyFwdFile, "Link",
+                  config->links[i]->name, "areafixFwdDenyFile" );
+    rc+=testpath( config->links[i]->filefix.fwdFile, "Link",
+                  config->links[i]->name, "filefixFwdFile" );
+    rc+=testpath( config->links[i]->filefix.denyFwdFile, "Link",
+                  config->links[i]->name, "filefixFwdDenyFile" );
     rc+=testpath( config->links[i]->msgBaseDir, "Link",
                   config->links[i]->name, "msgBaseDir" );
     rc+=testpath( config->links[i]->fileBaseDir, "Link",
@@ -596,8 +598,8 @@ int printLink(ps_link link) {
    if (link->defaultPwd) printf("defaultPwd: %s\n", link->defaultPwd);
    if (link->pktPwd) printf("pktPwd:     %s\n", link->pktPwd);
    if (link->ticPwd) printf("ticPwd:     %s\n", link->ticPwd);
-   if (link->areaFixPwd) printf("areafixPwd: %s\n", link->areaFixPwd);
-   if (link->fileFixPwd) printf("filefixPwd: %s\n", link->fileFixPwd);
+   if (link->areafix.pwd) printf("areafixPwd: %s\n", link->areafix.pwd);
+   if (link->filefix.pwd) printf("filefixPwd: %s\n", link->filefix.pwd);
    if (link->bbsPwd) printf("bbsPwd:     %s\n", link->bbsPwd);
    if (link->sessionPwd) {
       printf("sessionPwd: %s\n", link->sessionPwd);
@@ -670,31 +672,49 @@ int printLink(ps_link link) {
    }
    printf("AutoAreaCreate %s\n", (link->autoAreaCreate) ? "on" : "off");
    printf("AutoAreaCreateSubdirs %s\n", (link->autoAreaCreateSubdirs) ? "on" : "off");
-   if (link->autoAreaCreateFile) printf("AutoAreaCreateFile: %s\n", link->autoAreaCreateFile);
-   if (link->numFrMask > 0) {
-	   printf("ForwardRequestMask: ");
-	   for (i = 0; i < link->numFrMask; i++) {
+   if (link->areafix.autoCreateFile) printf("areafixAutoCreateFile: %s\n", link->areafix.autoCreateFile);
+   if (link->areafix.numFrMask > 0) {
+	   printf("areafixFwdMask: ");
+	   for (i = 0; i < link->areafix.numFrMask; i++) {
 		   if (i > 0) printf(",");
-		   printf("%s", link->frMask[i]);
+		   printf("%s", link->areafix.frMask[i]);
 	   }
 	   printf("\n");
    }
-   if (link->numDfMask > 0) {
-	   printf("DenyFwdMask: ");
-	   for (i = 0; i < link->numDfMask; i++) {
+   if (link->areafix.numDfMask > 0) {
+	   printf("areafixFwdDenyMask: ");
+	   for (i = 0; i < link->areafix.numDfMask; i++) {
 		   if (i > 0) printf(",");
-		   printf("%s", link->dfMask[i]);
+		   printf("%s", link->areafix.dfMask[i]);
 	   }
 	   printf("\n");
    }
+   if (link->areafix.autoCreateDefaults) printf("areafixAutoCreateDefaults: %s\n", link->areafix.autoCreateDefaults);
 
-   if (link->autoAreaCreateDefaults) printf("AutoAreaCreateDefaults: %s\n", link->autoAreaCreateDefaults);
    printf("delNotReceivedTIC: %s\n", link->delNotReceivedTIC ? "on" : "off");
    printf("FileFixFSC87Subset %s\n", (link->FileFixFSC87Subset) ? "on" : "off");
+
    printf("AutoFileCreate %s\n", (link->autoFileCreate) ? "on" : "off");
    printf("AutoFileCreateSubdirs %s\n", (link->autoFileCreateSubdirs) ? "on" : "off");
-   if (link->autoFileCreateFile) printf("AutoFileCreateFile: %s\n", link->autoFileCreateFile);
-   if (link->autoFileCreateDefaults) printf("AutoFileCreateDefaults: %s\n", link->autoFileCreateDefaults);
+   if (link->filefix.autoCreateFile) printf("filefix.autoCreateFile: %s\n", link->filefix.autoCreateFile);
+   if (link->filefix.numFrMask > 0) {
+	   printf("filefixFwdMask: ");
+	   for (i = 0; i < link->filefix.numFrMask; i++) {
+		   if (i > 0) printf(",");
+		   printf("%s", link->filefix.frMask[i]);
+	   }
+	   printf("\n");
+   }
+   if (link->filefix.numDfMask > 0) {
+	   printf("filefixFwdDenyMask: ");
+	   for (i = 0; i < link->filefix.numDfMask; i++) {
+		   if (i > 0) printf(",");
+		   printf("%s", link->filefix.dfMask[i]);
+	   }
+	   printf("\n");
+   }
+   if (link->filefix.autoCreateDefaults) printf("filefixAutoCreateDefaults: %s\n", link->filefix.autoCreateDefaults);
+
    if (link->LinkGrp) printf("LinkGrp %s\n",link->LinkGrp);
    if (link->numAccessGrp)
    {
@@ -709,29 +729,33 @@ int printLink(ps_link link) {
      printf("\n");
    }
    printf("AreaFix %s\n", (link->AreaFix) ? "on" : "off");
-   if (link->areafixReportsAttr || link->areafixReportsFlags) {
-     char *attrs = attr2str(link->areafixReportsAttr);
-     printf("areafixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", link->areafixReportsFlags ? link->areafixReportsFlags : "");
+   if (link->areafix.echoLimit) printf("areafixEchoLimit %u\n", link->areafix.echoLimit);
+   if (link->areafix.reportsAttr || link->areafix.reportsFlags) {
+     char *attrs = attr2str(link->areafix.reportsAttr);
+     printf("areafixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", link->areafix.reportsFlags ? link->areafix.reportsFlags : "");
      nfree(attrs);
    }
-   if (link->afixEchoLimit) printf("AreaFixEchoLimit %u\n", link->afixEchoLimit);
-   if (link->ffixEchoLimit) printf("FileFixEchoLimit %u\n", link->ffixEchoLimit);
    printf("FileFix %s\n", (link->FileFix) ? "on" : "off");
-   printf("Forward Requests to this link is %s\n",(link->forwardRequests)?"on":"off");
-   printf("File Forward Requests to this link is %s\n",(link->forwardFileRequests)?"on":"off");
-   if (link->forwardAreaPriority)
-	   printf("ForwardAreaPriority: %u\n", link->forwardAreaPriority);
-   if (link->forwardFilePriority)
-	   printf("ForwardFilePriority: %u\n", link->forwardFilePriority);
+   if (link->filefix.echoLimit) printf("filefixEchoLimit %u\n", link->filefix.echoLimit);
+   if (link->filefix.reportsAttr || link->filefix.reportsFlags) {
+     char *attrs = attr2str(link->filefix.reportsAttr);
+     printf("filefixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", link->filefix.reportsFlags ? link->filefix.reportsFlags : "");
+     nfree(attrs);
+   }
+   printf("Forward Areafix Requests to this link is %s\n",(link->areafix.forwardRequests)?"on":"off");
+   printf("Forward Filefix Requests to this link is %s\n",(link->filefix.forwardRequests)?"on":"off");
+   if (link->areafix.forwardPriority)
+	   printf("areafixFwdPriority: %u\n", link->areafix.forwardPriority);
+   if (link->filefix.forwardPriority)
+	   printf("filefixFwdPriority: %u\n", link->filefix.forwardPriority);
    printf("Forward Requests Access: %s\n", (link->denyFRA) ? "off" : "on");
    printf("Unconditional Forward Requests Access: %s\n",(link->denyUFRA)?"off":"on");
-   if (link->RemoteRobotName) printf("RemoteRobotName %s\n", link->RemoteRobotName);
-   else printf("RemoteRobotName areafix\n");
-   if (link->RemoteFileRobotName) printf("RemoteFileRobotName %s\n", link->RemoteFileRobotName);
-   else printf("RemoteFileRobotName filefix\n");
-   if (link->forwardRequestFile) printf("ForwardRequestFile %s\n",link->forwardRequestFile);
-   if (link->forwardFileRequestFile) printf("ForwardFileRequestFile %s\n",link->forwardFileRequestFile);
-   if (link->denyFwdFile) printf("DenyFwdFile %s\n",link->denyFwdFile);
+   printf("areafixName %s\n", link->areafix.name ? link->areafix.name : "areafix");
+   printf("filefixName %s\n", link->filefix.name ? link->filefix.name : "filefix");
+   if (link->areafix.fwdFile) printf("areafixFwdFile %s\n",link->areafix.fwdFile);
+   if (link->filefix.fwdFile) printf("filefixFwdFile %s\n",link->filefix.fwdFile);
+   if (link->areafix.denyFwdFile) printf("areafixFwdDenyFile %s\n",link->areafix.denyFwdFile);
+   if (link->filefix.denyFwdFile) printf("filefixFwdDenyFile %s\n",link->filefix.denyFwdFile);
    if (link->msgBaseDir) printf("MsgBaseDir %s\n",link->msgBaseDir);
    if (link->fileBaseDir) printf("LinkFileBaseDir %s\n",link->fileBaseDir);
    if (link->packerDef) printf("PackerDefault %s\n", link->packerDef->packer);
@@ -896,24 +920,24 @@ void checkLogic(s_fidoconfig *config) {
 			}
 		}
 		/* Check file permissions */
-		if (config->links[i]->autoAreaCreateFile){
-			k = open( config->links[i]->autoAreaCreateFile, O_RDWR | O_APPEND );
+		if (config->links[i]->areafix.autoCreateFile){
+			k = open( config->links[i]->areafix.autoCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
 				printf( "ERROR: link " );
 				printAddr(&(config->links[i]->hisAka));
-				printf( " AutoAreaCreateFile '%s': %s\n",
-					config->links[i]->autoAreaCreateFile,
+				printf( " areafixAutoCreateFile '%s': %s\n",
+					config->links[i]->areafix.autoCreateFile,
 					strerror(errno) );
 				exit(-1);
 			}else close(k);
 		}
-		if (config->links[i]->autoFileCreateFile){
-			k = open( config->links[i]->autoFileCreateFile, O_RDWR | O_APPEND );
+		if (config->links[i]->filefix.autoCreateFile){
+			k = open( config->links[i]->filefix.autoCreateFile, O_RDWR | O_APPEND );
 			if( k<0 ){
 				printf( "ERROR: link " );
 				printAddr((&config->links[i]->hisAka));
-				printf( " AutoFileCreateFile '%s': %s\n",
-					config->links[i]->autoFileCreateFile,
+				printf( " filefixAutoCreateFile '%s': %s\n",
+					config->links[i]->filefix.autoCreateFile,
 					strerror(errno) );
 				exit(-1);
 			}else close(k);

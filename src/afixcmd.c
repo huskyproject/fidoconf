@@ -614,12 +614,12 @@ int limitCheck(s_link *link) {
     ps_area  areas = NULL;
 
     if      (theApp.module == M_HPT) {
-        echoLimit = link->afixEchoLimit;
+        echoLimit = link->areafix.echoLimit;
         areaCount = theApp.config->echoAreaCount;
         areas     = theApp.config->echoAreas;
     }
     else if (theApp.module == M_HTICK) {
-	echoLimit = link->ffixEchoLimit;
+	echoLimit = link->filefix.echoLimit;
         areaCount = theApp.config->fileAreaCount;
         areas     = theApp.config->fileAreas;
     }

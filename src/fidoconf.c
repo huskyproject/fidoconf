@@ -521,8 +521,8 @@ void setConfigDefaults(s_fidoconfig *config)
                xscatprintf(&(clink->defaultPwd),"%X",strcrc32(clink->name, 0xFFFFFFFFL));
                clink->pktPwd = clink->defaultPwd;
                clink->ticPwd = clink->defaultPwd;
-               clink->areaFixPwd = clink->defaultPwd;
-               clink->fileFixPwd = clink->defaultPwd;
+               clink->areafix.pwd = clink->defaultPwd;
+               clink->filefix.pwd = clink->defaultPwd;
                clink->bbsPwd = clink->defaultPwd;
                clink->sessionPwd = clink->defaultPwd;
                config->linkCount++;
