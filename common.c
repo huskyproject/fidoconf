@@ -1751,7 +1751,7 @@ char **mk_lst(const char *a)
 	while (*q && !isspace(*q)) q++;
 	if (*q=='\0') end=1;
 	*q ='\0';
-	list = (char **) safe_realloc(list, ++num*sizeof(char*));
+	list = (char **) srealloc(list, ++num*sizeof(char*));
 	list[num-1]=(char*)p;
 	if (!end) {
 	    p=q+1;
@@ -1759,7 +1759,7 @@ char **mk_lst(const char *a)
 	}
 	q=p;
     }
-    list = (char **) safe_realloc(list, (++num)*sizeof(char*));
+    list = (char **) srealloc(list, (++num)*sizeof(char*));
     list[num-1]=NULL;
 
     return list;
