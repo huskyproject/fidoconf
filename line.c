@@ -2581,6 +2581,7 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
         if(cb->move==2)         /* carbondelete */
             break;
         copyString(areaName, &(cb->areaName));
+        if(reason)
         copyString(reason, &(cb->reason));
         cb->move = move;
     }
