@@ -3,7 +3,7 @@
 CC=gcc
 # the space after the o is important!
 EXENAMEFLAG=-o 
-CDEFS=	-D__NT__ -I.. -Wall -pedantic -c -Wno-char-subscripts -mno-cygwin
+CDEFS=-c -D__NT__ -I.. -Wall -pedantic -mno-cygwin
 COPT=	-O3
 LFLAGS=-mno-cygwin
 
