@@ -1,3 +1,8 @@
+2001-12-28 Friday 18:20  ml
+
+	* HISTORY (1.2), cfg.c (1.14): fixed yesterday bug from mche in
+	configline ()
+
 2001-12-27 Thursday 16:12  mche
 
 	* common.c (1.70), fidoconf.c (1.60): - unified memory
