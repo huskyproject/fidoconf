@@ -7,6 +7,7 @@ EXENAMEFLAG=-fe=
 CDEFS=
 COPT=-zq -wx -i=.. -oneatx -5 -c -bt=nt
 LFLAGS=-bt=nt -l=nt
+# Also see compilation rule for fidoconf.c !
 
 TPU=.tpu
 OBJ=.obj
@@ -35,6 +36,10 @@ LIBFIDOCONFIG = $(LIBPREFIX)fconfwcw
 default: all
 
 !include makefile.inc
+
+fidoconf.obj:
+	wcl386 -zq -wx -i=.. -oneat -5 -c -bt=nt  fidoconf.c
+# Relax some optimization because of bug in WCL 11.0 - removed 'x' option
 
 all: commonlibs commonprogs $(FECFG2FCONF)$(EXE) $(SYMBOLIC)
 	$(NULL)
