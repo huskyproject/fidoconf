@@ -2333,6 +2333,7 @@ int parseFilelist(char *line, s_fidoconfig *config)
 
   if (!strcmp(flType, "dir")) curFl->flType = flDir;
   else if (!strcmp(flType, "global")) curFl->flType = flGlobal;
+  else if (!strcmp(flType, "dirlist")) curFl->flType = flDirList;
   else
   {
     printf("Line %d: Unknown filelist type %s!\n", actualLineNr, flType);
@@ -2347,26 +2348,30 @@ int parseFilelist(char *line, s_fidoconfig *config)
   numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->destFile));
   if (!numCopied) return 1;
 
-  // parse dirHdrTpl
-  lineTmp += numCopied;
-  if (*lineTmp) lineTmp++;
-  numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirHdrTpl));
-  if (!numCopied) return 1;
-
-  // parse dirEntryTpl
-  lineTmp += numCopied;
-  if (*lineTmp) lineTmp++;
-  numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirEntryTpl));
-  if (!numCopied) return 1;
-
-  // parse dirFtrTpl
-  lineTmp += numCopied;
-  if (*lineTmp) lineTmp++;
-  numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirFtrTpl));
-  if (!numCopied) return 1;
-
-  if (curFl->flType == flGlobal)
+  if ((curFl->flType == flDir) || (curFl->flType == flGlobal))
   {
+    // parse dirHdrTpl
+    lineTmp += numCopied;
+    if (*lineTmp) lineTmp++;
+    numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirHdrTpl));
+    if (!numCopied) return 1;
+
+    // parse dirEntryTpl
+    lineTmp += numCopied;
+    if (*lineTmp) lineTmp++;
+    numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirEntryTpl));
+    if (!numCopied) return 1;
+
+    // parse dirFtrTpl
+    lineTmp += numCopied;
+    if (*lineTmp) lineTmp++;
+    numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirFtrTpl));
+    if (!numCopied) return 1;
+  }
+
+  switch (curFl->flType)
+  {
+  case flGlobal:
     // parse globHdrTpl
     lineTmp += numCopied;
     if (*lineTmp) lineTmp++;
@@ -2378,6 +2383,27 @@ int parseFilelist(char *line, s_fidoconfig *config)
     if (*lineTmp) lineTmp++;
     numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->globFtrTpl));
     if (!numCopied) return 1;
+    break;
+
+  case flDirList:
+    // parse dirListHdrTpl
+    lineTmp += numCopied;
+    if (*lineTmp) lineTmp++;
+    numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirListHdrTpl));
+    if (!numCopied) return 1;
+
+    // parse dirListEntryTpl
+    lineTmp += numCopied;
+    if (*lineTmp) lineTmp++;
+    numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirListEntryTpl));
+    if (!numCopied) return 1;
+
+    // parse dirListFtrTpl
+    lineTmp += numCopied;
+    if (*lineTmp) lineTmp++;
+    numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirListFtrTpl));
+    if (!numCopied) return 1;
+    break;
   }
 
   return 0;

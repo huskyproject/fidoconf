@@ -167,16 +167,25 @@ void printFilelist(s_filelist *fl)
   }
 
   printf("destination file: %s\n", fl->destFile);
-  printf("directory header template: %s\n", fl->dirHdrTpl);
-  printf("directory entry template: %s\n", fl->dirEntryTpl);
-  printf("directory footer template: %s\n", fl->dirFtrTpl);
-
-  if (fl->flType == flGlobal)
+  if ((fl->flType == flGlobal) || (fl->flType == flDirList))
   {
-    printf("global header template: %s\n", fl->globHdrTpl);
-    printf("global footer template: %s\n", fl->globFtrTpl);
+    printf("directory header template: %s\n", fl->dirHdrTpl);
+    printf("directory entry template: %s\n", fl->dirEntryTpl);
+    printf("directory footer template: %s\n", fl->dirFtrTpl);
   }
 
+  switch (fl->flType)
+  {
+  case flGlobal:
+    printf("global header template: %s\n", fl->globHdrTpl);
+    printf("global footer template: %s\n", fl->globFtrTpl);
+    break;
+
+  case flDirList:
+    printf("dirlist header template: %s\n", fl->dirListHdrTpl);
+    printf("dirlist footer template: %s\n", fl->dirListFtrTpl);
+    break;
+  }
   printf("-------\n");
 }
 

@@ -793,6 +793,12 @@ void dumpFilelist(s_filelist *fl, FILE *f)
 	    fl->dirHdrTpl, fl->dirEntryTpl, fl->dirFtrTpl,
 	    fl->globHdrTpl, fl->globFtrTpl);
     break;
+
+  case flDirList:
+    fprintf(f, "filelist           dirlist %s %s %s %s\n",
+	    fl->destFile,
+	    fl->dirListHdrTpl, fl->dirListEntryTpl, fl->dirListFtrTpl);
+    break;
   }
 }
 

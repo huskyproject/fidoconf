@@ -2562,14 +2562,18 @@ NetmailArea.
 @subsection filelist
 @table @asis
 @item Syntax:
-@code{filelist (dir|global) <dirHdrTpl> <dirEntryTpl> <dirFtrTpl> [<globalHdrTpl> <globalFtrTpl>]}
+@code{filelist dir <dirHdrTpl> <dirEntryTpl> <dirFtrTpl>}
+@code{filelist global <dirHdrTpl> <dirEntryTpl> <dirFtrTpl> [<globalHdrTpl> <globalFtrTpl>]}
+@code{filelist dirlist <dirListHdrTpl> <dirListEntryTpl> <dirListFtrTpl>]}
 @item Example:
 @code{filelist global /var/spool/fido/files/24350424.all /etc/fido/filelist.dirhdr.tpl /etc/fido/filelist.direntry.tpl /etc/fido/filelist.dirftr.tpl /etc/fido/filelist.globalhdr.tpl /etc/fido/filelist.globalfdr.tpl}
 @code{filelist dir files.html /etc/fido/filelist.dirhdr.tpl /etc/fido/files.html.direntry.tpl /etc/fido/files.html.dirftr.tpl}
+@code{filelist dirlist /home/fido/public_html/arealist.html /etc/fido/arealist.html.dirlisthdr.tpl /etc/fido/arealist.html.dirlistentry.tpl /etc/fido/arealist.html.dirlistftr.tpl}
 @end table
 
 Generate filelist using the given template files. Directory filelists are 
-created for every area, global filelists contain all areas.
+created for every area, global filelists contain all areas. Dirlists are
+lists of all areas (without the file entries).
 FileAreas, BbsAreas and PublicDirs (the latter one including all 
 subdirectories) are processed.
 
