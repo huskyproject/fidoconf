@@ -4443,8 +4443,10 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_ORIGIN:
             temp = getRestOfLine();
-            if( temp[0] == '"' && temp[strlen(temp)-1] =='"' ) {
-              temp++; temp[strlen(temp)-1]='\0';
+            if (temp) {
+                if( temp[0] == '"' && temp[strlen(temp)-1] =='"' ) {
+                    temp++; temp[strlen(temp)-1]='\0';
+                }
             }
             rc = copyString(temp, &(config->origin));
             break;
