@@ -58,6 +58,10 @@ int cmpfnames(char *file1, char *file2);
 #include <dos.h>
 #endif
 
+#ifdef HAS_PROCESS_H
+#include <process.h>
+#endif
+
 #ifdef HAS_PWD_H
 #include <pwd.h>
 #endif

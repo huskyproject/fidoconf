@@ -114,7 +114,7 @@ override CFLAGS	+= $(DEBUG)
 EXENAMEFLAG	= $(NAMEOPT)
 
 
-.PHONY:	distclean clean all static dll programs default
+.PHONY:	distclean clean all static dll programs default dllprograms
 
 default:
 	@echo Run 'make dll' to build dll version \($(DLLTARGET)\)
