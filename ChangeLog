@@ -1,3 +1,42 @@
+2002-09-10 Tuesday 14:30  stas_degteff
+
+	* makefile.in2 (1.7): Revert invalid patch (-2)
+
+2002-09-10 Tuesday 14:19  stas_degteff
+
+	* makefile.bsd (1.16): Update previous fix
+
+2002-09-10 Tuesday 14:09  stas_degteff
+
+	* makefile.bsd (1.15), makefile.in2 (1.6): Add install into for
+	FreeBSD using makefile.bsd
+
+2002-09-10 Tuesday 13:47  stas_degteff
+
+	* makefile.inc (1.31): Add fc2binkd$(OBJ) into OBJS
+
+2002-09-10 Tuesday 13:44  stas_degteff
+
+	* makefile.in2 (1.5): Small (cosmetic) fix
+
+2002-09-10 Tuesday 06:21  stas_degteff
+
+	* common.h (1.55): Cosmetic fix: change comment
+
+2002-09-10 Tuesday 06:20  stas_degteff
+
+	* common.c (1.98), common.h (1.54): Implement "safe" function
+	sstrcmp() and macroses sstrncpy(), sstrcpy(), sstrndup().
+
+2002-09-10 Tuesday 01:32  d_sergienko
+
+	* fidoconf.h (1.138), line.c (1.324), tokens.h (1.47), tparser.c
+	(1.196), doc/keywords.hpt (1.30): new token 'disablePID'
+
+2002-09-10 Tuesday 01:07  d_sergienko
+
+	* temp.c (1.9): setting up permissions for newly created files
+
 2002-09-09 Monday 11:11  pgul
 
 	* temp.c (1.8): Added HAVE_MKSTEMP option
