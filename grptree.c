@@ -70,18 +70,22 @@ void freeGrpTree()
 void addPatternToGrpTree(char *grpname, char *pattern)
 {
     grp_t *t;
-    printf("adding pattern %s to group %s\n", pattern, grpname);
-    t = (grp_t *) calloc(sizeof(grp_t), 1);
-    t->name = (char *) strdup(grpname);
-    t->pattern = (char *) strdup(pattern);
+    t = (grp_t *) scalloc(sizeof(grp_t), 1);
+    t->name = (char *) sstrdup(grpname);
+    t->pattern = (char *) sstrdup(pattern);
+    fflush(stdout);
     addGrpToTree(t);
 }
 
 int addPatternListToGrpTree(char *grpname, char *plist)
 {
-    char *pattern = (char *)1;
+    char *pattern;
+    char *plist_tmp;
 
     if (!grpname || !plist) return 0;
+
+    plist_tmp = sstrdup(plist);
+    plist = plist_tmp;
 
     pattern = strtok(plist, " \t,");
     if (pattern) {
@@ -89,6 +93,7 @@ int addPatternListToGrpTree(char *grpname, char *plist)
         while(pattern = strtok(NULL, " \t,"))
             addPatternToGrpTree(grpname, pattern);
     }
+    nfree(plist_tmp);
     return 1;
 }
 
