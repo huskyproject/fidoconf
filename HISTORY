@@ -1,10 +1,13 @@
 FIDOCONFIG 0.15 current
 
 1. MAJOR feature improvements:
+   - area definition options -manual & -mandatory are different:
+     '-mandatory' prevent unsubscribe, '-manual' disable subscribe;
 
 2. CONFIG changes:
    - new tokens for htick announcer: annadrfrom, annadrto, annfrom, annto,
-     annsubj, annexclude, anninclude, announcespool, annareatag
+     annsubj, annexclude, anninclude, announcespool, annareatag;
+   - pause statement expanded to: Pause ON Pause OFF Pause FAREA Pause EAREA
 
 3. IMPORTANT bugfixes:
 
