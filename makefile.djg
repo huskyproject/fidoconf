@@ -11,8 +11,8 @@ COPT = -c -Wall -s -O3 -I../smapi
 LOPT = -L. -L../smapi -lc
 
 # filename settings
-O   = .o
-A   = .a
+OBJ   = .o
+LIB   = .a
 EXE = .exe
 FIDOCONFIG     = fidoconf
 FCONF2AQUAED   = fc2aed

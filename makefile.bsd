@@ -19,8 +19,8 @@ endif
 LOPT = -L. -L$(LIBDIR)
 
 # filename settings
-O = .o
-A = .a
+OBJ = .o
+LIB = .a
 EXE =
 TPU = .ppu
 FIDOCONFIG = fidoconfig
@@ -33,7 +33,7 @@ LIBFIDOCONFIG = libfidoconfig
 LINKSMAPI = -lsmapibsd
 LINKFIDOCONFIG = -l$(FIDOCONFIG)
 
-.c$(O):
+.c$(OBJ):
 	$(CC) $(COPT) -c $*.c
 
 default: all
@@ -60,7 +60,7 @@ install: commonlibs commonprogs
 	install -c $(IBOPT) fconf2fidogate $(BINDIR)
 	install -c $(IBOPT) fconf2squish $(BINDIR)
 	install -c $(IBOPT) tparser $(BINDIR)
-	install -c $(ILOPT) $(LIBFIDOCONFIG)$(A) $(LIBDIR)
+	install -c $(ILOPT) $(LIBFIDOCONFIG)$(LIB) $(LIBDIR)
 	install -c $(ILOPT) libfidoconfig.so.$(VERH) $(LIBDIR)
 	ln -sf libfidoconfig.so.$(VERH) $(LIBDIR)/libfidoconfig.so
 	install -c $(IIOPT) fidoconfig.h $(INCDIR)

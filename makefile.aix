@@ -18,8 +18,8 @@ endif
 LOPT = -L . -L $(LIBDIR)
 
 # filename settings
-O = .o
-A = .a
+OBJ = .o
+LIB = .a
 EXE =
 TPU = .ppu
 FIDOCONFIG = fidoconfig

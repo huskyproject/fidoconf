@@ -18,9 +18,8 @@ LOPT = -L. -L$(LIBDIR)
 # LOPT = 
 
 # filename settings
-O = .o
 OBJ = .o
-A = .a
+LIB = .a
 EXE =
 TPU = .ppu
 FIDOCONFIG = fidoconfig
@@ -46,16 +45,16 @@ clean: commonclean
 distclean: commondistclean
 	-$(RM) libfidoconfig.so.$(VER)
 
-libfidoconfig.so.$(VER): line$(O) common$(O) fidoconfig$(O) adcase$(O) dirlayer$(O)
-	$(CC) -shared -Wl,-soname,libfidoconfig.so.$(VERH) -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) adcase$(O) dirlayer$(O) $(LOPT) 
+libfidoconfig.so.$(VER): line$(OBJ) common$(OBJ) fidoconfig$(OBJ) adcase$(OBJ) dirlayer$(OBJ)
+	$(CC) -shared -Wl,-soname,libfidoconfig.so.$(VERH) -o $(LIBFIDOCONFIG).so.$(VER) line$(OBJ) common$(OBJ) fidoconfig$(OBJ) adcase$(OBJ) dirlayer$(OBJ) $(LOPT) 
 
 %.o: %.c
 	$(CC) $(COPT) $*.c
 
 install: 
 	install $(ILOPT) libfidoconfig.so.$(VER) $(LIBDIR)
-	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
-	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
+	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.$(VERH)
+	ln -sf $(LIBDIR)/libfidoconfig.so.$(VERH) $(LIBDIR)/libfidoconfig.so
 	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed fconf2fidogate fconf2squish $(INSTDIR)
 	install linkedto $(INSTDIR)
 	install $(IBOPT) tparser      $(INSTDIR)
