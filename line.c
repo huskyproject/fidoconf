@@ -847,7 +847,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
 
                actualRoute->pattern = (char *) malloc(strlen(option)+2+1);//2 for additional .0 if needed
                strcpy(actualRoute->pattern, option);
-	       if ((strchr(option, '.')==NULL) && (strchr(option, '?')==NULL)) {
+	       if ((strchr(option, '.')==NULL) && (strchr(option, '*')==NULL)) {
 		 strcat(actualRoute->pattern, ".0");
 	       }
                (*count)++;

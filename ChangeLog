@@ -2,6 +2,11 @@ fidoconfig 0.8
 --------------
 
 ----- cvs ci ------
+Sun May 30 22:26:26 CEST 1999	
+mtt:
+* fixed a bug in (2)
+
+----- cvs ci ------
 Sun May 23  18:50:01
 Fedor:
 + added tokens RemoteRobotName - Areafix (default) or another
@@ -12,7 +17,7 @@ Tue May 18 17:54:01 CEST 1999
 mtt:
 * added fconf2squish which can be used for squish config based programs
   like sqLink
-* fidoconfig now adds .0 to the pattern of a route when there is no . and no * in it.
+* (2) fidoconfig now adds .0 to the pattern of a route when there is no . and no * in it.
 	
 ----- cvs ci ------
 Sun May 16 23:26:39 CEST 1999
