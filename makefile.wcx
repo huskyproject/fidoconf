@@ -7,10 +7,10 @@
 
 CC          = wcl386
 EXENAMEFLAG = -fe=
-CDEFS       = -DMSDOS -D__DOS__
-COPT        = -zq -wx -wcd=202 -i=.. -oneatx -5 -c -bt=dos4g -mf -fpi87
-COPT_WO_X   = -zq -wx          -i=.. -oneat  -5 -c -bt=dos4g -mf -fpi87
-LFLAGS      = -bt=dos4g -mf -l=dos4g
+CDEFS       = -D__DOS__
+COPT        = -zq -wx -wcd=202 -i=.. -oneatx -5 -bt=dos4g -mf -fpi87 -c
+COPT_WO_X   = -zq -wx          -i=.. -oneat  -5 -bt=dos4g -mf -fpi87 -c
+LFLAGS      = -bt=dos4g -mf -fpi87 -l=dos4g
 # Also see compilation rule for fidoconf.c !
 
 TPU         = .tpu
@@ -46,6 +46,7 @@ LIBFIDOCONFIG  = $(LIBPREFIX)$(LFCONF)
 
 default : all $(SYMBOLIC)
 
+!include makefile.in1
 !include makefile.inc
 
 fidoconf$(OBJ) : fidoconf.c
