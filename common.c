@@ -1016,6 +1016,16 @@ char *sstrdup(const char *src)
     return ptr;
 }
 
+/* safe strcmp */
+int sstrcmp(const char *str1, const char *str2)
+{
+  if( str1==str2 ) return 0;  /* strings match */
+  if( str1==NULL ) return -1; /* str1(NULL) < str2(not NULL) */
+  if( str2==NULL ) return 1;  /* str1(not NULL) > str2(NULL) */
+  return strcmp(str1,str2);   /* compare strings */
+}
+
+
 char    *GetFilenameFromPathname(char* pathname)
 {
     char *fname = strrchr(pathname,PATH_DELIM);

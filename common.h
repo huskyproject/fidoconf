@@ -264,8 +264,20 @@ FCONF_EXT void *srealloc(void *ptr, size_t size);
 FCONF_EXT void *scalloc(size_t nmemb, size_t size);
 FCONF_EXT char *sstrdup(const char *src);
 
+/* safe strdup for line part */
+#define sstrndup(src,len) strncpy(smalloc(len),src,len)
+
 /* safe strlen: if src==NULL return 0 */
 #define sstrlen(src) ( src ? strlen(src) : 0 )
+
+/* safe strcpy: if src==NULL or dst==NULL don't copy and return NULL */
+#define sstrcpy(dst,src) ( (src)&&(dst) ? strcpy(dst,src) : NULL )
+
+/* safe strncpy: if src==NULL or dst==NULL don't copy and return NULL */
+#define sstrncpy(dst,src,len) ( (src)&&(dst) ? strncpy(dst,src,len) : NULL )
+
+/* safe strcmp */
+FCONF_EXT int sstrcmp(const char *str1, const char *str2);
 
 /* strsep.c
 */
