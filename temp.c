@@ -41,6 +41,10 @@
 #include "log.h"
 #include "temp.h"
 
+#ifdef __WATCOMC__
+# define mktemp _mktemp
+#endif
+
 /* This includes commented for not create dependence from smapi
    please don't use _createDirectoryTree()
  */
@@ -96,7 +100,7 @@ FILE *createTempFileIn(const char *path, const char *ext, char mode, char **name
 
   if( !path || !path[0] ){
     w_log(LL_ERR, "temp::createTempFileIn(): pathname is empty!");
-    return NULL;   
+    return NULL;
   }
   w_log( LL_FUNC, "createtempfileIn() start" );
 
