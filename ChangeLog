@@ -1,3 +1,7 @@
+2005-03-03 Thursday 11:54  val_khokhlov
+
+	* src/tparser.c (1.31): typo: filefixAutoCreateFile
+
 2005-02-25 Friday 00:12  nick_voronin
 
 	* src/tparser.c (1.30): DLLEXPORT define replaced with DLLIMPORT. 
