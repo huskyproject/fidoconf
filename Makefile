@@ -133,13 +133,16 @@ install: commonlibs progs instdyn
 	$(INSTALL) $(IBOPT) $(FCONF2AQUAED)$(EXE)   $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2FIDOGATE)$(EXE) $(BINDIR)
 	$(INSTALL) $(IBOPT) $(FCONF2SQUISH)$(EXE)   $(BINDIR)
-	$(INSTALL) $(IBOPT) $(FCONF2TORNADO)$(EXE)   $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2TORNADO)$(EXE)  $(BINDIR)
+	$(INSTALL) $(IBOPT) $(FCONF2BINKD)$(EXE)    $(BINDIR)
 ifeq ($(CC), gcc)
 	$(INSTALL) $(IBOPT) $(FECFG2FCONF)$(EXE)    $(BINDIR)
 endif
 	$(INSTALL) $(IBOPT) tparser$(EXE)           $(BINDIR)
-	$(INSTALL) linkedto $(BINDIR)
-	$(INSTALL) $(FCONF2AREASBBS)		$(BINDIR)
+ifeq (${OSTYPE}, UNIX)
+	$(INSTALL) $(IBOPT) linkedto                $(BINDIR)
+endif
+	$(INSTALL) $(IBOPT) $(FCONF2AREASBBS)       $(BINDIR)
 	$(INSTALL) $(IIOPT) fidoconf.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) areatree.h     $(INCDIR)$(DIRSEP)fidoconf
 	$(INSTALL) $(IIOPT) findtok.h      $(INCDIR)$(DIRSEP)fidoconf
@@ -171,6 +174,7 @@ uninstall:
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2FIDOGATE)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2SQUISH)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2TORNADO)$(EXE)
+	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FCONF2BINKD)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)$(FECFG2FCONF)$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)tparser$(EXE)
 	-$(RM) $(RMOPT) $(BINDIR)$(DIRSEP)linkedto
