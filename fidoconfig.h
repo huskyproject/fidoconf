@@ -156,7 +156,7 @@ struct area {
    char keepUnread, killRead;
 
    e_dupeCheck dupeCheck;
-   char tinySB, /*manual,*/ hide, noPause, mandatory, DOSFile;
+   char tinySB, hide, noPause, mandatory, DOSFile;
 
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535
@@ -165,7 +165,6 @@ struct area {
    unsigned int imported;      // dito
 
    char group;                      // used by reader (and areafix soon)
-   char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
 
    int ccoff;          // 1 if carbon copy is not allowed from this area
 
@@ -193,10 +192,9 @@ struct fileareatype {
    unsigned levelread;	      // 0-65535
    unsigned levelwrite;	      // 0-65535
 
-   char /*manual,*/ mandatory, hide, noPause;
+   char mandatory, hide, noPause;
 
    char group;                      // used by reader (and areafix soon)
-   char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
 };
 typedef struct fileareatype s_filearea;
 

@@ -2,7 +2,12 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
-Sa  22 Jan 2000 00:36:55 CET
+Sat Jan 22 11:16:22 NOVT 2000
+max:
+* delete old level access code
+
+----- cvs ci ------
+Sat  22 Jan 2000 00:36:55 CET
 tobi (patch from Eduard Dulich)
 * improved linkedto srcipt (now also searches include files, and finds
   exact matches)
