@@ -234,14 +234,15 @@ char *getConfigFileName(void) {
    return getConfigFileNameForProgram("FIDOCONFIG", "config");
 }
 
-void carbonNames2Addr(s_fidoconfig *config)
+int carbonNames2Addr(s_fidoconfig *config)
 {
    unsigned int i, found, narea;
    s_carbon *cb;
    ps_area aptr;
    char *cbaName=NULL;
+   int rc=0;
 
-   if(!config->carbonCount) return;
+   if(!config->carbonCount) return 0;
 
    cb = &(config->carbons[0]);
 
@@ -287,8 +288,9 @@ void carbonNames2Addr(s_fidoconfig *config)
 	   }
        }
 
-
-       if (!found && (cb->move != 2) && !cb->extspawn) {/*  move==2 - delete */
+       
+       if (!found && (cb->move != 2) && !cb->extspawn) { /*  move==2 - delete */
+         if (config->badArea.areaName) {
 	   printf("Could not find area \"%s\" for carbon copy. Use BadArea\n",
 		  (cb->areaName) ? cb->areaName : "");
 	   cb->area = &(config->badArea);
@@ -297,12 +299,18 @@ void carbonNames2Addr(s_fidoconfig *config)
 	       nfree(cb->areaName);
 	   }
 	   else i = 0;
-	   cb->areaName = (char *) smalloc(strlen(config->badArea.areaName)+i+1);
+	   cb->areaName = (char *) smalloc(sstrlen(config->badArea.areaName)+i+1);
 	   if (i) *cb->areaName='*';
 	   strcpy(cb->areaName+i,config->badArea.areaName);
 	   cb->export = 0;
+	 } else {
+	   printf("Could not find area \"%s\" for carbon copy and BadArea not defined. Can't use this area for carbon copy\n", cb->areaName);
+           cb->area = NULL;
+           rc++;
+	 }
        }
    }
+   return rc;
 }
 
 /* set link-area permissions stored in readOnly[], writeOnly[] */
@@ -450,7 +458,10 @@ s_fidoconfig *readConfig(const char *fileName)
    }
    checkIncludeLogic(config);
    close_conf();
-   carbonNames2Addr(config);
+   if(carbonNames2Addr(config)) { /* Can't use carbon copy/move/delete */
+     disposeConfig(config);
+     return NULL;
+   }
    processPermissions (config);
    fixRoute(config);
    stripPktPwd(config);

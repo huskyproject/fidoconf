@@ -751,7 +751,7 @@ FCONF_EXT int  parseLine(char *line, ps_fidoconfig config);
 int parsePath(char *token, char **var, char **alreadyDefined);
 FCONF_EXT char *getConfigFileName(void);
 FCONF_EXT char *trimLine(char *line);
-FCONF_EXT void carbonNames2Addr(s_fidoconfig *config);
+FCONF_EXT int  carbonNames2Addr(s_fidoconfig *config);
 FCONF_EXT int  init_conf(const char *conf_name);
 FCONF_EXT void close_conf(void);
 FCONF_EXT void setvar(char *name, char *value);
