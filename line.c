@@ -295,7 +295,36 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    char *token;
    int i;
 
-   if (stricmp(option, "p")==0) {
+   if (stricmp(option, "b")==0) {
+      token = strtok(NULL, " \t");
+      if (token == NULL) {
+         printf("Line %d: An msgbase type is missing after -b in areaOptions!\n", actualLineNr);
+         return 1;
+      }
+      if ((stricmp(token, "Squish")!=0) && (stricmp(token, "Jam")!=0) && (stricmp(token, "Msg")!=0)) {
+         printf ("Line %d: MsgBase type not valid after -b in areaOptions!\n", actualLineNr);
+         return 1;
+      }
+      if (stricmp(token, "Squish")==0) {
+        if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+           printf("Line %d: Logical Defect!! You could not make a Squish Area Passthrough!\n", actualLineNr);
+        }
+        area->msgbType = MSGTYPE_SQUISH;
+      }
+      else if (stricmp(token, "Jam")==0) {
+        if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+           printf("Line %d: Logical Defect!! You could not make a Jam Area Passthrough!\n", actualLineNr);
+        }
+        area->msgbType = MSGTYPE_JAM;
+      }
+      else if (stricmp(token, "Msg")==0) {
+        if (area->msgbType == MSGTYPE_PASSTHROUGH) {
+           printf("Line %d: Logical Defect!! You could not make a *.msg Area Passthrough!\n", actualLineNr);
+        }
+        area->msgbType = MSGTYPE_SDM;
+      }
+   }
+   else if (stricmp(option, "p")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
          printf("Line %d: Number is missing after -p in areaOptions!\n", actualLineNr);
@@ -575,28 +604,7 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
    tok = strtok(NULL, " \t");
    
    while (tok != NULL) {
-      if (stricmp(tok, "Squish")==0) {
-         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-            printf("Line %d: Logical Defect!! You could not make a Squish Area Passthrough!\n", actualLineNr);
-            rc += 1;
-         }
-         area->msgbType = MSGTYPE_SQUISH;
-      }
-      else if (stricmp(tok, "Jam")==0) {
-         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-            printf("Line %d: Logical Defect!! You could not make a Jam Area Passthrough!\n", actualLineNr);
-            rc += 1;
-         }
-         area->msgbType = MSGTYPE_JAM;
-      }
-      else if (stricmp(tok, "Msg")==0) {
-         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
-            printf("Line %d: Logical Defect!! You could not make a *.msg Area Passthrough!\n", actualLineNr);
-            rc += 1;
-         }
-         area->msgbType = MSGTYPE_SDM;
-      }
-      else if(tok[0]=='-') rc += parseAreaOption(config, tok+1, area);
+      if(tok[0]=='-') rc += parseAreaOption(config, tok+1, area);
       else if (isdigit(tok[0]) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
          area->downlinks = realloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
 	 area->downlinks[area->downlinkCount] = (s_arealink*)calloc(1, sizeof(s_arealink));

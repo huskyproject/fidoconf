@@ -1,6 +1,10 @@
 fidoconfig 0.9
 --------------
 
+Sat Aug 28 02:03:49 CEST 1999
+Antonio:
++ added -b option for message base type.
+
 ----- cvs ci ------
 Thu Aug 26  20:26:50
 Fedor:

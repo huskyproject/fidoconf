@@ -905,7 +905,7 @@ This statement gives a link the permission to create areas on your system just
 by sending msgs in them.
 The echoarea is created using the AutoCreateDef contents:
 @example
-   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaka> Squish <linkAka> <autoCreateDef>
+   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaka> -b Squish <linkAka> <autoCreateDef>
 @end example
 
 This statement can only be repeated for different links.
@@ -1148,7 +1148,7 @@ This statement cannot be repeated.
 @item Syntax:
 @code{EchoArea <name> <file> [<msgbase>] @{Option@} @{linkAka@} @{linkOption@}}
 @item Example:
-@code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 -d "Linux development" 2:2433/1245}
+@code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger -b Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 -d "Linux development" 2:2433/1245}
 @end table
 
 This statement specifies the echoareas.
@@ -1188,6 +1188,8 @@ purge after n days,
 leave max n messages after purge in area
 @item -a <aka>      
 aka to use
+@item -b <msgbase type>
+type of msgbase (Msg, Squish, Jam)
 @item -keepsb
 keep seen-by's (used in CarbonCopy)
 @item -tinysb
