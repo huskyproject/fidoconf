@@ -940,40 +940,49 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 void *smalloc(size_t size)
 {
     void *ptr = malloc(size);
+#ifndef _MAKE_DLL
     if (ptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
+#endif
     return ptr;
 }
 
 void *srealloc(void *ptr, size_t size)
 {
     void *newptr = realloc(ptr, size);
+#ifndef _MAKE_DLL
     if (newptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
+#endif
     return newptr;
 }
 
 void *scalloc(size_t nmemb, size_t size)
 {
     void *ptr = smalloc(size*nmemb);
+#ifndef _MAKE_DLL
 	memset(ptr,'\0',size*nmemb);
+#else 
+    if(ptr) memset(ptr,'\0',size*nmemb);
+#endif
     return ptr;
 }
 
 char *sstrdup(const char *src)
 {
     char *ptr;
-    
     if (src == NULL) return NULL;
     ptr = strdup (src);
+#ifndef _MAKE_DLL    
     if (ptr == NULL) {
 		fprintf(stderr, "out of memory");
 		abort();
     }
+#endif
     return ptr;
 }
 

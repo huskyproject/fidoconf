@@ -207,10 +207,10 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link);
    safe malloc, realloc, calloc
    if no memory allocated -- abort()
 */
-void *smalloc(size_t size);
-void *srealloc(void *ptr, size_t size);
-void *scalloc(size_t nmemb, size_t size);
-char *sstrdup(const char *src);
+FCONF_EXT void *smalloc(size_t size);
+FCONF_EXT void *srealloc(void *ptr, size_t size);
+FCONF_EXT void *scalloc(size_t nmemb, size_t size);
+FCONF_EXT char *sstrdup(const char *src);
 
 #ifdef __cplusplus
 }
