@@ -398,8 +398,11 @@ typedef struct fidoconfig {
    unsigned int setConsoleTitle; /* change console title */
 #endif
 
-   ps_addr      addToSeen;
-   unsigned int addToSeenCount;
+   ps_addr       addToSeen;
+   unsigned int  addToSeenCount;
+
+   ps_addr       ignoreSeen;
+   unsigned int  ignoreSeenCount;
 
    char *tearline, *origin;
 

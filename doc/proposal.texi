@@ -216,6 +216,7 @@ a comment and will be ignored.
 * DisableTID::			disable adding TID to messages
 * SetConsoleTitle::             schange conesole title under win32
 * addToSeen::                   add addr to seen-by's
+* ignoreSeen::                  ignore SEEN-BYs and pack mail for link
 * tearline::                    add specified tearline to hpt messages
 * origin::                      add specified origin to hpt messages
 
@@ -2336,7 +2337,7 @@ Set hpt console title while tossing
 
 @strong{This statement is only for win32 platform.}
 
-@node addToSeen, tearline, SetConsoleTitle, Keywords
+@node addToSeen, ignoreSeen, SetConsoleTitle, Keywords
 @subsection addToSeen
 @table @asis
 @item Syntax:
@@ -2349,7 +2350,21 @@ Add aka(s) to SEEN-BYs.
 
 This statement can be repeated.
 
-@node tearline, origin, addToSeen, Keywords
+@node ignoreSeen, tearline, addToSeen, Keywords
+@subsection ignoreSeen
+@table @asis
+@item Syntax:
+@code{ignoreSeen <addr> [<addr> ...]}
+@item Example:
+@code{ignoreSeen 99/150}
+@end table
+
+Ignore this SEEN-BY & pack mail for link.      
+But no pack it back if the mail was from him.
+
+This statement can be repeated.
+
+@node tearline, origin, ignoreSeen, Keywords
 @subsection tearline
 @table @asis
 @item Syntax:

@@ -2088,7 +2088,7 @@ int parseNamesCaseConversion(char *line, e_nameCaseConvertion *value)
    return 0;
 }
 
-int parseAddToSeen(char *token, s_fidoconfig *config)
+int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
 {
 	char buf[6];
 	UINT net=0,node=0,i;
@@ -2112,11 +2112,10 @@ int parseAddToSeen(char *token, s_fidoconfig *config)
 		
 		if (*token == '.') { token++; while(isdigit(*token)) token++; }
 		
-		config->addToSeen = srealloc(config->addToSeen, 
-									sizeof(s_addr)*(config->addToSeenCount+1));
-		config->addToSeen[config->addToSeenCount].net  = net;
-		config->addToSeen[config->addToSeenCount].node = node;
-		config->addToSeenCount++;
+		(*addr) = srealloc(*addr, sizeof(s_addr)*(*count+1));
+		(*addr)[*count].net  = net;
+		(*addr)[*count].node = node;
+		(*count)++;
 	}
 	return 0;
 }
@@ -2644,7 +2643,8 @@ int parseLine(char *line, s_fidoconfig *config)
 #if defined ( __NT__ )
    else if (stricmp(token, "setconsoletitle")==0) rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
 #endif
-   else if (stricmp(token,"addtoseen")==0) rc = parseAddToSeen(getRestOfLine(),config);
+   else if (stricmp(token,"addtoseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->addToSeen), &(config->addToSeenCount));
+   else if (stricmp(token,"ignoreseen")==0) rc = parseSeenBy2D(getRestOfLine(),&(config->ignoreSeen), &(config->ignoreSeenCount));
    else if (stricmp(token, "tearline")==0) rc = copyString(getRestOfLine(), &(config->tearline));
    else if (stricmp(token, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
 

@@ -338,6 +338,13 @@ int main(int argc, char **argv) {
 		  }
 		  printf("\n");
 	  }
+	  if (config->ignoreSeenCount) {
+		  printf("IgnoreSeen:");
+		  for (i=0; i<config->ignoreSeenCount; i++) {
+			  printf(" %u/%u", config->ignoreSeen[i].net,config->ignoreSeen[i].node );
+		  }
+		  printf("\n");
+	  }
 	  
 	  if (config->tearline || config->origin) printf("\n");
 	  if (config->tearline) printf("--- %s\n", config->tearline);
