@@ -1,45 +1,40 @@
-CC=	i386--mingw32-gcc
-CFLAGS=	
-CDEFS=	-DWINNT -DNT
-COPT=	-O2 -I../smapi
-LOPT=    -L../smapi -L.
+# Makefile for Mingw32 CPD to cross-compile NT executables
 
-LIBS=  libfidoconfig.a
-SMLIB= ../smapi/smapimgw.a
+CC=i386--mingw32-gcc
+# the space after the o is important!
+EXENAMEFLAG=-o 
+CDEFS=	-DNT -D__NT__ -DWINNT -I.. -Wall -pedantic -c -Wno-char-subscripts -D__MINGW32__
+COPT=	-O2
+LFLAGS=
 
-HDRS=  common.h \
-       dirlayer.h \
-       fidoconf.h \
-       adcase.h \
-       typesize.h
+OBJ=.o
+EXE=.exe
+TPU=.tpu
+RM=rm
+LIB=.a
+AR=i386--mingw32-ar
+AR_R=rs
 
-OBJS=  adcase.o \
-       line.o \
-       fidoconf.o \
-       dirlayer.o \
-       common.o
+LINKSMAPI=../smapi/libsmapimgw.a
+LIBPREFIX=lib
 
-all:	fidoconfig.a fconf2msged.exe fconf2golded.exe tparser.exe
+FIDOCONFIG = fidoconfigmgw
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
+FCONF2SQUISH = fconf2squish
+FECFG2FCONF = fecfg2fconf
+LIBFIDOCONFIG = $(LIBPREFIX)$(FIDOCONFIG)
+LINKFIDOCONFIG=$(LIBFIDOCONFIG)$(LIB)
 
-fidoconfig.a: $(OBJS)
-	i386--mingw32-ar rcv $(LIBS) $(OBJS)
-	i386--mingw32-ranlib $(LIBS)
+default: all
 
-fconf2msged.exe: $(LIBS) $(HDRS) fc2msged.c
+include makefile.inc
 
-fconf2golded.exe: $(LIBS) $(HDRS) fc2ged.c
+all: commonlibs commonprogs
 
-tparser.exe: $(LIBS) $(HDRS) tparser.c
+clean: commonclean
 
-# Thunderbirds are go!
+distclean: commondistclean
 
-clean:
-	rm $(OBJS)
-	rm fidoconf.bak
-	rm fc2ged.o fc2msged.o fconf2golded.exe fconf2msged.exe tparser.o tparser.exe
-
-%.o: %.c
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
-
-%.exe: %.c
-	$(CC) $(CFLAGS) $(CDEFS) $(COPT) $(LOPT) $< -lfidoconfig -lsmapimgw
