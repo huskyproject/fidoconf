@@ -26,6 +26,11 @@ max:
 + added token carbonKeepSb
 + added token -keepsb in echoarea option
 	
+Thu Aug 12
+sms:
++ some work on dump.c
++ added dumpfcfg (simply calls dumpConfig())
+
 ----- cvs ci ------
 Wed Aug 11 02:20:37 NOVST 1999
 max:

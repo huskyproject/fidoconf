@@ -57,3 +57,4 @@ install:
 	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed fconf2fidogate fconf2squish $(INSTDIR)
 	install linkedto $(INSTDIR)
 	install $(IBOPT) tparser      $(INSTDIR)
+	install $(IBOPT) dumpfcfg     $(INSTDIR)
