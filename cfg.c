@@ -49,7 +49,7 @@ int init_conf(char *conf_name)
   setvar("OS", "UNIX");
 #elif defined(OS2)
   setvar("OS", "OS/2");
-#elif defined(NT)
+#elif defined(NT) || defined(WINNT) || defined(__NT__)
   setvar("OS", "WIN");
 #elif defined(MSDOS)
   setvar("OS", "MSDOS");
