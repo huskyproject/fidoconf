@@ -1,3 +1,11 @@
+fidoconf (0.14.4-1) stable; urgency=low
+
+  * fidoconf 0.14.4 release
+  * New maintainer's E-mail
+  * Debhelper V4
+
+ -- Pavel Andreew <sfpavel@users.sourceforge.net>  Tue, 27 May 2003 16:43:57 +0600
+
 fidoconf (0.14.2-1) stable; urgency=low
 
   * Fidoconfig 0.14.2 release

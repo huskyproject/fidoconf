@@ -6,16 +6,12 @@
 #export DH_VERBOSE=1
 
 # This is the debhelper compatability version to use.
-export DH_COMPAT=3
+export DH_COMPAT=4
 export DEBIAN=1
 export PACKAGE=libfidoconf0
 
 # Next Line to build debug-versions !
 # export DEB_BUILD_OPTIONS=nostrip
-
-# shared library versions, option 1
-version=0.14
-major=0
 
 configure: configure-stamp
 configure-stamp:
@@ -81,7 +77,7 @@ binary-arch: build install
 	dh_makeshlibs
 	dh_installdeb
 #	dh_perl
-	dh_shlibdeps
+	dh_shlibdeps -l debian/libfidoconf0/usr/lib
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
