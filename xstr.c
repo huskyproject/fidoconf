@@ -19,7 +19,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with HPT; see the file COPYING.  If not, write to the Free
  * Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -31,9 +31,9 @@
 #include "xstr.h"
 #include "common.h"
 
-#define N_PRINTFBUF	512
+#define N_PRINTFBUF	512+256
 
-char *xstralloc(char **s, size_t add) 
+char *xstralloc(char **s, size_t add)
 {
     int n;
     if (*s == NULL) {
@@ -65,15 +65,15 @@ char *xstrscat(char **s, ...)
     va_list	ap;
     char	*q, *p;
     int	ncat;
-    for (va_start(ap, s), ncat = 0; (p = va_arg(ap, char *)) != NULL; ) 
+    for (va_start(ap, s), ncat = 0; (p = va_arg(ap, char *)) != NULL; )
 	    ncat += strlen(p);
     p = xstralloc(s, ncat);
-    for (va_start(ap, s); (q = va_arg(ap, char *)) != NULL; ) 
+    for (va_start(ap, s); (q = va_arg(ap, char *)) != NULL; )
 	    p = strcat(p, q);
     return p;
 }
 
-int xscatprintf(char **s, const char *format, ...) 
+int xscatprintf(char **s, const char *format, ...)
 {
     va_list ap;
 #if defined(HAS_VASPRINTF)
@@ -85,7 +85,7 @@ int xscatprintf(char **s, const char *format, ...)
     char addline[N_PRINTFBUF];
 #endif
     int  nprint;
-    
+
     va_start(ap, format);
 #if defined(HAS_VASPRINTF)
     vasprintf(&addline, format, ap);
@@ -109,7 +109,7 @@ int xscatprintf(char **s, const char *format, ...)
 	    fprintf(stderr, "sprintf buffer overflow at xscatprintf.\n" \
 			    "used %d bytes instead of %d\n" \
 			    "format leading to this was : %s\n"\
-			    "please tell the developers\n", nprint, 
+			    "please tell the developers\n", nprint,
 			    N_PRINTFBUF, format);
 	    abort();
     };
@@ -136,4 +136,4 @@ int main(void)
 	return strcmp(s, "1234567890 test this one 3 4");
 }
 
-#endif 
+#endif
