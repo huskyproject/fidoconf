@@ -1,3 +1,8 @@
+2002-06-06 Thursday 16:29  mche
+
+	* fidoconf.h (1.119), line.c (1.301): filearea option added: -nodiz
+	Do not try to get description from <fileDescName>
+
 2002-06-05 Wednesday 14:30  mche
 
 	* afixcmd.h (1.6), afixcmn.c (1.9): function freeMsgBuffers() moved
