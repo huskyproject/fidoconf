@@ -20,7 +20,6 @@ char Revision[] = "$Revision$";
 #include <assert.h>
 
 #include <huskylib/compiler.h>
-#include <huskylib/typedefs.h>
 #include <huskylib/cvtdate.h>
 #include <huskylib/huskylib.h>
 
