@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Fri Dec 15 14:06:20 NOVT 2000
+max:
+* getDescription() code clean up
+
+----- cvs ci ------
 Wed Dec 13 18:34:56 UTC 2000
 sms:
 + support for long area descriptions

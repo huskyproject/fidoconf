@@ -73,42 +73,29 @@ char *getRestOfLine(void) {
 
 char *getDescription(void)
 {
-  char *descBuf;
-  unsigned int descBufLen;
-  char *token;
-  char *tmp=NULL;
-  int out=0;
-  int length=0;
+  char *descBuf = NULL, *token;
+  int out=0, length;
 
-  descBufLen = 81;
-  descBuf = malloc(descBufLen + 1);
-  descBuf[0]='\0';
   while ((out==0) && ((token=strtok(NULL," "))!=NULL))
   {
-    length += strlen(token);
-    if (length > descBufLen)
-    {
-      descBufLen = length + 40;
-      descBuf = realloc(descBuf, descBufLen);
-    }
-
-    strcat (descBuf, token);
-    strcat (descBuf, " ");
-    if (token[strlen(token)-1]=='\"')
-      out=2;
+    xstrscat (&descBuf, token, " ", NULL);
+    if (token[strlen(token)-1]=='\"') out=1;
   }
+
   switch (out)
   {
   case 0:
     printf ("Line %d: Error in area description!\n",actualLineNr);
-    return NULL;
-
-  case 2: /* '"' out... */
-    descBuf[length] = '\0';
-    tmp = strdup(descBuf + 1);
-    free(descBuf);
+    nfree(descBuf);
+    break;
+    
+  case 1: // out. cut '" '
+    descBuf[length=(strlen(descBuf)-2)] = '\0';
+    memmove(descBuf, descBuf+1, length);
+    break;
   }
-  return tmp;
+
+  return descBuf;
 }
 
 int parseComment(char *token, s_fidoconfig *config)
@@ -411,7 +398,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
    char *iToken;
    int i;
 
-   iOption = strLower(strdup(option));
+   iOption = strLower(sstrdup(option));
    if (strcmp(iOption, "b")==0) {
       token = strtok(NULL, " \t");
       if (token == NULL) {
@@ -419,7 +406,7 @@ int parseAreaOption(const s_fidoconfig *config, char *option, s_area *area)
          free(iOption);
          return 1;
       }
-      iToken = strLower(strdup(token));
+      iToken = strLower(sstrdup(token));
       if (strcmp(iToken, "squish")==0) {
         if (area->msgbType == MSGTYPE_PASSTHROUGH) {
            printf("Line %d: Logical Defect!! You could not make a Squish Area Passthrough!\n", actualLineNr);
@@ -614,7 +601,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
   char *iOption;
   int i;
 
-  iOption = strLower(strdup(option));
+  iOption = strLower(sstrdup(option));
   if (strcmp(iOption, "a")==0) {
     token = strtok(NULL, " \t");
     area->useAka = getAddr(*config, token);
@@ -692,7 +679,7 @@ int parseLinkOption(s_arealink *alink, char *token)
 {
   char *iToken;
 
-  iToken = strLower(strdup(token));
+  iToken = strLower(sstrdup(token));
   if (strcmp(iToken, "r")==0) alink->import = 0;
   else if (strcmp(iToken, "w")==0) alink->export = 0;
   else if (strcmp(iToken, "mn")==0) alink->mandatory = 1;
@@ -1200,7 +1187,7 @@ int parseBool (char *token, unsigned int *value)
     return 0;
   }
 
-  iToken = strLower(strdup(token));
+  iToken = strLower(sstrdup(token));
   if ((strcmp(iToken, "on")==0) || (strcmp(iToken, "yes")==0) || (strcmp(iToken, "1")==0)) *value = 1;
   else if ((strcmp(iToken, "off")==0) || (strcmp(iToken, "no")==0) || (strcmp(iToken, "0")==0)) *value = 0;
   else {
@@ -1303,7 +1290,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route, UINT *count) 
   }
 
   while (option != NULL) {
-    iOption = strLower(strdup(option));
+    iOption = strLower(sstrdup(option));
     if (strcmp(iOption, "enc")==0) actualRoute->enc = 1;
     else if (strcmp(iOption, "noenc")==0) actualRoute->enc = 0;
     else if (strcmp(iOption, "hold")==0) actualRoute->flavour = hold;
@@ -1600,7 +1587,7 @@ int parseEchoMailFlavour(char *line, e_flavour *flavour)
     return 1;
   }
 
-  iLine = strLower(strdup(line));
+  iLine = strLower(sstrdup(line));
   if (strcmp(iLine, "hold")==0) *flavour = hold;
   else if (strcmp(iLine, "normal")==0) *flavour = normal;
   else if (strcmp(iLine, "direct")==0) *flavour = direct;
@@ -1624,7 +1611,7 @@ int parseFileEchoFlavour(char *line, e_flavour *flavour)
     return 1;
   }
 
-  iLine = strLower(strdup(line));
+  iLine = strLower(sstrdup(line));
   if (strcmp(iLine, "hold")==0) *flavour = hold;
   else if (strcmp(iLine, "normal")==0) *flavour = normal;
   else if (strcmp(iLine, "direct")==0) *flavour = direct;
@@ -1988,7 +1975,7 @@ int parseNodelistFormat(char *token, s_fidoconfig *config, s_nodelist *nodelist)
     return 1;
   }
 
-  iToken = strLower(strdup(token));
+  iToken = strLower(sstrdup(token));
   if ((strcmp(iToken, "fts5000") == 0) || (strcmp(iToken, "standard") == 0))
     nodelist->format = fts5000;
   else if (strcmp(iToken, "points24") == 0)
@@ -2013,7 +2000,7 @@ int parseTypeDupes(char *line, e_typeDupeCheck *typeDupeBase, unsigned *DayAge)
     return 1;
   }
 
-  iLine = strLower(strdup(line));
+  iLine = strLower(sstrdup(line));
   if (strcmp(iLine, "textdupes")==0) *typeDupeBase = textDupes;
   else if (strcmp(iLine, "hashdupes")==0) *typeDupeBase = hashDupes;
   else if (strcmp(iLine, "hashdupeswmsgid")==0) *typeDupeBase = hashDupesWmsgid;
@@ -2201,7 +2188,7 @@ int parseNamesCaseConversion(char *line, e_nameCaseConvertion *value)
     return 1;
   }
 
-  iLine = strLower(strdup(line));
+  iLine = strLower(sstrdup(line));
   if (strcmp(iLine, "lower") == 0) *value = cLower;
   else if (strcmp(iLine, "upper") == 0) *value = cUpper;
   else if (strcmp(iLine, "dont") == 0) *value = cDontTouch;
@@ -2225,7 +2212,7 @@ int parseBundleNameStyle(char *line, e_bundleFileNameStyle *value)
     return 1;
   }
 
-  iLine = strLower(strdup(line));
+  iLine = strLower(sstrdup(line));
   if (strcmp(iLine, "addrdiff") == 0) *value = eAddrDiff;
   else if (strcmp(iLine, "addrdiffalways") == 0) *value = eAddrDiffAlways;
   else if (strcmp(iLine, "timestamp") == 0) *value = eTimeStamp;
@@ -2334,7 +2321,7 @@ int parseEmailEncoding(char *line, e_emailEncoding *value)
     return 1;
   }
 
-  iLine = strLower(strdup(line));
+  iLine = strLower(sstrdup(line));
   if (strcmp(iLine, "uue") == 0) *value = eeUUE;
   else if (strcmp(iLine, "mime") == 0) *value = eeMIME;
   else if (strcmp(iLine, "seat") == 0) *value = eeSEAT;
