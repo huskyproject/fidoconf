@@ -126,6 +126,7 @@ a comment and will be ignored.
 * autoareacreatedefaults::      set defaults to autocreated echoareas
 * packer::                      default packer for link
 * echomailflavour::             flavour for outgoing echomail
+* fileechoflavour::             flavour for outgoing files in fileechos
 * autoAreaCreateFile::          file where autoCreated Areas by this links are going
 * forwardRequests::             allow forward requests to this link
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
@@ -975,7 +976,7 @@ the outbound.
 
 This statement can only be repeated for different links.
 
-@node echomailflavour, autoAreaCreateFile, packer, Keywords
+@node echomailflavour, fileechoflavour, packer, Keywords
 @subsection echomailflavour
 @table @asis
 @item Syntax:
@@ -989,7 +990,23 @@ For example set echomailFlavour for points to hold and for uplink crash.
 
 This statement can only be repeated for different links.
 
-@node autoAreaCreateFile, forwardRequests, echomailflavour, Keywords
+@node fileechoflavour, autoAreaCreateFile, echomailflavour, Keywords
+@subsection fileechoflavour
+@table @asis
+@item Syntax:
+@code{fileEchoFlavour <hold|normal|crash|direct|immediate>}
+@item Example:
+@code{fileEchoFlavour hold}
+@end table
+
+This statement sets the flavour which outgoing files in fileechos for this link get.
+For example set fileEchoFlavour for points to hold and for uplink crash.
+
+This statement can only be repeated for different links.
+
+
+
+@node autoAreaCreateFile, forwardRequests, fileechoflavour, Keywords
 @subsection autoAreaCreateFile
 @table @asis
 @item Syntax:
