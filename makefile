@@ -12,8 +12,7 @@ ALL: $(OBJS) \
      libfidoconfig.so.$(VER) \
      tparser \
      fconf2msged \
-     fconf2golded \
-     install
+     fconf2golded 
 
 fidoconfig.a: fidoconfig.o line.o common.o patmat.o dir.o
 	$(AR) r fidoconfig.a fidoconfig.o line.o common.o patmat.o dir.o
