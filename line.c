@@ -212,7 +212,7 @@ int parseAddress(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   config->addr = srealloc(config->addr, sizeof(s_addr)*(config->addrCount+1));
+   config->addr = srealloc(config->addr, sizeof(hs_addr)*(config->addrCount+1));
    string2addr(aka, &(config->addr[config->addrCount]));
    config->addrCount++;
 
@@ -519,7 +519,7 @@ int parseNumber(char *token, int radix, unsigned *level) {
     return 0;
 }
 
-int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
+int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 {
 	char buf[6];
 	UINT net=0,node=0,i;
@@ -542,7 +542,7 @@ int parseSeenBy2D(char *token, s_addr **addr, unsigned int *count)
 
 		if (*token == '.') { token++; while(isdigit(*token)) token++; }
 
-		(*addr) = srealloc(*addr, sizeof(s_addr)*(*count+1));
+		(*addr) = srealloc(*addr, sizeof(hs_addr)*(*count+1));
 		(*addr)[*count].net  = net;
 		(*addr)[*count].node = node;
 		(*count)++;
@@ -1773,13 +1773,13 @@ int parseAnnDef(char *token, s_fidoconfig *config)
 int parseAnnDefAddres(char *token, s_fidoconfig *config, int i)
 {
    ps_anndef  cAnnDef = NULL;
-   s_addr* addr;
+   hs_addr* addr;
    cAnnDef = getDescrAnnDef(config);
    if (token == NULL) {
       prErr("There is a name missing after %s!", actualKeyword);
       return 1;
    }
-   addr = scalloc(1,sizeof(s_addr));
+   addr = scalloc(1,sizeof(hs_addr));
    string2addr(token,addr );
 
    if( i == 1)

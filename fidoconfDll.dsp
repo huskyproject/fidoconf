@@ -124,10 +124,6 @@ SOURCE=.\dirlayer.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\extrdefs.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\fidoconf.h
 # End Source File
 # Begin Source File

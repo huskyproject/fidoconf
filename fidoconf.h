@@ -96,7 +96,7 @@ typedef struct addr {
    unsigned int zone, net, node, point;
    char   *domain;
 
-} s_addr, *ps_addr, hs_addr;
+} *ps_addr, hs_addr;
 
 typedef struct  pack {
    char    *packer;
@@ -122,7 +122,7 @@ typedef enum pauses        { NOPAUSE, EPAUSE, FPAUSE } e_pauses;
 
 
 typedef struct link {
-    s_addr hisAka, *ourAka;
+    hs_addr hisAka, *ourAka;
     char *name;
     char *defaultPwd,               /*  8 byte passwords */
         *pktPwd,
@@ -325,7 +325,7 @@ typedef struct carbon {
    char         *str;     /*  string to compare */
    char         *reason;  /*  reason of copy */
    ps_area      area;     /*  area to copy messages */
-   s_addr       addr;     /*  from addr to compare */
+   hs_addr       addr;     /*  from addr to compare */
    char         *areaName;/*  name of area to copy messages */
    int          export;   /*  export copied msg? */
    int          netMail;  /*  do this in netmail, not echomail */
@@ -343,8 +343,8 @@ typedef struct unpack {
 } s_unpack, *ps_unpack;
 
 typedef struct remap {
-   s_addr  oldaddr;
-   s_addr  newaddr;
+   hs_addr  oldaddr;
+   hs_addr  newaddr;
    char   *toname;
 } s_remap, *ps_remap;
 
@@ -418,8 +418,8 @@ typedef struct anndef /* announce definition */
   char *annfrom;         /* field FROMNAME: in announce message         */
   char *annsubj;         /* field SUBJ:     in announce message         */
   char *annorigin;       /* Origin          in announce message         */
-  s_addr* annaddrto;      /* field ADDRTO:    in announce message         */
-  s_addr* annaddrfrom;    /* field ADDRFROM:  in announce message         */
+  ps_addr annaddrto;      /* field ADDRTO:    in announce message         */
+  ps_addr annaddrfrom;    /* field ADDRFROM:  in announce message         */
   char *annmessflags;    /* message  flags string                       */
   dword  attributes;
   unsigned  annforigin;  /* announce address of system who hatched file */
@@ -617,7 +617,7 @@ typedef struct fidoconfig {
 
 struct message {
    /* Address block */
-   s_addr destAddr, origAddr;
+   hs_addr destAddr, origAddr;
 
 /*    UINT16 attributes; */
    dword  attributes;
@@ -632,7 +632,7 @@ struct message {
 
 struct pktHeader {
    /* Address block */
-   s_addr destAddr, origAddr;
+   hs_addr destAddr, origAddr;
 
    UINT16 auxNet;
 
@@ -692,9 +692,9 @@ FCONF_EXT void disposeConfig(ps_fidoconfig config);
 FCONF_EXT ps_link getLink(s_fidoconfig *config, char *addr);
 FCONF_EXT ps_link getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area);
 FCONF_EXT ps_link getLinkForFileArea(const s_fidoconfig *config, char *addr, s_filearea *area);
-FCONF_EXT ps_link getLinkFromAddr(s_fidoconfig *config, s_addr aka);
+FCONF_EXT ps_link getLinkFromAddr(s_fidoconfig *config, hs_addr aka);
 FCONF_EXT ps_addr getAddr(const s_fidoconfig *config, char *addr);
-int    existAddr(s_fidoconfig *config, s_addr aka);
+int    existAddr(s_fidoconfig *config, hs_addr aka);
 
 /* find echo & local areas in config */
 FCONF_EXT ps_area getArea(ps_fidoconfig config, char *areaName);
@@ -716,13 +716,13 @@ FCONF_EXT int isLinkOfArea(ps_link link, s_area *area);
  * else it returns index of link into arealinks array.
  */
 
-FCONF_EXT int isAreaLink(s_addr link, s_area *area);
+FCONF_EXT int isAreaLink(hs_addr link, s_area *area);
 
 /**
  * This function tests if link addr is our aka.
  */
 
-FCONF_EXT int isOurAka(ps_fidoconfig config, s_addr link);
+FCONF_EXT int isOurAka(ps_fidoconfig config, hs_addr link);
 
 
 

@@ -666,14 +666,14 @@ void disposeConfig(s_fidoconfig *config)
 }
 
 s_link *getLink(s_fidoconfig *config, char *addr) {
-   s_addr aka;
+   hs_addr aka;
 
    string2addr(addr, &aka);
 
    return getLinkFromAddr(config, aka);
 }
 
-s_link *getLinkFromAddr(s_fidoconfig *config, s_addr aka)
+s_link *getLinkFromAddr(s_fidoconfig *config, hs_addr aka)
 {
    UINT i;
 
@@ -685,7 +685,7 @@ s_link *getLinkFromAddr(s_fidoconfig *config, s_addr aka)
 }
 
 s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
-	s_addr aka;
+	hs_addr aka;
 	UINT i;
 
 	string2addr(addr, &aka);
@@ -706,7 +706,7 @@ s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 }
 
 s_link *getLinkForFileArea(const s_fidoconfig *config, char *addr, s_filearea *area) {
-	s_addr aka;
+	hs_addr aka;
 	UINT i;
 
 	string2addr(addr, &aka);
@@ -726,8 +726,8 @@ s_link *getLinkForFileArea(const s_fidoconfig *config, char *addr, s_filearea *a
 	return NULL;
 }
 
-s_addr *getAddr(const s_fidoconfig *config, char *addr) {
-   s_addr aka;
+hs_addr *getAddr(const s_fidoconfig *config, char *addr) {
+   hs_addr aka;
    UINT i;
 
    for (i = 0; i < config->addrCount; i++) {
@@ -738,7 +738,7 @@ s_addr *getAddr(const s_fidoconfig *config, char *addr) {
    return NULL;
 }
 
-int existAddr(s_fidoconfig *config, s_addr aka) {
+int existAddr(s_fidoconfig *config, hs_addr aka) {
    UINT i;
 
    for (i=0; i< config->addrCount; i++) {
@@ -800,7 +800,7 @@ int isLinkOfFileArea(s_link *link, s_filearea *area)
    return 0;
 }
 
-int isOurAka(ps_fidoconfig config, s_addr link)
+int isOurAka(ps_fidoconfig config, hs_addr link)
 {
     unsigned int i;
     for (i = 0; i < config->addrCount; i++) {
@@ -809,7 +809,7 @@ int isOurAka(ps_fidoconfig config, s_addr link)
     return 0;
 }
 
-int isAreaLink(s_addr link, s_area *area)
+int isAreaLink(hs_addr link, s_area *area)
 {
     unsigned int i;
     for (i = 0; i < area->downlinkCount; i++) {

@@ -286,15 +286,15 @@ int Changepause(char *confName, s_link *link, int opt, int type)
     return 1;
 }
 
-int testAddr(char *addr, s_addr hisAka)
+int testAddr(char *addr, hs_addr hisAka)
 {
-    s_addr aka;
+    hs_addr aka;
     string2addr(addr, &aka);
     if (addrComp(aka, hisAka)==0) return 1;
     return 0;
 }
 
-int DelLinkFromString(char *line, s_addr linkAddr)
+int DelLinkFromString(char *line, hs_addr linkAddr)
 {
     int rc = 1;
     char *end = NULL;

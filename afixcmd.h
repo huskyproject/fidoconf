@@ -36,12 +36,12 @@
 
 /* Return string contents message kludges: AREA, @INTL, FMPT, TOPT, MSGID, TID */
 FCONF_EXT   char* createKludges    (ps_fidoconfig config, const char *area,
-                                    const s_addr *ourAka,
-                                    const s_addr *destAka,
+                                    const hs_addr *ourAka,
+                                    const hs_addr *destAka,
                                     const char* versionStr);
 
 /* Compose message into structure s_message & return it */
-FCONF_EXT   s_message* makeMessage (s_addr *origAddr, s_addr *destAddr,
+FCONF_EXT   s_message* makeMessage (hs_addr *origAddr, hs_addr *destAddr,
 			                        char *fromName, char *toName,
                                     char *subject,
                                     int netmail, int  killreport);
@@ -68,9 +68,9 @@ FCONF_EXT   int InsertCfgLine(char *confName, char* cfgLine, long start, long en
 FCONF_EXT   int Changepause(char *confName, s_link *link, int opt, int type);
 
 /* Remove link address from area string */
-FCONF_EXT   int DelLinkFromString(char *line, s_addr linkAddr);
+FCONF_EXT   int DelLinkFromString(char *line, hs_addr linkAddr);
 
-FCONF_EXT   int testAddr(char *addr, s_addr hisAka);
+FCONF_EXT   int testAddr(char *addr, hs_addr hisAka);
 
 FCONF_EXT   int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd);
 

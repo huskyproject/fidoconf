@@ -74,7 +74,7 @@ FCONF_EXT long str2attr(const char *str);
   Output: value with corresponding bit set or -1L else
 */
 
-FCONF_EXT int  addrComp(const s_addr a1, const s_addr a2);
+FCONF_EXT int  addrComp(const hs_addr a1, const hs_addr a2);
 /*DOC
   Input:  two addresses
   Output: 0, or !0
@@ -96,7 +96,7 @@ FCONF_EXT char *fc_stristr(const char *str, const char *find);
  */
 
 
-FCONF_EXT void string2addr(const char *string, s_addr *addr);
+FCONF_EXT void string2addr(const char *string, hs_addr *addr);
 /*DOC
   Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
   Output: ./.
@@ -190,7 +190,7 @@ FCONF_EXT char *OS_independed_basename(const char *pathname);
  * Return value is pointer to malloc'ed string;
  * if pathname is filenfme without directory return current directory (./ or .\)
  */
-char    *GetDirnameFromPathname(const char* pathname);
+FCONF_EXT char    *GetDirnameFromPathname(const char* pathname);
 
 #define dirname(f) GetDirnameFromPathname(f)
 
@@ -278,12 +278,12 @@ FCONF_EXT ULONG fc_GetDiskFreeSpace(const char *path);
 
 /*  this function returns the string representation of an address. */
 /*  it returns a static array!!! */
-FCONF_EXT char *aka2str(const s_addr aka);
+FCONF_EXT char *aka2str(const hs_addr aka);
 
 /* This function returns the string representation of an 5D address.
  * Return malloc()'ed string!
  */
-FCONF_EXT char *aka2str5d(s_addr aka);
+FCONF_EXT char *aka2str5d(hs_addr aka);
 
 FCONF_EXT int patimat(char *raw, char *pat); /* case insensitive */
 

@@ -148,7 +148,7 @@ long  str2attr(const char *str)
    return -1L;
 }
 
-int  addrComp(const s_addr a1, const s_addr a2)
+int  addrComp(const hs_addr a1, const hs_addr a2)
 {
    int rc = 0;
 
@@ -197,12 +197,12 @@ char *fc_stristr(const char *str, const char *find)
 }
 
 
-void string2addr(const char *string, s_addr *addr) {
+void string2addr(const char *string, hs_addr *addr) {
 	char *endptr;
 	const char *str = string;
 	unsigned long t;
 
-	memset(addr, '\0', sizeof(s_addr));
+	memset(addr, '\0', sizeof(hs_addr));
 
 	if (str == NULL) return;
 	if (strchr(str,':')==NULL || strchr(str,'/')==NULL) return;
@@ -916,7 +916,7 @@ int copy_file(const char *from, const char *to, const int force_rewrite)
     return 0;
 }
 
-char *aka2str(const s_addr aka) {
+char *aka2str(const hs_addr aka) {
   static char straka[SIZE_aka2str];
 
     if (aka.point) sprintf(straka,"%u:%u/%u.%u",aka.zone,aka.net,aka.node,aka.point);
@@ -927,7 +927,7 @@ char *aka2str(const s_addr aka) {
 
 /* Store 5d-address string into allocalted array (by malloc()).
  */
-char *aka2str5d(s_addr aka) {
+char *aka2str5d(hs_addr aka) {
   char *straka=NULL;
 
     if (aka.point) {

@@ -71,8 +71,8 @@ static ULONG DoMakeMSGIDStamp(void)
 }
 #endif
 
-char *createKludges(ps_fidoconfig config, const char *area, const s_addr *ourAka,
-                    const s_addr *destAka, const char* versionStr)
+char *createKludges(ps_fidoconfig config, const char *area, const hs_addr *ourAka,
+                    const hs_addr *destAka, const char* versionStr)
 {
    char *buff = NULL;
    ULONG msgid = 0;
@@ -99,7 +99,7 @@ char *createKludges(ps_fidoconfig config, const char *area, const s_addr *ourAka
    return buff;
 }
 
-s_message *makeMessage (s_addr *origAddr, s_addr *destAddr,
+s_message *makeMessage (hs_addr *origAddr, hs_addr *destAddr,
 			char *fromName,	char *toName, char *subject,
             int netmail, int  killreport)
 {
