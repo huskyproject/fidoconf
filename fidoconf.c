@@ -51,21 +51,6 @@ char *readLine(FILE *f)
       return NULL;
    }
 
-/* remove after 22-Apr-01
-   if (line[strlen(line)-1] != '\n') {
-     while ((strlen(line) % 80) == 0) {
-       if (fgets(temp, 81, f) == NULL) break; // eof encountered
-       line = srealloc(line, strlen(line)+strlen(temp)+1);
-       strcat(line, temp);
-       if (temp[strlen(temp)-1] == '\n') {
-		   temp[strlen(temp)-1] = 0; // kill \n
-		   break;
-       }
-     }
-   }
-
-   if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = 0;
-*/
    l_end = strlen(line)-1;
    if (line[l_end] != '\n') {
 	   while(fgets(temp, 81, f) != NULL) { // not EOF
@@ -74,24 +59,12 @@ char *readLine(FILE *f)
 		   if (line[l_end] == '\n') break; // EOL
        }
    }
-   if (line[l_end]=='\n') line[l_end]='\0';
+   if (line[l_end]=='\n') line[l_end--]='\0';
+   if (line[l_end]=='\r') line[l_end]='\0';
 
    return line;
 }
 
-/* remove after 22-Apr-01
-char *trimLine(char *line)
-{
-   char *start = line, *temp;
-
-   while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
-   temp = (char *) smalloc(strlen(start)+1);
-//   strcpy(temp, start);
-   strcpy(temp, striptwhite(start));
-   free(line);
-   return temp;
-}
-*/
 char *trimLine(char *line)
 {
    char *start = line, *temp=NULL;
