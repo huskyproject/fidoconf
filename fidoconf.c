@@ -140,11 +140,12 @@ char *stripComment(char *line)
     return line;
   }
 
-  aux=strchr(line,CommentChar);
-
-  if (aux!=NULL) {
-    if (*(aux-1)==' ' || *(aux-1)=='\t')
+  aux = line;
+  while ((aux=strchr(aux+1,CommentChar)) != NULL) {
+    if (*(aux-1)==' ' || *(aux-1)=='\t') {
       aux[0]='\0';
+      break;
+    }
   }
 
   return line;
