@@ -462,10 +462,10 @@ static int cmpfnames(char *file1, char *file2)
 typedef unsigned long DWORD;
 typedef char *LPWSTR;
 typedef const char *LPCWSTR;
-DWORD __stdcall GetFullPathNameW(LPCWSTR,DWORD,LPWSTR,LPWSTR*);
-DWORD __stdcall GetLongPathNameW(LPCWSTR,LPWSTR,DWORD);
-#define GetFullPathName GetFullPathNameW
-#define GetLongPathName GetLongPathNameW
+DWORD __stdcall GetFullPathNameA(LPCWSTR,DWORD,LPWSTR,LPWSTR*);
+DWORD __stdcall GetLongPathNameA(LPCWSTR,LPWSTR,DWORD);
+#define GetFullPathName GetFullPathNameA
+#define GetLongPathName GetLongPathNameA
 #else
 #include <windows.h>
 #endif
