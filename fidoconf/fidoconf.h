@@ -125,10 +125,12 @@ typedef enum emailEncoding { eeMIME, eeSEAT, eeUUE } e_emailEncoding;
 typedef enum pauses        { NOPAUSE=0, ECHOAREA=1, FILEAREA=2 } e_pauses; /*bitmasks! ECHOAREA & FILEAREA use also in s_area.areatype*/
 
 typedef struct link_robot {
+    unsigned int on;        /*  0 if not allowed for robot (was: AreaFix) */
     char *pwd;         /* (was: areaFixPwd) */
     long reportsAttr;       /* (was: areafixReportsAttr) */
     char *reportsFlags;     /* (was: areafixReportsFlags) */
     unsigned int echoLimit; /* (was: afixEchoLimit) */
+    unsigned int autoCreate;/*  0 if not allowed for autoareacreate (was: autoAreaCreate) */
     char *autoCreateFile;  /*  file where autocreated areas are written to (was: autoAreaCreateFile) */
     char *autoCreateDefaults;/*  add default string for autocreated area here (was: autoAreaCreateDefaults) */
     unsigned int forwardRequests; /*  0 if not allowed forward requests */
@@ -140,6 +142,8 @@ typedef struct link_robot {
     unsigned int numFrMask;
     char **dfMask; /*  don't forward this */
     unsigned int numDfMask;
+    unsigned int denyFRA;  /*  denyFwdReqAccess */
+    unsigned int denyUFRA; /*  denyUncondFwdReqAccess */
 } s_link_robot, *ps_link_robot;
 
 typedef struct link {
@@ -159,13 +163,7 @@ typedef struct link {
     s_link_robot areafix;              /* areafix data */
     s_link_robot filefix;              /* filefix data */
 
-    unsigned int autoAreaCreate;       /*  0 if not allowed for autoareacreate */
-    unsigned int autoFileCreate;       /*  0 if not allowed for autofilecreate */
-    unsigned int AreaFix;              /*  0 if not allowed for areafix */
-    unsigned int FileFix;              /*  0 if not allowed for filefix */
     unsigned int FileFixFSC87Subset;   /*  1 if only FSC87-commands are allowable in TIC files */
-    unsigned int denyFRA; /*  denyFwdReqAccess */
-    unsigned int denyUFRA; /*  denyUncondFwdReqAccess */
 
     int  allowEmptyPktPwd;     /*  1 if you want to allow empty packet password in */
     /*    PKT files found in the protected inbound */

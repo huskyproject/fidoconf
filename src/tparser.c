@@ -670,7 +670,7 @@ int printLink(ps_link link) {
 	   }
 	   printf("\n");
    }
-   printf("AutoAreaCreate %s\n", (link->autoAreaCreate) ? "on" : "off");
+   printf("areafixAutoCreate %s\n", (link->areafix.autoCreate) ? "on" : "off");
    printf("AutoAreaCreateSubdirs %s\n", (link->autoAreaCreateSubdirs) ? "on" : "off");
    if (link->areafix.autoCreateFile) printf("areafixAutoCreateFile: %s\n", link->areafix.autoCreateFile);
    if (link->areafix.numFrMask > 0) {
@@ -694,7 +694,7 @@ int printLink(ps_link link) {
    printf("delNotReceivedTIC: %s\n", link->delNotReceivedTIC ? "on" : "off");
    printf("FileFixFSC87Subset %s\n", (link->FileFixFSC87Subset) ? "on" : "off");
 
-   printf("AutoFileCreate %s\n", (link->autoFileCreate) ? "on" : "off");
+   printf("filefixAutoCreate %s\n", (link->filefix.autoCreate) ? "on" : "off");
    printf("AutoFileCreateSubdirs %s\n", (link->autoFileCreateSubdirs) ? "on" : "off");
    if (link->filefix.autoCreateFile) printf("filefix.autoCreateFile: %s\n", link->filefix.autoCreateFile);
    if (link->filefix.numFrMask > 0) {
@@ -728,14 +728,14 @@ int printLink(ps_link link) {
      }
      printf("\n");
    }
-   printf("AreaFix %s\n", (link->AreaFix) ? "on" : "off");
+   printf("AreaFix %s\n", (link->areafix.on) ? "on" : "off");
    if (link->areafix.echoLimit) printf("areafixEchoLimit %u\n", link->areafix.echoLimit);
    if (link->areafix.reportsAttr || link->areafix.reportsFlags) {
      char *attrs = attr2str(link->areafix.reportsAttr);
      printf("areafixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", link->areafix.reportsFlags ? link->areafix.reportsFlags : "");
      nfree(attrs);
    }
-   printf("FileFix %s\n", (link->FileFix) ? "on" : "off");
+   printf("FileFix %s\n", (link->filefix.on) ? "on" : "off");
    if (link->filefix.echoLimit) printf("filefixEchoLimit %u\n", link->filefix.echoLimit);
    if (link->filefix.reportsAttr || link->filefix.reportsFlags) {
      char *attrs = attr2str(link->filefix.reportsAttr);
@@ -748,8 +748,10 @@ int printLink(ps_link link) {
 	   printf("areafixFwdPriority: %u\n", link->areafix.forwardPriority);
    if (link->filefix.forwardPriority)
 	   printf("filefixFwdPriority: %u\n", link->filefix.forwardPriority);
-   printf("Forward Requests Access: %s\n", (link->denyFRA) ? "off" : "on");
-   printf("Unconditional Forward Requests Access: %s\n",(link->denyUFRA)?"off":"on");
+   printf("Areafix Forward Requests Access: %s\n", (link->areafix.denyFRA) ? "off" : "on");
+   printf("Filefix Forward Requests Access: %s\n", (link->filefix.denyFRA) ? "off" : "on");
+   printf("Areafix Unconditional Forward Requests Access: %s\n",(link->areafix.denyUFRA)?"off":"on");
+   printf("Filefix Unconditional Forward Requests Access: %s\n",(link->filefix.denyUFRA)?"off":"on");
    printf("areafixName %s\n", link->areafix.name ? link->areafix.name : "areafix");
    printf("filefixName %s\n", link->filefix.name ? link->filefix.name : "filefix");
    if (link->areafix.fwdFile) printf("areafixFwdFile %s\n",link->areafix.fwdFile);

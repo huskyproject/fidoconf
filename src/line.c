@@ -1840,8 +1840,8 @@ int parseLink(char *token, s_fidoconfig *config)
 	  /*  Set defaults like in parseLinkDefaults() */
 
       /*  set areafix default to on */
-      clink->AreaFix = 1;
-      clink->FileFix = 1;
+      clink->areafix.on = 1;
+      clink->filefix.on = 1;
 
       /*  set defaults to export, import, mandatory (0), manual (0) */
       clink->export = 1;
@@ -3128,8 +3128,8 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
       /*  Set defaults like in parseLink() */
 
       /*  set areafix default to on */
-      config->linkDefaults->AreaFix = 1;
-      config->linkDefaults->FileFix = 1;
+      config->linkDefaults->areafix.on = 1;
+      config->linkDefaults->filefix.on = 1;
 
       /*  set defaults to export, import, mandatory (0), manual (0) */
       config->linkDefaults->export = 1;
@@ -3857,26 +3857,22 @@ int parseLine(char *line, s_fidoconfig *config)
             else
               rc = 1;
             break;
-        case ID_AUTOAREACREATE:
+        case ID_AUTOCREATE:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->autoAreaCreate);
+                if (link_robot & 1)
+                  rc |= parseBool (getRestOfLine(), &clink->areafix.autoCreate);
+                if (link_robot & 2)
+                  rc |= parseBool (getRestOfLine(), &clink->filefix.autoCreate);
             } else {
                 rc = 1;
             }
             break;
-	case ID_FILEFIXFSC87SUBSET:
-	    if( (clink = getDescrLink(config)) != NULL ) {
+	    case ID_FILEFIXFSC87SUBSET:
+	        if( (clink = getDescrLink(config)) != NULL ) {
                 rc = parseBool (getRestOfLine(), &clink->FileFixFSC87Subset);
-	    } else {
+	        } else {
                 rc = 1;
-	    }
-            break;
-        case ID_AUTOFILECREATE:
-            if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->autoFileCreate);
-            } else {
-                rc = 1;
-            }
+	        }
             break;
         case ID_FORWARDREQUESTS:
             if( (clink = getDescrLink(config)) != NULL ) {
@@ -3890,7 +3886,10 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_DENYFWDREQACCESS:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->denyFRA);
+              if (link_robot & 1)
+                rc = parseBool (getRestOfLine(), &clink->areafix.denyFRA);
+              if (link_robot & 2)
+                rc = parseBool (getRestOfLine(), &clink->filefix.denyFRA);
             } else rc = 1;
             break;
         case ID_FORWARDPKTS:
@@ -3955,14 +3954,14 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_AREAFIX:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->AreaFix);
+                rc = parseBool (getRestOfLine(), &clink->areafix.on);
             } else {
                 rc = 1;
             }
             break;
         case ID_FILEFIX:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->FileFix);
+                rc = parseBool (getRestOfLine(), &clink->filefix.on);
             } else {
                 rc = 1;
             }
@@ -4021,7 +4020,14 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
 
         case ID_DENYUNCONDFWDREQACCESS:
-            rc = parseBool(getRestOfLine(), &(getDescrLink(config)->denyUFRA));
+            if( (clink = getDescrLink(config)) != NULL ) {
+              if (link_robot & 1)
+                rc |= parseBool(getRestOfLine(), &(clink->areafix.denyUFRA));
+              if (link_robot & 2)
+                rc |= parseBool(getRestOfLine(), &(clink->filefix.denyUFRA));
+            } else {
+                rc = 1;
+            }
             break;
         case ID_REDUCEDSEENBY:
             rc = parseBool(getRestOfLine(), &(getDescrLink(config)->reducedSeenBy));

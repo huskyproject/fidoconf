@@ -508,10 +508,9 @@ void setConfigDefaults(s_fidoconfig *config)
                config->links[config->linkCount] = scalloc(1,sizeof(s_link));
                clink = config->links[config->linkCount];
                memset(clink, 0, sizeof(s_link));
-               clink->AreaFix = 1;
-               clink->FileFix = 1;
-               clink->AreaFix = 1;
-               clink->autoFileCreate = 1; /* needed for hpucode + htick */
+               clink->areafix.on = 1;
+               clink->filefix.on = 1;
+               clink->filefix.autoCreate = 1; /* needed for hpucode + htick */
                clink->export = 0;         /* do not export anything to virtual link */
                clink->import = 1;
                clink->maxUnpackedNetmail = 100;
