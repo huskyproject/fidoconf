@@ -2,7 +2,7 @@
 # Makefile for Watcom C (Win32)
 # no support for huskymak.cfg
 #
-# Predefines: __WATCOMC__, __NT__
+# Predefines: __WATCOMC__, __NT__ (-bt=nt)
 
 CC          = wcl386
 EXENAMEFLAG = -fe=
@@ -20,11 +20,13 @@ LIB         = .lib
 AR          = wlib
 AR_R        = -b -q
 
+LFCONF         = fconfwcw
+
 NULL           = @%null
 SYMBOLIC       = .SYMBOLIC
 
-LINKFIDOCONFIG =fconfwcw.lib
-LINKSMAPI      = ..\smapi\smapiwcw.lib
+LINKFIDOCONFIG = $(LFCONF)$(LIB)
+LINKSMAPI      = ..\smapi\smapiwcw$(LIB)
 LIBPREFIX      =
 
 FIDOCONFIG     = fidoconfig
@@ -36,12 +38,12 @@ FCONF2SQUISH   = fconf2squish
 FCONF2TORNADO  = fconf2tornado
 FCONF2BINKD    = fconf2binkd
 FECFG2FCONF    = fecfg2fconf
-LIBFIDOCONFIG  = $(LIBPREFIX)fconfwcw
+LIBFIDOCONFIG  = $(LIBPREFIX)$(LFCONF)
 
 .DEFAULT
 	$(NULL)
 
-default : all
+default : all $(SYMBOLIC)
 
 !include makefile.inc
 

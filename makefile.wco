@@ -1,12 +1,12 @@
 # $Id$
-# Makefile for Watcom C (OS/2 library & executables)
+# Makefile for Watcom C and OpenWatcom (OS/2 library & executables)
 # no support for huskymak.cfg
 #
-# Predefines: __WATCOMC__, __OS2__
+# Predefines: __WATCOMC__, __OS2__ (don't defined in Openwatcom)
 
 CC          = wcl386
 EXENAMEFLAG = -fe=
-CDEFS       = -DOS2
+CDEFS       = -DOS2 -D__OS2__
 COPT        = -zq -wx -wcd=202 -i=.. -oneatx -5 -c -bt=os2v2 -fpi87
 LFLAGS      = -bt=os2v2 -l=os2v2
 
@@ -21,8 +21,10 @@ AR_R        = -b -q
 NULL        = @%null
 SYMBOLIC    = .SYMBOLIC
 
-LINKFIDOCONFIG = fconfwco.lib
-LINKSMAPI      = ..\smapi\smapiwco.lib
+LFCONF         = fconfwco
+
+LINKFIDOCONFIG = $(LFCONF)$(LIB)
+LINKSMAPI      = ..\smapi\smapiwco$(LIB)
 LIBPREFIX      =
 
 FIDOCONFIG     = fidoconfig
@@ -34,12 +36,12 @@ FCONF2SQUISH   = fconf2squish
 FCONF2TORNADO  = fconf2tornado
 FCONF2BINKD    = fconf2binkd
 FECFG2FCONF    = fecfg2fconf
-LIBFIDOCONFIG  = $(LIBPREFIX)fconfwco
+LIBFIDOCONFIG  = $(LIBPREFIX)$(LFCONF)
 
 .DEFAULT
 	$(NULL)
 
-default : all
+default : all $(SYMBOLIC)
 
 !include makefile.inc
 
