@@ -458,6 +458,7 @@ typedef struct fidoconfig {
    unsigned int filefixKillReports, filefixKillRequests;
    e_nameCaseConvertion convertLongNames, convertShortNames;
 
+   char     *fileDescName;
    unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
    unsigned int fileFileUMask, fileDirUMask;
    unsigned int originInAnnounce; //Show origin in announce (for htick)

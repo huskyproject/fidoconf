@@ -257,7 +257,8 @@ enum {
     ID_ARCNETMAIL,
     ID_RULESDIR,
     ID_NORULES,
-    ID_AFIXQUEUEREQUESTS
+    ID_AFIXQUEUEREQUESTS,
+    ID_FILEDESCNAME
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -371,6 +372,7 @@ token_t parseline_tokens[] =
     { "fileboxalways", ID_FILEBOXALWAYS },
     { "fileboxesdir", ID_FILEBOXESDIR },
     { "filecheckdest", ID_FILECHECKDEST },
+    { "filedescname", ID_FILEDESCNAME },
     { "filedescpos", ID_FILEDESCPOS },
     { "filedirumask", ID_FILEDIRUMASK },
     { "filedupelist", ID_FILEDUPELIST },

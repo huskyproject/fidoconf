@@ -891,6 +891,7 @@ int main(int argc, char **argv) {
       printf("AddDLC: %s\n",(config->addDLC) ? "on": "off");
       printf("FileSingleDescLine: %s\n",(config->fileSingleDescLine) ? "on": "off");
       printf("FileCheckDest: %s\n",(config->fileCheckDest) ? "on": "off");
+      printf("FileDescName: %s\n", config->fileDescName);
       printf("FileDescPos: %u\n", config->fileDescPos);
       if (config->fileLDescString) printf("FileLDescString: %s\n", config->fileLDescString);
       printf("DLCDigits: %u\n", config->DLCDigits);

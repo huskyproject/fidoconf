@@ -3692,6 +3692,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_ROBOTSAREA:
             rc = copyString(getRestOfLine(), &(config->robotsArea));
             break;
+        case ID_FILEDESCNAME:
+            rc = copyString(getRestOfLine(), &(config->fileDescName));
+            break;
         case ID_FILEDESCPOS:
             rc = parseUInt(getRestOfLine(), &(config->fileDescPos));
             break;
