@@ -154,6 +154,7 @@ void cvtAddr(const NETADDR aka1, hs_addr *aka2)
   aka2->net  = aka1.net;
   aka2->node = aka1.node;
   aka2->point = aka1.point;
+  aka2->domain = NULL;
 }
 
 XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
