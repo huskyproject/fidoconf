@@ -30,6 +30,7 @@
  *****************************************************************************/
 
 #include <stdlib.h>
+#include <string.h>
 
 #if !defined(MSDOS) || defined(__DJGPP__)
 #include "fidoconfig.h"
@@ -87,7 +88,7 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
   return 0;
 }
 
-int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
+int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
    FILE *f;
    int  i;
    s_area *area;
@@ -95,28 +96,35 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
    f = fopen(fileName, "a+");
    if (f!= NULL) {
 
-      fprintf(f, "username %s\n\n", config->sysop);
+     if (!areasOnly) {
+       fprintf(f, "username %s\n\n", config->sysop);
       
-      for (i=0; i<config->addrCount; i++)
-         fprintf(f, "Address %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
-      fprintf(f, "\n");
+       for (i=0; i<config->addrCount; i++)
+         fprintf(f, "Address %u:%u/%u.%u\n", 
+                    config->addr[i].zone, 
+                    config->addr[i].net, 
+                    config->addr[i].node, 
+                    config->addr[i].point);
+                    
+       fprintf(f, "\n");
+     }
 
-      writeArea(f, &(config->netMailArea), 1);
-      writeArea(f, &(config->dupeArea), 2);
-      writeArea(f, &(config->badArea), 2);
+     writeArea(f, &(config->netMailArea), 1);
+     writeArea(f, &(config->dupeArea), 2);
+     writeArea(f, &(config->badArea), 2);
 
-      for (i=0; i<config->echoAreaCount; i++) {
-         area = &(config->echoAreas[i]);
-         if (area->msgbType != MSGTYPE_PASSTHROUGH)
-             writeArea(f, area, 0);
-      }
+     for (i=0; i<config->echoAreaCount; i++) {
+       area = &(config->echoAreas[i]);
+       if (area->msgbType != MSGTYPE_PASSTHROUGH)
+           writeArea(f, area, 0);
+     }
       
-      for (i=0; i<config->localAreaCount; i++) {
-         area = &(config->localAreas[i]);
-         writeArea(f, area, 2);
-      }
+     for (i=0; i<config->localAreaCount; i++) {
+       area = &(config->localAreas[i]);
+       writeArea(f, area, 2);
+     }
       
-      return 0;
+     return 0;
    } else printf("Could not write %s\n", fileName);
 
    return 1;
@@ -124,6 +132,7 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
 
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
+   int cont=1;
    
    printf("fconf2golded\n");
    printf("------------\n");
@@ -136,16 +145,19 @@ int main (int argc, char *argv[]) {
       return 1;
    }
 
-   printf("Generating Config-file %s\n", argv[1]);
+   if (stricmp(argv[1],"-a")==0)
+     cont++;
+     
+   printf("Generating Config-file %s\n", argv[cont]);
 
    config = readConfig();
    if (config!= NULL) {
 
-	  if (argv[2]!=NULL) readDefaultConfig (argv[1], argv[2]);
+	  if (argv[cont+1]!=NULL) readDefaultConfig (argv[cont], argv[cont+1]);
 	  else
-       remove (argv[1]);
+       remove (argv[cont]);
 
-     generateMsgEdConfig(config, argv[1]);
+     generateMsgEdConfig(config, argv[cont], cont-1);
      disposeConfig(config);
      return 0;
    }
