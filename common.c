@@ -86,8 +86,6 @@ DWORD __stdcall GetFullPathNameA(LPCSTR,DWORD,LPSTR,LPSTR*);
 DWORD __stdcall GetShortPathNameA(LPCSTR,LPSTR,DWORD);
 #define GetFullPathName     GetFullPathNameA
 #define GetShortPathName    GetShortPathNameA
-#elif defined(NT) || defined(WINNT) || defined(__NT__)
-#include <windows.h>
 #endif
 
 #include "fidoconf.h"
