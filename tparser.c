@@ -420,9 +420,10 @@ int printAreaGroup(char *group)
 {
     grp_t *g = (grp_t *) group;
 
-    if (!g) return;
+    if (!g) return 1;
     printf("AreaGroup: %s -> %s \n", g->name, g->patternList);
     printArea(*(g->area));
+    return 1;
 }
 
 void printFileArea(s_filearea area) {

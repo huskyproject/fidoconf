@@ -57,7 +57,7 @@ int grp_compareEntries_Search(char *areaName, char *grptree_item)
     if (pattern) {
         if ((found = patimat(areaName, pattern)) == 0)
             while((pattern = strtok(NULL, " \t,")))
-                if (found = patimat(areaName, pattern))
+                if ((found = patimat(areaName, pattern)))
                     break;
     }
     nfree(plist_tmp);
