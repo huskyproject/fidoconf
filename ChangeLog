@@ -1,3 +1,7 @@
+2002-10-16 Wednesday 12:28  d_sergienko
+
+	* fconf2na.pl (1.1): added converter fidoconfig -> ECHOLIST.NA
+
 2002-10-15 Tuesday 07:50  stas_degteff
 
 	* cfg.c (1.43): Use safety string functions (sstricmp, sstrdup,
