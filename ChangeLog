@@ -1,6 +1,37 @@
 fidoconfig 0.9
 --------------
 
+Wed Sep 01 22:06:21 CEST 1999
+sms:
++ added the following keywords:
+
+  ticOutbound
+  semaDir
+  badFilesDir
+  areafixKillRequests
+  filefixKillReports
+  filefixKillRequests
+  fileAreasLog
+  fileNewAreasLog
+  longNameList
+  fileArcList
+  filePassList
+  fileDupeList
+  msgidfile
+  createDirs
+  longDirNames
+  splitDirs
+  addDLC
+  fileSingleDescLine
+  fileCheckDest
+  fileDescPos
+  DLCDigits
+  fileMaxDupeAge
+  fileFileUMask
+  fileDirUMask
+  fileLocalPwd
+  fileLDescString
+
 Sun Aug 29 22:14:49 CEST 1999
 sms:
 + added '#' to patmat()
