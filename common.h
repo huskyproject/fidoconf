@@ -90,7 +90,7 @@ FCONF_EXT char *strrstr(const char *HAYSTACK, const char *NEEDLE);
           (same as strstr but last occurence
 */
 
-FCONF_EXT char *fc_stristr(char *str, char *find);
+FCONF_EXT char *fc_stristr(const char *str, const char *find);
 /*
  * Find the first occurrence of find in s ignoring case
  */

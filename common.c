@@ -181,9 +181,10 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE)
 /*
  * Find the first occurrence of find in s ignoring case
  */
-char *fc_stristr(char *str, char *find)
+char *fc_stristr(const char *str, const char *find)
 {
-    char ch, sc, *str1 = NULL, *find1 = NULL;
+    char ch, sc;
+    const char *str1 = NULL, *find1 = NULL;
 
     find++;
     if ((ch = *(find-1)) != 0) {
