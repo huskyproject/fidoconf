@@ -57,6 +57,6 @@ commonclean:
 	-$(RM) core
 
 commondistclean: clean
-	-$(RM) tparser$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2SQUISH)$(EXE) $(FECFG2FCONF)$(EXE)
+	-$(RM) tparser$(EXE) $(FCONF2GOLDED)$(EXE) $(FCONF2MSGED)$(EXE) $(FCONF2AQUAED)$(EXE) $(FCONF2FIDOGATE)$(EXE) $(FCONF2SQUISH)$(EXE) fecfg2fconf$(EXE)
 	-$(RM) $(LIBFIDOCONFIG)$(A)
 
