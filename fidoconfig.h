@@ -18,7 +18,6 @@ struct link {
    char *handle;
    char *pktFile;             // used only internally by hpt
 };
-
 typedef struct link s_link;
 
 enum flavour {hold, normal, crash, direct, immediate};
@@ -34,11 +33,9 @@ struct route {
    e_routing routeVia;  // this
    char      *pattern;
 };
-
 typedef struct route s_route;
 
 enum dupeCheck {off, move, del};
-
 typedef enum dupeCheck e_dupeCheck;
 
 struct area {
@@ -55,41 +52,58 @@ struct area {
    e_dupeCheck dupeCheck;
    char tinySB, manual, hide, noPause;
 
-   void *dupes;        // use internally for hpt pointer to dupeDataBase
+   void *dupes;        // used internally by hpt. pointer to dupeDataBase
    void *newDupes;     // dito
 };
-
 typedef struct area s_area;
 
-struct fidoconfig {
-   UINT    cfgVersionMajor, cfgVersionMinor;
-   char    *name, *location, *sysop;
-
-   UINT    addrCount;
-   s_addr  *addr;
-
-   UINT    publicCount;
-   char    **public;
-
-   UINT    linkCount;
-   s_link  *links;
-
-   char    *inbound, *outbound, *protInbound, *listInbound, *localInbound;
-   char    *logFileDir, *dupeHistoryDir, *nodelistDir;
-   char    *magic;
-
-   s_area  netMailArea, dupeArea, badArea;
-   UINT    echoAreaCount;
-   s_area  *echoAreas;
-
-   UINT    routeCount;
-   s_route *route;
-   UINT    routeFileCount;
-   s_route *routeFile;
-   UINT    routeMailCount;
-   s_route *routeMail;
+struct unpack {
+   UINT    offset;
+   char    *matchCode;
+   char    *call;
 };
+typedef struct unpack s_unpack;
 
+struct pack {
+   char    *packer;
+   char    *call;
+};
+typedef struct pack s_pack;
+
+struct fidoconfig {
+   UINT     cfgVersionMajor, cfgVersionMinor;
+   char     *name, *location, *sysop;
+
+   UINT     addrCount;
+   s_addr   *addr;
+
+   UINT     publicCount;
+   char     **public;
+
+   UINT     linkCount;
+   s_link   *links;
+
+   char     *inbound, *outbound, *protInbound, *listInbound, *localInbound;
+   char     *logFileDir, *dupeHistoryDir, *nodelistDir;
+   char     *magic;
+
+   s_area   netMailArea, dupeArea, badArea;
+   UINT     echoAreaCount;
+   s_area   *echoAreas;
+
+   UINT     routeCount;
+   s_route  *route;
+   UINT     routeFileCount;
+   s_route  *routeFile;
+   UINT     routeMailCount;
+   s_route  *routeMail;
+
+   UINT     packCount;
+   s_pack   *pack;
+   s_pack   *packDefault;
+   UINT     unpackCount;
+   s_unpack *unpack;
+};
 typedef struct fidoconfig s_fidoconfig;
 
 int parseLine(char *line, s_fidoconfig *config);

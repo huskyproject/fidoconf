@@ -64,30 +64,12 @@ int parseVersion(char *token, s_fidoconfig *config)
    return 0;
 }
 
-int parseName(char *token, s_fidoconfig *config)
+int copyString(char **pmem, char *str, s_fidoconfig *config)
 {
-   if (token==NULL) return 1;
+   if (str==NULL) return 1;
    
-   config->name = (char *) malloc(strlen(token)+1);
-   strcpy(config->name, token);
-   return 0;
-}
-
-int parseLocation(char *token, s_fidoconfig *config)
-{
-   if (token == NULL) return 1;
-   
-   config->location = (char *) malloc(strlen(token)+1);
-   strcpy(config->location, token);
-   return 0;
-}
-
-int parseSysop(char *token, s_fidoconfig *config)
-{
-   if (token == NULL) return 1;
-   
-   config->sysop = (char *) malloc(strlen(token)+1);
-   strcpy(config->sysop, token);
+   *pmem = (char *) malloc(strlen(str)+1);
+   strcpy(*pmem, str);
    return 0;
 }
 
@@ -353,9 +335,9 @@ int parseLine(char *line, s_fidoconfig *config)
    //printf("Parsing: %s\n", line);
    //printf("token: %s - %s\n", line, strtok(NULL, "\0"));
    if (stricmp(token, "version")==0) rc = parseVersion(getRestOfLine(), config);
-   else if (stricmp(token, "name")==0) rc = parseName(getRestOfLine(), config);
-   else if (stricmp(token, "location")==0) rc = parseLocation(getRestOfLine(), config);
-   else if (stricmp(token, "sysop")==0) rc =parseSysop(getRestOfLine(), config);
+   else if (stricmp(token, "name")==0) rc = copyString(&(config->name), getRestOfLine(), config);
+   else if (stricmp(token, "location")==0) rc = copyString(&(config->location), getRestOfLine(), config);
+   else if (stricmp(token, "sysop")==0) rc = copyString(&(config->sysop), getRestOfLine(), config);
    else if (stricmp(token, "address")==0) rc = parseAddress(getRestOfLine(), config);
    else if (stricmp(token, "inbound")==0) rc = parsePath(getRestOfLine(), &(config->inbound));
    else if (stricmp(token, "protinbound")==0) rc = parsePath(getRestOfLine(), &(config->protInbound));
