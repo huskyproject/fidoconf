@@ -3325,6 +3325,34 @@ int parseSeqOutrun(char *line, unsigned long *seqoutrun)
     return 0;
 }
 
+
+/* Parse the 'AvailList' token value
+ */
+int parseAvailList(char *line, unsigned int *availlist)
+{
+  char *iLine;
+
+  if (line == NULL) 
+  {
+    prErr("Parameter missing after %s!", actualKeyword);
+    return 1;
+  }
+
+  iLine = strLower(sstrdup(line));
+  if (stricmp(iLine, "full") == 0)           *availlist = AVAILLIST_FULL;
+  else if (stricmp(iLine, "unique") == 0)    *availlist = AVAILLIST_UNIQUE;
+  else if (stricmp(iLine, "uniqueone") == 0) *availlist = AVAILLIST_UNIQUEONE;
+  else
+  {
+    prErr("Unknown AvailList value %s!", line);
+    nfree(iLine);
+    return 1;
+  }
+  nfree(iLine);
+  return 0;
+}
+
+
 /* Parse fidoconfig line
  * Return 0 if success.
  */
@@ -4367,6 +4395,14 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_SEQOUTRUN:
             rc = parseSeqOutrun(getRestOfLine(), &(config->seqOutrun));
             break;
+        case ID_AVAILLIST:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseAvailList(getRestOfLine(), &(clink->availlist));
+            } else {
+                rc = 1;
+            }
+            break;
+
 
         default:
             prErr( "unrecognized: %s", line);

@@ -299,7 +299,7 @@ static char *cvtFlavour(e_flavour flavour)
 }
 
 void printLink(s_link link) {
-	unsigned int i;
+  unsigned int i;
 
   if ((link.hisAka.domain != NULL) && (link.ourAka->domain != NULL)) {
     printf("Link: %d:%d/%d.%d@%s (ourAka %d:%d/%d.%d@%s)\n",
@@ -350,6 +350,23 @@ void printLink(s_link link) {
    printf("Import:     %s\n",(link.import) ? "on" : "off");
    printf("Mandatory:  %s\n",(link.mandatory) ? "on" : "off");
 
+   printf("AvailList: ");
+   switch(link.availlist)
+   {
+     case AVAILLIST_FULL:
+       printf("Full\n");
+       break;
+     case AVAILLIST_UNIQUE:
+       printf("Unique\n");
+       break;
+     case AVAILLIST_UNIQUEONE:
+       printf("UniqueOne\n");
+       break;
+     default:
+       printf("Unknown (m.b. fidoconf <--> trarser incompatible?)");
+       break;
+   }
+
    if ((link.Pause & EPAUSE) == EPAUSE)
 	 printf("Link in paused for echoes, no export\n");
 
@@ -384,6 +401,7 @@ void printLink(s_link link) {
 	   }
 	   printf("\n");
    }
+
    if (link.autoAreaCreateDefaults) printf("AutoAreaCreateDefaults: %s\n", link.autoAreaCreateDefaults);
    printf("delNotReceivedTIC: %s\n", link.delNotReceivedTIC ? "on" : "off");
    printf("FileFixFSC87Subset %s\n", (link.FileFixFSC87Subset) ? "on" : "off");

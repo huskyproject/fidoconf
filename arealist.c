@@ -116,6 +116,90 @@ void sortAreaList(ps_arealist al)
 		qsort(al->areas,al->count,sizeof(s_arealistitem),compare_arealistitems);
 }
 
+static int compare_arealistitems_and_desc(const void *a, const void *b) 
+{
+  register int r;
+
+  /* compare areatags */
+  r = stricmp(((ps_arealistitem)a)->tag,((ps_arealistitem)b)->tag);
+  if (r!=0)
+  	return r;
+  /* comapre descriptions: if both presents it's eq; if both absence then eq also;
+     else NULL'ed is little */
+  r = (((ps_arealistitem)b)->desc != NULL) - (((ps_arealistitem)a)->desc != NULL);
+  return r;
+
+/* Don't compare descriptions text
+  if ((r!=0)||(((ps_arealistitem)a)->desc == NULL))
+  	return r;
+
+  return strcmp(((ps_arealistitem)a)->desc, ((ps_arealistitem)b)->desc);
+*/
+}
+
+void sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes)
+{
+  int i,j,k;
+  char *prev;
+  ps_arealist al;
+  ps_arealistitem ali;
+
+  if (!hal)
+    return;
+
+  al = hal[halcnt-1];
+
+  if(!(al && al->count && al->areas))
+    return;
+
+  if (!nodupes)
+  {
+    sortAreaList(al);
+    return;
+  }
+
+  qsort(al->areas,al->count,sizeof(s_arealistitem),compare_arealistitems_and_desc);
+
+  j=0;
+  prev = NULL;
+
+  for(i=0; i<al->count; i++)
+  {
+    if (prev&&(stricmp(prev, al->areas[i].tag)==0))
+    {
+      nfree(al->areas[i].tag);
+      nfree(al->areas[i].desc);
+      continue;
+    }
+    prev = al->areas[i].tag;
+
+    ali = NULL;
+    for(k=1; k<halcnt; k++)
+    {
+      ali = bsearch(&(al->areas[i]), hal[k-1]->areas, hal[k-1]->count, sizeof(s_arealistitem), compare_arealistitems);
+      if (ali)
+        break;
+    }
+    if (ali)
+    {
+      nfree(al->areas[i].tag);
+      nfree(al->areas[i].desc);
+      continue;
+    }
+
+    if (i!=j) memcpy(&(al->areas[j]), &(al->areas[i]), sizeof(s_arealistitem));
+    j++;
+  }
+
+  if (j!=(al->maxcount))
+  {
+    al->areas = realloc(al->areas, j*sizeof(s_arealistitem));
+    al->maxcount = j;
+  }
+  al->count = j;
+}
+
+
 static char *addline(char *text, char *line, int *pos, int *tlen)
 {
 	int ll;

@@ -291,7 +291,8 @@ enum {
     ID_FILEFIXECHOLIMIT,
     ID_FILEFIXFROMNAME,
     ID_SEQDIR,
-    ID_SEQOUTRUN
+    ID_SEQOUTRUN,
+    ID_AVAILLIST
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -356,6 +357,7 @@ token_t parseline_tokens[] =
     { "autofilecreatesubdirs", ID_AUTOFILECREATESUBDIRS },
     { "autopassive", ID_AUTOPASSIVE },
     { "autopause", ID_AUTOPAUSE },
+    { "availlist", ID_AVAILLIST },
     { "badarea", ID_BADAREA },
     { "badfilesdir", ID_BADFILESDIR },
     { "bbsarea", ID_BBSAREA },

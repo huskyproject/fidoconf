@@ -83,6 +83,15 @@ FCONF_EXT char CommentChar;
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"
 
+/* availlist values */
+enum _eAvailList
+{
+  AVAILLIST_FULL = 0, /* Default value */
+  AVAILLIST_UNIQUE,
+  AVAILLIST_UNIQUEONE
+};
+
+typedef enum _eAvailList eAvailList;
 
 FCONF_EXT char *striptwhite(char *str);
 
@@ -206,6 +215,7 @@ typedef struct link {
     unsigned int noRules;
     FILE *pkt;  /*  for internal usage */
     unsigned int reducedSeenBy; /*  reduces Seen-BYs (fsc-0093) */
+    eAvailList availlist;
 
 } s_link, *ps_link;
 

@@ -22,6 +22,7 @@ FCONF_EXT ps_arealist newAreaList(void);
 FCONF_EXT void        freeAreaList(ps_arealist al);
 FCONF_EXT int         addAreaListItem(ps_arealist al, int active, int rescanable, char *tag, char *desc);
 FCONF_EXT void        sortAreaList(ps_arealist al);
+FCONF_EXT void        sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes);
 FCONF_EXT char        *formatAreaList(ps_arealist al, int maxlen, char *activechars);
 
 #endif
