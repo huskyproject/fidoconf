@@ -53,4 +53,24 @@ Changes after FIDOCONFIG 0.14
      produce this error. Solution: replace -O3 with -O2 in CFLAGS line in
      your makefile.
 
+
+FIDOCONFIG 0.14.3 release
+
+1. MAJOR feature improvements:
+   - log maintnance functions included
+   - temp files maintnance functions included
+
+2. CONFIG changes:
+
+   - the 'if' conditions must be quoted like this:
+       if "[OS]"=="UNIX"
+       endif
+
+3. IMPORTANT bugfixes:
+   - fix remap (replace INTL kludge)
+   - fix line parsing if comment ends line
+   - fix *nix versions (compile without semaphores)
+   - fix unpacker call string parsing
+   - fix several memory faults
+
 $Id$
