@@ -1,3 +1,7 @@
+2003-03-29 Saturday 20:33  d_sergienko
+
+	* make/makefile.inc (1.8): add $(LIBDIR) to libraries search path
+
 2003-03-28 Friday 09:57  sfpavel
 
 	* Makefile (1.66), debian/libfidoconf1-dev.files (1.2),
