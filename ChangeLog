@@ -1,3 +1,8 @@
+2002-06-08 Saturday 15:54  mche
+
+	* afixcmd.c (1.7), afixcmd.h (1.7): IsAreaAvailable() moved to
+	fidoconfig
+
 2002-06-07 Friday 19:31  mche
 
 	* afixcmd.c (1.6): some code improvement
