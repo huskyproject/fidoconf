@@ -1,3 +1,8 @@
+2003-05-08 Thursday 20:52  d_sergienko
+
+	* tree.c (fidoconf-1_4-stable.1): fix counting tree nodes (backport
+	of mche's patch)
+
 2003-04-30 Wednesday 09:52  sfpavel
 
 	* debian/: changelog, control (fidoconf-1_4-stable.[5,3]): New
