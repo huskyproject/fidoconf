@@ -76,8 +76,8 @@
 
 #define LL_ERROR   	'A' /*9*//* Trivial error: continue */
 #define LL_ERR     LL_ERROR
-#define LL_WARN    	'A'      /* Warning */
-#define LL_ALERT   	'B'      /* Warning */
+#define LL_WARN    	'B'      /* Warning */
+#define LL_ALERT   	'B'      /* Alert */
 #define LL_INFO    	'C' /*1*//* Information messages */
 #define LL_STAT    	'D' /*1*//* Statistics */
 #define LL_SUMMARY 	'E' /*1*//* Summary */
