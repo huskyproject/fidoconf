@@ -277,7 +277,7 @@ enum {
     ID_ANNFROM,
     ID_ANNSUBJ,
     ID_ANNADRTO,
-    ID_ANNADRFROM,
+    ID_ANNADRFROM
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
