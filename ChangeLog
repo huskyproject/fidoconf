@@ -1,3 +1,28 @@
+2003-06-16 Monday 14:26  lmike
+
+	* make/makefile.qnx (1.4): Added proper library dependencies
+
+2003-06-16 Monday 13:33  lmike
+
+	* fidoconfig.qpg (1.2): Oops, forget to change the name of library.
+
+2003-06-16 Monday 13:32  lmike
+
+	* fidoconfig.qpg (1.1): Added packaging file for QNX6.
+
+2003-06-16 Monday 13:13  lmike
+
+	* make/makefile.inc (1.13): Added "patch" version as variable
+
+2003-06-16 Monday 12:56  lmike
+
+	* make/makefile.qnx (1.3): added versions to .so, proper cleaning.
+
+2003-06-16 Monday 12:34  lmike
+
+	* make/makefile.qnx (1.2), src/line.c (1.14): continuing porting to
+	QNX. Just include files fixes.
+
 2003-05-30 Friday 15:15  lmike
 
 	* src/fidoconf.c (1.9): Added path to config file for QNX 6, maybe
