@@ -9,12 +9,7 @@ AR = ar
 AR_R = r
 RM = rm
 
-ifeq ($(DEBUG), 1)
-  COPT = -c -O3 -DUNIX -I$(INCDIR) -g
-else
-  COPT = -c -O3 -DUNIX -I$(INCDIR) -s
-endif
-
+COPT = -c -DUNIX -I../smapi
 LOPT = -L. -L$(LIBDIR)
 
 # filename settings
@@ -52,15 +47,16 @@ libfidoconfig.so.$(VER): fidoconfig$(O) line$(O) common$(O) dir$(O) adcase$(O) d
 	$(CC) $(COPT) $*.c
 
 install: commonlibs commonprogs
-	install $(ILOPT) libfidoconfig.so.$(VER) $(LIBDIR)
+	cp -f  libfidoconfig.so.$(VER) $(LIBDIR)
+	cp -f  libfidoconfig.a $(LIBDIR)
 	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
-	install $(IBOPT) fconf2msged  $(BINDIR)
-	install $(IBOPT) fconf2golded $(BINDIR)
-	install $(IBOPT) fconf2aquaed $(BINDIR)
-	install $(IBOPT) fconf2fidogate $(BINDIR)
-	install $(IBOPT) fconf2squish $(BINDIR)
-	install $(IBOPT) tparser      $(BINDIR)
-	install $(IIOPT) fidoconfig.h $(INCDIR)
-	install $(IIOPT) fidoconf.pas $(INCDIR)
+	cp -f  fconf2msged  $(BINDIR)
+	cp -f  fconf2golded $(BINDIR)
+	cp -f  fconf2aquaed $(BINDIR)
+	cp -f  fconf2fidogate $(BINDIR)
+	cp -f  fconf2squish $(BINDIR)
+	cp -f  tparser      $(BINDIR)
+	cp -f  fidoconfig.h $(INCDIR)
+	cp -f  fidoconf.pas $(INCDIR)
 
