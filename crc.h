@@ -62,7 +62,7 @@ FCONF_EXT   unsigned long strcrc32(char *str, unsigned long initcrc);
 /* Calculate CRC32 for file
    filename: file name for calculate CRC32
  */
-unsigned long filecrc32(const char *filename);
+FCONF_EXT   unsigned long filecrc32(const char *filename);
 
 #ifdef __cplusplus
 }
