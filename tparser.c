@@ -489,6 +489,9 @@ void printLink(s_link link) {
       case eAddrsCRC32:
 	 printf("linkBundleNameStyle: AddrsCRC32\n");
 	 break;
+      case eAddrsCRC32Always:
+	 printf("linkBundleNameStyle: AddrsCRC32Always\n");
+	 break;
       default:
          printf("Warning: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
          break;
@@ -932,6 +935,9 @@ int main(int argc, char **argv) {
   		  break;
 	  case eAddrsCRC32:
 		  printf("BundleNameStyle: AddrsCRC32\n");
+		  break;
+	  case eAddrsCRC32Always:
+		  printf("BundleNameStyle: AddrsCRC32Always\n");
 		  break;
   	  default:
   		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
