@@ -2,11 +2,11 @@ include ../../huskymak.cfg
 
 default: info
 
-html: fidoconfig_toc.html proposal_toc.html
+html: fidoconfig_toc.html
 
-dvi: fidoconfig.dvi proposal.dvi
+dvi: fidoconfig.dvi
 
-info: fidoconfig.info proposal.info
+info: fidoconfig.info
 
 fidoconfig_toc.html: fidoconfig.texi
 	texi2html -split_node -number -menu fidoconfig.texi
