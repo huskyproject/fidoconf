@@ -111,7 +111,7 @@ typedef enum emptypktpwd {eOff, eSecure, eOn} e_emptypktpwd;
 typedef enum pktheaderdiffer {pdOff, pdOn} e_pktheaderdiffer;
 typedef enum nameCase { eLower, eUpper} e_nameCase;
 typedef enum nameCaseConvertion { cLower, cUpper, cDontTouch } e_nameCaseConvertion;
-typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlways, eAmiga} e_bundleFileNameStyle;
+typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlways, eAmiga, eAddrsCRC32} e_bundleFileNameStyle;
 typedef enum emailEncoding { eeMIME, eeSEAT, eeUUE } e_emailEncoding;
 typedef enum pauses        { NOPAUSE, EPAUSE, FPAUSE } e_pauses;
 
@@ -289,7 +289,7 @@ typedef struct fileareatype {
    int noreplace;      // 1 - no replace files in this filearea
    int nodiz;          // 1 - do not try to get description from <fileDescName>
    ps_addr useAka;
-   
+
    unsigned purge;     // number of days to keep files. if 0 purging is disabled
 
    ps_arealink *downlinks;  // array of pointers to s_link

@@ -783,7 +783,7 @@ int parseFileAreaOption(const s_fidoconfig *config, char *option, s_filearea *ar
       /* if link was added before -lr setting, it should be updated */
       for(i=0;i<area->downlinkCount;++i)
           setFileLinkAccess( area, area->downlinks[i]);
-      
+
   }
   else if (strcmp(iOption, "p")==0) {
       token = strtok(NULL, " \t");
@@ -2820,6 +2820,7 @@ int parseBundleNameStyle(char *line, e_bundleFileNameStyle *value)
   else if (strcmp(iLine, "addrdiffalways") == 0) *value = eAddrDiffAlways;
   else if (strcmp(iLine, "timestamp") == 0) *value = eTimeStamp;
   else if (strcmp(iLine, "amiga") == 0) *value = eAmiga;
+  else if (strcmp(iLine, "addrscrc32") == 0) *value = eAddrsCRC32;
   else {
     prErr("Unknown bundle name style %s!", line);
     nfree(iLine);
@@ -4102,7 +4103,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseAnnDefAddres(getRestOfLine(), config, 2);
             break;
 
-            
+
 
         default:
             prErr( "unrecognized: %s", line);

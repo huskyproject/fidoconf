@@ -484,8 +484,11 @@ void printLink(s_link link) {
          printf("linkBundleNameStyle: timeStamp\n");
          break;
       case eAmiga:
-		 printf("linkBundleNameStyle: Amiga\n");
-		 break;
+	 printf("linkBundleNameStyle: Amiga\n");
+	 break;
+      case eAddrsCRC32:
+	 printf("linkBundleNameStyle: AddrsCRC32\n");
+	 break;
       default:
          printf("Warning: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
          break;
@@ -927,6 +930,9 @@ int main(int argc, char **argv) {
   	  case eAmiga:
   		  printf("BundleNameStyle: Amiga\n");
   		  break;
+	  case eAddrsCRC32:
+		  printf("BundleNameStyle: AddrsCRC32\n");
+		  break;
   	  default:
   		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
   		  break;
@@ -1034,40 +1040,40 @@ int main(int argc, char **argv) {
         if(config->ADCount)
         {
 			for (i = 0; i< config->ADCount; i++) {
-            	printf("\n----- announce group -----\n");    
-	            if(config->AnnDefs[i].annAreaTag) 
-    	        printf("AnnAreaTag: %s\n",config->AnnDefs[i].annAreaTag); 
+            	printf("\n----- announce group -----\n");
+	            if(config->AnnDefs[i].annAreaTag)
+    	        printf("AnnAreaTag: %s\n",config->AnnDefs[i].annAreaTag);
         	    if(config->AnnDefs[i].annInclude == NULL)
-            	printf("AnnInclude: *\n"); 
+            	printf("AnnInclude: *\n");
 	            else {
-	            	printf("AnnInclude:");                     
+	            	printf("AnnInclude:");
 					for (j = 0; j < config->AnnDefs[i].numbI; j++) {
-		            	printf(" %s",config->AnnDefs[i].annInclude[j]); 
-	                } 
-   	            	printf("\n"); 
+		            	printf(" %s",config->AnnDefs[i].annInclude[j]);
+	                }
+   	            	printf("\n");
 	    		}
         	    if(config->AnnDefs[i].annExclude != NULL)
 	            {
-	            	printf("AnnExclude:");                     
+	            	printf("AnnExclude:");
 					for (j = 0; j < config->AnnDefs[i].numbE; j++) {
-		            	printf(" %s",config->AnnDefs[i].annExclude[j]); 
-	                } 
-   	            	printf("\n"); 
+		            	printf(" %s",config->AnnDefs[i].annExclude[j]);
+	                }
+   	            	printf("\n");
 	    		}
-	            if(config->AnnDefs[i].annto) 
-    	        printf("AnnTo     : %s\n",config->AnnDefs[i].annto); 
-	            if(config->AnnDefs[i].annfrom) 
-    	        printf("AnnFrom   : %s\n",config->AnnDefs[i].annfrom); 
-	            if(config->AnnDefs[i].annadrto) 
-    	        printf("AnnAddrTo : %s\n",aka2str(*(config->AnnDefs[i].annadrto))); 
-	            if(config->AnnDefs[i].annadrfrom) 
-    	        printf("AnnAddrFro: %s\n",aka2str(*(config->AnnDefs[i].annadrfrom))); 
-	            if(config->AnnDefs[i].annsubj) 
-    	        printf("AnnSubj   : %s\n",config->AnnDefs[i].annsubj); 
-	            if(config->AnnDefs[i].annorigin) 
-    	        printf("AnnOrigin : %s\n",config->AnnDefs[i].annorigin); 
-	            if(config->AnnDefs[i].annorigin) 
-    	        printf("AnnMessFlags : %s\n",config->AnnDefs[i].annmessflags); 
+	            if(config->AnnDefs[i].annto)
+    	        printf("AnnTo     : %s\n",config->AnnDefs[i].annto);
+	            if(config->AnnDefs[i].annfrom)
+    	        printf("AnnFrom   : %s\n",config->AnnDefs[i].annfrom);
+	            if(config->AnnDefs[i].annadrto)
+    	        printf("AnnAddrTo : %s\n",aka2str(*(config->AnnDefs[i].annadrto)));
+	            if(config->AnnDefs[i].annadrfrom)
+    	        printf("AnnAddrFro: %s\n",aka2str(*(config->AnnDefs[i].annadrfrom)));
+	            if(config->AnnDefs[i].annsubj)
+    	        printf("AnnSubj   : %s\n",config->AnnDefs[i].annsubj);
+	            if(config->AnnDefs[i].annorigin)
+    	        printf("AnnOrigin : %s\n",config->AnnDefs[i].annorigin);
+	            if(config->AnnDefs[i].annorigin)
+    	        printf("AnnMessFlags : %s\n",config->AnnDefs[i].annmessflags);
 
 			}
         }
