@@ -34,6 +34,7 @@ extern "C" {
 #endif
 
 #include "fidoconf.h"
+#include "typesize.h"
 
 /* Define read() buffer */
 #if OSTYPE==UNIX
@@ -63,6 +64,27 @@ FCONF_EXT   unsigned long strcrc32(char *str, unsigned long initcrc);
    filename: file name for calculate CRC32
  */
 FCONF_EXT   unsigned long filecrc32(const char *filename);
+
+/* Calculate CRC16 for memory array
+   str: array
+   size: array size
+   initcrc: initial value (start from 0x0000)
+ */
+FCONF_EXT   UINT16 memcrc16(char *str, int size, UINT16 initcrc);
+
+/* Alias for memcrc16() */
+#define crc16(x,y,z) memcrc32(x,y,z)
+
+/* Calculate CRC16 for ASCIIZ string
+   str: string
+   initcrc: initial value (start from 0x0000)
+ */
+FCONF_EXT   UINT16 strcrc16(char *str, UINT16 initcrc);
+
+/* Calculate CRC16 for file
+   filename: file name for calculate CRC16
+ */
+FCONF_EXT   UINT16 filecrc16(const char *filename);
 
 #ifdef __cplusplus
 }
