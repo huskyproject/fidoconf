@@ -26,6 +26,7 @@ FIDOCONFIG = fidoconfig
 FCONF2AQUAED = fconf2aquaed
 FCONF2GOLDED = fconf2golded
 FCONF2MSGED  = fconf2msged
+FCONF2FIDOGATE = fconf2fidogate
 LIBFIDOCONFIG = libfidoconfig
 LINKSMAPI = -lsmapibsd
 LINKFIDOCONFIG = -l$(FIDOCONFIG)
