@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Tue Jan 25 00:43:18 NOVT 2000
+max (patch from Serguei Revtov):
+* make fidoconfig compiling on sun (makefile.sun)
+
+----- cvs ci ------
 Sat Jan 22 11:16:22 NOVT 2000
 max:
 * delete old level access code
