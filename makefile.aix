@@ -1,64 +1,12 @@
-#Settings for AIX
+# Settings for AIX
 
-# program settings
-CC = cc
-AR = ar
-AR_R = r
-RM = rm
-INCDIR=/usr/local/include
-LIBDIR=/usr/local/lib
-BINDIR=/usr/local/bin
-DEBUG=0
+# There is no makefile for AIX any more as we don't have a AIX machine to
+# test things any more.
 
-ifeq ($(DEBUG), 1)
-  COPT = -c -O3 -qcpluscmt -DUNIX -I$(INCDIR) -g
-else
-  COPT = -c -O3 -qcpluscmt -DUNIX -I$(INCDIR) -s
-endif
-
-LOPT = -L . -L $(LIBDIR)
-
-# filename settings
-OBJ = .o
-LIB = .a
-EXE =
-TPU = .ppu
-FIDOCONFIG = fidoconfig
-FCONF2AQUAED = fconf2aquaed
-FCONF2GOLDED = fconf2golded
-FCONF2MSGED  = fconf2msged
-FCONF2FIDOGATE = fconf2fidogate
-FCONF2SQUISH   = fconf2squish
-LIBFIDOCONFIG = libfidoconfig
-LINKSMAPI = -lsmapiunix
-LINKFIDOCONFIG = -l$(FIDOCONFIG)
-
-default: all
-
-include makefile.common
-
-all: commonlibs commonprogs
-
-clean: commonclean
-	-$(RM) so_locations
-
-distclean: commondistclean
-
-%.o: %.c
-	$(CC) $(COPT) $*.c
-
-install: commonlibs commonprogs
-	install $(ILOPT) libfidoconfig.a $(LIBDIR)
-	install $(IBOPT) fconf2msged   $(BINDIR)
-	install $(IBOPT) fconf2golded  $(BINDIR)
-	install $(IBOPT) fconf2aquaed $(BINDIR)
-	install $(IBOPT) fconf2fidoconfig $(BINDIR)
-	install $(IBOPT) fconf2squish $(BINDIR)
-	install $(IBOPT) tparser       $(BINDIR)
-	install $(IIOPT) fidoconfig.h $(INCDIR)
-	install $(IIOPT) dirlayer.h   $(INCDIR)
-	install $(IIOPT) typesize.h   $(INCDIR)
-	install $(IIOPT) adcase.h   $(INCDIR)
-	install $(IIOPT) common.h     $(INCDIR)
-	install $(IIOPT) fidoconf.pas $(INCDIR)
+# To build husky on AIX with gcc, try to use makefile.unx, but if you
+# are using IBM's C compiler, add the following parameter to the CFLAGS:
+#
+#     -qcpluscmt
+#
+# This will allow "//" style comments in ANSI C # source code. 
 
