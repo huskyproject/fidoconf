@@ -2533,6 +2533,10 @@ int parseLine(char *line, s_fidoconfig *config)
         else config->tossingExt = NULL;
    }
 
+#if defined ( __NT__ )
+   else if (stricmp(token, "setconsoletitle")==0) rc = parseBool(getRestOfLine(), &(config->setConsoleTitle));
+#endif
+
 #ifdef __TURBOC__
    else unrecognised++;
    if (unrecognised == 5)

@@ -211,6 +211,7 @@ a comment and will be ignored.
 * ignoreCapWord::		ignore Capability Word in pkt files
 * noProcessBundles::            no unpack arcmail bundles
 * DisableTID::			disable adding TID to messages
+* SetConsoleTitle::             schange conesole title under win32
 
 @end menu
 
@@ -2263,7 +2264,7 @@ it is better to change old software.
 
 don't unpack arcmail bundles
 
-@node DisableTID, ,noProcessBundles, Keywords
+@node DisableTID, SetConsoleTitle, noProcessBundles, Keywords
 @subsection DisableTID
 @table @asis
 @item Syntax:
@@ -2273,6 +2274,19 @@ don't unpack arcmail bundles
 @end table
 
 don't add TID-line to scanned messages
+
+@node SetConsoleTitle, , DisableTID, Keywords
+@subsection SetConsoleTitle
+@table @asis
+@item Syntax:
+@code{SetConsoleTitle [on|off|yes|no|1|0]}
+@item Example:
+@code{SetConsoleTitle}
+@end table
+
+Set hpt console title while tossing
+
+@strong{This statement is only for win32 platform.}
 
 @node Example,  , Keywords, config file
 @section Working sample config

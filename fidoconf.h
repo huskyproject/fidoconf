@@ -388,6 +388,11 @@ typedef struct fidoconfig {
    e_nameCase createAreasCase;
    e_nameCase areasFileNameCase;
    char *tossingExt;
+
+#if defined ( __NT__ )
+   unsigned int setConsoleTitle; /* change console title */
+#endif
+
 } s_fidoconfig, *ps_fidoconfig;
 
 

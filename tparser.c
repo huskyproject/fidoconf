@@ -308,6 +308,9 @@ int main() {
       printf("createAreasCase: %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
       printf("areasFileNameCase: %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
       printf("DisableTID: %s\n", (config->disableTID) ? "on" : "off");
+#if defined ( __NT__ )
+      printf("SetConsoleTitle: %s\n", (config->setConsoleTitle) ? "on" : "off");
+#endif
       if (config->processPkt != NULL) printf("processPkt: %s\n", config->processPkt);
       if (config->tossingExt != NULL) printf("tossingExt: %s\n", config->tossingExt);
       
