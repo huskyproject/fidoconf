@@ -73,7 +73,7 @@ Keyword parameters:
 @item <integer>
 string including integer numbers, like: @code{1234567890}
 @item <string>
-text string
+text string, optionally in double quotes.
 @item <bool>
 may be set to "1", "0", "yes", "no", "on", "off", and also without
 parameters (it means "on").
