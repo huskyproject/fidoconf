@@ -1,5 +1,4 @@
 - if (( a && b ) || c) by Pavel Golchouk
-- rewrite string2addr()
 - routeMail, route, routeFile must be "the same"
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
 - fix "-manual" vs. "-mandatory": 

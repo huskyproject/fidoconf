@@ -86,7 +86,7 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE);
           (same as strstr but last occurence
 */
 
-void string2addr(const char *string, s_addr *addr);
+void string2addr(char *string, s_addr *addr);
 /*DOC
   Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
   Output: ./.

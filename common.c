@@ -143,10 +143,9 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE)
    return start;
 }
 
-
+/* remove after 09-Apr-01
 void string2addr(const char *string, s_addr *addr)
 {
-  /* FIXME: Better rewrite */
   const char *start = string;
   char *buffer;
   int  i = 0;
@@ -162,7 +161,7 @@ void string2addr(const char *string, s_addr *addr)
       buffer[i] = *start;
       start++;
       i++;
-   } /* endwhile */
+   }
    buffer[i] = '\0';
    if (!isdigit(buffer[0])) {
       // Domain name could be in front of the addr, not FTS-compatible!!!!!
@@ -182,7 +181,7 @@ void string2addr(const char *string, s_addr *addr)
 	 buffer[i] = *start;
 	 start++;
          i++;
-      } /* endwhile */
+      }
       buffer[i] = '\0';
       addr->net = atoi(buffer);
 
@@ -194,14 +193,14 @@ void string2addr(const char *string, s_addr *addr)
       buffer[i] = *start;
       start++;
       i++;
-   } /* endwhile */
+   }
    buffer[i] = '\0';
    addr->node = atoi(buffer);
 
    i = 0;
 
    switch (*start) {
-   case '\0':                            /* no point / domain info */
+   case '\0':                            // no point / domain info
       start++;
       addr->point = 0;
       break;
@@ -210,7 +209,7 @@ void string2addr(const char *string, s_addr *addr)
       while ((*start != '\0')&&(i < 31)) {
          buffer[i] = *start;
          i++; start++;
-      } /* endwhile */
+      }
       buffer[i] = '\0';
 //      free(addr->domain);
 //      addr->domain = (char *) malloc(strlen(buffer)+1);
@@ -223,7 +222,7 @@ void string2addr(const char *string, s_addr *addr)
          buffer[i] = *start;
 	 start++;
 	 i++;
-      } /* endwhile */
+      }
       buffer[i] = '\0';
       addr->point = atoi(buffer);
       i = 0;
@@ -232,7 +231,7 @@ void string2addr(const char *string, s_addr *addr)
          while ((*start != '\0')&&(i < 31)) {
             buffer[i] = *start;
             i++; start++;
-         } /* endwhile */
+         }
          buffer[i] = '\0';
 //         free(addr->domain);
 //         addr->domain = (char *) malloc(strlen(buffer)+1);
@@ -240,20 +239,55 @@ void string2addr(const char *string, s_addr *addr)
       } else {
 //         free(addr->domain);
 //         addr->domain = NULL; //no domain
-      } /* endif */
+      }
       break;
    default:
      break;
-   } /* endswitch */
-   /* all-catch for domain = NULL */
-   /* if  (addr->domain == NULL) {
-   	  addr->domain  = malloc(1);
-        *(addr->domain) = '\0';
-      };
-   */
+   } // endswitch
+// all-catch for domain = NULL
+// if  (addr->domain == NULL) {
+//   	  addr->domain  = malloc(1);
+//      *(addr->domain) = '\0';
+//    };
+
    
    free(buffer);   
    return;
+} 
+*/
+
+void string2addr(char *string, s_addr *addr) {
+	char *endptr, *str = string;
+	unsigned long t;
+
+	memset(addr, '\0', sizeof(s_addr));
+
+	if (str == NULL) return;
+	if (strchr(str,':')==NULL || strchr(str,'/')==NULL) return;
+
+	// zone
+	if (NULL == strstr(str,":")) return;
+	t = strtoul(str,&endptr,10);
+	addr->zone = (UINT16) t;
+
+	// net
+	str = endptr+1;
+	if (NULL == strstr(str,"/")) return;
+	t = strtoul(str,&endptr,10);
+	addr->net = (UINT16) t;
+
+	// node
+	str = endptr+1;
+	t = strtoul(str,&endptr,10);
+	addr->node = (UINT16) t;
+
+	// point
+	if (*endptr) str = endptr+1; 
+	else return; // end of string
+	t = strtoul(str,&endptr,10);
+	addr->point = (UINT16) t;
+	
+	return;
 }
 
 #ifdef __TURBOC__

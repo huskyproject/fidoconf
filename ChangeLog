@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Fri Mar  9 14:11:02 NOVT 2001
+max:
+* new string2addr()
+
+----- cvs ci ------
 Mon Mar  5 22:51:20 NOVT 2001
 max (patch from Alex Bronin):
 * dirlayer.c: d_size for MSVC
