@@ -1,3 +1,8 @@
+2003-05-14 Wednesday 22:06  d_sergienko
+
+	* HISTORY, line.c (fidoconf-1_4-stable.[4,4]): workaround: don't
+	crash when link statement after described echoArea/fileArea found
+
 2003-05-08 Thursday 20:52  d_sergienko
 
 	* tree.c (fidoconf-1_4-stable.1): fix counting tree nodes (backport
