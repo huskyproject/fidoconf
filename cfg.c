@@ -462,18 +462,9 @@ int cmpfnames(char *file1, char *file2)
 	return 1;
     return 0;
 }
-#elif defined(NT) || defined(WINNT) || defined(__NT__) || defined(__MINGW32__)
-#ifdef __MINGW32__
-typedef unsigned long DWORD;
-typedef char        *LPSTR;
-typedef const char  *LPCSTR;
-DWORD __stdcall GetFullPathNameA(LPCSTR,DWORD,LPSTR,LPSTR*);
-DWORD __stdcall GetShortPathNameA(LPCSTR,LPSTR,DWORD);
-#define GetFullPathName     GetFullPathNameA
-#define GetShortPathName    GetShortPathNameA
-#else
-#include <windows.h>
-#endif
+
+#elif  defined(__NT__)
+
 int cmpfnames(char *file1, char *file2)
 {
     char buf[256], path1[256], path2[256], *p;
@@ -488,6 +479,7 @@ int cmpfnames(char *file1, char *file2)
 
     return sstricmp(path1, path2);
 }
+
 #elif defined (OS2)
 #define INCL_DOSFILEMGR
 #include <os2.h>
