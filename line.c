@@ -44,7 +44,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#ifdef __BEOS__
+#include <sys/sysexits.h>
+#else
 #include <sysexits.h>
+#endif
 #else
 #include <process.h>
 #include <io.h>
