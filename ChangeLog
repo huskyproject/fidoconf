@@ -2,6 +2,12 @@ fidoconfig 0.7
 --------------
 
 ----- cvs ci ------
+Wed Mar  17 20:50
+Max:
++ changed -m <integer> to -$m <integer> in echoarea options
+- -m changed to -mn (mandatory to link in echoarea options)
+
+----- cvs ci ------
 Mon Mar  15 20:50
 Max:
 + win32 port by Edgar Chupit (chupit@mail.lv)

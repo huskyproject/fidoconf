@@ -276,7 +276,7 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
          return 1;     // error occured;
       }
    }
-   else if (stricmp(option, "m")==0) {
+   else if (stricmp(option, "$m")==0) {
       area->max = (UINT) strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) {
          return 1;     // error
@@ -443,7 +443,7 @@ int parseLinkOption(s_arealink *alink, char *token)
 {
     if (stricmp(token, "r")==0) alink->import = 0;
     else if (stricmp(token, "w")==0) alink->export = 0;
-    else if (stricmp(token, "m")==0) alink->mandatory = 1;
+    else if (stricmp(token, "mn")==0) alink->mandatory = 1;
     else return 1;
     return 0;
 }
@@ -517,8 +517,8 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 	 
 		 // default set export on, import on, mandatory off
 		 area->downlinks[area->downlinkCount]->export = 1;
-         area->downlinks[area->downlinkCount]->import = 1;
-         area->downlinks[area->downlinkCount]->mandatory = 0;
+    		 area->downlinks[area->downlinkCount]->import = 1;
+                 area->downlinks[area->downlinkCount]->mandatory = 0;
 	 
 		 // check export for link
 		 if (link->export) if (*link->export == 0) {
@@ -537,11 +537,11 @@ int parseArea(s_fidoconfig config, char *token, s_area *area)
 			 if (link->optGrp == NULL || (link->optGrp && tok))
 				 area->downlinks[area->downlinkCount]->mandatory = 1;
 		 }
-         area->downlinkCount++;
+                 area->downlinkCount++;
 		 tok = strtok(NULL, " \t");
 		 while (tok) {
 			 if (tok[0]=='-') {
-				 rc += parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1);
+				 if (parseLinkOption(area->downlinks[area->downlinkCount-1], tok+1)) break;
 				 tok = strtok(NULL, " \t");
 			 } else break;
 		 }

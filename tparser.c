@@ -60,15 +60,30 @@ void printArea(s_area area) {
    else
      printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
    printf("\n");
+   printf("Level read  - %d\n", area.levelread);
+   printf("Level write - %d\n", area.levelwrite);
+   printf("Group       - %c\n", area.group);
    printf("max: %u msgs\tpurge: %u days\tdupeHistory %u\n", area.max, area.purge, area.dupeHistory);
-   printf("Links: ");
-   for (i = 0; i<area.downlinkCount;i++) printAddr(area.downlinks[i]->link->hisAka);
-printf("\n");
+   if (area.downlinkCount) printf("Links:");
+   else printf("No links\n");
+   for (i = 0; i<area.downlinkCount;i++) { 
+       printf("\t");
+       printAddr(area.downlinks[i]->link->hisAka);
+       printf(" level %d,", area.downlinks[i]->link->level);
+       if (area.downlinks[i]->export) printf(" export on,");
+       else printf(" export off,");
+       if (area.downlinks[i]->import) printf(" import on,");
+       else printf(" import off,");
+       if (area.downlinks[i]->mandatory) printf(" mandatory on.");
+       else printf(" mandatory off.");
+       printf("\n");
+   }
    printf("Options: ");
    if (area.manual) printf("manual ");
    if (area.hide) printf("hide ");
    if (area.noPause) printf("noPause ");
    if (area.tinySB) printf("tinySB ");
+   if (area.mandatory) printf("mandatory ");
    printf("\n");
    printf("DupeCheck: ");
    if (area.dupeCheck==dcOff) printf("off");
@@ -98,14 +113,26 @@ void printLink(s_link link) {
    printf("filefixPwd: %s\n", link.fileFixPwd);
    printf("bbsPwd:     %s\n", link.bbsPwd);
    printf("Level:      %u\n", link.level);
-   if (link.export) printf("Export:     %d\n", link.export[0]);
-   if (link.import) printf("Import:     %d\n", link.import[0]);
-   if (link.mandatory) printf("Mandatory   %d\n", link.mandatory[0]);
+   if (link.export) {
+       printf("Export:     ");
+       if (link.export[0] == 1) printf("on\n");
+       else printf("off\n");
+   }
+   if (link.import) {
+       printf("Import:     ");
+       if (link.import[0] == 1) printf("on\n");
+       else printf("off\n");
+   }
+   if (link.mandatory) {
+       printf("Mandatory   ");
+       if (link.mandatory[0] == 1) printf("on\n");
+       else printf("off\n");
+   }
    if (link.optGrp) printf("OptGrp       %s\n", link.optGrp);
    if (link.autoCreateFile) printf("AutoCreateFile: %s\n", link.autoCreateFile);
    if (link.LinkGrp) printf("LinkGrp %s\n",link.LinkGrp);
    if (link.AccessGrp) printf("AccessGrp %s\n",link.AccessGrp);
-   if (link.autoAreaCreate) printf("AutoAreaCreate on    ");
+   if (link.autoAreaCreate) printf("AutoAreaCreate on\n");
    if (link.AreaFix) printf("AreaFix on\n"); else printf("AreaFix off\n");
    if (link.forwardRequests) printf("Forward Requests on\n");
    if (link.forwardRequestFile) printf("ForwardRequestFile %s\n",link.forwardRequestFile);
@@ -170,6 +197,21 @@ int main() {
       for (i = 0; i< config->echoAreaCount; i++) {
          printArea(config->echoAreas[i]);
       }
+      printf("\n=== LocalAreas ===\n");
+      for (i = 0; i< config->localAreaCount; i++) {
+         printArea(config->localAreas[i]);
+      }
+      printf("\n=== CarbonCopy ===\n");
+      for (i = 0; i< config->carbonCount; i++) {
+		  if (config->carbons[i].type == to)     printf("CarbonTo:     ");
+		  if (config->carbons[i].type == from)   printf("CarbonFrom:   ");
+		  if (config->carbons[i].type == kludge) printf("CarbonKludge: ");
+		  printf("%s\n",config->carbons[i].str);
+		  printf("CarbonArea:   %s\n",config->carbons[i].area->areaName);
+		  printf("-------\n");
+      }
+	  printf("\nWarning! After each Carbon(to|from|kludge) write CarbonArea in config.\n");
+
 
       printf("\n=== ROUTE CONFIG ===\n");
       for (i = 0; i < config->routeCount; i++) {
