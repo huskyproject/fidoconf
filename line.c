@@ -1001,10 +1001,16 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
 
             if (strchr(tok, '*')) {
                 for (i=0; i<config->linkCount; i++) {
-                    sprintf(addr, aka2str(config->links[i].hisAka));
+                    strcpy(addr, aka2str(config->links[i].hisAka));
                     if (patmat(addr, tok)) {
                         parseAreaLink(config,area,addr);
                         area->downlinks[area->downlinkCount-1]->mandatory = 1;
+                    } else if (config->links[i].hisAka.point==0) {
+                        strcat(addr, ".0");
+                        if (patmat(addr, tok)) {
+                            parseAreaLink(config,area,addr);
+                            area->downlinks[area->downlinkCount-1]->mandatory = 1;
+                        }
                     }
                 }
                 tok = strtok(NULL, " \t");
