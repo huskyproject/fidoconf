@@ -1,3 +1,18 @@
+2002-09-04 Wednesday 18:41  stas_degteff
+
+	* cfg.c (1.39): Initialise pointers variables (prement memoty
+	faults)
+
+2002-09-04 Wednesday 10:05  d_sergienko
+
+	* common.c (1.97): in sstrdup(): strup("") will also work, so no
+	need to check if strlen(str)=0
+
+2002-09-04 Wednesday 09:48  d_sergienko
+
+	* temp.c (1.7): open descriptor in O_RDWR mode instead of O_RDONLY
+	(default) in createTempFileIn();
+
 2002-09-03 Tuesday 10:39  stas_degteff
 
 	* common.c (1.96): Use w_log() alt. to fprintf(stderr, message) in
