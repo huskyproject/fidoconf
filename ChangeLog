@@ -1,3 +1,7 @@
+2003-01-24 Friday 06:47  stas_degteff
+
+	* Makefile (1.57): make clean: remove fidoconf/version.h
+
 2003-01-23 Thursday 09:21  mche
 
 	* common.c (1.162), common.h (1.84), fidoconf.h (1.167):
