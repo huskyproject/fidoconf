@@ -4204,7 +4204,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = copyString(getRestOfLine(), &(config->robotsArea));
             break;
         case ID_FILEDESCNAME:
-            rc = copyString(getRestOfLine(), &(config->fileDescName));
+            rc = parseUUEechoAreas(getRestOfLine(),&(config->fileDescNames),&(config->fDescNameCount));
             break;
         case ID_FILEDESCPOS:
             rc = parseUInt(getRestOfLine(), &(config->fileDescPos));

@@ -538,7 +538,6 @@ typedef struct fidoconfig {
    char *filefixReportsFlags;
    e_nameCaseConvertion convertLongNames, convertShortNames;
 
-   char     *fileDescName;
    unsigned int fileDescPos, DLCDigits, fileMaxDupeAge;
    unsigned int fileFileUMask, fileDirUMask;
    unsigned int originInAnnounce; /* Show origin in announce (for htick) */
@@ -548,6 +547,9 @@ typedef struct fidoconfig {
 
    unsigned int   saveTicCount;
    ps_savetic    saveTic;
+
+   unsigned int   fDescNameCount;
+   char           **fileDescNames;
 
    unsigned int nodelistCount;
    ps_nodelist nodelists;
