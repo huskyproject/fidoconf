@@ -95,6 +95,41 @@ void printArea(s_area area) {
    printf("-------\n");
 }
 
+void printFileArea(s_filearea area) {
+   int i;
+   
+   printf("%s \n", area.areaName);
+   printf("Description: %s\n",area.description);
+   printf("Path: %s\t", area.pathName);
+
+   if (area.useAka->domain != NULL)
+     printf("\t Use %d:%d/%d.%d@%s", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point, area.useAka->domain);
+   else
+     printf("\t Use %d:%d/%d.%d", area.useAka->zone, area.useAka->net, area.useAka->node, area.useAka->point);
+   printf("\n");
+   printf("Group       - %c\n", area.group);
+   if (area.downlinkCount) printf("Links:");
+     else printf("No links\n");
+   for (i = 0; i<area.downlinkCount;i++) { 
+       printf("\t");
+       printAddr(area.downlinks[i]->hisAka);
+       printf(" level %d,", area.downlinks[i]->level);
+       if (area.downlinks[i]->export) printf(" export on,");
+       else printf(" export off,");
+       if (area.downlinks[i]->import) printf(" import on,");
+       else printf(" import off,");
+       if (area.downlinks[i]->mandatory) printf(" mandatory on.");
+       else printf(" mandatory off.");
+       printf("\n");
+   }
+   printf("Options: ");
+   if (area.manual) printf("manual ");
+   if (area.hide) printf("hide ");
+   if (area.noPause) printf("noPause ");
+   printf("\n");
+   printf("-------\n");
+}
+
 void printLink(s_link link) {
   if ((link.hisAka.domain != NULL) && (link.ourAka->domain != NULL)) {
     printf("Link: %d:%d/%d.%d@%s (ourAddres %d:%d/%d.%d@%s)\n",
@@ -202,6 +237,10 @@ int main() {
       printf("\n=== LocalAreas ===\n");
       for (i = 0; i< config->localAreaCount; i++) {
          printArea(config->localAreas[i]);
+      }
+      printf("\n=== FileAreas ===\n");
+      for (i=0; i<config->fileAreaCount; i++) {
+        printFileArea(config->fileAreas[i]);
       }
       printf("\n=== CarbonCopy ===\n");
       for (i = 0; i< config->carbonCount; i++) {

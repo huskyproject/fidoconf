@@ -242,6 +242,7 @@ void freeArea(s_area area) {
 void freeFileArea(s_filearea area) {
         free(area.areaName);
         free(area.pathName);
+        free(area.description);
         free(area.rwgrp);
         free(area.wgrp);
         free(area.rgrp);

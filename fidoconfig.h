@@ -157,6 +157,7 @@ typedef struct area s_area;
 struct fileareatype {
    char *areaName;
    char *pathName;
+   char *description;
    
    s_addr *useAka;
    

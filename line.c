@@ -71,6 +71,37 @@ int copyString(char *str, char **pmem)
    return 0;
 }
 
+char *getDescription(void) {
+  char desc[81];
+  char *token;
+  char *tmp=NULL;
+  int out=0;
+  int length=0;
+  
+  desc[0]='\0';
+  while ((out==0) && ((token=strtok(NULL," "))!=NULL)) {
+    if ((length+=strlen(token))>80)
+      out=1;
+    else {
+      strcat (desc,token);
+      strcat (desc," ");
+      if (token[strlen(token)-1]=='\"')
+        out=2;
+    }
+  }
+  switch (out) {
+    case 0: printf ("Line %d: Error in area description!\n",actualLineNr);
+            return NULL;
+    case 1: printf ("Line %d: Area description too large!\n",actualLineNr);
+            return NULL;
+    case 2: /* '"' out... */
+            desc[strlen(desc)-2]='\0';
+            tmp=(char *) malloc (strlen(desc));
+            strcpy(tmp,desc+1);
+  }
+  return tmp;
+}
+
 int parseVersion(char *token, s_fidoconfig *config)
 {
    char buffer[10], *temp = token;
@@ -378,31 +409,8 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
    }
    else if (stricmp(option, "ccoff")==0) area->ccoff=1;
    else if (stricmp(option, "d")==0) {
-          char desc[81];
-          int out=0;
-          int length=0;
-          
-          desc[0]='\0';
-          while ((out==0) && ((token=strtok(NULL," "))!=NULL)) {
-            if ((length+=strlen(token))>80)
-              out=1;
-            else {
-              strcat (desc,token);
-              strcat (desc," ");
-              if (token[strlen(token)-1]=='\"')
-                out=2;
-            }
-          }
-          switch (out) {
-            case 0: printf ("Line %d: Error in area description!\n",actualLineNr);
-                    break;
-            case 1: printf ("Line %d: Area description too large!\n",actualLineNr);
-                    break;
-            case 2: /* '"' out... */
-                    desc[strlen(desc)-2]='\0';
-                    area->description=(char *) malloc (strlen(desc));
-                    strcpy(area->description,desc+1);
-          }
+          if ((area->description=getDescription())==NULL)
+            return 1;
    }
    else {
       printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
@@ -459,6 +467,10 @@ int parseFileAreaOption(s_fidoconfig config, char *option, s_filearea *area)
                  return 1;
       }
    }
+   else if (stricmp(option, "d")==0) {
+          if ((area->description=getDescription())==NULL)
+            return 1;
+   }  
    else {
       printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
       return 1;
