@@ -172,26 +172,26 @@ int main (int argc, char *argv[]) {
    s_fidoconfig *config;
    int options=0;
    int cont=1;
+   char *versionStr = NULL;
 
-   { char *temp;
-     printf("%s\n", temp=GenVersionStr( "fconf2msged", FC_VER_MAJOR,
-			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
-     nfree(temp);
-   }
+   versionStr = GenVersionStr( "fconf2msged", FC_VER_MAJOR,
+	                 FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date);
+
+   printf("%s\n\n", versionStr);
 
    while ((cont<argc)&&(*argv[cont]=='-')){
 	options|=parseOptions(argv[cont]);	
 	cont++;
    }
    if (!(cont<argc)){
-      printf("\nUsage:\n");
-      printf("   fconf2msged  [-a][-sn][-se][-sl][-sb][-sd] <msgedConfigFileName>\n");
-      printf("   (-a exports areas only)\n");
-	  printf("   (-sn skip netmail areas)\n");
-	  printf("   (-se skip echomail areas)\n");
-	  printf("   (-sl skip local areas, and so on...)\n");
-       printf("\nExample:\n");
-      printf("   fconf2msged ~/.msged\n\n");
+      printf(
+      "Usage: fconf2msged [options] <msgedConfigFileName> [fidoconfig]\n"
+      "Options:  -a\t- exports areas only\n"
+      "\t  -sb\t- skip badmail areas\n"
+      "\t  -sd\t- skip dupes areas\n"
+      "\t  -se\t- skip echomail areas\n"
+      "\t  -sl\t- skip local areas\n"
+      "\t  -sn\t- skip netmail areas\n");
       return 1;
    }
 

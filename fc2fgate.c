@@ -186,18 +186,15 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
    
-   { char *temp;
-     printf("%s\n", temp=GenVersionStr( "fconf2fidogate", FC_VER_MAJOR,
-			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
-     nfree(temp);
-   }
+  char *versionStr = NULL;
+
+  versionStr = GenVersionStr( "fconf2fidogate", FC_VER_MAJOR,
+	                 FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date);
+
+  printf("%s\n\n", versionStr);
 
    if (argc < 2) {
-      printf("\nUsage:\n");
-      printf("   fconf2fidogate <FidoGateAreasFileName> [<default.cfg>]\n");
-      printf("   (you may read config defaults from default.cfg)\n");
-      printf("\nExample:\n");
-      printf("   fconf2fidogate /usr/local/lib/fidogate/areas\n\n");
+      printf("Usage: fconf2fidogate <FidoGateAreasFileName> [fidoconfig]\n");
       return 1;
    }
 

@@ -346,12 +346,12 @@ void parseOptions(char *line) {
 int main (int argc, char *argv[]) {
    s_fidoconfig *config;
    int cont=1;
+   char *versionStr = NULL;
 
-   { char *temp;
-     printf("%s\n", temp=GenVersionStr( "fconf2tornado", FC_VER_MAJOR,
-			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
-     nfree(temp);
-   }
+   versionStr = GenVersionStr( "fconf2tornado", FC_VER_MAJOR,
+			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date);
+
+   printf("%s\n\n", versionStr);
 
    while ((cont<argc) && (*argv[cont]=='-')) {
         parseOptions(argv[cont]);
@@ -359,7 +359,7 @@ int main (int argc, char *argv[]) {
    }
 
    if (!(cont<argc)) {
-      printf("\nUsage:\n");
+      printf("Usage:\n");
       printf("   fconf2tornado -[command [-command...]] <tornado.ctl> [<default.ctl>]\n");
       printf("    (you may read config defaults from default.ctl)              \n");
       printf("    -m[<flags>] exports mail areas:   n  netmail areas           \n");

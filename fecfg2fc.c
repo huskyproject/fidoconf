@@ -151,13 +151,14 @@ char *sysAddress2str(SysAddress sysaddr)
 
 void Usage(const char *program)
 {
-  char *temp;
-  printf("%s\n", temp=GenVersionStr( "fecfg2fconf", FC_VER_MAJOR,
-		FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
-  nfree(temp);
+  char *versionStr = NULL;
 
-  printf("\nUsage:\n"
-         "\t%s [path]fastecho.cfg [output file]\n",
+  versionStr = GenVersionStr( "fecfg2fconf", FC_VER_MAJOR,
+	                 FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date);
+
+  printf("%s\n\n", versionStr);
+
+  printf("\nUsage: %s [path]fastecho.cfg [output fidoconfig]\n",
           OS_independed_basename(program));
 }
 

@@ -120,7 +120,10 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
 
    unused(areasOnly);
 
-   if (strcmp(fileName,"-") == 0)
+   if (strcmp(fileName,"-s") == 0)
+     f = stdout;
+   else
+   if (strcmp(fileName,"-S") == 0)
      f = stdout;
    else
      f = fopen(fileName, "a+");
@@ -150,25 +153,31 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
 }
 
 int main (int argc, char *argv[]) {
-   s_fidoconfig *config;
 
-   { char *temp;
-     printf("%s\n", temp=GenVersionStr( "fconf2squish", FC_VER_MAJOR,
-			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
-     nfree(temp);
-   }
+   s_fidoconfig *config;
+   char *versionStr = NULL;
+
+   versionStr = GenVersionStr( "fconf2squish", FC_VER_MAJOR,
+	                 FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date);
+
+   printf("%s\n\n", versionStr);
 
    if (argc < 2) {
-      fprintf(stderr,"\nUsage:\n");
-      fprintf(stderr,"   fconf2squish <squish.cfg>|- [<default.cfg>]\n");
-      fprintf(stderr,"   (- as squish.cfg means stdout)\n");
-      fprintf(stderr,"   (you may read config defaults from default.cfg)\n");
-      fprintf(stderr,"\nExample:\n");
-      fprintf(stderr,"   fconf2squish ~/squish/squish.cfg\n");
-      fprintf(stderr,"   fconf2squish - | sed \"\\/var\\/fido\\//u:\\\\\\/gi\" > /etc/fido/squish.cfg\n\n");
+      printf(
+      "Usage: fconf2squish <squishConfigFileName or -s> [fidoconfig]\n"
+      "\t  -s\t- squishConfig means stdout\n"
+      "\nExample:\n"
+      "   fconf2squish ~/squish/squish.cfg\n"
+      "   fconf2squish -s | sed \"\\/var\\/fido\\//u:\\\\\\/gi\" > /etc/fido/squish.cfg\n\n");
       return 1;
    }
 
+   if (strcmp(argv[1],"-s") == 0)
+   fprintf(stderr,"Generating Config-file stdout\n");
+   else
+   if (strcmp(argv[1],"-S") == 0)
+   fprintf(stderr,"Generating Config-file stdout\n");
+   else
    fprintf(stderr,"Generating Config-file %s\n", argv[1]);
 
    config = readConfig(NULL);

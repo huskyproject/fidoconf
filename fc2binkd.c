@@ -62,30 +62,26 @@
 #endif
 
 char *program_name=NULL;
-#define COPYRIGHT "(c) Stas Degteff 2:5080/102 g@grumbler.org\n(c) The Husky Team http://husky.sourceforge.net/team.html"
 
 #define BINKDLOG "binkd.log"
 
 int force_flag = 0; /* Force rewriting flag */
 
 void printversion(FILE *fd){
-     char *temp;
-     fprintf(fd, "%s", temp=GenVersionStr( "fconf2binkd", FC_VER_MAJOR,
-			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
-     nfree(temp);
+  char *versionStr = NULL;
+
+  versionStr = GenVersionStr( "fconf2binkd", FC_VER_MAJOR,
+	                 FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date);
+
+  printf("%s\n\n", versionStr);
 }
 
 void usage(int retcode){
-      printversion(stdout);
-      printf(": fidoconfig to binkd config converter\n\n" COPYRIGHT "\n");
-      printf("\nUsage:\n");
-      printf("%s [-v] [-h] [-c path/to/fidoconfig] [-f] [-p] [output_file_name]\n", program_name);
-      printf("where\n");
-      printf("\t-v\tprint version and exit\n");
-      printf("\t-h\tprint usage information\n");
-      printf("\t-c\tspecify alternate fidoconfig\n");
-      printf("\t-f\tforce owerwrite file\n");
-      printf("\t-p\tgenerate passwords file\n");
+      printf("Usage: fconf2binkd [-c fidoconfig] [options] [output_file_name]\n");
+      printf("Options:  -h\t- print usage information\n");
+      printf("\t  -c\t- specify alternate fidoconfig\n");
+      printf("\t  -f\t- force owerwrite file\n");
+      printf("\t  -p\t- generate passwords file\n");
       exit(retcode);
 }
 
@@ -229,17 +225,14 @@ int main (int argc, char *argv[]) {
    if( p ) program_name = p+1;
    else program_name = "fconf2binkd";
 
+   printversion(stdout);
+
    for( ; i<argc; i++ ){
      if( argv[i][0] != '-' ){ /* parameter: output filename */
        ofname = sstrdup( argv[i] );
        break;
      }
      switch( argv[i][1] ){
-     case 'v':
-     case 'V': /* version request */
-               printversion(stdout);
-               printf( "\n" );
-               return 1;
      case 'h':
      case 'H': /* help request */
                usage(1);
