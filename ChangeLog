@@ -1,3 +1,7 @@
+2002-05-03 Friday 09:56  ml
+
+	* INSTALL (1.12.4.1): some fixes
+
 2002-03-01 Friday 09:44  ml
 
 	* makefile.mvc (1.4.2.1), makeperl.mvc (1.2.2.2): makefile updates
