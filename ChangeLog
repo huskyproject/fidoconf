@@ -1,3 +1,8 @@
+2002-08-05 Monday 15:55  quetschke
+
+	* Makefile (1.41): Changed hardcoded options to OPTLFLAGS when not
+	linking with GCC.
+
 2002-08-02 Friday 15:55  mche
 
 	* cfg.c (1.38), common.c (1.92): prevent file deleting when copy
