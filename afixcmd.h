@@ -61,6 +61,8 @@ FCONF_EXT   XMSG createXMSG        (ps_fidoconfig config,
 */
 FCONF_EXT   int FindTokenPos4Link(char **confName, char* ftoken, s_link *link, long* start, long*end);
 
+FCONF_EXT   int InsertCfgLine(char *confName, char* cfgLine, long start, long end);
+
 /* Change pause status (off|echo|feacho|on) */
 FCONF_EXT   int Changepause(char *confName, s_link *link, int opt, int type);
 

@@ -128,27 +128,20 @@ linkliner:
    return 0;
 }
 
-int Changepause(char *confName, s_link *link, int opt, int type)
+int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend) 
 {
-    // opt = 0 - AreaFix
-    // opt = 1 - AutoPause
-    char *line,*pauseString;
-    long curpos, endpos, cfglen;
-    long  strbeg=0;
-    long  strend=0; 
+    char *line = NULL;
     FILE *f_conf;
-    
-    FindTokenPos4Link(&confName, "pause", link, &strbeg, &strend);
+    long endpos,curpos,cfglen;
+
     if(strbeg == 0 && strend == 0)
         return 0;
     
     f_conf = fopen(confName, "r+b");
     if (f_conf == NULL) {
-        fprintf(stderr,"%s: cannot open config file %s \n", opt ? "autopause" : "areafix", confName);
-        nfree(confName);
+        fprintf(stderr,"%cannot open config file %s \n",confName);
         return 0;
     }
-    nfree(confName);
     fseek(f_conf, 0L, SEEK_END);
     endpos = ftell(f_conf);
     curpos = strbeg == strend ? strbeg : strend;
@@ -159,27 +152,40 @@ int Changepause(char *confName, s_link *link, int opt, int type)
     line[cfglen]='\0';
     fseek(f_conf, strbeg, SEEK_SET);
     setfsize( fileno(f_conf), strbeg );
-
-    link->Pause ^= type;
-
-    if       (link->Pause == NOPAUSE) {
-        pauseString = sstrdup("Pause off");
-        w_log('8', "areafix: system %s set active",	aka2str(link->hisAka));
-    } else if(link->Pause == (EPAUSE|FPAUSE)) { 
-        pauseString = sstrdup("Pause on");
-        w_log('8', "%s: system %s set passive", opt ? "autopause" : "areafix", aka2str(link->hisAka));
-    } else if(link->Pause == EPAUSE) {
-        pauseString = sstrdup("Pause Earea");
-        w_log('8', "%s: system %s set passive only for echos", opt ? "autopause" : "areafix", aka2str(link->hisAka));
-    } else {
-        pauseString = sstrdup("Pause Farea");
-        w_log('8', "%s: system %s set passive only for file echos", opt ? "autopause" : "areafix", aka2str(link->hisAka));
-    }
-    fprintf(f_conf, "%s%s%s", pauseString, cfgEol(), line);
-    //setfsize( fileno(f_conf), endpos-(remstr-curpos) );
+    fprintf(f_conf, "%s%s%s", cfgLine, cfgEol(), line);
     fclose(f_conf);
     nfree(line);
-    nfree(pauseString);
+    return 1;
+}
+
+    // opt = 0 - AreaFix
+    // opt = 1 - AutoPause
+int Changepause(char *confName, s_link *link, int opt, int type)
+{
+    long  strbeg=0;
+    long  strend=0; 
+    
+    FindTokenPos4Link(&confName, "pause", link, &strbeg, &strend);
+    
+    link->Pause ^= type;
+    
+    if       (link->Pause == NOPAUSE) {
+        if(InsertCfgLine(confName, "Pause off", strbeg, strend)) 
+            w_log('8', "areafix: system %s set active",	aka2str(link->hisAka));
+    } else if(link->Pause == (EPAUSE|FPAUSE)) { 
+        if(InsertCfgLine(confName, "Pause on", strbeg, strend)) 
+            w_log('8', "%s: system %s set passive",
+            opt ? "autopause" : "areafix", aka2str(link->hisAka));
+    } else if(link->Pause == EPAUSE) {
+        if(InsertCfgLine(confName, "Pause Earea", strbeg, strend)) 
+            w_log('8', "%s: system %s set passive only for echos",
+            opt ? "autopause" : "areafix", aka2str(link->hisAka));
+    } else {
+        if(InsertCfgLine(confName, "Pause Farea", strbeg, strend)) 
+            w_log('8', "%s: system %s set passive only for file echos",
+            opt ? "autopause" : "areafix", aka2str(link->hisAka));
+    }
+    nfree(confName);
     return 1;
 }
 
