@@ -2,7 +2,7 @@
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
  * Copyright (C) 1998-1999
- *  
+ *
  * Matthias Tichy
  *
  * Fido:     2:2433/1245 2:2433/1247 2:2432/605.14
@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/types.h>
 #include <fcntl.h>
 #if !(defined (_MSC_VER) && (_MSC_VER >= 1200))
 #include <unistd.h>
@@ -54,13 +55,13 @@ void printAddr(const s_addr addr)
 
 void printArea(s_area area) {
    int i;
-   
+
    printf("%s \n", area.areaName);
    printf("Description: ");
    if (area.description != NULL)
      printf("%s",area.description);
    printf("\n-> %s\t", area.fileName ? area.fileName : "");
-   if (area.msgbType == MSGTYPE_SDM) printf("SDM");  
+   if (area.msgbType == MSGTYPE_SDM) printf("SDM");
    else if (area.msgbType == MSGTYPE_SQUISH) printf("Squish");
    else if (area.msgbType == MSGTYPE_JAM) printf("Jam");
    else printf("Passthrough");
@@ -81,7 +82,7 @@ void printArea(s_area area) {
    }
    if (area.downlinkCount) printf("Links:\n");
    else printf("No links\n");
-   for (i = 0; i<area.downlinkCount;i++) { 
+   for (i = 0; i<area.downlinkCount;i++) {
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
@@ -121,13 +122,13 @@ void printArea(s_area area) {
    printf("\n");
    if (area.sbaddCount) {
 	   printf("addSeenBys: ");
-	   for (i=0; i<area.sbaddCount; i++) 
+	   for (i=0; i<area.sbaddCount; i++)
 		   printf("%u/%u ", area.sbadd[i].net,area.sbadd[i].node);
 	   printf("\n");
    }
    if (area.sbignCount) {
 	   printf("IgnoreSeenBys: ");
-	   for (i=0; i<area.sbignCount; i++) 
+	   for (i=0; i<area.sbignCount; i++)
 		   printf("%u/%u ", area.sbign[i].net,area.sbign[i].node);
 	   printf("\n");
    }
@@ -136,7 +137,7 @@ void printArea(s_area area) {
 
 void printFileArea(s_filearea area) {
    int i;
-   
+
    printf("%s \n", area.areaName);
    printf("Description: %s\n",(area.description) ? area.description : "");
    if (area.pass != 1)
@@ -154,7 +155,7 @@ void printFileArea(s_filearea area) {
    if (area.group) printf("Group       - %s\n", area.group);
    if (area.downlinkCount) printf("Links:\n");
    else printf("No links\n");
-   for (i = 0; i<area.downlinkCount;i++) { 
+   for (i = 0; i<area.downlinkCount;i++) {
        printf("\t");
        printAddr(area.downlinks[i]->link->hisAka);
        printf(" level %d,", area.downlinks[i]->link->level);
@@ -183,7 +184,7 @@ void printFileArea(s_filearea area) {
 }
 
 void printBbsArea(s_bbsarea area) {
-   
+
    printf("%s \n", area.areaName);
    printf("Description: %s\n",area.description);
    printf("Path: %s\t", area.pathName);
@@ -427,7 +428,7 @@ void printLink(s_link link) {
    default: fprintf(stderr, "Error in keyword allowPktAddrDiffer\n");
    }
    printf("AdvancedAreaFix %s\n", (link.advancedAreafix) ? "on" : "off");
-   
+
    switch (link.linkBundleNameStyle) {
       case eUndef:
          //Don't print senseless information... printf("linkBundleNameStyle: undefined (like BundleNameStyle)\n");
@@ -466,10 +467,10 @@ void checkLogic(s_fidoconfig *config) {
 	for (i=0; i+1<config->linkCount; i++) {
 		for (j=i+1; j<config->linkCount; j++) {
 			if (addrComp(config->links[i].hisAka, config->links[j].hisAka) == 0) {
-				
+
 				if (strcmp(config->links[i].name,
 						   config->links[j].name)!=0) continue;
-				
+
 				printf("ERROR: duplication of link %d:%d/%d.%d\n",
 					   config->links[i].hisAka.zone,
 					   config->links[i].hisAka.net,
@@ -514,7 +515,7 @@ void checkLogic(s_fidoconfig *config) {
 				exit(-1);
 			}
 		}
-      
+
 		for (j=0; j < config->localAreaCount; j++) {
 			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
 				printf("ERROR: duplication of area %s\n", areaName);
@@ -557,7 +558,7 @@ void checkLogic(s_fidoconfig *config) {
 				exit(-1);
 			}
 		}
-      
+
 		//   j=i+1
 		for (j=i+1; j < config->localAreaCount; j++) {
 			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
@@ -591,7 +592,7 @@ void checkLogic(s_fidoconfig *config) {
 	}
 
 	for (i=0; i<config->netMailAreaCount; i++) {
-	   
+
 		area = &(config->netMailAreas[i]);
 		areaName = config->netMailAreas[i].areaName;
 
@@ -646,7 +647,7 @@ void printCarbons(s_fidoconfig *config) {
     printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
     printf("CarbonOut %s\n", (config->carbonOut) ? "on" : "off");
     printf("ExcludePassthroughCarbon %s\n", (config->exclPassCC) ? "on" : "off");
-    printf("Exclude \" * Forward from area \" string: %s\n\n", 
+    printf("Exclude \" * Forward from area \" string: %s\n\n",
 	   (config->carbonExcludeFwdFrom) ? "on" : "off");
 
     for (i = 0, cb=&(config->carbons[0]); i< config->carbonCount; i++, cb++) {
@@ -847,11 +848,11 @@ int main(int argc, char **argv) {
       if (config->rulesDir) printf("rulesDir:        %s\n", config->rulesDir);
       if (config->msgidfile) printf("MsgIDFile:       %s\n", config->msgidfile);
       if (config->hptPerlFile) printf("hptPerlFile:     %s\n", config->hptPerlFile);
-//      printf("Perl support: %s\n", config->perlSupport ? "on" : "off");	
+//      printf("Perl support: %s\n", config->perlSupport ? "on" : "off");
 //      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
       if (config->netmailFlag) printf("NetmailFlag:     %s\n",config->netmailFlag);
       if (config->aacFlag) printf("AutoAreaCreateFlag: %s\n",config->aacFlag);
-      if (config->minDiskFreeSpace) 
+      if (config->minDiskFreeSpace)
 		  printf("MinDiskFreeSpace: %u Mb\n", config->minDiskFreeSpace);
       if (config->syslogFacility)
           printf ("SyslogFacility: %d\n", config->syslogFacility);
@@ -887,8 +888,8 @@ int main(int argc, char **argv) {
 	  default:
 		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
 		  break;
-		  
-      }		  
+
+      }
 
       if (config->fileBoxesDir) printf ("fileBoxesDir: %s\n", config->fileBoxesDir);
       printf("DupeBaseType: ");
@@ -933,7 +934,7 @@ int main(int argc, char **argv) {
 		  }
 		  printf("\n");
 	  }
-	  
+
 	  if (config->tearline || config->origin) printf("\n");
 	  if (config->tearline) printf("--- %s\n", config->tearline);
 	  if (config->origin) printf("* Origin: %s (%s)\n", config->origin, aka2str(config->addr[0]));
@@ -984,7 +985,7 @@ int main(int argc, char **argv) {
 	  if (config->saveTicCount)
       for (i = 0; i< config->saveTicCount; i++) {
 		printf("SaveTic for %s in %s\n", config->saveTic[i].fileAreaNameMask,
-                                         config->saveTic[i].pathName );         
+                                         config->saveTic[i].pathName );
       }
   }
 
@@ -1013,9 +1014,9 @@ int main(int argc, char **argv) {
       printf("\n=== LINK CONFIG ===\n");
       printf("%u links in config\n", config->linkCount);
       for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
-      
+
       printf("\n=== AREA CONFIG ===\n");
-	  
+
 	  printf("kludgeAreaNetmail ");
 	  switch (config->kludgeAreaNetmail) {
 	  case kanKill: printf("kill");
@@ -1098,7 +1099,7 @@ int main(int argc, char **argv) {
           printf("Fidouser List File: %s\n", config->fidoUserList);
         }
       printf("-------\n");
-   
+
       for (i = 0; i < config->nodelistCount; i++)
         {
           printf("Nodelist %s\n", config->nodelists[i].nodelistName);
@@ -1144,7 +1145,7 @@ int main(int argc, char **argv) {
            printf("%02x", (int) config->unpack[i].mask[j]);
          printf("\n");
       }
-	  
+
       if (config->beforePack) printf("Before Pack - \"%s\"\n",config->beforePack);
       if (config->afterUnpack) printf("After Unpack - \"%s\"\n",config->afterUnpack);
 
