@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sat Apr 15 14:16:00 MSK 2000
+nn:
+* disableTID small fix
+
+----- cvs ci ------
 Sat Apr 15 10:47:38 NOVST 2000
 max:
 * add disableTID token

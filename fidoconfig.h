@@ -347,7 +347,7 @@ typedef struct fidoconfig {
    unsigned int defarcmailSize;
    unsigned int ignoreCapWord;
    unsigned int noProcessBundles;
-   unsigned int disableTID;
+   int disableTID;
 
    char *afterUnpack, *beforePack;
    /* +AS+ */
