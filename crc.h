@@ -93,6 +93,48 @@ FCONF_EXT   UINT16 strcrc16(const char *str, UINT16 initcrc);
  */
 FCONF_EXT   UINT16 filecrc16(const char *filename);
 
+
+/*=======================================================================
+ * Calculating 16-bit checksum, rotating right before each addition;
+ * overflow is discarded.
+ * (This algorithm is the algorithm used by historic BSD UNIX systems as
+ * the `sum` algorithm and by historic AT&T System V UNIX systems
+ * as the `sum -r` algorithm.)
+ *=======================================================================
+ */
+
+/* 16-bit checksum (sum -r) for ASCIIZ string */
+FCONF_EXT UINT16 strsum16( const char *str );
+#define strsumr strsum16
+
+/* 16-bit checksum (sum -r) for array of bytes */
+FCONF_EXT UINT16 memsum16( const char *str, unsigned size );
+#define memsumr memsum16
+
+/* 16-bit checksum (sum -r) for file */
+FCONF_EXT UINT16 filesum16(const char *filename);
+#define filesumr(fn) filesum16((fn),NULL)
+
+
+/*=======================================================================
+ * Calculating 32-bit checksum described in Draft 8 POSIX 1003.2
+ * (This algorithm is the algorithm used by historic AT&T System V UNIX
+ * systems as the `sum` algorithm.)
+ *=======================================================================
+ */
+
+/* 32bit checksum for ASCIIZ string */
+FCONF_EXT UINT32 strsum32( const char *str );
+
+/* 32bit checksum for array of bytes */
+FCONF_EXT UINT32 memsum32( const char *str, unsigned size );
+
+/* 32bit checksum for file
+ * plen: pointer to return file lenght, unuse if plen is NULL
+ */
+FCONF_EXT UINT32 filesum32( const char *filename, unsigned long *plen );
+
+
 #ifdef __cplusplus
 }
 #endif

@@ -3,7 +3,11 @@
  ******************************************************************************
  * crc.c : crc calculation routines
  *
- * Collected by Stas Degteff <g@grumbler.org> 2:5080/102
+ * Collected & written by Stas Degteff <g@grumbler.org> 2:5080/102
+ * (c) Stas Degteff
+ * (c) HUSKY Developers Team
+ *
+ * Latest version may be foind on http://husky.sourceforge.net
  *
  * This file is part of FIDOCONFIG library (part of the Husky FIDOnet
  * software project)
@@ -21,7 +25,8 @@
  * You should have received a copy of the GNU General Public License
  * along with FIDOCONFIG library; see the file COPYING.  If not, write
  * to the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA
- * or visit http://www.gnu.org
+ *
+ * See also http://www.gnu.org
  *****************************************************************************
  * $Id$
  */
@@ -251,5 +256,127 @@ UINT16 filecrc16(const char *filename)
   }
   nfree(buffer);
   fclose(fd);
+  return crc;
+}
+
+
+/* Calculating 16-bit checksum, rotating right before each addition;
+ * overflow is discarded.
+ * (This algorithm is the algorithm used by historic BSD UNIX systems as
+ * the `sum` algorithm and by historic AT&T System V UNIX systems
+ * as the `sum -r` algorithm.)
+ */
+
+/* 16-bit checksum (sum -r) for ASCIIZ string */
+UINT16 strsum16( const char *str )
+{ register UINT32 crc=0;
+
+  if(str) for (; *str; str++){
+    if (crc & 1) crc |= 0x10000;
+    crc = ((crc >> 1) + *str) & 0xffff;
+  }
+
+  return (UINT16)crc;
+}
+
+/* 16-bit checksum (sum -r) for array of bytes */
+UINT16 memsum16( const char *str, unsigned size )
+{ register UINT32 crc=0;
+
+  if(str) for (; size; str++, size--)
+  { if (crc & 1) crc |= 0x10000;
+    crc = ((crc >> 1) + *str) & 0xffff;
+  }
+
+  return (UINT16)crc;
+}
+
+/* 16-bit checksum (sum -r) for file */
+UINT16 filesum16(const char *filename)
+{
+  FILE *fd;
+  unsigned char* buffer;
+  size_t got;
+  UINT16 crc=0;
+
+  fd = fopen(filename, "rb");
+
+  if (!fd)
+    return 0UL;
+
+  buffer = smalloc(CRC_BUFFER_SIZE);
+
+  while (1)
+  {
+    got = fread(buffer, 1, CRC_BUFFER_SIZE, fd);
+    if( got )
+      crc = memsum16((char*)buffer, got);
+    if (got != CRC_BUFFER_SIZE)
+      break;
+  }
+  nfree(buffer);
+  fclose(fd);
+  return crc;
+}
+
+
+/* Calculating 32-bit checksum described in Draft 8 POSIX 1003.2
+ * (This algorithm is the algorithm used by historic AT&T System V UNIX
+ * systems as the `sum` algorithm.)
+ */
+
+/* 32bit checksum for ASCIIZ string */
+UINT32 strsum32( const char *str )
+{ register UINT32 crc=0;
+
+  if(str) for (; *str; str++)
+            crc += *str;
+
+  crc = (crc & 0xffff) + (crc >> 16);
+
+  return (UINT32)crc;
+}
+
+
+/* 32bit checksum for array of bytes */
+UINT32 memsum32( const char *str, unsigned size )
+{ register UINT32 crc=0;
+
+  if(str) for (; size; str++, size--)
+            crc += *str;
+
+  crc = (crc & 0xffff) + (crc >> 16);
+
+  return (UINT32)crc;
+}
+
+
+/* 32bit checksum for file
+ * plen: pointer to return file lenght, unuse if plen is NULL
+ */
+UINT32 filesum32( const char *filename, unsigned long *plen )
+{ FILE *fd;
+  char buffer[CRC_BUFFER_SIZE], *str;
+  size_t got;
+  register UINT32 crc=0;
+  register unsigned long len=0;
+
+  fd = fopen(filename, "rb");
+
+  if (!fd)
+    return 0UL;
+
+  while (!feof(fd) && !ferror(fd))
+  {
+    got = fread(buffer, 1, CRC_BUFFER_SIZE, fd);
+    if( got>0 )
+      len+=got;
+      for (str=buffer; got; str++, got--)
+            crc += *str;
+  }
+  fclose(fd);
+
+  if( plen) *plen = len;
+  crc = (crc & 0xffff) + (crc >> 16);
   return crc;
 }
