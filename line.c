@@ -2141,6 +2141,7 @@ static char *unquote(char *line)
     }
     switch (*src)
     {
+#if defined(UNIX) || (defined(OS2) && defined(__EMX__))
       case '`':
         p = strchr(src+1, '`');
         if (p == NULL)
@@ -2189,18 +2190,18 @@ pipefork:
         f = fdopen(linepipe[0], "r");
         while ((i = fgetc(f)) != EOF)
         {
-          if (i=='\n') i = ' ';
           if (dest-parsed >= curlen-2)
           {
             newparsed = srealloc(parsed, curlen+=80);
             dest += newparsed-parsed;
             parsed = newparsed;
           }
-          *dest++ = (char)i;
+          if (i!='\n') *dest++ = (char)i;
         }
         waitpid(pid, &i, 0);
         fclose(f);
         continue;
+#endif
       case '[':
         p = strchr(src, ']');
         if (p)
@@ -2242,12 +2243,7 @@ int parseLine(char *line, s_fidoconfig *config)
    int unrecognised = 0;
 #endif   
 
-#if defined(UNIX) || defined(OS2)
    actualLine = temp = unquote(line);
-#else
-   actualLine = temp = (char *) smalloc(strlen(line)+1);
-   strcpy(temp, line);
-#endif
 
    actualKeyword = token = strtok(temp, " \t");
 

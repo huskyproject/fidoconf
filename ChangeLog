@@ -3,6 +3,11 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Fri Jul  3 22:10:40 NOVST 2000
+max:
+* [envvar] supported under all platforms, `cmd` in UNIX & OS/2+EMX
+
+----- cvs ci ------
 Sun Jul  2 16:13:24 NOVST 2000
 max:
 * fixed broken fidoconf (`cmd` & [envvar] parses only in UNIX & OS/2)
