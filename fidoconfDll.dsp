@@ -217,6 +217,10 @@ SOURCE=.\findtok.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\getfree.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\line.c
 # End Source File
 # Begin Source File

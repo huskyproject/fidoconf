@@ -246,6 +246,8 @@ FCONF_EXT int move_file(const char *from, const char *to, const int force_rewrit
  */
 FCONF_EXT int copy_file(const char *from, const char *to, const int force_rewrite);
 
+FCONF_EXT ULONG fc_GetDiskFreeSpace(const char *path);
+
 // this function returns the string representation of an address.
 // it returns a static array!!!
 FCONF_EXT char *aka2str(s_addr aka);
