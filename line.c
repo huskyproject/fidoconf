@@ -2155,6 +2155,8 @@ int parseAddToSeen(char *token, s_fidoconfig *config)
 		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
 		buf[i]='\0'; net=atoi(buf);
 
+		if (*token == ':') continue;
+
 		while(!isdigit(*token)) token++; i=0;
 		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
 		buf[i]='\0'; node=atoi(buf);

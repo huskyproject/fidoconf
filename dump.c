@@ -454,7 +454,7 @@ void dumpCarbon(s_carbon *carbon, FILE *f)
     }
     
     if (carbon->ctype != ct_addr) fprintf(f, "%s\n", carbon->str);
-	else printf("%s", aka2str(carbon->addr));
+	else printf("%u/%u\n", carbon->addr.net, carbon->addr.node);
 
     if (carbon -> extspawn) {
 	    dumpString(f, "CarbonExtern        %s\n", carbon->areaName);
