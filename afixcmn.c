@@ -70,7 +70,7 @@ static ULONG DoMakeMSGIDStamp(void)
 }
 */
 
-char *createKludges(int disablePID, const char *area, const s_addr *ourAka,
+char *createKludges(ps_fidoconfig config, const char *area, const s_addr *ourAka,
                     const s_addr *destAka, const char* versionStr)
 {
    char *buff = NULL;
@@ -84,8 +84,7 @@ char *createKludges(int disablePID, const char *area, const s_addr *ourAka,
       if (ourAka->point) xscatprintf(&buff, "\001FMPT %d\r", ourAka->point);
       if (destAka->point) xscatprintf(&buff, "\001TOPT %d\r", destAka->point);
    }
-   sleep(1);
-   msgid = time(NULL);
+   msgid = GenMsgId(config->seqDir, config->seqOutrun);
 
    if (ourAka->point)
       xscatprintf(&buff, "\001MSGID: %u:%u/%u.%u %08lx\r",
@@ -94,7 +93,7 @@ char *createKludges(int disablePID, const char *area, const s_addr *ourAka,
       xscatprintf(&buff, "\001MSGID: %u:%u/%u %08lx\r",
               ourAka->zone,ourAka->net,ourAka->node,msgid);
 
-   if (!disablePID) xscatprintf(&buff, "\001PID: %s\r", versionStr);
+   if (!config->disablePID) xscatprintf(&buff, "\001PID: %s\r", versionStr);
 
    return buff;
 }
