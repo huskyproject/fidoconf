@@ -210,6 +210,20 @@ _Keyword definitions_
   # access level. used in echoareas to control read/write access
   AutoAreaCreate (on|off)
   # "on" means link is allowed to create an area
+  AutoFileCreate (on|off)
+  # "on" means link is allowed to create an filearea
+  AutoAreaCreateDefaults <string>
+  # Added "string" to "EchoArea ...", when area is autocreated
+  AutoFileCreateDefaults <string>
+  # Added "string" to "FileArea ...", when filearea is autocreated
+  AutoAreaCreateFile <filename>
+  # Created new echoarea in "filename"
+  AutoFileCreateFile <filename>
+  # Created new filearea in "filename"
+  AreaFix (on|off)
+  # "off" means link is not allowed to Areafix (default is on)
+  FileFix (on|off)
+  # "off" means link is not allowed to FileFix (default is on)
   Packer (zip|tgz|rar|arj|arc....)
   # packer to use for this Link
   EchoMailFlavour <flavour>
@@ -224,10 +238,10 @@ _Keyword definitions_
   fRequestFromUpLink (on|off)
   # allow forward requests from this link to other links
   Pause
-  # Stop sending arcmail
+  # Stop sending arcmail (and fileareas in future)
   AutoPause <days>
   # Autostop sending arcmail to this link (automative added Pause token)
-  # over <days> days.
+  # over <days> days. (and fileareas in future)
   }
 
 /etc/fido/msgbase:
