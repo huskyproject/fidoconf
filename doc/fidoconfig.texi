@@ -8,19 +8,18 @@
 @ifinfo
 This file documents fidoconfig.
 
-Copyright 1998-2002 Husky Development Team
+Copyright 1998-2003 Husky Development Team
 
 @end ifinfo
 
 @titlepage
 @title FidoConfig Manual
 @subtitle a way to make your unix fido-capable
-@author Matthias Tichy
-@author Max Levenkov
+@author Dmitry Sergienko
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2002 Husky Development Team 
+Copyright @copyright{} 1998-2003 Husky Development Team 
 
 @end titlepage
 
@@ -115,25 +114,15 @@ your config.
 
 @node contact, , tparser, Top
 @chapter Contacting the author
-You can reach me at 
 
 @example
-@email{mtt@@tichy.de}
-2:2432/645
-@end example
+Husky project manager: Dmitry Sergienko
+E-Mail: @email{trooper@@email.dp.ua}
+FidoNet: 2:464/910
 
-and in the fido echoarea
+Official FidoNet echoconferences:
 
-@example
-linux.develop.ger
-fidosoft.husky
-@end example
-
-Max Levenkov:
-@example
-@email{sackett@@mail.ru}
 ru.husky (russian)
-ru.echoprocessors (russian)
 fidosoft.husky (english)
 @end example
 
