@@ -173,6 +173,7 @@ a comment and will be ignored.
 * afterUnpack::                 execute string after unpack arcmail bundles
 * beforePack::                  execute string before pack pkt files
 * processPkt::                  execute string before tossing pkts
+* tossingExt::                  extension of mail files while tossing
 
 * route::                       routing of netmails
 * routeFile::                   routing of netmails with file attached
@@ -1740,19 +1741,36 @@ This <string> executes before packing pkt files to arcmail bundles. You
 may process your pkt files in @code{tempOutbound} directory with
 external utility.
 
-@node processPkt, route, beforePack, Keywords
+@node processPkt, tossingExt, beforePack, Keywords
 @subsection processPkt
 @table @asis
 @item Syntax:
 @code{processPkt <string>}
 @item Example:
-@code{processPkt pktdate /home/fido/in.tmp/*.pkt}
+@code{processPkt pktdate}
 @end table
 
-The <string> willl be executed before tossing the pkts. You are able to
-fix your pkts using pktdate or any other tool before tossing them.
+The <string> willl be executed before tossing each pkt file. You are able to
+fix your pkts using pktdate or any other tool before tossing them. Note that
+pkt file may be renamed depending of @code{tossingExt} token value.
 
-@node route, routeFile, processPkt, Keywords
+@node tossingExt, route, processPkt, Keywords
+@subsection tossingExt
+@table @asis
+@item Syntax:
+@code{tossingExt <string>}
+@item Example:
+@code{tossingExt tos}
+@end table
+
+Extension of bundle & packet files will be changed to <string> before
+tossing (and before processPkt string executed if set) to <string>.
+That may be used for preventing of permanent tossing fault because of
+bad file in inbound.
+Default extension: tos.
+@code{TossingExt} without parameter disables files renaming in tossing.
+
+@node route, routeFile, tossingExt, Keywords
 @subsection route
 @table @asis
 @item Syntax:

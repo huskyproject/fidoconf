@@ -381,6 +381,7 @@ typedef struct fidoconfig {
    int      describeLinkDefaults;
    e_nameCase createAreasCase;
    e_nameCase areasFileNameCase;
+   char *tossingExt;
 } s_fidoconfig, *ps_fidoconfig;
 
 

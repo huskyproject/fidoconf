@@ -27,6 +27,8 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   fprintf(f, "createAreasCase %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
   fprintf(f, "areasFileNameCase %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
   if (config->disableTID != 0) fprintf(f, "DisableTID\n");
+  if (config->processPkt != NULL) fprintf(f, "processPkt %s\n", config->processPkt);
+  if (config->tossingExt != NULL) fprintf(f, "tossingExt %s\n", config->tossingExt);
   
   fprintf(f, "\n");
 }

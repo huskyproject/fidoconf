@@ -147,6 +147,7 @@ void initConfig(s_fidoconfig *config) {
    // set all to 0
    memset(config, 0, sizeof(s_fidoconfig));
    config -> loguid = config -> loggid = config -> logperm = -1;
+   config -> tossingExt = "tos";
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)

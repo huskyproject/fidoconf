@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sun May  7 14:55:32 MSD 2000
+max (patch from Serguei Revtov):
+* add tossingExt token
+
+----- cvs ci ------
 Tue Apr 25 19:04:15 NOVST 2000
 max:
 * backward compatibility for my last changes

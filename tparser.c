@@ -310,6 +310,8 @@ int main() {
       printf("createAreasCase: %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
       printf("areasFileNameCase: %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
       printf("DisableTID: %s\n", (config->disableTID) ? "on" : "off");
+      if (config->processPkt != NULL) printf("processPkt: %s\n", config->processPkt);
+      if (config->tossingExt != NULL) printf("tossingExt: %s\n", config->tossingExt);
       
       printf("\n=== AREAFIX CONFIG ===\n");
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
