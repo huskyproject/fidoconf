@@ -1,7 +1,43 @@
+2002-09-05 Thursday 04:38  stas_degteff
+
+	* Makefile (fidoconf-0_14-stable.2): Set instll options for perl &
+	shell scripts
+
+2002-09-05 Thursday 01:13  sfpavel
+
+	* debian/: changelog, control, fidoconf-runtime.dirs,
+	fidoconf-runtime.examples, fidoconf-runtime.files, info,
+	libfidoconf0-dev.links, libfidoconf0-dev.preinst, rules
+	(fidoconf-0_14-stable.[6,3,1,1,1,1,1,1,2]): New debian package
+
+2002-09-05 Thursday 01:12  sfpavel
+
+	* Makefile (fidoconf-0_14-stable.1): Fix install of linkedto and
+	fconf2areasbbs
+
+2002-09-05 Thursday 00:57  sfpavel
+
+	* man/: dumpfcfg.1, fconf2.1, linkedto.1, tparser.1
+	(fidoconf-0_14-stable.[1,1,1,1]): Fix http location
+
+2002-09-05 Thursday 00:55  sfpavel
+
+	* doc/: Makefile, fidoconfig.texi (fidoconf-0_14-stable.[1,1]):
+	Build html with makeinfo
+
 2002-09-04 Wednesday 19:07  stas_degteff
 
 	* cfg.c (fidoconf-0_14-stable.1): Initialise variables (prevent
 	memory fault)
+
+2002-08-29 Thursday 10:16  sfpavel
+
+	* debian/libfidoconf0-dev.preinst (1.1): Update debian version
+
+2002-08-29 Thursday 08:16  sfpavel
+
+	* debian/: info (1.1), libfidoconf0-dev.links (1.1): New debian
+	package
 
 2002-08-26 Monday 06:00  sfpavel
 
