@@ -748,6 +748,78 @@ sizeof(s_filearea)*(config->fileAreaCount+1));
    return rc;
 }
 
+int parseBbsArea(s_fidoconfig config, char *token, s_bbsarea *area)
+{
+   char *tok;
+   int rc = 0;
+
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   memset(area, 0, sizeof(s_bbsarea));
+
+   tok = strtok(token, " \t");
+   if (tok == NULL) {
+      printf("Line %d: There is a areaname missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;         // if there is no areaname
+   }
+
+   area->areaName= (char *) malloc(strlen(tok)+1);
+   strcpy(area->areaName, tok);
+
+   tok = strtok(NULL, " \t");
+   if (tok == NULL) {
+      printf("Line %d: There is a pathname missing %s!\n", actualLineNr, actualLine);
+      return 2;         // if there is no filename
+   }
+
+   if (tok[strlen(tok)-1] == PATH_DELIM) {
+      area->pathName = (char *) malloc(strlen(tok)+1);
+      strcpy(area->pathName, tok);
+   } else {
+      area->pathName = (char *) malloc(strlen(tok)+2);
+      strcpy(area->pathName, tok);
+      area->pathName[strlen(tok)] = PATH_DELIM;
+      area->pathName[strlen(tok)+1] = '\0';
+   }
+
+   tok = strtok(NULL, " \t");
+
+   while (tok != NULL) {
+      if (stricmp(tok, "-d")==0) {
+          if ((area->description=getDescription())==NULL)
+            rc += 1;
+      }  
+      else {
+         printf("Line %d: Error in areaOptions token=%s!\n", actualLineNr, tok);
+         rc +=1;
+         return rc;
+      }
+      tok = strtok(NULL, " \t");
+   }
+
+   return rc;
+}
+
+int parseBbsAreaStatement(char *token, s_fidoconfig *config)
+{
+   int rc;
+
+   if (token == NULL) {
+      printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+
+   config->bbsAreas = realloc(config->bbsAreas,
+sizeof(s_bbsarea)*(config->bbsAreaCount+1));
+   rc = parseBbsArea(*config, token,
+&(config->bbsAreas[config->bbsAreaCount]));
+   config->bbsAreaCount++;
+   return rc;
+}
+
 int parseLink(char *token, s_fidoconfig *config)
 {
    if (token == NULL) {
@@ -1347,6 +1419,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "badArea")==0) rc = parseArea(*config, getRestOfLine(), &(config->badArea));
    else if (stricmp(token, "echoArea")==0) rc = parseEchoArea(getRestOfLine(), config);
    else if (stricmp(token, "fileArea")==0) rc = parseFileAreaStatement(getRestOfLine(), config);
+   else if (stricmp(token, "bbsArea")==0) rc = parseBbsAreaStatement(getRestOfLine(), config);
    else if (stricmp(token, "localArea")==0) rc = parseLocalArea(getRestOfLine(), config);
    else if (stricmp(token, "remap")==0) rc = parseRemap(getRestOfLine(),config);
    else if (stricmp(token, "link")==0) rc = parseLink(getRestOfLine(), config);
