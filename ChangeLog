@@ -2,6 +2,11 @@ fidoconfig 0.8
 --------------
 
 ----- cvs ci ------
+Wed May 12 13:05:10 NOVST 1999
+Max:
++ update documentation
+
+----- cvs ci ------
 Tue May 11 21:55:03 CEST 1999
 mtt:
 + netmailarea can now also be netarea, and if you have $ in your squish area definition, 

@@ -131,6 +131,7 @@ link definition:
 * forwardRequests::             allow forward requests to this link
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
 * forwardPkts::                 shall we forward inbound packets for this node?
+* pause::                       don't export mail for this link
 
 area definition:
 * netmailarea::                 definition of netmailarea
@@ -998,7 +999,7 @@ if not defined then forward requests unconditional
 
 This statement can only be repeated for different links.
 
-@node forwardPkts, netmailarea, forwardRequestFile, Keywords
+@node forwardPkts, pause, forwardRequestFile, Keywords
 @subsection forwardPkts
 @table @asis
 @item Syntax:
@@ -1026,7 +1027,18 @@ cannot process it (each tosser has a different node number, because the
 systems operate on distinct outbound structures and distinct message
 base areas).
 
-@node netmailarea, badarea, forwardPkts, Keywords
+@node pause, netmailarea, forwardPkts, Keywords
+@subsection pause
+@table @asis
+@item Syntax:
+@code{pause}
+@item Example:
+@code{pause}
+@end table
+
+Stop export echomail for this link.
+
+@node netmailarea, badarea, pause, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:
