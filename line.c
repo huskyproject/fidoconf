@@ -3438,6 +3438,58 @@ int parseAvailList(char *line, eAvailList *availlist)
   return 0;
 }
 
+/* parse group description */
+int parseGroupDesc(s_fidoconfig *config, char *line) {
+  char *n, *d;
+  register char *s = line;
+  register short l, i;
+  /* parse line */
+  while (*s && (*s == ' ' || *s == '\t')) s++;
+  if (*s == '\0') { prErr("Missing group name, line %d!", actualLineNr); return 1; }
+  n = s;
+  while (*s && (*s != ' ' && *s != '\t')) s++;
+  if (*n == '"' && *(s-1) == '"') { n++; *(s-1) = '\0'; }
+  if (*s) { *s = '\0'; s++; }
+  while (*s && (*s == ' ' || *s == '\t')) s++;
+  if (*s == '\0') { prErr("Missing group description, line %d!", actualLineNr); return 1; }
+  l = strlen(s) - 1;
+  while (l > 0 && (s[l] == ' ' || s[l] == '\t')) l--;
+  if (l <= 0) { prErr("Missing group description, line %d!", actualLineNr); return 1; }
+  s[l+1] = '\0';
+  /* create a new group record */
+  for (i = 0; i <= config->groupCount; i++) {
+    if (i == config->groupCount) {
+      config->groupCount++;
+      config->group = srealloc(config->group, sizeof(s_group)*config->groupCount);
+      config->group[i].name = sstrdup(n);
+      break;
+    }
+    else if ( strcmp(config->group[i].name, n) == 0 )  {
+      nfree(config->group[i].desc);
+      break;
+    }
+  }
+  /* make group desc */
+  if (*s != '"') { config->group[i].desc = sstrdup(s); return 0; }
+  else {
+    d = smalloc(l); s++; l = 0;
+    while (1) {
+      if (*s == '"') { d[l++] = '\0'; break; }
+      if (*s != '\\' || (*s == '\\' && *(s+1) == '\0')) d[l++] = *s;
+      else switch (*(++s)) {
+        case '"': d[l++] = '"'; break;
+        case 'n': d[l++] = '\n'; break;
+        case 'r': d[l++] = '\r'; break;
+        case 't': d[l++] = '\t'; break;
+        default : d[l++] = *s;
+      }
+      if (*s == '\0') break; else s++;
+    };
+    config->group[i].desc = d;
+  }
+  return 0;
+}
+
 
 /* Parse fidoconfig line
  * Return 0 if success.
@@ -4516,6 +4568,9 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_AREAGROUPDEFAULTS:
             rc = parseAreaGroupDefaults(config, getRestOfLine());
+            break;
+        case ID_GRPDESC:
+            rc = parseGroupDesc(config, getRestOfLine());
             break;
 
         default:

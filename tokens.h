@@ -296,6 +296,7 @@ enum {
     ID_PACKAKA,
     ID_AREAGROUP,
     ID_AREAGROUPDEFAULTS,
+    ID_GRPDESC,
     ID_NETMAILFLAVOUR
 };
 
@@ -463,6 +464,7 @@ token_t parseline_tokens[] =
     { "forwardrequests", ID_FORWARDREQUESTS },
     { "forwardrequesttimeout", ID_FORWARDREQUESTTIMEOUT },
     { "fullupdate", ID_FULLUPDATE },
+    { "grpdesc", ID_GRPDESC },
     { "handle", ID_HANDLE },
     { "hptperlfile", ID_HPTPERLFILE },
     { "idlepassthrutimeout" , ID_IDLEPASSTHRUTIMEOUT },

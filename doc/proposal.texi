@@ -208,6 +208,7 @@ you can find in the programs' individual documentations.
 * handle::                      nickname or handle for link
 * packer::                      default packer for link
 
+* grpdesc::                     area group description
 * badarea::                     definition of badarea
 * dupearea::                    definition of dupearea
 * echoarea::                    definition of echoarea
@@ -842,7 +843,7 @@ systems.
 
 This statement can only be repeated for different links.
 
-@node packer, badarea, handle, Keywords
+@node packer, grpdesc, handle, Keywords
 @subsection packer
 @table @asis
 @item Syntax:
@@ -858,7 +859,23 @@ packed. The pkts will be put in the outbound.
 
 This statement can only be repeated for different links.
 
-@node badarea, dupearea, packer, Keywords
+@node grpdesc, badarea, packer, Keywords
+@subsection grpdesc
+@table @asis
+@item Syntax:
+@code{grpDesc <group name> <group description>}
+@item Examples:
+@code{grpDesc A "Echomail areas from 2:5020/52"}
+@code{grpDesc Pvt Private areas}
+@end table
+
+This statement defines description for the group of areas. Both name and
+description can be optionally enclosed by double quotes ("). Note that you
+can use a variable-length string for group name, not just a single char.
+
+This statement can be repeated.
+
+@node badarea, dupearea, grpdesc, Keywords
 @subsection badarea
 @table @asis
 @item Syntax:

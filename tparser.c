@@ -1538,6 +1538,10 @@ int main(int argc, char **argv) {
         printf("%u links in config\n", config->linkCount);
         for (i = 0; i < config->linkCount; i++) printLink(config->links[i]);
 
+        printf("\n=== AREA GROUPS ===\n");
+        for (i = 0; i < config->groupCount; i++)
+          printf("  %s - %s\n", config->group[i].name, config->group[i].desc);
+
         printf("\n=== AREA CONFIG ===\n");
 
   	  printf("kludgeAreaNetmail ");

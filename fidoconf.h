@@ -233,6 +233,11 @@ typedef struct route {
    e_id      id;
 } s_route, *ps_route;
 
+typedef struct husky_group {
+   char *name;			/* group name */
+   char *desc;			/* group description */
+} s_group, *ps_group;
+
 typedef enum dupeCheck {dcOff, dcMove, dcDel} e_dupeCheck;
 
 typedef enum scanMode { smNone=0, smNever, smManual, smListed} e_scanMode;
@@ -465,6 +470,9 @@ typedef struct fidoconfig {
 
    unsigned int   routeCount;
    ps_route route;
+
+   unsigned int   groupCount;
+   ps_group group;
 
    unsigned int   packCount;
    ps_pack  pack;

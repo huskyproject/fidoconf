@@ -612,6 +612,12 @@ void disposeConfig(s_fidoconfig *config)
           nfree(config->remaps[i].toname);
    nfree(config->remaps);
 
+   for (i = 0; i < config->groupCount; i++) {
+       nfree(config->group[i].name);
+       nfree(config->group[i].desc);
+   }
+   nfree(config->group);
+
    for (i = 0; i < config->nodelistCount; i++)
      {
        if (config->nodelists[i].nodelistName != NULL)
