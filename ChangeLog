@@ -1,3 +1,8 @@
+2001-08-01 Wednesday 14:24  ml
+
+	* line.c (1.258), syslogp.h (1.4): allow comments after
+	linkwithimportlog token
+
 2001-07-26 Thursday 17:04  ml
 
 	* fidoconf.c (1.52), fidoconf.h (1.75), line.c (1.257), tokens.h
