@@ -2,7 +2,7 @@
 
 CC=     cl
 CFLAGS= -nologo -MD -Zp1 -I..
-CDEFS=  -D__NT__ -DNT -DWINNT -D_CONSOLE -DUSE_SYSTEM_COPY -D_MAKE_DLL 
+CDEFS=  -D__NT__ -DNT -DWINNT -D_CONSOLE -DUSE_SYSTEM_COPY -D_MAKE_DLL
 COPT=   -Ob2
 TLIB=   lib -nologo
 LINK=   link
@@ -11,18 +11,18 @@ FCONFL=	fconfmvc.lib
 SMAPIL=	..\smapi\smapimvc.lib msvcrt.lib Kernel32.lib /link /opt:nowin98
 LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
-OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj tree.obj areatree.obj afixcmd.obj afixcmn.obj arealist.obj
+OBJS1 =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj crc.obj tree.obj areatree.obj afixcmd.obj afixcmn.obj arealist.obj temp.obj
 
 all:    $(FCONFL) fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
 
 $(FCONFL):
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c adcase.c
-		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c line.c 
-		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c fidoconf.c 
-		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c dirlayer.c 
-		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c common.c 
-		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c findtok.c 
-		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c xstr.c 
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c line.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c fidoconf.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c dirlayer.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c common.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c findtok.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c xstr.c
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c cfg.c
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c log.c
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c crc.c
@@ -33,6 +33,7 @@ $(FCONFL):
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmd.c
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmn.c
 		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c arealist.c
+		$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c temp.c
 
 		$(LINK) $(LINKOPTS) $(OBJS1)
 
