@@ -194,6 +194,9 @@ you can find in the documentation of the individual programs.
 * dupearea::                    definition of dupearea
 * echoarea::                    definition of echoarea
 * netmailarea::                 definition of netmailarea
+* localarea::                   definition of the BBS message area
+* filearea::                    definition of filearea
+* bbsarea::                     definition of the BBS file area
 @end menu
 
 @node version, name, Keywords, Keywords
@@ -728,7 +731,7 @@ Read documentation of HPT for details.
 
 This statement can be repeated.
 
-@node netmailarea, , echoarea, Keywords
+@node netmailarea, localarea, echoarea, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:
@@ -741,6 +744,46 @@ This statement specifies the @code{NetMailArea}.
 Read documentation of HPT for details.
 
 This statement can be repeated.
+
+
+@node localarea, filearea, netmailarea, Keywords
+@subsection localarea
+@table @asis
+@item Syntax:
+@code{LocalArea <name> <file> [-b <msgbase>] [Options]}
+@item Example:
+@code{LocalArea MyBBSarea /var/spool/fido/msgb/MyBBS -b Squish}
+@end table
+
+This statement specifies the @code{LocalArea}: messages area in BBS.
+Read documentation of HPT for details.
+
+
+@node filearea, bbsarea, localarea, Keywords
+@subsection filearea
+@table @asis
+@item Syntax:
+@code{FileArea <name> <fileareapath> <uplink> [options] [<downlinks>]}
+@item Example:
+@code{filearea Photoes /var/spool/fido/fileecho/Photoes 2:50/1 -d "Sysop photoes"}
+@end table
+
+This statement specifies the @code{FileArea}: fileecho definition.
+(Read documentation of HTick for details.)
+
+
+@node bbsarea, , filearea, Keywords
+@subsection bbsarea
+@table @asis
+@item Syntax:
+@code{bbsarea <name> <bbsareapath>}
+@item Example:
+@code{BBSarea Incoming /var/spool/fido/BBS/incoming}
+@end table
+
+This statement specifies the @code{BBSArea}: BBS file area definition.
+It's use for filelist building.
+Read documentation of HTick for details.
 
 
 @node HPT, NLTools, Keywords, config file
