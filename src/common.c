@@ -123,27 +123,30 @@ int  addrComp(const hs_addr a1, const hs_addr a2)
 
    return rc;
 }
-
-
-void string2addr(const char *string, hs_addr *addr) {
+/*
+return 1 on succesful parsing
+return 0 on bad addr. string
+*/
+int string2addr(const char *string, hs_addr *addr) {
 	char *endptr;
 	const char *str = string;
 	unsigned long t;
 
 	memset(addr, '\0', sizeof(hs_addr));
 
-	if (str == NULL) return;
-	if (strchr(str,':')==NULL || strchr(str,'/')==NULL) return;
+	if (str == NULL) return 0;
+    /* valid addres must contain ':' '/' symbols */
+	if (strchr(str,':')==NULL || strchr(str,'/')==NULL) return 0;
 
 	/*  zone */
-	if (NULL == strstr(str,":")) return;
+	/* if (NULL == strstr(str,":")) return 0; no need check this twise */
 	t = strtoul(str,&endptr,10);
 	addr->zone = (hUINT16) t;
-	if(!addr->zone) return; /*  there is no zero zones in practice */
+	if(!addr->zone) return 0; /*  there is no zero zones in practice */
 
 	/*  net */
 	str = endptr+1;
-	if (NULL == strstr(str,"/")) return;
+	/* if (NULL == strstr(str,"/")) return 0; o need check this twise */
 	t = strtoul(str,&endptr,10);
 	addr->net = (hUINT16) t;
 
@@ -154,11 +157,11 @@ void string2addr(const char *string, hs_addr *addr) {
 
 	/*  point */
 	if (*endptr && !isspace( endptr[0] )) str = endptr+1;
-	else return; /*  end of string */
+	else return 1; /*  end of string */
 	t = strtoul(str,&endptr,10);
 	addr->point = (hUINT16) t;
 	
-	return;
+	return 1;
 }
 
 

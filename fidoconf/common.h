@@ -73,10 +73,10 @@ HUSKYEXT int  addrComp(const hs_addr a1, const hs_addr a2);
   FZ:     0 ist returned if the two addresses are the same, !0 else
 */
 
-HUSKYEXT void string2addr(const char *string, hs_addr *addr);
+HUSKYEXT int string2addr(const char *string, hs_addr *addr);
 /*DOC
   Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
-  Output: ./.
+  Output: return 1 on succesful parsing; return 0 on bad addr. string
   FZ:     string2addr converts a char[] to an addr. If string is not an addr NULL ist returned.
 */
 
