@@ -31,6 +31,8 @@
 #ifndef __FIDOCONF__VERSION_H
 #define __FIDOCONF__VERSION_H
 
+#include "fidoconf.h"
+
 /* values for 5th parameter of GenVersionStr() */
 #define BRANCH_CURRENT 1
 #define BRANCH_STABLE  2
