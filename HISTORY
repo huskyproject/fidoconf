@@ -3,10 +3,9 @@ FIDOCONFIG 0.15 current
 1. MAJOR feature improvements:
 
 2. CONFIG changes:
-
-- if conditions must be quoted like this:
-
-  if "[OS]"=="UNIX"
-  endif
+   - new tokens for htick announcer: annadrfrom, annadrto, annfrom, annto,
+     annsubj, annexclude, anninclude, announcespool, annareatag
 
 3. IMPORTANT bugfixes:
+
+$Id$
