@@ -3728,6 +3728,9 @@ int parseLine(char *line, s_fidoconfig *config)
 		case ID_ADVISORYLOCK:
 			rc = parseBool(getRestOfLine(), &(config->advisoryLock));
 			break;
+		case ID_AREAFIXNAMES:
+			rc = copyString(getRestOfLine(), &(config->areafixNames));
+			break;
         default:
             prErr( "unrecognized: %s", line);
             wasError = 1;

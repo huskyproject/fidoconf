@@ -482,6 +482,8 @@ typedef struct fidoconfig {
    unsigned int minDiskFreeSpace;
    unsigned int advisoryLock;
 
+   char *areafixNames;
+
 } s_fidoconfig, *ps_fidoconfig;
 
 

@@ -354,6 +354,7 @@ s_fidoconfig *readConfig(char *cfgFile)
    carbonNames2Addr(config);
    fixRoute(config);
    stripPktPwd(config);
+   if (config->areafixNames==NULL) xstrcat(&config->areafixNames,"");
    return config;
 }
 
@@ -425,6 +426,7 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->semaDir);
    nfree(config->badFilesDir);
    nfree(config->areafixhelp);
+   nfree(config->areafixNames);
    nfree(config->tempOutbound);
    nfree(config->fileAreaBaseDir);
    nfree(config->passFileAreaDir);

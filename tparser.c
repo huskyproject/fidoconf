@@ -827,6 +827,7 @@ int main(int argc, char **argv) {
 	  printf("AutoPassive: %s\n", config->autoPassive ? "on" : "off");
 
       printf("\n=== AREAFIX CONFIG ===\n");
+	  if (config->areafixNames) printf("AreafixNames: %s\n", config->areafixNames);
 	  printf("areafixFromPkt: %s\n",(config->areafixFromPkt) ? "on": "off");
 	  printf("areafixKillReports: %s\n",(config->areafixKillReports)?"on":"off");
 	  printf("areafixKillRequests: %s\n",(config->areafixKillRequests)?"on":"off");

@@ -240,7 +240,8 @@ enum {
     ID_CARBONGROUPS,
     ID_AUTOAREACREATESUBDIRS,
     ID_AUTOFILECREATESUBDIRS,
-	ID_ADVISORYLOCK
+	ID_ADVISORYLOCK,
+	ID_AREAFIXNAMES
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -268,6 +269,7 @@ token_t parseline_tokens[] =
     { "areafixkillreports", ID_AREAFIXKILLREPORTS },
     { "areafixkillrequests", ID_AREAFIXKILLREQUESTS },
     { "areafixmsgsize", ID_AREAFIXMSGSIZE },
+	{ "areafixnames", ID_AREAFIXNAMES },
     { "areafixorigin", ID_AREAFIXORIGIN },
     { "areafixpwd", ID_AREAFIXPWD },
     { "areafixsplitstr", ID_AREAFIXSPLITSTR },
