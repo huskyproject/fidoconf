@@ -1,3 +1,7 @@
+2002-04-22 Monday 07:44  mche
+
+	* afixcmd.c (1.2): fix cygwin compilation
+
 2002-04-21 Sunday 11:22  d.sergienko
 
 	* makefile.inc (1.21): lame syntax fix (symbols after trailing
