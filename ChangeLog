@@ -1,3 +1,7 @@
+2002-10-14 Monday 06:29  sfpavel
+
+	* common.c, temp.c (fidoconf-0_14-stable.[3,3]): Fix OS/2 EMX build
+
 2002-10-12 Saturday 07:46  stas_degteff
 
 	* line.c (fidoconf-0_14-stable.2): Fix previous (enable exit on
