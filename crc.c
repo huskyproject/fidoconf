@@ -145,9 +145,9 @@ UINT16 crc16tab[] =
 
 UINT32 memcrc32(const char *str, int size, UINT32 initcrc)
 {
-  UINT32 crc;
+  register UINT32 crc = initcrc;
 
-  for (crc = initcrc; size; str++, size--)
+  if(str) for (; size; str++, size--)
     crc = crc32tab[((int) crc ^ (*str)) & 0xff] ^ ((crc >> 8) & 0x00ffffffUL);
 
   return crc;
@@ -156,9 +156,9 @@ UINT32 memcrc32(const char *str, int size, UINT32 initcrc)
 
 UINT32 strcrc32(const char *str, UINT32 initcrc)
 {
-  UINT32 crc;
+  register UINT32 crc = initcrc;
 
-  for (crc = initcrc; *str; str++)
+  if(str) for (; *str; str++)
     crc = crc32tab[((int) crc ^ (*str)) & 0xff] ^ ((crc >> 8) & 0x00ffffffUL);
 
   return crc;
@@ -201,9 +201,10 @@ UINT32 filecrc32(const char *filename)
    initcrc: initial value (start from 0x0000)
  */
 UINT16 memcrc16(const char *str, int size, UINT16 initcrc)
-{ UINT16 crc;
+{
+  register UINT16 crc = initcrc;
 
-  for (crc = initcrc; size; str++, size--)
+  if(str) for (; size; str++, size--)
      crc = ( (crc<<8) ^ crc16tab[(char)(crc>>8)^(*str)] ) & 0xFFFF;
 
   return crc;
@@ -215,9 +216,9 @@ UINT16 memcrc16(const char *str, int size, UINT16 initcrc)
  */
 UINT16 strcrc16(const char *str, UINT16 initcrc)
 {
-  UINT32 crc;
+  register UINT16 crc = initcrc;
 
-  for (crc = initcrc; *str; str++)
+  if(str) for (; *str; str++)
     crc =  ( (crc<<8) ^ crc16tab[(char)(crc>>8)^(*str)] ) & 0xFFFF;
 
   return crc;
