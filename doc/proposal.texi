@@ -136,6 +136,7 @@ a comment and will be ignored.
 * arcmailsize::			size of arcmail bundle
 * allowEmptyPktPwd::            allow empty packet passwords
 * allowPktAddrDiffer::          allow addresses in PKT and MSG differ for areafix request
+* noTIC                         do not send a TIC file to this link
 
 * nodelistdir::                 path for nodelists
 * fidouserlist::                name of compiled fido user list file
@@ -1153,7 +1154,7 @@ difference that packets without packet passwords are allowed even in the
 unprotected inbound directory. It is not recommended to use this setting.
 
 
-@node allowPktAddrDiffer, nodelistdir, allowEmptyPktPwd, Keywords
+@node allowPktAddrDiffer, noTIC, allowEmptyPktPwd, Keywords
 @subsection allowPktAddrDiffer
 @table @asis
 @item Syntax:
@@ -1170,7 +1171,23 @@ The default state if @code{off}: in this case such letters won't be processed
 by your areafix. The state @code{on} makes areafix ignore this error.
 
 
-@node nodelistdir, fidouserlist, allowPktAddrDiffer, Keywords
+@node noTIC, nodelistdir, allowPktAddrDiffer, Keywords
+@subsection noTIC
+@table @asis
+@item Syntax:
+@code{noTIC}
+@item Example:
+@code{noTIC}
+@end table
+
+This keyword is useful if your link does not want to receive TIC files, for
+example a pointsystem.
+
+If you specify this keyword in a link section, no more TIC files are sent to
+this link.
+
+
+@node nodelistdir, fidouserlist, noTIC, Keywords
 @subsection nodelistDir
 @table @asis
 @item Syntax:
