@@ -203,6 +203,7 @@ typedef enum carbonType e_carbonType;
 struct carbon {
    e_carbonType type;
    char         *str;     // string to compare
+   char        	*reason;  // reason of copy
    s_area       *area;    // area to copy messages
    int          export;   // export copied msg?
 };

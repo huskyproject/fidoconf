@@ -1399,6 +1399,7 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType type)
 
    config->carbons[config->carbonCount-1].area = &(config->badArea);
    config->carbons[config->carbonCount-1].export = 0;
+   config->carbons[config->carbonCount-1].reason = NULL;
 
    return 0;
 }
@@ -1427,6 +1428,17 @@ int parseCarbonArea(char *token, s_fidoconfig *config) {
 	   }
    }
    
+   return 0;
+}
+
+int parseCarbonReason(char *token, s_fidoconfig *config) {
+
+   if (token == NULL) {
+	   printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+	   return 1;
+   }
+   
+   copyString(token, &(config->carbons[config->carbonCount-1].reason));
    return 0;
 }
 
@@ -1708,6 +1720,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonsubj")==0) rc = parseCarbon(getRestOfLine(), config, subject);
    else if (stricmp(token, "carbontext")==0) rc = parseCarbon(getRestOfLine(), config, msgtext);
    else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config);
+   else if (stricmp(token, "carbonreason")==0) rc = parseCarbonReason(getRestOfLine(), config);
    else if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
    else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
    else if (stricmp(token, "areafixfrompkt")==0) config->areafixFromPkt = 1;

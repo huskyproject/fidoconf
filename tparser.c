@@ -313,6 +313,7 @@ int main() {
 		  if (config->carbons[i].type == msgtext) printf("CarbonText:   ");
 		  printf("%s\n",config->carbons[i].str);
 		  printf("CarbonArea:   %s\n",config->carbons[i].area->areaName);
+		  if (config->carbons[i].reason) printf("CarbonReason: %s\n", config->carbons[i].reason);
 		  if (config->carbons[i].export) printf("Copied messages will be exported.\n");
 		  printf("-------\n");
       }

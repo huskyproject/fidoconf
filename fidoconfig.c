@@ -391,7 +391,10 @@ void disposeConfig(s_fidoconfig *config)
    free(config->echotosslog);
    free(config->lockfile);
 
-   for (i = 0; i< config->carbonCount; i++) free(config->carbons[i].str);
+   for (i = 0; i< config->carbonCount; i++) {
+	free(config->carbons[i].str);
+	if (config->carbons[i].reason) free(config->carbons[i].reason);
+   }
    free(config->carbons);
 
    free(config->ReportTo);

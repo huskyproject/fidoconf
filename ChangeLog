@@ -1,14 +1,23 @@
 fidoconfig 0.9
 --------------
 
+----- cvs ci ------
+Sat Sep 11 13:00:16 NOVST 1999
+max:
+* added carbonReason (patch from Serguei Revtov)
+* carbonCopy code cleanup
+
+----- cvs ci ------
 Fri Sep 10  11:05:00
 sms:
 + added keyword sessionPwd
 
+----- cvs ci ------
 Thu Sep 02  16:25:00
 Fedor:
 * fixed type in fileLDescString
 
+----- cvs ci ------
 Wed Sep 01 22:06:21 CEST 1999
 sms:
 + added the following keywords:
@@ -40,10 +49,12 @@ sms:
   fileLocalPwd
   fileLDescString
 
+----- cvs ci ------
 Sun Aug 29 22:14:49 CEST 1999
 sms:
 + added '#' to patmat()
 
+----- cvs ci ------
 Sat Aug 28 02:03:49 CEST 1999
 Antonio:
 + added -b option for message base type.
@@ -98,10 +109,12 @@ Thu Aug 03 11:38:30 1999
 Georgi:
 + Added "-lw <level>" and "-lr <level>" in filearea options
 
+----- cvs ci ------
 Mon Aug 02 18:20:50 1999
 Georgi:
 + Added token BbsArea <name> <directory> "<description>"
 
+----- cvs ci ------
 Thu Jul 29 10:43:22 CEST 1999 	
 mtt:
 + added logEchoToScreen to tparser

@@ -162,6 +162,7 @@ a comment and will be ignored.
 * carbonArea::                  specify the area where the carbon copies go into
 * carbonAndQuit::               carbon message only one time
 * carbonKeepSb::                keep seen-by's and path
+* carbonReason::                string of carbon copy reason
 
 * areafixFromPkt::              process areafix requests on the fly
 * areafixKillReports::          set kill/sent flag to areafix reports
@@ -814,7 +815,7 @@ This statement can only be repeated for different links.
 @end table
 
 This statement connects a link to several echomail groups.
-See also "publicgroup".
+See also "publicgroup" and -g <group> in echoarea options.
 
 This statement can only be repeated for different links.
 
@@ -1148,7 +1149,9 @@ This statement cannot be repeated.
 @item Syntax:
 @code{EchoArea <name> <file> [<msgbase>] @{Option@} @{linkAka@} @{linkOption@}}
 @item Example:
-@code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger -b Squish -a 2:2433/1247 -dupeCheck move -dupehistory 11 -d "Linux development" 2:2433/1245}
+@code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger
+-b Squish -a 2:2433/1247 -g A -dupeCheck move -dupehistory 11 -d "Linux
+development" 2:2433/1245}
 @end table
 
 This statement specifies the echoareas.
@@ -1190,6 +1193,8 @@ leave max n messages after purge in area
 aka to use
 @item -b <msgbase type>
 type of msgbase (Msg, Squish, Jam)
+@item -g <group>
+group for this echoarea
 @item -keepsb
 keep seen-by's (used in CarbonCopy)
 @item -tinysb
@@ -1558,7 +1563,7 @@ For example: you set CarbonTo "max" to echoarea MY.MAIL and CarbonSubj
 subject line carbons to each echoarea.
 If you turn on <carbonAndQuit> message will copy to MY.MAIL only.
 
-@node carbonKeepSb, areafixFromPkt, carbonAndQuit, Keywords
+@node carbonKeepSb, carbonReason, carbonAndQuit, Keywords
 @subsection carbonKeepSb
 @table @asis
 @item Syntax:
@@ -1571,7 +1576,28 @@ For each CC message SEEN-BY's and PATH fields are killed. If you set up
 @code{carbonKeepSb} then all kludges will be saved. But you may also
 set up @code{-keepsb} in options of echoarea where you carbon messages.
 
-@node areafixFromPkt, areafixKillReports, carbonKeepSb, Keywords
+@node carbonReason, areafixFromPkt, carbonKeepSb, Keywords
+@subsection carbonReason
+@table @asis
+@item Syntax:
+@code{carbonReason <string>}
+@item Example:
+@code{carbonText msged}
+@code{carbonReason Found 'msged' in message}
+@code{carbonArea my.searches.echo}
+@end table
+
+This statement sets the 'reason string' for the previous
+carbon@{To|From|Kludge|Subj|Text@} statement.
+
+This string would be printed after ' * Forwarded ...' line in message
+begining. That's useful when many carbons are made to single area.
+No reason string is printed if this statement is ommitted.
+
+This statement can be repeated for each different
+carbon@{To|From|Kludge|Subj|Text@} statement.
+
+@node areafixFromPkt, areafixKillReports, carbonReason, Keywords
 @subsection areafixFromPkt
 @table @asis
 @item Syntax:

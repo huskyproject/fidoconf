@@ -219,7 +219,8 @@ _Keyword definitions_
   [BBSGrp {<group>}]
   # group(s)
   [AccessGrp {<groups>}]
-  # this is a list of groups for echo acess (see also PublicGroup)
+  # this is a list of groups for echo acess
+  # (see also PublicGroup and -g <group> in EchoArea options)
   [OptGrp {<groups>}]
   # this is personal groups for echo acess
   # Export, Import & Mandatory uses OptGrp areas
@@ -291,6 +292,9 @@ _Keyword definitions_
 
   # -a <aka>      
   #  aka to use
+
+  # -g <group>
+  # group for this echoarea
 
   # Echo Security:
   # by default everything all allowed.
