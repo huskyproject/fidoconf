@@ -1,3 +1,7 @@
+2002-01-29 Tuesday 11:33  ml
+
+	* cfg.c (1.21): checkIncludeLogic changes by pavel, modyfied by me
+
 2002-01-28 Monday 20:04  pavel.gulchouck
 
 	* cfg.c (1.20), tparser.c (1.163): Bugfix in yesterday changes with
