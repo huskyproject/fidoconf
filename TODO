@@ -2,3 +2,7 @@
 - route statements which are defined in the middle of several link statements
   are broken, because there is a realloc of config->links! Maybe there are
   more bugs like this in the current sources
+- change groups from one-char to multi-char
+- dump remaps, bbsareas and fileareas
+- unify routes
+

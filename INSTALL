@@ -13,9 +13,6 @@ Unix:
 2. compile and install fidoconfig:
 	$ make
 	$ make install
-	$ make 
-   After the first make there will be an error displayed. Just do the second
-   and third make and all will be ok.
 
 3. Ensure /usr/local/lib/ is in /etc/ld.so.conf
 
