@@ -345,16 +345,22 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
       if (link.arcmailSize != 0)
 	fprintf(f, "arcmailSize          %u\n", link.arcmailSize);
       if (link.pktSize != 0)
-	fprintf(f, "pktSize          %u\n", link.pktSize);
+	fprintf(f, "pktSize              %u\n", link.pktSize);
+      if (link.packNetmail != 0)
+      {
+	fprintf(f, "packNetmail          On\n"
+	           "maxUnpackedNetmail   %d\n", link.maxUnpackedNetmail);
+      }
+      else fprintf(f, "packNetmail          Off\n");
 
-	  if (link.export) fprintf(f, "export              on\n");
-	  else fprintf(f, "export              off\n");
-	  
-	  if (link.import) fprintf(f, "import              on\n");
-	  else fprintf(f, "import              off\n");
+      if (link.export) fprintf(f, "export              on\n");
+      else fprintf(f, "export              off\n");
+
+      if (link.import) fprintf(f, "import              on\n");
+      else fprintf(f, "import              off\n");
 
       if (link.mandatory) fprintf(f, "mandatory          on\n");
-	  else fprintf(f, "mandatory           off\n");
+      else fprintf(f, "mandatory           off\n");
 
       switch (link.linkBundleNameStyle) {
       case eUndef:

@@ -1,4 +1,9 @@
 ----- cvs ci ------
+Tue Jan  2 12:06:15 UTC 2001
+sms:
++ dumping packNetmail and maxUnpackedNetmail
+
+----- cvs ci ------
 Mon Dec 25 19:15:50 EET 2000 
 dmitry:
 + added processing of tokens packNetmail & maxUnpackedNetmail in tparser
