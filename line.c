@@ -740,7 +740,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area)
       return 1;         // if there is no areaname
    }
 
-   tok = strLower(tok);
+//   tok = strLower(tok);
    area->areaName= (char *) malloc(strlen(tok)+1);
    strcpy(area->areaName, tok);
 

@@ -9,3 +9,20 @@
 - fix "0" groups (to NULL)
 - ArcMailAddr (address PKT etc. to <Addr>, but send it to <ArcMailAddr>)
 - add savetic, origininannounce to tparser & doc
+
+  There're a lot of undocumented tokens and maybe area options in
+  fidoconfig. As i quickly could find:
+
+  filefixkillreports
+  filefixkillrequests
+  semadir
+  badfilesdir
+  netarea
+  bbsarea
+  autofilecreate
+  autofilecreatedefaults
+  ...
+
+  Some descriptions are present in htick/FidoConfigKeywords, but no
+  corresponding items were found in fidoconfig/proposal.texi. Maybe
+  some of tokens must be removed from fidoconfig/line.c...

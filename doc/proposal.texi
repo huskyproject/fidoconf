@@ -132,6 +132,7 @@ a comment and will be ignored.
 * fileechoflavour::             flavour for outgoing files in fileechos
 * autoAreaCreateFile::          file where autoCreated Areas by this links are going
 * forwardRequests::             allow forward requests to this link
+* frequestfromuplink::          allow forward requests from this link
 * forwardRequestFile::          file for forwardRequest, AvialableAreas & descriptions
 * remoteRobotName::             remote "areafix" name
 * forwardPkts::                 shall we forward inbound packets for this node?
@@ -190,6 +191,7 @@ a comment and will be ignored.
 
 * areafixFromPkt::              process areafix requests on the fly
 * areafixKillReports::          set kill/sent flag to areafix reports
+* areafixKillRequests::         delete areafix requests
 * ReportTo::                    set area or netmail for areafix reports
 * areafixMsgSize::              maximum areafix report size
 * areafixSplitStr::             set split string for splitted areafix messages
@@ -1093,7 +1095,7 @@ so these autocreated areas are found in subsequent tosser-runs.}
 
 This statement can only be repeated for different links.
 
-@node forwardRequests, forwardRequestFile, autoAreaCreateFile, Keywords
+@node forwardRequests, frequestfromuplink, autoAreaCreateFile, Keywords
 @subsection forwardRequests
 @table @asis
 @item Syntax:
@@ -1107,7 +1109,21 @@ By default "forwardRequests off".
 
 This statement can only be repeated for different links.
 
-@node forwardRequestFile, remoteRobotName, forwardRequests, Keywords
+@node frequestfromuplink, forwardRequestFile, forwardRequests, Keywords
+@subsection frequestfromuplink
+@table @asis
+@item Syntax:
+@code{frequestfromuplink (on|off)}
+@item Example:
+@code{frequestfromuplink off}
+@end table
+
+By default "frequestfromuplink on".
+"off" don't allow forward requests from this link to your links.
+
+This statement can only be repeated for different links.
+
+@node forwardRequestFile, remoteRobotName, frequestfromuplink, Keywords
 @subsection forwardRequestFile
 @table @asis
 @item Syntax:
@@ -1984,9 +2000,9 @@ carbon@{To|From|Kludge|Subj|Text@} statement.
 @end table
 
 Process areafix requests on the fly. Check "areafix", "areamgr" &
-"hpt" keywords in toUserName field.
+"hpt" keywords in toUserName field. Request messages don't saves.
 
-@node areafixKillReports, ReportTo, areafixFromPkt, Keywords
+@node areafixKillReports, areafixKillRequests, areafixFromPkt, Keywords
 @subsection areafixKillReports
 @table @asis
 @item Syntax:
@@ -1997,7 +2013,18 @@ Process areafix requests on the fly. Check "areafix", "areamgr" &
 
 Set kill/sent flag to areafix reports.
 
-@node ReportTo, areafixMsgSize, areafixKillReports, Keywords
+@node areafixKillRequests, ReportTo, areafixKillReports, Keywords
+@subsection areafixKillRequests
+@table @asis
+@item Syntax:
+@code{areafixKillRequests}
+@item Example:
+@code{areafixKillRequests}
+@end table
+
+Delete requests from links to areafix.
+
+@node ReportTo, areafixMsgSize, areafixKillRequests, Keywords
 @subsection ReportTo
 @table @asis
 @item Syntax:
