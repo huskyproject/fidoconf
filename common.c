@@ -42,6 +42,8 @@ void string2addr(const char *string, s_addr *addr)
   char buffer[32];
   int  i = 0;
 
+  addr->domain = NULL;
+
   while ((*start != ':')&&(*start != ' ')&&(i < 31)) {    // copy zone info or preceding domain
       buffer[i] = *(start++);
       i++;

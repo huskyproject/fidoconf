@@ -517,7 +517,19 @@ int parseFileName(char *line, char **name) {
    return 0;
 }
 
-int parseInclude(char *line, s_fidoconfig *config) {
+int alreadyIncluded(char *line, s_fidoconfig *config)
+{
+   unsigned int i;
+
+   for (i=0; i < config->includeCount; i++) {
+      if (stricmp(config->includeFiles[i], line)==0) return 1;
+   }
+
+   return 0;
+}
+
+int parseInclude(char *line, s_fidoconfig *config)
+{
    FILE *f;
 
    if (line == NULL) {
@@ -527,7 +539,18 @@ int parseInclude(char *line, s_fidoconfig *config) {
 
    if ((f=fopen(line, "r")) == NULL) return 1;
 
-   parseConfig(f, config);
+   if (!alreadyIncluded(line, config)) {
+
+      config->includeCount++;
+      config->includeFiles = realloc(config->includeFiles, sizeof(char *) * config->includeCount);
+      config->includeFiles[config->includeCount-1] = malloc(strlen(line)+1);
+      strcpy(config->includeFiles[config->includeCount-1], line);
+      
+      parseConfig(f, config);
+   } else {
+      printf("Line %d: WARNING: recursive include of file %s detected and fixed!\n", actualLineNr, line);
+   }
+   
    fclose(f);
    return 0;
 }

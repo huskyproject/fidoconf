@@ -39,6 +39,7 @@ tparser: tparser.o fidoconfig.a
 clean:
 	-rm *~
 	-rm *.o
+	-rm core
 
 distclean: clean
 	-rm tparser fconf2golded fconf2msged fconf2aquaed

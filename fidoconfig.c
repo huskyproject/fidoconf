@@ -84,7 +84,7 @@ char *getConfigFileName() {
       f = fopen(osSpecificName, "r");
       if (f==NULL) return NULL;
       else return osSpecificName;
-   } else return getenv("FIDOCONFIG");
+   } else return envFidoConfig;
 }
 
 s_fidoconfig *readConfig()
@@ -99,8 +99,15 @@ s_fidoconfig *readConfig()
    
    if (f != NULL) {
       config = (s_fidoconfig *) malloc(sizeof(s_fidoconfig));
+
+      config->includeCount = 1;
+      config->includeFiles = realloc(config->includeFiles, sizeof(char *));
+      config->includeFiles[0] = malloc(strlen(fileName)+1);
+      strcpy(config->includeFiles[config->includeCount-1], fileName);
+      
       initConfig(config);
       parseConfig(f, config);
+
       if (wasError == 1) {
          printf("Please correct above error(s) first!\n");
          fflush(stdout);

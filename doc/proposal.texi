@@ -215,8 +215,9 @@ Additionally you can split your config in different parts. So you can
 have your fileareas definition in another file than your msgareas definition.
 This gives your the ability to have some survey about your config.
 
-This statement can be repeated. But dont make recursive includes. eg on file
-which includes another which includes the first.
+This statement can be repeated. But dont make recursive includes. eg include a  file which includes another which includes the first. Although this will be
+detected and fixed many times, there is a chance that it will not be detected
+one time.
 
 @node address, outbound, include, Keywords
 @subsection address

@@ -30,7 +30,7 @@ Copyright @copyright{} 1998 Matthias Tichy
 This document describes the use of fidoconfig to make fido work on your unix
 workstation.
 
-This document applies to version 0.4 of fidoconfig.
+This document applies to version 0.5 of fidoconfig.
 @end ifinfo
 
 @menu
@@ -58,8 +58,8 @@ should be quite portable.
 @include proposal.texi
 
 @node converting, tparser, config file, Top
-@chapter Converting fidoconfig to golded and msged
-Since goldEd and msgEd does not support fidoconfig, we have developed two
+@chapter Converting fidoconfig to golded, msged and aquaed
+Since goldEd, msgEd and aquaEd does not support fidoconfig, we have developed two
 programs which converts your fidoconfig to the proprietary config file format.
 
 @enumerate
@@ -71,10 +71,19 @@ fconf2golded ~/golded/golded.cfg ~/golded/goldDefaults.cfg
 @end example
 
 @item fconf2msged
-fconf2golded <goldedConfigFileName> 
+fconf2msged <msgedConfigFileName> 
 
 @example
-fconf2golded ~/msged.areas
+fconf2msged ~/msged.areas
+@end example
+
+@item fconf2aquaed
+fconf2aquaed <aquaedConfigFileName> [<default.cfg>]
+(if you specify default.cfg there will be a include <default.cfg> generated in
+your config file)
+
+@example
+fconf2aquaed ~/aquaed/aquaed.cfg
 @end example
 
 @end enumerate

@@ -147,6 +147,9 @@ struct fidoconfig {
 
    unsigned int   carbonCount;
    s_carbon *carbons;
+
+   char     **includeFiles;
+   unsigned int includeCount;
 };
 typedef struct fidoconfig s_fidoconfig;
 
