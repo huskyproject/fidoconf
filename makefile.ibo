@@ -1,11 +1,14 @@
+# include Husky-Makefile-Config
+include ..\huskymak.cfg
+
 CC=     icc
 CFLAGS= -Ss+ -Sp1 -W2 -q+
 CDEFS=  -DOS2
-COPT=   -O -I..\smapi
+COPT=   -O -I$(INCDIR)
 LIB=    ilib
 
 LIBS=  fidoconfig.lib
-ALLIBS= $(LIBS) ..\smapi\smapiibo.lib
+ALLIBS= $(LIBS) $(LIBDIR)\smapiibo.lib
 
 HDRS=  common.h \
        dir.h \
@@ -26,7 +29,7 @@ LOBJS=  -+patmat.obj -+line.obj -+fidoconfig.obj -+dir.obj -+common.obj;
 all:    fidoconfig.lib fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe
 
 fidoconfig.lib: $(OBJS)
-        $(LIB) $(LIBS) $(LOBJS)
+	$(LIB) $(LIBS) $(LOBJS)
 
 
 fconf2msged.exe: $(LIBS) $(HDRS) fconf2msged.c
@@ -35,16 +38,24 @@ fconf2golded.exe: $(LIBS) $(HDRS) fconf2golded.c
 
 tparser.exe: $(LIBS) $(HDRS) tparser.c
 
-# Thunderbirds are go!
-
 clean:
-        del $(OBJS)
-        del $(OBLS)
-        del fidoconfig.bak
-        del fconf2golded.obj fconf2msged.obj fconf2golded.exe fconf2msged.exe tparser.obj tparser.exe
+	del *.obj
+	del fidoconfig.bak
+
+distclean: clean
+        del fconf2golded.exe fconf2msged.exe tparser.exe
+
+install: $(LIBS) tparser.exe fconf2golded.exe fconf2msged.exe fidoconfig.h fidoconf.pas
+	copy fidoconfig.lib $(LIBDIR)
+	copy tparser.exe $(BINDIR)
+	copy fconf2golded.exe $(BINDIR)
+	copy fconf2msged.exe $(BINDIR)
+	copy fidoconfig.h $(INCDIR)
+	copy fidoconf.pas $(INCDIR)
 
 .c.obj:
-        $(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
 
 .c.exe:
-        $(CC) -Gd+ $(CFLAGS) $(CDEFS) $(COPT) $< $(ALLIBS)
+	$(CC) -Gd+ $(CFLAGS) $(CDEFS) $(COPT) $< $(ALLIBS)
+

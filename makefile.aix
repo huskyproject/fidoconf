@@ -1,8 +1,7 @@
 #Settings for AIX
 
-#installation directires
-LIBDIR = $(HOME)/fido/lib
-INSTDIR = $(HOME)/fido
+# include Husky-Makefile-Config
+include ../huskymak.cfg
 
 # program settings
 CC = cc
@@ -10,8 +9,13 @@ AR = ar
 AR_R = r
 RM = rm
 
-COPT = -c -O3 -qcpluscmt -DUNIX -I../smapi
-LOPT = -L. -L $(LIBDIR)
+ifeq ($(DEBUG), 1)
+  COPT = -c -O3 -qcpluscmt -DUNIX -I$(INCDIR) -g
+else
+  COPT = -c -O3 -qcpluscmt -DUNIX -I$(INCDIR) -s
+endif
+
+LOPT = -L . -L $(LIBDIR)
 
 # filename settings
 O = .o
@@ -42,12 +46,14 @@ distclean: commondistclean
 %.o: %.c
 	$(CC) $(COPT) $*.c
 
-install: 
-	cp -f libfidoconfig.a $(LIBDIR)
-	cp -f fconf2msged   $(INSTDIR)/bin
-	cp -f fconf2golded  $(INSTDIR)/bin
-	cp -f fconf2aquaed $(INSTDIR)/bin
-        cp -f fconf2fidoconfig $(INSTDIR)/bin
-        cp -f fconf2squish $(INSTDIR)/bin
-	cp -f tparser       $(INSTDIR)/bin
+install: commonlibs commonprogs
+	install $(ILOPT) libfidoconfig.a $(LIBDIR)
+	install $(IBOPT) fconf2msged   $(BINDIR)
+	install $(IBOPT) fconf2golded  $(BINDIR)
+	install $(IBOPT) fconf2aquaed $(BINDIR)
+	install $(IBOPT) fconf2fidoconfig $(BINDIR)
+	install $(IBOPT) fconf2squish $(BINDIR)
+	install $(IBOPT) tparser       $(BINDIR)
+	install $(IIOPT) fidoconfig.h $(INCDIR)
+	install $(IIOPT) fidoconf.pas $(INCDIR)
 

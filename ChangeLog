@@ -2,6 +2,12 @@ fidoconfig 0.91
 --------------
 
 ----- cvs ci ------
+Thu Oct 16 13:40:00 MET DST 1999
+sms:
+- reorganized Makefiles, please read README.Makefiles in the husky-common
+  package!
+
+----- cvs ci ------
 Tue Oct 12 19:21:43 NOVST 1999
 max (patch from Kolya Nesterov & my fixes):
 * fecfg2fconf: print squish and jam echoareas to fidoconfig

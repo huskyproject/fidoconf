@@ -1,30 +1,36 @@
+# include Husky-Makefile-Config
+!include ..\huskymak.cfg
+
 CC=	bcc
-CFLAGS=	-v -w -ml
+CFLAGS=	-w -ml
 CDEFS=	-DMSDOS
-COPT=	-O2 -I..\smapi
+
+!IF $(DEBUG) == 1
+  COPT=	-O2 -I$(INCDIR) -v
+!ELSE
+  COPT=	-O2 -I$(INCDIR)
+!ENDIF
+
 LIB=	tlib
 ASM=	tasm
 LINK=	tlink.exe
 
 LIBS=  fidoconf.lib 
-ALLIBS= $(LIBS) ..\smapi\smapibcd.lib 
+ALLIBS= $(LIBS) $(LIBDIR)\smapibcd.lib 
 
 HDRS=  common.h \
        dir.h \
        fidoconf.h \
        patmat.h \
-       adcase.h \
        typesize.h 
 
 OBJS=  patmat.obj \
-       adcase.obj \	
        line.obj \
        fidoconf.obj \
        dir.obj \
        common.obj
 
 LOBJS=  -+patmat.obj \
-        -+adcase.obj \
         -+line.obj \
         -+fidoconf.obj \
         -+dir.obj \
@@ -36,7 +42,7 @@ fidoconf.lib: $(OBJS)
 	$(LIB) $(LIBS) @&&!
 $(LOBJS)
 !
-        del fidoconf.bak >NUL
+	del fidoconf.bak >NUL
 	
 
 fc2msged.exe: $(LIBS) $(HDRS) fc2msged.c
@@ -45,13 +51,20 @@ fc2ged.exe: $(LIBS) $(HDRS) fc2ged.c
 
 tparser.exe: $(LIBS) $(HDRS) tparser.c
 
-# Thunderbirds are go!
-
 clean:
-        del $(OBJS)
-        del $(OBLS)
-        del fidoconf.bak
-        del fc2ged.obj fc2msged.obj fc2ged.exe fc2msged.exe tparser.obj tparser.exe
+	del *.obj
+	del fidoconf.bak
+
+distclean: clean
+	del fidoconf.lib fc2ged.exe fc2msged.exe tparser.exe
+
+install: commonlibs commonprogs
+	copy fidoconf.lib $(LIBDIR)
+	copy tparser.exe $(BINDIR)
+	copy fc2msged.exe $(BINDIR)
+	copy fc2ged.exe $(BINDIR)
+	copy fidoconf.h $(INCDIR)
+	copy fidoconf.pas $(INCDIR)
 
 .c.obj: 
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
@@ -61,3 +74,4 @@ clean:
 
 .c.exe: 
 	$(CC) $(CFLAGS) $(CDEFS) $(COPT) $< $(ALLIBS)
+

@@ -1,14 +1,7 @@
 #Settings for FreeBSD
 
-#installation directories
-INSTBIN = /usr/local/bin
-INSTLIB = /usr/local/lib
-INSTUSR = bin
-INSTGRP = bin
-
-#install args
-IBOPT = -c -s -m 755 -o $(INSTUSR) -g $(INSTGRP)
-ILOPT = -c -m 444 -o $(INSTUSR) -g $(INSTGRP)
+# include Husky-Makefile-Config
+include ../huskymak.cfg
 
 # program settings
 CC = cc
@@ -17,8 +10,13 @@ AR = ar
 AR_R = r
 RM = rm -f
 
-COPT = -fpic -O2 -pipe -Wall -DUNIX -I../smapi
-LOPT = -L$(INSTLIB) -L../smapi -L.
+ifeq ($(DEBUG), 1)
+  COPT = -fpic -O2 -pipe -Wall -DUNIX -I$(INCDIR) -g
+else
+  COPT = -fpic -O2 -pipe -Wall -DUNIX -I$(INCDIR) -s
+endif
+
+LOPT = -L. -L$(LIBDIR)
 
 # filename settings
 O = .o
@@ -45,7 +43,6 @@ include makefile.common
 all: commonlibs libfidoconfig.so.$(VERH) commonprogs
 
 clean: commonclean
-	-$(RM) libfidoconfig.so.$(VERH)
 
 distclean: commondistclean
 	-$(RM) libfidoconfig.so.$(VERH)
@@ -56,13 +53,16 @@ libfidoconfig.so.$(VERH): $(LOBJS)
 %.o: %.c
 	$(CC) -c $(COPT) $*.c
 
-install: 
-	install $(IBOPT) fconf2golded $(INSTBIN)
-	install $(IBOPT) fconf2msged $(INSTBIN)
-	install $(IBOPT) fconf2aquaed $(INSTBIN)
-	install $(IBOPT) fconf2fidoconfig $(INSTBIN)
-	install $(IBOPT) fconf2squish $(INSTBIN)
-	install $(IBOPT) tparser $(INSTBIN)
-	install $(ILOPT) $(LIBFIDOCONFIG)$(A) $(INSTLIB)
-	install $(ILOPT) libfidoconfig.so.$(VERH) $(INSTLIB)
-	ln -sf libfidoconfig.so.$(VERH) $(INSTLIB)/libfidoconfig.so
+install: commonlibs commonprogs
+	install $(IBOPT) fconf2golded $(BINDIR)
+	install $(IBOPT) fconf2msged $(BINDIR)
+	install $(IBOPT) fconf2aquaed $(BINDIR)
+	install $(IBOPT) fconf2fidoconfig $(BINDIR)
+	install $(IBOPT) fconf2squish $(BINDIR)
+	install $(IBOPT) tparser $(BINDIR)
+	install $(ILOPT) $(LIBFIDOCONFIG)$(A) $(LIBDIR)
+	install $(ILOPT) libfidoconfig.so.$(VERH) $(LIBDIR)
+	ln -sf libfidoconfig.so.$(VERH) $(LIBDIR)/libfidoconfig.so
+	install $(IIOPT) fidoconfig.h $(INCDIR)
+	install $(IIOPT) fidoconf.pas $(INCDIR)
+

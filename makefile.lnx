@@ -1,10 +1,7 @@
 #Settings for Linux 
 
-#installation directires
-LIBDIR = /usr/local/lib
-INSTDIR = /usr/local/bin
-IBOPT = -c -s -m755
-ILOPT = -c -m644
+# include Husky-Makefile-Config
+include ../huskymak.cfg
 
 # program settings
 CC = gcc
@@ -12,9 +9,13 @@ AR = ar
 AR_R = r
 RM = rm
 
-COPT = -c -fPIC -Wall -ggdb -O6 -DUNIX -I../smapi
+ifeq ($(DEBUG), 1)
+  COPT = -c -fPIC -Wall -ggdb -O6 -DUNIX -I$(INCDIR)
+else
+  COPT = -c -fPIC -Wall -s -O6 -DUNIX -I$(INCDIR)
+endif
+
 LOPT = -L. -L$(LIBDIR)
-# LOPT = 
 
 # filename settings
 O = .o
@@ -50,12 +51,15 @@ libfidoconfig.so.$(VER): line$(O) common$(O) fidoconfig$(O) patmat$(O) adcase$(O
 %.o: %.c
 	$(CC) $(COPT) $*.c
 
-install: 
+install: commonlibs commonprogs
 	install $(ILOPT) libfidoconfig.so.$(VER) $(LIBDIR)
 	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
 	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
 	/sbin/ldconfig
-	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed fconf2fidogate fconf2squish $(INSTDIR)
-	install linkedto $(INSTDIR)
-	install $(IBOPT) tparser      $(INSTDIR)
-	install $(IBOPT) dumpfcfg     $(INSTDIR)
+	install $(IBOPT) fconf2msged fconf2golded fconf2aquaed fconf2fidogate fconf2squish $(BINDIR)
+	install linkedto $(BINDIR)
+	install $(IBOPT) tparser      $(BINDIR)
+	install $(IBOPT) dumpfcfg     $(BINDIR)
+	install $(IIOPT) fidoconfig.h $(INCDIR)
+	install $(IIOPT) fidoconf.pas $(INCDIR)
+
