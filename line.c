@@ -2181,6 +2181,7 @@ static char *unquote(char *line)
           continue;
         }
         *p = '\0';
+	src++;
         pipe(linepipe);
 #if defined(UNIX)
 pipefork:
