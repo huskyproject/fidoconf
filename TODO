@@ -26,3 +26,8 @@
     -sendorig
     ConvertShortNames
     ConvertLongNames
+    forwardFileRequestFile
+    ForwardFilePriority
+    forwardFileRequests
+- add to doc & tparser for hpt
+    ForwardAreaPriority

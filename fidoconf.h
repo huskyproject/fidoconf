@@ -96,6 +96,7 @@ typedef struct link {
    unsigned int AreaFix;              // 0 if not allowed for areafix
    unsigned int FileFix;              // 0 if not allowed for filefix
    unsigned int forwardRequests;      // 0 if not allowed forward requests
+   unsigned int forwardFileRequests;      // 0 if not allowed forward requests for file areas
    unsigned int fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
    int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
                               //   PKT files found in the protected inbound
@@ -115,7 +116,11 @@ typedef struct link {
    char *autoAreaCreateDefaults;// add default string for autocreated area here
    char *autoFileCreateDefaults;
    char *forwardRequestFile;  // list of available areas from this link
+   unsigned int forwardAreaPriority;	// Priority when requests area from uplinks
    char *RemoteRobotName;     // Name remote robot (need for ForwardRequest)
+   char *forwardFileRequestFile;  // list of available file-areas from this link
+   unsigned int forwardFilePriority;	// Priority when requests file-area from uplinks
+   char *RemoteFileRobotName;     // Name of remote file (tic) robot (need for FileForwardRequest)
    void *msg;                 // active msg to the link (used in areafix)
    unsigned int noTIC;        // 0 if TIC files should be generated
    unsigned int Pause;        // 0 if no pause (default)

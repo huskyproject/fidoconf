@@ -871,10 +871,13 @@ void freeLink (s_link *link)
   freeGroups(link->AccessGrp, link->numAccessGrp);
   freeGroups(link->optGrp, link->numOptGrp);
   free(link->forwardRequestFile);
+  free(link->forwardFileRequestFile);
   free(link->autoAreaCreateDefaults);
   free(link->autoAreaCreateFile);
   free(link->autoFileCreateDefaults);
   free(link->autoFileCreateFile);
+  free(link->RemoteRobotName);
+  free(link->RemoteFileRobotName);
 }
 
 int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {

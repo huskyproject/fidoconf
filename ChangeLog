@@ -2,6 +2,16 @@ fidoconfig 0.10
 ---------------
 (released on Mon May 22 14:58:56 CEST 2000)
 
+
+----- cvs ci ------
+Thu Jun  1 11:51:34 NOVST 2000
+max (patch from Lev Serebryakov):
+* new link token ForwardAreaPriority <number> for hpt
+* new link token ForwardFilePriority <number> for htick
+* new link token RemoteFileRobot <string> for htick
+* new link token ForwardFileRequestFile <file> for htick
+* new link token forwardFileRequests <bool> for htick
+
 ----- cvs ci ------
 Sat May 27 10:21:30 NOVST 2000
 max:

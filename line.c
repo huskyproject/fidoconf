@@ -1076,6 +1076,8 @@ int parseLink(char *token, s_fidoconfig *config)
 	  if (deflink->autoFileCreateDefaults) copyString(deflink->autoFileCreateDefaults, &clink->autoFileCreateDefaults);
 	  if (deflink->forwardRequestFile) copyString(deflink->forwardRequestFile, &clink->forwardRequestFile);
 	  if (deflink->RemoteRobotName) copyString(deflink->RemoteRobotName, &clink->RemoteRobotName);
+	  if (deflink->forwardFileRequestFile) copyString(deflink->forwardFileRequestFile, &clink->forwardFileRequestFile);
+	  if (deflink->RemoteFileRobotName) copyString(deflink->RemoteFileRobotName, &clink->RemoteFileRobotName);
 	  if (deflink->optGrp) {
 		  clink->optGrp = malloc(sizeof(char *) * clink->numOptGrp);
 		  for ( i=0; i < deflink->numOptGrp; i++)
@@ -2242,6 +2244,13 @@ int parseLine(char *line, s_fidoconfig *config)
 		rc = 1;
       }
    }
+   else if (stricmp(token, "forwardfilerequests")==0) {
+      if( (clink = getDescrLink(config)) != NULL ) {
+		rc = parseBool (getRestOfLine(), &clink->forwardFileRequests);
+      } else {
+		rc = 1;
+      }
+   }
    else if (stricmp(token, "frequestfromuplink") == 0) {
       if( (clink = getDescrLink(config)) != NULL ) {
 		rc = parseBool (getRestOfLine(), &clink->fReqFromUpLink);
@@ -2319,6 +2328,9 @@ int parseLine(char *line, s_fidoconfig *config)
    }
    else if (stricmp(token, "autopause")==0) rc = parseAutoPause(getRestOfLine(), &(getDescrLink(config)->autoPause));
    else if (stricmp(token, "remoterobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteRobotName));
+   else if (stricmp(token, "remotefilerobotname")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->RemoteFileRobotName));
+   else if (stricmp(token, "forwardareapriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardAreaPriority));
+   else if (stricmp(token, "forwardfilepriority")==0) rc = parseUInt(getRestOfLine(), &(getDescrLink(config)->forwardFilePriority));
 
    else if (stricmp(token, "export")==0) {
       if( (clink = getDescrLink(config)) != NULL ) {
@@ -2374,6 +2386,7 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
    else if (stricmp(token, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
    else if (stricmp(token, "forwardrequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardRequestFile));
+   else if (stricmp(token, "forwardfilerequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardFileRequestFile));
    else if (stricmp(token, "autoareacreatefile")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
    else if (stricmp(token, "autofilecreatefile")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));
 
