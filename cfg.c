@@ -461,11 +461,17 @@ static int cmpfnames(char *file1, char *file2)
 #include <windows.h>
 static int cmpfnames(char *file1, char *file2)
 {
-    char buf[256], path1[256], path2[256], *p;
-/*    if (!GetLongPathName(file1, buf, sizeof(buf))) return 1; */
+    char path1[256], path2[256], *p;
+#if defined ( __WATCOMC__ )
+    if (!GetFullPathName(file1, sizeof(path1), path1, &p)) return 1;
+    if (!GetFullPathName(file2, sizeof(path2), path2, &p)) return 1;
+#else
+    char buf[256];
+    if (!GetLongPathName(file1, buf, sizeof(buf))) return 1;
     if (!GetFullPathName(buf, sizeof(path1), path1, &p)) return 1;
-/*    if (!GetLongPathName(file2, buf, sizeof(buf))) return 1; */
+    if (!GetLongPathName(file2, buf, sizeof(buf))) return 1;
     if (!GetFullPathName(buf, sizeof(path2), path2, &p)) return 1;
+#endif
     return stricmp(path1, path2);
 }
 #elif defined (OS2)
