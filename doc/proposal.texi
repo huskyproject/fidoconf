@@ -1035,7 +1035,7 @@ If no group is given, this is default for all groups.
 @item Syntax:
 @code{AutoCreateDefaults <string> }
 @item Example:
-@code{AutoCreateDefaults -m 200 -dupeCheck move -dosfile -d "Autocreated area"}
+@code{AutoCreateDefaults -$m 200 -dupeCheck move -dosfile -d "Autocreated area"}
 @end table
 
 Area options defaults for autoCreated Areas.
@@ -1048,7 +1048,7 @@ Area options defaults for autoCreated Areas.
 @item Syntax:
 @code{GroupDefaults <groups> <path> [<msgbas>] @{<option>@} @{<linkAka> @{linkoption@}@} }
 @item Example:
-@code{GroupDefaults fidonet /var/spool/fido/msgb Squish -m 200 -dupeCheck move -dupeHistory 14 -d "Autocreated Area"}
+@code{GroupDefaults fidonet /var/spool/fido/msgb Squish -$m 200 -dupeCheck move -dupeHistory 14 -d "Autocreated Area"}
 @end table
 
 This statement sets the default for auto created Areas according to the group of
