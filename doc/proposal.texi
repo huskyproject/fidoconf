@@ -121,6 +121,7 @@ a comment and will be ignored.
 * bbsgrp::                      online groups which link belongs to
 * accessgrp::                   groups for echomail access
 * optgrp::                      groups for export/import/mandatory
+* linkgrp::			add this group to autoareacreatedefaults
 * export::                      rules for echomail export
 * import::                      rules for echomail import
 * mandatory::                   rules for echoarea access
@@ -154,6 +155,7 @@ a comment and will be ignored.
 
 
 * netmailarea::                 definition of netmailarea
+* netarea::                     same as netmailarea
 * badarea::                     definition of badarea
 * dupearea::                    definition of dupearea
 * echoarea::                    definition of echoarea
@@ -924,7 +926,7 @@ See also "publicgroup" and -g <group> in echoarea options.
 
 This statement can only be repeated for different links.
 
-@node optgrp, export, accessgrp, Keywords
+@node optgrp, linkgrp, accessgrp, Keywords
 @subsection optgrp
 @table @asis
 @item Syntax:
@@ -938,7 +940,22 @@ This statement can only be repeated for different links.
 
 This statement can only be repeated for different links.
 
-@node export, import, optgrp, Keywords
+@node linkgrp, export, optgrp, Keywords
+@subsection linkgrp
+@table @asis
+@item Syntax:
+@code{linkgrp @{<group>@}}
+@item Example:
+@code{linkgrp Fido}
+@end table
+
+  Add this group to @code{autoareacreatedefaults}.
+  Link without acces to group @code{Fido} can't forward requests to
+uplink with @code{linkgrp Fido}  
+
+This statement can only be repeated for different links.
+
+@node export, import, linkgrp, Keywords
 @subsection export
 @table @asis
 @item Syntax:
@@ -1402,7 +1419,7 @@ specify @samp{points24}, which is needed for the nodelist compiler to
 recognise a point list in the German points24 format as such, so that it can
 see the proper 5D point numbers instead of the fakenet numbers.
 
-@node netmailarea, badarea, nodelistformat, Keywords
+@node netmailarea, netarea, nodelistformat, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:
@@ -1417,7 +1434,20 @@ Like all areas Netmailareas are *.msg bases per default.
 
 This statement can be repeated to use different netmailareas.
 
-@node badarea, dupearea, netmailarea, Keywords
+See also @code{netarea}
+
+@node netarea, badarea, netmailarea, Keywords
+@subsection netarea
+@table @asis
+@item Syntax:
+@code{NetArea <name> <file> -b [<msgbase>] @{Option@}}
+@item Example:
+@code{NetArea netmail /var/spool/fido/msgb/netmail -b Squish}
+@end table
+
+Same as netmailarea.
+
+@node badarea, dupearea, netarea, Keywords
 @subsection badarea
 @table @asis
 @item Syntax:

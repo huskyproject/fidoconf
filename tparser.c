@@ -284,7 +284,7 @@ int main() {
       if (config->semaDir) printf("semaDir: %s\n", config->semaDir);
       if (config->badFilesDir) printf("BadFilesDir: %s\n", config->badFilesDir);
       if (config->msgidfile) printf("MsgIDFile: %s\n", config->msgidfile);
-      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
+//      printf("CreateDirs: %s\n",(config->createDirs) ? "on": "off");
       printf("LongDirNames: %s\n",(config->longDirNames) ? "on": "off");
       printf("SplitDirs: %s\n",(config->splitDirs) ? "on": "off");
 

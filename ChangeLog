@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Sat Apr  1 20:45:39 NOVST 2000
+max:
+* document tokens LinkGrp & NetArea
+
+----- cvs ci ------
 Mon Mar 27 13:28:49 MSD 2000
 max (patch from Serguei Revtov):
 * pktsize token
