@@ -68,9 +68,9 @@ char *xstrscat(char **s, ...)
 int xscatprintf(char **s, const char *format, ...) 
 {
     va_list ap;
-#ifdef HAS_VASPRINTF
+#if defined(HAS_VASPRINTF)
     char *addline;
-#elif HAS_VSNPRINTF
+#elif defined(HAS_VSNPRINTF)
     char *addline;
     int  nmax;
 #else
@@ -79,9 +79,9 @@ int xscatprintf(char **s, const char *format, ...)
     int  nprint;
     
     va_start(ap, format);
-#ifdef HAS_VASPRINTF
+#if defined(HAS_VASPRINTF)
     vasprintf(&addline, format, ap);
-#elif HAS_VSNPRINTF
+#elif defined(HAS_VSNPRINTF)
     for (nmax = N_PRINTFBUF; ; ) {
 	    xstralloc(&addline, nmax);
 	    nprint = vsnprintf(addline, nmax, format, ap);
