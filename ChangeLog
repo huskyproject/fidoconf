@@ -1,3 +1,7 @@
+2002-08-25 Sunday 18:40  d_sergienko
+
+	* fc2tor.c (1.3): fixed warnings (include ctype.h)
+
 2002-08-24 Saturday 11:25  d_sergienko
 
 	* fc2tor.c (1.2): cosmetics in screen output and usage output
