@@ -1,3 +1,11 @@
+2003-04-11 Friday 07:11  mche
+
+	* fidoconfDll.vcproj (1.2): fix GUIDs of projects
+
+2003-04-10 Thursday 21:17  i_zkh
+
+	* doc/proposal.texi (1.149): Fixed misprints
+
 2003-04-08 Tuesday 10:27  val_khokhlov
 
 	* fidoconf/fidoconf.h (1.9), src/line.c (1.8), src/tparser.c (1.5):
