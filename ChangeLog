@@ -3,6 +3,12 @@ fidoconfig 0.10
 (released on Mon May 22 14:58:56 CEST 2000)
 
 ----- cvs ci ------
+Sat Jun 24 19:44:32 NOVST 2000
+max:
+* fixed firectory checking when parsing auto(area|file)createfile
+* fixed dublicated file parsing
+
+----- cvs ci ------
 Thu Jun 22 15:40:00 MSK 2000
 Nestyurkin Nikolay:
 * changed Watcom makefiles to use makefile.inc

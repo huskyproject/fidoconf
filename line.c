@@ -55,6 +55,7 @@
 #include "fidoconf.h"
 #include "common.h"
 #include "typesize.h"
+#include "xstr.h"
 
 char *actualKeyword, *actualLine;
 int  actualLineNr;
@@ -1400,20 +1401,21 @@ int parseUnpack(char *line, s_fidoconfig *config) {
        return 1;
     }
 }
-
+/*
 static int f_accessable(char *token)
 {
-    /* We don't need a real fexist function here, and we don't want to
-       be dependent on SMAPI just because of this. For us, it is enough
-       to see if the file is accessible */
+// We don't need a real fexist function here, and we don't want to
+//       be dependent on SMAPI just because of this. For us, it is enough
+//       to see if the file is accessible
+// BUT WE DON'T KNOW ABOUT DIRS!
 
 #ifdef UNIX       
     struct stat sb;
     
     if (stat(token, &sb))
-	return 0;  /* cannot stat the file */
+	return 0;  // cannot stat the file
     if (access(token, R_OK))
-	return 0;  /* cannot access the file */
+	return 0;  // cannot access the file
     return 1;
 #else
     FILE *f = fopen(token, "rb");
@@ -1423,9 +1425,15 @@ static int f_accessable(char *token)
     return 1;
 #endif
 }
+*/
 
 int parseFileName(char *line, char **name) {
    char *token;
+
+   if (*name != NULL) {
+      printf("Line %d: Dublicate file name!\n", actualLineNr);
+      return 1;
+   }
 
    if (line == NULL) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
@@ -1443,9 +1451,11 @@ int parseFileName(char *line, char **name) {
       printf("Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
       return 1;
    }
-   if (f_accessable(token)) {
-      (*name) = smalloc(strlen(token)+1);
-      strcpy((*name), token);
+//   if (f_accessable(token)) {
+   if (fexist(token)) { // fexist knows about dirs
+//      (*name) = smalloc(strlen(token)+1);
+//      strcpy((*name), token);
+	xstrcat(name, token);
    } else {
       printf("Line %d: File not found or no permission: %s!\n", actualLineNr, token);
       if (line[0]=='\"')
@@ -2401,8 +2411,8 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
    else if (stricmp(token, "forwardrequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardRequestFile));
    else if (stricmp(token, "forwardfilerequestfile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->forwardFileRequestFile));
-   else if (stricmp(token, "autoareacreatefile")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
-   else if (stricmp(token, "autofilecreatefile")==0) rc = copyString(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));
+   else if (stricmp(token, "autoareacreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoAreaCreateFile));
+   else if (stricmp(token, "autofilecreatefile")==0) rc = parseFileName(getRestOfLine(), &(getDescrLink(config)->autoFileCreateFile));
 
 
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
