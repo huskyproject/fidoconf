@@ -1,3 +1,14 @@
+2002-06-10 Monday 15:54  mche
+
+	* Makefile (1.37), makefile.inc (1.24), makefile.mvc (1.12),
+	makefile.mvcdll (1.13), arealist.c (1.1), arealist.h (1.1):
+	arealist.* moved to fidoconfig from hpt
+
+2002-06-10 Monday 15:12  mche
+
+	* makefile.mvc (1.11): link fconfmvc.lib only with necessary *.obj
+	from smapi
+
 2002-06-09 Sunday 14:17  mche
 
 	* fidoconf.h (1.120), tparser.c (1.177): forwardrequests added
