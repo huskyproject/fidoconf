@@ -12,7 +12,6 @@ exist and where to put the file.
 * EmailPkt:: EmailPkt keywords
 * BSOpack::  BSOpack keywords
 * herp::     Husky External Requext Processor keywords
-* Other::    Other keywords from undefined programs
 * Example::  Here is a sample configfile which works for me
 @end menu
 
@@ -866,7 +865,7 @@ This section contains only keyword-list. Read BsoPack Manual for more info.
 @include keywords.bp
 @end example
 
-@node herp, Other, BSOpack, config file
+@node herp, Example, BSOpack, config file
 @section herp keywords
 Herp is the Husky External file Request Processor. The following fidoconfig
 keywords are specific to herp. Some programs of herp, in particular
@@ -893,33 +892,7 @@ your mailer and @file{herp} will be run. @file{herpidx} will place various
 request index files here. The subdirectory should not be used for any other
 purposes. The index can become rather large, so plan for enough free disk space.
 
-@node Other, Example, herp, config file
-@section Other keywords
-
-@menu
-* filelist::                    filelist and templates
-@end menu
-
-@node filelist, , Other, Other
-@subsection filelist
-@table @asis
-@item Syntax:
-@code{filelist dir <dirHdrTpl> <dirEntryTpl> <dirFtrTpl>}
-@code{filelist global <dirHdrTpl> <dirEntryTpl> <dirFtrTpl> [<globalHdrTpl> <globalFtrTpl>]}
-@code{filelist dirlist <dirListHdrTpl> <dirListEntryTpl> <dirListFtrTpl>]}
-@item Example:
-@code{filelist global /var/spool/fido/files/24350424.all /etc/fido/filelist.dirhdr.tpl /etc/fido/filelist.direntry.tpl /etc/fido/filelist.dirftr.tpl /etc/fido/filelist.globalhdr.tpl /etc/fido/filelist.globalfdr.tpl}
-@code{filelist dir files.html /etc/fido/filelist.dirhdr.tpl /etc/fido/files.html.direntry.tpl /etc/fido/files.html.dirftr.tpl}
-@code{filelist dirlist /home/fido/public_html/arealist.html /etc/fido/arealist.html.dirlisthdr.tpl /etc/fido/arealist.html.dirlistentry.tpl /etc/fido/arealist.html.dirlistftr.tpl}
-@end table
-
-Generate filelist using the given template files. Directory filelists are 
-created for every area, global filelists contain all areas. Dirlists are
-lists of all areas (without the file entries).
-FileAreas, BbsAreas and PublicDirs (the latter one including all 
-subdirectories) are processed.
-
-@node Example,  , Other, config file
+@node Example,  , herp, config file
 @section Working sample config
 @example
 @include config

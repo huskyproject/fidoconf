@@ -1,0 +1,22 @@
+FIDOCONFIG 0.11 release
+
+1. MAJOR feature improvements:
+- set, if, else, elseif, ifdef, ifndef, endif
+- commentchar
+- BeOS support
+- fecfg2fconf is now platform independent
+- allowing to use any length passwords (pktpwd will stripped to 8 symbols)
+- support for long area descriptions
+- fc2aed, fc2ged, fc2msged new command line parameners
+- remove dumpfcfg (no support from programmers)
+
+2. CONFIG changes:
+- removed CarbonArea keyword, use CarbonCopy
+- FRequestFromUpLink changed to denyFwdReqAccess
+- change default path to config:
+    linux: /etc/fido/config 
+    freebsd: /usr/local/etc/fido/config
+    os2/win32/etc: in the current directory 
+    
+3. IMPORTANT bugfixes:
+- exit on unrecognized line in config
