@@ -1,3 +1,10 @@
+2004-12-30 Thursday 14:35  val_khokhlov
+
+	* fidoconf/fidoconf.h (1.28), fidoconf/tokens.h (1.15),
+	src/afixcmd.c (1.11), src/cfg.c (1.5), src/common.c (1.18),
+	src/fidoconf.c (1.21), src/line.c (1.37), src/tparser.c (1.23):
+	move all robot-dependent stuff from s_link to s_link_robot
+
 2004-12-28 Tuesday 20:49  val_khokhlov
 
 	* fidoconf/fidoconf.h (1.27), fidoconf/tokens.h (1.14),
