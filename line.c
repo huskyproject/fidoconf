@@ -1781,7 +1781,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
 
       }
       if ((actualRoute->target == NULL) && (actualRoute->routeVia == 0)) {
-         prErr("Link not found in Route statement!");
+         prErr("Link %s not found in Route statement!", actualRoute->viaStr);
          rc = 2;
       }
     }

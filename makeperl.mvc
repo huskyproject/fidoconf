@@ -1,0 +1,48 @@
+# Microsoft Visual C++ Makefile
+CC=     cl
+CFLAGS= -nologo -Zp1 -I..
+CDEFS=  -D__NT__ -DNT -DWINNT -D_CONSOLE -DUSE_STAT_MACROS -DNDEBUG -DWIN32 -D_CONSOLE -DNO_STRICT -DHAVE_DES_FCRYPT  -DPERL_IMPLICIT_CONTEXT -DPERL_IMPLICIT_SYS -DPERL_MSVCRT_READFIX
+COPT=   -O1 -MD -DNDEBUG
+#TLIB=    lib -nologo -nodefaultlib -libpath:"D:\Perl\lib\CORE;D:\Progra~1\Micros~3\vc98\lib"  -machine:x86
+TLIB=    lib -nologo -nodefaultlib  -machine:x86
+
+
+FCONFL=	fconfmvc.lib
+SMAPIL=	..\smapi\smapimvc.lib
+
+OBJS =  adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj findtok.obj xstr.obj cfg.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) $(CDEFS) $(COPT) -c $<
+
+all:    $(FCONFL) fconf2jt.exe fconf2msged.exe fconf2golded.exe fconf2aquaed.exe tparser.exe fconf2squish.exe fecfg2fconf.exe
+
+$(FCONFL): $(OBJS)
+	$(TLIB) /out:$@ $(OBJS)
+
+tparser.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ tparser.c $(FCONFL) $(SMAPIL)
+
+fconf2golded.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2ged.c $(FCONFL) $(SMAPIL)
+
+fconf2msged.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2msged.c $(FCONFL) $(SMAPIL)
+
+fconf2aquaed.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2aed.c $(FCONFL) $(SMAPIL)
+
+fconf2squish.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2sq.c $(FCONFL) $(SMAPIL)
+
+fconf2jt.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fc2jt.c $(FCONFL) $(SMAPIL)
+
+fecfg2fconf.exe:
+        $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ fecfg2fc.c  fecfg146.c $(FCONFL) $(SMAPIL)
+
+clean:
+        -del *.obj *.lib
+
+distclean: clean
+	-del *.exe
