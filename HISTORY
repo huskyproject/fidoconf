@@ -12,3 +12,4 @@ FIDOCONFIG 0.14 stable
   endif
 
 3. IMPORTANT bugfixes:
+- Fix remap (replace INTL kludge)
