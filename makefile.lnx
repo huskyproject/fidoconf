@@ -40,7 +40,7 @@ clean: commonclean
 distclean: commondistclean
 	-$(RM) libfidoconfig.so.$(VER)
 
-libfidoconfig.so.$(VER): $(LOBJ)
+libfidoconfig.so.$(VER): line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O)
 	$(CC) -shared -Wl,-soname,libfidoconfig.so.$(VERH) -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O) $(LOPT) 
 
 %.o: %.c

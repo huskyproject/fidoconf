@@ -2,6 +2,11 @@
 fidoconfig 0.6
 --------------
 
+Thu Feb  4 00:34:55 CET 1999
+- fixed a bug in makefile.lnx which leads to the behaviour that
+  libfidoconfig.so.$(VER) is not newly generated.
+Wed Feb  3 23:23:06 CET 1999
+- added isLinkOfArea()
 Wed Feb  3 12:32:56 CET 1999
 - added getConfigFileNameForPogram() which can be used to search for
   config-files in a way similar to fidoconfig. See header file for exact

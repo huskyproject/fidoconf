@@ -207,6 +207,12 @@ s_addr *getAddr(s_fidoconfig config, char *addr);
 int    existAddr(s_fidoconfig config, s_addr aka);
 s_area *getArea(s_fidoconfig *config, char *areaName);
 
+/**
+ * This method return 0 if the link is not linked to the area,
+ * else it returns 1.
+ */
+int    isLinkOfArea(s_link *link, s_area *area);
+
 // the following functions are for internal use.
 // Only use them if you really know what you do
 char *readLine(FILE *F);

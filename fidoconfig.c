@@ -369,3 +369,13 @@ s_area *getArea(s_fidoconfig *config, char *areaName)
    return &(config->badArea); // if all else fails, return badArea :-)
 }
 
+int isLinkOfArea(s_link *link, s_area *area)
+{
+   int i;
+
+   for (i = 0; i < area->downlinkCount; i++)
+   {
+      if (link == area->downlinks[i]) return 1;
+   }
+   return 0;
+}
