@@ -479,6 +479,37 @@ void setConfigDefaults(s_fidoconfig *config)
          parsePath("c:\\", &(config->tempDir), NULL);
 #endif
    }
+   { // add all our aka to links array
+       unsigned i;
+       s_link   *clink;
+
+       for (i = 0; i < config->addrCount; i++) {
+           if (!getLinkFromAddr(config,config->addr[i])) {
+               config->links = srealloc(config->links, sizeof(ps_link)*(config->linkCount+1));
+               config->links[config->linkCount] = scalloc(1,sizeof(s_link));
+               clink = config->links[config->linkCount];
+               memset(clink, 0, sizeof(s_link));
+               clink->AreaFix = 1;
+               clink->FileFix = 1;
+               clink->AreaFix = 1;
+               clink->autoFileCreate = 1; /* needed for hpucode + htick */
+               clink->export = 0;         /* do not export anything to virtual link */
+               clink->import = 1;
+               clink->maxUnpackedNetmail = 100;
+               memcpy ( &(clink->hisAka), &(config->addr[i]), sizeof(hs_addr));
+               clink->ourAka = &(config->addr[i]);
+               xscatprintf(&(clink->name), "Our virtual link for aka: %s",aka2str(config->addr[i]));
+               xscatprintf(&(clink->defaultPwd),"%X",strcrc32(clink->name, 0xFFFFFFFFL));
+               clink->pktPwd = clink->defaultPwd;
+               clink->ticPwd = clink->defaultPwd;
+               clink->areaFixPwd = clink->defaultPwd;
+               clink->fileFixPwd = clink->defaultPwd;
+               clink->bbsPwd = clink->defaultPwd;
+               clink->sessionPwd = clink->defaultPwd;
+               config->linkCount++;
+           }
+       }
+   }
 }
 
 /* Read fidoconfig from file into memory.
