@@ -92,7 +92,7 @@ int copyString(char *str, char **pmem)
    }
 
    nfree(*pmem);
-   *pmem = (char *) sstrdup (stripRoundingChars(str, "\""));
+   *pmem = (char *) sstrdup (stripRoundingChars(str, "\n"));
 
    return 0;
 }
