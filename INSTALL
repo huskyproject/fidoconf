@@ -5,7 +5,7 @@ husky-common-package FIRST!
 Unix:
 -----
 
-0. the smapi package is required for the fidoconfig packages
+0. the smapi "stable" package is required for the fidoconfig packages
 
 1. Put the fidoconfig package in the directory where the other packages of fido
    linux reside:
