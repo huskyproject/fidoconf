@@ -72,20 +72,9 @@ extern "C" {
 
 extern char *actualLine, *actualKeyword;
 
-#ifndef _MAKE_DLL_MVC_
-extern    int  actualLineNr;
-extern    char CommentChar;
-#else
 FCONF_EXT int  actualLineNr;
 FCONF_EXT char CommentChar;
-#endif
-
-#ifndef _MAKE_DLL_MVC_
-   extern int fc_trycreate;
-#else
-   FCONF_EXT int fc_trycreate;
-#endif
-
+FCONF_EXT int  fc_trycreate;
 
 extern char wasError;
 #define TRUE_COMMENT	"!#$%;"
