@@ -1408,6 +1408,20 @@ int parseForwardPkts(char *token, s_fidoconfig *config, s_link *link)
    return 0;
 }
 
+int parseAllowEmptyPktPwd(char *token, s_fidoconfig *config, s_link *link)
+{ 
+   if (token == NULL) {
+           printf("Line %d: There are parameters missing after %s!\n", actualLineNr, actualKeyword);
+           return 1;
+   }
+
+   if (stricmp(token, "secure")==0) link->allowEmptyPktPwd = fSecure;
+   else if (stricmp(token, "on")==0) link->allowEmptyPktPwd = fOn;
+   else return 2;
+   
+   return 0;
+}
+
 void printLinkError()
 {
   printf("Line %d: You must define a link first before you use %s!\n", actualLineNr, actualKeyword);
@@ -1549,6 +1563,15 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "forwardPkts")==0) {
      if (config->linkCount > 0) {
       rc = parseForwardPkts(getRestOfLine(), config, &(config->links[config->linkCount-1]));
+     }
+     else {
+       printLinkError();
+       rc = 1;
+     }
+   }
+   else if (stricmp(token, "allowEmptyPktPwd")==0) {
+     if (config->linkCount > 0) {
+      rc = parseAllowEmptyPktPwd(getRestOfLine(), config, &(config->links[config->linkCount-1]));
      }
      else {
        printLinkError();

@@ -1,11 +1,11 @@
 #Settings for Digital UNIX
 
 #installation directires
-LIBDIR = $(HOME)/fido/lib
-INSTDIR = $(HOME)/fido
+LIBDIR = /home/fido/lib
+INSTDIR = /home/fido
 
 # program settings
-CC = cc
+CC = cc -g
 AR = ar
 AR_R = r
 RM = rm
@@ -53,6 +53,6 @@ install:
 	cp -f  fconf2msged  $(INSTDIR)/bin
 	cp -f  fconf2golded $(INSTDIR)/bin
 	cp -f  fconf2aquaed $(INSTDIR)/bin
-        cp -f  fconf2fidoconfig $(INSTDIR)/bin
-        cp -f  fconf2squish $(INSTDIR)/bin
+	cp -f  fconf2fidogate $(INSTDIR)/bin
+	cp -f  fconf2squish $(INSTDIR)/bin
 	cp -f  tparser      $(INSTDIR)/bin

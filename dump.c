@@ -148,6 +148,15 @@ void dumpLinks(s_fidoconfig *config, FILE *f)
 	break;
       default:;
       }
+      switch (link.allowEmptyPktPwd) {
+      case fSecure:
+	fprintf(f, "allowEmptyPktPwd secure\n");
+	break;
+      case fOn:
+	fprintf(f, "allowEmptyPktPwd on\n");
+	break;
+      default:;
+      }
       
       if (link.packerDef != NULL)
 	fprintf(f, "packer %s\n", link.packerDef->packer);

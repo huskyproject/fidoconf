@@ -70,6 +70,8 @@ enum flavour {normal, hold, crash, direct, immediate};
 typedef enum flavour e_flavour;
 enum forward {fOff, fSecure, fOn};
 typedef enum forward e_forward;
+enum emptypktpwd {fOff, fSecure, fOn};
+typedef enum emptypktpwd e_emptypktpwd;
 
 struct link {
    s_addr hisAka, *ourAka;
@@ -87,6 +89,8 @@ struct link {
    int  FileFix;              // 0 if not allowed for filefix
    int  forwardRequests;      // 0 if not allowed forward requests
    int  fReqFromUpLink;	      // 0 - ignore added unknown area (no area in cfg)
+   int  allowEmptyPktPwd;     // 1 if you want to allow empty packet password in
+                              //   PKT files found in the protected inbound
    e_forward forwardPkts;     // defines, if pkts should be forwarded to this link
    char *pktFile,*packFile;   // used only internally by hpt   
    char *floFile,*bsyFile;    // dito

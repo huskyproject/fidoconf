@@ -211,6 +211,15 @@ void printLink(s_link link) {
    case fOn : printf("on\n");
      break;
    }
+   printf("allowEmptyPktPwd ");
+   switch (link.allowEmptyPktPwd){
+   case fOff : printf("off\n");
+     break;
+   case fSecure : printf("secure\n");
+     break;
+   case fOn : printf("on\n");
+     break;
+   }
    
    printf("-------\n");
 }

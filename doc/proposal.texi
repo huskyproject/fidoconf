@@ -133,6 +133,7 @@ link definition:
 * forwardPkts::                 shall we forward inbound packets for this node?
 * pause::                       don't export mail for this link
 * arcmailsize::			size of arcmail bundle
+* allowEmptyPktPwd::            allow empty packet passwords
 
 area definition:
 * netmailarea::                 definition of netmailarea
@@ -1008,7 +1009,7 @@ This statement can only be repeated for different links.
 @subsection forwardPkts
 @table @asis
 @item Syntax:
-@code{forwardPkts <no|secure|yes>}
+@code{forwardPkts <off|secure|on>}
 @item Example:
 @code{forwardPkts yes}
 @end table
@@ -1043,7 +1044,7 @@ base areas).
 
 Stop export echomail for this link.
 
-@node arcmailsize, netmailarea, pause, Keywords
+@node arcmailsize, allowEmptyPktPwd, pause, Keywords
 @subsection arcmailsize
 @table @asis
 @item Syntax:
@@ -1055,7 +1056,35 @@ Stop export echomail for this link.
 maximum arcmail size in kb for this link.
 default is 500kb.
 
-@node netmailarea, badarea, arcmailsize, Keywords
+@node allowEmptyPktPwd, netmailarea, arcmailsize, Keywords
+@subsection allowEmptyPktPwd
+@table @asis
+@item Syntax:
+@code{allowEmptyPktPwd <off|secure|on>}
+@item Example:
+@code{allowEmptyPktPwd on}
+@end table
+
+This flag is useful if you want to generate packet passwords for this link,
+but do not want to check the packet passwords that your link sends to you.
+This is sometimes necessary as a workaraound if your link sends you netmail
+packets without packet passwords, for example.
+
+The default state is off. In this case the incoming packet password must
+match the packet password that you defined. This is the most secure option.
+
+If you set this switch to @code{secure}, packets that do not contain a
+packet password and are received in the protected inbound will be processed.
+You can use this if your uplink sometimes sends you packets without packet
+passwords, as a workaround until the uplink has fixed his system. Still, if
+you receive packets with @emph{wrong} packet passwords, they will be
+rejected.
+
+The setting @code{on} works like the @code{secure} setting, with the
+difference that packets without packet passwords are allowed even in the
+unprotected inbound directory. It is not recommended to use this setting.
+
+@node netmailarea, badarea, allowEmptyPktPwd, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:
