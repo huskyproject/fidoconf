@@ -68,7 +68,7 @@ int MKSTEMPS( char *tempfilename )
 
    ttt = sstrdup(tempfilename);
    pp = strrchr(ttt, '.');
-   if(pp){ /* suffix presents */
+   if( ttt[strlen(ttt)-1]!='X' && pp && (pp>tempfilename && *(pp-1)=='X') ){ /* suffix presents */
      do{
          *pp = 0;
          if( !mktemp(ttt) )
