@@ -28,6 +28,7 @@
  */
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "afixcmd.h"
 #include "common.h"
 #include "log.h"
