@@ -30,6 +30,8 @@
 
 #include "fidoconf.h"
 #include "arealist.h"
+#include "xstr.h"
+#include "common.h"
 
 s_fidoconfig *cfg;
 
@@ -58,21 +60,19 @@ int subscribeCheck(s_area area, s_link *link)
     return 1;
 }
 
-char *linked(s_link *link) {
+void linked(s_link *link) {
     unsigned int i, n, rc;
-    char *report = NULL;
 
-    xscatprintf(&report, "%s areas on %s\n\n",((link->Pause & EPAUSE) == EPAUSE) ? "Passive" : "Active", aka2str(link->hisAka));
+    printf("%s areas on %s\n\n",((link->Pause & EPAUSE) == EPAUSE) ? "Passive" : "Active", aka2str(link->hisAka));
 
     for (i=n=0; i<cfg->echoAreaCount; i++) {
 	rc=subscribeCheck(cfg->echoAreas[i], link);
 	if (rc==0) {
-	    xscatprintf(&report, "  %s\n", cfg->echoAreas[i].areaName);
+	    printf("  %s\n", cfg->echoAreas[i].areaName);
 	    n++;
 	}
     }
-    xscatprintf(&report, "\n%u areas linked\n", n);
-    return report;
+    printf("\n%u areas linked\n", n);
 }
 
 int main(int argc, char **argv) {
@@ -81,8 +81,9 @@ int main(int argc, char **argv) {
     if (argc !=2) {
 	printf(" Usage: linked <Address>\n");
     } else {
-	printf(linked(getLink(cfg, argv[1] )));
+	linked(getLink(cfg, argv[1] ));
     };
+    return 0;
 }
 
 #ifdef __cplusplus
