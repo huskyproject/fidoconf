@@ -9,21 +9,44 @@
 
 # Please change these variables, if needed, or (better) change the
 # environment variable FIDOCONFIG:
-my $fconf	= "";
-my $areasbbs	= "";
+my $fconf	= "/etc/fido/config";
+my $areasbbs	= "AREAS.BBS";
 
 # =============================================================================
 # Main Routine
 header();
-if ($ARGV[0] eq "") {
-    printf("\nUsage:\n   fconf2areasbbs <FidoConfigFileName> <AreasBbsFileName>\n\n");
-    printf("Example:\n   fconf2areasbbs config.areas areas.bbs\n\n");
-    exit;
+if( $#ARGV <0 ) {
+
+print <<USAGE;
+Usage:
+	fconf2areasbbs <FidoConfigFileName> <AreasBbsFileName>
+	fconf2areasbbs <AreasBbsFileName>
+
+Example:
+	fconf2areasbbs config.areas areas.bbs
+USAGE
+
+exit;
+
+}elsif( $#ARGV == 0 ) { # one parameter
+
+  $fconf = $ENV{fidoconfig} if( $ENV{fidoconfig} );
+  $fconf = $ENV{FIDOCONFIG} if( $ENV{FIDOCONFIG} );
+  $areasbbs = $ARGV[0] if( $ARGV[0] );
+
+}else{ # two parameters
+
+  $fconf = $ARGV[0];
+  $areasbbs = $ARGV[1];
+
 }
-$fconf = $ARGV[0];
-$areasbbs = $ARGV[1];
-readConfig();
-saveAreasBBS();
+
+if( $fconf && -f $fconf ){
+  readConfig();
+  saveAreasBBS();
+}else{
+  die "Undefined fidoconfig or fidoconfig not found!";
+}
 exit;
 
 # =============================================================================
@@ -74,12 +97,38 @@ sub parseCfgLine(){
 # Datum: 19991211
 # Descr: Zeile hinter dem EchoArea Tag wird zerlegt und relevante Teile in
 #	in eine globae Liste abgespeichert.
+#
+# Parameter examples:
+# DELPHI passthrough -a 2:5080/102 -g J -lw 2 -d "About DELPHI" 2:5080/68 -def 2:5080/102.84
+# LINUX /fido/msgs/linux -b jam -a 2:5080/102 -g F -lw 9 -p 21 -d "International echo: Linux" 2:5020/1159 -def
+#
 sub saveEchoArea(){
     my @echoparse = split (/[\s]+/, $_[0]);
     my $echotype ="";
-    if ($_[0] =~ /-b[\s]*squish/i ) {$echotype ="\$";}
-    if ($_[0] =~ /-b[\s]*jam/i ) {$echotype ="\!";}
-    @echoarea = ( @echoarea, $echotype.@echoparse[1]." ".@echoparse[0]." ".@echoparse[$#echoparse] );
+    my $oline = "";
+    my $i;
+
+    # areatag & file
+    if ($echoparse[1] =~ /passthrough/i ){
+      $oline = sprintf "P     %-25s   ", @echoparse[0] ;
+    }else{
+      if ($_[0] =~ /-b[\s]*squish/i ) {$echotype ="\$";}
+      elsif ($_[0] =~ /-b[\s]*jam/i ) {$echotype ="\!";}
+      elsif ($_[0] =~ /-b[\s]*msg/i ) {$echotype ="";}
+      $oline = sprintf "%-15s %-25s   ",$echotype.@echoparse[1], @echoparse[0] ;
+    }
+    # add links
+    for( $i=2; $i<=$#echoparse; $i++ ){
+       $echoparse[$i] =~ s/^"(.*)"$/$1/; # quoted parameter: dequote.
+       if( $echoparse[$i] =~ /^"/ ){             # quote open,
+         while( $echoparse[$i] !~ /"$/ ){ $i++;} # skip to quote close
+       }
+       if( ($echoparse[$i] =~ m|^\d+:\d+/\d+(\.\d+)?$|) && ($echoparse[$i-1] !~ /-a/i )){ # link
+         $oline .= " $echoparse[$i]";
+       }
+    }
+    push @echoarea, $oline;
+
 }
 
 ###############################################################################
@@ -100,8 +149,8 @@ sub header(){
 sub saveAreasBBS(){
     print ("saving $areasbbs\n");
     open(AREAS, ">".$areasbbs);
-    printf(AREAS "; AREAS.BBS file created by fconf2areasbbs\n");
-    printf(AREAS "; hacked in by Grischa Bockhaus ;-)\n");
+    printf(AREAS "; AREAS.BBS file created by fconf2areasbbs, part of the husky FIDOnet software project\n");
+
     printf(AREAS ";\n");
     foreach(@echoarea) {
         printf(AREAS "%s\n",$_);
