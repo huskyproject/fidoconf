@@ -122,7 +122,7 @@ typedef enum nameCase { eLower, eUpper} e_nameCase;
 typedef enum nameCaseConvertion { cLower, cUpper, cDontTouch } e_nameCaseConvertion;
 typedef enum bundleFileNameStyle { eUndef, eTimeStamp, eAddrDiff, eAddrDiffAlways, eAmiga, eAddrsCRC32, eAddrsCRC32Always} e_bundleFileNameStyle;
 typedef enum emailEncoding { eeMIME, eeSEAT, eeUUE } e_emailEncoding;
-typedef enum pauses        { NOPAUSE, ECHOAREA, FILEAREA } e_pauses;
+typedef enum pauses        { NOPAUSE=0, ECHOAREA=1, FILEAREA=2 } e_pauses; /*bitmasks! ECHOAREA & FILEAREA use also in s_area.areatype*/
 
 typedef struct link {
     hs_addr hisAka, *ourAka, hisPackAka;
