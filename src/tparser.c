@@ -558,6 +558,7 @@ static char *cvtFlavour(e_flavour flavour)
       case direct:    return "direct";
       case crash:     return "crash";
       case immediate: return "immediate";
+      case undef:     return "unknown!";
       default:        fprintf(stderr, "Unknown flavour, update tparser!\n");
                       return "";
    }
@@ -1609,27 +1610,27 @@ int main(int argc, char **argv) {
         printf("\n=== ROUTE CONFIG ===\n");
         for (i = 0; i < config->routeCount; i++) {
            if (config->route[i].routeVia == 0) {
-              printf("Route %s via ", config->route[i].pattern);
+              printf("Route %s via", config->route[i].pattern);
               printAddr( &(config->route[i].target->hisAka));
-              printf("\n");
            } else {
   			 printf("Route");
   			 switch (config->route[i].id) {
-  			 case id_route : break;
-  			 case id_routeMail : printf("Mail"); break;
-  			 case id_routeFile : printf("File"); break;
+     			   case id_route : break;
+     			   case id_routeMail : printf("Mail"); break;
+     			   case id_routeFile : printf("File"); break;
   			 }
   			 printf(" %s ", config->route[i].pattern);
   			 switch (config->route[i].routeVia) {
-  			 case route_zero: printf("zero\n"); break;
-  			 case noroute:  printf("direct\n"); break;
-  			 case nopack:   printf("nopack\n"); break;
-  			 case host:     printf("via host\n"); break;
-  			 case hub:      printf("via hub\n"); break;
-  			 case boss:     printf("via boss\n"); break;
-  			 case route_extern: break; /* internal only */
+  			   case route_zero: printf("zero "); break;
+  			   case noroute:  printf("direct "); break;
+  			   case nopack:   printf("nopack "); break;
+  			   case host:     printf("via host"); break;
+  			   case hub:      printf("via hub  "); break;
+  			   case boss:     printf("via boss "); break;
+  			   case route_extern: break; /* internal only */
   			 }
            }
+           printf("(flavour: %s)\n", cvtFlavour(config->route[i].flavour));
         }
 
      if (hpt==0) {

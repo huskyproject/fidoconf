@@ -1990,7 +1990,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
   actualRoute = &(*route)[*count];
   memset(actualRoute, '\0', sizeof(s_route));
 
-  actualRoute->id = id;
+  actualRoute->id = id; actualRoute->flavour = undef;
 
   option = strtok(token, " \t");
 
@@ -2053,6 +2053,11 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
     }
     nfree(iOption);
     option = strtok(NULL, " \t");
+  }
+  /* set flavour if it isn't specified in the statement */
+  if (actualRoute->flavour == undef) {
+    if (actualRoute->target == NULL) prErr("Unknown flavour for route");
+    else actualRoute->flavour = actualRoute->target->netMailFlavour;
   }
 
   return rc;
