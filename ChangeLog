@@ -9,6 +9,7 @@ max:
 * fixed fgetsUntil0 function (thanx to Gena Makhomed)
 * added token setConsoleTitle for win32 platform
 * added xstr* functions from hpt
+* added token screenloglevels
 
 ----- cvs ci ------
 Thu Jun  1 11:51:34 NOVST 2000

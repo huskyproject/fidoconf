@@ -462,6 +462,7 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->fileDupeList);
    nfree(config->msgidfile);
    nfree(config->loglevels);
+   nfree(config->screenloglevels);
    nfree(config->echotosslog);
    nfree(config->lockfile);
 

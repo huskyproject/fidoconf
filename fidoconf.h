@@ -291,7 +291,7 @@ typedef struct fidoconfig {
    char     *passFileAreaDir; //Passthrough File Area
    char     *busyFileDir;
    char     *semaDir, *badFilesDir;
-   char     *loglevels;
+   char     *loglevels, *screenloglevels;
 
    s_area   dupeArea, badArea;
    unsigned int   netMailAreaCount;

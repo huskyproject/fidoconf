@@ -205,6 +205,7 @@ a comment and will be ignored.
 
 * logEchoToScreen::             set output to screen log information
 * loglevels::			set level of log output
+* screenloglevels::	        set level of log output to screen
 * Remap::                       remap mail to other address
 * SeparateBundles::             move echomail for each link to his own directory
 * defarcmailsize::		default size for arcmail bundle
@@ -2176,7 +2177,7 @@ the origin string in areafix reports will be:
 
 Set output to screen log messages.
 
-@node loglevels, Remap, logEchoToScreen, Keywords
+@node loglevels, screenloglevels, logEchoToScreen, Keywords
 @subsection loglevels
 @table @asis
 @item Syntax:
@@ -2206,7 +2207,18 @@ The log levels are following:
 
 9 - error messages
 
-@node Remap, SeparateBundles, loglevels, Keywords
+@node screenloglevels, Remap, loglevels, Keywords
+@subsection screenloglevels
+@table @asis
+@item Syntax:
+@code{screenloglevels 123456789}
+@item Example:
+@code{loglevels 2345789}
+@end table
+
+Set level of log output to screen.
+
+@node Remap, SeparateBundles, screenloglevels, Keywords
 @subsection Remap
 @table @asis
 @item Syntax:

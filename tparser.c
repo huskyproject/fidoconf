@@ -261,8 +261,11 @@ int main() {
 	 else
             printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
       }
-
+	  
+	  if (config->loglevels) printf("LogLevels %s\n", config->loglevels);
       printf("LogEchoToScreen %s\n", (config->logEchoToScreen) ? "on" : "off");
+	  if (config->logEchoToScreen && config->screenloglevels)
+		  printf("ScreenLogLevels %s\n", config->screenloglevels);
 
       if (config->inbound != NULL) printf("Inbound: %s\n", config->inbound);
       if (config->tempInbound != NULL) printf("tempInbound: %s\n", config->tempInbound);
