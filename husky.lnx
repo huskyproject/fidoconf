@@ -10,9 +10,9 @@ AR_R = r
 RM = rm
 
 ifeq ($(DEBUG), 1)
-  COPT = -c -fPIC -Wall -ggdb -DUNIX -I$(INCDIR)
+  COPT = -c -fPIC -Wall -ggdb -DUNIX -I$(INCDIR) -I../smapi
 else
-  COPT = -c -fPIC -Wall -s -O6 -DUNIX -I$(INCDIR)
+  COPT = -c -fPIC -Wall -s -O6 -DUNIX -I$(INCDIR) -I../smapi
 endif
 
 LOPT = -L. -L$(LIBDIR)

@@ -285,6 +285,7 @@ s_fidoconfig *readConfig()
       fclose(f);
       carbonNames2Addr(config);
       if (!config->msgBaseDir) printf("Warning: No msgBaseDir specified in config file!\n");
+      if (!config->dupeHistoryDir) printf("Warning: No dupeHistoryDir specified in config file!\n");
       return config;
    } else {
       printf("Could not find config-file!\n");
