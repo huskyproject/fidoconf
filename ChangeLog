@@ -2,6 +2,11 @@ fidoconfig 0.91
 ---------------
 
 ----- cvs ci ------
+Thu Mar 9 2000 17:42:30 CET
+sms:
+* installing header files to $INCDIR/fidoconfig
+
+----- cvs ci ------
 Thu Mar 9 2000 17:22:10 CET
 sms:
 * fixed segfault caused by new CFGDIR-code
