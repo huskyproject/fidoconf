@@ -1,13 +1,18 @@
 #!/bin/bash
 
+# *** Support for searching in included files and finding ***
+# ***  exact matches added by Eduard Dulich (2:464/98).  ****
+
 echo ===============================================================
-echo LinkedTo V 0.01 by Gabriel Plutzar, 2:31/1, gabriel@hit.priv.at
+echo LinkedTo V 0.02 by Gabriel Plutzar, 2:31/1, gabriel@hit.priv.at
 echo This file is part of FidoConfig/Husky by Matthias Tichy
 echo ===============================================================
 
 if [ "$FIDOCONFIG" = "" ] ; then
-   $FIDOCONFIG = "/etc/fido/config"
+   FIDOCONFIG="/etc/fido/config"
 fi
+
+INCLUDES=$(grep -i include $FIDOCONFIG | cut -b8-)
 
 if [ "$1" = "" ] 
 then 
@@ -15,9 +20,10 @@ then
    echo 
    echo You are shown, to which Areas the Adress is linked to
 else
-echo The Adress $1 is linked to the following Areas:
-echo
-cat "$FIDOCONFIG"|grep EchoArea|grep $1|cut -b10-40|cut -d\  -f1|sort
-cat "$FIDOCONFIG"|grep LocalArea|grep $1|cut -b11-40|cut -d\  -f1|sort
+   echo The Adress $1 is linked to the following Areas:
+   echo
+   cat "$FIDOCONFIG"|grep EchoArea |grep -w $1|cut -b10-40|cut -d\  -f1 -s|sort
+   cat "$FIDOCONFIG"|grep LocalArea|grep -w $1|cut -b11-40|cut -d\  -f1 -s|sort
+   grep -h -i EchoArea  $INCLUDES  |grep -w $1|cut -b10-40|cut -d\  -f1 -s|sort
+   grep -h -i LocalArea $INCLUDES  |grep -w $1|cut -b11-40|cut -d\  -f1 -s|sort
 fi
-

@@ -1,7 +1,7 @@
 # common rules for all platforms
 
 VER = 0.9
-VERH = 0
+VERH = 1
 
 LOBJS = common$(O) dirlayer$(O) fidoconfig$(O) line$(O) adcase$(O) dump$(O)
 OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O) $(FECFG2FCONF)$(O) dumpfcfg$(O)

@@ -1,4 +1,5 @@
 INFODIR = /usr/local/info
+IOPT	= -m 644
 
 info fidoconfig.info: fidoconfig.texi proposal.texi config
 	makeinfo --no-split fidoconfig.texi
@@ -38,4 +39,4 @@ distclean: clean
 	-rm fidoconfig.ps
 
 install:
-	install fidoconfig.info ${INFODIR}
+	install $(IOPT) fidoconfig.info ${INFODIR}
