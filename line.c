@@ -310,6 +310,44 @@ int parsePath(char *token, char **var, char **alreadyDefined)
    return 0;
 }
 
+int parsePathExpand(char *token, char **var, char **alreadyDefined)
+{
+   char *p;
+
+   if (*var != NULL) {
+      if (alreadyDefined==NULL || *alreadyDefined) {
+         prErr("Duplicate path!");
+         return 1;
+      }
+      nfree(*var);
+   }
+   if (token == NULL) {
+      prErr("There is a path missing after %s!", actualKeyword);
+      return 1;
+   }
+   if (stricmp(token, "passthrough")==0) {
+      copyString(token, &(*var));
+      if (alreadyDefined) *alreadyDefined=*var;
+      return 0;
+   }
+   p = vars_expand(sstrdup(token));
+   if (*p == '\0' || p[strlen(p)-1] != PATH_DELIM) {
+       xscatprintf(var, "%s%c", token, (char) PATH_DELIM);
+       xscatprintf(&p, "%c", (char) PATH_DELIM);
+   } else {
+       *var = sstrdup(token);
+   }
+   if (alreadyDefined) *alreadyDefined=*var;
+
+   if (!direxist(p)) {
+	   prErr( "Path %s not found!", p);
+	   nfree(p);
+	   return 1;
+   }
+   nfree(p);
+   return 0;
+}
+
 int parsePathNoCheck(char *token, char **var, char **alreadyDefined)
 {
    if (*var != NULL) {
@@ -3310,10 +3348,10 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parsePath(getRestOfLine(), &(config->busyFileDir), NULL);
             break;
         case ID_MSGBASEDIR:
-            rc = parsePath(getRestOfLine(), &(config->msgBaseDir), NULL);
+            rc = parsePathExpand(getRestOfLine(), &(config->msgBaseDir), NULL);
             break;
         case ID_LINKMSGBASEDIR:
-            rc = parsePath(getRestOfLine(),
+            rc = parsePathExpand(getRestOfLine(),
                            &(getDescrLink(config)->msgBaseDir),
 			   &(linkDefined.msgBaseDir));
             break;
