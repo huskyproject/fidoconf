@@ -73,6 +73,10 @@
 #  include <process.h>
 #endif
 
+#ifdef HAS_STRINGS_H
+#  include <strings.h>
+#endif
+
 #include <huskylib/huskylib.h>
 
 /* export functions from DLL */

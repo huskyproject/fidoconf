@@ -122,16 +122,16 @@ default: all
 
 ## include common makefiles part ##
 
-_OBJ:=$(_LIBOBJ)
-include makefile.inc
-LIBOBJS:=$(LOBJS)
-
 _OBJ:=$(_DLLOBJ)
 include makefile.inc
 DLLOBJS:=$(LOBJS)
 
+_OBJ:=$(_LIBOBJ)
+include makefile.inc
+LIBOBJS:=$(LOBJS)
+
 # libraries need to build binary file
-DYNLIBS = -lfidoconfingqnx -lsmapiqnx -lhuskyqnx
+DYNLIBS = ./libfidoconfigqnx.so ../../smapi/make/libsmapiqnx.so ../../huskylib/make/libhuskyqnx.so
 STATLIBS = ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)  ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
 LIBS=$(DYNLIBS)
 
@@ -155,9 +155,11 @@ dllprograms: $(TARGETDLL) $(PROGRAMS)
 $(TARGETLIB):	$(LIBOBJS)
 		$(AR) $(ARFLAGS) $@ $(LIBOBJS)
 		$(RANLIB) $@
+		$(STRIPLIB) $@
 
 $(TARGETDLL):	$(DLLOBJS)
 		$(CC) $(DLLOPT) $(DLLLINKOPT) $(CFLAGS) $(NAMEOPT)$@ $^ $(DLLS)
+		$(STRIPDLL) $@
 
 clean:
 	-$(RM) $(RMOPT) *$(_LIBOBJ) *$(_DLLOBJ)
