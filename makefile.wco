@@ -28,7 +28,7 @@ fconf2squish.exe:
         $(CC) $(CFLAGS) $(COPT) fconf2squish.c fconfwco.lib $(LIBS)
 
 fecfg2fconf.obj: fecfg2fconf.c
-	$(CC) $(CFLAGS) $(COPT) fecfg2fconf.c -zp1 -5r
+	$(CC) $(CFLAGS) $(COPT) fecfg2fconf.c -5r
 
 fe2fconf.exe: fecfg2fconf.obj
 	wlink FILE fecfg2fconf.obj NAME fe2fconf.exe
