@@ -60,7 +60,8 @@ valid. Another words: second definition overwrites the previous one.
 If no match is found, a default value will be used.
 
 "#" at the start of a line or <whiteSpace>#<whiteSpace> within the
-line starts a comment. The comment ends with the line.
+line starts a comment. The comment ends with the line. Comment char "#" can 
+be overwritten by @code{commentChar} token.
 
 If the first word in a line is an undefined keyword, program exits
 with error message.
@@ -179,6 +180,7 @@ you can find in the programs' individual documentations.
 * sysop::                       your name
 * include::                     include other files
 * address::                     your system address
+* commentChar::                 Comment character
 
 * outbound::                    outbound path
 * inbound::                     inbound path
@@ -292,7 +294,7 @@ include a file which includes another which includes the first. Although
 this will be detected and fixed many times, there is a chance that it
 will not be detected one time.
 
-@node address, outbound, include, Keywords
+@node address, commentChar, include, Keywords
 @subsection address
 @table @asis
 @item Syntax:
@@ -311,7 +313,21 @@ netmails.
 This statement can be repeated.
 @strong{The domain name is not full supported throughout fidoconfig}
 
-@node outbound, inbound, address, Keywords
+@node commentChar, outbound, address, Keywords
+@subsection commentChar
+@table @asis
+@item Syntax:
+@code{commentChar <char>}
+@item Example:
+@code{commentChar ;}
+@end table
+
+This command specifies which symbol is used to mark rest of line as comment.
+Default is '#'
+
+This statement can be repeated.
+
+@node outbound, inbound, commentChar, Keywords
 @subsection outbound
 @table @asis
 @item Syntax:
