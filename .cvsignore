@@ -1,4 +1,5 @@
 *.ppu
 *.lib
 *.dll
+*.exp
 tags

@@ -317,19 +317,6 @@ char *configline(void)
       condition = condition && ifstack[iflevel].state;
       continue;
     }
-    if (strncasecmp(str, "else", 4)==0)
-    {
-      if ((iflevel==-1) || ifstack[iflevel].inelse)
-      { fprintf(stderr, "Misplaces else in config %s line %d ignored!\n",
-                curconfname, actualLineNr);
-        wasError = 1;
-        continue;
-      }
-      ifstack[iflevel].inelse=1;
-      ifstack[iflevel].state=!ifstack[iflevel].wastrue;
-      setcond;
-      continue;
-    }
     if (strncasecmp(str, "elseif ", 7)==0)
     {
       if ((iflevel==-1) || ifstack[iflevel].inelse)
@@ -342,6 +329,19 @@ char *configline(void)
         ifstack[iflevel].state=0;
       else
         ifstack[iflevel].state=ifstack[iflevel].wastrue=boolexpr(str+6);
+      setcond;
+      continue;
+    }
+    if (strncasecmp(str, "else", 4)==0)
+    {
+      if ((iflevel==-1) || ifstack[iflevel].inelse)
+      { fprintf(stderr, "Misplaces else in config %s line %d ignored!\n",
+                curconfname, actualLineNr);
+        wasError = 1;
+        continue;
+      }
+      ifstack[iflevel].inelse=1;
+      ifstack[iflevel].state=!ifstack[iflevel].wastrue;
       setcond;
       continue;
     }
