@@ -1,3 +1,12 @@
+2003-02-20 Thursday 12:17  stas_degteff
+
+	* HISTORY (fidoconf-1_4-stable.3): Add section for 0.14-stable
+
+2003-02-20 Thursday 12:14  stas_degteff
+
+	* HISTORY (fidoconf-1_4-stable.2): Update CONFIG CHANGES and
+	IMPORTANT BUGFIXES lists
+
 2003-02-19 Wednesday 10:20  stas_degteff
 
 	* fidoconf.h (fidoconf-1_4-stable.1): Change UNIX to __UNIX__
