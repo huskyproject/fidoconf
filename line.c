@@ -2507,7 +2507,8 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
     /* it is possible to have several groups of expressions and each of them */
     /* should have a carbonArea in the last expression */
     /* so now the area is known, the previous expressions must be checked */
-    areaName=cb->areaName;
+    areaName = cb->areaName;
+    reason   = cb->reason;
 
     while(c--){
         cb--;
@@ -2518,6 +2519,7 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
         if(cb->move==2)         /* carbondelete */
             break;
         copyString(areaName, &(cb->areaName));
+        copyString(reason, &(cb->reason));
         cb->move = move;
     }
 
