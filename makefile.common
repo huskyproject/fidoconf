@@ -3,8 +3,8 @@
 VER = 0.9
 VERH = 0
 
-LOBJS = common$(O) dirlayer$(O) fidoconfig$(O) line$(O) adcase$(O) dump$(O)
-OBJS  = $(LOBJS) $(FCONF2MSGED)$(O) $(FCONF2GOLDED)$(O) $(FCONF2AQUAED)$(O) $(FCONF2FIDOGATE)$(O) $(FCONF2SQUISH)$(O) $(FECFG2FCONF)$(O) dumpfcfg$(O)
+LOBJS = common$(OBJ) dirlayer$(OBJ) fidoconfig$(OBJ) line$(OBJ) adcase$(OBJ) dump$(OBJ)
+OBJS  = $(LOBJS) $(FCONF2MSGED)$(OBJ) $(FCONF2GOLDED)$(OBJ) $(FCONF2AQUAED)$(OBJ) $(FCONF2FIDOGATE)$(OBJ) $(FCONF2SQUISH)$(OBJ) $(FECFG2FCONF)$(OBJ) dumpfcfg$(OBJ)
 
 commonlibs: $(LIBFIDOCONFIG)$(A)
 
@@ -20,44 +20,44 @@ commonprogs:    tparser$(EXE) \
 $(LIBFIDOCONFIG)$(A): $(LOBJS)
 	$(AR) $(AR_R) $(LIBFIDOCONFIG)$(A) $(LOBJS)
 
-%$(O): %.c
+%$(OBJ): %.c
 	$(CC) $(COPT) $(CDEFS) $*.c
 
-$(FCONF2MSGED)$(EXE): $(FCONF2MSGED)$(O) $(LIBFIDOCONFIG)$(A)
-	$(CC) $(LOPT) $(FCONF2MSGED)$(O) -o $(FCONF2MSGED)$(EXE) \
+$(FCONF2MSGED)$(EXE): $(FCONF2MSGED)$(OBJ) $(LIBFIDOCONFIG)$(A)
+	$(CC) $(LOPT) $(FCONF2MSGED)$(OBJ) -o $(FCONF2MSGED)$(EXE) \
 	   $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-$(FCONF2GOLDED)$(EXE): $(FCONF2GOLDED)$(O) $(LIBFIDOCONFIG)$(A)
-	$(CC) $(LOPT) $(FCONF2GOLDED)$(O) -o $(FCONF2GOLDED)$(EXE) \
+$(FCONF2GOLDED)$(EXE): $(FCONF2GOLDED)$(OBJ) $(LIBFIDOCONFIG)$(A)
+	$(CC) $(LOPT) $(FCONF2GOLDED)$(OBJ) -o $(FCONF2GOLDED)$(EXE) \
 	  $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-$(FCONF2AQUAED)$(EXE): $(FCONF2AQUAED)$(O) $(LIBFIDOCONFIG)$(A)
-	$(CC) $(LOPT) $(FCONF2AQUAED)$(O) -o $(FCONF2AQUAED)$(EXE) \
+$(FCONF2AQUAED)$(EXE): $(FCONF2AQUAED)$(OBJ) $(LIBFIDOCONFIG)$(A)
+	$(CC) $(LOPT) $(FCONF2AQUAED)$(OBJ) -o $(FCONF2AQUAED)$(EXE) \
 	  $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-$(FCONF2FIDOGATE)$(EXE): $(FCONF2FIDOGATE)$(O) $(LIBFIDOCONFIG)$(A)
-	$(CC) $(LOPT) $(FCONF2FIDOGATE)$(O) -o $(FCONF2FIDOGATE)$(EXE) \
+$(FCONF2FIDOGATE)$(EXE): $(FCONF2FIDOGATE)$(OBJ) $(LIBFIDOCONFIG)$(A)
+	$(CC) $(LOPT) $(FCONF2FIDOGATE)$(OBJ) -o $(FCONF2FIDOGATE)$(EXE) \
 	          $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-$(FCONF2SQUISH)$(EXE): $(FCONF2SQUISH)$(O) $(LIBFIDOCONFIG)$(A)
-	$(CC) $(LOPT) $(FCONF2SQUISH)$(O) -o $(FCONF2SQUISH)$(EXE) \
+$(FCONF2SQUISH)$(EXE): $(FCONF2SQUISH)$(OBJ) $(LIBFIDOCONFIG)$(A)
+	$(CC) $(LOPT) $(FCONF2SQUISH)$(OBJ) -o $(FCONF2SQUISH)$(EXE) \
 	          $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-$(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(O)
-	$(CC) -fpack-struct $(FECFG2FCONF)$(O) -o $(FECFG2FCONF)$(EXE)
+$(FECFG2FCONF)$(EXE): $(FECFG2FCONF)$(OBJ)
+	$(CC) -fpack-struct $(FECFG2FCONF)$(OBJ) -o $(FECFG2FCONF)$(EXE)
 
 
-tparser$(EXE): tparser$(O) $(LIBFIDOCONFIG)$(A)
-	$(CC) $(LOPT) tparser$(O) -o tparser$(EXE) \
+tparser$(EXE): tparser$(OBJ) $(LIBFIDOCONFIG)$(A)
+	$(CC) $(LOPT) tparser$(OBJ) -o tparser$(EXE) \
 	  $(LINKFIDOCONFIG) $(LINKSMAPI)
 
-dumpfcfg$(EXE): dumpfcfg$(O) $(LIBFIDOCONFIG)$(A)
-	$(CC) $(LOPT) dumpfcfg$(O) -o dumpfcfg$(EXE) \
+dumpfcfg$(EXE): dumpfcfg$(OBJ) $(LIBFIDOCONFIG)$(A)
+	$(CC) $(LOPT) dumpfcfg$(OBJ) -o dumpfcfg$(EXE) \
 	  $(LINKFIDOCONFIG) $(LINKSMAPI)
 
 commonclean:
 	-$(RM) *~
-	-$(RM) *$(O)
+	-$(RM) *$(OBJ)
 	-$(RM) *$(TPU)
 	-$(RM) core
 
