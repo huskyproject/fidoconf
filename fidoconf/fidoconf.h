@@ -219,6 +219,7 @@ typedef struct link {
     eAvailList availlist;
     unsigned int sendNotifyMessages; /* send netmail messages about */
                                      /* forward request timeout etc... */
+    unsigned int allowRemoteControl; /* allow %from command for link */
 
 } s_link, *ps_link;
 

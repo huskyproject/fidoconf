@@ -811,6 +811,7 @@ int printLink(ps_link link) {
    printf("noRules %s\n", (link->noRules) ? "on" : "off");
    printf("reducedSeenBy %s\n", (link->reducedSeenBy) ? "on" : "off");
    printf("sendNotifyMessages %s\n", (link->sendNotifyMessages) ? "on" : "off");
+   printf("allowRemoteControl %s\n", (link->allowRemoteControl) ? "on" : "off");
 
    printf("-------\n");
    return rc;

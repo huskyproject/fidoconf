@@ -3806,6 +3806,12 @@ int parseLine(char *line, s_fidoconfig *config)
             }
             else rc = 1;
             break;
+        case ID_ALLOWREMOTECONTROL:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                rc = parseBool(getRestOfLine(), &clink->allowRemoteControl);
+            }
+            else rc = 1;
+            break;
         case ID_ALLOWPKTADDRDIFFER:
             if( (clink = getDescrLink(config)) != NULL ) {
                 rc = parseAllowPktAddrDiffer(getRestOfLine(), config, clink);

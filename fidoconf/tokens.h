@@ -304,7 +304,8 @@ enum {
     ID_RECODEMSGBASE,
     ID_CREATEADDUPLINK,
     ID_SENDNOTIFYMESSAGES,
-    ID_AUTOAREAPAUSE
+    ID_AUTOAREAPAUSE,
+    ID_ALLOWREMOTECONTROL
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -325,6 +326,7 @@ token_t parseline_tokens[] =
     { "aka", ID_AKA },
     { "allowemptypktpwd", ID_ALLOWEMPTYPKTPWD },
     { "allowpktaddrdiffer", ID_ALLOWPKTADDRDIFFER },
+    { "allowremotecontrol", ID_ALLOWREMOTECONTROL },
     /*  htick announcer */
     { "annaddrfrom", ID_ANNADDRFROM},
     { "annaddrto", ID_ANNADDRTO},
