@@ -1,3 +1,7 @@
+2002-06-01 Saturday 14:19  mche
+
+	* fidoconf.h (1.118), line.c (1.300): token SaveTic expanded
+
 2002-05-30 Thursday 15:25  stas
 
 	* common.c (1.86): Check NULL pointers in patimat()
