@@ -1,3 +1,7 @@
+2002-08-17 Saturday 07:03  sfpavel
+
+	* debian/changelog (fidoconf-0_14-stable.3): New debian package
+
 2002-08-01 Thursday 06:27  stas
 
 	* debian/: changelog, control, copyright
