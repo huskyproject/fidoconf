@@ -46,7 +46,7 @@ int grp_compareEntries_Search(char *areaName, char *grptree_item)
     char *pattern;
     char *plist_tmp;
     char *plist;
-    int found;
+    int  found = 0;
 
     if (!areaName || !grptree_item) return 1;
 
