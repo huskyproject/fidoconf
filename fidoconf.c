@@ -389,7 +389,7 @@ void setConfigDefaults(s_fidoconfig *config)
 #if defined(UNIX)
          parsePath("/tmp", &(config->tempDir), NULL);
 #elif defined(WINNT)
-         parsePath("c:\\windiws\\temp", &(config->tempDir), NULL);
+         parsePath("c:\\winnt\\temp", &(config->tempDir), NULL);
 #else
          parsePath("c:\\", &(config->tempDir), NULL);
 #endif
