@@ -37,7 +37,7 @@ Copyright @copyright{} 1998-2002 Husky Development Team
 This document describes the use of fidoconfig to make fido work on your
 favorite platform.
 
-This document applies to version 0.15 of fidoconfig.
+This document applies to version 1.4 of fidoconfig.
 @c @end ifinfo
 
 @menu

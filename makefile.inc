@@ -3,8 +3,8 @@
 # common rules for all platforms
 # include into other makefiles
 
-VER = 1.3.0
-VERH = 1.3
+VER = 1.4.0
+VERH = 1.4
 
 include makefile.in1
 

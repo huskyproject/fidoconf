@@ -1,4 +1,4 @@
-FIDOCONFIG 0.15 current
+FIDOCONFIG 1.4 stable
 Changes after FIDOCONFIG 0.14
 
 1. MAJOR feature improvements:
@@ -31,8 +31,8 @@ Changes after FIDOCONFIG 0.14
    - AllowEmptyPktPwd parsing: now enable 'off' and all boolean values
 
 4. KNOWN BUGS
-   - GCC 3.0 to 3.2 complains about va_start in line.c and refuses compiling
-     when invoked with "-O3". Lesser optimization levels or gcc 2.x don't
+   - GCC 3.0 and 3.1 complains about va_start in line.c and refuses compiling
+     when invoked with "-O3". Lesser optimization levels or gcc 2.x/3.2 don't
      produce this error. Solution: replace -O3 with -O2 in CFLAGS line in
      your makefile.
 
