@@ -11,8 +11,10 @@ include ../../huskymak.cfg
 endif
 
 MAN1PAGES     = dumpfcfg.1 fconf2.1 linkedto.1 tparser.1
-FCONF2ALIASES = fconf2aquaed.1 fconf2areasbbs.1 fconf2fidogate.1 \
-                fconf2golded.1 fconf2msged.1 fconf2squish.1
+FCONF2ALIASES = fconf2aquaed.1 fconf2areasbbs.1 fconf2binkd.1 \
+		fconf2dir.1 fconf2fidogate.1 fconf2golded.1 \
+		fconf2msged.1 fconf2squish.1 fconf2tornado.1 \
+		fecfg2fconf.1
 
 MAN1DIR   = $(MANDIR)$(DIRSEP)man1
 
@@ -25,7 +27,8 @@ copy:
 	$(INSTALL) $(IMOPT) $(MAN1PAGES) $(MAN1DIR)
 
 link:
-	for f in $(FCONF2ALIASES) ; do $(LN) -f $(MAN1DIR)$(DIRSEP)fconf2.1 $(MAN1DIR)$(DIRSEP)$$f ; done
+	cd $(MAN1DIR)$(DIRSEP); \
+	for f in $(FCONF2ALIASES) ; do $(LN) -s fconf2.1 $$f ; done
 
 clean:
 
