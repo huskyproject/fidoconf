@@ -1,3 +1,8 @@
+2004-02-06 Friday 03:16  andr_lukyanov
+
+	* fidoconf.c, tparser.c (fidoconf-1_4-stable.[4,3]): Set
+	advisoryLock 'integer', by default 0 = off
+
 2004-02-04 Wednesday 22:14  d_sergienko
 
 	* typesize.h (fidoconf-1_4-stable.2): support for NetBSD added
