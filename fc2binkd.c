@@ -41,10 +41,15 @@
 #  include <unistd.h>
 #endif
 
-
 #include "fidoconf.h"
 #include "common.h"
 #include "cvsdate.h"
+
+/* ANSI C knows nothing about this constant */
+#ifndef F_OK
+#define F_OK 0
+#endif
+
 
 char *version="$Revision$";
 char *cvs_tag="$Name$";
