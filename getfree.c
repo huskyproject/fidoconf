@@ -33,7 +33,7 @@
 #     define MAXPATHLEN 255
 #  endif
 
-#include <windows.h>
+/*  #include <windows.h> included in typesize.h */
 #include <stdio.h>
 #include <limits.h>
 #include <ctype.h>
