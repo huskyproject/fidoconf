@@ -1,3 +1,8 @@
+2003-01-23 Thursday 09:21  mche
+
+	* common.c (1.162), common.h (1.84), fidoconf.h (1.167):
+	optimization on dupe detection
+
 2003-01-22 Wednesday 12:03  mche
 
 	* line.c (1.372), tparser.c (1.236): multiply definition for
