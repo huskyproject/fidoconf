@@ -1,3 +1,7 @@
+2002-06-16 Sunday 11:57  mche
+
+	* line.c (1.305): wrong passing arguments fixed
+
 2002-06-15 Saturday 15:34  stas
 
 	* fidoconf.c (1.79), fidoconf.h (1.122), line.c (1.304), tokens.h
