@@ -1,6 +1,6 @@
 # common rules for all platforms
 
-VER = 0.6
+VER = 0.7
 VERH = 0
 
 LOBJS = common$(O) dir$(O) fidoconfig$(O) line$(O) patmat$(O)

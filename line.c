@@ -574,6 +574,8 @@ int parseLink(char *token, s_fidoconfig *config)
    config->links[config->linkCount].name = (char *) malloc (strlen(token)+1);
    // set areafix default to on
    config->links[config->linkCount].AreaFix = 1;
+   // set pause default off
+   config->links[config->linkCount].Pause = 0;
    // forwardRequests default off
    config->links[config->linkCount].forwardRequests = 0;
    strcpy(config->links[config->linkCount].name, token);
@@ -1088,12 +1090,16 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "forwardPkts")==0) {
       rc = parseForwardPkts(getRestOfLine(), config, &(config->links[config->linkCount-1]));
    }
-   else if (stricmp(token, "autoCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoCreateDefaults));
+   else if (stricmp(token, "autoCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateDefaults));
    else if (stricmp(token, "autofileCreateDefaults")==0) rc = copyString(getRestOfLine(), &(config->autoFileCreateDefaults));
    else if (stricmp(token, "AreaFix")==0) {
           rc = 0;
           if (stricmp(getRestOfLine(), "off")==0) config->links[config->linkCount-1].AreaFix = 0;
       else rc = 2;
+   }
+   else if (stricmp(token, "Pause")==0) { 
+     config->links[config->linkCount-1].Pause = 1;
+     rc = 0;
    }
    else if (stricmp(token, "pktpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].pktPwd));
    else if (stricmp(token, "ticpwd")==0) rc = parsePWD(getRestOfLine(), &(config->links[config->linkCount-1].ticPwd));
@@ -1115,7 +1121,7 @@ int parseLine(char *line, s_fidoconfig *config)
 
    else if (stricmp(token, "areafixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->areafixhelp));
    else if (stricmp(token, "filefixhelp")==0) rc = parseFileName(getRestOfLine(), &(config->filefixhelp));
-   else if (stricmp(token, "availableareas")==0) rc = parseFileName(getRestOfLine(), &(config->available));
+   else if (stricmp(token, "availableareas")==0) rc = parseFileName(getRestOfLine(), &(config->links[config->linkCount-1].available));
    else if (stricmp(token, "autoCreateFile")==0) rc = copyString(getRestOfLine(), &(config->links[config->linkCount-1].autoCreateFile));
 
 
@@ -1134,6 +1140,10 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "carbonarea")==0) rc = parseCarbonArea(getRestOfLine(), config);
    else if (stricmp(token, "lockfile")==0) rc = copyString(getRestOfLine(), &(config->lockfile));
    else if (stricmp(token, "tempoutbound")==0) rc = parsePath(getRestOfLine(), &(config->tempOutbound));
+   else if (stricmp(token, "areafixfrompkt")==0) {
+	   config->AreaFixFromPkt = 1;
+	   rc = 0;
+   }
 
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
 

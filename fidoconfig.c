@@ -150,7 +150,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
    char *osSpecificPrefix = "/etc/fido/";
 #elif __FreeBSD__
    char *osSpecificPrefix = "/usr/local/etc/fido/";
-#elif OS2
+#elif defined (OS2) || defined(MSDOS)
    char *osSpecificPrefix = "c:\\fido\\";
 #else
    char *osSpecificPrefix = "";
@@ -271,6 +271,9 @@ void disposeConfig(s_fidoconfig *config)
            free(config->links[i].packFile);
            free(config->links[i].TossGrp);
            free(config->links[i].DenyGrp);
+	   free(config->links[i].available);
+	   free(config->links[i].autoCreateDefaults);
+	   free(config->links[i].autoCreateFile);
    }
    free(config->links);
 
@@ -286,8 +289,6 @@ void disposeConfig(s_fidoconfig *config)
    free(config->msgBaseDir);
    free(config->magic);
    free(config->areafixhelp);
-   free(config->available);
-   free(config->autoCreateDefaults);
    free(config->autoFileCreateDefaults);
    free(config->tempOutbound);
    free(config->fileAreaBaseDir);

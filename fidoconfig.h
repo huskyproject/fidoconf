@@ -91,6 +91,10 @@ struct link {
    e_flavour echoMailFlavour;
    char *TossGrp, *DenyGrp;   // groups for areafix & echo access
    char *autoCreateFile;      // file where autocreated areas are written to
+   char *autoCreateDefaults;  // add default string for autocreated area here
+   char *available;           // list of available areas from this link
+   void *msg;                 // active msg to the link (used in areafix)
+   int  Pause;                // 0 if no pause (default)
 };
 typedef struct link s_link;
 
@@ -191,7 +195,7 @@ struct fidoconfig {
 
    char     *inbound, *outbound, *protInbound, *listInbound, *localInbound, *tempInbound;
    char     *logFileDir, *dupeHistoryDir, *nodelistDir, *msgBaseDir;
-   char     *magic, *areafixhelp, *filefixhelp, *available, *autoCreateDefaults, *tempOutbound;
+   char     *magic, *areafixhelp, *filefixhelp, *tempOutbound;
    char     *fileAreaBaseDir, *autoFileCreateDefaults;
    char     *loglevels;
 
@@ -227,6 +231,8 @@ struct fidoconfig {
 
    unsigned int  remapCount;
    s_remap  *remaps;
+
+   unsigned int AreaFixFromPkt;
 };
 
 
