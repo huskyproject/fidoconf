@@ -490,6 +490,16 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->tearline);
    nfree(config->origin);
 
+   for (i = 0; i < config->filelistCount; i++)
+   {
+     nfree(config->filelists[i].destFile);
+     nfree(config->filelists[i].dirHdrTpl);
+     nfree(config->filelists[i].dirEntryTpl);
+     nfree(config->filelists[i].dirFtrTpl);
+     nfree(config->filelists[i].globHdrTpl);
+     nfree(config->filelists[i].globFtrTpl);
+   }
+
    free(config);
    config = NULL;
 }

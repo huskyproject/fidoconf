@@ -229,6 +229,7 @@ a comment and will be ignored.
 * origin::                      add specified origin to hpt messages
 * keepTrsMail::                 keep transit netmail messages
 
+* filelist::                    filelist and templates
 @end menu
 
 @node version, name, Keywords, Keywords
@@ -2543,7 +2544,7 @@ Add this tearline to hpt messages (post, reports about new areas created)
 Add this Origin to hpt messages: post, reports about new areas created,
 areafix (if no areafixOrigin defined)
 
-@node keepTrsMail, , origin, Keywords
+@node keepTrsMail, filelist, origin, Keywords
 @subsection keepTrsMail
 @table @asis
 @item Syntax:
@@ -2556,6 +2557,21 @@ Save transit messages in NetmailArea.
 
 If this statement is ommitted. Transit messages wouldn't be kept in
 NetmailArea.
+
+@node filelist, , keepTrsMail, Keywords
+@subsection filelist
+@table @asis
+@item Syntax:
+@code{filelist (dir|global) <dirHdrTpl> <dirEntryTpl> <dirFtrTpl> [<globalHdrTpl> <globalFtrTpl>]}
+@item Example:
+@code{filelist global /var/spool/fido/files/24350424.all /etc/fido/filelist.dirhdr.tpl /etc/fido/filelist.direntry.tpl /etc/fido/filelist.dirftr.tpl /etc/fido/filelist.globalhdr.tpl /etc/fido/filelist.globalfdr.tpl}
+@code{filelist dir files.html /etc/fido/filelist.dirhdr.tpl /etc/fido/files.html.direntry.tpl /etc/fido/files.html.dirftr.tpl}
+@end table
+
+Generate filelist using the given template files. Directory filelists are 
+created for every area, global filelists contain all areas.
+FileAreas, BbsAreas and PublicDirs (the latter one including all 
+subdirectories) are processed.
 
 @node Example,  , Keywords, config file
 @section Working sample config

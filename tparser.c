@@ -149,6 +149,37 @@ void printBbsArea(s_bbsarea area) {
    printf("-------\n");
 }
 
+void printFilelist(s_filelist *fl)
+{
+  switch (fl->flType)
+  {
+  case flDir:
+    printf("type: directory\n");
+    break;
+
+  case flGlobal:
+    printf("type: global\n");
+    break;
+
+  default:
+    printf("internal error: unknown flType!\n");
+    break;
+  }
+
+  printf("destination file: %s\n", fl->destFile);
+  printf("directory header template: %s\n", fl->dirHdrTpl);
+  printf("directory entry template: %s\n", fl->dirEntryTpl);
+  printf("directory footer template: %s\n", fl->dirFtrTpl);
+
+  if (fl->flType == flGlobal)
+  {
+    printf("global header template: %s\n", fl->globHdrTpl);
+    printf("global footer template: %s\n", fl->globFtrTpl);
+  }
+
+  printf("-------\n");
+}
+
 void printLink(s_link link) {
   if ((link.hisAka.domain != NULL) && (link.ourAka->domain != NULL)) {
     printf("Link: %d:%d/%d.%d@%s (ourAddres %d:%d/%d.%d@%s)\n",
@@ -311,7 +342,7 @@ void checkLogic(s_fidoconfig *config) {
 					   config->links[i].hisAka.net,
 					   config->links[i].hisAka.node,
 					   config->links[i].hisAka.point);
-				printf("remove it, or change his name!\n");
+				printf("remove it, or change the name!\n");
 				exit(-1);
 			}
 		}
@@ -632,6 +663,10 @@ int main(int argc, char **argv) {
       printf("FileDirUMask: %o\n", config->fileDirUMask);
       if (config->fileLocalPwd) printf("FileLocalPwd: %s\n", config->fileLocalPwd);
   }
+
+      printf("\n=== FILELIST CONFIG ===\n");
+      for (i = 0; i < config->filelistCount; i++) printFilelist(&(config->filelists[i]));
+
       printf("\n=== LINKER CONFIG ===\n");
       switch (config->LinkWithImportlog)
       {

@@ -294,6 +294,19 @@ typedef struct savetictype {
 
 typedef enum linkWithImportLog { lwiNo, lwiYes, lwiKill } e_linkWithImportLog;
 
+typedef enum filelistType { flDir, flGlobal } e_filelistType;
+
+typedef struct filelist
+{
+  e_filelistType flType;
+  char *destFile;        /* name of file to be written                 */
+  char *dirHdrTpl;       /* filename of directory header template      */
+  char *dirEntryTpl;     /*             directory entry                */
+  char *dirFtrTpl;       /*             directory footer               */
+  char *globHdrTpl;      /*             global header (fttGlobal only) */
+  char *globFtrTpl;      /*             global footer (fttGlobal only) */
+} s_filelist, *ps_filelist;
+
 typedef struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
    char     *name, *location, *sysop;
@@ -431,7 +444,9 @@ typedef struct fidoconfig {
    
 #define TRUE_COMMENT	"!#$%;"
    char CommentChar;
-   
+
+   ps_filelist filelists;
+   unsigned int filelistCount;
 
 } s_fidoconfig, *ps_fidoconfig;
 

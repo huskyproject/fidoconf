@@ -73,6 +73,31 @@ int copyString(char *str, char **pmem)
    return 0;
 }
 
+int copyStringUntilSep(char *str, char *seps, char **dest)
+{
+  char *sepPos;
+
+  if ((!str) || (!(*str)))
+  {
+    printf("Line %d: There is a parameter missing after %s!\n", actualLineNr, actualKeyword);
+    return 0;
+  }
+
+  nfree(*dest);
+  sepPos = strpbrk(str, seps);
+  if (sepPos)
+  {
+    *dest = malloc(sepPos - str + 1);
+    strncpy(*dest, str, sepPos - str);
+    (*dest)[sepPos - str] = 0;
+
+    return (sepPos - str);
+  }
+
+  *dest = (char *) sstrdup(str);
+  return strlen(str);
+}
+
 void *memdup(void *p, size_t size)
 {
 	void *newp;
@@ -117,6 +142,7 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE)
    }
    return start;
 }
+
 
 void string2addr(const char *string, s_addr *addr)
 {

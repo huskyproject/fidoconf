@@ -776,7 +776,36 @@ void dumpNodelists(s_fidoconfig *config, FILE *f)
 	fprintf(f, "\n");
     }
 }
-    
+
+void dumpFilelist(s_filelist *fl, FILE *f)
+{
+  switch (fl->flType)
+  {
+  case flDir:
+    fprintf(f, "filelist           dir %s %s %s %s\n",
+	    fl->destFile,
+	    fl->dirHdrTpl, fl->dirEntryTpl, fl->dirFtrTpl);
+    break;
+
+  case flGlobal:
+    fprintf(f, "filelist           global %s %s %s %s %s %s\n",
+	    fl->destFile,
+	    fl->dirHdrTpl, fl->dirEntryTpl, fl->dirFtrTpl,
+	    fl->globHdrTpl, fl->globFtrTpl);
+    break;
+  }
+}
+
+void dumpFilelists(s_fidoconfig *config, FILE *f)
+{
+  unsigned int i;
+
+  for (i = 0; i < config->filelistCount; i++)
+  {
+    dumpFilelist(&(config->filelists[i]), f);
+  }
+}
+
 void dumpConfig(s_fidoconfig *config, FILE *f)
 {
   dumpHeader(config, f);
@@ -794,6 +823,7 @@ void dumpConfig(s_fidoconfig *config, FILE *f)
   dumpAreafix(config, f);
   dumpFilefix(config, f);
   dumpTicker(config, f);
+  dumpFilelists(config, f);
   dumpNodelists(config, f);
 }
 

@@ -46,8 +46,16 @@ extern "C" {
 
 int copyString(char *str, char **pmem);
 /*DOC
- * Copy string from *str to *pmem
+ * Copy string from *str to *pmem, allocating memory as needed
    NOTE! *pmem must be NULL, if not NULL, it will be free().
+ */
+
+int copyStringUntilSep(char *str, char *seps, char **dest);
+/*DOC
+ * Copy chars from str to *dest until one of the chars in seps appears
+ * memory is allocated as needed
+ * *dest will be freed if non-NULL
+ * returns number of chars copied
  */
 
 void *memdup(void *p, size_t size);

@@ -2312,6 +2312,77 @@ int parseEmailEncoding(char *line, e_emailEncoding *value)
   return 0;
 }
 
+// options: <flType> <destFile> <dirHdrTpl> <dirEntryTpl> <dirFtrTpl> [<globHdrTpl> <globFtrTpl>]
+int parseFilelist(char *line, s_fidoconfig *config)
+{
+  char *lineTmp;
+  s_filelist *curFl;
+  char *flType = NULL;
+  unsigned int numCopied;
+
+  // add new template
+  config->filelistCount++;
+  config->filelists = realloc(config->filelists, config->filelistCount * sizeof(s_filelist));
+  curFl = &config->filelists[config->filelistCount - 1];
+  memset(curFl, 0, sizeof(s_filelist));
+
+  // parse type
+  numCopied = copyStringUntilSep(line, " ", &flType);
+  if (!numCopied) return 1;
+  strLower(flType);
+
+  if (!strcmp(flType, "dir")) curFl->flType = flDir;
+  else if (!strcmp(flType, "global")) curFl->flType = flGlobal;
+  else
+  {
+    printf("Line %d: Unknown filelist type %s!\n", actualLineNr, flType);
+    nfree(flType);
+    return 2;
+  }
+  nfree(flType);
+
+  // parse destFile
+  lineTmp = line + numCopied;
+  if (*lineTmp) lineTmp++;
+  numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->destFile));
+  if (!numCopied) return 1;
+
+  // parse dirHdrTpl
+  lineTmp += numCopied;
+  if (*lineTmp) lineTmp++;
+  numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirHdrTpl));
+  if (!numCopied) return 1;
+
+  // parse dirEntryTpl
+  lineTmp += numCopied;
+  if (*lineTmp) lineTmp++;
+  numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirEntryTpl));
+  if (!numCopied) return 1;
+
+  // parse dirFtrTpl
+  lineTmp += numCopied;
+  if (*lineTmp) lineTmp++;
+  numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->dirFtrTpl));
+  if (!numCopied) return 1;
+
+  if (curFl->flType == flGlobal)
+  {
+    // parse globHdrTpl
+    lineTmp += numCopied;
+    if (*lineTmp) lineTmp++;
+    numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->globHdrTpl));
+    if (!numCopied) return 1;
+
+    // parse globFtrTpl
+    lineTmp += numCopied;
+    if (*lineTmp) lineTmp++;
+    numCopied = copyStringUntilSep(lineTmp, " ", &(curFl->globFtrTpl));
+    if (!numCopied) return 1;
+  }
+
+  return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -2763,6 +2834,7 @@ int parseLine(char *line, s_fidoconfig *config)
      else if (strcmp(iToken, "origin")==0) rc = copyString(getRestOfLine(), &(config->origin));
      else if (strcmp(iToken, "bundlenamestyle")==0) rc = parseBundleNameStyle(getRestOfLine(), &(config->bundleNameStyle));
      else if (strcmp(iToken, "keeptrsmail")==0) rc = parseBool(getRestOfLine(), &(config->keepTrsMail));
+     else if (strcmp(iToken, "filelist")==0) rc = parseFilelist(getRestOfLine(), config);
 
 #ifdef __TURBOC__
      else unrecognised++;
