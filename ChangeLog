@@ -1,3 +1,8 @@
+2002-07-31 Wednesday 12:26  gerrit
+
+	* doc/Makefile (1.16): Added DVI-file to install and uninstall
+	targets.
+
 2002-07-30 Tuesday 20:59  stas
 
 	* doc/proposal.texi (1.141): Correct loglevels description
