@@ -1,3 +1,13 @@
+2002-10-23 Wednesday 12:18  stas_degteff
+
+	* makefile.emx (fidoconf-0_14-stable.3): restore -Zcrtdll EMX
+	compiler option : fix previous
+
+2002-10-23 Wednesday 11:23  stas_degteff
+
+	* makefile.emx (fidoconf-0_14-stable.2): restore -Zcrtdll EMX
+	compiler option
+
 2002-10-22 Tuesday 09:57  stas_degteff
 
 	* makefile.emx (fidoconf-0_14-stable.1): Remove unused linker
