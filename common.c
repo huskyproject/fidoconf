@@ -1048,7 +1048,7 @@ void freeLink (s_link *link)
   return;
 }
 
-int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
+int e_readCheck(s_fidoconfig *config, s_area *echo, s_link *link) {
 
     /*  rc == '\x0000' access o'k */
     /*  rc == '\x0001' no access group */
@@ -1058,12 +1058,16 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
 
     UINT i, rc = 0;
     UINT Pause = echo->areaType;
-
-    for (i=0; i<echo->downlinkCount; i++) {
-		if (link == echo->downlinks[i]->link) break;
+    /* check for OurAka */
+    if(!isOurAka(config,link->hisAka))
+    {
+        for (i=0; i<echo->downlinkCount; i++) {
+            if (link == echo->downlinks[i]->link) break;
+        }
+        if (i == echo->downlinkCount) return 4;
+    } else if ( echo->msgbType  == MSGTYPE_PASSTHROUGH ) {
+        return 4;
     }
-    if (i == echo->downlinkCount) return 4;
-
     /*  pause */
     if (((link->Pause & Pause) == Pause) && echo->noPause==0) return 3;
 
@@ -1090,7 +1094,7 @@ int e_readCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     return rc;
 }
 
-int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
+int e_writeCheck(s_fidoconfig *config, s_area *echo, s_link *link) {
 
     /*  rc == '\x0000' access o'k */
     /*  rc == '\x0001' no access group */
@@ -1099,11 +1103,16 @@ int e_writeCheck(const s_fidoconfig *config, s_area *echo, s_link *link) {
     /*  rc == '\x0004' not linked */
 
     unsigned int i, rc = 0;
-
-    for (i=0; i<echo->downlinkCount; i++) {
-		if (link == echo->downlinks[i]->link) break;
+    /* check for OurAka */
+    if(!isOurAka(config,link->hisAka))
+    {
+        for (i=0; i<echo->downlinkCount; i++) {
+            if (link == echo->downlinks[i]->link) break;
+        }
+        if (i == echo->downlinkCount) return 4;
+    } else if ( echo->msgbType  == MSGTYPE_PASSTHROUGH ) {
+        return 4;
     }
-    if (i == echo->downlinkCount) return 4;
 
     if (echo->group) {
 		if (link->numAccessGrp) {
