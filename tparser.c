@@ -415,6 +415,7 @@ void printLink(s_link link) {
          printf("Warning: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
          break;
    }
+   printf("arcNetmail %s\n", (link.arcNetmail) ? "on" : "off");
 
    printf("-------\n");
 }
