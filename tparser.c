@@ -937,8 +937,9 @@ int main(int argc, char **argv) {
    int i, j, hpt=0, preproc=0, rc=0;
    char *cfgFile=NULL, *module;
 
-   printf("%s\n\n", GenVersionStr( "tparser", VER_MAJOR, VER_MINOR,
+   printf("%s\n\n", module = GenVersionStr( "tparser", VER_MAJOR, VER_MINOR,
 				VER_PATCH, VER_BRANCH, cvs_date ));
+   nfree(module); /* used as a temporary variable */
 
    for (i=1; i<argc; i++)
    {

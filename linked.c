@@ -95,12 +95,15 @@ int linked(s_link *link) {
 
 int main(int argc, char **argv) {
 
-   printf("%s\n\n", GenVersionStr( "linked", VER_MAJOR, VER_MINOR,
+   { char *temp;
+     printf("%s\n\n", temp=GenVersionStr( "linked", VER_MAJOR, VER_MINOR,
 				VER_PATCH, VER_BRANCH, cvs_date ));
+     nfree(temp);
+   }
 
     cfg = readConfig(NULL);
     if (argc <2) {
-	printf("\tlinked.exe Show linked areas for link\n\n");
+	printf("\tShow linked areas for link\n\n");
 	printf(" Usage: linked <Address> [<Address> ... ]\n");
     } else
 	for(; --argc; ) {
