@@ -750,10 +750,16 @@ int copy_file(const char *from, const char *to)
     buffer = malloc(MOVE_FILE_BUFFER_SIZE);
     if (buffer == NULL)	return -1;
 
+    if (stat(from, &st)) return -1;
     fin = fopen(from, "rb");
     if (fin == NULL) { nfree(buffer); return -1; }
 
     fh = open( to, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
+#ifdef UNIX
+    // try to save file ownership if it is possible
+    fchown(fh, st.st_uid, st.st_gid);
+    fchmod(fh, st.st_mode);
+#endif
     if( fh<0 ){
       fh=errno;
       fclose(fin);
