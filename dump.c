@@ -29,6 +29,18 @@ void dumpHeader(s_fidoconfig *config, FILE *f)
   if (config->disableTID != 0) fprintf(f, "DisableTID\n");
   if (config->processPkt != NULL) fprintf(f, "processPkt %s\n", config->processPkt);
   if (config->tossingExt != NULL) fprintf(f, "tossingExt %s\n", config->tossingExt);
+  switch (config->bundleNameStyle) {
+  case addrDiff:
+	  printf("BundleNameStyle: addrDiff\n");
+	  break;
+  case timeStamp:
+	  printf("BundleNameStyle: timeStamp\n");
+	  break;
+  default:
+	  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
+	  break;
+	  
+  }		  
   
   fprintf(f, "\n");
 }

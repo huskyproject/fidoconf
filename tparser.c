@@ -332,6 +332,18 @@ int main(int argc, char **argv) {
 
       printf("Ignore Capability Word: %s\n",(config->ignoreCapWord) ? "on": "off");
       printf("ProcessBundles %s\n",(config->noProcessBundles) ? "off" : "on");
+	  switch (config->bundleNameStyle) {
+	  case addrDiff:
+		  printf("BundleNameStyle: addrDiff\n");
+		  break;
+	  case timeStamp:
+		  printf("BundleNameStyle: timeStamp\n");
+		  break;
+	  default:
+		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
+		  break;
+		  
+	  }		  
       printf("DupeBaseType: ");
       if (config->typeDupeBase==textDupes) printf("textDupes\n");
       if (config->typeDupeBase==hashDupes) printf("hashDupes\n");
