@@ -143,119 +143,6 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE)
    return start;
 }
 
-/* remove after 09-Apr-01
-void string2addr(const char *string, s_addr *addr)
-{
-  const char *start = string;
-  char *buffer;
-  int  i = 0;
-
-  memset(addr, '\0', sizeof(s_addr));
-
-  if (!string) return;
-
-  if (strchr(start,':')==NULL || strchr(start,'/')==NULL) return;
-
-  buffer = smalloc(strlen(string));
-  while ((*start != ':')&&(*start != ' ')&&(*start != '\0')) {    // copy zone info or preceding domain
-      buffer[i] = *start;
-      start++;
-      i++;
-   }
-   buffer[i] = '\0';
-   if (!isdigit(buffer[0])) {
-      // Domain name could be in front of the addr, not FTS-compatible!!!!!
-      // software which is such crap generating should be xxxx
-//      addr->domain = (char *) malloc(strlen(buffer)+1);
-//      strcpy(addr->domain, buffer);
-   } else {
-	if (strchr(start,' ')) return;
-	addr->zone = atoi(buffer);
-   }
-
-   i = 0;
-   start++;
-
-   if (strchr(start, '/')!= NULL) {
-      while (*start != '/') {                           // copy net info
-	 buffer[i] = *start;
-	 start++;
-         i++;
-      }
-      buffer[i] = '\0';
-      addr->net = atoi(buffer);
-
-      i = 0;
-      start++;
-   }
-
-   while ((*start != '.') && (*start != '\0') && (*start != '@')) {      // copy node info
-      buffer[i] = *start;
-      start++;
-      i++;
-   }
-   buffer[i] = '\0';
-   addr->node = atoi(buffer);
-
-   i = 0;
-
-   switch (*start) {
-   case '\0':                            // no point / domain info
-      start++;
-      addr->point = 0;
-      break;
-   case '@':                            // no point, but domain info
-      start++;
-      while ((*start != '\0')&&(i < 31)) {
-         buffer[i] = *start;
-         i++; start++;
-      }
-      buffer[i] = '\0';
-//      free(addr->domain);
-//      addr->domain = (char *) malloc(strlen(buffer)+1);
-//      strcpy(addr->domain, buffer);
-      addr->point = 0;
-      break;
-   case '.':                            // point info / maybe domain info
-      start++;
-      while ((*start != '@') && (*start != '\0')) {           // copy point info
-         buffer[i] = *start;
-	 start++;
-	 i++;
-      }
-      buffer[i] = '\0';
-      addr->point = atoi(buffer);
-      i = 0;
-      if (*start == '@') {                                   // copy domain info
-         start++;
-         while ((*start != '\0')&&(i < 31)) {
-            buffer[i] = *start;
-            i++; start++;
-         }
-         buffer[i] = '\0';
-//         free(addr->domain);
-//         addr->domain = (char *) malloc(strlen(buffer)+1);
-//         strcpy(addr->domain, buffer);
-      } else {
-//         free(addr->domain);
-//         addr->domain = NULL; //no domain
-      }
-      break;
-   default:
-     break;
-   } // endswitch
-// all-catch for domain = NULL
-// if  (addr->domain == NULL) {
-//   	  addr->domain  = malloc(1);
-//      *(addr->domain) = '\0';
-//    };
-
-   
-   free(buffer);   
-   return;
-} 
-*/
-
 void string2addr(char *string, s_addr *addr) {
 	char *endptr, *str = string;
 	unsigned long t;
@@ -269,6 +156,7 @@ void string2addr(char *string, s_addr *addr) {
 	if (NULL == strstr(str,":")) return;
 	t = strtoul(str,&endptr,10);
 	addr->zone = (UINT16) t;
+	if(!addr->zone) return; // there is no zero zones in practice
 
 	// net
 	str = endptr+1;
