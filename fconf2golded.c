@@ -120,11 +120,11 @@ int main (int argc, char *argv[]) {
 	  if (argv[2]!=NULL) readDefaultConfig (argv[1], argv[2]);
 	  else {
 		  sprintf(cmd,
-                  #ifndef MSDOS
+#ifndef MSDOS
                   "rm -f %s",
-                  #else
-                  "del %s",
-                  #endif
+#else
+	          "del %s",
+#endif
                   argv[1]);
 		  system (cmd);
 	  }

@@ -94,6 +94,24 @@ typedef unsigned long      ULONG;               // 4 byte
 typedef          void       VOID;
 #endif
 
+/* Alpha AXP running Digital Unix (and possibly also Linux/Alpha?)
+   This is a 64 bit architecture */
+#if defined(__alpha)
+typedef          char       CHAR;               // 1 byte
+typedef unsigned char      UCHAR;               // 1 byte
+typedef          short      INT16;              // 2 byte
+typedef unsigned short     UINT16;              // 2 byte
+typedef          int        INT32;              // 4 byte
+typedef unsigned int       UINT32;              // 4 byte
+// --------------------------------------------------------------------------
+typedef          int        INT;                // 4 byte
+typedef unsigned int       UINT;                // 4 byte
+typedef          long      LONG;                // 8 byte
+typedef unsigned long      ULONG;               // 8 byte
+typedef          void       VOID;
+#endif
+
+
 /* AIX using xlc or gcc. Unfortunately, the _AIX constant is also defined
    on 64 bit RS/6000 machines. As I do not have such a thing available, 
    I do not know how to discern it from a 32 bit one, so the following will 

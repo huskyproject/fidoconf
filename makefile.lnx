@@ -1,7 +1,7 @@
 CC = gcc
 AR = ar
+AR_R = r
 COPT = -ggdb -s -c -fPIC -O3 -Wall -I../smapi -DUNIX
-#LOPT = -L. -L../smapi
 LOPT =
 VER = 0.5
 LIBDIR = /usr/local/lib

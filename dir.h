@@ -35,12 +35,12 @@
 #ifndef DIR_H
 
 #ifndef __IBMC__     /* all other include their own dirent.h */
-  #ifndef __WATCOMC__
-    #if defined(__EMX__) || defined(__FreeBSD__)
-      #include <sys/types.h>
-    #endif
-    #include <dirent.h>
-  #endif
+#ifndef __WATCOMC__
+#if defined(__EMX__) || defined(__FreeBSD__)
+#include <sys/types.h>
+#endif
+#include <dirent.h>
+#endif
 #endif
 
 #ifdef __WATCOMC__

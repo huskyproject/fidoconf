@@ -72,7 +72,7 @@ char *trimLine(char *line)
 {
    char *start = line, *temp;
 
-   while ((*start == ' ') || (*start == '\t') || (*start == '\xfe')) start++;
+   while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
    temp = (char *) malloc(strlen(start)+1);
    strcpy(temp, start);
    free(line);

@@ -1,0 +1,54 @@
+#Settings for Digital UNIX
+
+#installation directires
+LIBDIR = $(HOME)/fido/lib
+INSTDIR = $(HOME)/fido
+
+# program settings
+CC = cc
+AR = ar
+AR_R = r
+RM = rm
+
+COPT = -c -O3 -DUNIX -I../smapi
+LOPT = -L. -L$(LIBDIR)
+
+# filename settings
+O = .o
+A = .a
+EXE =
+FIDOCONFIG = fidoconfig
+FCONF2AQUAED = fconf2aquaed
+FCONF2GOLDED = fconf2golded
+FCONF2MSGED  = fconf2msged
+LIBFIDOCONFIG = libfidoconfig
+LINKSMAPI = -lsmapiunix
+LINKFIDOCONFIG = -l$(FIDOCONFIG)
+
+default: all
+
+include makefile.common
+
+all: commonlibs libfidoconfig.so.$(VER) commonprogs
+
+clean: commonclean
+	-$(RM) so_locations
+
+distclean: commondistclean
+	-$(RM) libfidoconfig.so.$(VER)
+
+libfidoconfig.so.$(VER): fidoconfig$(O) line$(O) common$(O) patmat$(O) dir$(O)
+	$(LD) -shared -o $(LIBFIDOCONFIG).so.$(VER) line$(O) common$(O) fidoconfig$(O) patmat$(O) dir$(O) $(LOPT) $(LINKSMAPI) -lc
+	ln -sf libfidoconfig.so.$(VER) libfidoconfig.so
+
+%.o: %.c
+	$(CC) $(COPT) $*.c
+
+install: 
+	cp -f libfidoconfig.so.$(VER) $(LIBDIR)
+	ln -sf $(LIBDIR)/libfidoconfig.so.$(VER) $(LIBDIR)/libfidoconfig.so.0
+	ln -sf $(LIBDIR)/libfidoconfig.so.0 $(LIBDIR)/libfidoconfig.so
+	cp -f  fconf2msged  $(INSTDIR)/bin
+	cp -f  fconf2golded $(INSTDIR)/bin
+	cp -f  fconf2aquaed $(INSTDIR)/bin
+	cp -f  tparser      $(INSTDIR)/bin
