@@ -42,7 +42,10 @@ Unpack  "arc eno $a $p'*.*'" 0 1a
 # Unpack  "cd $p && /usr/bin/unarj e $a > /dev/null" 0 60ea # for Linux
 #Pack  arj arj a -+ -e -y $a $f
 
-Unpack  "unrar e -y  $a $p \* > /dev/null"   0 52617221
+# *.rar
+Unpack  "unrar e -y -c- -inul $a $p $f"   0 52617221
+# rar-sfx/DOS
+Unpack "unrar e -y -c- -inul $a $p $f" 28 52534658
 #Pack  rar rar a -std -ep $a $f
  
 #Unpack  "jar e -y $a $p" 14 1a4a61721b

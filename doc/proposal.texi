@@ -597,22 +597,27 @@ To prevent dangerouses write full path name for packer program, please.
 @code{Unpack "<call>" <offset> <matchcode>}
 @item Example for DOS:
 @example
-Unpack  "c:\arc\pkunpak /r $a $p $f"              0 1a
-Unpack  "c:\arc\pak e /wn $a $p"                 -2 fe
-Unpack  "c:\arc\lha e /m $a $p $f"                2 2d6c68
-Unpack  "c:\arc\zoo e:O $a $p $f"                 0 5a4f4f
-Unpack  "c:\arc\jar e -y $a $p $f"               14 1a4a61721b
-Unpack  "c:\arc\unrar e -y -o+ -inul $a $p $f"    0 52617221
+Unpack  "c:\arc\pkunpak /r $a $p $f"                 0 1a
+Unpack  "c:\arc\pak e /wn $a $p"                    -2 fe
+Unpack  "c:\arc\lha e /m $a $p $f"                   2 2d6c68
+Unpack  "c:\arc\zoo e:O $a $p $f"                    0 5a4f4f
+Unpack  "c:\arc\jar e -y $a $p $f"                  14 1a4a61721b
+# *.rar
+Unpack  "c:\arc\unrar e -y -c- -o+ -inul $a $p $f"   0 52617221
+# rar-sfx/DOS
+Unpack  "c:\arc\unrar e -y -c- -o+ -inul $a $p $f"  28 52534658
+
 @end example
 @item Example for Linux:
 @example
-Unpack  "/usr/bin/zoo e:O $a $p $f"                 0 5a4f4f
-Unpack  "/usr/bin/arc eno $a $p'*.*' $f"            0 1a
-Unpack  "/usr/bin/unzip -joLqq $a -d $p $f"         0 504b0304
-Unpack  "cd $p && /usr/bin/unarj e $a $f>/dev/null" 0 60ea
-Unpack  "/usr/bin/unrar e -y -o+ -inul $a $p $f"    0 52617221
-Unpack  "/usr/bin/jar e -y $a $p $f"               14 1a4a61721b
-Unpack  "cd $p && /usr/bin/ha eyq -e $a $f"         0 4841
+Unpack  "/usr/bin/zoo e:O $a $p $f"                    0 5a4f4f
+Unpack  "/usr/bin/arc eno $a $p'*.*' $f"               0 1a
+Unpack  "/usr/bin/unzip -joLqq $a -d $p $f"            0 504b0304
+Unpack  "cd $p && /usr/bin/unarj e $a $f>/dev/null"    0 60ea
+Unpack  "/usr/bin/unrar e -y -c- -o+ -inul $a $p $f"   0 52617221
+Unpack  "/usr/bin/unrar e -y -c- -o+ -inul $a $p $f"  28 52534658
+Unpack  "/usr/bin/jar e -y $a $p $f"                  14 1a4a61721b
+Unpack  "cd $p && /usr/bin/ha eyq -e $a $f"            0 4841
 @end example
 @end table
 
