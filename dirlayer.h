@@ -47,8 +47,8 @@
 #endif
 #endif
 
-#ifdef __WATCOMC__
-#include <direct.h>  /* watcom knows this as direct.h */
+#if defined(__WATCOMC__) || defined(__TURBOC__)
+#include <direct.h>  /* watcom and borland know this as direct.h */
 #endif
 
 #ifdef __IBMC__   /* only define it for IBM VisualAge C++ */
