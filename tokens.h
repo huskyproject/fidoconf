@@ -1,4 +1,4 @@
-/* $id$
+/* $Id$
 
    This file lists all fidoconfig keywords.
 

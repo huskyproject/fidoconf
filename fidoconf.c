@@ -465,6 +465,7 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->name);
    nfree(config->sysop);
    nfree(config->location);
+   nfree(config->email);
 
    nfree(config->addr);
 

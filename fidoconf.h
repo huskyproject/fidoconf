@@ -391,7 +391,7 @@ typedef struct permissions
 
 typedef struct fidoconfig {
    unsigned int    cfgVersionMajor, cfgVersionMinor;
-   char     *name, *location, *sysop;
+   char     *name, *location, *sysop, *email;
 
    unsigned int   addrCount;
    ps_addr  addr;

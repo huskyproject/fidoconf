@@ -3433,7 +3433,11 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseHandle(getRestOfLine(), config);
             break;
         case ID_EMAIL:
-            rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
+            if (config->linkCount) { /* email of link */
+              rc = copyString(getRestOfLine(), &(getDescrLink(config)->email));
+            }else{ /* email of self */
+              rc = copyString(getRestOfLine(), config->email );
+            }
             break;
         case ID_EMAILFROM:
             rc = copyString(getRestOfLine(),
