@@ -495,6 +495,7 @@ void disposeConfig(s_fidoconfig *config)
 		nfree(config->execonfile[i].filename);
 		nfree(config->execonfile[i].command);
    }
+   nfree(config->addToSeen);
 
    free(config);
    config = NULL;
