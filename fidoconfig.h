@@ -302,7 +302,7 @@ struct fidoconfig {
    
    char     *intab, *outtab;
    char     *echotosslog, *importlog, *LinkWithImportlog, *lockfile;
-   int      loguid, loggid, logperm;     
+   unsigned loguid, loggid, logperm;     
    char     *fileAreasLog, *longNameList, *fileNewAreasLog;
    char     *fileArcList, *filePassList, *fileDupeList;
    char     *msgidfile;
