@@ -1,5 +1,4 @@
-- possibility to autocreate *.msg files...
-- possibility to autocreate JAM base
+- normal parsing of the CarbonAreas (Serguei Revtov)
 - route statements which are defined in the middle of several link statements
   are broken, because there is a realloc of config->links! Maybe there are
   more bugs like this in the current sources
