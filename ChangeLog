@@ -1,3 +1,36 @@
+2003-01-05 Sunday 16:18  mche
+
+	* common.c (1.154): check for NULL pointers in fc_stristr()
+
+2003-01-05 Sunday 08:26  stas_degteff
+
+	* line.c (1.364), tparser.c (1.225): Add 'no' prefix for all
+	echoarea & filearea options. Now implemented echoarea options:
+	TinySB/noTinySB, killSB/nokillSB, keepUnread/nokeepUnread,
+	killRead/nokillRead, hide/nohide, kill/nokill, manual/nomanual,
+	pause/nopause, link/nolink, mandatory/nomandatory, debug/nodebug,
+	DOSFile/noDOSFile, pack/nopack, ccoff/noccoff/ccon,
+	keepSB/nokeepSB, pack/nopack; and Filearea options: hide/nohide,
+	manual/nomanual, mandatory/nomandatory, sendorig/nosendorig,
+	pause/nopause, crc/nocrc, replace/noreplace, diz/nodiz. Also
+	improve tparser output.
+
+2003-01-05 Sunday 06:50  stas_degteff
+
+	* tparser.c (1.224): Change diagnostics: don't stop if not defined
+	netmailarea, dupearea or badarea (these tokens used not for all
+	husky modules)
+
+2003-01-05 Sunday 06:12  stas_degteff
+
+	* fecfg2fc.c (1.14): Fix read & write access levels conversion;
+	replace '-h' to '-hide'echoarea option output
+
+2003-01-05 Sunday 06:11  stas_degteff
+
+	* line.c (1.363): Enable '-hide' for filearea options (alias for
+	'-h' option)
+
 2003-01-04 Saturday 14:20  stas_degteff
 
 	* fecfg2fc.c (1.13): Fix area options confersion
