@@ -1,3 +1,42 @@
+2002-10-21 Monday 09:29  stas_degteff
+
+	* makefile.inc (1.32): fix clean (comonclean) tag: prevent remove
+	files fithout suffixes on DOS-based FS
+
+2002-10-21 Monday 09:11  stas_degteff
+
+	* cfg.c (1.49): Fix & fine cmpfnames() for DJGPP
+
+2002-10-21 Monday 08:44  stas_degteff
+
+	* cfg.c (1.48), common.c (1.121): Fix cmpfnames() definitions for
+	all platforms: remove 'statuc' modifier
+
+2002-10-21 Monday 07:54  stas_degteff
+
+	* fc2aed.c (1.6): Fix compiler warning; use 'safe' strcmp fucntion
+
+2002-10-21 Monday 07:48  stas_degteff
+
+	* cfg.c (1.47): Fix typo erro in previos fix
+
+2002-10-21 Monday 07:09  stas_degteff
+
+	* cfg.c (1.46): Fix typo erro in previos fix
+
+2002-10-21 Monday 06:59  stas_degteff
+
+	* cfg.c (1.45): Fix memory leak on DJGPP; fix preprocessor
+	condition
+
+2002-10-21 Monday 06:26  stas_degteff
+
+	* common.c (1.120): Fix DJGPP compilation
+
+2002-10-21 Monday 06:23  stas_degteff
+
+	* cfg.c (1.44): Small fix in cmpfnames() for DJGPP
+
 2002-10-20 Sunday 20:59  stas_degteff
 
 	* common.h (1.62): Add 'safe' string macroses: sstrstr amd sstristr
