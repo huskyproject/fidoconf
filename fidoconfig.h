@@ -34,6 +34,7 @@ struct link {
    char *pktFile,*packFile;   // used only internally by hpt
    s_pack *packerDef;
    e_flavour echoMailFlavour;
+   char *TossGrp, *DenyGrp;   //groups for areafix & echo access
 };
 typedef struct link s_link;
 
@@ -69,6 +70,9 @@ struct area {
    void *dupes;        // used internally by hpt. pointer to dupeDataBase
    void *newDupes;     // dito
    char imported;      // dito
+
+   char group;                      // used by reade (and areafix soon)
+   char *rwgrp, *wgrp, *rgrp;       // use for -l -w -r echo parameters
 };
 typedef struct area s_area;
 

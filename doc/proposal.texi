@@ -75,52 +75,72 @@ All statements are case-@strong{insensitive}. A line which starts with a # is
 a comment and will be ignored.
 
 @menu
-* version::        version of fidoconfig
-* name::           your Systems Name
-* location::       your location
-* sysop::          your Name
-* include::        include other files
-* address::        your system address
+* version::             version of fidoconfig
+* name::                your Systems Name
+* location::            your location
+* sysop::               your Name
+* include::             include other files
+* address::             your system address
 
 Path and file definition:
-* outbound::       outbound path
-* inbound::        inbound path
-* protinbound::    protected inbound
-* listinbound::    listed inbound
-* localinbound::   local inbound
-* msgbasedir::     base directory of areas
-* intab::          file for recoding incoming msgs
-* outtab::         file for recoding outgoing msgs
-* importlog::      file which contains the names of the areas tossed in
-* echotosslog::    file which contains the names of the areas messaged entered
-* public::         path for requestable files
-* logfiledir::     path for log files
-* dupehistorydir:: path for dupe files
-* nodelistdir::    path for nodelists
-* magic::          path for magic-file requests
+* outbound::            outbound path
+* inbound::             inbound path
+* protinbound::         protected inbound
+* listinbound::         listed inbound
+* localinbound::        local inbound
+* msgbasedir::          base directory of areas
+* intab::               file for recoding incoming msgs
+* outtab::              file for recoding outgoing msgs
+* importlog::           file which contains the names of the areas tossed in
+* echotosslog::         file which contains the names of the areas messaged entered
+* public::              path for requestable files
+* logfiledir::          path for log files
+* dupehistorydir::      path for dupe files
+* nodelistdir::         path for nodelists
+* magic::               path for magic-file requests
 
 link definition:
-* link::           adding a link to your config
-* aka::            links adress
-* ouraka::         our aka for link
-* password::       links session and default password 
-* pktpwd::         pktpassword for this link
-* ticpwd::         ticcer password for this link
-* areafixpwd::     areafix password for this link
-* filefixpwd::     filefix password for this link
-* bbspwd::         bbs password for this link (online user)
-* handle::         nickname or handle for link
-* tossgrp::        tosser groups which link belongs to
-* ticgrp::         ticcer groups which link belongs to
-* bbsgrp::         online groups which link belongs to
-* autoareacreate:: right to auto create areas on your system
-* packer::         default packer for link
+* link::                adding a link to your config
+* aka::                 links adress
+* ouraka::              our aka for link
+* password::            links session and default password 
+* pktpwd::              pktpassword for this link
+* ticpwd::              ticcer password for this link
+* areafixpwd::          areafix password for this link
+* filefixpwd::          filefix password for this link
+* bbspwd::              bbs password for this link (online user)
+* handle::              nickname or handle for link
+* tossgrp::             tosser groups which link belongs to
+* ticgrp::              ticcer groups which link belongs to
+* bbsgrp::              online groups which link belongs to
+* denygrp::             groups for echomail access
+* autoareacreate::      right to auto create areas on your system
+* packer::              default packer for link
+* echomailflavour::     flavour for outgoing echomail
 
 area definition:
-* netmailarea::    definition of netmailarea
-* badarea::	   definition of badarea
-* dupearea::       definition of dupearea
-* echoarea::       definition of echoarea
+* netmailarea::         definition of netmailarea
+* badarea::	        definition of badarea
+* dupearea::            definition of dupearea
+* echoarea::            definition of echoarea
+
+rights
+* GroupAutoAreaCreate:: right to autoareaCreate for a group
+* AutoCreateDef::       default area options for autocreated areas
+* GroupDefaults::       default area options for GroupAutoAreaCreated areas
+
+@ignore 
+  
+packer
+* pack::                definition for packer
+* unpack::              definition for unpacker
+
+routing
+* route::               routing of netmails
+* routeMail::           routing of netmails without file attached
+* routeFile::           routing of netmails with file attached
+
+@end ignore
 @end menu
 
 @node version, name, , Keywords
@@ -194,8 +214,6 @@ This gives your the ability to have some survey about your config.
 
 This statement can be repeated. But dont make recursive includes. eg on file
 which includes another which includes the first.
-
-@strong{This statement is currently not supported.}
 
 @node address, outbound, include, Keywords
 @subsection address
@@ -651,8 +669,6 @@ This statement connects a link to several echomails groups.
 
 This statement can only be repeated for different links.
 
-@strong{This statement is currently not supported.}
-
 @node ticgrp, bbsgrp, tossgrp, Keywords
 @subsection ticgrp
 @table @asis
@@ -668,7 +684,7 @@ This statement can only be repeated for different links.
 
 @strong{This statement is currently not supported.}
 
-@node bbsgrp, autoareacreate, ticgrp, Keywords
+@node bbsgrp, denygrp, ticgrp, Keywords
 @subsection bbsgrp
 @table @asis
 @item Syntax:
@@ -683,7 +699,20 @@ This statement can only be repeated for different links.
 
 @strong{This statement is currently not supported.}
 
-@node autoareacreate, packer, bbsgrp, Keywords
+@node denygrp, autoareacreate, bbsgrp, Keywords
+@subsection denygrp
+@table @asis
+@item Syntax:
+@code{denygrp @{<group>@}}
+@item Example:
+@code{denygrp pay1}
+@end table
+
+This statement connects a link to several bbs groups.
+
+This statement can only be repeated for different links.
+
+@node autoareacreate, packer, denygrp, Keywords
 @subsection autoareacreate
 @table @asis
 @item Syntax:
@@ -694,17 +723,17 @@ This statement can only be repeated for different links.
 
 This statement gives a link the permission to create areas on your system just
 by sending msgs in them.
-The echoarea is created using the following pattern:
+The echoarea is created using the AutoCreateDef contents:
 @example
-   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaka> Squish <linksAka> -dupeCheck move
+   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaka> Squish <linkAka> <autoCreateDef>
 @end example
 
 This statement can only be repeated for different links.
 
 @strong{This statement is only a temporal solution for autoareacreating. It will
-be replaced by the group scheme, which is currently not implemented.}
+be replaced by the group scheme, which is about to be implemented.}
 
-@node packer, netmailarea, autoareacreate, Keywords
+@node packer, echomailflavour, autoareacreate, Keywords
 @subsection packer
 @table @asis
 @item Syntax:
@@ -718,9 +747,21 @@ has set up using the pack statement.
 
 This statement can only be repeated for different links.
 
-@strong{This statement is currently not supported.}
+@node echomailflavour, netmailarea, packer, Keywords
+@subsection echomailflavour
+@table @asis
+@item Syntax:
+@code{echoMailFlavour <hold|normal|crash|direct|immediate>}
+@item Example:
+@code{echoMailFlavour hold}
+@end table
 
-@node netmailarea, badarea, packer, Keywords
+This statement sets the flavour which outgoing echomails for this link get.
+For example set echomailFlavour for points to hold and for uplink crash.
+
+This statement can only be repeated for different links.
+
+@node netmailarea, badarea, echomailflavour, Keywords
 @subsection netmailarea
 @table @asis
 @item Syntax:
@@ -764,7 +805,7 @@ to your system the second time, will be put in the dupearea.
 
 This statement cannot be repeated.
 
-@node echoarea, , dupearea, Keywords
+@node echoarea, GroupAutoAreaCreate, dupearea, Keywords
 @subsection echoArea
 @table @asis
 @item Syntax:
@@ -835,6 +876,62 @@ default-uplink for redundant echomail-supply
 @end table
 
 This statement can be repeated.
+
+@node GroupAutoAreaCreate, AutoCreateDef, echoarea, Keywords
+@subsection GroupAutoAreaCreate
+@table @asis
+@item Syntax:
+@code{GroupAutoAreaCreate on|off @{<groups>@} }
+@item Example:
+@code{GroupAutoAreaCreate on fidonet fido.de}
+@end table
+
+You can here define for all the members of a group, if they area allowed to
+autoCreate areas on your system.
+If no group is given, this is default for all groups.
+
+@strong{This statement is currently not supported.}
+
+@node AutoCreateDef, GroupDefaults, GroupAutoAreaCreate, Keywords
+@subsection AutoCreateDef
+@table @asis
+@item Syntax:
+@code{AutoCreateDef <string> }
+@item Example:
+@code{AutoCreateDef -m200 -dupeCheck move}
+@end table
+
+Area options defaults for autoCreated Areas.
+
+@strong{This will be replaced by the more flexible group definition.}
+
+@node GroupDefaults, , AutoCreateDef, Keywords
+@subsection GroupDefaults
+@table @asis
+@item Syntax:
+@code{GroupDefaults <groups> <path> [<msgbas>] @{<option>@} @{<linkAka> @{linkoption@}@} }
+@item Example:
+@code{GroupDefaults fidonet /var/spool/fido/msgb Squish -m 200 -dupeCheck move -dupeHistory 14}
+@end table
+
+This statement sets the default for auto created Areas according to the group of
+the creater.
+
+@strong{This is currently not supported}
+
+@ignore
+
+packer
+* pack::                definition for packer
+* unpack::              definition for unpacker
+
+routing
+* route::               routing of netmails
+* routeMail::           routing of netmails without file attached
+* routeFile::           routing of netmails with file attached
+
+@end ignore
+
 
 @node Example, , Keywords, config file
 @section Working sample config

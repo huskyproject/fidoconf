@@ -88,7 +88,7 @@ include /etc/fido/packer      # packer definitions
 include /etc/fido/nodelist    # nodelist definitions
 include /etc/fido/routing     # routing rules
 include /etc/fido/mailer      # see ifcico-cm3.0
-
+include /etc/fido/misc	      # other options
 
 _Keyword definitions_
 
@@ -184,6 +184,8 @@ _Keyword definitions_
   # group(s) for areaFix
   [BBSGrp {<group>}]
   # group(s)
+  [DenyGrp {<groups>}]
+  # Echo security groups. like: DenyGrp ABC
   AutoAreaCreate (on|off)
   # "on" means link is allowed to create an area
   Packer (zip|tgz|rar|arj|arc....)
@@ -207,13 +209,20 @@ _Keyword definitions_
   #   set as an passthrough area
   # msgbase: *.msg is standard. Write Squish for an Squish-msgbase
   # LinkAKA:  aka's of up- and down links
-  # options for further development, e.g.:
+
+  # Echo Security:
+  # by default everything all allowed.
   # -l {<group>}
   # read/write access for group
   # -r {<group>}
   # read access for group 
   # -w {<group>}
   # write access for group
+  #
+  # for example "-w ABC" option allows write to this AREA those links
+  # who has "DenyGrp A[BC]". if link not allowed to write in this area 
+  # message tosses to BadArea.
+
   # if a group name is an unsignedInteger, it is
   #   interpreted as level, access rights are
   #   granted for links with equal or higher level
@@ -221,6 +230,8 @@ _Keyword definitions_
   # purge after n days, 
   # -m <integer>
   # leave max n messages after purge in area
+
+  # options for further development, e.g.:
   # -mandatory {<group>}
   # area is mandatory for {<group>}
   # if <group> is an unsignedInteger,  this area is mandatory 
@@ -237,7 +248,7 @@ _Keyword definitions_
   # hide area
   # -nopause        
   # %PAUSE has no effect to this area
-    # -DupeCheck off|move|del
+  # -DupeCheck off|move|del
   # toss in dupes, move dupes to dupeArea
   #   or delete dupes.
   # -DupeHistory <unsignedInteger>
@@ -315,17 +326,22 @@ _Keyword definitions_
 
 /etc/fido/rights:
   {
-  AutoAreaCreate on|off {<group>}
-  }
+  GroupAutoAreaCreate on|off {<group>}
   # allow or deny AutoAreaCreate for links,
   #   that are member of group
   # is no group given, this is default for all groups
+
+  AutoCreateDef 
+  # default area options for autocreated areas
+  # example "AutoCreateDef -m 200 -dupecheck move"
+  }
   {
   GroupDefault <group> <path> [<msgbase>] {<option>} \
                         {<linkAKA> {linkoption}} 
   }
   # defaults for auto created Areas according
   # to the group of the creator
+  # ! NOT SUPPORTED YET.
 
 /etc/fido/packer:
   # Packer definitions
@@ -380,6 +396,31 @@ _Keyword definitions_
   # further keywords:
   #   look at ifmail/misc/config
 
+/etc/fido/misc:
+
+  CarbonTo	<name>
+  CarbonFrom	<name>
+  CarbonKludge  <kludge>
+  [CarbonArea]	<areatag>
+
+  # Carbon copyes. This is case unsensitive, but you must write full name!
+  # If no CarbonArea specified message goes to BadArea.
+  # Note! Carbon area must be local. Each message carbons only one time.
+  
+  # Example:
+
+  # CarbonTo		Max Levenkov
+  # CarbonArea		my.echomail
+
+  # CarbonKludge	MSGID: 2:5000/117.
+  # CarbonArea		written.by.points
+
+  # CarbonKludge	REPLY: 2:5000/117.
+  # CarbonArea		written.to.points
+
+  # if reply to All...
+  # CarbonKludge	REPLY: 2:5000/117
+  # CarbonArea		my.echomail
 
 
 _used notation_

@@ -38,6 +38,7 @@ of fidoconfig.
 * design goals::  what we want to achieve
 * config file::   how does it look like
 * tparser::       testing your config
+* converting::    Converting fidoconfig to golded and msged
 * contact::       contacting the author
 @end menu
 
@@ -53,11 +54,33 @@ creep in one library and not in thousands over thousands libraries.
 The config definition can be used in all operating systems. Also the library
 should be quite portable.
 
-@node config file, tparser, design goals, Top
+@node config file, converting, design goals, Top
 @chapter Config file
 @include proposal.texi
 
-@node tparser, contact, config file, Top
+@node converting, tparser, config file, Top
+@chapter Converting fidoconfig to golded and msged
+Since goldEd and msgEd does not support fidoconfig, we have developed two
+programs which converts your fidoconfig to the proprietary config file format.
+
+@enumerate
+@item fconf2golded
+fconf2golded <goldedConfigFileName> [<default.cfg>]
+
+@example
+fconf2golded ~/golded/golded.cfg ~/golded/goldDefaults.cfg
+@end example
+
+@item fconf2msged
+fconf2golded <goldedConfigFileName> 
+
+@example
+fconf2golded ~/msged.areas
+@end example
+
+@end enumerate
+
+@node tparser, contact, converting, Top
 @chapter Testing the config
 You should run tparser everytime you have changed the config. If tparser
 crashes please correct your config file and send your config or the line which

@@ -216,6 +216,38 @@ int parseAreaOption(s_fidoconfig config, char *option, s_area *area)
       area->dupeHistory = strtol(strtok(NULL, " \t"), &error, 0);
       if ((error != NULL) && (*error != '\0')) return 1;    // error
    }
+   else if (stricmp(option, "g")==0) {
+	  token = strtok(NULL, " \t");
+//	  printf("group - '%s'\n",token);
+      area->group = token[0];
+      if (token == NULL) {
+		 return 1;
+      }
+   }
+   else if (stricmp(option, "r")==0) {
+	  token = strtok(NULL, " \t");
+//	  printf("rgrp - '%s'\n",token);
+      copyString(token, &(area->rgrp));
+      if (area->rgrp == NULL) {
+		 return 1;
+      }
+   }
+   else if (stricmp(option, "w")==0) {
+	  token = strtok(NULL, " \t");
+//	  printf("wgrp - '%s'\n",token);
+      copyString(token, &(area->wgrp));
+      if (area->wgrp == NULL) {
+		 return 1;
+      }
+   }
+   else if (stricmp(option, "l")==0) {
+	  token = strtok(NULL, " \t");
+//	  printf("rwgrp - '%s'\n",token);
+      copyString(token, &(area->rwgrp));
+      if (area->rwgrp == NULL) {
+		 return 1;
+      }
+   }
    else {
       printf("Line %d: There is an option missing after \"-\"!\n", actualLineNr);
       return 1;
@@ -531,6 +563,39 @@ int parseEchoMailFlavour(char *line, e_flavour *flavour) {
    return 0;
 }
 
+//and the parseGroup:
+// i make some checking... maybe it is better check if the pointer exist from
+// copyString function?
+
+int parseGroup(char *token, s_fidoconfig *config, int i)
+{
+   if (token == NULL) {
+      fprintf(stderr, "Line %d: Parameter missing after %s!\n", actualLineNr, actualKeyword);
+      return 1;
+   }
+   
+   switch (i) {
+   case 0: if (config->links[config->linkCount-1].DenyGrp != NULL) {
+	   fprintf(stderr, "Line %d: Dublicate parameter after %s!\n", actualLineNr, actualKeyword);
+	   return 1;
+   }
+   break;
+   case 1: if (config->links[config->linkCount-1].TossGrp != NULL) {
+	   fprintf(stderr, "Line %d: Dublicate parameter after %s!\n", actualLineNr, actualKeyword);
+	   return 1;
+   }
+   break;
+   }
+
+   switch (i) {
+   case 0: copyString(token, &(config->links[config->linkCount-1].DenyGrp));
+	   break;
+   case 1: copyString(token, &(config->links[config->linkCount-1].TossGrp));
+	   break;
+   }
+   return 0;
+}
+
 int parseLine(char *line, s_fidoconfig *config)
 {
    char *token, *temp;
@@ -616,6 +681,9 @@ int parseLine(char *line, s_fidoconfig *config)
    else if (stricmp(token, "echotosslog")==0) rc = copyString(getRestOfLine(), &(config->echotosslog));
    else if (stricmp(token, "importlog")==0) rc = copyString(getRestOfLine(), &(config->importlog));
    else if (stricmp(token, "include")==0) rc = parseInclude(getRestOfLine(), config);
+
+   else if (stricmp(token, "denygrp")==0) rc = parseGroup(getRestOfLine(), config, 0);
+   else if (stricmp(token, "tossgrp")==0) rc = parseGroup(getRestOfLine(), config, 1);
    
    else printf("Unrecognized line(%d): %s\n", actualLineNr, line);
                                                           
