@@ -866,23 +866,23 @@ int parseLinkOption(s_arealink *alink, char *token)
 }
 
 int parseAreaLink(const s_fidoconfig *config, s_area *area, char *tok) {
-	s_arealink *arealink;
+    s_arealink *arealink;
 	
-	area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
-	area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
-	area->downlinks[area->downlinkCount]->link = getLinkForArea(*config,tok,area);
+    area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
+    area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
+    area->downlinks[area->downlinkCount]->link = getLinkForArea(*config,tok,area);
 	
-	if (area->downlinks[area->downlinkCount]->link == NULL) {
-		prErr("no links like \"%s\" in config!", tok);
-		return 1;
-	}
+    if (area->downlinks[area->downlinkCount]->link == NULL) {
+	prErr("no links like \"%s\" in config!", tok);
+	return 1;
+    }
 
-	arealink = area->downlinks[area->downlinkCount];
-	area->downlinkCount++;
+    arealink = area->downlinks[area->downlinkCount];
+    area->downlinkCount++;
 
-        setEchoLinkAccess(config, area, arealink);
+    setEchoLinkAccess(config, area, arealink);
 
-	return 0;
+    return 0;
 }
 
 
