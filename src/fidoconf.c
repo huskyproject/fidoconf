@@ -593,9 +593,9 @@ void freeBbsArea(s_bbsarea area) {
         nfree(area.description);
 }
 
-void freeSaveTic(s_savetic savetic) {
-        nfree(savetic.fileAreaNameMask);
-        nfree(savetic.pathName);
+void freeSaveTic(s_savetic *savetic) {
+        nfree(savetic->fileAreaNameMask);
+        nfree(savetic->pathName);
 }
 
 /* Dispose fidoconfig structure: free memory.
@@ -758,7 +758,8 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->fileLocalPwd);
    nfree(config->fileLDescString);
 
-   for (i = 0; i< config->saveTicCount; i++) freeSaveTic(config->saveTic[i]);
+   for (i = 0; i< config->saveTicCount; i++) 
+       freeSaveTic(&(config->saveTic[i]));
    nfree(config->saveTic);
 
    for (i = 0; i < config->execonfileCount; i++) {
