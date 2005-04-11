@@ -1,3 +1,7 @@
+2005-04-11 Monday 19:28  d_sergienko
+
+	* src/tparser.c (1.32): fixed uid/gid output
+
 2005-03-13 Sunday 19:03  val_khokhlov
 
 	* src/afixcmd.c (1.12): fix a bug with duplicating some config
