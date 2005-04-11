@@ -1,3 +1,7 @@
+2005-04-11 Monday 19:29  d_sergienko
+
+	* tparser.c (fidoconf-1_4-stable.5): fixed uid/gid output
+
 2005-04-03 Sunday 15:11  d_sergienko
 
 	* tparser.c (fidoconf-1_4-stable.4): Make warning if
