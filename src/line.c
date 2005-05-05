@@ -1833,6 +1833,9 @@ int parseLink(char *token, s_fidoconfig *config)
 	  clink->filefix.name = sstrdup (deflink->filefix.name);
 	  clink->areafix.baseDir = sstrdup (deflink->areafix.baseDir);
 	  clink->filefix.baseDir = sstrdup (deflink->filefix.baseDir);
+	  clink->areafix.reportsFlags = sstrdup (deflink->areafix.reportsFlags);
+	  clink->filefix.reportsFlags = sstrdup (deflink->filefix.reportsFlags);
+	  clink->filefix.baseDir = sstrdup (deflink->filefix.baseDir);
 	  clink->optGrp = copyGroups(deflink->optGrp, deflink->numOptGrp);
 	  clink->areafix.frMask = copyGroups(deflink->areafix.frMask, deflink->areafix.numFrMask);
 	  clink->filefix.frMask = copyGroups(deflink->filefix.frMask, deflink->filefix.numFrMask);
