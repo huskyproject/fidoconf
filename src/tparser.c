@@ -1280,6 +1280,7 @@ int main(int argc, char **argv) {
    char *cfgFile=NULL, *module;
    #include "../cvsdate.h"
 
+   SetAppModule(M_TPARSER);
    printf("%s\n", module = GenVersionStr( "tparser", FC_VER_MAJOR, FC_VER_MINOR,
 				FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
    nfree(module); /* used as a temporary variable */

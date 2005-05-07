@@ -413,9 +413,9 @@ void processAreaPermissions(s_fidoconfig *config, ps_area areas, unsigned areaCo
 /* set link-area permissions stored in readOnly[], writeOnly[] */
 void processPermissions(s_fidoconfig *config)
 {
-    if      (theApp.module == M_HPT)
+    if      (theApp.module == M_HPT || theApp.module == M_TPARSER)
         processAreaPermissions(config, config->echoAreas, config->echoAreaCount);
-    else if (theApp.module == M_HTICK)
+    else if (theApp.module == M_HTICK || theApp.module == M_TPARSER)
         processAreaPermissions(config, config->fileAreas, config->fileAreaCount);
 }
 

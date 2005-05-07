@@ -705,7 +705,7 @@ typedef struct message   s_message;
 
 typedef enum { M_NOTDEF=0, M_HPT, M_HTICK, M_EMAILPKT, M_HPUCODE, M_BSOPACK,
                M_NLTOOLS, M_MSGED, M_HPTKILL, M_HPTSQFIX, M_HPTUTIL, M_HUSKMISC,
-               M_MPOST, M_SQPACK,
+               M_MPOST, M_SQPACK, M_TPARSER,
                M_OTHER } e_known_moduls;
 
 typedef struct {
