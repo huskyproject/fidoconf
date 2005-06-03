@@ -39,6 +39,9 @@ fidoconfig.dvi: fidoconfig.texi proposal.texi
 fidoconfig.info: fidoconfig.texi proposal.texi
 	makeinfo --no-split  fidoconfig.texi
 
+fidoconf.txt:
+	makeinfo --no-split fidoconfig.texi
+
 clean:
 	-$(RM) $(RMOPT) fidoconfig.fns
 	-$(RM) $(RMOPT) fidoconfig.aux
