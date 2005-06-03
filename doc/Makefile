@@ -40,7 +40,7 @@ fidoconfig.info: fidoconfig.texi proposal.texi
 	makeinfo --no-split  fidoconfig.texi
 
 fidoconf.txt:
-	makeinfo --no-split fidoconfig.texi
+	makeinfo --no-split fidoconfig.texi >fidoconf.txt
 
 clean:
 	-$(RM) $(RMOPT) fidoconfig.fns
