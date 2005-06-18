@@ -488,6 +488,7 @@ typedef struct fidoconfig {
    char     *busyFileDir;
    char     *semaDir, *badFilesDir;
    char     *loglevels, *screenloglevels;
+   char     *logDateFormat;
    char     *hptPerlFile;
    char     *advStatisticsFile;
    unsigned int fileAreaCreatePerms;

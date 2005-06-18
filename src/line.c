@@ -4294,6 +4294,9 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_SCREENLOGLEVELS:
             rc = parseLoglevels(getRestOfLine(), &(config->screenloglevels));
             break;
+        case ID_LOGDATEFORMAT:
+            rc = fc_copyString(getRestOfLine(), &(config->logDateFormat));
+            break;
         case ID_ACCESSGRP:
             rc = parseGroup(getRestOfLine(), config, 0);
             break;

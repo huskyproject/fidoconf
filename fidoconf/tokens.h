@@ -298,7 +298,8 @@ enum {
     ID_RESCANGRP,
     ID_DAILYBUNDLES,
     ID_REPORTREQUESTER,
-    ID_RESCANLIMIT
+    ID_RESCANLIMIT,
+    ID_LOGDATEFORMAT
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -480,6 +481,7 @@ token_t parseline_tokens[] =
     { "localinbound", ID_LOCALINBOUND },
     { "location", ID_LOCATION },
     { "lockfile", ID_LOCKFILE },
+    { "logdateformat", ID_LOGDATEFORMAT },
     { "logechotoscreen", ID_LOGECHOTOSCREEN },
     { "logfiledir", ID_LOGFILEDIR },
     { "loglevels", ID_LOGLEVELS },
