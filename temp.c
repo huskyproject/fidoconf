@@ -82,13 +82,13 @@ int MKSTEMPS( char *tempfilename )
            break;
          *pp = '.';
          fd = open( ttt, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
-     }while( fd==-1 && errno == EEXIST );
+     }while( fd==-1 && errno == EEXIST && (strcpy(ttt,tempfilename) || 1) );
    }else{
      do{
          if( !mktemp(ttt) )
            break;
          fd = open( ttt, O_EXCL | O_CREAT | O_RDWR, S_IREAD | S_IWRITE );
-     }while( fd==-1 && errno == EEXIST );
+     }while( fd==-1 && errno == EEXIST && (strcpy(ttt,tempfilename) || 1) );
    }
    if(fd!=-1) strcpy(tempfilename,ttt);
    nfree(ttt);
@@ -158,7 +158,7 @@ FILE *createTempTextFile(const ps_fidoconfig pconfig, char **name)
 { if( pconfig->tempDir )
     return createTempFileIn(pconfig->tempDir, TEMPFILESUFFIX, 't', name);
   else{
-    w_log(LL_ERR, "tempDir not defined in config, temp. file can't created");
+    w_log(LL_ERR, "tempDir is not defined in config, and temporary file can't created");
     return NULL;
   }
 }
@@ -174,7 +174,7 @@ FILE *createTempBinFile(const ps_fidoconfig pconfig, char **name)
 { if( pconfig->tempDir )
     return createTempFileIn(pconfig->tempDir, TEMPFILESUFFIX, 'b', name);
   else{
-    w_log(LL_ERR, "tempDir not defined in config, temp. file can't created");
+    w_log(LL_ERR, "tempDir is not defined in config, and temporary file can't created");
     return NULL;
   }
 }
