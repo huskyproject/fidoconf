@@ -903,7 +903,7 @@ s_robot *getRobot(ps_fidoconfig config, char *name, int create)
       if (def->fromName) r->fromName = sstrdup(def->fromName);
       if (def->origin) r->origin = sstrdup(def->origin);
       if (def->helpFile) r->helpFile = sstrdup(def->helpFile);
-      if (def->rulesDir) r->helpFile = sstrdup(def->rulesDir);
+      if (def->rulesDir) r->rulesDir = sstrdup(def->rulesDir);
       if (def->newAreaRefuseFile) r->newAreaRefuseFile = sstrdup(def->newAreaRefuseFile);
       if (def->autoCreateFlag) r->autoCreateFlag = sstrdup(def->autoCreateFlag);
       if (def->queueFile) r->queueFile = sstrdup(def->queueFile);
