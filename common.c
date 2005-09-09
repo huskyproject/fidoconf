@@ -1696,7 +1696,18 @@ int lockFile(const char *lockfile, int advisoryLock)
                 break;
         }
     } else { /*  normal locking */
-        fh=open(lockfile, O_CREAT|O_RDWR|O_EXCL,S_IREAD|S_IWRITE);
+#ifdef O_SHEXCL
+        fh=open(lockfile, O_CREAT|O_RDWR|O_SHEXCL, S_IREAD|S_IWRITE);
+#else
+  #if !defined(O_TEMPORARY)
+    #if defined(_O_TEMPORARY)
+    #define O_TEMPORARY _O_TEMPORARY
+    #else
+    #define O_TEMPORARY 0
+    #endif
+  #endif
+        fh=open(lockfile, O_CREAT|O_RDWR|O_EXCL|O_TEMPORARY, S_IREAD|S_IWRITE);
+#endif
     }
     if(fh < 0)
     {
