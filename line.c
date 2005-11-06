@@ -1113,7 +1113,7 @@ int parseLink(char *token, s_fidoconfig *config)
    }
 
    if (config->fileAreas || config->echoAreas) {
-       prErr("Unable to define links after EchoArea or FileArea statements! Please move the link definition after all areas definitions.");
+       prErr("Unable to define links after EchoArea or FileArea statements! Please move the link definition above all areas definitions.");
        return 1;
    }
    if (config->addrCount == 0) {
