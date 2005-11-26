@@ -81,7 +81,7 @@ int init_conf(const char *conf_name)
 {
   if( conf_name==NULL || conf_name[0]==0 )
   {
-    w_log(LL_ERR, __FILE__ "::init_conf(): config name %s", conf_name?"has null length":"is NULL pointer")
+    w_log(LL_ERR, __FILE__ "::init_conf(): config name %s", conf_name?"has null length":"is NULL pointer");
     return -1;
   }
   iflevel=-1;
