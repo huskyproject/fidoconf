@@ -9,7 +9,7 @@ include ../../huskymak.cfg
 include makefile.inc
 
 # includes directories
-CINCL	= -I$(H_DIR) -I../../smapi/ -I../../huskylib/
+CINCL	= -I$(H_DIR) -I../../huskylib/ -I../../smapi/
 
 # libraries need to build binary file
 LIBS	= $(TARGETLIB) ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) \
