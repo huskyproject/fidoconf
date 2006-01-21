@@ -68,6 +68,7 @@
 #define LL_FROUTE  	'7'      /* File routing */
 #define LL_ATTACH 	'7'      /* File attach */
 #define LL_MSGPACK    	'7'      /* Message packing */
+#define LL_TIC        	'7'      /* TIC parsing */
 #define LL_AREAFIX  	'8'      /* areafix & filefix operations */
 #define LL_RELINK   	'8'      /* send relink message */
 #define LL_AUTOCREATE	'8'      /* area auto cleate */
