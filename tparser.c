@@ -1215,7 +1215,7 @@ int main(int argc, char **argv) {
 	return dumpcfg(cfgFile);
 
    config = readConfig(cfgFile);
-   nfree(cfgFile);
+   /* nfree(cfgFile); */
 
    if (config != NULL) {
 
