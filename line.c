@@ -41,6 +41,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <assert.h>
 
 #ifdef HAS_UNISTD_H
 #   include <unistd.h>
@@ -1224,11 +1225,14 @@ int parseLink(char *token, s_fidoconfig *config)
 
 void createVirtualLinks(s_fidoconfig *config)
 { /* add all our AKAs to links array */
+  /* This function should be called before allocating of the fileAreas and echoAres arrays */
     unsigned i;
     s_link   *clink = NULL;
     char     *tmp = NULL;
 
     if (virtualLinksDefined) return;
+    assert(config->fileAreas==NULL); /* fileAreas array should be unallocated */
+    assert(config->echoAreas==NULL); /* echoAreas array should be unallocated */
 
     for (i = 0; i < config->addrCount; i++) {
         if (!getLinkFromAddr(config,config->addr[i])) {
@@ -1263,7 +1267,7 @@ int parseArea(const s_fidoconfig *config, char *token, s_area *area, int useDefs
    }
 
    /* place this call here 'cause we can't create links after defining areas */
-   createVirtualLinks((s_fidoconfig *)config);
+/* createVirtualLinks((s_fidoconfig *)config); */
 
     /*   memset(area, '\0', sizeof(s_area)); */
 
@@ -1533,6 +1537,7 @@ int parseEchoArea(char *token, s_fidoconfig *config)
       prErr("There are parameters missing after %s!", actualKeyword);
       return 1;
    }
+   createVirtualLinks((s_fidoconfig *)config);
 
    config->echoAreas = srealloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
    rc = parseArea(config, token, &(config->echoAreas[config->echoAreaCount]), 1);
@@ -1809,6 +1814,8 @@ int parseFileAreaStatement(char *token, s_fidoconfig *config)
       prErr("There are parameters missing after %s!", actualKeyword);
       return 1;
    }
+
+   createVirtualLinks((s_fidoconfig *)config);
 
    config->fileAreas = srealloc(config->fileAreas,
 sizeof(s_filearea)*(config->fileAreaCount+1));
