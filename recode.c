@@ -96,13 +96,13 @@ INT c;
 }
 
 
-INT ctoi(CHAR *s)
+int ctoi(char *s)
 {
 	char *foo;
 	unsigned long res = strtoul((char*)s, &foo, 0);
 	if (*foo)	/* parse error */
 		return 0;
-	return (INT)res;
+	return (int)res;
 }
 
 void getctab(CHAR *dest, UCHAR *charMapFileName )
