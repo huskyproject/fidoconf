@@ -60,7 +60,7 @@ valid. Another words: second definition overwrites the previous one.
 If no match is found, a default value will be used.
 
 "#" at the start of a line or <whiteSpace>#<whiteSpace> within the
-line starts a comment. The comment ends with the line. Comment char "#" can 
+line starts a comment. The comment ends with the line. Comment char "#" can
 be overwritten by @code{commentChar} token.
 
 If the first word in a line is an undefined keyword, program exits
@@ -409,7 +409,7 @@ set it to a memory disk.
 
 Default value is path specified by TEMP, TMP or TMPDIR enviroment variables (use
 TEMP first, if it not defined then use TMP, next use TMPDIR).
-If these enviroment variables are not defined: 
+If these enviroment variables are not defined:
 - win32 versions use %WINDIR%\TEMP (usually c:\windows\temp for Win9x/Me and
   c:\winnt\temp for Windows NT/2000/XP)
 - versions for unix-like OS'es use /tmp
@@ -542,7 +542,8 @@ This statement cannot be repeated.
 @code{seqDir /var/spool/fido/seq}
 @end table
 
-Sets path for current msgid sequence stamp.
+Sets path for current msgid sequence stamp directory. This directory
+should be used for msgid sequence stamp only to preventing surprises.
 
 By default environment variable SEQDIR is used.
 
