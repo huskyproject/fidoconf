@@ -2,7 +2,7 @@ INFODIR = /usr/local/info
 IMOPT	= -m 644
 
 info fidoconfig.info: fidoconfig.texi proposal.texi config
-	makeinfo --no-split fidoconfig.texi
+	makeinfo --force --no-split fidoconfig.texi
 
 dvi fidoconfig.dvi:  fidoconfig.texi proposal.texi config
 	texi2dvi fidoconfig.texi
@@ -12,7 +12,10 @@ ps fidoconfig.ps: fidoconfig.dvi
 
 html fidoconfig_toc.html: fidoconfig.texi proposal.texi config
 	export LC_ALL=C; \
-	makeinfo --html --no-split fidoconfig.texi
+	makeinfo --force --html --no-split fidoconfig.texi
+
+txt fidoconf.txt:
+	makeinfo --force --no-split fidoconfig.texi >fidoconf.txt
 
 clean:
 	-rm *~

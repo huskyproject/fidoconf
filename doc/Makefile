@@ -31,16 +31,16 @@ endif
 
 fidoconfig.html: fidoconfig.texi proposal.texi
 	export LC_ALL=C; \
-	makeinfo --html --no-split fidoconfig.texi
+	makeinfo --force --html --no-split fidoconfig.texi
 
 fidoconfig.dvi: fidoconfig.texi proposal.texi
 	texi2dvi fidoconfig.texi
  
 fidoconfig.info: fidoconfig.texi proposal.texi
-	makeinfo --no-split  fidoconfig.texi
+	makeinfo --force --no-split  fidoconfig.texi
 
 fidoconf.txt:
-	makeinfo --no-split fidoconfig.texi >fidoconf.txt
+	makeinfo --force --no-split fidoconfig.texi >fidoconf.txt
 
 clean:
 	-$(RM) $(RMOPT) fidoconfig.fns
