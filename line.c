@@ -2679,7 +2679,7 @@ int parseLocalArea(char *token, s_fidoconfig *config)
    }
 
    config->localAreas = srealloc(config->localAreas, sizeof(s_area)*(config->localAreaCount+1));
-   rc = parseArea(config, token, &(config->localAreas[config->localAreaCount]), 1);
+   rc = parseArea(config, token, &(config->localAreas[config->localAreaCount]), 0);
    config->localAreaCount++;
    return rc;
 }
