@@ -2642,7 +2642,7 @@ int parseLocalArea(char *token, s_fidoconfig *config)
     area->areaType = ECHOAREA;
     
     area->areaType = ECHOAREA;
-    rc = parseArea(config, token, area, 1);
+    rc = parseArea(config, token, area, 0);
     config->localAreaCount++;
     return rc;
 }
