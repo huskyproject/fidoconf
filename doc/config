@@ -201,7 +201,7 @@ LinkDefaults
   PackNetmail on
   MaxUnpackedNetmail 64
   EchomailFlavour Normal
-  EmailFrom fido@my.host
+  EmailFrom fido@@my.host
   EmailSubj FTN Mail Transport : FTNbundle from 2:2432/645
   EmailEncoding MIME
   TickerPackToBox on
@@ -260,7 +260,7 @@ LinkDefaults
   PackNetmail on
   MaxUnpackedNetmail 64
   EchomailFlavour Normal
-  EmailFrom fido@my.host
+  EmailFrom fido@@my.host
   EmailSubj FTN Mail Transport : FTNbundle from 44:4932/110
   EmailEncoding MIME
   TickerPackToBox on
