@@ -4602,6 +4602,9 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseNamesCaseConversion(getRestOfLine(),
                                           &(config->convertShortNames));
             break;
+        case ID_DISABLEKLUDGERESCANNED:
+            rc = parseBool(getRestOfLine(), &(config->disableKludgeRescanned));
+            break;
         case ID_DISABLETID:
             rc = parseBool(getRestOfLine(), &(config->disableTID));
             break;

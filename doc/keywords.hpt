@@ -62,6 +62,7 @@ denyfwdfile
 denyfwdmask
 denyfwdreqaccess
 denyuncondfwdreqaccess
+disablekludgerescanned
 disabletid
 disablepid
 dupearea

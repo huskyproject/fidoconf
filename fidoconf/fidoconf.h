@@ -563,6 +563,7 @@ typedef struct fidoconfig {
    unsigned int noProcessBundles;
    unsigned int disableTID;
    unsigned int disablePID;
+   unsigned int disableKludgeRescanned;
 
    char *afterUnpack, *beforePack;
    char *processPkt;
