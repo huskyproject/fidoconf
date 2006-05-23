@@ -141,27 +141,28 @@ NodelistDir	[fidodatadir]nodelist
 PassFileAreaDir [fidodatadir]passFileDir
 magic		[fidodatadir]magic
 
+
 if "[module]"=="hpt"
-#  include [fidoconfigdir]config.hpt
   # HPT's transcoding isn't recommended to use,
   # You shoulds use recode features of your message editor instead.
-  #intab              [fidoconfigdir]outaltkoi8
-  #outtab             [fidoconfigdir]outkoi8alt
-  lockfile           [fidodatadir]lock.hpt
+  #intab              [fidoconfigdir]/data/outaltkoi8
+  #outtab             [fidoconfigdir]/dats/outkoi8alt
+  lockfile           [fidodatadir]/flag/lock.hpt
   advisoryLock       9
-  echotosslog        [fidodatadir]echotoss.log
-  importlog          [fidodatadir]import.log
-  areafixhelp        [fidodatadir]areafix.hlp
+  echotosslog        [fidodatadir]/flag/echotoss.log
+  importlog          [fidodatadir]/flag/import.log
+  #areafixhelp        [fidodatadir]/data/areafix.hlp
   AreafixReportsAttr loc pvt k/s dir
 endif
 
 if "[module]"=="htick"
-#  include [fidoconfigdir]config.htick
-  FileFixHelp     [fidodatadir]filefix.hlp
+  #include [fidoconfigdir]config.htick
+  #FileFixHelp     [fidodatadir]/data/filefix.hlp
   FilefixReportsAttr loc pvt k/s npd dir
-  lockfile        [fidodatadir]lock.htick
+  lockfile        [fidodatadir]/flag/lock.htick
   advisoryLock    6
 endif
+
 
 ##
 ## Section 2: Nodelists
