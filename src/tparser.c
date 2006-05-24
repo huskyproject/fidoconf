@@ -1465,6 +1465,7 @@ int main(int argc, char **argv) {
 
         printf("createAreasCase: %s\n", (config->createAreasCase == eLower) ? "Lower" : "Upper");
         printf("areasFileNameCase: %s\n", (config->areasFileNameCase == eLower) ? "Lower" : "Upper");
+        printf("disableKludgeRescanned: %s\n", (config->disableKludgeRescanned) ? "on" : "off");
         printf("DisableTID: %s\n", (config->disableTID) ? "on" : "off");
         printf("DisablePID: %s\n", (config->disablePID) ? "on" : "off");
         printf("keepTrsMail: %s\n", (config->keepTrsMail) ? "on" : "off");
