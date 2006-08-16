@@ -50,6 +50,8 @@
 
 #endif
 
+char *fidoconfig=NULL;
+
 int writeArea(FILE *f, s_area *area, char type) {
 
    if (area->group == NULL) {
@@ -158,8 +160,11 @@ int parseOptions(char *line){
 int options=0;
 char chr=0;
 
-if (strcmp(line,"-a")==0) chr='a';
-else  (chr=line[2]);
+ if (strcmp(line,"-a")==0) chr='a';
+ else if (line[1]=='c'){
+    fidoconfig=sstrdup(line+2);
+ }
+ else  (chr=line[2]);
 
  switch (chr){
 
@@ -212,6 +217,7 @@ int main (int argc, char *argv[]) {
       printf(
       "Usage: fconf2golded [options] <GoldedConfigFileName> [GoldedDefaultConfigFileName]\n"
       "Options:\n"
+      "\t  -cFidoconfig - specify a Husky config file <Fidoconfig>\n"
       "\t  -a\t- exports areas only\n"
       "\t  -sb\t- skip badmail areas\n"
       "\t  -sd\t- skip dupes areas\n"
@@ -223,7 +229,7 @@ int main (int argc, char *argv[]) {
    }
    printf("Generating Config-file %s\n", argv[cont]);
 
-   config = readConfig(NULL);
+   config = readConfig(fidoconfig);
    if (config!= NULL) {
      if (argv[cont+1]!=NULL)  readDefaultConfig (argv[cont], argv[cont+1]);
      else  remove (argv[cont]);
