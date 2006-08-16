@@ -52,6 +52,22 @@
 
 char *fidoconfig=NULL;
 
+void usage(){
+      printf(
+      "Usage: fconf2golded [options] <GoldedConfigFileName> [GoldedDefaultConfigFileName]\n"
+      "Options:\n"
+      "\t  -a\t- exports areas only\n"
+      "\t  -cFidoconfig - specify a Husky config file <Fidoconfig>\n"
+      "\t  -h\t- print usage information (this text)\n"
+      "\t  -H\t- print usage information (this text)\n"
+      "\t  -sb\t- skip badmail areas\n"
+      "\t  -sd\t- skip dupes areas\n"
+      "\t  -se\t- skip echomail areas\n"
+      "\t  -sl\t- skip local areas\n"
+      "\t  -sn\t- skip netmail areas\n");
+      exit(1);
+}
+
 int writeArea(FILE *f, s_area *area, char type) {
 
    if (area->group == NULL) {
@@ -160,11 +176,28 @@ int parseOptions(char *line){
 int options=0;
 char chr=0;
 
- if (strcmp(line,"-a")==0) chr='a';
- else if (line[1]=='c'){
-    fidoconfig=sstrdup(line+2);
+ if(line[0]!='-'){
+   fprintf(stderr,"parseOptions(): this is not option: \"%s\"\n",line);
+   exit(1);
  }
- else  (chr=line[2]);
+
+ if (sstrcmp(line+1,"a")==0){
+   options^=AREASONLY;
+   return options;
+ }
+ else if (line[1]=='c'){
+   if(line[2]!='\0') fidoconfig=sstrdup(line+2);
+   return options;
+ }
+ else if (line[1]=='s' && line[3]=='\0')
+   chr=line[2];
+ else if (line[1]=='h' || line[1]=='H'){
+   usage();
+ }
+ else{
+   fprintf(stderr,"this is unknown option: \"%s\"\n",line);
+   exit(1);
+ }
 
  switch (chr){
 
@@ -193,6 +226,9 @@ char chr=0;
 					options^=BAD;
 					break;
 	}
+	default:
+	    fprintf(stderr,"this is unknown option: \"%s\"\n",line);
+	    exit(1);
 
  }
 return options;
@@ -214,18 +250,7 @@ int main (int argc, char *argv[]) {
 	cont++;
    }
    if (!(cont<argc)){
-      printf(
-      "Usage: fconf2golded [options] <GoldedConfigFileName> [GoldedDefaultConfigFileName]\n"
-      "Options:\n"
-      "\t  -cFidoconfig - specify a Husky config file <Fidoconfig>\n"
-      "\t  -a\t- exports areas only\n"
-      "\t  -sb\t- skip badmail areas\n"
-      "\t  -sd\t- skip dupes areas\n"
-      "\t  -se\t- skip echomail areas\n"
-      "\t  -sl\t- skip local areas\n"
-      "\t  -sn\t- skip netmail areas\n");
-      return 1;
-   
+     usage();
    }
    printf("Generating Config-file %s\n", argv[cont]);
 
