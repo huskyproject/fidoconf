@@ -50,6 +50,24 @@
 
 #endif
 
+char *fidoconfig=NULL;
+
+void usage(){
+      printf(
+      "Usage: fconf2golded [options] <GoldedConfigFileName> [GoldedDefaultConfigFileName]\n"
+      "Options:\n"
+      "\t  -a\t- exports areas only\n"
+      "\t  -cFidoconfig - specify a Husky config file <Fidoconfig>\n"
+      "\t  -h\t- print usage information (this text)\n"
+      "\t  -H\t- print usage information (this text)\n"
+      "\t  -sb\t- skip badmail areas\n"
+      "\t  -sd\t- skip dupes areas\n"
+      "\t  -se\t- skip echomail areas\n"
+      "\t  -sl\t- skip local areas\n"
+      "\t  -sn\t- skip netmail areas\n");
+      exit(1);
+}
+
 int writeArea(FILE *f, s_area *area, char type) {
 
    if (area->group == NULL) {
@@ -104,7 +122,7 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
   return 0;
 }
 
-int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int options) {
+int generateGoldEdConfig(s_fidoconfig *config, char *fileName, int options) {
    FILE *f;
    int  i;
    s_area *area;
@@ -158,8 +176,28 @@ int parseOptions(char *line){
 int options=0;
 char chr=0;
 
-if (strcmp(line,"-a")==0) chr='a';
-else  (chr=line[2]);
+ if(line[0]!='-'){
+   fprintf(stderr,"parseOptions(): this is not option: \"%s\"\n",line);
+   exit(1);
+ }
+
+ if (sstrcmp(line+1,"a")==0){
+   options^=AREASONLY;
+   return options;
+ }
+ else if (line[1]=='c'){
+   if(line[2]!='\0') fidoconfig=sstrdup(line+2);
+   return options;
+ }
+ else if (line[1]=='s' && line[3]=='\0')
+   chr=line[2];
+ else if (line[1]=='h' || line[1]=='H'){
+   usage();
+ }
+ else{
+   fprintf(stderr,"this is unknown option: \"%s\"\n",line);
+   exit(1);
+ }
 
  switch (chr){
 
@@ -188,6 +226,9 @@ else  (chr=line[2]);
 					options^=BAD;
 					break;
 	}
+	default:
+	    fprintf(stderr,"this is unknown option: \"%s\"\n",line);
+	    exit(1);
 
  }
 return options;
@@ -197,38 +238,27 @@ int main (int argc, char *argv[]) {
    s_fidoconfig *config;
    int options=0;
    int cont=1;
-   
+
    { char *temp;
      printf("%s\n", temp=GenVersionStr( "fconf2golded", FC_VER_MAJOR,
-			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
+               FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
      nfree(temp);
    }
-
+ 
    while ((cont<argc)&&(*argv[cont]=='-')){
 	options|=parseOptions(argv[cont]);	
 	cont++;
    }
    if (!(cont<argc)){
-      printf("\nUsage:\n");
-      printf("   fconf2golded [-a][-sn][-se][-sl][-sb][-sd] <goldedConfigFileName> [<default.cfg>]\n");
-      printf("   (you may read config defaults from default.cfg)\n");
-      printf("   (-a exports areas only)\n");
-	  printf("   (-sn skip netmail areas)\n");
-	  printf("   (-se skip echomail areas)\n");
-	  printf("   (-sl skip local areas, and so on...)\n");
-      printf("\nExample:\n");
-      printf("   fconf2golded ~/golded/golded.cfg\n\n");
-      return 1;
-   
+     usage();
    }
    printf("Generating Config-file %s\n", argv[cont]);
 
-   config = readConfig(NULL);
+   config = readConfig(fidoconfig);
    if (config!= NULL) {
-	  if (argv[cont+1]!=NULL) readDefaultConfig (argv[cont], argv[cont+1]);
-	  else
-       remove (argv[cont]);
-     generateMsgEdConfig(config, argv[cont], options);
+     if (argv[cont+1]!=NULL)  readDefaultConfig (argv[cont], argv[cont+1]);
+     else  remove (argv[cont]);
+     generateGoldEdConfig(config, argv[cont], options);
      disposeConfig(config);
      return 0;
    }
