@@ -104,7 +104,7 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
   return 0;
 }
 
-int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int options) {
+int generateGoldEdConfig(s_fidoconfig *config, char *fileName, int options) {
    FILE *f;
    int  i;
    s_area *area;
@@ -210,8 +210,9 @@ int main (int argc, char *argv[]) {
    }
    if (!(cont<argc)){
       printf(
-      "Usage: fconf2golded [options] <goldedConfigFileName> [fidoconfig]\n"
-      "Options:  -a\t- exports areas only\n"
+      "Usage: fconf2golded [options] <GoldedConfigFileName> [GoldedDefaultConfigFileName]\n"
+      "Options:\n"
+      "\t  -a\t- exports areas only\n"
       "\t  -sb\t- skip badmail areas\n"
       "\t  -sd\t- skip dupes areas\n"
       "\t  -se\t- skip echomail areas\n"
@@ -224,10 +225,9 @@ int main (int argc, char *argv[]) {
 
    config = readConfig(NULL);
    if (config!= NULL) {
-	  if (argv[cont+1]!=NULL) readDefaultConfig (argv[cont], argv[cont+1]);
-	  else
-       remove (argv[cont]);
-     generateMsgEdConfig(config, argv[cont], options);
+     if (argv[cont+1]!=NULL)  readDefaultConfig (argv[cont], argv[cont+1]);
+     else  remove (argv[cont]);
+     generateGoldEdConfig(config, argv[cont], options);
      disposeConfig(config);
      return 0;
    }
