@@ -213,7 +213,7 @@ int main (int argc, char *argv[]) {
 
    printf("Generating Config-file %s\n", argv[cont]);
 
-   config = readConfig(cont+1<argv?argv[cont+1]:NULL);
+   config = readConfig(cont+1<argc?argv[cont+1]:NULL);
    if (config!= NULL) {
       generateMsgEdConfig(config, argv[cont], options);
       disposeConfig(config);
