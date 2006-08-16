@@ -48,6 +48,18 @@
 
 #endif
 
+void usage(){
+  printf("\nUsage:\n");
+  printf("   fconf2msged  [-a][-sn][-se][-sl][-sb][-sd] <msgedConfigFileName>\n");
+  printf("   (-a exports areas only)\n");
+  printf("   (-sn skip netmail areas)\n");
+  printf("   (-se skip echomail areas)\n");
+  printf("   (-sl skip local areas, and so on...)\n");
+  printf("   (-h  print this message and exit)\n");
+  printf("\nExample:\n");
+  printf("   fconf2msged ~/.msged\n\n");
+}
+
 int writeArea(FILE *f, s_area *area, char netMail) {
    switch (area->msgbType) {
       
@@ -132,8 +144,13 @@ int parseOptions(char *line){
 int options=0;
 char chr=0;
 
-if (strcmp(line,"-a")==0) chr='a';
-else  (chr=line[2]);
+ if(line[0]!='-'){
+	fprintf(stderr,"This is not option: \"%s\", exit\n",line);
+	exit(1);
+ }
+ if (line[2]==0) chr=line[1];
+ else if (line[1]=='s' && line[3]=='\0') chr=line[2];
+ else chr=' '; /* unknown option indication */
 
  switch (chr){
 
@@ -162,6 +179,12 @@ else  (chr=line[2]);
 					options^=BAD;
 					break;
 	}
+	case 'H':
+	case 'h':	usage();
+			exit(0);
+	default:
+	    fprintf(stderr,"Unknown option \"%s\", exit\n",line);
+	    exit(1);
 
  }
 return options;
@@ -184,14 +207,7 @@ int main (int argc, char *argv[]) {
 	cont++;
    }
    if (!(cont<argc)){
-      printf("\nUsage:\n");
-      printf("   fconf2msged  [-a][-sn][-se][-sl][-sb][-sd] <msgedConfigFileName>\n");
-      printf("   (-a exports areas only)\n");
-	  printf("   (-sn skip netmail areas)\n");
-	  printf("   (-se skip echomail areas)\n");
-	  printf("   (-sl skip local areas, and so on...)\n");
-       printf("\nExample:\n");
-      printf("   fconf2msged ~/.msged\n\n");
+      usage();
       return 1;
    }
 
