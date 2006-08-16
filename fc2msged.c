@@ -48,6 +48,21 @@
 
 #endif
 
+void usage(){
+  printf("\nUsage:\n"
+         "Usage: fconf2msged [options] <msgedConfigFileName> [fidoconfig]\n"
+         "Options:  -a\t- exports areas only\n"
+         "\t  -sb\t- skip badmail areas\n"
+         "\t  -sd\t- skip dupes areas\n"
+         "\t  -se\t- skip echomail areas\n"
+         "\t  -sl\t- skip local areas\n"
+         "\t  -sn\t- skip netmail areas\n"
+         "\t  -h\t- print this message and exit\n");
+
+  printf("\nExample:\n"
+         "\tfconf2msged ~/.msged\n\n");
+}
+
 int writeArea(FILE *f, s_area *area, char netMail) {
    switch (area->msgbType) {
       
@@ -132,8 +147,13 @@ int parseOptions(char *line){
 int options=0;
 char chr=0;
 
-if (strcmp(line,"-a")==0) chr='a';
-else  (chr=line[2]);
+ if(line[0]!='-'){
+        fprintf(stderr,"This is not option: \"%s\", exit\n",line);
+        exit(1);
+ }
+ if (line[2]==0) chr=line[1];
+ else if (line[1]=='s' && line[3]=='\0') chr=line[2];
+ else chr=' '; /* unknown option indication */
 
  switch (chr){
 
@@ -162,6 +182,12 @@ else  (chr=line[2]);
 					options^=BAD;
 					break;
 	}
+        case 'H':
+        case 'h':       usage();
+                        exit(0);
+        default:
+            fprintf(stderr,"Unknown option \"%s\", exit\n",line);
+            exit(1);
 
  }
 return options;
@@ -184,20 +210,13 @@ int main (int argc, char *argv[]) {
 	cont++;
    }
    if (!(cont<argc)){
-      printf(
-      "Usage: fconf2msged [options] <msgedConfigFileName> [fidoconfig]\n"
-      "Options:  -a\t- exports areas only\n"
-      "\t  -sb\t- skip badmail areas\n"
-      "\t  -sd\t- skip dupes areas\n"
-      "\t  -se\t- skip echomail areas\n"
-      "\t  -sl\t- skip local areas\n"
-      "\t  -sn\t- skip netmail areas\n");
-      return 1;
+     usage();
+     return 1;
    }
 
    printf("Generating Config-file %s\n", argv[cont]);
 
-   config = readConfig(cont+1<argv?argv[cont+1]:NULL);
+   config = readConfig(cont+1<argc?argv[cont+1]:NULL);
    if (config!= NULL) {
       generateMsgEdConfig(config, argv[cont], options);
       disposeConfig(config);
