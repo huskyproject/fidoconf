@@ -499,7 +499,7 @@ void setConfigDefaults(s_fidoconfig *config)
          parsePath("c:\\", &(config->tempDir), NULL);
 #endif
    }
-   { // add all our aka to links array
+   { /* add all our aka to links array */
        unsigned i;
        s_link   *clink;
 
