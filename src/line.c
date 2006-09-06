@@ -3124,7 +3124,6 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
        else if (stricmp(token, "destroy")==0) {
 		   config->describeLinkDefaults = 0;
 		   freeLink(config->linkDefaults);
-		   nfree(config->linkDefaults);
 		   config->linkDefaults = NULL;
        }
        else return 2;

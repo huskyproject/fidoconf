@@ -218,6 +218,11 @@ char **copyGroups(char **grps, int numGroups)
 	return dst;
 }
 
+/* 
+ * Sic! All resources are freed including the link structure itself!
+ * Never free it second time.
+ * Never use this function on static/automatic structures.
+ */
 void freeLink (s_link *link)
 {
 
