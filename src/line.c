@@ -1184,6 +1184,22 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
     else if (strncmp(iOption, "sbign(", 6)==0) {
         parseSeenBy2D(iOption,&(area->sbign),&(area->sbignCount));
     }
+    else if (strcmp(iOption, "r")==0) {
+        if (area->def_subscribing!=RW) {
+            prErr("Can't mix area options \"-r\" and \"-w\"!");
+            nfree(iOption);
+            return 1;
+        }
+        area->def_subscribing = RO;
+    }
+    else if (strcmp(iOption, "w")==0) {
+        if (area->def_subscribing!=RW) {
+            prErr("Can't mix area options \"-r\" and \"-w\"!");
+            nfree(iOption);
+            return 1;
+        }
+        area->def_subscribing = WO;
+    }
     else {
         prErr("unknown area option \"-%s\"!", option);
         nfree(iOption);

@@ -244,7 +244,7 @@ typedef struct husky_group {
 } s_group, *ps_group;
 
 typedef enum dupeCheck {dcOff, dcMove, dcDel} e_dupeCheck;
-
+typedef enum area_def_subscribing_t {RW=0, RO, WO};
 typedef enum scanMode { smNone=0, smNever, smManual, smListed} e_scanMode;
 
 typedef struct arealink {
@@ -306,6 +306,8 @@ typedef struct area {
    unsigned int  sbaddCount;
    ps_addr       sbign;
    unsigned int  sbignCount;
+
+   area_def_subscribing_t def_subscribing; /* Default mode for new links (-r -w). */
 
 /*   HAREA harea; */       /*   for internal usage; */
    void *harea;   /* for internal usage: pointer to area handle. Store HAREA type variable (see msgapi.h in smapi) */

@@ -379,6 +379,10 @@ void printArea(s_area area) {
    if (area.keepsb) printf("keepSB "); else  printf("noKeepSB ");
    if (area.noautoareapause) printf("noAutoAreaPause "); else printf("autoAreaPause ");
    printf("\n");
+   printf("Default subscribing option:");
+   if (area.def_subscribing == RO) printf(" read-only");
+   if (area.def_subscribing == WO) printf(" write-only");
+   printf("\n");
    printf("DupeCheck: ");
    if (area.dupeCheck==dcOff) printf("off");
    if (area.dupeCheck==dcMove) printf("move");
