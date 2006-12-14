@@ -219,6 +219,8 @@ you can find in the programs' individual documentations.
 * localarea::                   definition of the BBS message area
 * filearea::                    definition of filearea
 * bbsarea::                     definition of the BBS file area
+* ReadOnly::                    set link(s) readonly for area(s)
+* WriteOnly::                   set link(s) writeonly for area(s)
 @end menu
 
 @node version, name, Keywords, Keywords
@@ -1004,7 +1006,7 @@ This statement specifies the @code{FileArea}: fileecho definition.
 Read HTick documentation for details.
 
 
-@node bbsarea, , filearea, Keywords
+@node bbsarea, ReadOnly, filearea, Keywords
 @subsection bbsarea
 @table @asis
 @item Syntax:
@@ -1016,6 +1018,53 @@ Read HTick documentation for details.
 This statement specifies the @code{BBSArea}: BBS file area definition.
 It's used for filelist building.
 Read HTick documentation for details.
+
+
+@node ReadOnly, WriteOnly, bbsarea, Keywords
+@subsection ReadOnly
+@findex ReadOnly
+@table @asis
+@item Syntax:
+@code{ReadOnly <addressMask> <areaMask>}
+@item Example:
+@code{ReadOnly 2:5021/19.* tver.sysop*}
+@end table
+
+This statement set one or many links to writeonly for specified area masks.
+If you write node address do it *without* trailing .0!
+
+If areaMask begins with '!' symbol it means that links won't be set
+readonly for areas that match areaMask
+
+@example
+    ReadOnly 2:5021/19.* tver.sysop*
+    ReadOnly 2:5021/19.1 !tver.sysop*
+    ReadOnly 2:5021/19.2 !tver.sysop.talks
+    ReadOnly 2:5021/192  ru.anekdot
+@end example
+
+It means that all points if 2:5021/19 set r/o for tver.sysop* echoareas and
+fileareas except 2:5021/19.1 for all areas and 2:5021/19.2 can write
+only to tver.sysop.talks from tver.sysop* areagroup. Last rule implements
+a read-only status of ru.anekdot (echo)area for node 2:5021/192.
+
+This statement can be repeated.
+
+@node WriteOnly, , ReadOnly, Keywords
+@subsection WriteOnly
+@findex WriteOnly
+@table @asis
+@item Syntax:
+@code{WriteOnly <addressMask> <areaMask>}
+@item Example:
+@code{WriteOnly 2:5021/19.* NobodyReadArea}
+@end table
+
+This statement set one or many links to writeonly for specified area masks.
+If you write node address do it *without* trailing .0!
+
+This statement can be repeated.
+
 
 
 @node HPT, HTick, Keywords, config file

@@ -137,7 +137,6 @@ pktsize
 processpkt
 protinbound
 publicgroup
-readonly
 reducedseenby
 remap
 remoterobotname
@@ -156,4 +155,3 @@ tempinbound
 tempoutbound
 tossingext
 unpack
-writeonly
