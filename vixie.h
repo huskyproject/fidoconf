@@ -28,7 +28,8 @@ MAIN:   Should be defined for a program containing a main() function which
                                                 /*--- debugging stuff ---*/
 #define MAXPROC 256
 
-#ifdef DEBUG
+/* #ifdef DEBUG*/
+#if 0
 #define ENTER(proc) { \
                         APC_PROCS[I_PROC] = proc; \
                         printf("ENTER(%d:%s.%s)\n", \
@@ -47,7 +48,7 @@ MAIN:   Should be defined for a program containing a main() function which
                         printf("EXITV(%d:%s.%s)\n", \
                                 I_PROC, DEBUG, \
                                 APC_PROCS[I_PROC]); \
-                        return value; \
+                        return; \
                 }
 #else
 #define ENTER(proc)
