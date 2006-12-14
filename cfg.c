@@ -104,6 +104,8 @@ int init_conf(const char *conf_name)
 #endif
   setvar("[", "[");
   setvar("`", "`");
+  /* Reinit CommentChar to the default value */
+  CommentChar='#';
   return 0;
 }
 
