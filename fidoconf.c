@@ -107,6 +107,9 @@ char *trimLine(char *line)
    char *start = line, *temp=NULL;
 
    while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
+   /* FIXME: Is it really needed to do a copy?
+    * I think the overhead will be much greater than possible benefits
+    * from occasionaly lessening of memory consumption */
    xstrcat(&temp, striptwhite(start));
    nfree(line);
    return temp;
@@ -138,6 +141,9 @@ char *striptwhite(char *str)
 char *stripComment(char *line)
 {
   char *aux;
+
+  if(line == NULL || line[0] == '\0')
+    return line;
 
   if (line[0]==CommentChar) {
     line[0]='\0';
