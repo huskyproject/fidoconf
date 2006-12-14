@@ -1,3 +1,31 @@
+2006-12-14 Thursday 13:55  nick_voronin
+
+	* fidoconf/fidoconf.h (1.39): Fix mvc compilation issues
+
+2006-12-14 Thursday 12:44  nick_voronin
+
+	* src/fidoconf.c (1.29): FIXME comment
+
+2006-12-14 Thursday 12:42  nick_voronin
+
+	* src/cfg.c (1.8): add reinitialization of CommentChar on every
+	  init_conf call
+
+2006-12-14 Thursday 09:28  stas_degteff
+
+	* doc/: keywords.hpt (1.38), proposal.texi (1.159): Move
+	  descriptions of the tokens 'readonly' and 'writeonly' into
+	  fidoconfig manual
+
+2006-12-12 Tuesday 10:52  stas_degteff
+
+	* fidoconf/fidoconf.h (1.38), src/line.c (1.53), src/tparser.c
+	  (1.35): Default RO and default RW for areas
+
+2006-11-25 Saturday 13:29  nick_voronin
+
+	* src/line.c (1.52): remove duplicated code
+
 2006-09-06 Wednesday 01:06  nick_voronin
 
 	* src/: common.c (1.23), line.c (1.51): Bug with freeing s_link
