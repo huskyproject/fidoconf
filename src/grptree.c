@@ -45,6 +45,10 @@ tree *groupTree = NULL;
 
 int grp_compareEntries_Add(char *p_g1, char *p_g2)
 {
+
+    unused(p_g1);
+    unused(p_g2);
+    
     return 1; /* we build a list instead of btree. */
 }
 

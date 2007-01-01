@@ -61,6 +61,9 @@ int fc_compareEntries(char *p_e1, char *p_e2)
 }
 
 int fc_deleteEntry(char *p_e1) {
+    
+    unused(p_e1);
+    
     return 1;
 }
 

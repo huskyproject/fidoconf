@@ -198,6 +198,7 @@ char *aka2str5d(hs_addr aka) {
 
 void freeGroups(char **grps, int numGroups)
 {
+    unused(numGroups);
 	nfree (grps);
 }
 

@@ -347,6 +347,9 @@ void free_echo(stat_echo *e) {
 }
 
 void debug_out(stat_echo *e) {
+  
+    unused(e);
+  
 #ifdef STAT_DEBUG
     stat_echo *cur = e ? e : statecho;
     chain_link *curl;

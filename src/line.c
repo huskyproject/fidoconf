@@ -3432,6 +3432,10 @@ int parseFilelist(char *line, s_fidoconfig *config)
 int parseSyslog(char *line, int *value)
 {
     int rv=0;
+  
+    unused(line);
+    unused(value);
+  
 #ifndef HAVE_SYSLOG
     prErr("%s: Syslogging is not supported on your platform!", actualKeyword);
     rv=1;
