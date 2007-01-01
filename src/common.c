@@ -830,7 +830,6 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
        tempoffset = tempoffset / 36;
    }
 
-   do
    {
        if (counter == icounter || icounter != refcounter)
        {
@@ -870,7 +869,7 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
        sprintf(fileName + pathLen + 7, "%c.%s", digits[counter], ext);
        counter = ((counter + 1) % 36);
 
-   } while (0); /* too slow because of readdir: fexist(fileName) == TRUE */;
+   }    /* too slow because of readdir: fexist(fileName) == TRUE */;
 
    flag = 0;
 

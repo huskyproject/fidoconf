@@ -2521,7 +2521,8 @@ int parseGrp(char *token, char **grp[], unsigned int *count) {
 	strcpy((*grp)[0], p);
 	p = (*grp)[0];
 	(*count)=1;
-	while (1) {
+    for (;;)
+    {
 		while (*p && !strrchr(" \t,", *p)) p++;
 		if (!*p) break;
 		*p++ = '\0';
@@ -3618,7 +3619,8 @@ int parseGroupDesc(s_fidoconfig *config, char *line) {
   if (*s != '"') { config->group[i].desc = sstrdup(s); return 0; }
   else {
     d = smalloc(l); s++; l = 0;
-    while (1) {
+    for (;;)
+    {
       if (*s == '"') { d[l++] = '\0'; break; }
       if (*s != '\\' || (*s == '\\' && *(s+1) == '\0')) d[l++] = *s;
       else switch (*(++s)) {
