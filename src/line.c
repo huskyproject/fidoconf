@@ -2746,7 +2746,7 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
           return 1;
    }
 
-    if(cb->move==2){
+    if(cb->move==CC_delete){
           prErr("CarbonDelete was specified before %s", actualKeyword);
           return 1;
    }
@@ -2780,7 +2780,7 @@ int parseCarbonArea(char *token, s_fidoconfig *config, int move) {
         if(cb->areaName!=NULL)  /* carboncopy, -move or extspawn */
             break;
         /* this was the end of a previous set expressions */
-        if(cb->move==2)         /* carbondelete */
+        if(cb->move==CC_delete)         /* carbondelete */
             break;
         fc_copyString(areaName, &(cb->areaName));
         if(reason)
@@ -2817,7 +2817,7 @@ int parseCarbonDelete(char *token, s_fidoconfig *config) {
           return 1;
    }
 
-   cb->move = 2;
+   cb->move = CC_delete;
    _carbonrule=CC_AND;
    cb->rule&=CC_NOT;
 
@@ -2829,10 +2829,10 @@ int parseCarbonDelete(char *token, s_fidoconfig *config) {
        cb--;
        if(cb->areaName!=NULL) /* carboncopy, -move, extern */
            break; /* this was the end of a previous set expressions */
-       if(cb->move==2) /* delete */
+       if(cb->move==CC_delete) /* delete */
            break;
        if(!cb->rule&CC_AND) /* OR */
-           cb->move=2;
+           cb->move=CC_delete;
    }
    return 0;
 }
@@ -2860,14 +2860,14 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
        prErr("CarbonArea defined before %s!", actualKeyword);
        return 1;
    }
-   if (cb->move==2) {
+   if (cb->move==CC_delete) {
        prErr("CarbonDelete defined before %s!", actualKeyword);
        return 1;
    }
 
    fc_copyString(token, &(cb->areaName));
    cb->extspawn = 1;
-   cb->move = 0;
+   cb->move = CC_copy;
    _carbonrule=CC_AND;
    cb->rule&=CC_NOT;
 
@@ -2879,12 +2879,12 @@ int parseCarbonExtern(char *token, s_fidoconfig *config) {
        cb--;
        if(cb->areaName!=NULL) /* carboncopy, -move, extern */
            break; /* this was the end of a previous set expressions */
-       if(cb->move==2) /* delete */
+       if(cb->move==CC_delete) /* delete */
            break;
        if(!cb->rule&CC_AND){ /* OR */
            fc_copyString(token, &(cb->areaName));
            cb->extspawn=1;
-           cb->move=0;
+           cb->move=CC_copy;
        }
    }
 
