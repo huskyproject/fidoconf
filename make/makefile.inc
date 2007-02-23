@@ -82,4 +82,4 @@ FEOBJ	= fecfg146$(_OBJ) fecfg2fc$(_OBJ)
 PROGRAMS  = $(TPARSER) $(LINKED) $(LINKED) $(FC2AED) $(FC2BINKD) $(FC2FGATE) $(FC2GED) $(FC2MSGED) $(FC2SQ) $(FC2TOR) $(FECFG2FC)
 
 # List of libraries required to build binary file(s)
-LIBS	=
+LIBS	= -lhusky$(LIBSUFFIX)
