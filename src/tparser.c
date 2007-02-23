@@ -996,20 +996,25 @@ void checkLogic(s_fidoconfig *config) {
 					exit(-1);
 				}
 			}
-                        /* Check for echoloop */
-                        if (area->useAka->point){
-                          hs_addr myaddr = { area->useAka->zone, area->useAka->net,
-                                             area->useAka->node, 0,
-                                             sstrdup(area->useAka->domain) };
+                }
+                /* Check for echoloop */
+                if (area->useAka->point){
+                  hs_addr areaboss = { area->useAka->zone, area->useAka->net,
+                    area->useAka->node, 0,
+                    "" /*sstrdup(area->useAka->domain)*/ };
+                    for (j=0; j<area->downlinkCount; j++) {
+                      ps_link link = area->downlinks[j]->link;
 
-                          if ((link->hisAka.point==0) && addrComp(link->hisAka, myaddr)) {
-                            printf("WARNING: echoarea %s is subscribed to ", areaName);
-                            printAddr(&(link->hisAka));
-                            printf(". This node is not your boss-node! Echo loop is possibled.");
-                            rc++;
-                          }
-                          nfree(myaddr.domain);
-                        }
+                      if ((link->hisAka.point==0) && addrComp(link->hisAka, areaboss)) {
+                        printf("WARNING: echoarea %s is subscribed to ", areaName);
+                        printAddr(&(link->hisAka));
+                        printf(". This node is not boss-node of your AKA ");
+                        printAddr(area->useAka);
+                        printf(" used in this echo! Echo loop or seen-by lock is possibled.\n");
+                        rc++;
+                      }
+                    }
+                    /*nfree(areaboss.domain);*/
                 }
         }
 
