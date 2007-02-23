@@ -906,7 +906,7 @@ int printRobot(ps_robot robot) {
 }
 
 /*  Some dumb checks ;-) */
-void checkLogic(s_fidoconfig *config) {
+int checkLogic(s_fidoconfig *config) {
 	register unsigned i,j,m;
 	register int k, rc=0;
 	int robotsarea_ok;
