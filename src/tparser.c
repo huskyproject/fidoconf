@@ -908,7 +908,7 @@ int printRobot(ps_robot robot) {
 /*  Some dumb checks ;-) */
 void checkLogic(s_fidoconfig *config) {
 	register unsigned i,j,m;
-	register int k;
+	register int k, rc=0;
 	int robotsarea_ok;
 	s_link *link;
 	s_area *area;
@@ -996,8 +996,22 @@ void checkLogic(s_fidoconfig *config) {
 					exit(-1);
 				}
 			}
-		}
-	}
+                        /* Check for echoloop */
+                        if (area->useAka->point){
+                          hs_addr myaddr = { area->useAka->zone, area->useAka->net,
+                                             area->useAka->node, 0,
+                                             sstrdup(area->useAka->domain) };
+
+                          if ((link->hisAka.point==0) && addrComp(link->hisAka, myaddr)) {
+                            printf("WARNING: echoarea %s is subscribed to ", areaName);
+                            printAddr(&(link->hisAka));
+                            printf(". This node is not your boss-node! Echo loop is possibled.");
+                            rc++;
+                          }
+                          nfree(myaddr.domain);
+                        }
+                }
+        }
 
 	for (i=0; i<config->localAreaCount; i++) {
 
@@ -1090,6 +1104,7 @@ void checkLogic(s_fidoconfig *config) {
 		printf("ERROR: robotsarea value is not an existing area\n");
 		exit(-1);
 	}
+        return rc;
 }
 
 void printCarbons(s_fidoconfig *config) {
@@ -1352,8 +1367,8 @@ int main(int argc, char **argv) {
 
    if (config != NULL) {
 
-        checkLogic(config);
-        rc = testConfig(config);
+     rc = checkLogic(config);
+        rc += testConfig(config);
         printf("=== MAIN CONFIG ===\n");
         printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
         if (config->name != NULL)	printf("Name:     %s\n", config->name);
