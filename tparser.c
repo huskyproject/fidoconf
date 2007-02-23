@@ -568,7 +568,7 @@ int printLink(s_link link) {
       printf("sessionPwd: %s\n", link.sessionPwd);
       if(strlen(link.sessionPwd)>8) {
         printf("WARNING: sessionPwd too long, should be not more what 8 chars usually.\nMore long password may cause error in some mailers.\n");
-        fprintf(stderr,"WARNING: sessionPwd too long, should be not more what 8 chars usually.\n");
+        fprintf(stderr,"WARNING: sessionPwd of %s too long, should be not more what 8 chars usually.\n", aka2str5d(link.hisAka));
       }
    }
    if (link.handle!=link.name) printf("handle:     %s\n", link.handle);
@@ -875,21 +875,27 @@ int checkLogic(s_fidoconfig *config) {
 					exit(-1);
 				}
 			}
-                        /* Check for echoloop */
-                        if (area->useAka->point){
-                          hs_addr myaddr = { area->useAka->zone, area->useAka->net,
-                                             area->useAka->node, 0,
-                                             sstrdup(area->useAka->domain) };
+                }
 
-                          if ((link->hisAka.point==0) && addrComp(link->hisAka, myaddr)) {
+                /* Check for echoloop */
+                if (area->useAka->point){
+                   hs_addr areaboss = { area->useAka->zone, area->useAka->net,
+                                             area->useAka->node, 0,
+                                             "" /*sstrdup(area->useAka->domain)*/ };
+                   for (j=0; j<area->downlinkCount; j++) {
+			ps_link link = area->downlinks[j]->link;
+
+                          if ((link->hisAka.point==0) && addrComp(link->hisAka, areaboss)) {
                             printf("WARNING: echoarea %s is subscribed to ", areaName);
                             printAddr(&(link->hisAka));
-                            printf(". This node is not your boss-node! Echo loop is possibled.");
+                            printf(". This node is not boss-node of your AKA ");
+			    printAddr(area->useAka);
+			    printf(" used in this echo! Echo loop or seen-by lock is possibled.\n");
                             rc++;
                           }
-                          nfree(myaddr.domain);
-                        }
-                }
+                    }
+                          /*nfree(areaboss.domain);*/
+		}
 	}
 
 	for (i=0; i<config->localAreaCount; i++) {
