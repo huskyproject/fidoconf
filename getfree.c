@@ -46,6 +46,8 @@
 
 /*  #include <windows.h> included in typesize.h */
 
+/* Return value is free space in kiB */
+/* Note: if function can't get actual value of free space is assumes maximum possible value */
 ULONG fc_GetDiskFreeSpace (const char *path)
 {
     FARPROC pGetDiskFreeSpaceEx = NULL;
@@ -67,9 +69,9 @@ ULONG fc_GetDiskFreeSpace (const char *path)
             w_log (LL_ERR, "GetDiskFreeSpace error: return code = %lu", GetLastError());
             /* return freeSpace;		    Assume enough disk space */
         } else {
-            freeSpace = i64FreeBytesToCaller.QuadPart > (ULONGLONG)freeSpace ?
-                        freeSpace :
-                        (ULONG)i64FreeBytesToCaller.QuadPart;
+            i64FreeBytesToCaller.QuadPart /= 1024;
+            if( i64FreeBytesToCaller.QuadPart < unsigned_long_max )
+               freeSpace = (ULONG)i64FreeBytesToCaller.QuadPart;
             /*  Process GetDiskFreeSpaceEx results. */
         }
     }
