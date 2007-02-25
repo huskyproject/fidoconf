@@ -119,7 +119,7 @@ ULONG fc_GetDiskFreeSpace (const char *path)
             w_log (LL_ERR, "GetDiskFreeSpace error: return code = %lu", GetLastError());
             /* return freeSpace;		    Assume enough disk space */
         } else {
-            /* return (unsigned long) (BPS * SPC * FC); */
+            /* return (unsigned long) (BPS * SPC * FC / 1024); */
             if (BPS * SPC >= 1024)
                 freeSpace = ((BPS * SPC / 1024l) * FC);
             else
