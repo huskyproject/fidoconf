@@ -179,6 +179,8 @@ char *stripComment(char *line)
 void initConfig(s_fidoconfig *config) {
    /*  set all to 0 */
    memset(config, 0, sizeof(s_fidoconfig));
+
+   /* set defaults */
    config -> loguid = config -> loggid = config -> logperm = -1;
    config -> tossingExt = strdup("tos");
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
@@ -186,6 +188,7 @@ void initConfig(s_fidoconfig *config) {
    config -> packNetMailOnScan = 1;
    config -> recodeMsgBase = 1;
    config -> reportRequester = 1;
+   config -> minDiskFreeSpace = 10;
 
    config->dupeArea.areaType = ECHOAREA;
    config->badArea.areaType = ECHOAREA;
