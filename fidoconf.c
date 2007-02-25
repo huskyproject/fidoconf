@@ -166,6 +166,8 @@ char *stripComment(char *line)
 void initConfig(s_fidoconfig *config) {
    /*  set all to 0 */
    memset(config, 0, sizeof(s_fidoconfig));
+
+   /* set defaults */
    config -> loguid = config -> loggid = config -> logperm = -1;
    config -> tossingExt = strdup("tos");
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
@@ -175,6 +177,8 @@ void initConfig(s_fidoconfig *config) {
        MSGPRIVATE | MSGKILL | MSGLOCAL;
    config -> areafixReportsFlags = sstrdup("NPD");
    config -> filefixReportsFlags = sstrdup("NPD");
+   config -> minDiskFreeSpace = 10;
+
 }
 
 char *getConfigFileNameForProgram(char *envVar, char *configName)
