@@ -70,7 +70,7 @@ ULONG fc_GetDiskFreeSpace (const char *path)
             /* return freeSpace;		    Assume enough disk space */
         } else {
             i64FreeBytesToCaller.QuadPart /= 1024;
-            if( i64FreeBytesToCaller.QuadPart < unsigned_long_max )
+            if( i64FreeBytesToCaller.QuadPart < ULONG_MAX )
                freeSpace = (ULONG)i64FreeBytesToCaller.QuadPart;
             /*  Process GetDiskFreeSpaceEx results. */
         }
