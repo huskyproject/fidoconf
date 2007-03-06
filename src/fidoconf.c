@@ -177,7 +177,9 @@ char *stripComment(char *line)
 }
 
 void initConfig(s_fidoconfig *config) {
-   /*  set all to 0 */
+   ps_robot r;
+
+ 	/*  set all to 0 */
    memset(config, 0, sizeof(s_fidoconfig));
 
    /* set defaults */
@@ -194,6 +196,15 @@ void initConfig(s_fidoconfig *config) {
    config->badArea.areaType = ECHOAREA;
    config->EchoAreaDefault.areaType = ECHOAREA;
    config->FileAreaDefault.areaType = FILEAREA;
+
+   /* robots' defaults */
+   r = getRobot(config, "areafix", 1);
+   r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
+   r->reportsFlags = sstrdup("NPD");
+
+   r = getRobot(config, "filefix", 1);
+   r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
+   r->reportsFlags = sstrdup("NPD");
 
    initGroupTree();
 }
@@ -463,8 +474,6 @@ void setConfigDefaults(s_fidoconfig *config)
    r->strA = sstrdup("area");
    r->strC = sstrdup("echoarea");
    if (!r->names) xstrcat(&r->names,"AreaFix AreaMgr hpt");
-   if (!r->reportsAttr) r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
-   if (!r->reportsFlags) r->reportsFlags = sstrdup("NPD");
 
    r = getRobot(config, "filefix", 1);
    r->areas = &(config->fileAreas);
@@ -472,8 +481,6 @@ void setConfigDefaults(s_fidoconfig *config)
    r->strA = sstrdup("filearea");
    r->strC = sstrdup("filearea");
    if (!r->names) xstrcat(&r->names,"FileFix FileMgr AllFix FileScan htick");
-   if (!r->reportsAttr) r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
-   if (!r->reportsFlags) r->reportsFlags = sstrdup("NPD");
 
    if (config->sysop==NULL) xstrcat(&config->sysop,"SysOp");
    if (config->advisoryLock==0)  config->advisoryLock  = 0;
@@ -563,6 +570,7 @@ s_fidoconfig *readConfig(const char *fileName)
 
    config = (s_fidoconfig *) smalloc(sizeof(s_fidoconfig));
 
+   /* initialization and setting default values */
    initConfig(config);
 
    while ((line = configline()) != NULL) {
