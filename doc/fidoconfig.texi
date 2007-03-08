@@ -44,7 +44,7 @@ This document applies to version 0.15 of fidoconfig.
 * design goals::  what we want to achieve
 * config file::   how does it look like
 * tparser::       testing your config
-* converting::    Converting fidoconfig to golded and msged
+* converting::    Converting fidoconfig
 * contact::       contacting the author
 @end menu
 
@@ -66,34 +66,121 @@ should be quite portable.
 @include proposal.texi
 
 @node converting, tparser, config file, Top
-@chapter Converting fidoconfig to golded, msged and aquaed
-Since original GoldEd by Odinn Sorensen does not support fidoconfig at
-all and msged and aquaed only in beta versions, we have developed three
-programs that convert your fidoconfig to these proprietary config file
-formats.
+@chapter Converting fidoconfig
+Since popular mail readers, BBS programs and mailers does not support
+fidoconfig, we have developed programs that convert your fidoconfig to
+these config file formats.
+
+Golded+ by Alexander A.Aganichev supports fidoconfig and converter isn't needs,
+MsgEd TE 6.x and above integrated with fidoconfig.
+
+Also we have developed program to convert configuration files of Fastecho
+tosser program into fidoconfig, to make migration from Fastecho to fidoconfig
+(and hpt) more easy.
 
 @enumerate
 @item fconf2golded
-fconf2golded <goldedConfigFileName> [<default.cfg>]
+@*Converts fidoconfig to configuration file of Golded by Odinn Sorensen.
 
+Synopsys:@*
+@command{fconf2golded <goldedConfigFileName> [<default.cfg>]}
+
+Example:
 @example
 fconf2golded ~/golded/golded.cfg ~/golded/goldDefaults.cfg
 @end example
 
 @item fconf2msged
-fconf2msged <msgedConfigFileName>
+@*Converts fidoconfig to configuration file of MgsEd sysce version 6.
 
+Synopsys:@*
+@command{fconf2msged <msgedConfigFileName>}
+
+Example:
 @example
 fconf2msged ~/msged.areas
 @end example
 
 @item fconf2aquaed
-fconf2aquaed <aquaedConfigFileName> [<default.cfg>]
+@*Convert fidoconfig to configuration file of AquaEd.
+
+Synopsys:@*
+@command{fconf2aquaed <aquaedConfigFileName> [<default.cfg>]}
 (if you specify default.cfg there will be a include <default.cfg> generated in
 your config file)
 
+Example:
 @example
 fconf2aquaed ~/aquaed/aquaed.cfg
+@end example
+
+@item fconf2binkd@*
+Fidoconfig to binkd config converter: generates passwords file for binkd or
+generates simple binkd config file (you may include it into real config).
+
+Synopsys:@*
+@command{fconf2binkd [-v] [-h] [-c path/to/fidoconfig] [-f] [-p] [output_file_name]}
+
+See details in fconf2binkd(1) man page or fconf2binkd.html.
+
+Examples:
+@example
+fconf2binkd -c ../husky/config -p binkd.pwd
+fconf2binkd binkd.conf
+@end example
+
+@item fconf2fidogate@*
+Convert fidoconfig into config file of fidogate.
+
+Synopsys:@*
+@command{fconf2fidogate <FidoGateAreasFileName> [<default.cfg>]}
+(you may read config defaults from default.cfg)
+
+Example:
+@example
+fconf2fidogate /usr/local/lib/fidogate/areas
+@end example
+
+@item fconf2squish@*
+Convert fidoconfig into config file of Squish.
+
+Synopsys:@*
+@command{fconf2squish (<squish.cfg>|-) [<default.cfg>]}
+(- as squish.cfg means stdout)
+(you may read config defaults from default.cfg)
+
+See details in fconf2squish(1) man page or fconf2squish.html
+
+Examples:
+@example
+fconf2squish ~/squish/squish.cfg
+fconf2squish - | grep -i echo >sqechoes.cfg
+@end example
+
+@item fconf2tornado@*
+Convert fidoconfig into config file of Tornado BBS.
+
+Synopsys:@*
+@command{fconf2tornado -[command [-command...]] <tornado.ctl> [<default.cfg>]}
+(you may read config defaults from default.cfg)
+
+See details in fconf2tornado(1) man page or fconf2tornado.html
+
+Examples:
+@example
+fconf2tornado -ff -g -grLocal filearea.ctl temp.ctl
+fconf2tornado -mel -ss256 c:\bbs\tornado\msgarea.ctl
+@end example
+
+@item fecfg2fconf@*
+Convert configuration of Fastecho into fidoconfig.
+
+Synopsys:@*
+@command{fecfg2fconf [path]fastecho.cfg [output fidoconfig]}
+
+Example:
+@example
+fecfg2fconf c:\fido\fastecho\fastecho.cfg fidoconfig.tmp
 @end example
 
 @end enumerate
