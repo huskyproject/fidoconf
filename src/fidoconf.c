@@ -197,15 +197,6 @@ void initConfig(s_fidoconfig *config) {
    config->EchoAreaDefault.areaType = ECHOAREA;
    config->FileAreaDefault.areaType = FILEAREA;
 
-   /* robots' defaults */
-   r = getRobot(config, "areafix", 1);
-   r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
-   r->reportsFlags = sstrdup("NPD");
-
-   r = getRobot(config, "filefix", 1);
-   r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
-   r->reportsFlags = sstrdup("NPD");
-
    initGroupTree();
 }
 

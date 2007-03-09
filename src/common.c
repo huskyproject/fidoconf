@@ -74,6 +74,9 @@
 #define DLLEXPORT
 #include <huskylib/huskyext.h>
 
+/* smapi */
+#include <smapi/msgapi.h>
+
 #include "fidoconf.h"
 #include "common.h"
 
@@ -901,6 +904,8 @@ s_robot *getRobot(ps_fidoconfig config, char *name, int create)
       r->forwardRequestTimeout = 7;
       r->idlePassthruTimeout   = 4;
       r->killedRequestTimeout  = 3;
+	  r->reportsAttr = MSGPRIVATE | MSGKILL | MSGLOCAL;
+	  r->reportsFlags = sstrdup("NPD");
     }
     else {
       memcpy(r, def, sizeof(*r)); /* this will copy all numeric fields */
