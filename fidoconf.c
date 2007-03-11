@@ -506,6 +506,7 @@ s_fidoconfig *readConfig(const char *fileName)
       fflush(stdout);
       exit(EX_CONFIG);
    }
+   createVirtualLinks((s_fidoconfig *)config); /* fix for no echo/file areas described in config */
    setConfigDefaults(config);
    processPermissions (config);
    fixRoute(config);
