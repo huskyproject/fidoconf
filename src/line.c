@@ -623,21 +623,21 @@ int getLinkRescanAccess(s_area *area, s_link *link)
 void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
 {
     s_link *link=arealink->link;
-    
+
     if (link->numOptGrp > 0) {
         /*  default set export on, import on, mandatory off, manual off */
         arealink->export = 1;
         arealink->import = 1;
         arealink->mandatory = 0;
         arealink->manual = 0;
-        
+
         if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
             arealink->export = link->export;
             arealink->import = link->import;
             arealink->mandatory = link->mandatory;
             arealink->manual = link->manual;
         }
-        
+
     } else {
         arealink->export = link->export;
         arealink->import = link->import;
@@ -671,7 +671,7 @@ void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
             }
         }
     }
-	
+
 }
 
 
@@ -683,12 +683,12 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
     char *iToken;
     size_t i;
     long il;
-    
+
     if (option == NULL) {
         prErr("There are parameters missing after %s!", actualKeyword);
         return 1;
     }
-    
+
     iOption = strLower(sstrdup(option));
     if (strcmp(iOption, "b")==0) {
         if( area->areaType == ECHOAREA ) {
@@ -817,11 +817,11 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;     /*  error occured; */
         }
         area->levelread = (unsigned) il ;
-        
+
         /* if link was added before -lr setting it must be updated */
         for(i=0;i<area->downlinkCount;++i)
             setLinkAccess( config, area, area->downlinks[i]);
-        
+
     }
     else if (strcmp(iOption, "lw")==0) {
         token = strtok(NULL, " \t");
@@ -853,10 +853,10 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
         /* if link was added before -lw setting it must be updated */
         for(i=0;i<area->downlinkCount;++i)
             setLinkAccess( config, area, area->downlinks[i]);
-        
+
     }
     else if (strcmp(iOption, "tinysb")==0) {
-        
+
         if( area->areaType == ECHOAREA )  {
             area->tinySB = 1;
         } else {
@@ -928,7 +928,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;     /*  error */
         }
     }
-    
+
     else if (strcmp(iOption, "h")==0) area->hide = 1;
     else if (strcmp(iOption, "hide")==0) area->hide = 1;
     else if (strcmp(iOption, "nohide")==0) area->hide = 0;
@@ -961,7 +961,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             prErr("Option '%s' is allowed for echoareas and localareas only!",iOption);
             nfree(iOption);
             return 1;     /*  error */
-        } 
+        }
     }
     else if (strcmp(iOption, "paused")==0) area->paused = 1;
     else if (strcmp(iOption, "noautoareapause")==0) area->noautoareapause = 1;
@@ -1084,7 +1084,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             nfree(iOption);
             return 1;     /*  error */
         }
-    }     
+    }
     else if (strcmp(iOption, "dupecheck")==0) {
         token = strtok(NULL, " \t");
         if (token == NULL) {
@@ -1205,7 +1205,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
         nfree(iOption);
         return 1;
     }
-    
+
     nfree(iOption);
     return 0;
 }
@@ -1213,7 +1213,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
 int parseLinkOption(s_arealink *alink, char *token)
 {
     char *iToken;
-    
+
     if (token == NULL) {
         prErr("There are parameters missing after %s!", actualKeyword);
         return 1;
@@ -1227,7 +1227,7 @@ int parseLinkOption(s_arealink *alink, char *token)
         nfree(iToken);
         return 1;
     }
-    
+
     nfree(iToken);
     return 0;
 }
@@ -1236,12 +1236,12 @@ int parseAreaLink(s_fidoconfig *config, s_area *area, char *tok)
 {
     s_arealink *arealink;
     s_link *link;
-    
+
     if (tok == NULL) {
         prErr("There are parameters missing after %s!", actualKeyword);
         return 1;
     }
-    
+
     if ((link = getLinkForArea(config, tok, area)) == NULL) {
         prErr("no links like \"%s\" in config!", tok);
         return 1;
@@ -1250,16 +1250,16 @@ int parseAreaLink(s_fidoconfig *config, s_area *area, char *tok)
         prErr("link %s subscribed twice!", tok);
         return 0;
     }
-    
+
     area->downlinks = srealloc(area->downlinks, sizeof(s_arealink*)*(area->downlinkCount+1));
     area->downlinks[area->downlinkCount] = (s_arealink*)scalloc(1, sizeof(s_arealink));
     area->downlinks[area->downlinkCount]->link = link;
-    
+
     arealink = area->downlinks[area->downlinkCount];
     area->downlinkCount++;
-    
+
     setLinkAccess(config, area, arealink);
-    
+
     return 0;
 }
 
@@ -1337,7 +1337,7 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
         area->downlinkCount=0; /* was copied from default but there were no downlinks added really */
         area->downlinks=NULL;
         /* so now add default downlinks */
-        
+
         /* echo|file diffs */
         if(area->areaType == ECHOAREA) {
             for(i=0;i<j;++i)
@@ -1387,7 +1387,7 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
    if (stricmp(tok, "passthrough") != 0) {
        /* perhaps passthrough in default, so this does not have to be */
        /* a filename */
-       
+
        /* is it a filename? */
        ptr=tok;
        while(*ptr && *ptr != PATH_DELIM && !isspace(*ptr))
@@ -1406,7 +1406,7 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
            prErr("There is a pathname missing %s!", actualLine);
            return 2;         /*  if there is no filename */
        }
-       
+
    }else{
         /*  passthrough area */
         /*   area->fileName = NULL;  was copied from default */
@@ -1652,7 +1652,7 @@ int parseEchoArea(char *token, s_fidoconfig *config)
         prErr("There are parameters missing after %s!", actualKeyword);
         return 1;
     }
-    
+
     config->echoAreas = srealloc(config->echoAreas, sizeof(s_area)*(config->echoAreaCount+1));
     area = &(config->echoAreas[config->echoAreaCount]);
     area->areaType = ECHOAREA;
@@ -1669,7 +1669,7 @@ int parseNetMailArea(char *token, s_fidoconfig *config)
         prErr("There are parameters missing after %s!", actualKeyword);
         return 1;
     }
-    
+
     config->netMailAreas = srealloc(config->netMailAreas, sizeof(s_area)*(config->netMailAreaCount+1));
     area = &(config->netMailAreas[config->netMailAreaCount]);
     area->areaType = ECHOAREA;
@@ -1682,12 +1682,12 @@ int parseFileArea(char *token, s_fidoconfig *config)
 {
     int rc;
     s_area *area;
-    
+
     if (token == NULL) {
         prErr("There are parameters missing after %s!", actualKeyword);
         return 1;
     }
-    
+
     config->fileAreas = srealloc(config->fileAreas,
         sizeof(s_area)*(config->fileAreaCount+1));
 
@@ -2158,7 +2158,7 @@ int parsePack(char *line, s_fidoconfig *config) {
       prErr("Parameter missing after %s!", actualKeyword);
       return 1;
    }
-   
+
    /* check for no link definition was before */
    if(config->linkCount > 0)
    {
@@ -2410,7 +2410,7 @@ int parseLoglevels(char *line, char **loglevels) {
 
   nfree(temp);
   nfree(ll);
-  return 0;	
+  return 0;
 }
 
 int parsePackerDef(char *line, s_fidoconfig *config, s_pack **packerDef) {
@@ -2641,16 +2641,16 @@ int parseLocalArea(char *token, s_fidoconfig *config)
 {
     int rc;
     s_area *area;
-    
+
     if (token == NULL) {
         prErr("There are parameters missing after %s!", actualKeyword);
         return 1;
     }
-    
+
     config->localAreas = srealloc(config->localAreas, sizeof(s_area)*(config->localAreaCount+1));
     area = &(config->localAreas[config->localAreaCount]);
     area->areaType = ECHOAREA;
-    
+
     area->areaType = ECHOAREA;
     rc = parseArea(config, token, area, 0);
     config->localAreaCount++;
@@ -3433,10 +3433,10 @@ int parseFilelist(char *line, s_fidoconfig *config)
 int parseSyslog(char *line, int *value)
 {
     int rv=0;
-  
+
     unused(line);
     unused(value);
-  
+
 #ifndef HAVE_SYSLOG
     prErr("%s: Syslogging is not supported on your platform!", actualKeyword);
     rv=1;
@@ -4197,6 +4197,10 @@ int parseLine(char *line, s_fidoconfig *config)
                               &(getDescrLink(config)->fileEchoFlavour));
             break;
         case ID_ROBOT:
+            if (config->describeLinkDefaults || config->linkCount) {
+              prErr( "Any robots should be described before any link or linkdefailts!");
+              rc = 1;
+            }
             curRobot = getRobot(config, getRestOfLine(), 1);
             break;
         case ID_ROUTE:
@@ -4557,7 +4561,7 @@ int parseLine(char *line, s_fidoconfig *config)
             }
             break;
         case ID_DELAPPLIEDDIFF:
-            rc = parseBool(getRestOfLine(), 
+            rc = parseBool(getRestOfLine(),
                 &(config->nodelists[config->nodelistCount-1].delAppliedDiff));
             break;
         case ID_FULLUPDATE:
