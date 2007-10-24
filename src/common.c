@@ -134,36 +134,49 @@ int string2addr(const char *string, hs_addr *addr) {
 	char *endptr;
 	const char *str = string;
 	unsigned long t;
-
-	memset(addr, '\0', sizeof(hs_addr));
+	hs_addr tempaddr = {0,0,0,0,NULL};
 
 	if (str == NULL) return 0;
     /* valid addres must contain ':' '/' symbols */
 	if (strchr(str,':')==NULL || strchr(str,'/')==NULL) return 0;
 
 	/*  zone */
-	/* if (NULL == strstr(str,":")) return 0; no need check this twise */
 	t = strtoul(str,&endptr,10);
-	addr->zone = (hUINT16) t;
-	if(!addr->zone) return 0; /*  there is no zero zones in practice */
+	if (t==0) return 0; /*  there is no zero zones in practice */
+	if (*endptr!=':') return 0; /* after zone number should be colon char */
+	tempaddr.zone = (hUINT16) t;
 
 	/*  net */
 	str = endptr+1;
-	/* if (NULL == strstr(str,"/")) return 0; o need check this twise */
 	t = strtoul(str,&endptr,10);
-	addr->net = (hUINT16) t;
+	if (*endptr!='/') return 0; /* after net/region number should be slash char */
+	tempaddr.net = (hUINT16) t;
 
 	/*  node */
 	str = endptr+1;
 	t = strtoul(str,&endptr,10);
-	addr->node = (hUINT16) t;
+	tempaddr.node = (hUINT16) t;
 
 	/*  point */
-	if (*endptr && !isspace( endptr[0] )) str = endptr+1;
-	else return 1; /*  end of string */
-	t = strtoul(str,&endptr,10);
-	addr->point = (hUINT16) t;
-	
+	if (*endptr && ( endptr[0]=='.' )) {
+	   str = endptr+1;
+	   t = strtoul(str,&endptr,10);
+	   tempaddr.point = (hUINT16) t;
+	}
+
+	/*  domain */
+	if (*endptr && (endptr[0]=='@') ) {
+	   str = ++endptr;
+	   while (isalpha(*(++endptr)));
+	   if (endptr>str) {
+	      tempaddr.domain = smalloc((endptr-str)+1);
+	      memcpy(tempaddr.domain,str,endptr-str);
+	      tempaddr.domain[endptr-str]='\0';
+	   }
+	}
+
+	memcpy(addr, &tempaddr, sizeof(hs_addr));
+
 	return 1;
 }
 
