@@ -1,3 +1,1 @@
 - getArea(TP_LOCAL|TP_ECHO|TP_BAD|TP_DUPE|TP_FILE)
-- create section for HTick in proposal.texi since some keywords (i. e.
-  autofilecreate) aren't properly documented
