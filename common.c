@@ -221,6 +221,7 @@ void string2addr(const char *string, hs_addr *addr) {
 	const char *str = string;
 	unsigned long t;
 
+	if (addr == NULL) return;
 	memset(addr, '\0', sizeof(hs_addr));
 
 	if (str == NULL) return;
