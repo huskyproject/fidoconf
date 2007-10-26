@@ -126,9 +126,23 @@ int  addrComp(const hs_addr a1, const hs_addr a2)
 
    return rc;
 }
-/*
-return 1 on succesful parsing
-return 0 on bad addr. string
+
+/* Dont remember syncronize changes of this description with function declaration in common.h
+  Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
+  Output: 1 on succesful parsing; 0 if string don't contain FTN address or adressis invalid
+  FZ:     string2addr converts a 5D FTN address from string representaion in char[] to an addr.
+          If string is not an addr 0 is returned and structure pointed by addr don't changes.
+          Side effect: string2addr(string, NULL) may be used for validation of FTN address string.
+          Address parsing sequence:
+          1 - remove leading spaces
+          2 - recognize zone number and check ':' character after zone, next test zone number for
+              positive value
+          3 - recognize network number and check '/' character after network
+          4 - recognize node number
+          5 - check '.' character and recognize point number after '.'
+          6 - check '@' character and recognize domain name  after '@', domain stops on first
+              non-alphanumberic character (RE [0-9a-zA-Z_]+).
+  WARNING! if addr->domain is pointes to maloc'ed string this function is produced memory leak!
 */
 int string2addr(const char *string, hs_addr *addr) {
 	char *endptr;
@@ -140,14 +154,18 @@ int string2addr(const char *string, hs_addr *addr) {
     /* valid addres must contain ':' '/' symbols */
 	if (strchr(str,':')==NULL || strchr(str,'/')==NULL) return 0;
 
+        while (*str && *str==' ') ++str; /* strip leading spaces */
+
 	/*  zone */
+        if (!isdigit(*str)) return 0; /* prevent to recognize negative zone number */
 	t = strtoul(str,&endptr,10);
-	if (t==0) return 0; /*  there is no zero zones in practice */
+	if (t==0) return 0; /* there is no zero zones in practice. !!! May be this is bad (very strong) requirement?!?! */
 	if (*endptr!=':') return 0; /* after zone number should be colon char */
 	tempaddr.zone = (hUINT16) t;
 
 	/*  net */
 	str = endptr+1;
+        if (!isdigit(*str)) return 0; /* prevent to recognize negative network number */
 	t = strtoul(str,&endptr,10);
 	if (*endptr!='/') return 0; /* after net/region number should be slash char */
 	tempaddr.net = (hUINT16) t;
@@ -169,13 +187,14 @@ int string2addr(const char *string, hs_addr *addr) {
 	   str = ++endptr;
 	   while (isalpha(*(++endptr)));
 	   if (endptr>str) {
-	      tempaddr.domain = smalloc((endptr-str)+1);
-	      memcpy(tempaddr.domain,str,endptr-str);
-	      tempaddr.domain[endptr-str]='\0';
+	      tempaddr.domain = smalloc(endptr-str+1);
+	      strnzcpy(tempaddr.domain,str,endptr-str+1);
 	   }
 	}
 
-	memcpy(addr, &tempaddr, sizeof(hs_addr));
+	if (addr) memcpy(addr, &tempaddr, sizeof(hs_addr));
+        /* !!! if addr->domain is pointed to maloc'ed string this action is produced memory leak! */
+        /* but if addr->domain is not cleared after malloc, call free(addr->domain) will produce memory fault on some OS */
 
 	return 1;
 }

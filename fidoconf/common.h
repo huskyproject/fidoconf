@@ -76,8 +76,20 @@ HUSKYEXT int  addrComp(const hs_addr a1, const hs_addr a2);
 HUSKYEXT int string2addr(const char *string, hs_addr *addr);
 /*DOC
   Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
-  Output: return 1 on succesful parsing; return 0 on bad addr. string
-  FZ:     string2addr converts a char[] to an addr. If string is not an addr NULL ist returned.
+  Output: 1 on succesful parsing; 0 if string don't contain FTN address or adressis invalid
+  FZ:     string2addr converts a 5D FTN address from string representaion in char[] to an addr.
+          If string is not an addr 0 is returned and structure pointed by addr don't changes.
+          Side effect: string2addr(string, NULL) may be used for validation of FTN address string.
+          Address parsing sequence:
+          1 - remove leading spaces
+          2 - recognize zone number and check ':' character after zone, next test zone number for
+              positive value
+          3 - recognize network number and check '/' character after network
+          4 - recognize node number
+          5 - check '.' character and recognize point number after '.'
+          6 - check '@' character and recognize domain name  after '@', domain stops on first
+              non-alphanumberic character (RE [0-9a-zA-Z_]+).
+  WARNING! if addr->domain is pointes to maloc'ed string this function is produced memory leak!
 */
 
 HUSKYEXT char *makeUniqueDosFileName(const char *dir, const char *ext, s_fidoconfig *config);
