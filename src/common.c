@@ -185,8 +185,8 @@ int string2addr(const char *string, hs_addr *addr) {
 	/*  domain */
 	if (*endptr && (endptr[0]=='@') ) {
 	   str = ++endptr;
-	   while (isalpha(*(++endptr)));
-	   if (endptr>str) {
+	   while (*endptr && isalpha(*(++endptr)));
+	   if (endptr>str) { /* may be limits domain to 8 characters? */
 	      tempaddr.domain = smalloc(endptr-str+1);
 	      strnzcpy(tempaddr.domain,str,endptr-str+1);
 	   }
