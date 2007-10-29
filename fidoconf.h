@@ -799,6 +799,11 @@ FCONF_EXT void fc_freeFileArea(s_filearea *area);
  */
 FCONF_EXT void processPermissions (const s_fidoconfig *config);
 
+/* Add all our AKAs to links array. Needs for operations with passthrough areases.
+ * This function should be called before allocating of the fileAreas and echoAres arrays
+ */
+void createVirtualLinks(s_fidoconfig *config);
+
 /*  define exit codes for non unix systems */
 #ifndef _SYSEXITS_H
 #define _SYSEXITS_H
