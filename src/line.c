@@ -265,7 +265,8 @@ int parseAddress(char *token, s_fidoconfig *config)
    }
 
    config->addr = srealloc(config->addr, sizeof(hs_addr)*(config->addrCount+1));
-   string2addr(aka, &(config->addr[config->addrCount]));
+   memset(&(config->addr[config->addrCount]), 0, sizeof(hs_addr));
+   parseFtnAddrZS(aka, &(config->addr[config->addrCount]));
    config->addrCount++;
 
    return 0;
@@ -283,6 +284,7 @@ int parseRemap(char *token, s_fidoconfig *config)
 
    config->remaps = srealloc(config->remaps,
                           (config->remapCount+1)*sizeof(s_remap));
+   memset(&config->remaps[config->remapCount], 0, sizeof(s_remap));
 
    param = strtok(token, ",\t");
    if (param == NULL) {
@@ -294,8 +296,6 @@ int parseRemap(char *token, s_fidoconfig *config)
       { /*  Name for rerouting */
       config->remaps[config->remapCount].toname=sstrdup(param);
       }
-     else
-      config->remaps[config->remapCount].toname=NULL;
 
    param = strtok(NULL, ",\t");
    if (param == NULL) {
@@ -303,10 +303,8 @@ int parseRemap(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   if (strcmp(param,"*")==0)
-      config->remaps[config->remapCount].oldaddr.zone=0;
-     else
-      string2addr(param, &(config->remaps[config->remapCount].oldaddr));
+   if (strcmp(param,"*")!=0)
+      parseFtnAddrZS(param, &(config->remaps[config->remapCount].oldaddr));
 
    param = strtok(NULL, " \t");
    if (param == NULL) {
@@ -314,7 +312,7 @@ int parseRemap(char *token, s_fidoconfig *config)
       return 1;
    }
 
-   string2addr(param, &(config->remaps[config->remapCount].newaddr));
+   parseFtnAddrZS(param, &(config->remaps[config->remapCount].newaddr));
 
    if (config->remaps[config->remapCount].toname==NULL &&
        config->remaps[config->remapCount].oldaddr.zone==0)
@@ -573,8 +571,8 @@ int parseNumber(char *token, int radix, unsigned *level) {
 
 int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 {
-	char buf[6];
-	unsigned net=0,node=0,i;
+	char *next;
+	unsigned int maxcount = *count;
 
 	if (token==NULL) {
 		prErr("There is an address missing after %s!", actualKeyword);
@@ -582,25 +580,26 @@ int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 	}
 
 	while (*token) {
-		while(!isdigit(*token)) token++; i=0;
-		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
-		buf[i]='\0'; net=atoi(buf);
+		while(!isdigit(*token)) token++;
 
-		if (*token == ':') continue;
+		if(*count >= maxcount) /* realloc once per 10 iteration */
+		{
+			maxcount = *count+10;
+			(*addr) = srealloc(*addr, sizeof(hs_addr)*maxcount);
+			memset(*addr+*count, 0, sizeof(hs_addr)*10);
+		}
 
-		while(!isdigit(*token)) token++; i=0;
-		while(isdigit(*token) && i<6) { buf[i] = *token, token++; i++;}
-		buf[i]='\0'; node=atoi(buf);
+		if(parseFtnAddrZ(token, &(*addr)[*count], FTNADDR_2D, &next) & FTNADDR_ERROR)
+			return 1;
 
-		if (*token == '.') { token++; while(isdigit(*token)) token++; }
-
-		(*addr) = srealloc(*addr, sizeof(hs_addr)*(*count+1));
-		(*addr)[*count].net  = net;
-		(*addr)[*count].node = node;
+		token = next;
+		
 		(*count)++;
 
 		if (*token == ')') break;
 	}
+	if(maxcount > *count)
+		(*addr) = srealloc(*addr, sizeof(hs_addr)*(*count));
 	return 0;
 }
 
@@ -1311,7 +1310,7 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
       return 1;         /*  if there is no areaname */
    }
 
-   if (useDefs && (group = findGroupForArea(tok)))
+   if (useDefs && (group = findGroupForArea(tok)) != NULL )
        memcpy(area, group->area,sizeof(s_area));
 
    area->areaName= (char *) smalloc(strlen(tok)+1);
@@ -1351,7 +1350,7 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
 
     /*   area->fperm = area->uid = area->gid = -1;*/
     if(!area->fperm && !area->uid && !area->gid)
-        area->fperm = area->uid = area->gid = -1;
+        area->fperm = area->uid = area->gid = (UINT)-1;
 
     /*   area->msgbType = MSGTYPE_SDM;*/
     if(!area->msgbType)
@@ -1501,7 +1500,7 @@ int parseAreaDefault(s_fidoconfig *config, char *token, s_area *adef, int cleanu
        memset(adef, '\0', sizeof(s_area));
        adef->useAka = config->addr;
        adef->areaType = aType;
-       adef->fperm = adef->uid = adef->gid = -1;
+       adef->fperm = adef->uid = adef->gid = (UINT)-1;
        adef->msgbType = MSGTYPE_SDM;
        /*  set default parameters of dupebase */
        adef->dupeHistory = 7; /* 7 days */
@@ -1795,8 +1794,6 @@ int parseLink(char *token, s_fidoconfig *config)
 
       memcpy(clink, deflink = config->linkDefaults, sizeof(s_link));
 
-	  clink->hisAka.domain = sstrdup(deflink->hisAka.domain);
-	  clink->hisPackAka.domain = sstrdup(deflink->hisPackAka.domain);
 	  clink->name = sstrdup(deflink->name);
 
 	  clink->defaultPwd = sstrdup(deflink->defaultPwd);
@@ -1914,7 +1911,7 @@ int parseAnnDefAddres(char *token, s_fidoconfig *config, int i)
    }
    cAnnDef = getDescrAnnDef(config);
    addr = scalloc(1,sizeof(hs_addr));
-   string2addr(token,addr );
+   parseFtnAddrZS(token, addr);
 
    if( i == 1)
        cAnnDef->annaddrto = addr;
@@ -2716,7 +2713,9 @@ int parseCarbon(char *token, s_fidoconfig *config, e_carbonType ctype)
     cb->rule=_carbonrule;
 
     if(ctype==ct_addr)
-        string2addr(token, &(cb->addr));
+	{
+        parseFtnAddrZS(token, &(cb->addr));
+	}
     else {
 	/*  strip trailing "" */
 	if (token[0]=='"' && token[strlen(token)-1]=='"') {
@@ -3853,7 +3852,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_AKA:
             if ((clink = getDescrLink(config)) != NULL ) {
-                string2addr(getRestOfLine(), &clink->hisAka);
+                parseFtnAddrZS(getRestOfLine(), &clink->hisAka);
             }
             else {
                 rc = 1;
@@ -3876,8 +3875,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = 0;
             if((clink = getDescrLink(config)) != NULL)
             {
-                nfree(clink->hisPackAka.domain);
-                string2addr(getRestOfLine(), &clink->hisPackAka);
+                parseFtnAddrZS(getRestOfLine(), &clink->hisPackAka);
             }
             else
               rc = 1;
@@ -4461,7 +4459,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = fc_copyString(getRestOfLine(), &(config->ReportTo));
             break;
         case ID_REPORTREQUESTER:
-            rc = parseBool(getRestOfLine(), &(config->reportRequester));
+            rc = parseBool(getRestOfLine(), (unsigned int*)&(config->reportRequester));
             break;
         case ID_EXECONFILE:
             rc = parseExecOnFile(getRestOfLine(), config);
@@ -4562,7 +4560,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_DELAPPLIEDDIFF:
             rc = parseBool(getRestOfLine(),
-                &(config->nodelists[config->nodelistCount-1].delAppliedDiff));
+                (unsigned int*)&(config->nodelists[config->nodelistCount-1].delAppliedDiff));
             break;
         case ID_FULLUPDATE:
             rc = 0;
@@ -4856,7 +4854,7 @@ int parseLine(char *line, s_fidoconfig *config)
             rc = parseGroup(getRestOfLine(), config, 8);
             break;
         case ID_RESCANLIMIT:
-            rc = parseNumber(getRestOfLine(), 10, &(getDescrLink(config)->rescanLimit));
+            rc = parseNumber(getRestOfLine(), 10, (unsigned int*)&(getDescrLink(config)->rescanLimit));
             break;
 
         default:
