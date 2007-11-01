@@ -40,9 +40,7 @@
 extern "C" {
 #endif
 
-#include <huskylib/compiler.h>
-#include <huskylib/huskyext.h>
-/*#include <smapi/msgapi.h>*/
+#include <huskylib/huskylib.h>
 
 
 #ifndef MSGTYPE_SDM /* see smapi/msgapi.h */
@@ -94,13 +92,6 @@ enum _eAvailList
 typedef enum _eAvailList eAvailList;
 
 HUSKYEXT char *striptwhite(char *str);
-
-typedef struct addr {
-
-   unsigned int zone, net, node, point;
-   char   *domain;
-
-} *ps_addr, hs_addr;
 
 typedef struct  pack {
    char    *packer;
@@ -311,7 +302,7 @@ typedef struct area {
 
 /*   HAREA harea; */       /*   for internal usage; */
    void *harea;   /* for internal usage: pointer to area handle. Store HAREA type variable (see msgapi.h in smapi) */
-   
+
   /* filecho options */
 
    int sendorig;       /*  1 - Send Original */
