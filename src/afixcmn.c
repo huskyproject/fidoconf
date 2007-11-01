@@ -122,15 +122,9 @@ s_message *makeMessage (hs_addr *origAddr, hs_addr *destAddr,
 
     msg = (s_message*) scalloc(1,sizeof(s_message));
 
-    msg->origAddr.zone = origAddr->zone;
-    msg->origAddr.net = origAddr->net;
-    msg->origAddr.node = origAddr->node;
-    msg->origAddr.point = origAddr->point;
+    msg->origAddr = *origAddr;
 
-    msg->destAddr.zone = destAddr->zone;
-    msg->destAddr.net = destAddr->net;
-    msg->destAddr.node = destAddr->node;
-    msg->destAddr.point = destAddr->point;
+    msg->destAddr = *destAddr;
 	
     xstrcat(&(msg->fromUserName), fromName);
     xstrcat(&(msg->toUserName), toName);
@@ -146,15 +140,6 @@ s_message *makeMessage (hs_addr *origAddr, hs_addr *destAddr,
     fts_time((char*)msg->datetime, localtime(&time_cur));
 
     return msg;
-}
-
-void cvtAddr(const NETADDR aka1, hs_addr *aka2)
-{
-  aka2->zone = aka1.zone;
-  aka2->net  = aka1.net;
-  aka2->node = aka1.node;
-  aka2->point = aka1.point;
-  aka2->domain = NULL;
 }
 
 XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
@@ -191,10 +176,7 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
                            msg->destAddr.zone, msg->destAddr.net,
                            msg->destAddr.node, msg->destAddr.point,
                            aka2str(config->remaps[i].newaddr) );
-		    msg->destAddr.zone =config->remaps[i].newaddr.zone;
-		    msg->destAddr.net  =config->remaps[i].newaddr.net;
-		    msg->destAddr.node =config->remaps[i].newaddr.node;
-		    msg->destAddr.point=config->remaps[i].newaddr.point;
+		    msg->destAddr = config->remaps[i].newaddr;
                     /* synchronize 'INTL' kludge with new dest address */
                     for( running=msg->text; (p=strchr(running,'\r'))!=NULL; running=++p ){
                       *p = '\0';
@@ -274,14 +256,8 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
 	nfree(newSubj);
     } else strcpy((char *) msgHeader.subj, msg->subjectLine);
 
-    msgHeader.orig.zone  = (word) msg->origAddr.zone;
-    msgHeader.orig.node  = (word) msg->origAddr.node;
-    msgHeader.orig.net   = (word) msg->origAddr.net;
-    msgHeader.orig.point = (word) msg->origAddr.point;
-    msgHeader.dest.zone  = (word) msg->destAddr.zone;
-    msgHeader.dest.node  = (word) msg->destAddr.node;
-    msgHeader.dest.net   = (word) msg->destAddr.net;
-    msgHeader.dest.point = (word) msg->destAddr.point;
+    msgHeader.orig  = msg->origAddr;
+    msgHeader.dest  = msg->destAddr;
 
     strcpy((char *) msgHeader.__ftsc_date, (char *)msg->datetime);
     ASCII_Date_To_Binary((char *)msg->datetime, (union stamp_combo *) &(msgHeader.date_written));
@@ -304,7 +280,4 @@ void freeMsgBuffers(s_message *msg)
     nfree(msg->subjectLine);
     nfree(msg->toUserName);
     nfree(msg->fromUserName);
-    /*   if (msg->destAddr.domain) free(msg->destAddr.domain); */
-    /*  do not free the domains of the adresses of the message, because they */
-    /*  come from fidoconfig structures and are needed more than once. */
 }
