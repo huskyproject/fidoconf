@@ -97,10 +97,10 @@ static int do_stat = 1;                /* drop to 0 if critical error */
  */
 int acmp(hs_addr *a1, st_addr *a2)
 {
-    if (a1->zone  != a2->zone)  return (a1->zone  < (UINT)a2->zone)  ? -1 : 1;
-    if (a1->net   != a2->net)   return (a1->net   < (UINT)a2->net)   ? -1 : 1;
-    if (a1->node  != a2->node)  return (a1->node  < (UINT)a2->node)  ? -1 : 1;
-    if (a1->point != a2->point) return (a1->point < (UINT)a2->point) ? -1 : 1;
+    if (a1->zone  != a2->zone)  return (a1->zone  < a2->zone)  ? -1 : 1;
+    if (a1->net   != a2->net)   return (a1->net   < a2->net)   ? -1 : 1;
+    if (a1->node  != a2->node)  return (a1->node  < a2->node)  ? -1 : 1;
+    if (a1->point != a2->point) return (a1->point < a2->point) ? -1 : 1;
     return 0;
 }
 
@@ -124,7 +124,7 @@ void put_stat(s_area *echo, hs_addr *link, st_type type, long len)
     if(!echo || !link){ msg("Parameter is NULL"); return; }
     if (!do_stat) return;
     /* find pos and insert echo */
-    while ( (res = (cur != NULL) ? sstricmp(echo->areaName, cur->tag) : -1) )
+    while ( (res = (cur != NULL) ? sstricmp(echo->areaName, cur->tag) : -1) != NULL )
         if (res < 0) {
             me = calloc(1,sizeof(*me));
             if (me == NULL) { msg("Out of memory"); do_stat = 0; return; }
@@ -139,7 +139,7 @@ void put_stat(s_area *echo, hs_addr *link, st_type type, long len)
         /* find pos and insert link into chain */
         if (cur == NULL) return;
         curl = cur->chain; prevl = NULL;
-        while ( (res = (curl != NULL) ? acmp(link, &(curl->link.addr)) : -1) ) {
+        while ( (res = (curl != NULL) ? acmp(link, &(curl->link.addr)) : -1) != NULL ) {
             if (res < 0) {
                 chain_link *me;
                 me = calloc(1,sizeof(*me));
@@ -177,7 +177,7 @@ void upd_stat(char *file)
         short rev;
         time_t t0;
         char xxx[8];
-    } hdr = {"vk", REV_CUR, 0, {0,0,0,0,0,0,0,0}}, ohdr;
+    } hdr = {{'v','k'}, REV_CUR, 0, {0,0,0,0,0,0,0,0}}, ohdr;
     
     if (!do_stat) { msg("stat was disabled"); return; }
     if (statecho == NULL) { 
@@ -208,7 +208,7 @@ void upd_stat(char *file)
         }
     }
     /* make new base: hpt.st$ */
-    if ( (newf = sstrdup(oldf)) ) newf[strlen(newf)-1] = '$';
+    if ( (newf = sstrdup(oldf)) != NULL ) newf[strlen(newf)-1] = '$';
     else { msg("Out of memory"); if (OLD != NULL) fclose(OLD); return; }
     NEW = fopen(newf, "wb");
     if (NEW == NULL) {

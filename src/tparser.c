@@ -164,7 +164,7 @@ int testplainfile(const char *s, const char *t1, const char *t2, const char *t3)
   static char invalidc[]=":/\\><|";
   register char *p;
 
-  if( s && (p=strpbrk(s,invalidc)) ){
+  if( s && (p=strpbrk(s,invalidc)) != NULL ){
      printf("ERROR: %s%s%s%s%s can't contains %c\n", t1, (t2? " " : ""),
                t2, (t3? " " : ""), t3, *p);
      return -1;
@@ -318,7 +318,7 @@ void printAddr(ps_addr addr)
     if(addr)
     {
 
-        if (addr->domain != NULL) {
+        if (addr->domain[0]) {
             if(addr->point) printf(" %d:%d/%d.%d@%s ",
                 addr->zone, addr->net, addr->node, addr->point, addr->domain);
             else printf(" %d:%d/%d@%s ",
@@ -999,9 +999,8 @@ int checkLogic(s_fidoconfig *config) {
                 }
                 /* Check for echoloop */
                 if (area->useAka->point){
-                  hs_addr areaboss = { area->useAka->zone, area->useAka->net,
-                    area->useAka->node, 0,
-                    "" /*sstrdup(area->useAka->domain)*/ };
+                    hs_addr areaboss = *area->useAka;
+                    areaboss.point = 0;
                     for (j=0; j<area->downlinkCount; j++) {
                       ps_link link = area->downlinks[j]->link;
 
@@ -1014,7 +1013,6 @@ int checkLogic(s_fidoconfig *config) {
                         rc++;
                       }
                     }
-                    /*nfree(areaboss.domain);*/
                 }
         }
 
@@ -1380,7 +1378,7 @@ int main(int argc, char **argv) {
         if (config->sysop != NULL) printf("Sysop:    %s\n", config->sysop);
         if (config->location != NULL)printf("Location: %s\n", config->location);
         for (i=0; i<config->addrCount; i++) {
-  	 if (config->addr[i].domain != NULL)
+  	 if (config->addr[i].domain[0])
               printf("Addr: %u:%u/%u.%u@%s\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point, config->addr[i].domain);
   	 else
               printf("Addr: %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
