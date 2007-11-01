@@ -120,7 +120,7 @@ char *trimLine(char *line)
 {
    char *start = line, *temp=NULL;
 
-   while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
+   while ((*start == ' ') || (*start == '\t') || (*start == '\xFE')) start++;
    /* FIXME: Is it really needed to do a copy?
     * I think the overhead will be much greater than possible benefits
     * from occasionaly lessening of memory consumption */
@@ -183,7 +183,7 @@ void initConfig(s_fidoconfig *config) {
    memset(config, 0, sizeof(s_fidoconfig));
 
    /* set defaults */
-   config -> loguid = config -> loggid = config -> logperm = -1;
+   config -> loguid = config -> loggid = config -> logperm = (UINT)-1;
    config -> tossingExt = strdup("tos");
    config -> convertLongNames = config -> convertShortNames = cDontTouch;
    config -> typeDupeBase = hashDupesWmsgid;
@@ -834,9 +834,9 @@ void disposeConfig(s_fidoconfig *config)
 }
 
 s_link *getLink(s_fidoconfig *config, char *addr) {
-   hs_addr aka;
+   hs_addr aka = {0};
 
-   string2addr(addr, &aka);
+   parseFtnAddrZS(addr, &aka);
 
    return getLinkFromAddr(config, aka);
 }
@@ -853,10 +853,10 @@ s_link *getLinkFromAddr(s_fidoconfig *config, hs_addr aka)
 }
 
 s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
-	hs_addr aka;
+	hs_addr aka = {0};
 	unsigned i;
 
-	string2addr(addr, &aka);
+    parseFtnAddrZS(addr, &aka);
 
 	/*  we must find "right" link */
         for (i = 0; i< config->linkCount; i++) {
@@ -875,11 +875,11 @@ s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 }
 
 hs_addr *getAddr(const s_fidoconfig *config, char *addr) {
-   hs_addr aka;
+   hs_addr aka = {0};
    unsigned i;
 
    for (i = 0; i < config->addrCount; i++) {
-      string2addr(addr, &aka);
+      parseFtnAddrZS(addr, &aka);
       if (addrComp(aka, config->addr[i])==0) return &(config->addr[i]);
    }
 
