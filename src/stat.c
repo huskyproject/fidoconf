@@ -124,7 +124,7 @@ void put_stat(s_area *echo, hs_addr *link, st_type type, long len)
     if(!echo || !link){ msg("Parameter is NULL"); return; }
     if (!do_stat) return;
     /* find pos and insert echo */
-    while ( (res = (cur != NULL) ? sstricmp(echo->areaName, cur->tag) : -1) != NULL )
+    while ( (res = (cur != NULL) ? sstricmp(echo->areaName, cur->tag) : -1) != 0 )
         if (res < 0) {
             me = calloc(1,sizeof(*me));
             if (me == NULL) { msg("Out of memory"); do_stat = 0; return; }
@@ -139,7 +139,7 @@ void put_stat(s_area *echo, hs_addr *link, st_type type, long len)
         /* find pos and insert link into chain */
         if (cur == NULL) return;
         curl = cur->chain; prevl = NULL;
-        while ( (res = (curl != NULL) ? acmp(link, &(curl->link.addr)) : -1) != NULL ) {
+        while ( (res = (curl != NULL) ? acmp(link, &(curl->link.addr)) : -1) != 0 ) {
             if (res < 0) {
                 chain_link *me;
                 me = calloc(1,sizeof(*me));
