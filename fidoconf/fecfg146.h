@@ -682,7 +682,7 @@ Unpackers;
 unsigned short AddBam(unsigned char * bam, unsigned short nr)
 {
     unsigned char c, d;
-    c = 1 << (7 - (nr & 7));
+    c = (unsigned char)(1 << (7 - (nr & 7)));
     d = bam[nr / 8] & c;
     bam[nr / 8] |= c;
     return d;
