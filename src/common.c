@@ -127,79 +127,6 @@ int  addrComp(const hs_addr a1, const hs_addr a2)
    return rc;
 }
 
-/* Dont remember syncronize changes of this description with function declaration in common.h
-  Input:  string is an \0-terminated array of chars. is a pointer to a struct addr.
-  Output: 1 on succesful parsing; 0 if string don't contain FTN address or adressis invalid
-  FZ:     string2addr converts a 5D FTN address from string representaion in char[] to an addr.
-          If string is not an addr 0 is returned and structure pointed by addr don't changes.
-          Side effect: string2addr(string, NULL) may be used for validation of FTN address string.
-          Address parsing sequence:
-          1 - remove leading spaces
-          2 - recognize zone number and check ':' character after zone, next test zone number for
-              positive value
-          3 - recognize network number and check '/' character after network
-          4 - recognize node number
-          5 - check '.' character and recognize point number after '.'
-          6 - check '@' character and recognize domain name  after '@', domain stops on first
-              non-alphanumberic character (RE [0-9a-zA-Z_]+).
-  WARNING! if addr->domain is pointes to maloc'ed string this function is produced memory leak!
-*/
-int string2addr(const char *string, hs_addr *addr) {
-	char *endptr;
-	const char *str = string;
-	unsigned long t;
-	hs_addr tempaddr = {0,0,0,0,NULL};
-
-	if (str == NULL) return 0;
-    /* valid addres must contain ':' '/' symbols */
-	if (strchr(str,':')==NULL || strchr(str,'/')==NULL) return 0;
-
-        while (*str && *str==' ') ++str; /* strip leading spaces */
-
-	/*  zone */
-        if (!isdigit(*str)) return 0; /* prevent to recognize negative zone number */
-	t = strtoul(str,&endptr,10);
-	if (t==0) return 0; /* there is no zero zones in practice. !!! May be this is bad (very strong) requirement?!?! */
-	if (*endptr!=':') return 0; /* after zone number should be colon char */
-	tempaddr.zone = (hUINT16) t;
-
-	/*  net */
-	str = endptr+1;
-        if (!isdigit(*str)) return 0; /* prevent to recognize negative network number */
-	t = strtoul(str,&endptr,10);
-	if (*endptr!='/') return 0; /* after net/region number should be slash char */
-	tempaddr.net = (hUINT16) t;
-
-	/*  node */
-	str = endptr+1;
-	t = strtoul(str,&endptr,10);
-	tempaddr.node = (hUINT16) t;
-
-	/*  point */
-	if (*endptr && ( endptr[0]=='.' )) {
-	   str = endptr+1;
-	   t = strtoul(str,&endptr,10);
-	   tempaddr.point = (hUINT16) t;
-	}
-
-	/*  domain */
-	if (*endptr && (endptr[0]=='@') ) {
-	   str = ++endptr;
-	   while (*endptr && isalpha(*(++endptr)));
-	   if (endptr>str) { /* may be limits domain to 8 characters? */
-	      tempaddr.domain = smalloc(endptr-str+1);
-	      strnzcpy(tempaddr.domain,str,endptr-str+1);
-	   }
-	}
-
-	if (addr) memcpy(addr, &tempaddr, sizeof(hs_addr));
-        /* !!! if addr->domain is pointed to maloc'ed string this action is produced memory leak! */
-        /* but if addr->domain is not cleared after malloc, call free(addr->domain) will produce memory fault on some OS */
-
-	return 1;
-}
-
-
 char *aka2str(const hs_addr aka) {
   static char straka[SIZE_aka2str];
 
@@ -215,14 +142,14 @@ char *aka2str5d(hs_addr aka) {
   char *straka=NULL;
 
     if (aka.point) {
-      if (aka.domain)
+      if (aka.domain[0])
         xscatprintf( &straka, "%u:%u/%u.%u@%s", aka.zone, aka.net, aka.node,
                                                 aka.point, aka.domain );
       else
         xscatprintf( &straka, "%u:%u/%u.%u", aka.zone, aka.net, aka.node,
                                                 aka.point );
     }else
-      if (aka.domain)
+      if (aka.domain[0])
         xscatprintf( &straka, "%u:%u/%u@%s", aka.zone, aka.net, aka.node,
                                                 aka.domain );
       else
@@ -264,8 +191,6 @@ void freeLink (s_link *link)
 
   if (link == NULL) return;
 
-  nfree (link->hisAka.domain);
-  nfree (link->hisPackAka.domain);
   if (link->handle != link->name) nfree(link->handle);
   nfree (link->name);
   if (link->pktPwd != link->defaultPwd)nfree(link->pktPwd);
@@ -922,7 +847,7 @@ hs_addr *SelectPackAka(s_link *link)
 s_robot *getRobot(ps_fidoconfig config, char *name, int create)
 {
   s_robot *r, *def = NULL;
-  int i;
+  unsigned int i;
 
   if (sstricmp(name, "default") == 0) name = "*";
   for (i = 0; i < config->robotCount; i++) {
