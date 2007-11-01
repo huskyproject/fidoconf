@@ -104,9 +104,8 @@ int main(int argc, char **argv) {
     } else
 	for(; --argc; ) {
           if(linked(getLink(cfg, argv[argc] ))) {
-            hs_addr paddr;
-            string2addr(argv[argc],&paddr);
-            if( paddr.zone ) {
+            hs_addr paddr = {0};
+            if( !(parseFtnAddrZS(argv[argc], &paddr) & FTNADDR_ERROR) ) {
               printf("link %s not found in config file\n", argv[argc]);
             } else printf("illegal parameter no.%d (\"%s\"): not an FTN address\n", argc, argv[argc]);
           } else if ( argc>1 ) printf( "-------------------------------------\n" );

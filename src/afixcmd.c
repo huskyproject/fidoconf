@@ -344,7 +344,7 @@ int Changepause(char *confName, s_link *link, int opt, int type)
 int testAddr(char *addr, hs_addr hisAka)
 {
     hs_addr aka;
-    string2addr(addr, &aka);
+    parseFtnAddrZS(addr, &aka);
     if (addrComp(aka, hisAka)==0) return 1;
     return 0;
 }
