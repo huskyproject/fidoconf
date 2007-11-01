@@ -97,7 +97,7 @@ FILE *createOutputFile(const char *ofname){
       fprintf( stderr, "File '%s' exist!", ofname );
       return NULL;
     }
-    if( !(ofd=fopen(ofname, "w+t")) ){
+    if( (ofd=fopen(ofname, "w+t")) == NULL ){
       fprintf( stderr, "Can't open file '%s': %s!", ofname, strerror(errno) );
       return NULL;
     }
