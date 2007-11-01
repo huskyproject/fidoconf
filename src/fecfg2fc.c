@@ -65,7 +65,7 @@ char parseFEgroup(register unsigned short FEgroup)
   else if (FEgroup <= 35) /* Numbers */
      FEgroup +='0';
   else FEgroup=0;
-  return FEgroup;
+  return (char) FEgroup;
 }
 
 /*  convert FastEcho-GroupBitmap to GroupString for fidoconfig */
@@ -278,7 +278,7 @@ void print_carbon()
 
 void print_areas()
 {  int i,ii,c;
-   int a[] = { AREA_BADMAILBOARD, AREA_DUPEBOARD, AREA_NETMAIL,
+   unsigned int a[] = { AREA_BADMAILBOARD, AREA_DUPEBOARD, AREA_NETMAIL,
                AREA_LOCAL, AREA_ECHOMAIL };
 
   for (ii=0; ii<5; ii++)
@@ -467,7 +467,7 @@ void  print_links()
             {
                fprintf(f_hpt, "AutoAreaCreateDefaults  ");
 
-               if( (tmp[0]=parseFEgroup(groupdef[c]->group)) )
+               if( (tmp[0]=parseFEgroup(groupdef[c]->group)) != 0 )
                   fprintf(f_hpt, " -g %c", tmp[0] );
 
                if (groupdef[c]->area.read_sec)
@@ -613,7 +613,7 @@ void  print_links()
 
 int parseFEconfig()
 {
-   int c, i;
+   unsigned int c, i;
 
    c = 0;
    while (c < config.offset) {
@@ -676,7 +676,7 @@ int parseFEconfig()
         break;
       } /* endswitch */
       c += header.offset+FE_EXTHEADER_SIZE;
-      if (ftell(f_cfg) != c + FE_CONFIG_SIZE)
+      if ((unsigned long)ftell(f_cfg) != c + FE_CONFIG_SIZE)
       {
           fprintf(stderr, "%s file seems to be currupt (exp %ld, found %ld)\n",
                   FEconfig, (long)c + FE_CONFIG_SIZE, (long)ftell(f_cfg));
