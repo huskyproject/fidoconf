@@ -101,7 +101,8 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
 
 int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
    FILE *f;
-   int  i,j;
+   unsigned int i;
+   int j;
    s_area *area;
    char hlp[100];
 

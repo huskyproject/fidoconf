@@ -205,7 +205,7 @@ int writeBBSArea(FILE *f, s_bbsarea *area) {
 
 int generateBBSConfig(s_fidoconfig *config, char *fileName) {
    FILE *f;
-   int  i;
+   unsigned int  i;
    s_area *area;
 
    f = fopen(fileName, "a+");

@@ -50,7 +50,7 @@
 #include <huskylib/unused.h>
 
 int writeArea(FILE *f, s_area *area, char type) {
-   int i;
+   unsigned int i;
 
    switch (type) {
      case 0: fprintf(f, "EchoArea ");
@@ -115,7 +115,7 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
 
 int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int areasOnly) {
    FILE *f;
-   int  i;
+   unsigned int  i;
    s_area *area;
 
    unused(areasOnly);

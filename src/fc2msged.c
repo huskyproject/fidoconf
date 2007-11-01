@@ -88,7 +88,7 @@ int writeArea(FILE *f, s_area *area, char netMail) {
 
 int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int options) {
    FILE *f;
-   int  i;
+   unsigned int  i;
    s_area *area;
 
    f = fopen(fileName, "w");

@@ -77,7 +77,7 @@ int writeArea(FILE *f, s_area *area, char type) {
 
 int generateAquaedConfig(s_fidoconfig *config, char *fileName, char *includeFile,int options) {
    FILE *f;
-   int  i;
+   unsigned int  i;
    s_area *area;
 
    f = fopen(fileName, "w");

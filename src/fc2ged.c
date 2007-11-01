@@ -124,7 +124,7 @@ int readDefaultConfig(char *cfg_file, char *def_file) {
 
 int generateGoldEdConfig(s_fidoconfig *config, char *fileName, int options) {
    FILE *f;
-   int  i;
+   unsigned int  i;
    s_area *area;
    f = fopen(fileName, "a+");
    if (f!= NULL) {
