@@ -798,6 +798,7 @@ void closeall(void);
 HUSKYEXT char *configline(void);
 HUSKYEXT char *stripComment(char *line);
 void checkIncludeLogic(ps_fidoconfig config);
+void free_vars(void);
 
 HUSKYEXT const char* getCurConfName();
 HUSKYEXT long getCurConfPos();

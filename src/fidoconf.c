@@ -829,6 +829,8 @@ void disposeConfig(s_fidoconfig *config)
    nfree(config->netmailFlag);
    nfree(config->notValidFNChars);
 
+   free_vars();
+
    nfree(config);
    config = NULL;
 }

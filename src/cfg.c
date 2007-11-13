@@ -156,6 +156,14 @@ void setvar(char *name, char *value)
   return;
 }
 
+void free_vars(void)
+{
+  int i;
+  for(i=0; i<nvars; i++)
+    nfree(set[i].var);
+  maxnvars=nvars=0;
+  nfree(set);
+}
 void close_conf(void)
 {
   int i;
@@ -163,10 +171,7 @@ void close_conf(void)
 
   module = getvar("module");
   if (module) module = sstrdup(module);
-  for(i=0; i<nvars; i++)
-    nfree(set[i].var);
-  maxnvars=nvars=0;
-  nfree(set);
+  free_vars();
   if (module)
   { setvar("module", module);
     nfree(module);
