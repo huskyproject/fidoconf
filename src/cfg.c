@@ -358,7 +358,8 @@ char *configline(void)
        return NULL;
     }
     while (*str && isspace(*str)) str++;
-    if (strncasecmp(str, "if ", 3)==0)
+    stripComment(str);
+    if (strncasecmp(str, "if", 2)==0)
     {
       p=vars_expand(line); str+=(p-line); line=p;
       iflevel++;
