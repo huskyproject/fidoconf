@@ -120,7 +120,7 @@ char *trimLine(char *line)
 {
    char *start = line, *temp=NULL;
 
-   while ((*start == ' ') || (*start == '\t') || (*start == '\xFE')) start++;
+   while ((*start == ' ') || (*start == '\t') /*|| (*start == '\xFE')*/ ) start++; /* whats is 0xFE? */
    /* FIXME: Is it really needed to do a copy?
     * I think the overhead will be much greater than possible benefits
     * from occasionaly lessening of memory consumption */
