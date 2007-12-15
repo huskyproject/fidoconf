@@ -165,8 +165,13 @@ char *stripComment(char *line)
 
   aux = line;
   while ((aux=strchr(aux+1,CommentChar)) != NULL) {
-    if (*(aux-1)==' ' || *(aux-1)=='\t') {
-      aux[0]='\0';
+#ifdef isblank
+    if ( isblank(*(aux-1)) && isblank(*(aux+1)) ) /* isblank() conforms to POSIX.1-2001 and C99 7.4.1.3 and defined in ctype.h) */
+#else
+    if ((*(aux-1)==' ' || *(aux-1)=='\t' ) && (*(aux+1)==' ' || *(aux+1)=='\t' ))
+#endif
+    {
+      *(aux-1)='\0';
       break;
     }
   }
