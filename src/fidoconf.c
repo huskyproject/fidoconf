@@ -118,15 +118,11 @@ char *readLine(FILE *f)
 
 char *trimLine(char *line)
 {
-   char *start = line, *temp=NULL;
+   char *start = line;
 
    while ((*start == ' ') || (*start == '\t') /*|| (*start == '\xFE')*/ ) start++; /* whats is 0xFE? */
-   /* FIXME: Is it really needed to do a copy?
-    * I think the overhead will be much greater than possible benefits
-    * from occasionaly lessening of memory consumption */
-   xstrcat(&temp, striptwhite(start));
-   nfree(line);
-   return temp;
+   memmove(line, striptwhite(start), strlen(start)+1);
+   return line;
 }
 
 /* Strips trailing spaces from a string. */
