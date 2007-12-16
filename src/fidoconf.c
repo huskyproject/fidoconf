@@ -121,7 +121,9 @@ char *trimLine(char *line)
    char *start = line;
 
    while ((*start == ' ') || (*start == '\t') /*|| (*start == '\xFE')*/ ) start++; /* whats is 0xFE? */
-   memmove(line, striptwhite(start), strlen(start)+1);
+   striptwhite(start);
+   if(start != line)
+      memmove(line, start, strlen(start)+1);
    return line;
 }
 
