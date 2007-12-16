@@ -1144,7 +1144,7 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;
         }
         /* dmitry: this overrides group in EchoAreaDefaults */
-/*        nfree(area->group); */
+        nfree(area->group);
         area->group = sstrdup(token);
     }
     else if (strcmp(iOption, "$")==0) ;
@@ -1324,8 +1324,8 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
        token[strlen(tok)] = ' ';
 
 
-   /* not pointing to the group of the default --> freeArea() will cause
-      trouble :) */
+    /* copy default group
+     * fc_freeEchoArea() and parseAreaOption() will free this memory */
     if(area->group!=NULL)
         area->group=sstrdup(area->group);
     area->description=NULL;
