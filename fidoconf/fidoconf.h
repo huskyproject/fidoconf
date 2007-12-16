@@ -104,7 +104,7 @@ typedef struct execonfile {
    char    *command;
 } s_execonfile, *ps_execonfile;
 
-typedef enum flavour {normal=1, hold, crash, direct, immediate, /*the last one:*/undef=0} e_flavour;
+typedef enum flavour {flNormal=1, flHold, flCrash, flDirect, flImmediate, /*the last one:*/flUndef=0} e_flavour;
 typedef enum pollType {PKT, REQUEST, FLOFILE} e_pollType;
 typedef enum _forward {fOff, fOn, fSecure} e_forward;
 typedef enum emptypktpwd {eOff, eSecure, eOn} e_emptypktpwd;

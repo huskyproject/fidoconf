@@ -2073,7 +2073,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
   actualRoute = &(*route)[*count];
   memset(actualRoute, '\0', sizeof(s_route));
 
-  actualRoute->id = id; actualRoute->flavour = undef;
+  actualRoute->id = id; actualRoute->flavour = flUndef;
 
   option = strtok(token, " \t");
 
@@ -2084,11 +2084,11 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
 
   while (option != NULL) {
     iOption = strLower(sstrdup(option));
-	if (strcmp(iOption, "hold")==0) actualRoute->flavour = hold;
-    else if (strcmp(iOption, "normal")==0) actualRoute->flavour = normal;
-    else if (strcmp(iOption, "crash")==0) actualRoute->flavour = crash;
-    else if (strcmp(iOption, "direct")==0) actualRoute->flavour = direct;
-    else if (strcmp(iOption, "immediate")==0) actualRoute->flavour = immediate;
+	if (strcmp(iOption, "hold")==0) actualRoute->flavour = flHold;
+    else if (strcmp(iOption, "normal")==0) actualRoute->flavour = flNormal;
+    else if (strcmp(iOption, "crash")==0) actualRoute->flavour = flCrash;
+    else if (strcmp(iOption, "direct")==0) actualRoute->flavour = flDirect;
+    else if (strcmp(iOption, "immediate")==0) actualRoute->flavour = flImmediate;
     else if (strcmp(iOption, "hub")==0) actualRoute->routeVia = hub;
     else if (strcmp(iOption, "host")==0) actualRoute->routeVia = host;
     else if (strcmp(iOption, "boss")==0) actualRoute->routeVia = boss;
@@ -2138,7 +2138,7 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
     option = strtok(NULL, " \t");
   }
   /* set flavour if it isn't specified in the statement */
-  if (actualRoute->flavour == undef) {
+  if (actualRoute->flavour == flUndef) {
     if (actualRoute->target == NULL) prErr("You must either specify flavour or use defined link as target");
     else actualRoute->flavour = actualRoute->target->netMailFlavour;
   }
@@ -2444,11 +2444,11 @@ int parseFlavour(char *line, e_flavour *flavour)
   }
 
   iLine = strLower(sstrdup(line));
-  if (strcmp(iLine, "hold")==0) *flavour = hold;
-  else if (strcmp(iLine, "normal")==0) *flavour = normal;
-  else if (strcmp(iLine, "direct")==0) *flavour = direct;
-  else if (strcmp(iLine, "crash")==0) *flavour = crash;
-  else if (strcmp(iLine, "immediate")==0) *flavour = immediate;
+  if (strcmp(iLine, "hold")==0) *flavour = flHold;
+  else if (strcmp(iLine, "normal")==0) *flavour = flNormal;
+  else if (strcmp(iLine, "direct")==0) *flavour = flDirect;
+  else if (strcmp(iLine, "crash")==0) *flavour = flCrash;
+  else if (strcmp(iLine, "immediate")==0) *flavour = flImmediate;
   else {
     prErr("Unknown %s value %s!", actualKeyword, line);
     nfree(iLine);

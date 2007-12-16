@@ -575,12 +575,12 @@ void printFilelist(s_filelist *fl)
 static char *cvtFlavour(e_flavour flavour)
 {
    switch (flavour) {
-      case hold:      return "hold";
-      case normal:    return "normal";
-      case direct:    return "direct";
-      case crash:     return "crash";
-      case immediate: return "immediate";
-      case undef:     return "unknown!";
+      case flHold:      return "hold";
+      case flNormal:    return "normal";
+      case flDirect:    return "direct";
+      case flCrash:     return "crash";
+      case flImmediate: return "immediate";
+      case flUndef:     return "unknown!";
       default:        fprintf(stderr, "Unknown flavour, update tparser!\n");
                       return "";
    }

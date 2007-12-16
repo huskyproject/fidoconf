@@ -269,15 +269,15 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour pri
 
    if (typ != REQUEST) {
 	   switch (prio) {
-	   case crash :     xstrcat(&name, "c");
+	   case flCrash :     xstrcat(&name, "c");
 		   break;
-	   case hold :      xstrcat(&name, "h");
+	   case flHold :      xstrcat(&name, "h");
 		   break;
-	   case direct :    xstrcat(&name, "d");
+	   case flDirect :    xstrcat(&name, "d");
 		   break;
-	   case immediate : xstrcat(&name, "i");
+	   case flImmediate : xstrcat(&name, "i");
 		   break;
-	   case normal :    xstrcat(&name, (typ==PKT) ? "o" : "f");
+	   case flNormal :    xstrcat(&name, (typ==PKT) ? "o" : "f");
 		   break;
 	   default :    xstrcat(&name, (typ==PKT) ? "o" : "f");
 		   break;
@@ -454,7 +454,7 @@ char *makeFileBoxNameAka (ps_fidoconfig config, s_link *link, hs_addr *aka)
 		 aka->net,
 		 aka->node,
 		 aka->point,
-		 (link->echoMailFlavour==hold) ? ".h" : "",
+		 (link->echoMailFlavour==flHold) ? ".h" : "",
 		 PATH_DELIM);
     return name;
 }
