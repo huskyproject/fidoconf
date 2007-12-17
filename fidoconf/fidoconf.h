@@ -796,7 +796,12 @@ HUSKYEXT void setvar(char *name, char *value);
 HUSKYEXT char *getvar(char *name);
 void closeall(void);
 HUSKYEXT char *configline(void);
+
 HUSKYEXT char *stripComment(char *line);
+/* Truncate line at " # " or " #\0" where # is commentchar and any number of spaces before commentchar
+   Truncate all line if 1st non-space char is commentchar
+*/
+
 void checkIncludeLogic(ps_fidoconfig config);
 void free_vars(void);
 
