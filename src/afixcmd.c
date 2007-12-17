@@ -58,7 +58,6 @@
 char* expandCfgLine(char* cfgline)
 {
    cfgline = trimLine(cfgline);
-   cfgline = stripComment(cfgline);
    cfgline = shell_expand(cfgline);
    cfgline = vars_expand(cfgline);
    return cfgline;
