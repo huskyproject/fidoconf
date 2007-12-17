@@ -1266,7 +1266,6 @@ static int dumpcfg(char *fileName)
 
    while ((line = configline()) != NULL) {
       line = trimLine(line);
-      line = stripComment(line);
       if (line[0] != 0) {
          line = shell_expand(line);
          line = vars_expand(line);
