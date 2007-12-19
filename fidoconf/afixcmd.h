@@ -73,7 +73,7 @@ HUSKYEXT   XMSG createXMSG        (ps_fidoconfig config,
 */
 HUSKYEXT   int FindTokenPos4Link(char **confName, char* ftoken, char *fftoken, s_link *link, long* start, long*end);
 
-HUSKYEXT   int InsertCfgLine(char *confName, char* cfgLine, long start, long end);
+HUSKYEXT   int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend);
 
 /* Change pause status (off|echo|feacho|on) */
 HUSKYEXT   int Changepause(char *confName, s_link *link, int opt, int type);
