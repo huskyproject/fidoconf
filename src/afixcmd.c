@@ -494,8 +494,8 @@ void RemoveLink(s_link *link, s_area *area)
 {
     if(area) /* remove link from echoarea */
     {
-        unsigned i;
-        if ( (i=isAreaLink(link->hisAka, area)) != -1) {
+        int i = isAreaLink(link->hisAka, area);
+        if (i != -1) {
             nfree(area->downlinks[i]);
             area->downlinks[i] = area->downlinks[area->downlinkCount-1];
             area->downlinkCount--;

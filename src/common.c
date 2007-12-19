@@ -88,7 +88,7 @@ static char *eattr[] = { "KFS", "TFS", "DIR", "IMM", "CFM", "NPD" };
 
 long  str2attr(const char *str)
 {
-   int i;
+   size_t i;
    for (i = 0; i < sizeof(attrStr) / sizeof(char *); i++)
            if (strncasecmp(str, attrStr[i], strlen(attrStr[i]))==0)
                    return 1 << i;
@@ -98,7 +98,7 @@ long  str2attr(const char *str)
 char *attr2str(long attr)
 {
     char *flags = NULL;
-    int  i;
+    size_t i;
     for (i = 0; i < sizeof(attrStr) / sizeof(char *); i++)
 	if (attr & (1 << i))
 	    xstrscat(&flags, flags ? " " : "", attrStr[i], NULL);
@@ -107,9 +107,9 @@ char *attr2str(long attr)
 
 char *extattr(const char *line)
 {
-    int i;
+    size_t i;
 
-    for (i=0; i<sizeof(eattr)/sizeof(eattr[0]); i++)
+    for (i=0; i < sizeof(eattr) / sizeof(eattr[0]); i++)
 	if (stricmp(line, eattr[i]) == 0)
 	    return eattr[i];
     return NULL;
