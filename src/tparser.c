@@ -397,13 +397,13 @@ void printArea(s_area area) {
    printf("\n");
 /* /val */
    printf("Messagebase permissions (unixes only): ");
-   if(area.fperm!=-1) printf("%o ",area.fperm);
+   if(area.fperm!=(unsigned int)-1) printf("%o ",area.fperm);
    else printf("system default");
    printf(", owner: ");
-   if(area.uid!=-1) printf("%05u ",area.uid);
+   if(area.uid!=(unsigned int)-1) printf("%05u ",area.uid);
    else printf("not defined");
    printf(", group: ");
-   if(area.gid!=-1) printf("%05u ",area.gid);
+   if(area.gid!=(unsigned int)-1) printf("%05u ",area.gid);
    else printf("not defined");
    printf("\n");
    if (area.downlinkCount) printf("Links:\n");
