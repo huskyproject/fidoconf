@@ -321,13 +321,14 @@ stat_echo *read_echo(FILE *F)
     old->tag_len = ot; 
     old->chain = NULL;
     old->tag = calloc( 1, ot+1 );
+    if (old->tag == NULL) { msg("Out of memory"); do_stat = 0; return NULL; }
     tst = fread(old->tag, ot, 1, F); 
 
     if (tst < 1) { msg("Read error"); free_echo(old); do_stat = 0; return NULL; }
     /* read links */
     for (i = 0; i < ol; i++) {
         l = malloc(sizeof(*l));
-        if (l == NULL) { msg("Out of memory"); do_stat = 0; return NULL; }
+        if (l == NULL) { msg("Out of memory"); free_echo(old); do_stat = 0; return NULL; }
         
         if (prev != NULL) prev->next = l; else old->chain = l;
         l->next = NULL;
