@@ -44,7 +44,7 @@ typedef struct {
 HUSKYEXT tree *groupTree;
 
 HUSKYEXT void initGroupTree();
-HUSKYEXT int addPatternToGrpTree(char *groupName, char *patternList);
+HUSKYEXT int addPatternToGrpTree(char *grpname, char *patternList);
 HUSKYEXT grp_t *findGroupForArea(char *areaName);
 HUSKYEXT grp_t *findGroupByName(char *groupName);
 HUSKYEXT void freeGrpTree();

@@ -726,7 +726,7 @@ HUSKYEXT void SetAppModule(e_known_moduls mod); /*  setup struct sApp */
  * if NULL: try to find FIDOCONFIG enviroment variable, next use hardcoded path
  * Return NULL and print diagnostic message to stdout if error(s) found.
  */
-HUSKYEXT ps_fidoconfig readConfig(const char *cfgFile);
+HUSKYEXT ps_fidoconfig readConfig(const char *fileName);
 
 /* Dispose fidoconfig structure: free memory.
  */
@@ -784,7 +784,7 @@ int dumpConfigToFile(ps_fidoconfig config, char *fileName);
 
 /*  the following functions are for internal use. */
 /*  Only use them if you really know what you do. */
-HUSKYEXT char *readLine(FILE *F);
+HUSKYEXT char *readLine(FILE *f);
 HUSKYEXT int  parseLine(char *line, ps_fidoconfig config);
 int parsePath(char *token, char **var, char **alreadyDefined);
 HUSKYEXT char *getConfigFileName(void);
