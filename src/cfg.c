@@ -267,7 +267,7 @@ char *vars_expand(char *line)
           src++;
           *p = '\0';
           if ((p1 = getvar(src)) == NULL)
-            p1 = src;
+            p1 = "";
           if (sstrlen(p1) > sstrlen(src)+2)
           {
             newparsed = srealloc(parsed, curlen += sstrlen(p1)-sstrlen(src)-2);
