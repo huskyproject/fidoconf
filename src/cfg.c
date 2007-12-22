@@ -266,16 +266,16 @@ char *vars_expand(char *line)
         {
           src++;
           *p = '\0';
-          if ((p1 = getvar(src)) == NULL)
-            p1 = "";
-          if (sstrlen(p1) > sstrlen(src)+2)
-          {
-            newparsed = srealloc(parsed, curlen += sstrlen(p1)-sstrlen(src)-2);
-            dest = newparsed+(unsigned)(dest-parsed);
-            parsed = newparsed;
+          if ((p1 = getvar(src)))
+            if (sstrlen(p1) > sstrlen(src)+2)
+            {
+              newparsed = srealloc(parsed, curlen += sstrlen(p1)-sstrlen(src)-2);
+              dest = newparsed+(unsigned)(dest-parsed);
+              parsed = newparsed;
+            }
+            sstrcpy(dest, p1);
+            dest += sstrlen(p1);
           }
-          sstrcpy(dest, p1);
-          dest += sstrlen(p1);
           *p = ']';
           src = p;
           continue;
