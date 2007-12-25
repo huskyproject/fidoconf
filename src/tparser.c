@@ -566,6 +566,7 @@ void printFilelist(s_filelist *fl)
     break;
 
   case flDir:
+  default:
     /*  just avoid a warning */
     break;
   }
@@ -794,6 +795,8 @@ int printLink(ps_link link) {
      break;
    case fOn : printf("on\n");
      break;
+   default :
+     break;
    }
    printf("allowEmptyPktPwd ");
    switch (link->allowEmptyPktPwd){
@@ -803,6 +806,8 @@ int printLink(ps_link link) {
      break;
    case eOn : printf("on\n");
      break;
+   default :
+     break;
    }
    printf("allowPktAddrDiffer ");
    switch (link->allowPktAddrDiffer) {
@@ -811,6 +816,7 @@ int printLink(ps_link link) {
    case pdOn : printf("on\n");
      break;
    default: fprintf(stderr, "Error in keyword allowPktAddrDiffer\n");
+     break;
    }
    printf("AdvancedAreaFix %s\n", (link->advancedAreafix) ? "on" : "off");
 
@@ -1156,6 +1162,8 @@ void printCarbons(s_fidoconfig *config) {
             break;
         case ct_addr:
             crbKey= "Addr:     ";
+            break;
+        default:
             break;
         }
 
@@ -1674,6 +1682,8 @@ int main(int argc, char **argv) {
   		  break;
   	  case kanEcho: printf ("echomail");
   		  break;
+  	  default:
+  		  break;
   	  }
   	  printf("\n");
 
@@ -1739,7 +1749,9 @@ int main(int argc, char **argv) {
   			   case host:     printf("via host"); break;
   			   case hub:      printf("via hub  "); break;
   			   case boss:     printf("via boss "); break;
-  			   case route_extern: break; /* internal only */
+  			   case route_extern: /* internal only */
+			   default:
+			     break;
   			 }
            }
            printf("(flavour: %s)\n", cvtFlavour(config->route[i].flavour));

@@ -291,6 +291,8 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour pri
 	   break;
    case REQUEST :
 	   break;
+   default :
+	   break;
    }
 
    /*  create floFile */

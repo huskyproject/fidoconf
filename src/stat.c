@@ -164,6 +164,7 @@ void put_stat(s_area *echo, hs_addr *link, st_type type, long len)
         case stBAD:  curl->link.bad++; break;
         case stDUPE: curl->link.dupe++; break;
         case stOUT:  curl->link.out++; curl->link.outb += len; break;
+        default:     break;
         }
 }
 

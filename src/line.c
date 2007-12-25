@@ -2627,6 +2627,8 @@ int parseGroup(char *token, s_fidoconfig *config, int i)
 		link->numRescanGrp = 0;
 		parseGrp(token, &(link->RescanGrp), &(link->numRescanGrp));
 		break;
+    default:
+		break;
 	}
 
 
@@ -3422,6 +3424,7 @@ int parseFilelist(char *line, s_fidoconfig *config)
     break;
 
   case flDir:
+  default:
     /*  just avoid a warning */
     break;
   }
