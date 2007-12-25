@@ -175,10 +175,9 @@ char *stripComment(char *line)
   return line;
 }
 
-void initConfig(s_fidoconfig *config) {
-   ps_robot r;
-
- 	/*  set all to 0 */
+void initConfig(s_fidoconfig *config)
+{
+   /* set all to 0 */
    memset(config, 0, sizeof(s_fidoconfig));
 
    /* set defaults */
