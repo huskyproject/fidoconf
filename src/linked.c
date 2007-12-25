@@ -29,6 +29,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <huskylib/huskylib.h>
 #include "fidoconf.h"
 #include "arealist.h"
@@ -104,7 +105,8 @@ int main(int argc, char **argv) {
     } else
 	for(; --argc; ) {
           if(linked(getLink(cfg, argv[argc] ))) {
-            hs_addr paddr = {0};
+            hs_addr paddr;
+	    memset(&paddr, 0, sizeof(hs_addr));
             if( !(parseFtnAddrZS(argv[argc], &paddr) & FTNADDR_ERROR) ) {
               printf("link %s not found in config file\n", argv[argc]);
             } else printf("illegal parameter no.%d (\"%s\"): not an FTN address\n", argc, argv[argc]);
