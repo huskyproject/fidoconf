@@ -571,7 +571,7 @@ int parseNumber(char *token, int radix, unsigned *level) {
 
 int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 {
-	char *next;
+	const char *next;
 	unsigned int maxcount = *count;
 
 	if (token==NULL) {
@@ -592,7 +592,7 @@ int parseSeenBy2D(char *token, hs_addr **addr, unsigned int *count)
 		if(parseFtnAddrZ(token, &(*addr)[*count], FTNADDR_2D, &next) & FTNADDR_ERROR)
 			return 1;
 
-		token = next;
+		token = (char*)next;
 		
 		(*count)++;
 
@@ -2921,8 +2921,12 @@ int parseCarbonReason(char *token, s_fidoconfig *config) {
 
 int parseForwardPkts(char *token, s_link *link)
 {
-   if (token && stricmp(token, "secure")==0) link->forwardPkts = fSecure;
-   else return parseBool(token, (unsigned *) &(link->forwardPkts));
+   if (token && stricmp(token, "secure") == 0)
+     link->forwardPkts = fSecure;
+   else {
+     unsigned int bval = link->forwardPkts;
+     return parseBool(token, &bval);
+   }
 
    return 0;
 }
