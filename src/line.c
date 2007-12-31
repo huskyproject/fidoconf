@@ -530,7 +530,7 @@ int parseOwner(char *token, unsigned int *uid, unsigned int *gid)
 		prErr( "User name %s is unknown to OS !", name);
 		return 1;
 	}
-	*uid = pw ? pw -> pw_uid : -1 ;
+	*uid = pw ? pw->pw_uid : (unsigned int)-1;
 
    };
 
@@ -541,7 +541,7 @@ int parseOwner(char *token, unsigned int *uid, unsigned int *gid)
 		prErr( "Group name %s is unknown to OS !", group);
 		return 1;
 	}
-	*gid = grp ? grp -> gr_gid : -1 ;
+	*gid = grp ? grp->gr_gid : (unsigned int)-1;
    }
 #else
    unused(token); unused(uid); unused(gid);
