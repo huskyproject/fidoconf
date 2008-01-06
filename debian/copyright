@@ -8,12 +8,13 @@ http://husky.sourceforge.net/team.html
 
 First Maintainer: Joerg Jaspert (JJ) <joerg@goliathbbs.dnsalias.net>
 Since 1 Aug 2002 new Maintainer is Pavel Andreew <pavel@collage.etel.ru>.
+Since 15 Sep 2007 new Maintainer is Stanislav Maslovski <stanislav.maslovski@gmail.com>
 
 Copyright:
 
 This Software is Copyright of the Husky Team.
 
 You are free to distribute this software under the terms of the 
-GNU General Public License.
-On Debian systems, the complete text of the GNU General Public
-License can be found in /usr/share/common-licenses/GPL file.
+GNU Library General Public License.
+On Debian systems, the complete text of the GNU Library General Public
+License can be found in /usr/share/common-licenses/LGPL-2 file.
