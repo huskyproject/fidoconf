@@ -100,8 +100,8 @@ char *attr2str(long attr)
     char *flags = NULL;
     size_t i;
     for (i = 0; i < sizeof(attrStr) / sizeof(char *); i++)
-	if (attr & (1 << i))
-	    xstrscat(&flags, flags ? " " : "", attrStr[i], NULL);
+    if (attr & (1 << i))
+        xstrscat(&flags, flags ? " " : "", attrStr[i], NULL);
     return flags;
 }
 
@@ -110,9 +110,58 @@ char *extattr(const char *line)
     size_t i;
 
     for (i=0; i < sizeof(eattr) / sizeof(eattr[0]); i++)
-	if (stricmp(line, eattr[i]) == 0)
-	    return eattr[i];
+    if (stricmp(line, eattr[i]) == 0)
+        return eattr[i];
     return NULL;
+}
+
+/* flag to flavour */
+e_flavour flag2flv(unsigned long attr) {
+  if (attr & 0x100000) return flImmediate;
+  else if ((attr & 0x20000) || (attr & 0x202) == 0x202) return flDirect;
+  else if (attr & 0x200) return flHold;
+  else if (attr & 2) return flCrash;
+  else return flNormal;
+}
+
+/* flavour to flag */
+unsigned long flv2flag(e_flavour flv) {
+  switch (flv) {
+    case flImmediate: return 0x100000;
+    case flDirect:    return 0x20000;
+    case flHold:      return 0x200;
+    case flCrash:     return 2;
+    default:        return 0;
+  }
+}
+
+/* flavour to string */
+char* flv2str(e_flavour flv) {
+  switch (flv) {
+    case flImmediate: return "immediate";
+    case flDirect:    return "direct";
+    case flHold:      return "hold";
+    case flCrash:     return "crash";
+    default:        return "normal";
+  }
+}
+
+/* smart string flavour parsing */
+e_flavour str2flv(char *flv) {
+  struct flv_data_s { e_flavour f; char c; char *s1; char *s2; };
+  const struct flv_data_s flv_data[] = { { flNormal, 'n', "norm", "normal" },
+                                       { flHold, 'h', "hld", "hold" },
+                                       { flCrash, 'c', "cra", "crash" },
+                                       { flDirect, 'd', "dir", "direct" },
+                                       { flImmediate, 'i', "imm", "immediate" }
+                                     };
+  unsigned char i;
+   for (i = 0; i < sizeof(flv_data)/sizeof(flv_data[0]); i++)
+      if ( ((*flv | 0x20) == flv_data[i].c) && (flv[1] == '\0') ) return flv_data[i].f;
+   for (i = 0; i < sizeof(flv_data)/sizeof(flv_data[0]); i++)
+      if (stricmp(flv, flv_data[i].s1) == 0 ||
+          stricmp(flv, flv_data[i].s2) == 0) return flv_data[i].f;
+   return -1;
 }
 
 int  addrComp(const hs_addr a1, const hs_addr a2)

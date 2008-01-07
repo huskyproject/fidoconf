@@ -66,6 +66,30 @@ HUSKYEXT char *extattr(const char *line);
   Output: Uppercased flag name or NULL if flag unknown
 */
 
+HUSKYEXT e_flavour flag2flv(unsigned long attr);
+/*DOC
+  Input:  Msg flag bitmask
+  Output: Flavour value
+*/
+
+HUSKYEXT unsigned long flv2flag(e_flavour flv);
+/*DOC
+  Input:  Flavour value
+  Output: Msg flag bitmask
+*/
+
+HUSKYEXT char *flv2str(e_flavour flv);
+/*DOC
+  Input:  Flavour value
+  Output: Flavour name
+*/
+
+HUSKYEXT e_flavour str2flv(char *flv);
+/*DOC
+  Input:  Flavour name
+  Output: Flavour value
+*/
+
 HUSKYEXT int  addrComp(const hs_addr a1, const hs_addr a2);
 /*DOC
   Input:  two addresses
