@@ -287,6 +287,10 @@ char *vars_expand(char *line)
             sstrcpy(dest, p1);
             dest += sstrlen(p1);
           }
+          else
+          {
+            w_log(LL_WARN, "Enviroment variable [%s] (used in config file %s) is not defined and is replaced with empty string", src, curconfname);
+          }
           *p = ']';
           src = p;
           continue;
