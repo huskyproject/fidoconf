@@ -7,12 +7,13 @@ Changes after FIDOCONFIG 1.4
 
 2. CONFIG changes:
    - new token grpDesc: group descriptions for -g groups in echoArea
-   - new token recodeMsgBase for hpt/htick.
-   - new token sendNotifyMessages for areafix.
-   - new token allowRemoteControl for areafix.
-   - new token unsubscribeOnAreaDelete for areafix.
-   - new token autoAreaPause for areafix.
-   - new tokens denyRescan and rescanGrp for areafix.
+   - new token recodeMsgBase for hpt/htick;
+   - new token sendNotifyMessages for areafix;
+   - new token allowRemoteControl for areafix;
+   - new token unsubscribeOnAreaDelete for areafix;
+   - new token autoAreaPause for areafix;
+   - new tokens denyRescan and rescanGrp for areafix;
+   - new escaping seqienses: ["], ['], and also for CommentChar.
 
 3. IMPORTANT bugfixes:
    - if link in area described twice - just warn, don't exit with error.

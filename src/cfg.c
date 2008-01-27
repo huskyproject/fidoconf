@@ -112,6 +112,9 @@ int init_conf(const char *conf_name)
   /* Variables for special symbols escaping */
   setvar("[", "[");
   setvar("`", "`");
+  setvar("\"", "\"");
+  setvar("'", "'");
+  setvar("#", "#");
   { /* default value for the [module] */
     char *module = getvar("module");
     if (!module)
@@ -515,7 +518,12 @@ char *configline(void)
       if (!strchr(TRUE_COMMENT, *p))
       { printf("\"%s\", line %d: CommentChar - '%c' is not valid comment characters!\n", curconfname, actualLineNr, *p);
       } else
-      { CommentChar = *p;
+      { char buf2[2]="\0";
+        buf2[0]=CommentChar;
+        setvar(buf2,"");
+        CommentChar = *p;
+        buf2[0]=CommentChar;
+        setvar(buf2,buf2);
       }
       continue;
     }
