@@ -256,21 +256,27 @@ char *vars_expand(char *line)
           continue;
         }
         *p = '\0';
-	src++;
-	f = popen(src, "r");
-        *p = '`';
-        src = p;
-        while ((i = fgetc(f)) != EOF)
+        src++;
+        f = popen(src, "r");
+        if (f)
         {
-          if (dest-parsed >= curlen-2)
+          w_log (LL_EXEC, "Run command `%s` (specified in config file %s)", src, curconfname);
+          *p = '`';
+          src = p;
+          while ((i = fgetc(f)) != EOF)
           {
-            newparsed = srealloc(parsed, curlen+=80);
-            dest = newparsed+(unsigned)(dest-parsed);
-            parsed = newparsed;
+            if (dest-parsed >= curlen-2)
+            {
+              newparsed = srealloc(parsed, curlen+=80);
+              dest = newparsed+(unsigned)(dest-parsed);
+              parsed = newparsed;
+            }
+            if (i!='\n') *dest++ = (char)i;
           }
-          if (i!='\n') *dest++ = (char)i;
+          pclose(f);
         }
-        pclose(f);
+        else
+          w_log (LL_ERR, "Can't run command `%s` (specified in config file %s)", src, curconfname);
         continue;
 #endif
       case '[':
