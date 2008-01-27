@@ -58,6 +58,8 @@
 
 #define setcond for (i=0, condition=1; i<=iflevel; condition=ifstack[i++].state && condition);
 
+#define DEFAULT_MODULE " " /* Default value if variable [module] is not sefined. This is needs for prevent warning about undefined [module] */
+
 static char *curconfname=NULL;
 static long curconfpos=0;
 static FILE *hcfg=NULL;
@@ -107,8 +109,14 @@ int init_conf(const char *conf_name)
 #elif defined(__DOS__)
   setvar("OS", "MSDOS");
 #endif
+  /* Variables for special symbols escaping */
   setvar("[", "[");
   setvar("`", "`");
+  { /* default value for the [module] */
+    char *module = getvar("module");
+    if (!module)
+      setvar("module", DEFAULT_MODULE);
+  }
   /* Reinit CommentChar to the default value */
   CommentChar='#';
   return 0;
@@ -176,6 +184,8 @@ void close_conf(void)
   { setvar("module", module);
     nfree(module);
   }
+  else
+    setvar("module", DEFAULT_MODULE);
   nfree(ifstack);
   maxif=0;
   if (hcfg) fclose(hcfg);
