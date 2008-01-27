@@ -15,17 +15,20 @@ endif
 
 # the space after the o is important!
 EXENAMEFLAG=-o 
-CDEFS	= -I.. -Wall -c
+CDEFS	= -I.. -I../huskylib  -I../smapi -Wall -c
 COPT	= -O3
 LFLAGS	=
 
-OBJ	= .o
-EXE	= .exe
-TPU	= .tpu
-LIB	= .a
+_OBJ	= .o
+_EXE	= .exe
+_TPU	= .tpu
+_LIB	= .a
+_DLL	= .dll
 
-LINKSMAPI	=../smapi/libsmapimgw.a
-LIBPREFIX	= lib
+#LINKSMAPI	=../smapi/libsmapimgw.a
+#LIBPREFIX	= lib
+LINKSMAPI	=-l../smapi/make/smapi$(_DLL)
+LIBPREFIX	=
 
 FIDOCONFIG	= fidoconfigmgw
 FCONF2AQUAED	= fconf2aquaed
@@ -39,13 +42,29 @@ FECFG2FCONF	= fecfg2fconf
 LIBFIDOCONFIG	= $(LIBPREFIX)$(FIDOCONFIG)
 LINKFIDOCONFIG	= $(LIBFIDOCONFIG)$(LIB)
 
+DLLPREFIX	=
+LIBNAME		= fidoconf
+DLLSUFFIX	=
+TARGETDLL	= $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
+DLLOPT  	= -shared
+CFLAGS		= -Wall -O3
+NAMEOPT		= -o
+LIBS		+= ../huskylib/make/husky$(_DLL) ../smapi/make/smapi$(_DLL)
+
+
 default: all
 
 include makefile.inc
 
-all: commonlibs commonprogs
+$(TARGETDLL):	$(LOBJS)
+	$(CC) $(DLLOPT) $(CFLAGS) $(NAMEOPT)$@ $^ $(LIBS)
+
+
+#all: commonlibs commonprogs
+all: dll commonprogs
 
 clean: commonclean
 
 distclean: clean commondistclean
 
+dll:  $(TARGETDLL)
