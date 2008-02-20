@@ -832,8 +832,11 @@ void disposeConfig(s_fidoconfig *config)
    config = NULL;
 }
 
-s_link *getLink(s_fidoconfig *config, char *addr) {
-   hs_addr aka = {0};
+s_link *getLink(s_fidoconfig *config, char *addr)
+{
+   hs_addr aka;
+
+   memset(&aka, 0, sizeof(hs_addr));
 
    parseFtnAddrZS(addr, &aka);
 
@@ -851,11 +854,14 @@ s_link *getLinkFromAddr(s_fidoconfig *config, hs_addr aka)
    return NULL;
 }
 
-s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
-	hs_addr aka = {0};
+s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area)
+{
+	hs_addr aka;
 	unsigned i;
 
-    parseFtnAddrZS(addr, &aka);
+	memset(&aka, 0, sizeof(hs_addr));
+
+	parseFtnAddrZS(addr, &aka);
 
 	/*  we must find "right" link */
         for (i = 0; i< config->linkCount; i++) {
@@ -873,12 +879,15 @@ s_link *getLinkForArea(const s_fidoconfig *config, char *addr, s_area *area) {
 	return NULL;
 }
 
-hs_addr *getAddr(const s_fidoconfig *config, char *addr) {
-   hs_addr aka = {0};
+hs_addr *getAddr(const s_fidoconfig *config, char *addr)
+{
+   hs_addr aka;
    unsigned i;
 
+   memset(&aka, 0, sizeof(hs_addr));
+   parseFtnAddrZS(addr, &aka);
+
    for (i = 0; i < config->addrCount; i++) {
-      parseFtnAddrZS(addr, &aka);
       if (addrComp(aka, config->addr[i])==0) return &(config->addr[i]);
    }
 
