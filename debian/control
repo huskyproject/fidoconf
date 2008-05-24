@@ -2,7 +2,7 @@ Source: fidoconf
 Section: libs
 Priority: optional
 Maintainer: Stanislav Maslovski <stanislav.maslovski@gmail.com>
-Build-Depends: debhelper (>> 4.0.0), binutils, libsmapi-dev (>= 2.5.0-1), texinfo, huskybase (>= 2.5-0)
+Build-Depends: debhelper (>> 4.0.0), binutils, libsmapi2cur-dev (>> 2.5-0), libhusky-dev (>> 1.9-0), texinfo, huskybase (>> 2.0-0)
 Standards-Version: 3.6.1
 
 Package: libfidoconf1
@@ -22,7 +22,7 @@ Description: Library to access the fidoconfig
 Package: libfidoconf1-dev
 Section: libdevel
 Architecture: any
-Depends: libfidoconf1 (=${Source-Version}), libsmapi2cur-dev, libc6-dev, huskybase (>= 2.0-0)
+Depends: libfidoconf1 (=${Source-Version}), libc6-dev, libsmapi2cur-dev (>> 2.5-0), huskybase (>> 2.0-0)
 Replaces: libfidoconf0-dev
 Conflicts: libfidoconf0-dev
 Description: Library to access the fidoconfig, development files
