@@ -60,6 +60,7 @@ include make/makefile.inc
 include makefile.in2
 TARGETLIB = $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
 TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
+LIBS=-lhusky
 
 progs: commonprogs
 
@@ -76,11 +77,11 @@ endif
 
 ifeq (~$(MKSHARED)~, ~ld~)
 $(TARGETDLL).$(VER): $(LOBJS)
-	$(LD) $(LFLAGS) $(EXENAMEFLAG) $(TARGETDLL).$(VER) $(LOBJS)
+	$(LD) $(LFLAGS) $(EXENAMEFLAG) $(TARGETDLL).$(VER) $(LOBJS) $(LIBS)
 else
 $(TARGETDLL).$(VER): $(LOBJS)
 	$(CC) -shared -Wl,-soname,$(TARGETDLL).$(VERH) \
-	-o $(TARGETDLL).$(VER) $(LOBJS)
+	-o $(TARGETDLL).$(VER) $(LOBJS) $(LIBS)
 endif
 	$(LN) $(LNOPT) $(TARGETDLL).$(VER) $(TARGETDLL).$(VERH) ;\
 	$(LN) $(LNOPT) $(TARGETDLL).$(VER) $(TARGETDLL)
