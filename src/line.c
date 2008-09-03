@@ -36,6 +36,7 @@
 #include <ctype.h>
 #include <time.h>
 #include <errno.h>
+#include <assert.h>
 #include <stdarg.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -2459,32 +2460,19 @@ int parseFlavour(char *line, e_flavour *flavour)
 }
 
 int parseAttr(char *token, char **attrs, long *bitattr) {
-  char *p, *flag, c;
-  long attr;
+  char *p;
+  int parsed;
 
   nfree(*attrs);
   *bitattr = 0;
-  while (token && *token) {
-	while (*token && (isspace(*token) || *token==','))
-	    token++;
-	if (!*token) break;
-	for (p = token; *p && (isalnum(*p) || *p=='/'); p++);
-	c = *p;
-	*p = '\0';
-	if ((attr = str2attr(token)) != -1L)
-	    *bitattr |= attr;
-	else if ((flag = extattr(token)) != NULL)
-	    xstrscat(attrs, *attrs ? " " : "", flag, NULL);
-	else {
-   	    *p = c;
-	    prErr("Unknown flag %s!", token);
-	    nfree(*attrs);
-	    return 2;
-	}
-	*p = c;
-	token = p;
+
+  parsed = parseAttrString(token, attrs, bitattr, &p);
+  assert(parsed >= 0); /* Should be */
+  if(*p != '\0') {
+    prErr("Unknown flag %s!", p);
+    nfree(*attrs);
+    return 2;
   }
-/*    if(*attrs) strUpper(*attrs);*/
   return 0;
 }
 

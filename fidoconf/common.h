@@ -48,6 +48,15 @@ extern "C" {
 
 /* common functions */
 
+HUSKYEXT int parseAttrString(char *str, char **flags, long *bitattr, char **end);
+/*DOC
+  Input:  str: Null terminated string of space or comma separated flags
+          flags: pointer to a variable to store string with "extended attributes" aka flags
+          bitattr: pointer to a variable to store bit attributes
+  Output: end: pointer in str where parsing came to end, normally there is '\0'
+          returns number of successfully parsed attributes, -1 in case of error.
+*/
+
 HUSKYEXT long str2attr(const char *str);
 /*DOC
   Input:  Msg flag name

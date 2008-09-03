@@ -86,6 +86,49 @@ static char *attrStr[] = { "pvt", "crash", "read", "sent", "att",
                        "xx2",  "frq", "rrq", "cpt", "arq", "urq" };
 static char *eattr[] = { "KFS", "TFS", "DIR", "IMM", "CFM", "NPD" };
 
+int parseAttrString(char *str, char **flags, long *bitattr, char **end)
+{
+    char *p, *flag, c;
+    long attr;
+    int parsed = 0;
+
+    if(str == NULL || flags == NULL)
+    {
+        if(end != NULL)
+            *end = str;
+        return -1;
+    }
+
+    while (1) {
+        while (*str && (isspace(*str) || *str==','))
+            ++str;
+        if (!*str) break;
+        for (p = str; *p && *p!=',' && !isspace(*p); ++p) ;
+        c = *p;
+        *p = '\0';
+        if ((attr = str2attr(str)) != -1L) {
+            *bitattr |= attr;
+            ++parsed;
+        }
+        else if ((flag = extattr(str)) != NULL) {
+            xstrscat(flags, *flags ? " " : "", flag, NULL);
+            ++parsed;
+        }
+        else {
+            *p = c;
+            if(end != NULL)
+                *end = str;
+            return parsed;
+        }
+        *p = c;
+        str = p;
+    }
+
+    if(end != NULL)
+        *end = str;
+    return parsed;
+}
+
 long  str2attr(const char *str)
 {
    size_t i;
