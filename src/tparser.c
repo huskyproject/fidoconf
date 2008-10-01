@@ -1298,7 +1298,7 @@ void usage()
 
 const char *smapi_cvs_date(){
 static
-#include "../../smapi/cvsdate.h"
+#include <smapi/cvsdate.h>
 return cvs_date;
 }
 

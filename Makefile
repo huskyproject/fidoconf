@@ -1,6 +1,9 @@
 # include Husky-Makefile-Config
 ifeq ($(DEBIAN), 1)
 include /usr/share/husky/huskymak.cfg
+else ifdef RPM_BUILD_ROOT
+# For RPM build is require all files in one directory branch
+include huskymak.cfg
 else
 include ../huskymak.cfg
 endif
@@ -99,12 +102,12 @@ distclean: commondistclean
 
 ifeq ($(DYNLIBS), 1)
 instdyn: $(TARGETLIB) $(TARGETDLL).$(VER)
-	-$(MKDIR) $(MKDIROPT) $(LIBDIR)
-	$(INSTALL) $(ILOPT) $(TARGETDLL).$(VER) $(LIBDIR)
-	-$(RM) $(RMOPT) $(LIBDIR)$(DIRSEP)$(TARGETDLL).$(VERH)
-	-$(RM) $(RMOPT) $(LIBDIR)$(DIRSEP)$(TARGETDLL)
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(LIBDIR)
+	$(INSTALL) $(ILOPT) $(TARGETDLL).$(VER) $(DESTDIR)$(LIBDIR)
+	-$(RM) $(RMOPT) $(DESTDIR)$(LIBDIR)$(DIRSEP)$(TARGETDLL).$(VERH)
+	-$(RM) $(RMOPT) $(DESTDIR)$(LIBDIR)$(DIRSEP)$(TARGETDLL)
 # Removed path from symlinks.
-	cd $(LIBDIR) ;\
+	cd $(DESTDIR)$(LIBDIR) ;\
 	$(LN) $(LNOPT) $(TARGETDLL).$(VER) $(TARGETDLL).$(VERH) ;\
 	$(LN) $(LNOPT) $(TARGETDLL).$(VER) $(TARGETDLL)
 ifneq (~$(LDCONFIG)~, ~~)
@@ -117,18 +120,18 @@ endif
 
 
 install: commonlibs progs instdyn
-	-$(MKDIR) $(MKDIROPT) $(BINDIR)
-	-$(MKDIR) $(MKDIROPT) $(INCDIR)/fidoconf
-	$(INSTALL) $(IBOPT) $(PROGRAMS) $(BINDIR)
-	$(INSTALL) $(IBOPT) linked$(_EXE) $(BINDIR)
-	$(INSTALL) $(IBOPT) tparser$(_EXE) $(BINDIR)
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(BINDIR)
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(INCDIR)/fidoconf
+	$(INSTALL) $(IBOPT) $(PROGRAMS) $(DESTDIR)$(BINDIR)
+	$(INSTALL) $(IBOPT) linked$(_EXE) $(DESTDIR)$(BINDIR)
+	$(INSTALL) $(IBOPT) tparser$(_EXE) $(DESTDIR)$(BINDIR)
 ifeq (${OSTYPE}, UNIX)
-	$(INSTALL) $(ISOPT) util/linkedto $(BINDIR)
+	$(INSTALL) $(ISOPT) util/linkedto $(DESTDIR)$(BINDIR)
 endif
-	$(INSTALL) $(ISOPT) util/fconf2na.pl $(BINDIR)
-	$(INSTALL) $(ISOPT) util/fconf2areasbbs.pl $(BINDIR)
-	cd fidoconf ; $(INSTALL) $(IIOPT) $(HEADERS) $(INCDIR)/fidoconf
-	$(INSTALL) $(ISLOPT) $(TARGETLIB) $(LIBDIR)
+	$(INSTALL) $(ISOPT) util/fconf2na.pl $(DESTDIR)$(BINDIR)
+	$(INSTALL) $(ISOPT) util/fconf2areasbbs.pl $(DESTDIR)$(BINDIR)
+	cd fidoconf ; $(INSTALL) $(IIOPT) $(HEADERS) $(DESTDIR)$(INCDIR)/fidoconf
+	$(INSTALL) $(ISLOPT) $(TARGETLIB) $(DESTDIR)$(LIBDIR)
 	(cd doc && $(MAKE) install)
 	@echo
 	@echo "*** For install man pages run 'gmake install-man' (unixes only)"
@@ -138,12 +141,12 @@ install-man:
 	(cd man && $(MAKE) install)
 
 uninstall:
-	-cd $(BINDIR) ;\
+	-cd $(DESTDIR)$(BINDIR) ;\
 	-$(RM) $(RMOPT) $(PROGRAMS) linked$(_EXE) tparser$(_EXE) linkedto \
 	fconf2na.pl fconf2areasbbs.pl
-	-cd $(INCDIR)/fidoconf ;\
+	-cd $(DESTDIR)$(INCDIR)/fidoconf ;\
 	-$(RM) $(RMOPT) $(HEADERS)
-	-$(RM) $(RMOPT) $(LIBDIR)/$(TARGETLIB)
-	-$(RM) $(RMOPT) $(LIBDIR)/$(TARGETDLL)*
+	-$(RM) $(RMOPT) $(DESTDIR)$(LIBDIR)/$(TARGETLIB)
+	-$(RM) $(RMOPT) $(DESTDIR)$(LIBDIR)/$(TARGETDLL)*
 	-(cd doc && $(MAKE) uninstall)
 	-(cd man && $(MAKE) uninstall)
