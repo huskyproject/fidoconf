@@ -9,7 +9,7 @@ include ../../huskymak.cfg
 include makefile.inc
 
 # includes directories
-CINCL	= -I$(H_DIR) -I../../huskylib/ -I../../smapi/
+CINCL	= -I$(H_DIR) -I../../huskylib/ -I../../smapi/ -I../../
 
 # libraries need to build binary file
 LIBS	= $(TARGETLIB) ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) \
@@ -39,7 +39,7 @@ dllprograms: $(TARGETLIB) $(TARGETDLL) $(PROGRAMS)
 
 %$(_OBJ): $(_SRC_DIR)%$(_C)
 	@echo Compiling $<
-	@$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $(OPTCFLAGS) $<
+	$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $(OPTCFLAGS) $<
 
 $(TARGETLIB):	$(OBJS)
 	@echo Create $(TARGETLIB)
