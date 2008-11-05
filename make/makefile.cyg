@@ -39,7 +39,7 @@ dllprograms: $(TARGETLIB) $(TARGETDLL) $(PROGRAMS)
 
 %$(_OBJ): $(_SRC_DIR)%$(_C)
 	@echo Compiling $<
-	$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $(OPTCFLAGS) $<
+	@$(CC) $(CFLAGS) $(CDEFS) $(CINCL) $(OPTCFLAGS) $<
 
 $(TARGETLIB):	$(OBJS)
 	@echo Create $(TARGETLIB)

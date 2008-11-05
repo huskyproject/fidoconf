@@ -867,7 +867,7 @@ int main(int argc, char **argv)
 
    if( packers_count ){
      fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Packers (DOS)\nif [DOS]\n");
+     fprintf(f_hpt, "# Packers (DOS)\n");
 
      fprintf(f_hpt, "if [OS]==DOS\n");
      print_packers(packers,packers_count);
