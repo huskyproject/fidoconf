@@ -1,16 +1,20 @@
 # Microsoft Visual C++ Makefile
 
 CC=     cl
-CFLAGS= -nologo -MD -Zp1 -I..
+CFLAGS= -nologo -MD -I..
+#CFLAGS= -nologo -MDd -Zi -Od -I.. /wd4996 /GS /RTC1
 CDEFS=  -D__NT__ -DWIN32 -D_CONSOLE -D_MAKE_DLL
-COPT=   -Ob2
+#CDEFS=  -D__NT__ -DWIN32 -D_CONSOLE -D_MAKE_DLL -DDEBUG -D_DEBUG  -D_CRT_SECURE_NO_DEPRECATE
+#COPT=   -Ob2
 TLIB=   lib -nologo
 LINK=   link
 
 FCONFL=  fconfmvc.lib
 FCONFDLL= fconfmvc.dll
 SMAPIL=  ..\smapi\smapimvc.lib msvcrt.lib Kernel32.lib /link /opt:nowin98
+#SMAPIL=  ..\smapi\smapimvc.lib msvcrtd.lib Kernel32.lib /link /opt:nowin98
 LINKOPTS = $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
+#LINKOPTS = /DEBUG $(SMAPIL) /nologo /nodefaultlib /dll  /out:"fconfmvc.dll" /implib:"fconfmvc.lib"
 
 OBJS1 = adcase.obj line.obj fidoconf.obj dirlayer.obj common.obj \
         findtok.obj xstr.obj cfg.obj log.obj recode.obj strsep.obj \
@@ -33,16 +37,16 @@ $(FCONFL):
 	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c log.c
 	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c crc.c
 	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c strsep.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c recode.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c tree.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c areatree.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmd.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmn.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c arealist.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c temp.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c getfree.c
-    $(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c version.c
-    $(LINK) $(LINKOPTS) $(OBJS1)
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c recode.c
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c tree.c
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c areatree.c
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmd.c
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c afixcmn.c
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c arealist.c
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c temp.c
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c getfree.c
+	$(CC) $(CFLAGS) $(CDEFS) -D_FCONF_EXT $(COPT) -c version.c
+	$(LINK) $(LINKOPTS) $(OBJS1)
 
 tparser.exe:
     $(CC) $(CFLAGS) $(COPT) $(CDEFS) -Fe$@ tparser.c $(FCONFL) $(SMAPIL)
@@ -80,5 +84,5 @@ clean:
 
 distclean: clean
 	-del *.exe
-   -del $(FCONFDLL)
-   -del fconfmvc.exp
+	-del $(FCONFDLL)
+	-del fconfmvc.exp
