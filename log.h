@@ -181,6 +181,12 @@ FCONF_EXT void w_log(char key, char *logString, ...);
 
 /* FCONF_EXT void writeLogEntry(s_log *log, char key, char *logString, ...); */
 
+#ifdef __NT__ 
+#include <windows.h>
+#include <winbase.h>
+FCONF_EXT LONG WINAPI UExceptionFilter(struct _EXCEPTION_POINTERS *ExceptionInfo);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

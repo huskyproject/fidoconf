@@ -175,3 +175,48 @@ void w_log(char key, char *logString, ...)
 		}
 	}
 }
+
+#ifdef __NT__ 
+
+LONG WINAPI UExceptionFilter(struct _EXCEPTION_POINTERS *ExceptionInfo)
+{
+    char *ErrorMsg;
+
+    /* avoid recursive call of the exception filter */
+    SetUnhandledExceptionFilter(UnhandledExceptionFilter);
+
+    switch (ExceptionInfo->ExceptionRecord->ExceptionCode)
+    {
+    case EXCEPTION_ACCESS_VIOLATION         : ErrorMsg = "Access violation"; break;
+    case EXCEPTION_DATATYPE_MISALIGNMENT    : ErrorMsg = "Datatype misalignment"; break;
+    case EXCEPTION_ARRAY_BOUNDS_EXCEEDED    : ErrorMsg = "Array bound exceeded"; break;
+    case EXCEPTION_FLT_DENORMAL_OPERAND     : ErrorMsg = "Float: denormal operand"; break;
+    case EXCEPTION_FLT_DIVIDE_BY_ZERO       : ErrorMsg = "Float: divide by zero"; break;
+    case EXCEPTION_FLT_INEXACT_RESULT       : ErrorMsg = "Float: inexact result"; break;
+    case EXCEPTION_FLT_INVALID_OPERATION    : ErrorMsg = "Float: invalid operation"; break;
+    case EXCEPTION_FLT_OVERFLOW             : ErrorMsg = "Float: overflow"; break;
+    case EXCEPTION_FLT_STACK_CHECK          : ErrorMsg = "Float: stack check"; break;
+    case EXCEPTION_FLT_UNDERFLOW            : ErrorMsg = "Float: underflow"; break;
+    case EXCEPTION_INT_DIVIDE_BY_ZERO       : ErrorMsg = "Divide by zero"; break;
+    case EXCEPTION_INT_OVERFLOW             : ErrorMsg = "Overflow"; break;
+    case EXCEPTION_PRIV_INSTRUCTION         : ErrorMsg = "Priveleged instruction"; break;
+    case EXCEPTION_IN_PAGE_ERROR            : ErrorMsg = "Page error"; break;
+    case EXCEPTION_ILLEGAL_INSTRUCTION      : ErrorMsg = "Illegal instruction"; break;
+    case EXCEPTION_STACK_OVERFLOW           : ErrorMsg = "Stack overflow"; break;
+    case EXCEPTION_INVALID_DISPOSITION      : ErrorMsg = "Invalid disposition"; break;
+    case EXCEPTION_GUARD_PAGE               : ErrorMsg = "Guard page"; break;
+/* gcc 2.95.2 in Mingw32 knows nothing about this */
+#ifndef __MINGW32__
+    case EXCEPTION_INVALID_HANDLE           : ErrorMsg = "Invalid handle"; break;
+#endif
+    default : ErrorMsg = "Unknown error";
+    }
+    w_log(LL_CRIT, "Exception 0x%08x (%s) at address 0x%08x",
+        ExceptionInfo->ExceptionRecord->ExceptionCode,
+        ErrorMsg,
+        ExceptionInfo->ExceptionRecord->ExceptionAddress);
+    exit(1);
+    return 0; /* compiler paranoia */
+}
+
+#endif
