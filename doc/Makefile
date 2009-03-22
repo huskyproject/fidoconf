@@ -71,21 +71,21 @@ distclean: clean
 install: info html dvi
 	@echo .
 ifdef INFODIR
-	-$(MKDIR) $(MKDIROPT) $(INFODIR)
-	$(INSTALL) $(IMOPT) fidoconfig.info $(INFODIR)
-	-install-info --info-dir=$(INFODIR)  $(INFODIR)$(DIRSEP)fidoconfig.info
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(INFODIR)
+	$(INSTALL) $(IMOPT) fidoconfig.info $(DESTDIR)$(INFODIR)
+	-install-info --info-dir=$(INFODIR)  $(DESTDIR)$(INFODIR)$(DIRSEP)fidoconfig.info
 endif
 ifdef HTMLDIR
-	-$(MKDIR) $(MKDIROPT) $(HTMLDIR)
-	$(INSTALL) $(IMOPT) fidoconfig*html $(HTMLDIR)
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(HTMLDIR)
+	$(INSTALL) $(IMOPT) fidoconfig*html $(DESTDIR)$(HTMLDIR)
 endif
 ifdef DVIDIR
-	-$(MKDIR) $(MKDIROPT) $(DVIDIR)
-	$(INSTALL) $(IMOPT) fidoconfig.dvi $(DVIDIR)
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(DVIDIR)
+	$(INSTALL) $(IMOPT) fidoconfig.dvi $(DESTDIR)$(DVIDIR)
 endif
 
 uninstall:
-	-install-info --remove --info-dir=$(INFODIR) $(INFODIR)$(DIRSEP)fidoconfig.info
-	-$(RM) $(RMOPT) $(INFODIR)$(DIRSEP)fidoconfig.info
-	-$(RM) $(RMOPT) $(HTMLDIR)$(DIRSEP)fidoconfig*html
-	-$(RM) $(RMOPT) $(DVIDIR)$(DIRSEP)fidoconfig.dvi
+	-install-info --remove --info-dir=$(INFODIR) $(DESTDIR)$(INFODIR)$(DIRSEP)fidoconfig.info
+	-$(RM) $(RMOPT) $(DESTDIR)$(INFODIR)$(DIRSEP)fidoconfig.info
+	-$(RM) $(RMOPT) $(DESTDIR)$(HTMLDIR)$(DIRSEP)fidoconfig*html
+	-$(RM) $(RMOPT) $(DESTDIR)$(DVIDIR)$(DIRSEP)fidoconfig.dvi

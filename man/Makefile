@@ -16,7 +16,7 @@ FCONF2ALIASES = fconf2aquaed.1 fconf2areasbbs.pl.1 fconf2binkd.1 \
 		fconf2msged.1 fconf2na.pl.1 fconf2squish.1 \
 		fconf2tornado.1 fecfg2fconf.1
 
-MAN1DIR   = $(MANDIR)$(DIRSEP)man1
+MAN1DIR   = $(DESTDIR)$(MANDIR)$(DIRSEP)man1
 
 all:
 
