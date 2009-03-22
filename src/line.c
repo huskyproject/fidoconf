@@ -3427,6 +3427,7 @@ int parseFilelist(char *line, s_fidoconfig *config)
 int parseSyslog(char *line, int *value)
 {
     int rv=0;
+    int i;
 
     unused(line);
     unused(value);
@@ -3435,7 +3436,6 @@ int parseSyslog(char *line, int *value)
     prErr("%s: Syslogging is not supported on your platform!", actualKeyword);
     rv=1;
 #else
-    int i;
 
     if (line == NULL) {
         prErr("Parameter missing after %s!", actualKeyword);
