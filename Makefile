@@ -2,7 +2,7 @@
 ifeq ($(DEBIAN), 1)
 include /usr/share/husky/huskymak.cfg
 else ifdef RPM_BUILD_ROOT
-# For RPM build is require all files in one directory branch
+# RPM build requires all files to be in the source directory
 include huskymak.cfg
 else
 include ../huskymak.cfg
