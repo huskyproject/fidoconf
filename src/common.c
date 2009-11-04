@@ -978,3 +978,26 @@ s_robot *getRobot(ps_fidoconfig config, char *name, int create)
   else if (create < 0) return def;
   else return NULL;
 }
+
+s_message *remove_kludges(s_message *msg)
+{
+    /*  remove kluges from message text
+        msg->text to reallocated
+    */
+    char *token=NULL, *textBuff = NULL;
+    char *tmp = msg->text;
+
+    token = strseparate (&tmp,"\n\r");
+
+    while(token != NULL) {
+        if( !strcmp(token,"---") || !strncmp(token,"--- ",4) )
+            /*  stop on tearline ("---" or "--- text") */
+            break;
+        if( token[0] != '\001' )
+            xstrscat(&textBuff,token,"\r",NULL);
+        token = strseparate (&tmp,"\n\r");
+    }
+    nfree(msg->text);
+    msg->text = textBuff;
+    return msg;
+}
