@@ -181,7 +181,7 @@ HUSKYEXT hs_addr *SelectPackAka(s_link *link);
 HUSKYEXT s_robot *getRobot(ps_fidoconfig config, char *name, int create);
 
 /*  remove kluges from message text, msg->text will reallocated */
-s_message *remove_kludges(s_message *msg);
+HUSKYEXT s_message *remove_kludges(s_message *msg);
 
 #ifdef __cplusplus
 }
