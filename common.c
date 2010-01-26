@@ -180,10 +180,14 @@ char *strrstr(const char *HAYSTACK, const char *NEEDLE)
 {
    char *start = NULL, *temp = NULL;
 
-   temp = strstr(HAYSTACK, NEEDLE);
-   while (temp  != NULL) {
-      start = temp;
-      temp = strstr(temp+1,NEEDLE);
+   if (HAYSTACK && NEEDLE)
+   {
+     temp = strstr(HAYSTACK, NEEDLE);
+     while (temp  != NULL)
+     {
+       start = temp;
+       temp = strstr(temp+1,NEEDLE);
+     }
    }
    return start;
 }
@@ -196,7 +200,7 @@ char *fc_stristr(const char *str, const char *find)
     char ch, sc;
     const char *str1 = NULL, *find1 = NULL;
 
-    if(str)
+    if(str && find)
     {
         find++;
         if ((ch = *(find-1)) != 0) {
