@@ -48,6 +48,7 @@
 #include "common.h"
 #include "xstr.h"
 #include "areatree.h"
+#include "log.h"
 
 static int wasCR=0;
 
@@ -106,13 +107,20 @@ char *trimLine(char *line)
 {
    char *start = line, *temp=NULL;
 
+   if(!line||!*line) return line;
+
    while ((*start == ' ') || (*start == '\t') || (*start == (char)0xFE)) start++;
    /* FIXME: Is it really needed to do a copy?
     * I think the overhead will be much greater than possible benefits
     * from occasionaly lessening of memory consumption */
+/*
    xstrcat(&temp, striptwhite(start));
    nfree(line);
    return temp;
+*/
+   temp = striptwhite(start);
+   if (temp!=line) strcpy(line,temp);
+   return line;
 }
 
 /* Strips trailing spaces from a string. */

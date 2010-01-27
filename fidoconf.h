@@ -72,7 +72,7 @@ extern "C" {
 #  endif
 #endif
 
-#define strend(str) ((str) + strlen(str) - 1)
+#define strend(str) ((str&&*str)?(str) + strlen(str) - 1:str)
 
 extern char *actualLine, *actualKeyword;
 
