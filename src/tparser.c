@@ -343,7 +343,7 @@ const char *testAddr(ps_addr addr){
       return s;
     }
   }
-  if( addr->node && addr->point ){
+  if( !addr->node && addr->point ){
     return "Warning: network host can't have a points";
   }
 
@@ -974,6 +974,7 @@ int checkLogic(s_fidoconfig *config) {
         printf("Link %s", config->links[i]->name);
         printAddr(&(config->links[i]->hisAka));
         printf(":\n %s\n", addrerror);
+        rc++;
       }
 
         /* Check links duplication */
@@ -1436,7 +1437,7 @@ int main(int argc, char **argv) {
 
    if (config != NULL) {
 
-     rc = checkLogic(config);
+     rc += checkLogic(config);
         rc += testConfig(config);
         printf("=== MAIN CONFIG ===\n");
         printf("Version: %u.%u\n", config->cfgVersionMajor, config->cfgVersionMinor);
@@ -1895,13 +1896,18 @@ int main(int argc, char **argv) {
        printf( "sendMailCmd:\n" );
 
      printf( "\n" );
-     rc = testPathsAndFiles();
+     rc += testPathsAndFiles();
 
-     if( rc ) { puts("============================"); testConfig(config); puts("============================"); }
+     if( rc ) {
+       puts("============================");
+       checkLogic(config);
+       testConfig(config);
+       puts("============================");
+     }
 
      disposeConfig(config);
 
-     if( rc ) fprintf(stderr,"Errors or warnings found!\n");
+     if( rc ) fprintf(stderr,"Attension, %u errors or warnings found!\n", rc);
    } /* endif */
 
    return rc;
