@@ -879,9 +879,12 @@ int checkLogic(s_fidoconfig *config) {
 
                 /* Check for echoloop */
                 if (area->useAka->point){
-                   hs_addr areaboss = { area->useAka->zone, area->useAka->net,
-                                             area->useAka->node, 0,
-                                             "" /*sstrdup(area->useAka->domain)*/ };
+                  hs_addr areaboss;
+                  areaboss.zone = area->useAka->zone;
+                  areaboss.net = area->useAka->net;
+                  areaboss.node = area->useAka->node;
+                  areaboss.point = 0;
+                  areaboss.domain = "" /*sstrdup(area->useAka->domain)*/;
                    for (j=0; j<area->downlinkCount; j++) {
 			ps_link link = area->downlinks[j]->link;
 
