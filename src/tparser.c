@@ -37,6 +37,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <ctype.h>
 
 #include <huskylib/huskylib.h>
 
@@ -311,6 +312,49 @@ int testPathsAndFiles()
   rc+=testpath(config->,"");
 */
   return rc;
+}
+
+const char *testAddr(ps_addr addr){
+  char *c;
+
+  printf("\n");
+
+  if( !addr->zone && !addr->net && !addr->node ){
+    return "Error: Invalid (zero) address\n";
+  }
+  if( !addr->zone || addr->zone < -1 /*|| addr->zone > 32767*/ ){
+    return "Error: FTN zone must be 16-bit positive number (32767 max) or -1";
+  }
+  if( !addr->net || addr->net < -1 /*|| addr->net > 32767*/ ){
+    return "Error: FTN network number must be 16-bit positive number (32767 max) or -1";
+  }
+  if( addr->node < -1 /*|| addr->node > 32767*/ ){
+    return "Error: FTN node number must be 16-bit positive number (32767 max), zero or -1";
+  }
+  if( addr->point < -1 /*|| addr->point > 32767*/ ){
+    return "Error: FTN point number must be 16-bit positive number (32767 max), zero or -1";
+  }
+  if( (addr->net == -1) || (addr->node == -1) || (addr->point == -1) ){
+    if( (addr->net != -1) || (addr->node != -1) || (addr->point && (addr->point != -1)) ) {
+      static char s[]="Error: -1 in address maybe used only for node or point requests and should be       :-1/-1 or       :-1/-1.-1";
+      sprintf(s+78, "%i:-1/1 or ", addr->zone);
+      sprintf(s+strlen(s), "%i:-1/-1.-1", addr->zone);
+      return s;
+    }
+  }
+  if( addr->node && addr->point ){
+    return "Warning: network host can't have a points";
+  }
+
+  for( c=addr->domain; c; c++ ){
+    if( !isalnum(*c) ){
+      if( *c == '.' )
+        return "Warning: FTN domain should not contains '.' char";
+      else
+        return "Warning: FTN domain should contains only alphanumberic characters";
+    }
+  }
+  return NULL;
 }
 
 void printAddr(ps_addr addr)
@@ -923,11 +967,25 @@ int checkLogic(s_fidoconfig *config) {
         robotsarea_ok = config->robotsArea? 0:1;
 
 	for (i=0; i+1<config->linkCount; i++) {
+      /* Check link address */
+      const char *addrerror=testAddr(&(config->links[i]->hisAka));
+      if (addrerror) {
+        printf("Link %s", config->links[i]->name);
+        printAddr(&(config->links[i]->hisAka));
+        printf(":\n %s\n", addrerror);
+      }
+
+        /* Check links duplication */
 		for (j=i+1; j<config->linkCount; j++) {
 			if (addrComp(config->links[i]->hisAka, config->links[j]->hisAka) == 0) {
 
 				if (strcmp(config->links[i]->name,
-						   config->links[j]->name)!=0) continue;
+						   config->links[j]->name)!=0) {
+                             printf("Warning: duplicate definition of link %s ",config->links[i]->name);
+                             printAddr(&(config->links[i]->hisAka));
+                             printf("\n");
+                             continue;
+                }
 
 				printf("ERROR: duplication of link ");
 				printAddr(&(config->links[i]->hisAka));
@@ -972,21 +1030,21 @@ int checkLogic(s_fidoconfig *config) {
 		/*    j=i+1 */
 		for (j=i+1; j < config->echoAreaCount; j++) {
 			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of echoarea %s\n", areaName);
 				exit(-1);
 			}
 		}
 
 		for (j=0; j < config->localAreaCount; j++) {
 			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of echoarea %s\n", areaName);
 				exit(-1);
 			}
 		}
 
 		for (j=0; j < config->netMailAreaCount; j++) {
 			if (stricmp(config->netMailAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of echoarea %s\n", areaName);
 				exit(-1);
 			}
 		}
@@ -998,7 +1056,7 @@ int checkLogic(s_fidoconfig *config) {
 				if (link == area->downlinks[m]->link) {
 					printf("ERROR: duplication of link ");
 					printAddr(&(link->hisAka));
-					printf(" in area %s\n", areaName);
+					printf(" in echoarea %s\n", areaName);
 					exit(-1);
 				}
 			}
@@ -1032,7 +1090,7 @@ int checkLogic(s_fidoconfig *config) {
 
 		for (j=0; j < config->echoAreaCount; j++) {
 			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of local area %s\n", areaName);
 				exit(-1);
 			}
 		}
@@ -1040,14 +1098,14 @@ int checkLogic(s_fidoconfig *config) {
 		/*    j=i+1 */
 		for (j=i+1; j < config->localAreaCount; j++) {
 			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of local area %s\n", areaName);
 				exit(-1);
 			}
 		}
 
 		for (j=0; j < config->netMailAreaCount; j++) {
 			if (stricmp(config->netMailAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of local area %s\n", areaName);
 				exit(-1);
 			}
 		}
@@ -1059,7 +1117,7 @@ int checkLogic(s_fidoconfig *config) {
 				if (link == area->downlinks[m]->link) {
 					printf("ERROR: duplication of link ");
 					printAddr(&(link->hisAka));
-					printf(" in area %s\n", areaName);
+					printf(" in local area %s\n", areaName);
 					exit(-1);
 				}
 			}
@@ -1076,14 +1134,14 @@ int checkLogic(s_fidoconfig *config) {
 
 		for (j=0; j < config->echoAreaCount; j++) {
 			if (stricmp(config->echoAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of netmail area %s\n", areaName);
 				exit(-1);
 			}
 		}
 
 		for (j=0; j < config->localAreaCount; j++) {
 			if (stricmp(config->localAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of netmail area %s\n", areaName);
 				exit(-1);
 			}
 		}
@@ -1091,7 +1149,7 @@ int checkLogic(s_fidoconfig *config) {
 		/*    j=i+1 */
 		for (j=i+1; j < config->netMailAreaCount; j++) {
 			if (stricmp(config->netMailAreas[j].areaName, areaName)==0) {
-				printf("ERROR: duplication of area %s\n", areaName);
+				printf("ERROR: duplication of netmail area %s\n", areaName);
 				exit(-1);
 			}
 		}
@@ -1103,7 +1161,7 @@ int checkLogic(s_fidoconfig *config) {
 				if (link == area->downlinks[m]->link) {
 					printf("ERROR: duplication of link");
 					printAddr(&(link->hisAka));
-					printf("in area %s\n", areaName);
+					printf("in netmail area %s\n", areaName);
 					exit(-1);
 				}
 			}
