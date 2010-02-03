@@ -856,9 +856,9 @@ int checkLogic(s_fidoconfig *config) {
 		for (j=i+1; j<config->linkCount; j++) {
 			if (addrComp(config->links[i].hisAka, config->links[j].hisAka) == 0) {
 
-				if ( strcmp(config->links[i].name, config->links[j]->name)!=0 ) {
-                     printf("Warning: duplicate definition of link %s ",config->links[i]->name);
-                     printAddr(&(config->links[i]->hisAka));
+				if ( strcmp(config->links[i].name, config->links[j].name)!=0 ) {
+                     printf("Warning: duplicate definition of link %s ",config->links[i].name);
+                     printAddr(&(config->links[i].hisAka));
                      printf("\n");
                      rc++;
                      continue;
