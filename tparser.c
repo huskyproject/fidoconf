@@ -309,16 +309,16 @@ const char *testAddr(hs_addr addr)
   if ( !addr.zone && !addr.net && !addr.node ) {
     return "Error: Invalid (zero) address\n";
   }
-  if ( addr.zone==0 || (addr.zone < -1 && addr.zone > 32767) ) {
+  if ( addr.zone==0 || (addr.zone < 65535 && addr.zone > 32767) ) {
     return "Error: FTN zone must be 16-bit positive number (32767 max) or -1";
   }
-  if ( !addr.net || (addr.net < -1 && addr.net > 32767) ) {
+  if ( !addr.net || (addr.net < 65535 && addr.net > 32767) ) {
     return "Error: FTN network number must be 16-bit positive number (32767 max) or -1";
   }
-  if ( addr.node < -1 && addr.node > 32767 ) {
+  if ( addr.node < 65535 && addr.node > 32767 ) {
     return "Error: FTN node number must be 16-bit positive number (32767 max), zero or -1";
   }
-  if ( addr.point < -1 && addr.point > 32767 ) {
+  if ( addr.point < 65535 && addr.point > 32767 ) {
     return "Error: FTN point number must be 16-bit positive number (32767 max), zero or -1";
   }
   if ( (addr.net == -1) || (addr.node == -1) || (addr.point == -1) ) {
@@ -329,7 +329,7 @@ const char *testAddr(hs_addr addr)
       return s;
     }
   }
-  if( addr.node && addr.point ){
+  if( !addr.node && addr.point ){
     return "Warning: network host can't have a points";
   }
 
