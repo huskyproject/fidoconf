@@ -1766,7 +1766,7 @@ int main(int argc, char **argv) {
        printf( "sendMailCmd:\n" );
 
      printf( "\n" );
-     rc = testPathsAndFiles();
+     rc += testPathsAndFiles();
 
      if( rc ) { puts("============================"); testConfig(config); puts("============================"); }
 
