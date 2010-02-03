@@ -1768,7 +1768,12 @@ int main(int argc, char **argv) {
      printf( "\n" );
      rc += testPathsAndFiles();
 
-     if( rc ) { puts("============================"); testConfig(config); puts("============================"); }
+     if( rc ) {
+       puts("============================");
+       checkLogic(config);
+       testConfig(config);
+       puts("============================");
+     }
 
      disposeConfig(config);
 
