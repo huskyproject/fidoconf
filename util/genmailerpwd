@@ -4,7 +4,7 @@
 # (c) Copyleft Stas Degteff 2:5080/102@fidonet
 
 use Getopt::Std;
-
+$Getopt::Std::STANDARD_HELP_VERSION = true;
 my %passwords; # pairs FTN_address => password
 
 &work;
@@ -16,10 +16,13 @@ sub work{
 
   if( $opts{"v"} ){
     &VERSION_MESSAGE;
+    exit;
   }
 
   if( (($opts{"b"} eq "") and ($opts{"i"} eq "")) or $opts{"h"} ){
+    &VERSION_MESSAGE;
     &HELP_MESSAGE;
+    exit;
   }
 
   if( $#ARGV < 0 ){
@@ -40,6 +43,7 @@ sub work{
         print BINKDPWD $addr, " ", $passwords{$addr}, "\n";
       }
       close BINKDPWD;
+      print "Binkd passwords file ",$opts{"b"}," is written\n";
     }
   }
 
@@ -51,6 +55,7 @@ sub work{
         print IFMAILPWD "password ",$addr, " ", $passwords{$addr}, "\n";
       }
       close IFMAILPWD;
+      print "Ifmail passwords file ",$opts{"i"}," is written\n";
     }
   }
 
@@ -83,12 +88,10 @@ genmailerpwd $Id[2] - A perl script to generate binkd and ifcico password files 
 (c) Copyleft Stas Degteff 2:5080/102@fidonet
 Licence: GPL v.3
 VVV
-exit;
 }
 
 sub HELP_MESSAGE(){
 print <<UUU;
-genmailerpwd - A perl script to generate binkd and ifcico password files from fidoconfig
 
 Synopsys
    genmailerpwd [-b /fido/binkd.passwd] [-i /fido/ifcico.passwd]
@@ -96,11 +99,12 @@ Synopsys
    genmailerpwd [-b /fido/binkd.passwd] [-i /fido/ifcico.passwd] /fido/links
        Use fidoconfig file "/fido/links", write binkd passwords "/fido/binkd.passwd" and ifcico passwords file "/fido/ifcico.passwd"
    genmailerpwd -v
+   genmailerpwd --version
        Print version information and exit.
-   genmailerpwd -h
    genmailerpwd
+   genmailerpwd -h
+   genmailerpwd --help
        Print this message and exit.
 
 UUU
-exit(1);
 }
