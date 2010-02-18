@@ -5,25 +5,29 @@
 
 use Getopt::Std;
 $Getopt::Std::STANDARD_HELP_VERSION = true;
+use Sys::Syslog;
+
 my %passwords; # pairs FTN_address => password
 
+my %opts;
+getopts('qvhb:i:', \%opts);
+
+if( $opts{"v"} ){
+  &VERSION_MESSAGE;
+  exit;
+}
+
+if( (($opts{"b"} eq "") and ($opts{"i"} eq "")) or $opts{"h"} ){
+  &VERSION_MESSAGE;
+  &HELP_MESSAGE;
+  exit;
+}
+
+openlog ( (split(/,/,$Id[1]))[0], "pid", "local0" ) if( $opts{"q"} );
 &work;
+closelog;
 
 sub work{
-
-  my %opts;
-  getopts('vhb:i:', \%opts);
-
-  if( $opts{"v"} ){
-    &VERSION_MESSAGE;
-    exit;
-  }
-
-  if( (($opts{"b"} eq "") and ($opts{"i"} eq "")) or $opts{"h"} ){
-    &VERSION_MESSAGE;
-    &HELP_MESSAGE;
-    exit;
-  }
 
   if( $#ARGV < 0 ){
     my $varfidoconfig = (grep( /^FIDOCONFIG$/i, keys(%ENV) ))[0];
@@ -37,25 +41,29 @@ sub work{
 
   if( $opts{"b"} ){
     if( ! open BINKDPWD, ">".$opts{"b"} ) {
+      if( $opts{"q"} ) { syslog("err", "Can't write to ".$opts{"b"}.", skip ($!)") }
       print STDERR "Can't write to ",$opts{"b"},", skip ($!)\n";
     }else{
       foreach my $addr (keys(%passwords)){
         print BINKDPWD $addr, " ", $passwords{$addr}, "\n";
       }
       close BINKDPWD;
-      print "Binkd passwords file ",$opts{"b"}," is written\n";
+      if( $opts{"q"} ) { syslog("info", "Binkd passwords file ".$opts{"b"}." is written") }
+      else { print "Binkd passwords file ",$opts{"b"}," is written\n" if( $opts{"q"} == 0 ) }
     }
   }
 
   if( $opts{"i"} ){
     if( ! open IFMAILPWD, ">".$opts{"i"} ) {
+      if( $opts{"q"} ) { syslog("err", "Can't write to ".$opts{"i"}.", skip ($!)") }
       print STDERR "Can't write to ",$opts{"i"},", skip ($!)\n";
     }else{
       foreach my $addr (keys(%passwords)){
         print IFMAILPWD "password ",$addr, " ", $passwords{$addr}, "\n";
       }
       close IFMAILPWD;
-      print "Ifmail passwords file ",$opts{"i"}," is written\n";
+      if( $opts{"q"} ) { syslog("info", "Ifmail passwords file ".$opts{"i"}." is written") }
+      else { print "Ifmail passwords file ",$opts{"i"}," is written\n" }
     }
   }
 
@@ -63,21 +71,23 @@ sub work{
 
 ######### Subroutines #
 sub parse{
-  my $aka, @includes;
+  my $aka, @includes = ();
   if( open(CONFIG,$_[0]) ){
-    print "Parsing file $_[0]\n";
+    if( $opts{"q"} ) { syslog("info", "Parsing file $_[0]" ) }
+    else { print "Parsing file $_[0]\n" }
     while(<CONFIG>){
       s/^[ \t]//g;
       if( $_ =~ /^link\s/i ){ undef $aka; next; }
       if( $_ =~ /^aka\s+(\S+)/i ){ $aka=$1; next; }
       if( $_ =~ /^password\s+(\S+)/i ){ if($passwords{$aka} eq ""){$passwords{$aka}=$1} next;  }
       if( $_ =~ /^sessionPwd\s+(\S+)/i ){ $passwords{$aka}=$1; next; }
-      if( $_ =~ /^include\s+(\S+)/i ){ push( @includes, $1 ); }
+      if( $_ =~ /^include\s+(\S+)/i ){ push( @includes, $1 ) if( $1 ); }
     }
     close CONFIG;
     foreach (@includes){ parse($_); }
   }else{
-    print STDERR "Can't open ", $_[0], ", skip ($!)\n";
+    if( $opts{"q"} ) { syslog("err", "Can't open \"". $_[0]."\", skip ($!)") }
+    print STDERR "Can't open \"", $_[0], "\", skip ($!)\n";
   }
 }
 
@@ -94,10 +104,11 @@ sub HELP_MESSAGE(){
 print <<UUU;
 
 Synopsys
-   genmailerpwd [-b /fido/binkd.passwd] [-i /fido/ifcico.passwd]
+   genmailerpwd [-q] [-b /fido/binkd.passwd] [-i /fido/ifcico.passwd]
        Use enviroment variable FIDOCONFIG pointedto fidoconfig file, write binkd passwords "/fido/binkd.passwd" and ifcico passwords file "/fido/ifcico.passwd"
-   genmailerpwd [-b /fido/binkd.passwd] [-i /fido/ifcico.passwd] /fido/links
+   genmailerpwd [-q] [-b /fido/binkd.passwd] [-i /fido/ifcico.passwd] /fido/links
        Use fidoconfig file "/fido/links", write binkd passwords "/fido/binkd.passwd" and ifcico passwords file "/fido/ifcico.passwd"
+       The option "-q" used for suppress console output and make messages to (unix) system log.
    genmailerpwd -v
    genmailerpwd --version
        Print version information and exit.
