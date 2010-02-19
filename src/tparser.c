@@ -167,7 +167,7 @@ int testplainfile(const char *s, const char *t1, const char *t2, const char *t3)
   register char *p;
 
   if( s && (p=strpbrk(s,invalidc)) != NULL ){
-     printf("ERROR: %s%s%s%s%s can't contains %c\n", t1, (t2? " " : ""),
+     printf("ERROR: %s%s%s%s%s can't contain %c\n", t1, (t2? " " : ""),
                t2, (t3? " " : ""), t3, *p);
      return -1;
   }
@@ -337,22 +337,22 @@ const char *testAddr(ps_addr addr){
   }
   if( (addr->net == -1) || (addr->node == -1) || (addr->point == -1) ){
     if( (addr->net != -1) || (addr->node != -1) || (addr->point && (addr->point != -1)) ) {
-      static char s[]="Error: -1 in address maybe used only for node or point requests and should be       :-1/-1 or       :-1/-1.-1";
+      static char s[]="Error: -1 in address may only be used for node or point requests and should be       :-1/-1 or       :-1/-1.-1";
       sprintf(s+78, "%i:-1/1 or ", addr->zone);
       sprintf(s+strlen(s), "%i:-1/-1.-1", addr->zone);
       return s;
     }
   }
   if( !addr->node && addr->point ){
-    return "Warning: network host can't have a points";
+    return "Warning: network host can't have points";
   }
 
   for( c=addr->domain; c; c++ ){
     if( !isalnum(*c) ){
       if( *c == '.' )
-        return "Warning: FTN domain should not contains '.' char";
+        return "Warning: FTN domain should not contain '.' char";
       else
-        return "Warning: FTN domain should contains only alphanumberic characters";
+        return "Warning: FTN domain should contain alphanumeric characters only";
     }
   }
   return NULL;
@@ -654,8 +654,8 @@ int printLink(ps_link link) {
    if (link->sessionPwd) {
       printf("sessionPwd: %s\n", link->sessionPwd);
       if(strlen(link->sessionPwd)>8) {
-        printf("WARNING: sessionPwd too long, should be not more what 8 chars usually.\nMore long password may cause error in some mailers.\n");
-        fprintf(stderr,"WARNING: sessionPwd too long, should be not more what 8 chars usually.\n");
+        printf("WARNING: sessionPwd is too long, should not be longer than 8 chars usually.\nA longer password may cause an error in some mailers.\n");
+        fprintf(stderr,"WARNING: sessionPwd is too long, should not be longer than 8 chars usually.\n");
       }
    }
    if (link->handle!=link->name) printf("handle:     %s\n", link->handle);
@@ -792,8 +792,8 @@ int printLink(ps_link link) {
      printf("filefixReportsAttr: %s%s%s\n", attrs ? strUpper(attrs) : "", attrs ? " " : "", link->filefix.reportsFlags ? link->filefix.reportsFlags : "");
      nfree(attrs);
    }
-   printf("Forward Areafix Requests to this link is %s\n",(link->areafix.forwardRequests)?"on":"off");
-   printf("Forward Filefix Requests to this link is %s\n",(link->filefix.forwardRequests)?"on":"off");
+   printf("Forwarding Areafix Requests to this link is %s\n",(link->areafix.forwardRequests)?"on":"off");
+   printf("Forwarding Filefix Requests to this link is %s\n",(link->filefix.forwardRequests)?"on":"off");
    if (link->areafix.forwardPriority)
 	   printf("areafixFwdPriority: %u\n", link->areafix.forwardPriority);
    if (link->filefix.forwardPriority)
@@ -1075,7 +1075,7 @@ int checkLogic(s_fidoconfig *config) {
                         printAddr(&(link->hisAka));
                         printf(". This node is not boss-node of your AKA ");
                         printAddr(area->useAka);
-                        printf(" used in this echo! Echo loop or seen-by lock is possibled.\n");
+                        printf(" used in this echo! Echo loop or seen-by lock is possible.\n");
                         rc++;
                       }
                     }
@@ -1530,7 +1530,7 @@ int main(int argc, char **argv) {
 		  printf("BundleNameStyle: AddrsCRC32Always\n");
 		  break;
   	  default:
-  		  printf("Warning: BundleNameStyle is UNKNOWN! Update tparser please!\n");
+  		  printf("Warning: BundleNameStyle is UNKNOWN! Please update tparser!\n");
   		  break;
 
         }
@@ -1907,7 +1907,7 @@ int main(int argc, char **argv) {
 
      disposeConfig(config);
 
-     if( rc ) fprintf(stderr,"Attension, %u errors or warnings found!\n", rc);
+     if( rc ) fprintf(stderr,"Attention, %u errors or warnings found!\n", rc);
    } /* endif */
 
    return rc;
