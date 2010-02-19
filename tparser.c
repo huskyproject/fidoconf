@@ -157,7 +157,7 @@ int testplainfile(const char *s, const char *t1, const char *t2, const char *t3)
   register char *p;
 
   if( s && (p=strpbrk(s,invalidc)) ){
-     printf("ERROR: %s%s%s%s%s can't contains %c\n", t1, (t2? " " : ""),
+     printf("ERROR: %s%s%s%s%s can't contain %c\n", t1, (t2? " " : ""),
                t2, (t3? " " : ""), t3, *p);
      return -1;
   }
@@ -323,23 +323,23 @@ const char *testAddr(hs_addr addr)
   }
   if ( (addr.net == -1) || (addr.node == -1) || (addr.point == -1) ) {
     if ( (addr.net != -1) || (addr.node != -1) || (addr.point && (addr.point != -1)) ) {
-      static char s[]="Error: -1 in address maybe used only for node or point requests and should be       :-1/-1 or       :-1/-1.-1";
+      static char s[]="Error: -1 in address may only be used for node or point requests and should be      :-1/-1 or       :-1/-1.-1";
       sprintf(s+78, "%i:-1/1 or ", addr.zone);
       sprintf(s+strlen(s), "%i:-1/-1.-1", addr.zone);
       return s;
     }
   }
   if( !addr.node && addr.point ){
-    return "Warning: network host can't have a points";
+    return "Warning: network host can't have points";
   }
 
   if((c=addr.domain))
     for( ; *c; c++ ){
       if( !isalnum(*c) ){
         if( *c == '.' )
-          return "Warning: FTN domain should not contains '.' char";
+          return "Warning: FTN domain should not contain '.' char";
         else
-          return "Warning: FTN domain should contains only alphanumberic characters";
+          return "Warning: FTN domain should contain alphanumeric characters only";
       }
     }
   return NULL;
@@ -613,8 +613,8 @@ int printLink(s_link link) {
    if (link.sessionPwd) {
       printf("sessionPwd: %s\n", link.sessionPwd);
       if(strlen(link.sessionPwd)>8) {
-        printf("WARNING: sessionPwd too long, should be not more what 8 chars usually.\nMore long password may cause error in some mailers.\n");
-        fprintf(stderr,"WARNING: sessionPwd of %s too long, should be not more what 8 chars usually.\n", aka2str5d(link.hisAka));
+        printf("WARNING: sessionPwd is too long, should not be longer than 8 chars usually.\nA longer password may cause an error in some mailers.\n");
+        fprintf(stderr,"WARNING: sessionPwd is too long, should not be longer than 8 chars usually.\n");
       }
    }
    if (link.handle!=link.name) printf("handle:     %s\n", link.handle);
@@ -948,16 +948,16 @@ int checkLogic(s_fidoconfig *config) {
                   areaboss.point = 0;
                   areaboss.domain = "" /*sstrdup(area->useAka->domain)*/;
                    for (j=0; j<area->downlinkCount; j++) {
-			ps_link link = area->downlinks[j]->link;
+                     ps_link link = area->downlinks[j]->link;
 
-                          if ((link->hisAka.point==0) && addrComp(link->hisAka, areaboss)) {
+                     if ((link->hisAka.point==0) && addrComp(link->hisAka, areaboss)) {
                             printf("WARNING: echoarea %s is subscribed to ", areaName);
                             printAddr(&(link->hisAka));
                             printf(". This node is not boss-node of your AKA ");
-			    printAddr(area->useAka);
-			    printf(" used in this echo! Echo loop or seen-by lock is possibled.\n");
+                            printAddr(area->useAka);
+                            printf(" used in this echo! Echo loop or seen-by lock is possible.\n");
                             rc++;
-                          }
+                     }
                     }
                           /*nfree(areaboss.domain);*/
 		}
@@ -1402,7 +1402,7 @@ int main(int argc, char **argv) {
 		  printf("BundleNameStyle: AddrsCRC32Always\n");
 		  break;
   	  default:
-  		  printf("WARNING: BundleNameStyle is UNKNOWN! Update tparser please!\n");
+          printf("WARNING: BundleNameStyle is UNKNOWN! Please update tparser!\n");
   		  break;
 
         }
