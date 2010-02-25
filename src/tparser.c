@@ -347,12 +347,15 @@ const char *testAddr(ps_addr addr){
     return "Warning: network host can't have points";
   }
 
-  for( c=addr->domain; c; c++ ){
-    if( !isalnum(*c) ){
-      if( *c == '.' )
-        return "Warning: FTN domain should not contain '.' char";
-      else
-        return "Warning: FTN domain should contain alphanumeric characters only";
+  if( addr->domain )
+  {
+    for( c=addr->domain; c; c++ ){
+      if( !isalnum(*c) ){
+        if( *c == '.' )
+          return "Warning: FTN domain should not contain '.' char";
+        else
+          return "Warning: FTN domain should contain alphanumeric characters only";
+      }
     }
   }
   return NULL;
