@@ -349,12 +349,16 @@ const char *testAddr(ps_addr addr){
 
   if( addr->domain )
   {
-    for( c=addr->domain; c; c++ ){
+    for( c=addr->domain; *c; c++ ){
       if( !isalnum(*c) ){
         if( *c == '.' )
           return "Warning: FTN domain should not contain '.' char";
-        else
-          return "Warning: FTN domain should contain alphanumeric characters only";
+        else{
+          char* msg = "Warning: FTN domain should contain alphanumeric characters only but ' ' is not";
+          char* p = strchr(msg,'\'')+1;
+          if( p ) *p = *c;
+          return msg;
+        }
       }
     }
   }
