@@ -872,57 +872,38 @@ int main(int argc, char **argv)
    fprintf( f_hpt, "areafixQueryReports      %s\n",
             config.AreaFixFlags & ADDRECEIPTLIST ? "on" : "off" );
 
+   if( packers_count || unpackers_count || packers2_count || unpackers2_count )
+     fprintf(f_hpt, "\n## Packers and unpackers #########################################\n");
+
    if( packers_count ){
-     fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Packers (DOS)\n");
-
-     fprintf(f_hpt, "if [OS]==DOS\n");
+     fprintf(f_hpt, "## Packers (DOS)\n");
+     fprintf(f_hpt, "if \"[OS]\"!=\"OS/2\"\n");
      print_packers(packers,packers_count);
-     fprintf(f_hpt, "endif\n");
-
-     fprintf(f_hpt, "if [OS]==WIN\n");
-     print_packers(packers,packers_count);
-     fprintf(f_hpt, "endif\n");
-   }
-   if( packers2_count ){
-     fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Packers (OS/2)\n\n");
-     fprintf(f_hpt, "if [OS]==OS/2\n");
-     print_packers(packers2,packers2_count);
      fprintf(f_hpt, "endif\n");
    }
 
    if( unpackers_count ){
-     fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Unpackers (DOS)\n\n");
-
-     fprintf(f_hpt, "if [OS]==DOS\n");
-     if( sstrlen(config.Unpacker) )
-       fprintf( f_hpt, "# Unpack  \"%-30s $a $f $p\"  # Default unpacker", config.Unpacker );
-
+     fprintf(f_hpt, "## Unpackers (DOS)\n\n");
+     fprintf(f_hpt, "if \"[OS]\"!=\"OS/2\"\n");
      print_unpackers(unpackers,unpackers_count);
+     if( config.Unpacker &&  config.Unpacker[0] )
+       fprintf( f_hpt, " # Default unpacker\n Unpack  \"%-30s $a $f $p\" 0 ??\n", config.Unpacker );
      fprintf(f_hpt, "endif\n");
-
-     fprintf(f_hpt, "if [OS]==WIN\n");
-     if( sstrlen(config.Unpacker) )
-       fprintf( f_hpt, "# Unpack  \"%-30s $a $f $p\"  # Default unpacker", config.Unpacker );
-
-     print_unpackers(unpackers,unpackers_count);
-     fprintf(f_hpt, "endif\n");
-
    }
 
+   if( packers2_count ){
+     fprintf(f_hpt, "## Packers (OS/2)\n\n");
+     fprintf(f_hpt, "if \"[OS]\"==\"OS/2\"\n");
+     print_packers(packers2,packers2_count);
+     fprintf(f_hpt, "endif\n");
+   }
    if( unpackers2_count ){
-     fprintf(f_hpt, "\n##################################################################\n");
-     fprintf(f_hpt, "# Unpackers (OS/2)\n\n");
-
-     fprintf(f_hpt, "if [OS]==OS/2\n");
-     if( sstrlen(config.Unpacker2) )
-       fprintf( f_hpt, "# Unpack  \"%-30s $a $f $p\"  # Default unpacker", config.Unpacker2 );
-
+     fprintf(f_hpt, "## Unpackers (OS/2)\n\n");
+     fprintf(f_hpt, "if \"[OS]\"==\"OS/2\"\n");
+     if( config.Unpacker2 && config.Unpacker2[0] )
+     fprintf( f_hpt, " # Default unpacker\n Unpack  \"%-30s $a $f $p\" 0 ??\n", config.Unpacker2 );
      print_unpackers(unpackers2,unpackers2_count);
      fprintf(f_hpt, "endif\n");
-
    }
 
    fprintf(f_hpt, "\n##################################################################\n");
