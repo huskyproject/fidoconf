@@ -397,6 +397,13 @@ void print_areas()
 
           fprintf(f_hpt, "\n");
 
+       }else{
+         if ( area[i]->name && *area[i]->name ){
+           if ( area[i]->desc && *area[i]->desc )
+             fprintf(f_hpt, "# !!! # area \"%s\" (\"%s\") stored in HUDSON messagebase, doesn't support by Husky\n", area[i]->name, area[i]->desc);
+           else
+             fprintf(f_hpt, "# !!! # area \"%s\" stored in HUDSON messagebase, doesn't support by Husky\n", area[i]->name);
+         }
        } /* endif */
     } /* endfor */
   }
