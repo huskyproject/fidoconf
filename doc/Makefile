@@ -13,6 +13,7 @@ all: html info dvi
 
 ifdef HTMLDIR
 html: fidoconfig.html
+	-wget -O fastecho2fidoconfig.html "http://sourceforge.net/apps/mediawiki/husky/index.php?title=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0_fecfg2fconf&printable=yes"
 else
 html:
 	@echo
@@ -78,6 +79,7 @@ endif
 ifdef HTMLDIR
 	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(HTMLDIR)
 	$(INSTALL) $(IMOPT) fidoconfig*html $(DESTDIR)$(HTMLDIR)
+	-$(INSTALL) $(IMOPT) fastecho2fidoconfig.html $(DESTDIR)$(HTMLDIR)
 endif
 ifdef DVIDIR
 	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(DVIDIR)
@@ -87,5 +89,5 @@ endif
 uninstall:
 	-install-info --remove --info-dir=$(INFODIR) $(DESTDIR)$(INFODIR)$(DIRSEP)fidoconfig.info
 	-$(RM) $(RMOPT) $(DESTDIR)$(INFODIR)$(DIRSEP)fidoconfig.info
-	-$(RM) $(RMOPT) $(DESTDIR)$(HTMLDIR)$(DIRSEP)fidoconfig*html
+	-$(RM) $(RMOPT) $(DESTDIR)$(HTMLDIR)$(DIRSEP)fidoconfig*html $(DESTDIR)$(HTMLDIR)$(DIRSEP)fastecho2fidoconfig.html
 	-$(RM) $(RMOPT) $(DESTDIR)$(DVIDIR)$(DIRSEP)fidoconfig.dvi
