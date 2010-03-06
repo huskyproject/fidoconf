@@ -1363,12 +1363,6 @@ void usage()
     exit(0);
 }
 
-const char *smapi_cvs_date(){
-static
-#include <smapi/cvsdate.h>
-return cvs_date;
-}
-
 int main(int argc, char **argv) {
 /*   s_fidoconfig *config = NULL;  use global variable */
    unsigned i, j, hpt=0, preproc=0, rc=0;
