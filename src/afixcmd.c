@@ -449,7 +449,7 @@ void Addlink(s_fidoconfig *config, s_link *link, s_area *area)
         arealink = area->downlinks[area->downlinkCount] = (s_arealink*) scalloc(1, sizeof(s_arealink));
         arealink->link = link;
         area->downlinkCount++;
-        
+
         setLinkAccess(config, area, arealink);
 
         if (config->readOnlyCount) {
@@ -469,20 +469,20 @@ void Addlink(s_fidoconfig *config, s_link *link, s_area *area)
                 }
             }
         }
-        
+
         if (config->writeOnlyCount) {
             for (i=0; i < config->writeOnlyCount; i++) {
                 if(config->writeOnly[i].areaMask[0] != '!') {
                     if (patimat(area->areaName, config->writeOnly[i].areaMask) &&
                         patmat(aka2str(link->hisAka), config->writeOnly[i].addrMask)) {
-                            arealink->export = 0;
+                            arealink->aexport = 0;
                     }
                 } else {
                     ExclMask = config->writeOnly[i].areaMask;
                     ExclMask++;
                     if (patimat(area->areaName, ExclMask) &&
                         patmat(aka2str(link->hisAka), config->writeOnly[i].addrMask)) {
-                            arealink->export = 1;
+                            arealink->aexport = 1;
                     }
                 }
             }

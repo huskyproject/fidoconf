@@ -89,7 +89,7 @@ void freeAreaList(ps_arealist al)
     return;
 }
 
-int addAreaListItem(ps_arealist al, int active, int rescanable, int import, int export, int mandatory, char *tag, char *desc, char *grp)
+int addAreaListItem(ps_arealist al, int active, int rescanable, int import, int aexport, int mandatory, char *tag, char *desc, char *grp)
 {
 	ps_arealistitem areas;
 	int l;

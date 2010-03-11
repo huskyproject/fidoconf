@@ -186,7 +186,7 @@ typedef struct link {
                                  /*  bundle. Default 100 (used in bsopack) */
     unsigned int packNetmail;    /*  allows to pack outbound */
                                  /*  netmail. Default no (used in bsopack) */
-    unsigned int export, import, mandatory, manual; /*  Default link's options */
+    unsigned int aexport, import, mandatory, manual; /*  Default link's options */
     char **optGrp; /*  groups for this options */
     unsigned int numOptGrp;
     unsigned int delNotReceivedTIC; /* 1 - if file not recieved, then remove TIC */
@@ -240,7 +240,7 @@ typedef enum scanMode { smNone=0, smNever, smManual, smListed} e_scanMode;
 
 typedef struct arealink {
    ps_link link;
-   unsigned int export;		/*  1 - export yes, 0 - export no */
+   unsigned int aexport;		/*  1 - export yes, 0 - export no */
    unsigned int import;		/*  1 - import yes, 0 - import no */
    unsigned int mandatory;	/*  1 - mandatory yes, 0 - mandatory no */
    unsigned int manual;		/*  1 - manual yes, 0 - manual no */
@@ -332,7 +332,7 @@ typedef struct carbon {
    ps_area      area;     /*  area to copy messages */
    hs_addr      addr;     /*  from addr to compare */
    char         *areaName;/*  name of area to copy messages */
-   int          export;   /*  export copied msg? */
+   int          aexport;  /*  export copied msg? */
    int          netMail;  /*  do this in netmail, not echomail */
    e_carbonaction  move;  /*  copy, move or delete original msg */
    int          extspawn; /*  areaName is name of external program to exec */

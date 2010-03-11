@@ -296,7 +296,7 @@ int carbonNames2Addr(s_fidoconfig *config)
 		   if (stricmp(cbaName, aptr->areaName)==0) {
 		       found++;
 		       cb->area = aptr;
-		       cb->export = 1;
+		       cb->aexport = 1;
 		       cb->netMail = 0;
 		   }
 	       }
@@ -305,7 +305,7 @@ int carbonNames2Addr(s_fidoconfig *config)
 		   if (stricmp(cbaName, aptr->areaName)==0) {
 		       found++;
 		       cb->area = aptr;
-		       cb->export = 0;
+		       cb->aexport = 0;
 		       cb->netMail = 0;
 		   }
 	       }
@@ -314,14 +314,13 @@ int carbonNames2Addr(s_fidoconfig *config)
 		   if (stricmp(cbaName, aptr->areaName)==0) {
 		       found++;
 		       cb->area = aptr;
-		       cb->export = 0;
+		       cb->aexport = 0;
 		       cb->netMail = 1;
 		   }
 	       }
 	   }
        }
 
-       
        if (!found && (cb->move != 2) && !cb->extspawn) { /*  move==2 - delete */
          if (config->badArea.areaName) {
 	   printf("Could not find area \"%s\" for carbon copy. Use BadArea\n",
@@ -335,7 +334,7 @@ int carbonNames2Addr(s_fidoconfig *config)
 	   cb->areaName = (char *) smalloc(sstrlen(config->badArea.areaName)+i+1);
 	   if (i) *cb->areaName='*';
 	   strcpy(cb->areaName+i,config->badArea.areaName);
-	   cb->export = 0;
+	   cb->aexport = 0;
 	 } else {
 	   printf("Could not find area \"%s\" for carbon copy and BadArea not defined. Can't use this area for carbon copy\n", cb->areaName);
            cb->area = NULL;
@@ -345,7 +344,6 @@ int carbonNames2Addr(s_fidoconfig *config)
    }
    return rc;
 }
-
 
 void processAreaPermissions(s_fidoconfig *config, ps_area areas, unsigned areaCount)
 {
@@ -393,7 +391,7 @@ void processAreaPermissions(s_fidoconfig *config, ps_area areas, unsigned areaCo
                         for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
                             if (patmat (aka2str((*dlink)->link->hisAka),
                                 config->writeOnly[i].addrMask)) {
-                                (*dlink)->export = 0;
+                                (*dlink)->aexport = 0;
                             }
                         }
                     }
@@ -406,7 +404,7 @@ void processAreaPermissions(s_fidoconfig *config, ps_area areas, unsigned areaCo
                         for (nalink=0, dlink=aptr->downlinks; nalink < aptr->downlinkCount; nalink++, dlink++) {
                             if (patmat (aka2str((*dlink)->link->hisAka),
                                 config->writeOnly[i].addrMask)) {
-                                (*dlink)->export = 1;
+                                (*dlink)->aexport = 1;
                             }
                         }
                     }
@@ -514,7 +512,7 @@ void setConfigDefaults(s_fidoconfig *config)
                clink->areafix.on = 1;
                clink->filefix.on = 1;
                clink->filefix.autoCreate = 1; /* needed for hpucode + htick */
-               clink->export = 0;         /* do not export anything to virtual link */
+               clink->aexport = 0;         /* do not export anything to virtual link */
                clink->import = 1;
                clink->maxUnpackedNetmail = 100;
                memcpy ( &(clink->hisAka), &(config->addr[i]), sizeof(hs_addr));

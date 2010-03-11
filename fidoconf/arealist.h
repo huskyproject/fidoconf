@@ -25,7 +25,7 @@ typedef struct arealist {
 
 HUSKYEXT ps_arealist newAreaList(s_fidoconfig *cfg);
 HUSKYEXT void        freeAreaList(ps_arealist al);
-HUSKYEXT int         addAreaListItem(ps_arealist al, int active, int rescanable, int import, int export, int mandatory, char *tag, char *desc, char *grp);
+HUSKYEXT int         addAreaListItem(ps_arealist al, int active, int rescanable, int import, int aexport, int mandatory, char *tag, char *desc, char *grp);
 HUSKYEXT void        sortAreaList(ps_arealist al);
 HUSKYEXT void        sortAreaListNoDupes(unsigned int halcnt, ps_arealist *hal, int nodupes);
 HUSKYEXT char        *formatAreaList(ps_arealist al, int maxlen, char *activechars, int grps);
