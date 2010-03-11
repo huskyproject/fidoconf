@@ -628,19 +628,19 @@ void printArea(s_area area)
     printf(" level %d,", area.downlinks[i]->link->level);
 /*       printf(" exp. %s,", (area.downlinks[i]->export) ? "on" : "off");
        printf(" imp. %s,", (area.downlinks[i]->import) ? "on" : "off");*/
-    if(area.downlinks[i]->export || area.downlinks[i]->import)
+    if(area.downlinks[i]->aexport || area.downlinks[i]->import)
       printf(" ");
     else
       printf(" no access");
-    if(area.downlinks[i]->export)
+    if(area.downlinks[i]->aexport)
       printf("read");
-    if(area.downlinks[i]->export && area.downlinks[i]->import)
+    if(area.downlinks[i]->aexport && area.downlinks[i]->import)
       printf("/");
     if(area.downlinks[i]->import)
       printf("write");
-    if(area.downlinks[i]->export && area.downlinks[i]->rescan)
+    if(area.downlinks[i]->aexport && area.downlinks[i]->rescan)
       printf("/rescan");
-    if((area.downlinks[i]->export + area.downlinks[i]->import) == 1)
+    if((area.downlinks[i]->aexport + area.downlinks[i]->import) == 1)
       printf(" only");
     printf(",");
     printf(" defLink %s,", (area.downlinks[i]->defLink) ? "on" : "off");
@@ -742,17 +742,17 @@ void printFileArea(s_area area)
     printf("\t");
     printAddr(&(area.downlinks[i]->link->hisAka));
     printf(" level %d,", area.downlinks[i]->link->level);
-    if(area.downlinks[i]->export || area.downlinks[i]->import)
+    if(area.downlinks[i]->aexport || area.downlinks[i]->import)
       printf(" ");
     else
       printf(" no access");
-    if(area.downlinks[i]->export)
+    if(area.downlinks[i]->aexport)
       printf("receive");
-    if(area.downlinks[i]->export && area.downlinks[i]->import)
+    if(area.downlinks[i]->aexport && area.downlinks[i]->import)
       printf("/");
     if(area.downlinks[i]->import)
       printf("send");
-    if((area.downlinks[i]->export + area.downlinks[i]->import) == 1)
+    if((area.downlinks[i]->aexport + area.downlinks[i]->import) == 1)
       printf(" only");
     printf(",");
 /*       printf(" export %s,", (area.downlinks[i]->export) ? "on" : "off");
@@ -920,7 +920,7 @@ int printLink(ps_link link)
   if(link->emailSubj)
     printf("emailSubj:  %s\n", link->emailSubj);
   printf("Level:      %u\n", link->level);
-  printf("Export:     %s\n", (link->export) ? "on" : "off");
+  printf("Export:     %s\n", (link->aexport) ? "on" : "off");
   printf("Import:     %s\n", (link->import) ? "on" : "off");
   printf("Mandatory:  %s\n", (link->mandatory) ? "on" : "off");
 
@@ -1649,7 +1649,7 @@ void printCarbons(s_fidoconfig * config)
     putchar('\n');
     if(cb->reason)
       printf("CarbonReason:   %s\n", cb->reason);
-    if(cb->export)
+    if(cb->aexport)
       printf("Copied messages will be exported.\n");
     if(cb->netMail)
       printf("Active on netMail\n");

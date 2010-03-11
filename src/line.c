@@ -626,20 +626,20 @@ void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
 
     if (link->numOptGrp > 0) {
         /*  default set export on, import on, mandatory off, manual off */
-        arealink->export = 1;
+        arealink->aexport = 1;
         arealink->import = 1;
         arealink->mandatory = 0;
         arealink->manual = 0;
 
         if (grpInArray(area->group,link->optGrp,link->numOptGrp)) {
-            arealink->export = link->export;
+            arealink->aexport = link->aexport;
             arealink->import = link->import;
             arealink->mandatory = link->mandatory;
             arealink->manual = link->manual;
         }
 
     } else {
-        arealink->export = link->export;
+        arealink->aexport = link->aexport;
         arealink->import = link->import;
         arealink->mandatory = link->mandatory;
         arealink->manual = link->manual;
@@ -649,7 +649,7 @@ void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
 
     if (area->mandatory) arealink->mandatory = 1;
     if (area->manual) arealink->manual = 1;
-    if ((area->levelread > link->level) || ((link->Pause & area->areaType) && (!area->noPause))) arealink->export = 0;
+    if ((area->levelread > link->level) || ((link->Pause & area->areaType) && (!area->noPause))) arealink->aexport = 0;
     if (area->levelwrite > link->level) arealink->import = 0;
 
     if (area->group) {
@@ -657,16 +657,16 @@ void setLinkAccess(s_fidoconfig *config, s_area *area, s_arealink *arealink)
             if (config->numPublicGroup) {
                 if (!grpInArray(area->group,link->AccessGrp,link->numAccessGrp) &&
                     !grpInArray(area->group,config->PublicGroup,config->numPublicGroup)) {
-                    arealink->export = 0;
+                    arealink->aexport = 0;
                     arealink->import = 0;
                 }
             } else if (!grpInArray(area->group,link->AccessGrp,link->numAccessGrp)) {
-                arealink->export = 0;
+                arealink->aexport = 0;
                 arealink->import = 0;
             }
         } else if (config->numPublicGroup) {
             if (!grpInArray(area->group,config->PublicGroup,config->numPublicGroup)) {
-                arealink->export = 0;
+                arealink->aexport = 0;
                 arealink->import = 0;
             }
         }
@@ -1220,7 +1220,7 @@ int parseLinkOption(s_arealink *alink, char *token)
     }
     iToken = strLower(sstrdup(token));
     if (strcmp(iToken, "r")==0) alink->import = 0;
-    else if (strcmp(iToken, "w")==0) alink->export = 0;
+    else if (strcmp(iToken, "w")==0) alink->aexport = 0;
     else if (strcmp(iToken, "mn")==0) alink->mandatory = 1;
     else if (strcmp(iToken, "def")==0) alink->defLink = 1;
     else {
@@ -1867,7 +1867,7 @@ int parseLink(char *token, s_fidoconfig *config)
       clink->filefix.on = 1;
 
       /*  set defaults to export, import, mandatory (0), manual (0) */
-      clink->export = 1;
+      clink->aexport = 1;
       clink->import = 1;
       clink->ourAka = &(config->addr[0]);
 
@@ -3143,7 +3143,7 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
       config->linkDefaults->filefix.on = 1;
 
       /*  set defaults to export, import, mandatory (0), manual (0) */
-      config->linkDefaults->export = 1;
+      config->linkDefaults->aexport = 1;
       config->linkDefaults->import = 1;
       config->linkDefaults->ourAka = &(config->addr[0]);
 
@@ -4057,7 +4057,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_EXPORT:
             if( (clink = getDescrLink(config)) != NULL ) {
-                rc = parseBool (getRestOfLine(), &clink->export);
+                rc = parseBool (getRestOfLine(), &clink->aexport);
             } else {
                 rc = 1;
             }
