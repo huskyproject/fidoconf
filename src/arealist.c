@@ -102,8 +102,8 @@ int addAreaListItem(ps_arealist al, int active, int rescanable, int import, int 
     al->areas[al->count].active     = active;
     al->areas[al->count].rescanable = rescanable ? 2 : 0;
     al->areas[al->count].readonly   = import ? 0 : 3;
-    al->areas[al->count].writeonly  = export ? 0 : 4;
-    al->areas[al->count].fullaccess = (export && import) ? 5 : 0;
+    al->areas[al->count].writeonly  = aexport ? 0 : 4;
+    al->areas[al->count].fullaccess = (aexport && import) ? 5 : 0;
     al->areas[al->count].mandatory  = mandatory ? 6 : 0;
     al->areas[al->count].tag        = sstrdup(tag);
     al->areas[al->count].grp        = sstrdup(grp ? grp : "");
