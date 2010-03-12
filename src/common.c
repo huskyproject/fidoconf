@@ -111,7 +111,7 @@ int parseAttrString(char *str, char **flags, long *bitattr, char **end)
             ++parsed;
         }
         else if ((flag = extattr(str)) != NULL) {
-            xstrscat(flags, *flags ? " " : "", flag, NULL);
+            xstrscat(flags, *flags ? " " : "", flag, NULLP);
             ++parsed;
         }
         else {
@@ -144,7 +144,7 @@ char *attr2str(long attr)
     size_t i;
     for (i = 0; i < sizeof(attrStr) / sizeof(char *); i++)
     if (attr & (1 << i))
-        xstrscat(&flags, flags ? " " : "", attrStr[i], NULL);
+        xstrscat(&flags, flags ? " " : "", attrStr[i], NULLP);
     return flags;
 }
 
@@ -424,7 +424,7 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config, s_link *link, e_flavour pri
 
    /*  create bsyFile */
    if ((tmpPtr=strrchr(name, '.')) != NULL) *tmpPtr = '\0';
-   xstrscat(&link->bsyFile, name, ".bsy", NULL);
+   xstrscat(&link->bsyFile, name, ".bsy", NULLP);
    nfree(name);
 
    /*  maybe we have session with this link? */
@@ -519,7 +519,7 @@ int needUseFileBoxForLinkAka(ps_fidoconfig config, s_link *link, hs_addr *aka)
 		    aka->net, aka->node, aka->point);
     }
 
-    xstrscat(&bsyFile, ".bsy", NULL);
+    xstrscat(&bsyFile, ".bsy", NULLP);
 
     if (fexist(bsyFile)) {
 	link->useFileBox = 2;
@@ -994,7 +994,7 @@ s_message *remove_kludges(s_message *msg)
             /*  stop on tearline ("---" or "--- text") */
             break;
         if( token[0] != '\001' )
-            xstrscat(&textBuff,token,"\r",NULL);
+            xstrscat(&textBuff,token,"\r",NULLP);
         token = strseparate (&tmp,"\n\r");
     }
     nfree(msg->text);

@@ -151,7 +151,7 @@ char *getDescription(void)
 
   while ((token=strtok(NULL," \t"))!=NULL)
   {
-    xstrscat (&descBuf, token, " ", NULL);
+    xstrscat (&descBuf, token, " ", NULLP);
     if (*token=='\"' && !quoted)
     {
       quoted=1;

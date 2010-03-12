@@ -182,7 +182,7 @@ XMSG createXMSG(ps_fidoconfig config, s_message *msg, const s_pktHeader *header,
                       *p = '\0';
                       if( strlen(running)>5 && !memcmp(running, "\001INTL ",6) ) {
                           /*replace INTL to new*/
-                          xstrscat( &token, "\001INTL ", aka2str(msg->destAddr), NULL );
+                          xstrscat( &token, "\001INTL ", aka2str(msg->destAddr), NULLP );
                           xscatprintf( &token, " %s\r", aka2str(msg->origAddr) );
                       } else { /* copy kludge or line */
                           xscatprintf( &token, "%s\r", running );

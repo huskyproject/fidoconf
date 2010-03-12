@@ -121,7 +121,7 @@ int addPatternToGrpTree(char *grpname, char *patternList)
         addGrpToTree(g);
         return 1;
     } else {
-        xstrscat(&(g->patternList), " ", patternList, NULL);
+        xstrscat(&(g->patternList), " ", patternList, NULLP);
         return 0;
     }
 }

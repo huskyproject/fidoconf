@@ -491,7 +491,7 @@ void setConfigDefaults(s_fidoconfig *config)
          parsePath("/tmp", &(config->tempDir), NULL);
 #elif defined(WINNT) || defined (__MINGW32__)
          if ((getenv("WINDIR")) != NULL ){
-            xstrscat( &p, getenv("WINDIR"), "\\TEMP", NULL );
+            xstrscat( &p, getenv("WINDIR"), "\\TEMP", NULLP);
             parsePath(p, &(config->tempDir), NULL);
             nfree(p);
          }
