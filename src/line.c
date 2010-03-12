@@ -83,12 +83,12 @@
 /* export functions from DLL */
 #define DLLEXPORT
 #include <huskylib/huskyext.h>
+#include <huskylib/syslogp.h>
 
 /* smapi */
 #include <smapi/msgapi.h>
 
 /* fidoconfig */
-#include "syslogp.h"
 #include "fidoconf.h"
 #include "common.h"
 #include "findtok.h"
