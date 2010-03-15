@@ -4697,11 +4697,6 @@ int parseLine(char *line, s_fidoconfig *config)
         case ID_NAMES:
             checkRobot();
             rc = fc_copyString(getRestOfLine(), &(curRobot->names));
-            /* It is needs to add leading and trailing spaces for correct robot name check */
-            xstralloc( &(curRobot->names), 2 );
-            sstrcpy( curRobot->names, curRobot->names+1 );
-            curRobot->names[0] = ' ';
-            Add_Trailing( curRobot->names, ' ' );
             break;
         case ID_REQIDXDIR:
             rc = parsePath(getRestOfLine(), &(config->reqidxDir), NULL);

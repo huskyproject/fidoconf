@@ -460,14 +460,14 @@ void setConfigDefaults(s_fidoconfig *config)
    r->areaCount = &(config->echoAreaCount);
    r->strA = sstrdup("area");
    r->strC = sstrdup("echoarea");
-   if (!r->names) xstrcat(&r->names," AreaFix AreaMgr hpt "); /* First and last spaces is needs for name checks */
+   if (!r->names) xstrcat(&r->names,"AreaFix AreaMgr hpt");
 
    r = getRobot(config, "filefix", 1);
    r->areas = &(config->fileAreas);
    r->areaCount = &(config->fileAreaCount);
    r->strA = sstrdup("filearea");
    r->strC = sstrdup("filearea");
-   if (!r->names) xstrcat(&r->names," FileFix FileMgr AllFix FileScan htick "); /* First and last spaces is needs for name checks */
+   if (!r->names) xstrcat(&r->names,"FileFix FileMgr AllFix FileScan htick");
 
    if (config->sysop==NULL) xstrcat(&config->sysop,"SysOp");
    if (config->advisoryLock==0)  config->advisoryLock  = 0;
