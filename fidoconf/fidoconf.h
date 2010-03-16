@@ -441,7 +441,7 @@ typedef struct robot {
    char *strC;              /* string for the conf token (echoarea, filearea) */
    ps_area        *areas;     /* pointer to pointer to areas list */
    unsigned int   *areaCount; /* pointer to areas count */
-   char *names;             /* (was: areafixNames) */
+   s_str_array *names;        /* (was: areafixNames) */
    char *fromName;          /* robot from: name (was: areafixFromName) */
    char *origin;            /* origin line, NULL to disable (was: areafixOrigin) */
    char *helpFile;          /* help file (was: areafixhelp ) */

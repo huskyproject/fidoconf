@@ -960,7 +960,7 @@ s_robot *getRobot(ps_fidoconfig config, char *name, int create)
     }
     else {
       memcpy(r, def, sizeof(*r)); /* this will copy all numeric fields */
-      if (def->names) r->names = sstrdup(def->names);
+      if (def->names) r->names = copyStrArray(def->names);
       if (def->fromName) r->fromName = sstrdup(def->fromName);
       if (def->origin) r->origin = sstrdup(def->origin);
       if (def->helpFile) r->helpFile = sstrdup(def->helpFile);

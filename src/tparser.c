@@ -1236,7 +1236,13 @@ int printRobot(ps_robot robot)
 {
   printf("Robot %s\n", robot->name);
   if(robot->names)
-    printf("  robotNames %s\n", robot->names);
+  {
+    int i;
+    printf("  robotNames");
+    for(i = 0; i < robot->names->count; ++i)
+      printf(" %s", STR_N(robot->names, i));
+    printf("\n");
+  }
   if(robot->fromName)
     printf("  fromName %s\n", robot->fromName);
   if(robot->origin)

@@ -2488,6 +2488,16 @@ int parseUUEechoAreas(char *token, char **grp[], unsigned int *count) {
   return 0;
 }
 
+/* Parse strings like "token1, token2,token3 token4" into s_str_array */
+int parseStringList(char *token, s_str_array **ss)
+{
+
+	assert(token != NULL && ss != NULL);
+	nfree(*ss);
+	*ss = makeStrArray(token);
+	return 0;
+}
+
 int parseGrp(char *token, char **grp[], unsigned int *count) {
 	char *p;
 
@@ -4696,7 +4706,7 @@ int parseLine(char *line, s_fidoconfig *config)
             break;
         case ID_NAMES:
             checkRobot();
-            rc = fc_copyString(getRestOfLine(), &(curRobot->names));
+            rc = parseStringList(getRestOfLine(), &(curRobot->names));
             break;
         case ID_REQIDXDIR:
             rc = parsePath(getRestOfLine(), &(config->reqidxDir), NULL);
