@@ -124,6 +124,11 @@ default: all
 
 ## include common makefiles part ##
 
+ifeq (~$(SHORTNAMES)~, ~1~)
+include fn_short.inc
+else
+include fn_long.inc
+endif
 _OBJ:=$(_DLLOBJ)
 include makefile.inc
 DLLOBJS:=$(LOBJS)

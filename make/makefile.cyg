@@ -6,6 +6,11 @@
 # copy this file from ../../huskybse/huskymak.cfg.cyg
 include ../../huskymak.cfg
 
+ifeq (~$(SHORTNAMES)~, ~1~)
+include fn_short.inc
+else
+include fn_long.inc
+endif
 include makefile.inc
 
 # includes directories
