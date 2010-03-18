@@ -83,7 +83,6 @@
 /* export functions from DLL */
 #define DLLEXPORT
 #include <huskylib/huskyext.h>
-#include <huskylib/syslogp.h>
 
 /* smapi */
 #include <smapi/msgapi.h>
@@ -3437,17 +3436,18 @@ int parseFilelist(char *line, s_fidoconfig *config)
 int parseSyslog(char *line, int *value)
 {
     int rv=0;
-    int i;
-
-    unused(line);
-    unused(value);
 
 #ifndef HAVE_SYSLOG
     prErr("%s: Syslogging is not supported on your platform!", actualKeyword);
     rv=1;
-#else
+    unused(line);
+    unused(value);
 
-    if (line == NULL) {
+#else
+#   include <huskylib/syslogp.h>
+    int i;
+
+    if (line == NULL || line[0] == '\0') {
         prErr("Parameter missing after %s!", actualKeyword);
         return 1;
     }
