@@ -1,125 +1,162 @@
 # $Id$
 #
-# Microsoft Visual C++ Makefile for build static library and program(s)
-# No support for the Husky build environment.
-#
-# Tested on MS Visual C 6.0
-#
+# Microsoft Visual C++ Makefile for build fidoconf LIB or DLL
+# and programs
 
-# Version
-VERMAJOR= 1
-VERMINOR= 9
-VERPATCH= 0
-VERH	= $(VERMAJOR).$(VERMINOR)
-VER	= $(VERH).$(VERPATCH)
+## include common makefiles part ##
+!include ../../huskymak.cfg
 
-LIBNAME   = fconf
+!if "$(OBJOUT)" != ""
 
-LIBPREFIX =
-LIBSUFFIX = mvc
-DLLPREFIX =
-DLLSUFFIX = mvc
+OBJOUT2=$(OBJOUT)fidoconf/
 
-## file suffixes ##
-_C	  = .c
-_OBJ	  = .obj
-_EXP	  = .exp
-_LIB	  = .lib
-_DLL	  = .dll 
-_EXE	  = .exe
+!if [if not exist $(OBJOUT2:/=\) $(MKDIR) $(OBJOUT2:/=\)] == 0
+OBJOUT=$(OBJOUT)fidoconf/
+!endif
 
-TARGETLIB = $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
-TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
+!endif
 
-_SRC_DIR= ../src/
-H_DIR	= ../fidoconf
+H_PFX=$(H_DIR)
+!include fn_long.inc
+!include makefile.inc
 
-## programs ##
-CC	= cl
-CFLAGS	= -nologo -Zp1
+IMPLIBNAME=$(LIBOUT)$(IMPLIBPREFIX)$(LIBNAME)$(DLLSUFFIX)
+DLLNAME=$(BINOUT)$(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)
+DLLIMPORTLIB=$(IMPLIBNAME)$(_LIB)
+PROGRAMSILK=$(PROGRAMS:.exe=.ilk)
+PROGRAMSPDB=$(PROGRAMS:.exe=.pdb)
+
+
+## program options ##
+
+## options for compiler ##
+
 CINCL	= -I$(H_DIR) -I../../huskylib -I../../smapi
-CDEFS	= -D__NT__ -DWIN32 -D_CONSOLE
-COPT	= -Ob2
 
-LIBS	= ../../smapi/make/$(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) \
-	  ../../huskylib/make/$(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB) \
+CFLAGS	= $(CFLAGS) $(CINCL)
 
-AR	= lib
-AR_R	= -nologo /out:"$(TARGETLIB)"
+## options for linker ##
+LFLAGS=$(LFLAGS) $(LINKPDBOPT)$(BINOUT)
 
-EXENAMEFLAG = -Fe
+LDLLFLAGS=$(LDLLFLAGS) $(LINKNAMEOPT)$(TARGETDLL) \
+	  $(LINKPDBOPT)$(BINOUT) /implib:"$(DLLIMPORTLIB)"
 
-RM	= del
+# libraries need to build binary file
+# for dynamic libraries:
+#DLLS	= $(LIBS)
 
-OBJS	= line$(_OBJ) fidoconf$(_OBJ) common$(_OBJ) \
-          findtok$(_OBJ) cfg$(_OBJ) stat$(_OBJ) \
-          areatree$(_OBJ) afixcmd$(_OBJ) afixcmn$(_OBJ) \
-          arealist$(_OBJ) version$(_OBJ) grptree$(_OBJ)
+# for executables
+#LIBSL	= $(LIBS)
 
-PROGRAMS = tparser$(_EXE) linked$(_EXE) fconf2msged$(_EXE) \
-	   fconf2golded$(_EXE) fconf2aquaed$(_EXE) fconf2squish$(_EXE) \
-	   fecfg2fconf$(_EXE) fconf2tornado$(_EXE) fconf2binkd$(_EXE) \
-	   fconf2fidogate$(_EXE)
+!if $(DYNLIBS)==1
+DLLS	= $(LIBS) $(IMPLIBPREFIX)husky$(DLLSUFFIX)$(_LIB) \
+	      $(IMPLIBPREFIX)smapi$(DLLSUFFIX)$(_LIB)
+LIBSL	= $(DLLS) $(DLLIMPORTLIB)
+
+TARGETLIBNAME=$(TARGETDLL)
+!else
+LIBSL	= $(LIBS) $(TARGETLIB) $(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) \
+          $(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)
+
+TARGETLIBNAME=$(TARGETLIB)
+!endif
+
+
 
 default:
-	@echo Run 'make static' to build dll version ($(TARGETLIB))
-	@echo Run 'make programs' to build dll version of programs ($(TARGETLIB))
-	@echo ($(PROGRAMS))
-	@echo Run 'make all' to build all above
+	@echo Set DYNLIBS=1 in huskymak.cfg to build dynamic version of library
+	@echo Run 'make lib' to build library ($(TARGETLIBNAME))
+	@echo Run 'make all' to build library ($(TARGETLIBNAME))
+	@echo _    and programs ($(PROGRAMS))
 
-static:    $(TARGETLIB)
-programs: static $(PROGRAMS)
-all: programs
+lib: $(TARGETLIBNAME)
 
-{$(_SRC_DIR)}$(_C)$(_OBJ):
-	@$(CC) $(CFLAGS) $(CINCL) $(CDEFS) $(COPT) -c $<
+programs: $(PROGRAMS)
 
-$(TARGETLIB): $(OBJS)
-	@$(AR) $(AR_R) $**
+all: lib programs
 
-tparser$(_EXE):
-	@echo Create tparser$(_EXE)...
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)tparser$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+$(OBJS) $(PRGOBJS) : $(HEADERS) makefile.mvc ../../huskymak.cfg makefile.inc
 
-linked$(_EXE):
-	@echo Create linked$(_EXE)...
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)linked$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+#$(OBJS) $(PRGOBJS):: $(_SRC_DIR)$(@B)$(_C)
+#	@$(CC) $(CFLAGS) $(OBJOPT) $(OBJNAMEOPT)$(O) $?
 
-fconf2golded$(_EXE):
-	@echo Create fconf2golded$(_EXE)...
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2ged$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+{$(_SRC_DIR)}$(_C){$(O)}$(_OBJ)::
+	@$(CC) $(CFLAGS) $(OBJOPT) $(OBJNAMEOPT)$(O) @<<
+$<
+<<
 
-fconf2msged$(_EXE):
-	@echo Create fconf2msged$(_EXE)...
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2msged$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
 
-fconf2aquaed$(_EXE):
-	@echo Create fconf2aquaed$(_EXE)...
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2aed$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+$(TARGETLIB):	$(OBJS)
+    @echo Create $(TARGETLIB)...
+	@$(AR) $(ARFLAGS) $(LIBNAMEOPT)$@ @<<
+$**
+<<
 
-fconf2squish$(_EXE):
-	@echo Create fconf2squish$(_EXE)...
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2sq$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
 
-fconf2fidogate$(_EXE):
-	@echo Create fconf2fidogate$(_EXE)
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2fgate$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+$(TARGETDLL):	$(OBJS)
+	@echo Create $(TARGETDLL)...
+	@$(LINK) $(LDLLFLAGS) $(DLLS) @<<
+$(OBJS)
+<<
 
-fconf2tornado$(_EXE):
-	@echo Create fconf2tornado$(_EXE)... 
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2tor$(_C) $(_SRC_DIR)fc2tor_g$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
 
-fconf2binkd$(_EXE):
-	@echo Create fconf2binkd$(_EXE)...
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fc2binkd$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+$(TPARSER):: $(TPAROBJ)
+	@echo Create $(TPARSER)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
 
-fecfg2fconf$(_EXE):
-	@echo Create fecfg2fconf$(_EXE)...
-	@$(CC) $(CFLAGS) $(CINCL) $(COPT) $(CDEFS) $(EXENAMEFLAG)$@ $(_SRC_DIR)fecfg2fc$(_C) $(_SRC_DIR)fecfg146$(_C) $(TARGETLIB) $(LIBS) $(EXEFLAGS)
+$(LINKED): $(LINKOBJ)
+	@echo Create $(LINKED)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+$(FC2AED): $(AEDOBJ)
+	@echo Create $(FC2AED)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+$(FC2BINKD): $(BINKOBJ)
+	@echo Create $(FC2BINKD)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+$(FC2FGATE): $(FGATEOBJ)
+	@echo Create $(FC2FGATE)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+$(FC2GED): $(GEDOBJ)
+	@echo Create $(FC2GED)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+$(FC2MSGED): $(MSGEDOBJ)
+	@echo Create $(FC2MSGED)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+$(FC2SQ): $(SQOBJ)
+	@echo Create $(FC2SQ)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+$(FC2TOR): $(TOROBJ)
+	@echo Create $(FC2TOR)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+$(FECFG2FC): $(FEOBJ)
+	@echo Create $(FECFG2FC)...
+	@$(LINK) $(LFLAGS) $(LINKNAMEOPT)$@ $** $(LIBSL)
+
+
 
 clean:
-	-$(RM) *$(_OBJ)
-	-$(RM) $(TARGETLIB)
+	-$(RM) $(RMOPT) $(OBJS:/=\)
+	-$(RM) $(RMOPT) VC*$(_PDB)
+	-$(RM) $(RMOPT) $(IMPLIBNAME:/=\)$(_EXP)
+	-$(RM) $(RMOPT) $(DLLNAME:/=\)$(ILK)
+	-$(RM) $(RMOPT) $(PRGOBJS:/=\)
+	-$(RM) $(RMOPT) $(PROGRAMSILK:/=\)
+	-$(RM) $(RMOPT) $(DLLNAME:/=\)$(_ILK)
 
 distclean: clean
-	-$(RM) *$(_EXE)
+	-$(RM) $(RMOPT) $(DLLNAME:/=\)$(_PDB)
+	-$(RM) $(RMOPT) $(PROGRAMSPDB:/=\)
+	-$(RM) $(RMOPT) $(PROGRAMS:/=\)
+	-$(RM) $(RMOPT) $(TARGETLIB:/=\)
+	-$(RM) $(RMOPT) $(TARGETDLL:/=\)
+	-$(RM) $(RMOPT) $(DLLIMPORTLIB:/=\)
+
+ 
