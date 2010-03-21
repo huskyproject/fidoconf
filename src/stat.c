@@ -335,7 +335,7 @@ stat_echo *read_echo(FILE *F)
     if (old->tag == NULL) { msg("Out of memory"); do_stat = 0; return NULL; }
     tst = fread(old->tag, ot, 1, F); 
 
-    if (tst < 1) { msg("Read error"); free_echo(old); do_stat = 0; return NULL; }
+    if (tst < 1) { msg("Read error, advstat database is broken"); free_echo(old); do_stat = 0; return NULL; }
     /* read links */
     for (i = 0; i < ol; i++) {
         l = malloc(sizeof(*l));
@@ -344,7 +344,7 @@ stat_echo *read_echo(FILE *F)
         if (prev != NULL) prev->next = l; else old->chain = l;
         l->next = NULL;
         tst = fread(&(l->link), sizeof(l->link), 1, F);
-        if (tst < 1) { msg("Read error"); free_echo(old); do_stat = 0; return NULL; }
+        if (tst < 1) { msg("Read error, advstat database is broken"); free_echo(old); do_stat = 0; return NULL; }
         prev = l;
     }
     return old;
