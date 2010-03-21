@@ -221,7 +221,7 @@ void upd_stat(char *file)
         do_stat = 0; return; 
     }
     hdr.t0 = OLD ? ohdr.t0 : time(NULL);
-    if( fwrite(&hdr, sizeof(hdr), 1, NEW)<0 ) {
+    if( fwrite(&hdr, sizeof(hdr), 1, NEW) != 1 ) {
       msg2("Can't write to the tmp-file", newf);
       msg2(" error:", strerror(errno));
       if (OLD != NULL) fclose(OLD);
