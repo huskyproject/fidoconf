@@ -59,6 +59,11 @@ endif
 
 default: all
 
+ifeq ($(SHORTNAMES), 1)
+include make/fn_short.inc
+else
+include make/fn_long.inc
+endif
 include make/makefile.inc
 include makefile.in2
 TARGETLIB = $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
