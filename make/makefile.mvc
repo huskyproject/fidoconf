@@ -16,7 +16,6 @@ OBJOUT=$(OBJOUT)fidoconf/
 
 !endif
 
-H_PFX=$(H_DIR)
 !include fn_long.inc
 !include makefile.inc
 

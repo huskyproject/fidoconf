@@ -10,6 +10,7 @@
 # LIBSUFFIX  library filename suffix (compiler ID, three characters, somewhere empty)
 # DLLPREFIX  dinamic linking library prefix (usually empty)
 # DLLSUFFIX  dinamic linking library suffix (compiler ID or empty)
+# O, B, L, H prefixes to use with names of objects, binaries, libraries and headers respectively
 
 # Version
 VERMAJOR= 1
@@ -22,14 +23,6 @@ VER	= $(VERH).$(VERPATCH)
 _SRC_DIR= ../src/
 # Headers directory
 H_DIR	= ../fidoconf/
-# Object directory
-O=$(OBJOUT)
-# Binary directory
-B=$(BINOUT)
-# Library directory
-L=$(LIBOUT)
-# Prefix for headers. Do not use H_DIR for this.
-H=$(H_PFX)
 
 # Header files
 HEADERS = $(H)afixcmd.h $(H)arealist.h $(H)areatree.h $(H)stat.h $(H)common.h \
