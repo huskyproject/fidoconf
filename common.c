@@ -736,19 +736,24 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 #endif
 
 #if defined(__NT__)
-void fix_pending_delete(const char *from, const char *to)
+/* This function helps in dealing with files opened elsewhere with a flag FILE_SHARE_DELETE.
+ * remove() on them will result in state when the file is going to be deleted, but it won't be
+ * actually out of the way until whoever has it opened closes it.
+ * Here is alternative -- 
+ * rename file first (which will have effect immediately), remove afterwards. */
+void fix_pending_delete(const char *to)
 {
-/* We are in trouble here. 
-   The file was removed but it is not gone yet and rename will fail.
-   The problem is that the file WILL be gone sometime and we will end with
-   inconsistent state of configs.
-   And yes, this can happen thanks to FILE_SHARE_DELETE flag */
-/* I see only two possibilities here 
-   1. wait till file is gone
-   2. crash with as much noise as possible so someone would notice and fix things for us 
-	  -- Elfy, 2010-03-24 */
-  w_log( LL_ALERT, "Waiting for deleted file to go (%s)", to );
-  while(fexist(to)) mysleep(5);
+	int size;
+	char *oldfile;
+	size = strlen(to);
+	oldfile = (char*) smalloc(size + 1 +1 + 6);
+	memcpy(oldfile, to, size);
+	memcpy(oldfile + size, ".XXXXXX", 8);
+	if(mktemp(oldfile) == oldfile && !rename(to, oldfile))
+		remove(oldfile); /* worked just fine, now try remove it */
+	else /* something went wrong, let's just remove it */
+		remove(to);
+	nfree(oldfile);
 }
 #endif
 
@@ -764,13 +769,16 @@ int move_file(const char *from, const char *to, const int force_rewrite)
     w_log( LL_DEBUGY, __FILE__ ":%u:move_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
 #endif
     if(force_rewrite)
-	{
-      rc = remove(to);
+    {
+      if(fexist(to))
+      {
 #if defined(__NT__)
-      if(rc == 0 && fexist(to))
-        fix_pending_delete(from, to);
+        fix_pending_delete(to);
+#else
+        remove(to);
 #endif
-	}
+      }
+    }
     else if(fexist(to)){
       errno=EEXIST;
       return -1;
@@ -789,9 +797,10 @@ int move_file(const char *from, const char *to, const int force_rewrite)
 
     if(force_rewrite)
     {
-      rc = remove(to);
-      if(rc == 0 && fexist(to))
-        fix_pending_delete(from, to);
+      if(fexist(to))
+      {
+        fix_pending_delete(to);
+      }
     }
     else if(fexist(to)){
       errno=EEXIST;
