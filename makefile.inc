@@ -50,7 +50,7 @@ $(FCONF2BINKD)$(_EXE):   fc2binkd$(_OBJ) $(LIBFIDOCONFIG)$(_LIB)
 $(FECFG2FCONF)$(_EXE): fecfg2fc$(_OBJ) fecfg146$(_OBJ) $(LIBFIDOCONFIG)$(_LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)$(FECFG2FCONF)$(_EXE) fecfg2fc$(_OBJ) fecfg146$(_OBJ) $(LOPT) $(TARGETDLL) $(LIBS)
 
-tparser$(_EXE): tparser$(_OBJ) $(TARGETDLL)
+tparser$(_EXE): tparser$(_OBJ) $(LIBFIDOCONFIG)$(_LIB)
 	$(CC) $(LFLAGS) $(EXENAMEFLAG)tparser$(_EXE) tparser$(_OBJ) $(LOPT) $(TARGETDLL) $(LIBS)
 
 linked$(_EXE): linked$(_OBJ) $(LIBFIDOCONFIG)$(_LIB)
