@@ -735,6 +735,23 @@ char *makeUniqueDosFileName(const char *dir, const char *ext,
 #define MOVE_FILE_BUFFER_SIZE 128000
 #endif
 
+#if defined(__NT__)
+void fix_pending_delete(const char *from, const char *to)
+{
+/* We are in trouble here. 
+   The file was removed but it is not gone yet and rename will fail.
+   The problem is that the file WILL be gone sometime and we will end with
+   inconsistent state of configs.
+   And yes, this can happen thanks to FILE_SHARE_DELETE flag */
+/* I see only two possibilities here 
+   1. wait till file is gone
+   2. crash with as much noise as possible so someone would notice and fix things for us 
+	  -- Elfy, 2010-03-24 */
+  w_log( LL_ALERT, "Waiting for deleted file to go (%s)", to );
+  while(fexist(to)) mysleep(5);
+}
+#endif
+
 int move_file(const char *from, const char *to, const int force_rewrite)
 {
 #if !(defined(USE_SYSTEM_COPY) && (defined(__NT__) || defined(__OS2__)))
@@ -747,7 +764,13 @@ int move_file(const char *from, const char *to, const int force_rewrite)
     w_log( LL_DEBUGY, __FILE__ ":%u:move_file(%s,%s,%d)", __LINE__, from, to, force_rewrite );
 #endif
     if(force_rewrite)
-      remove(to);
+	{
+      rc = remove(to);
+#if defined(__NT__)
+      if(rc == 0 && fexist(to))
+        fix_pending_delete(from, to);
+#endif
+	}
     else if(fexist(to)){
       errno=EEXIST;
       return -1;
@@ -765,7 +788,11 @@ int move_file(const char *from, const char *to, const int force_rewrite)
         return 0;
 
     if(force_rewrite)
-      remove(to);
+    {
+      rc = remove(to);
+      if(rc == 0 && fexist(to))
+        fix_pending_delete(from, to);
+    }
     else if(fexist(to)){
       errno=EEXIST;
       return -1;
@@ -793,7 +820,11 @@ int move_file(const char *from, const char *to, const int force_rewrite)
     /* Rename did not succeed, probably because the move is accross
        file system boundaries. We have to copy the file. */
 
-    if (copy_file(from, to, force_rewrite)) return -1;
+    if (copy_file(from, to, force_rewrite))
+    {
+        w_log( LL_WARN, "Moving file from '%s' to '%s' failed, copy over failed too. This may result in loss of information and inconsistent state of the system.", from, to );
+		return -1;
+    }
     remove(from);
     return 0;
 }
