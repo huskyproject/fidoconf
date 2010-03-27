@@ -121,7 +121,7 @@ clean:
 	-$(RM) $(RMOPT) $(OBJS:/=\)
 	-$(RM) $(RMOPT) VC*$(_PDB)
 	-$(RM) $(RMOPT) $(IMPLIBNAME:/=\)$(_EXP)
-	-$(RM) $(RMOPT) $(DLLNAME:/=\)$(ILK)
+	-$(RM) $(RMOPT) $(DLLNAME:/=\)$(_ILK)
 	-$(RM) $(RMOPT) $(PRGOBJS:/=\)
 	-$(RM) $(RMOPT) $(PROGRAMSILK:/=\)
 
