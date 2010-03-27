@@ -1291,6 +1291,22 @@ int checkLogic(s_fidoconfig * config)
 
   robotsarea_ok = config->robotsArea ? 0 : 1;
 
+  /* Robots should not access same queueFile */
+  for(i = 0; i < config->robotCount; i++)
+  {
+    if(config->robot[i]->queueFile == NULL)
+      continue;
+    for(j = i+1; j < config->robotCount; j++)
+    {
+      if(config->robot[j]->queueFile != NULL &&
+         stricmp(config->robot[i]->queueFile, config->robot[j]->queueFile) == 0)
+      {
+        printf("Warning: robots %s and %s use the same queueFile %s\n",
+           config->robot[i]->name, config->robot[j]->name, config->robot[i]->queueFile);
+      }
+    }
+  }
+
   for(i = 0; i + 1 < config->linkCount; i++)
   {
     /* Check link address */
