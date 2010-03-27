@@ -4,32 +4,13 @@
 # and programs
 
 ## include common makefiles part ##
-!include ../../huskymak.cfg
-
-!if "$(OBJOUT)" != ""
-
-OBJOUT2=$(OBJOUT)fidoconf/
-
-!if [if not exist $(OBJOUT2:/=\) $(MKDIR) $(OBJOUT2:/=\)] == 0
-OBJOUT=$(OBJOUT)fidoconf/
-!endif
-
-!endif
-
 !include fn_long.inc
 !include makefile.inc
-
-IMPLIBNAME=$(LIBOUT)$(IMPLIBPREFIX)$(LIBNAME)$(DLLSUFFIX)
-DLLNAME=$(BINOUT)$(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)
-DLLIMPORTLIB=$(IMPLIBNAME)$(_LIB)
-PROGRAMSILK=$(PROGRAMS:.exe=.ilk)
-PROGRAMSPDB=$(PROGRAMS:.exe=.pdb)
-
+!include ../../huskymak.cfg
 
 ## program options ##
 
 ## options for compiler ##
-
 CINCL	= -I$(H_DIR) -I../../huskylib -I../../smapi
 
 CFLAGS	= $(CFLAGS) $(CINCL)
@@ -40,22 +21,20 @@ LFLAGS=$(LFLAGS) $(LINKPDBOPT)$(BINOUT)
 LDLLFLAGS=$(LDLLFLAGS) $(LINKNAMEOPT)$(TARGETDLL) \
 	  $(LINKPDBOPT)$(BINOUT) /implib:"$(DLLIMPORTLIB)"
 
-# libraries need to build binary file
-# for dynamic libraries:
-#DLLS	= $(LIBS)
-
-# for executables
-#LIBSL	= $(LIBS)
-
+# List of HUSKY libraries required to build binary file(s)
+# for executables -- $(LIBSL)
+# for dynamic libraries -- $(DLLS)
 !if $(DYNLIBS)==1
-DLLS	= $(LIBS) $(IMPLIBPREFIX)husky$(DLLSUFFIX)$(_LIB) \
-	      $(IMPLIBPREFIX)smapi$(DLLSUFFIX)$(_LIB)
+DLLS	= $(LIBS) \
+	  $(IMPLIBPREFIX)husky$(DLLSUFFIX)$(_LIB) \
+	  $(IMPLIBPREFIX)smapi$(DLLSUFFIX)$(_LIB)
 LIBSL	= $(DLLS) $(DLLIMPORTLIB)
 
 TARGETLIBNAME=$(TARGETDLL)
 !else
-LIBSL	= $(LIBS) $(TARGETLIB) $(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB) \
-          $(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB)
+LIBSL	= $(LIBS) $(TARGETLIB) \
+          $(LIBPREFIX)husky$(LIBSUFFIX)$(_LIB) \
+	  $(LIBPREFIX)smapi$(LIBSUFFIX)$(_LIB)
 
 TARGETLIBNAME=$(TARGETLIB)
 !endif
@@ -75,9 +54,6 @@ programs: $(PROGRAMS)
 all: lib programs
 
 $(OBJS) $(PRGOBJS) : $(HEADERS) makefile.mvc ../../huskymak.cfg makefile.inc
-
-#$(OBJS) $(PRGOBJS):: $(_SRC_DIR)$(@B)$(_C)
-#	@$(CC) $(CFLAGS) $(OBJOPT) $(OBJNAMEOPT)$(O) $?
 
 {$(_SRC_DIR)}$(_C){$(O)}$(_OBJ)::
 	@$(CC) $(CFLAGS) $(OBJOPT) $(OBJNAMEOPT)$(O) @<<
@@ -148,7 +124,6 @@ clean:
 	-$(RM) $(RMOPT) $(DLLNAME:/=\)$(ILK)
 	-$(RM) $(RMOPT) $(PRGOBJS:/=\)
 	-$(RM) $(RMOPT) $(PROGRAMSILK:/=\)
-	-$(RM) $(RMOPT) $(DLLNAME:/=\)$(_ILK)
 
 distclean: clean
 	-$(RM) $(RMOPT) $(DLLNAME:/=\)$(_PDB)
