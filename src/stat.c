@@ -287,6 +287,7 @@ void upd_stat(char *file)
     fclose(NEW); if (OLD) fclose(OLD);
     if (do_stat) { remove(oldf); rename(newf, oldf); }
     else { remove(newf); msg("New stat base is not written"); }
+    nfree(newf);
 }
 
 int write_echo(FILE *F, stat_echo *e) 
