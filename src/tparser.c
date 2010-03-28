@@ -1301,8 +1301,9 @@ int checkLogic(s_fidoconfig * config)
       if(config->robot[j]->queueFile != NULL &&
          stricmp(config->robot[i]->queueFile, config->robot[j]->queueFile) == 0)
       {
-        printf("Warning: robots %s and %s use the same queueFile %s\n",
+        printf("Error: robots %s and %s use the same queueFile %s, should not!\n",
            config->robot[i]->name, config->robot[j]->name, config->robot[i]->queueFile);
+        rc++;
       }
     }
   }
