@@ -133,7 +133,7 @@ install: commonlibs progs instdyn
 ifeq (${OSTYPE}, UNIX)
 	$(INSTALL) $(ISOPT) util/linkedto $(DESTDIR)$(BINDIR)
 endif
-	$(INSTALL) $(ISOPT) util/fconf2na.pl $(DESTDIR)$(BINDIR)
+	$(INSTALL) $(ISOPT) util/fconf2na.pl util/sq2fc.pl $(DESTDIR)$(BINDIR)
 	$(INSTALL) $(ISOPT) util/fconf2areasbbs.pl $(DESTDIR)$(BINDIR)
 	cd fidoconf ; $(INSTALL) $(IIOPT) $(HEADERS) $(DESTDIR)$(INCDIR)/fidoconf
 	$(INSTALL) $(ISLOPT) $(TARGETLIB) $(DESTDIR)$(LIBDIR)
@@ -148,7 +148,7 @@ install-man:
 uninstall:
 	-cd $(DESTDIR)$(BINDIR) ;\
 	-$(RM) $(RMOPT) $(PROGRAMS) linked$(_EXE) tparser$(_EXE) linkedto \
-	fconf2na.pl fconf2areasbbs.pl
+	fconf2na.pl fconf2areasbbs.pl sq2fc.pl
 	-cd $(DESTDIR)$(INCDIR)/fidoconf ;\
 	-$(RM) $(RMOPT) $(HEADERS)
 	-$(RM) $(RMOPT) $(DESTDIR)$(LIBDIR)/$(TARGETLIB)
