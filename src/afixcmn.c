@@ -85,8 +85,10 @@ char *createKludges(ps_fidoconfig config, const char *area, const hs_addr *ourAk
    char *buff = NULL;
    hUINT32 msgid = 0;
 
-   if (area) xscatprintf(&buff, "AREA:%s\r", area);
-   else {
+   if (area) {
+      xscatprintf(&buff, "AREA:%s\r", area);
+      strUpper(buff);
+   } else {
 	   xscatprintf(&buff, "\001INTL %u:%u/%u %u:%u/%u\r",
 			   destAka->zone, destAka->net, destAka->node,
 			   ourAka->zone,  ourAka->net,  ourAka->node);
