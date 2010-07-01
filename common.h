@@ -171,6 +171,7 @@ FCONF_EXT char   *strUpper(char *str);
   Input:  str is a \0 terminated string
   Output: a pointer to a \0 terminated string is returned.
   FZ:     strUpper converts the string from lower case to upper case.
+          str is changed and returned (not reallocated)
   */
 
 FCONF_EXT char   *strLower(char *str);
@@ -178,6 +179,7 @@ FCONF_EXT char   *strLower(char *str);
   Input:  str is a \0 terminated string
   Output: a pointer to a \0 terminated string is returned.
   FZ:     strLower converts the string from upper case to lower case.
+          str is changed and returned (not reallocated)
 */
 
 /* will be moved to huskylib */
