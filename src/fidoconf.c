@@ -918,9 +918,11 @@ s_area *getEchoArea(s_fidoconfig *config, char *areaName)
 
 s_area *getArea(s_fidoconfig *config, char *areaName)
 {
-    ps_area ret = FindAreaInTree(areaName);
-    if(ret)
-        return ret;
+    if(areaName) {
+      ps_area ret = FindAreaInTree(areaName);
+      if(ret)
+          return ret;
+    }
     return &(config->badArea); /*  if all else fails, return badArea :-) */
 }
 

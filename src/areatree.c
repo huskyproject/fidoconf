@@ -71,6 +71,8 @@ int fc_deleteEntry(char *p_e1) {
 ps_area FindAreaInTree(char* areaName)
 {
     static s_area areaSrc;
+
+    if(!areaName) return NULL;
     if(echoAreaPtr && stricmp(echoAreaPtr->areaName,areaName) == 0)
         return echoAreaPtr;
     else
