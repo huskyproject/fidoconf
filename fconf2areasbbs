@@ -63,9 +63,6 @@ my ($cfgname,$cfgwert);
 # Descr: Es wird die fconf Konfiguration eingelesen und Prgrammvariablen
 #	mit der	Konfiguration geladen.
 sub readConfig(){
-    my $fctmp = $ENV{"FIDOCONFIG"};
-    if ($fctmp ne "") {$fconf = $fctmp;}
-
     print ("reading $fconf\n");
     open(CONFIG, $fconf);
     while(<CONFIG>) {
