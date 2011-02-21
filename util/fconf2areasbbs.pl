@@ -63,16 +63,19 @@ my ($cfgname,$cfgwert);
 # Descr: Es wird die fconf Konfiguration eingelesen und Prgrammvariablen
 #	mit der	Konfiguration geladen.
 sub readConfig(){
-    my $fctmp = $ENV{"FIDOCONFIG"};
-    if ($fctmp ne "") {$fconf = $fctmp;}
-
-    print ("reading $fconf\n");
-    open(CONFIG, $fconf);
+  print ("reading $fconf\n");
+  if (open(CONFIG, $fconf)) {
     while(<CONFIG>) {
         parseCfgLine($_);
 	if ($cfgname =~ /echoarea/i) { saveEchoArea($cfgwert); }
+        if ($cfgname =~ /include/i) {
+            print "To process include file please call $0 $cfgwert $areasbbs\n";
+        }
     }
     close(CONFIG);
+  } else {
+    print "Can't open $fconf: $!\n";
+  }
 }
 
 ###############################################################################
