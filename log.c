@@ -115,10 +115,17 @@ s_log *openLog(char *fileName, char *appN, s_fidoconfig *config)
    /* make first line of log */
    currentTime = time(NULL);
    locTime = localtime(&currentTime);
-   fprintf(husky_log->logFile, "----------  ");
-   fprintf( husky_log->logFile, "%3s %02u %3s %02u, %s\n",
+   if( fprintf(husky_log->logFile, "----------  ") <0 )
+   { fprintf( stderr, "Can't write to log file \"%s\": %s\n", pathname, strerror(errno) );
+     closeLog();
+   }
+   else if( 0> fprintf( husky_log->logFile, "%3s %02u %3s %02u, %s\n",
             wdnames[locTime->tm_wday], locTime->tm_mday,
-            mnames[locTime->tm_mon], locTime->tm_year%100, husky_log->appName);
+            mnames[locTime->tm_mon], locTime->tm_year%100, husky_log->appName)
+          )
+   { fprintf( stderr, "Can't write to log file \"%s\": %s\n", pathname, strerror(errno) );
+     closeLog();
+   }
 
    if( pathname != fileName ) nfree(pathname);
    return husky_log;
@@ -156,13 +163,33 @@ void w_log(char key, char *logString, ...)
 		locTime = localtime(&currentTime);
 
 		if (log) {
-            fprintf(husky_log->logFile, "%c %02u:%02u:%02u  ",
-					key, locTime->tm_hour, locTime->tm_min, locTime->tm_sec);
+            if( 0> fprintf(husky_log->logFile, "%c %02u:%02u:%02u  ",
+					key, locTime->tm_hour, locTime->tm_min, locTime->tm_sec)
+              )
+            { fprintf( stderr, "Error at write to log file: %s\n", strerror(errno) );
+              closeLog();
+            }
+            else
+            {
+              int ret;
 			va_start(ap, logString);
-			vfprintf(husky_log->logFile, logString, ap);
+			ret = vfprintf(husky_log->logFile, logString, ap);
 			va_end(ap);
-			putc('\n', husky_log->logFile); 
-			fflush(husky_log->logFile);
+              if( ret<0 )
+              { fprintf( stderr, "Error at write to log file: %s\n", strerror(errno) );
+                closeLog();
+              }
+			ret = putc('\n', husky_log->logFile); 
+              if( ret==EOF )
+              { fprintf( stderr, "Error at write to log file: %s\n", strerror(errno) );
+                closeLog();
+              }
+			ret = fflush(husky_log->logFile);
+              if( ret<0 )
+              { fprintf( stderr, "Error at write to log file: %s\n", strerror(errno) );
+                closeLog();
+              }
+            }
 		}
 
 		if (screen) {
