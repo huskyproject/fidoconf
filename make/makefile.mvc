@@ -4,7 +4,9 @@
 # and programs
 
 MAKEFILE_MVC = makefile.mvc
+!if "$(MAKEFILE_HUSKYMAK)" == ""
 MAKEFILE_HUSKYMAK = ../../huskybse/huskymak.cfg.mvc
+!endif
 MAKEFILE_INC = makefile.inc
 
 ## include common makefiles part ##
@@ -47,10 +49,13 @@ TARGETLIBNAME=$(TARGETLIB)
 
 
 default:
-	@echo Specify a parameter DYNLIBS=1 in the command line to build with dynamic version
+	@echo "Specify a parameter DYNLIBS=1 in the command line to build with dynamic version"
+	@echo "of the library"
+	@echo "Specify a parameter MAKEFILE_HUSKYMAK=/path/to/your.huskymak.cfg to build"
+	@echo "using your own parameters"
 	@echo Run 'make lib' to build library ($(TARGETLIBNAME))
 	@echo Run 'make all' to build library ($(TARGETLIBNAME))
-	@echo _    and programs ($(PROGRAMS))
+	@echo "     and programs ($(PROGRAMS))"
 
 lib: $(TARGETLIBNAME)
 
