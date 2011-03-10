@@ -756,8 +756,8 @@ This statement can only be repeated for different links.
 @end table
 
 This statement sets the default password for the link.
-If you do not change the other passwords, they are set to this password.
-Password is case insensitive.
+If you do not set the other passwords, this password will be used.
+Password may be case insensitive or case sensitive depending on the program.
 
 This statement can only be repeated for different links.
 
@@ -775,6 +775,9 @@ Only passwords with maximal 8 characters are valid because of limitations of
 other software packages.
 An empty statement is allowed.
 
+If you do not set the pktpwd, password from the common password statement
+will be used (@xref{password}.)
+
 This statement can only be repeated for different links.
 
 @node ticpwd, areafixpwd, pktpwd, Keywords
@@ -791,6 +794,9 @@ Only passwords with maximal 8 characters are valid because of limitations of
 other software packages.
 An empty statement is allowed.
 
+If you do not set the ticpwd, password from the common password statement
+will be used (@xref{password}.)
+
 This statement can only be repeated for different links.
 
 @node areafixpwd, filefixpwd, ticpwd, Keywords
@@ -804,6 +810,9 @@ This statement can only be repeated for different links.
 
 This statement sets the areafix password for the actual link.
 An empty statement is allowed, but not recommended.
+
+If you do not set the areafixpwd, password from the common password statement
+will be used (@xref{password}.)
 
 This statement can only be repeated for different links.
 
@@ -819,6 +828,9 @@ This statement can only be repeated for different links.
 This statement sets the filefix password for the actual link.
 An empty statement is allowed, but not recommended.
 
+If you do not set the filefixpwd, password from the common password statement
+will be used (@xref{password}.)
+
 This statement can only be repeated for different links.
 
 @node bbspwd, sessionpwd, filefixpwd, Keywords
@@ -833,6 +845,9 @@ This statement can only be repeated for different links.
 This statement sets the bbs password for the actual link.
 An empty statement is allowed.
 
+If you do not set the bbspwd, password from the common password statement
+will be used (@xref{password}.)
+
 This statement can only be repeated for different links.
 
 @node sessionpwd, handle, bbspwd, Keywords
@@ -846,6 +861,9 @@ This statement can only be repeated for different links.
 
 This statement sets the session password for the actual link.
 An empty statement is allowed.
+
+If you do not set the sessionpwd, password from the common password statement
+will be used (@xref{password}.)
 
 This statement can only be repeated for different links.
 
