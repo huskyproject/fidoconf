@@ -1532,8 +1532,8 @@ enables carbonCopies for this area if disabled in echoareadefaults;
 toss dupes, move dupes to @code{DupeArea} or delete dupes.
 @item -DupeHistory <unsignedInteger>
 size of dupecheck history file in days for all dupe base types
-except @code{CommonDupeBase} (7 days if not defined), see also
-@xref{AreasMaxDupeAge,,,hpt,hpt};
+except @code{CommonDupeBase}, 7 days if not defined 
+(@xref{AreasMaxDupeAge,,,hpt,hpt}.);
 @item -nolink
 disables reply-linking for this area (*);
 @item -link
