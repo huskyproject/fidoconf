@@ -1,6 +1,8 @@
 \input texinfo @c -*-texinfo-*-
 @c %**start of header
 @setfilename fidoconfig.info
+@documentlanguage ru
+@documentencoding koi8-r
 @settitle FidoConfig Manual
 @setchapternewpage odd
 @c %**end of header
