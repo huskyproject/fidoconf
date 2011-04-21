@@ -80,6 +80,10 @@ int testConfig(s_fidoconfig *config){
     printf("WARNING:  Inbound not defined!\n");
     rc=1;
   }
+  if(!config->localInbound)
+  {
+    printf("NOTE:  localInbound not defined. The statement \"localInbound\" don't required but it is recommended.\n");
+  }
   if(!config->tempInbound){
     printf("WARNING:  TempInbound not defined!\n");
     rc=1;
