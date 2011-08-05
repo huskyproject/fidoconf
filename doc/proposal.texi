@@ -182,8 +182,9 @@ you can find in the programs' individual documentations.
 * address::                     your system address
 * commentChar::                 Comment character
 
-* outbound::                    outbound path
-* inbound::                     inbound path
+* Outbound::                    outbound path
+* FileBoxesDir::                directory where fileBoxes of links are created
+* Inbound::                     inbound path
 * tempDir::                     path for temporary files (possible memory disk)
 * logfiledir::                  path for log files
 * syslogfacility::              facility to use for syslogging

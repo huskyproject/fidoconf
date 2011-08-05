@@ -213,6 +213,7 @@ This statement can be repeated.
 
 Sets path for current msgid sequence stamp directory. This directory
 should be used for msgid sequence stamp only to preventing surprises.
+@xref{seqoutrun}.
 
 By default environment variable SEQDIR is used.
 
@@ -227,7 +228,7 @@ This statement cannot be repeated.
 @code{seqOutrun 1m}
 @end table
 
-Sets maximum outrun for msgid sequence from current time.
+Sets maximum outrun for msgid sequence from current time. @xref{seqdir}.
 
 Use decimal number with optional suffix.
 
@@ -251,8 +252,9 @@ This statement cannot be repeated.
 @section Path- and log-related keywords
 
 @menu
-* outbound::                    outbound path
-* inbound::                     inbound path
+* Outbound::                    outbound path
+* FileBoxesDir::                directory where fileBoxes of links are created
+* Inbound::                     inbound path
 * LocalInbound::                local inbound
 * ProtInbound::                 protected inbound
 * LockFile::                    file which lock programs session
@@ -264,9 +266,10 @@ This statement cannot be repeated.
 * ScreenLogLevels::             sets level of log output to screen
 * LogDateFormat::               set date format used in logs
 * LogEchoToScreen::             set output to screen log information
+* seqdir::                      path for msgid sequence stamp
 @end menu
 
-@node outbound, inbound, path log keywords, path log keywords
+@node Outbound, FileBoxesDir, path log keywords, path log keywords
 @subsection outbound
 @table @asis
 @item Syntax:
@@ -317,7 +320,45 @@ documentation and source code.
 
 This statement cannot be repeated.
 
-@node inbound, LocalInbound, outbound, path log keywords
+@node FileBoxesDir, Inbound, Outbound, path log keywords
+@subsection FileBoxesDir
+@findex FileBoxesDir
+@table @asis
+@item Syntax:
+@code{FileBoxesDir <directory>}
+@item Example:
+@code{FileBoxesDir ../boxes}
+@end table
+
+This statement specifies directory where link file boxes are placed (and
+created if necessary). @code{FileBoxesDir} and @code{outbound} should be pointed
+into different directories.
+
+@table @asis
+@item Currently it is implemented support for the file box names in the following
+form:
+@code{z.n.f.p[.h]},
+@item where:
+@item z:
+zone number;
+@item n:
+net number;
+@item f:
+node number;
+@item p:
+point number (zero for node);
+@item .h:
+optional suffix ".h" are specify the "hold" flavour.
+@item In the example:
+@code{FileBoxesDir /fido/fileboxes}
+@item For the link with address @code{2:5021.19} will possibled two fileboxes:
+@code{/fido/fileboxes/2.5021.19.0} and @code{/fido/fileboxes/2.5021.19.0.h}
+@end table
+
+This statement cannot be repeated.
+
+
+@node Inbound, LocalInbound, FileBoxesDir, path log keywords
 @subsection inbound
 @table @asis
 @item Syntax:
@@ -333,7 +374,7 @@ Only netmails are tossed from this inbound.
 
 This statement cannot be repeated.
 
-@node LocalInbound, ProtInbound, inbound, path log keywords
+@node LocalInbound, ProtInbound, Inbound, path log keywords
 @subsection LocalInbound
 @findex LocalInbound
 @table @asis
