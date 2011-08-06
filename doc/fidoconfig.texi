@@ -332,7 +332,7 @@ This statement cannot be repeated.
 
 This statement specifies directory where link file boxes are placed (and
 created if necessary). @code{FileBoxesDir} and @code{outbound} should be pointed
-into different directories.
+into different paths for prevention of collision.
 
 @table @asis
 @item Currently it is implemented support for the file box names in the following
