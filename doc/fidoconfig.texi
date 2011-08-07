@@ -331,8 +331,9 @@ This statement cannot be repeated.
 @end table
 
 This statement specifies directory where link file boxes are placed (and
-created if necessary). @code{FileBoxesDir} and @code{outbound} should be pointed
-into different paths for prevention of collision.
+created if necessary).  For prevention of collisions: @code{FileBoxesDir}
+and @code{outbound} should be pointed into different directory paths and
+even not be subdirectory of another.
 
 @table @asis
 @item Currently it is implemented support for the file box names in the following
@@ -346,7 +347,7 @@ net number;
 @item f:
 node number;
 @item p:
-point number (zero for node);
+point number (point number is mandatory and should be zero for node);
 @item .h:
 optional suffix ".h" are specify the "hold" flavour.
 @item In the example:
