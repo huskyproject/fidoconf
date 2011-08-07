@@ -183,7 +183,9 @@ endif
 * commentChar::                 символ комментария
 
 * outbound::                    путь к аутбаунду
+* FileBoxesDir::                путь к файлбоксам
 * inbound::                     путь к инбаунду
+
 * tempDir::                     путь к временным файлам (допустим виртуальный диск в памяти)
 * logfiledir::                  путь к лог-файлам
 * syslogfacility::              средство использования syslog
@@ -326,7 +328,7 @@ endif
 
 Этот оператор может повторяться.
 
-@node outbound, inbound, commentChar, Keywords
+@node outbound, FileBoxesDir, commentChar, Keywords
 @subsection outbound
 @table @asis
 @item Синтаксис:
@@ -376,7 +378,43 @@ binkley-term и исходные коды.
 
 Этот оператор не может повторяться.
 
-@node inbound, tempDir, outbound, Keywords
+@node FileBoxesDir, inbound, outbound, Keywords
+@subsection FileBoxesDir
+@findex FileBoxesDir
+@table @asis
+@item Syntax:
+@code{FileBoxesDir <directory>}
+@item Example:
+@code{FileBoxesDir ../boxes}
+@end table
+
+Эта директива определяет ваш путь к файл-боксам линков. Пути в директивах
+@code{FileBoxesDir} и @code{outbound} должны различаться и не должны быть подкаталогами
+друг друга, иначе возможны коллизии.
+
+@table @asis
+@item В настоящее время реализована поддержка файл-боксов с именами следующего формата:
+@code{z.n.f.p[.h]},
+@item где:
+@item z:
+номер зоны;
+@item n:
+номер сети;
+@item f:
+номер узла;
+@item p:
+номер пойнта (обязателен, в случае узла - ноль);
+@item .h:
+необязательный суффикс ".h" указывает атрибут "hold".
+@item В примере:
+@code{FileBoxesDir /fido/fileboxes}
+@item для линка с адресом  @code{2:5021.19} возможны два файлбокса:
+@code{/fido/fileboxes/2.5021.19.0} и @code{/fido/fileboxes/2.5021.19.0.h}
+@end table
+
+Этот оператор не может повторяться.
+
+@node inbound, tempDir, FileBoxesDir, Keywords
 @subsection inbound
 @table @asis
 @item Синтаксис:
