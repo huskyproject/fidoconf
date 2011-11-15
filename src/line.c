@@ -1534,7 +1534,7 @@ int parseAreaDefault(s_fidoconfig *config, char *token, s_area *adef, int cleanu
        }else if ((isdigit(*tok) || (*tok=='*')) && (patmat(tok, "*:*/*") || patmat(tok, "*:*/*.*"))) {
            if (strchr(tok, '*')) {
                for (i=0; i<config->linkCount; i++) {
-                   sprintf(addr, aka2str(config->links[i]->hisAka));
+                   sprintf(addr, "%s", aka2str(config->links[i]->hisAka));
                    if (patmat(addr, tok)) {
                        parseAreaLink(config,adef,addr);
                        adef->downlinks[adef->downlinkCount-1]->mandatory = 1;
