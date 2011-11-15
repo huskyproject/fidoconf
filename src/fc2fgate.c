@@ -114,9 +114,8 @@ int generateMsgEdConfig(s_fidoconfig *config, char *fileName) {
       }
 
    i=0;
-   while (!feof(f))
+   while ( (!feof(f)) && fgets(hlp,100,f) )
          {
-         fgets(hlp,100,f);
          if (hlp[0] == '!' || hlp[0] == '-')
             {
             for (j=1;hlp[j]!=0;j++)
