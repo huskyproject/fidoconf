@@ -1,6 +1,7 @@
 # $Id$
 # Makefile to build FIDOCONF/OS2 with gcc 3.x.x from EMX v0.9d.
-# No support for the Husky build environment.
+# Use only with the Husky build environment.
+# Produce static binaries and library
 
 # include Husky-Makefile-Config,
 # copy this file from ../../huskybse/huskymak.cfg.emx

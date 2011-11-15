@@ -1,4 +1,4 @@
-# $id:$
+# $id$
 # Linux makefile
 # (legacy makefile, no dynlibs, no huskymak support)
 
