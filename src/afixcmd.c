@@ -376,7 +376,7 @@ int DelLinkFromString(char *line, hs_addr linkAddr)
         while(*beg && !isdigit(*beg)) beg++; /* find for next link */
         if(beg && *beg)
         {
-            strcpy(end,beg);
+            memmove(end,beg,strlen(beg)+1);
         }
         else
         {
