@@ -24,6 +24,8 @@ else
   LFLAGS += $(OPTLFLAGS)
 endif
 
+LFLAGS += -L$(LIBDIR)
+
 ifndef EXENAMEFLAG
   EXENAMEFLAG=-o
 endif
@@ -88,7 +90,7 @@ $(TARGETDLL).$(VER): $(LOBJS)
 	$(LD) $(LFLAGS) $(EXENAMEFLAG) $(TARGETDLL).$(VER) $(LOBJS) $(LIBS)
 else
 $(TARGETDLL).$(VER): $(LOBJS)
-	$(CC) -shared -Wl,-soname,$(TARGETDLL).$(VERH) \
+	$(CC) $(LFLAGS) -shared -Wl,-soname,$(TARGETDLL).$(VERH) \
 	-o $(TARGETDLL).$(VER) $(LOBJS) $(LIBS)
 endif
 	$(LN) $(LNOPT) $(TARGETDLL).$(VER) $(TARGETDLL).$(VERH) ;\
