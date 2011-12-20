@@ -2067,6 +2067,7 @@ int parseHandle(char *token, s_fidoconfig *config) {
    return 0;
 }
 
+/* Return 0 if OK, 1 if invalid parameter, 2 if another error */
 int parseRoute(char *token, s_fidoconfig *config, s_route **route,
 			   unsigned *count, e_id id) {
   char *option;
@@ -2148,8 +2149,10 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
   }
   /* set flavour if it isn't specified in the statement */
   if (actualRoute->flavour == flUndef) {
-    if (actualRoute->target == NULL) prErr("You must either specify flavour or use defined link as target");
-    else actualRoute->flavour = actualRoute->target->netMailFlavour;
+    if (actualRoute->target == NULL) {
+      prErr("You must either specify flavour or use defined link as target");
+      rc = 2;
+    } else actualRoute->flavour = actualRoute->target->netMailFlavour;
   }
 
   return rc;
