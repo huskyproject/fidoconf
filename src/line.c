@@ -252,6 +252,7 @@ ps_anndef getDescrAnnDef(s_fidoconfig *config)
 int parseAddress(char *token, s_fidoconfig *config)
 {
    char *aka;
+   hs_addr parsedaddr;
 
    if (token==NULL) {
       prErr( "There is an address missing after %s!", actualKeyword);
@@ -264,9 +265,13 @@ int parseAddress(char *token, s_fidoconfig *config)
       return 1;
    }
 
+   if (parseFtnAddrZS(aka, &(parsedaddr)) & FTNADDR_ERROR) {
+      prErr( "There is invalid address after %s!", actualKeyword);
+      return 1;
+   }
+
    config->addr = srealloc(config->addr, sizeof(hs_addr)*(config->addrCount+1));
-   memset(&(config->addr[config->addrCount]), 0, sizeof(hs_addr));
-   parseFtnAddrZS(aka, &(config->addr[config->addrCount]));
+   memcpy(&(config->addr[config->addrCount]), &parsedaddr, sizeof(hs_addr));
    config->addrCount++;
 
    return 0;
