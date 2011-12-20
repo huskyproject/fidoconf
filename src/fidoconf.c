@@ -215,7 +215,7 @@ char *getConfigFileNameForProgram(char *envVar, char *configName)
    char *osSpecificPrefix = "/usr/local/etc/fido/";
 #elif defined(__QNXNTO__)
    char *osSpecificPrefix = "/etc/fido/";
-#elif defined(UNIX)
+#elif defined(__UNIX__)
    char *osSpecificPrefix = "./";
 #else
    char *osSpecificPrefix = "";
@@ -497,7 +497,7 @@ void setConfigDefaults(s_fidoconfig *config)
           (p=getenv("TMPDIR")) != NULL)
          parsePath(p, &(config->tempDir), NULL);
       else
-#if defined(UNIX) && !defined (__MINGW32__)
+#if defined(__UNIX__) && !defined (__MINGW32__)
          parsePath("/tmp", &(config->tempDir), NULL);
 #elif defined(WINNT) || defined (__MINGW32__)
          if ((getenv("WINDIR")) != NULL ){
