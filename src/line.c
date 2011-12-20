@@ -274,56 +274,61 @@ int parseAddress(char *token, s_fidoconfig *config)
 
 int parseRemap(char *token, s_fidoconfig *config)
 {
-   char *param;
+   char *param1, *param2, *param3;
+   int r=0, r2, r3;
+   s_remap remap;
 
    if (token==NULL) {
       prErr( "There are all parameters missing after %s!", actualKeyword);
       return 1;
    }
 
+   memset(&remap, 0, sizeof(remap));
 
-   config->remaps = srealloc(config->remaps,
+   param1 = strtok(token, ",\t");
+   if (param1 == NULL) {
+      prErr( "Missing Name or * (1st field) after %s!", actualKeyword);
+      return 1;
+   }
+   if (strcmp(param1,"*")==0) {
+      param1=NULL;
+   }
+
+   param2 = strtok(NULL, ",\t");
+   if (param2 == NULL) {
+      prErr( "Address or * (2nd field) missing after %s!",actualKeyword);
+      return 1;
+   }
+
+   param3 = strtok(NULL, " \t");
+   if (param3 == NULL) {
+      prErr( "Address (3rd field)  missing after %s!", actualKeyword);
+      return 1;
+   }
+
+   if (strcmp(param2,"*")!=0)
+       r2 = parseFtnAddrZS(param2, &(remap.oldaddr));
+   r3 = parseFtnAddrZS(param3, &(remap.newaddr));
+
+   if ( param1==NULL && remap.oldaddr.zone==0) {
+      prErr( "One of the two first Parameters must not be \"*\"");
+      r = 1;
+   }
+   if (r3 & FTNADDR_ERROR) {
+      prErr( "Invalid address in the 3rd Parameter (\"param3\")");
+      r = 1;
+   }
+   if (r == 0) { /* All OK, allocate memory and store data */
+      if (param1) { /*  Name for rerouting if not "*" */
+         remap.toname=sstrdup(param1);
+      }
+      config->remaps = srealloc(config->remaps,
                           (config->remapCount+1)*sizeof(s_remap));
-   memset(&config->remaps[config->remapCount], 0, sizeof(s_remap));
-
-   param = strtok(token, ",\t");
-   if (param == NULL) {
-      prErr( "Missing Name or * after %s!", actualKeyword);
-      return 1;
+      memcpy(&config->remaps[config->remapCount], &remap, sizeof(remap));
+      config->remapCount++;
    }
 
-   if (strcmp(param,"*")!=0)
-      { /*  Name for rerouting */
-      config->remaps[config->remapCount].toname=sstrdup(param);
-      }
-
-   param = strtok(NULL, ",\t");
-   if (param == NULL) {
-      prErr( "Address or * missing after %s!",actualKeyword);
-      return 1;
-   }
-
-   if (strcmp(param,"*")!=0)
-      parseFtnAddrZS(param, &(config->remaps[config->remapCount].oldaddr));
-
-   param = strtok(NULL, " \t");
-   if (param == NULL) {
-      prErr( "Address missing after %s!", actualKeyword);
-      return 1;
-   }
-
-   parseFtnAddrZS(param, &(config->remaps[config->remapCount].newaddr));
-
-   if (config->remaps[config->remapCount].toname==NULL &&
-       config->remaps[config->remapCount].oldaddr.zone==0)
-      {
-      prErr( "At least one of the Parameters must not be *");
-      return 1;
-      }
-
-   config->remapCount++;
-
-   return 0;
+   return r;
 }
 
 /* Parse and check/create directory
