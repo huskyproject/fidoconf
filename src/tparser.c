@@ -1584,6 +1584,41 @@ int checkLogic(s_fidoconfig * config)
     }
   }
 
+  /* Check Routing rules */
+  {
+    ps_route aroute;
+    int c,i;
+    for (c=0; c<config->routeCount; c++) {
+      aroute = &(config->route[c]);
+      for (i=c+1;i<config->routeCount; i++) {
+        if ( (aroute->id==id_route || config->route[i].id==id_route || aroute->id==config->route[i].id)
+           && (stricmp(aroute->pattern,config->route[i].pattern)==0) ) {
+          if (aroute->id==config->route[i].id) {
+            printf( "Warning! Duplicated route%s%s %s via ",
+                    aroute->id==id_routeMail?"mail":"",
+                    aroute->id==id_routeFile?"file":"", aroute->pattern);
+          } else {
+            printf( "Warning! Duplicated route%s%s and route%s%s %s via ",
+                    aroute->id==id_routeMail?"mail":"",
+                    aroute->id==id_routeFile?"file":"",
+                    config->route[i].id==id_routeMail?"mail":"",
+                    config->route[i].id==id_routeFile?"file":"",
+                    aroute->pattern);
+          }
+          if (addrComp(config->route[i].target->hisAka, aroute->target->hisAka)) {
+            printf("different links: ");
+            printAddr(&(aroute->target->hisAka));
+            printf(" and ");
+            printAddr(&(config->route[i].target->hisAka));
+          } else {
+            printAddr(&(config->route[i].target->hisAka));
+          }
+          printf("\n");
+        }
+      }
+    }
+  }
+
   return rc;
 }
 
