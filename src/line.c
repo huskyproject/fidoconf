@@ -2079,18 +2079,17 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
     return 1;
   }
 
+  option = strtok(token, " \t");
+  if (option == NULL) {
+    prErr("Parameter missing after %s!", actualKeyword);
+    return 1;
+  }
+
   *route = srealloc(*route, sizeof(s_route)*(*count+1));
   actualRoute = &(*route)[*count];
   memset(actualRoute, '\0', sizeof(s_route));
 
   actualRoute->id = id; actualRoute->flavour = flUndef;
-
-  option = strtok(token, " \t");
-
-  if (option == NULL) {
-    prErr("Parameter missing after %s!", actualKeyword);
-    return 1;
-  }
 
   while (option != NULL) {
     iOption = strLower(sstrdup(option));
