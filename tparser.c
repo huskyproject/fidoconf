@@ -353,7 +353,7 @@ void printAddr(ps_addr addr)
 {
     if(addr)
     {
-
+        const char *test = testAddr(*addr);
         if (addr->domain != NULL) {
             if(addr->point) printf(" %d:%d/%d.%d@%s ",
                 addr->zone, addr->net, addr->node, addr->point, addr->domain);
@@ -364,6 +364,12 @@ void printAddr(ps_addr addr)
                 addr->zone, addr->net, addr->node, addr->point);
             else printf(" %d:%d/%d ",
                 addr->zone, addr->net, addr->node);
+        }
+        if (test) {
+           printf("\nWARNING! Invalid address %s%s%s: %s\n", aka2str(*addr),
+                   addr->domain?"@":"", addr->domain?addr->domain:"", test);
+           fprintf(stderr, "WARNING! Invalid address %s%s%s: %s", aka2str(*addr),
+                   addr->domain?"@":"", addr->domain?addr->domain:"", test);
         }
     }
 }
