@@ -1570,15 +1570,16 @@ int checkLogic(s_fidoconfig * config)
   {/* Check Remap rules */
     int c;
     for (c=0;c<config->remapCount;c++) {
-      const char *testresult = testAddr(&(config->remaps[c].newaddr));
-      if (testresult) {
-        printf("Remap rule %i, new destination address %s\n", c+1, testresult); 
-        rc++;
-      }
+      const char *testresult = NULL;
       if (config->remaps[c].oldaddr.zone>0)
         testresult = testAddr(&(config->remaps[c].oldaddr));
       if (testresult) {
         printf("Remap rule %i, old destination address %s\n", c+1, testresult); 
+        rc++;
+      }
+      testresult = testAddr(&(config->remaps[c].newaddr));
+      if (testresult) {
+        printf("Remap rule %i, new destination address %s\n", c+1, testresult); 
         rc++;
       }
     }
