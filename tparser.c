@@ -839,6 +839,33 @@ int printLink(s_link link) {
    return rc;
 }
 
+void printRoute(s_route hroute)
+{
+
+   if (hroute.routeVia == 0) {
+      printf("Route %s via ", hroute.pattern);
+      printAddr( &(hroute.target->hisAka));
+      printf("\n");
+   } else {
+      printf("Route");
+      switch (hroute.id) {
+         case id_route : break;
+         case id_routeMail : printf("Mail"); break;
+         case id_routeFile : printf("File"); break;
+      }
+      printf(" %s ", hroute.pattern);
+      switch (hroute.routeVia) {
+         case route_zero: printf("zero\n"); break;
+         case noroute:  printf("direct\n"); break;
+         case nopack:   printf("nopack\n"); break;
+         case host:     printf("via host\n"); break;
+         case hub:      printf("via hub\n"); break;
+         case boss:     printf("via boss\n"); break;
+         case route_extern: break; /* internal only */
+      }
+   }
+}
+
 /*  Some dumb checks ;-) */
 int checkLogic(s_fidoconfig *config) {
 	register UINT i,j;
@@ -1086,25 +1113,39 @@ int checkLogic(s_fidoconfig *config) {
         /* Check Routing rules */
         {
           ps_route aroute;
-          int c,i;
+          int c,i,first;
           for (c=0; c<config->routeCount; c++) {
             aroute = &(config->route[c]);
+            first=1;
             for (i=c+1;i<config->routeCount; i++) {
               if ( (aroute->id==id_route || config->route[i].id==id_route || aroute->id==config->route[i].id)
-                 && (stricmp(aroute->pattern,config->route[i].pattern)==0) ) {
+                 && (sstricmp(aroute->pattern,config->route[i].pattern)==0) ) {
+                if (first) {
+                  first=0;
+                  printf("Warning! Duplicated routes:\n ");
+                  printRoute(*aroute);
+                }
+                printf(" ");
+                printRoute(config->route[i]);
+/*
                 if (aroute->id==config->route[i].id) {
-                  printf( "Warning! Duplicated route%s%s for %s via ",
+                  printf( "Warning! Duplicated route%s%s for %s:",
                           aroute->id==id_routeMail?"mail":"",
                           aroute->id==id_routeFile?"file":"", aroute->pattern);
                 } else {
-                  printf( "Warning! Duplicated route%s%s and route%s%s for %s via ",
+                  printf( "Warning! Duplicated route%s%s and route%s%s for %s:",
                           aroute->id==id_routeMail?"mail":"",
                           aroute->id==id_routeFile?"file":"",
                           config->route[i].id==id_routeMail?"mail":"",
                           config->route[i].id==id_routeFile?"file":"",
                           aroute->pattern);
                 }
-                if (addrComp(config->route[i].target->hisAka, aroute->target->hisAka)) {
+                
+                if (config->route[i].target==NULL || aroute->target==NULL) {
+                  printf("different destinations: ");
+                  if (aroute->target) printAddr(&(aroute->target->hisAka));
+                  else printf(" target ");
+                } else if (addrComp(config->route[i].target->hisAka, aroute->target->hisAka)) {
                   printf("different links: ");
                   printAddr(&(aroute->target->hisAka));
                   printf(" and ");
@@ -1113,6 +1154,7 @@ int checkLogic(s_fidoconfig *config) {
                   printAddr(&(config->route[i].target->hisAka));
                 }
                 printf("\n");
+*/
               }
             }
           }
@@ -1249,7 +1291,6 @@ void printSeqOutrun(unsigned long seqOutrun)
     else
 	printf("seqOutrun: %lu\n", seqOutrun);
 }
-
 
 static int dumpcfg(char *fileName)
 {
@@ -1731,28 +1772,7 @@ int main(int argc, char **argv) {
 
         printf("\n=== ROUTE CONFIG ===\n");
         for (i = 0; i < config->routeCount; i++) {
-           if (config->route[i].routeVia == 0) {
-              printf("Route %s via ", config->route[i].pattern);
-              printAddr( &(config->route[i].target->hisAka));
-              printf("\n");
-           } else {
-  			 printf("Route");
-  			 switch (config->route[i].id) {
-  			 case id_route : break;
-  			 case id_routeMail : printf("Mail"); break;
-  			 case id_routeFile : printf("File"); break;
-  			 }
-  			 printf(" %s ", config->route[i].pattern);
-  			 switch (config->route[i].routeVia) {
-  			 case route_zero: printf("zero\n"); break;
-  			 case noroute:  printf("direct\n"); break;
-  			 case nopack:   printf("nopack\n"); break;
-  			 case host:     printf("via host\n"); break;
-  			 case hub:      printf("via hub\n"); break;
-  			 case boss:     printf("via boss\n"); break;
-  			 case route_extern: break; /* internal only */
-  			 }
-           }
+           printRoute(config->route[i]);
         }
 
      if (hpt==0) {
