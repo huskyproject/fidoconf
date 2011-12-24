@@ -1118,8 +1118,10 @@ int checkLogic(s_fidoconfig *config) {
             aroute = &(config->route[c]);
             first=1;
             for (i=c+1;i<config->routeCount; i++) {
-              if ( (aroute->id==id_route || config->route[i].id==id_route || aroute->id==config->route[i].id)
-                 && (sstricmp(aroute->pattern,config->route[i].pattern)==0) ) {
+              if ( (aroute->id==config->route[i].id
+                   || (aroute->id==id_route && config->route[i].id==id_routeMail)
+                   || (aroute->id==id_routeMail && config->route[i].id==id_route)
+                   ) && (sstricmp(aroute->pattern,config->route[i].pattern)==0) ) {
                 if (first) {
                   first=0;
                   printf("Warning! Duplicated routes:\n ");
@@ -1127,34 +1129,6 @@ int checkLogic(s_fidoconfig *config) {
                 }
                 printf(" ");
                 printRoute(config->route[i]);
-/*
-                if (aroute->id==config->route[i].id) {
-                  printf( "Warning! Duplicated route%s%s for %s:",
-                          aroute->id==id_routeMail?"mail":"",
-                          aroute->id==id_routeFile?"file":"", aroute->pattern);
-                } else {
-                  printf( "Warning! Duplicated route%s%s and route%s%s for %s:",
-                          aroute->id==id_routeMail?"mail":"",
-                          aroute->id==id_routeFile?"file":"",
-                          config->route[i].id==id_routeMail?"mail":"",
-                          config->route[i].id==id_routeFile?"file":"",
-                          aroute->pattern);
-                }
-                
-                if (config->route[i].target==NULL || aroute->target==NULL) {
-                  printf("different destinations: ");
-                  if (aroute->target) printAddr(&(aroute->target->hisAka));
-                  else printf(" target ");
-                } else if (addrComp(config->route[i].target->hisAka, aroute->target->hisAka)) {
-                  printf("different links: ");
-                  printAddr(&(aroute->target->hisAka));
-                  printf(" and ");
-                  printAddr(&(config->route[i].target->hisAka));
-                } else {
-                  printAddr(&(config->route[i].target->hisAka));
-                }
-                printf("\n");
-*/
               }
             }
           }
