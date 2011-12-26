@@ -64,54 +64,63 @@ static s_fidoconfig *config;
 
 /* Test for required tokens */
 int testConfig(s_fidoconfig *config){
-  int rc=0;
+  int rc=0, firstline=1;
 
   printf("\n");
 
   if(!config->tempDir){
-    printf("WARNING:  TempDir not defined!\n");
+    printf("%sWARNING:  TempDir not defined!\n",firstline?"\n":(firstline=0,""));
     rc=1;
   }
   if(!config->protInbound){
-    printf("WARNING:  ProtInbound not defined!\n");
+    printf("%sWARNING:  ProtInbound not defined!\n",firstline?"\n":(firstline=0,""));
     rc=1;
   }
   if(!config->inbound){
-    printf("WARNING:  Inbound not defined!\n");
+    printf("%sWARNING:  Inbound not defined!\n",firstline?"\n":(firstline=0,""));
     rc=1;
   }
   if(!config->localInbound)
   {
-    printf("NOTE:  localInbound not defined. The statement \"localInbound\" don't required but it is recommended.\n");
+    printf("%sNOTE:  localInbound not defined. The statement \"localInbound\" don't required but it is recommended.\n",firstline?"\n":(firstline=0,""));
   }
   if(!config->tempInbound){
-    printf("WARNING:  TempInbound not defined!\n");
+    printf("%sWARNING:  TempInbound not defined!\n",firstline?"\n":(firstline=0,""));
     rc=1;
   }
   if(!config->outbound){
-    printf("WARNING:  Outbound not defined!\n");
+    printf("%sWARNING:  Outbound not defined!\n",firstline?"\n":(firstline=0,""));
     rc=1;
   }
   if(!config->tempOutbound){
-    printf("WARNING:  TempOutbound not defined!\n");
+    printf("%sWARNING:  TempOutbound not defined!\n",firstline?"\n":(firstline=0,""));
     rc=1;
   }
   if(!config->nodelistDir){
-    printf("WARNING:  NodelistDir not defined!\n");
+    printf("%sWARNING:  NodelistDir not defined!\n",firstline?"\n":(firstline=0,""));
     rc=1;
   }
 
-
-  if (config->netMailAreaCount == 0)
-    { printf("You must define at least one NetmailArea!\n"); rc=1; }
-  if (config->dupeArea.areaName == NULL)
-    { printf("You must define DupeArea!\n"); rc=1; }
-  else if (config->dupeArea.fileName == NULL)
-    { printf("DupeArea can not be passthrough!\n"); rc=1; }
-  if (config->badArea.areaName == NULL)
-    { printf("You must define BadArea!\n"); rc=1; }
-  else if (config->badArea.fileName == NULL)
-    { printf("BadArea can not be passthrough!\n"); rc=1; }
+  if (config->netMailAreaCount == 0) {
+    printf("%sYou must define at least one NetmailArea!\n",firstline?"\n":(firstline=0,""));
+    rc=1;
+  }
+  if (config->dupeArea.areaName == NULL) {
+    printf("%sYou must define DupeArea!\n",firstline?"\n":(firstline=0,""));
+    rc=1;
+  }
+  else if (config->dupeArea.fileName == NULL) {
+    printf("%sDupeArea can not be passthrough!\n",firstline?"\n":(firstline=0,""));
+    rc=1;
+  }
+  if (config->badArea.areaName == NULL) {
+    printf("%sYou must define BadArea!\n",firstline?"\n":(firstline=0,""));
+    rc=1;
+  }
+  else if (config->badArea.fileName == NULL) {
+    printf("%sBadArea can not be passthrough!\n",firstline?"\n":(firstline=0,""));
+    rc=1;
+  }
 
   if( rc ) putchar('\n');
 
@@ -307,8 +316,6 @@ int testPathsAndFiles()
 const char *testAddr(hs_addr addr)
 {
   char *c;
-
-  printf("\n");
 
   if ( !addr.zone && !addr.net && !addr.node ) {
     return "Error: Invalid (zero) address\n";
