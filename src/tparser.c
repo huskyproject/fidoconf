@@ -1283,6 +1283,35 @@ int printRobot(ps_robot robot)
   return 0;
 }
 
+/* Attention! Return value is static string */
+const char *routeViaStr(e_routing routeVia)
+{
+  switch (routeVia)
+  {
+    case route_zero:
+      return "zero";
+    case noroute:
+      return "direct";
+    case nopack:
+      return "nopack";
+    case host:
+      return "host (Z:N/0.0@domain)";
+    case hub:
+      return "\"hub\" (Z:N/ff00.0@domain)";
+    case boss:
+      return "boss (Z:N/F.0@domain)";
+    case route_extern: /* internal only */
+      return "";
+  }
+  return "UNKNOWN(error?)";
+}
+
+void printRouteTarget(s_route aroute)
+{
+  if (aroute.target) printAddr(&(aroute.target->hisAka));
+  else printf(" %s ", routeViaStr(aroute.routeVia));
+}
+
 /*  Some dumb checks ;-) */
 int checkLogic(s_fidoconfig * config)
 {
@@ -1606,13 +1635,16 @@ int checkLogic(s_fidoconfig * config)
                     config->route[i].id==id_routeFile?"file":"",
                     aroute->pattern);
           }
-          if (addrComp(config->route[i].target->hisAka, aroute->target->hisAka)) {
-            printf("different links: ");
-            printAddr(&(aroute->target->hisAka));
+          if ( config->route[i].target!=aroute->target &&
+               ( !config->route[i].target || !aroute->target ||
+                 addrComp(config->route[i].target->hisAka, aroute->target->hisAka)
+             ) ) {
+            printf("different links (targets): ");
+            printRouteTarget(*aroute);
             printf(" and ");
-            printAddr(&(config->route[i].target->hisAka));
+            printRouteTarget(config->route[i]);
           } else {
-            printAddr(&(config->route[i].target->hisAka));
+            printRouteTarget(*aroute);
           }
           printf("\n");
         }
