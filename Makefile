@@ -75,10 +75,12 @@ LIBS=-lhusky
 progs: commonprogs
 
 ifeq ($(DYNLIBS), 1)
+  TARGET = $(TARGETDLL)
   all: commonlibs $(TARGETDLL).$(VER)
 	$(MAKE) progs
 	(cd doc && $(MAKE) all)
 else
+  TARGET = $(TARGETLIB)
   all: commonlibs
 	$(MAKE) progs
 	(cd doc && $(MAKE) all)
