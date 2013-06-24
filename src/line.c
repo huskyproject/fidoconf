@@ -252,7 +252,7 @@ ps_anndef getDescrAnnDef(s_fidoconfig *config)
 int parseAddress(char *token, s_fidoconfig *config)
 {
    char *aka;
-   hs_addr parsedaddr;
+   hs_addr parsedaddr = {0};
 
    if (token==NULL) {
       prErr( "There is an address missing after %s!", actualKeyword);
