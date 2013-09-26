@@ -25,6 +25,7 @@ make
 %install
 rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
+chmod -R a+rX,u+w,go-w %{buildroot}
 
 %clean
 rm -rf %{buildroot}
