@@ -576,6 +576,9 @@ int subscribeCheck(s_area *area, s_link *link)
             found = grpInArray(area->group,link->AccessGrp,link->numAccessGrp);
     } else found = 1;
 
+    if ((area->levelwrite > link->level) && (area->levelread > link->level))
+        found = 0;
+
     if (!found){
         w_log( LL_FUNC, "%s::subscribeCheck() end, rc=2", __FILE__ );
         return 2;
