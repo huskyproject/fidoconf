@@ -730,6 +730,10 @@ void printFileArea(s_area area)
     printf("noReplace ");
   else
     printf("replace ");
+  if(area.rename)
+    printf("rename ");
+  else
+    printf("noRename ");
   if(area.nodiz)
     printf("noDiz ");
   else

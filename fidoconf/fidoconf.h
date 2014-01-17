@@ -309,6 +309,7 @@ typedef struct area {
    int noCRC;          /*  0 if CRC check should be done on incoming files */
    int noreplace;      /*  1 - no replace files in this filearea */
    int nodiz;          /*  1 - do not try to get description from <fileDescName> */
+   int rename;         /*  1 - rename file in case of duplicates */
 
 
 } s_area, *ps_area;

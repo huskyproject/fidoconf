@@ -1076,6 +1076,24 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;     /*  error */
         }
     }
+    else if (strcmp(iOption, "rename")==0) {
+        if( area->areaType == FILEAREA ) {
+            area->rename = 1;
+        }else{
+            prErr("Option '%s' is allowed for fileareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "norename")==0) {
+        if( area->areaType == FILEAREA ) {
+            area->rename = 0;
+        }else{
+            prErr("Option '%s' is allowed for fileareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
     else if (strcmp(iOption, "diz")==0) {
         if( area->areaType == FILEAREA ) {
             area->nodiz = 0;
