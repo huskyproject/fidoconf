@@ -72,6 +72,11 @@
 
 static s_fidoconfig *config;
 
+/*******************************************************/
+/* Every config error increases tparser exit code by 1 */
+/* Warnings do not influence the exit code             */
+/*******************************************************/
+
 /* Test for required tokens */
 int testConfig(s_fidoconfig * config)
 {
@@ -82,17 +87,14 @@ int testConfig(s_fidoconfig * config)
   if(!config->tempDir)
   {
     printf("Warning:  TempDir not defined!\n");
-    rc = 1;
   }
   if(!config->protInbound)
   {
     printf("Warning:  ProtInbound not defined!\n");
-    rc = 1;
   }
   if(!config->inbound)
   {
     printf("Warning:  Inbound not defined!\n");
-    rc = 1;
   }
   if(!config->localInbound)
   {
@@ -101,22 +103,18 @@ int testConfig(s_fidoconfig * config)
   if(!config->tempInbound)
   {
     printf("Warning:  TempInbound not defined!\n");
-    rc = 1;
   }
   if(!config->outbound)
   {
     printf("Warning:  Outbound not defined!\n");
-    rc = 1;
   }
   if(!config->tempOutbound)
   {
     printf("Warning:  TempOutbound not defined!\n");
-    rc = 1;
   }
   if(!config->nodelistDir)
   {
     printf("Warning:  NodelistDir not defined!\n");
-    rc = 1;
   }
 
 
@@ -180,7 +178,7 @@ int testpath(const char *s, const char *t1, const char *t2, const char *t3)
     for(c = 0; invalids[c]; c++)
       if(strstr(s, invalids[c]))
       {
-        printf("WARNING: mistake in %s%s%s%s%s value: %s\n", (t1 ? t1 : ""),
+        printf("ERROR: mistake in %s%s%s%s%s value: %s\n", (t1 ? t1 : ""),
                (t2 ? " " : ""), (t2 ? t2 : ""), (t3 ? " " : ""),
                (t3 ? t3 : ""), reasons[c]);
         rc++;
@@ -1869,7 +1867,7 @@ static int dumpcfg(char *fileName)
 
 void usage()
 {
-  printf("\tParses Fidoconfig checks your Fidoconfig for errors and gives");
+  printf("\tParses Fidoconfig, checks your Fidoconfig for errors and gives ");
   printf("you some\n\thints to solve the problems.\n\n");
   printf("run: tparser [-Dvar=value] [-E] [-P] [/path/to/config/file]\n");
   exit(0);
@@ -2572,7 +2570,7 @@ int main(int argc, char **argv)
     disposeConfig(config);
 
     if(rc)
-      fprintf(stderr, "Attention, %u errors or warnings found!\n", rc);
+      fprintf(stderr, "Attention, %u errors found!\n", rc);
   }                             /* endif */
 
   return rc;
