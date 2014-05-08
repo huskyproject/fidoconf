@@ -621,6 +621,7 @@ void  print_links()
 int parseFEconfig()
 {
    unsigned int c, i;
+   int rc;
 
    c = 0;
    while (c < config.offset) {
@@ -697,7 +698,8 @@ int parseFEconfig()
    node = (Node**)calloc(config.NodeCnt, sizeof(Node*));
    for (i = 0; i < config.NodeCnt; i++) {
       node[i] = (Node*)malloc(sizeof(Node));
-      assert(!read_fe_node(node[i], f_cfg, config.NodeRecSize));
+      rc = read_fe_node(node[i], f_cfg, config.NodeRecSize);
+      assert(!rc);
    } /* endfor */
 
    fseek(f_cfg, FE_CONFIG_SIZE+config.offset+
