@@ -276,6 +276,9 @@ typedef struct area {
    void *newDupes;     /*  dito */
    unsigned int imported;      /*  dito */
 
+   unsigned int tooOld;       /* move incoming mail older than x days to BadArea */
+                              /* 0 - disabled */
+
    char *group;                      /*  used by reader (and areafix soon) */
 
    int ccoff;          /*  1 if carbon copy is not allowed from this area */
@@ -292,11 +295,16 @@ typedef struct area {
 
    int paused;         /*  1 if area is paused */
    int noautoareapause;  /*  do not automatically pause area */
+   int sbkeep_all;     /*  1 - keep all SEEN BY's when zone-gating */
 
    ps_addr       sbadd;
    unsigned int  sbaddCount;
    ps_addr       sbign;
    unsigned int  sbignCount;
+   ps_addr       sbstrip;          /* AKAs to strip */
+   unsigned int  sbstripCount;
+   ps_addr       sbkeep;           /* AKAs to keep when zone-gating */
+   unsigned int  sbkeepCount;
 
    e_area_def_subscribing def_subscribing; /* Default mode for new links (-r -w). */
 
@@ -310,7 +318,6 @@ typedef struct area {
    int noreplace;      /*  1 - no replace files in this filearea */
    int nodiz;          /*  1 - do not try to get description from <fileDescName> */
    int rename;         /*  1 - rename file in case of duplicates */
-
 
 } s_area, *ps_area;
 

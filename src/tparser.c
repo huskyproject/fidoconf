@@ -576,6 +576,10 @@ void printArea(s_area area)
     printf("noAutoAreaPause ");
   else
     printf("autoAreaPause ");
+  if(area.sbkeep_all)
+    printf("SBkeepAll ");
+  else
+    printf("noSBkeepAll ");
   printf("\n");
   printf("Default subscribing option:");
   if(area.def_subscribing == RO)
@@ -590,6 +594,11 @@ void printArea(s_area area)
     printf("move");
   if(area.dupeCheck == dcDel)
     printf("delete");
+  printf("\n");
+  /* tooOld */
+  printf("tooOld: %u days", area.tooOld);
+  if(area.tooOld == 0)
+    printf(" (disabled)");
   printf("\n");
 /* val: scan */
   printf("ScanMode: ");
@@ -660,6 +669,20 @@ void printArea(s_area area)
     printf("IgnoreSeenBys: ");
     for(i = 0; i < area.sbignCount; i++)
       printf("%u/%u ", area.sbign[i].net, area.sbign[i].node);
+    printf("\n");
+  }
+  if(area.sbstripCount)
+  {
+    printf("StripSeenBys: ");
+    for(i = 0; i < area.sbstripCount; i++)
+      printf("%u/%u ", area.sbstrip[i].net, area.sbstrip[i].node);
+    printf("\n");
+  }
+  if(area.sbkeepCount)
+  {
+    printf("KeepSeenBys: ");
+    for(i = 0; i < area.sbkeepCount; i++)
+      printf("%u/%u ", area.sbkeep[i].net, area.sbkeep[i].node);
     printf("\n");
   }
   printf("-------\n");

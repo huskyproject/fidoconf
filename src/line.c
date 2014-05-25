@@ -123,6 +123,32 @@ int fc_copyStringWOstrip(char *str, char **pmem)
    return copyString(str, pmem);
 }
 
+
+/*
+   create new address array by copying old one
+*/
+
+int fc_copyAddressArray(unsigned int count, ps_addr sourceAddr, ps_addr *destAddr)
+{
+    int rc = 0;
+
+    if (count > 0)            /* we have addresses to copy */
+    {
+        *destAddr = malloc(sizeof(hs_addr) * count);
+        if (*destAddr != NULL)
+            memcpy(*destAddr, sourceAddr, sizeof(hs_addr) * count);
+        else
+            rc = 1;               /* error */
+    }
+    else                      /* nothing to do */
+    {
+        *destAddr = NULL;         /* reset pointer */
+    }
+
+    return rc;
+}
+
+
 #if 0
 #define getRestOfLine() stripLeadingChars(strtok(NULL, "\0"), " \t")
 #else
@@ -864,6 +890,40 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             setLinkAccess( config, area, area->downlinks[i]);
 
     }
+    else if (strcmp(iOption, "tooold")==0) {
+        if( area->areaType == ECHOAREA ) {
+            token = strtok(NULL, " \t");
+            if (token == NULL) {
+                prErr("Number is missing after %s in areaOptions!",iOption);
+                nfree(iOption);
+                return 1;
+            }
+            for (i=0; i<strlen(token); i++) {
+                if (isdigit(token[i]) == 0) break;
+            }
+            if (i != strlen(token)) {
+                prErr("Number is wrong after %s in areaOptions!",iOption);
+                nfree(iOption);
+                return 1;
+            }
+            il = strtol(token, &error, 0);
+            if ((error != NULL) && (*error != '\0')) {
+                prErr("Number is wrong after %s in areaOptions!",iOption);
+                nfree(iOption);
+                return 1;     /*  error occured; */
+            }
+            if (il<0) {
+                prErr("Number is wrong after %s in areaOptions (negative values not allowed)!",iOption);
+                nfree(iOption);
+                return 1;     /*  error occured; */
+            }
+            area->tooOld = (unsigned) il ;
+        }else{
+            prErr("Option '%s' is allowed for echoareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
     else if (strcmp(iOption, "tinysb")==0) {
 
         if( area->areaType == ECHOAREA )  {
@@ -1094,6 +1154,24 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;     /*  error */
         }
     }
+    else if (strcmp(iOption, "sbkeepall")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->sbkeep_all = 1;
+        }else{
+            prErr("Option '%s' is allowed for echoareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strcmp(iOption, "nosbkeepall")==0) {
+        if( area->areaType == ECHOAREA ) {
+            area->sbkeep_all = 0;
+        }else{
+            prErr("Option '%s' is allowed for echoareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
     else if (strcmp(iOption, "diz")==0) {
         if( area->areaType == FILEAREA ) {
             area->nodiz = 0;
@@ -1206,10 +1284,40 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
         }
     }
     else if (strncmp(iOption, "sbadd(", 6)==0) {
-        parseSeenBy2D(iOption,&(area->sbadd),&(area->sbaddCount));
+        if( area->areaType == ECHOAREA ) {
+            parseSeenBy2D(iOption,&(area->sbadd),&(area->sbaddCount));
+        } else {
+            prErr("Option '%s' is allowed for echoareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
     }
     else if (strncmp(iOption, "sbign(", 6)==0) {
-        parseSeenBy2D(iOption,&(area->sbign),&(area->sbignCount));
+        if( area->areaType == ECHOAREA ) {
+            parseSeenBy2D(iOption,&(area->sbign),&(area->sbignCount));
+        } else {
+            prErr("Option '%s' is allowed for echoareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strncmp(iOption, "sbstrip(", 8)==0) {
+        if( area->areaType == ECHOAREA ) {
+            parseSeenBy2D(iOption,&(area->sbstrip),&(area->sbstripCount));
+        } else {
+            prErr("Option '%s' is allowed for echoareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
+    else if (strncmp(iOption, "sbkeep(", 7)==0) {
+        if( area->areaType == ECHOAREA ) {
+            parseSeenBy2D(iOption,&(area->sbkeep),&(area->sbkeepCount));
+        }else{
+            prErr("Option '%s' is allowed for echoareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
     }
     else if (strcmp(iOption, "r")==0) {
         if (area->def_subscribing!=RW) {
@@ -1375,6 +1483,14 @@ int parseArea(s_fidoconfig *config, char *token, s_area *area, int useDefs)
         }
     }
 
+    /* copy SEEN-BY arrays from default */
+    if(area->areaType == ECHOAREA)      /* just for echoareas */
+    {
+        rc += fc_copyAddressArray(area->sbaddCount, (config->EchoAreaDefault).sbadd, &(area->sbadd));
+        rc += fc_copyAddressArray(area->sbignCount, (config->EchoAreaDefault).sbign, &(area->sbign));
+        rc += fc_copyAddressArray(area->sbkeepCount, (config->EchoAreaDefault).sbkeep, &(area->sbkeep));
+        rc += fc_copyAddressArray(area->sbstripCount, (config->EchoAreaDefault).sbstrip, &(area->sbstrip));
+    }
 
     /*   area->fperm = area->uid = area->gid = -1;*/
     if(!area->fperm && !area->uid && !area->gid)

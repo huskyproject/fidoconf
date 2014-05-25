@@ -1590,6 +1590,15 @@ disable debug output if defined in echoareadefaults;
 add seen-by(s) at tossing time;
 @item -sbign(<addr2D>,...)
 ignore seen-by(s) and toss mail to link(s).
+@item -sbstrip(<addr2D>,...)
+Remove specified seen-bys (done before -sbadd). Can be combined with -sbkeepAll.
+@item -sbkeep(<addr2D>,...)
+Keep specified seen-bys when zone-gating.
+@item -sbkeepAll
+Keep all seen-bys when zone-gating (prevails -sbkeep).
+@item -tooOld <number of days>
+Move incoming echomail older than the given number of days to BadMail (0 = disabled).
+A value >= 90 is recommended! A too low value might cause severe trouble.
 @item -r
 Default read-only: set link read-only at subscribing
 @item -w

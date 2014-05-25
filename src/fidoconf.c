@@ -609,6 +609,8 @@ void fc_freeEchoArea(s_area *area) {
 	nfree(area->downlinks);
 	nfree(area->sbadd);
 	nfree(area->sbign);
+	nfree(area->sbstrip);
+	nfree(area->sbkeep);
 }
 
 void freeBbsArea(s_bbsarea area) {
