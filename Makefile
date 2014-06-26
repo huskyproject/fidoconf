@@ -131,6 +131,7 @@ endif
 install: commonlibs progs instdyn
 	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(BINDIR)
 	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(INCDIR)/fidoconf
+	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(LIBDIR)
 	$(INSTALL) $(IBOPT) $(PROGRAMS) $(DESTDIR)$(BINDIR)
 	$(INSTALL) $(IBOPT) linked$(_EXE) $(DESTDIR)$(BINDIR)
 	$(INSTALL) $(IBOPT) tparser$(_EXE) $(DESTDIR)$(BINDIR)
