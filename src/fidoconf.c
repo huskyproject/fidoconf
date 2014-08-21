@@ -525,6 +525,7 @@ void setConfigDefaults(s_fidoconfig *config)
                clink->aexport = 0;         /* do not export anything to virtual link */
                clink->import = 1;
                clink->maxUnpackedNetmail = 100;
+               clink->FileFixFSC87Subset = 1;
                memcpy ( &(clink->hisAka), &(config->addr[i]), sizeof(hs_addr));
                clink->ourAka = &(config->addr[i]);
                xscatprintf(&(clink->name), "Our virtual link for aka: %s",aka2str(config->addr[i]));
