@@ -58,14 +58,14 @@
 
 /* internal address record */
 typedef struct _st_addr {
-    short zone, net, node, point;
+    INT16 zone, net, node, point;
 } st_addr;
 
 /* link stats data */
 typedef struct _stat_link {
     st_addr addr;
-    long in, out, dupe, bad;
-    long inb, outb;
+    INT32 in, out, dupe, bad;
+    INT32 inb, outb;
 } stat_link;
 
 /* links chain record */
@@ -77,9 +77,9 @@ typedef struct  _chain_link{
 /* echo stats internal record */
 typedef struct _stat_echo { 
     struct _stat_echo *next;
-    short              links;
+    INT16              links;
     chain_link        *chain;
-    short              tag_len;
+    INT16              tag_len;
     char              *tag;
 } stat_echo;
 
@@ -116,7 +116,7 @@ int acmp2(st_addr *a1, st_addr *a2)
     return 0;
 }
 
-void put_stat(s_area *echo, hs_addr *link, st_type type, long len)
+void put_stat(s_area *echo, hs_addr *link, st_type type, INT32 len)
 {
     stat_echo *cur = statecho, *prev = NULL, *me=NULL;
     chain_link *curl, *prevl;
