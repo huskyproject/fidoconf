@@ -1212,6 +1212,8 @@ int parseLink(char *token, s_fidoconfig *config)
       /*  set default maxUnpackedNetmail */
       clink->maxUnpackedNetmail = 100;
 
+      /*  set FileFixFSC87Subset default to on */
+      clink->FileFixFSC87Subset = 1;
    }
 
    clink->name = (char *) smalloc (strlen(token)+1);
@@ -3175,6 +3177,9 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
 
       /*  set defaults maxUnpackedNetmail */
       config->linkDefaults->maxUnpackedNetmail = 100;
+
+      /*  set FileFixFSC87Subset default to on */
+      clink->FileFixFSC87Subset = 1;
    }
 
    memset(&linkDefined, 0, sizeof(linkDefined));
