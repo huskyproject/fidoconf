@@ -1,4 +1,4 @@
-%define reldate 20140821
+%define reldate 20140708
 %define reltype C
 # may be one of: C (current), R (release), S (stable)
 
@@ -9,12 +9,17 @@ Group: Libraries/FTN
 Summary: Common FTN configuration library
 URL: http://husky.sf.net
 License: GPL
-Requires: perl >= 5.8.8, huskylib >= 1.9, smapi >= 2.5
+Requires: perl >= 5.8.8
+BuildRequires: huskylib >= 1.9, smapi >= 2.5
 Source: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 %description
 Common FTN configuration library for the Husky Project software.
+
+%package devel
+Group: Libraries/FTN/Development
+Summary: Development files for %{name}
 
 %prep
 %setup -q -n %{name}
@@ -36,4 +41,10 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%{_prefix}/*
+%{_bindir}/*
+%{_libdir}/*.so
+%{_libdir}/*.so.*
+
+%files devel
+%{_includedir}/%{name}/*
+%{_libdir}/*.a
