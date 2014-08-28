@@ -3179,7 +3179,7 @@ int parseLinkDefaults(char *token, s_fidoconfig *config)
       config->linkDefaults->maxUnpackedNetmail = 100;
 
       /*  set FileFixFSC87Subset default to on */
-      clink->FileFixFSC87Subset = 1;
+      config->linkDefaults->FileFixFSC87Subset = 1;
    }
 
    memset(&linkDefined, 0, sizeof(linkDefined));
