@@ -21,6 +21,9 @@ Common FTN configuration library for the Husky Project software.
 Group: Libraries/FTN/Development
 Summary: Development files for %{name}
 
+%description devel
+%summary
+
 %prep
 %setup -q -n %{name}
 
