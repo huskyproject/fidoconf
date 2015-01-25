@@ -1346,6 +1346,7 @@ int checkLogic(s_fidoconfig * config)
   s_link *link;
   s_area *area;
   register char *areaName;
+  char * passthrough = "passthrough";
 
   robotsarea_ok = config->robotsArea ? 0 : 1;
 
@@ -1429,6 +1430,27 @@ int checkLogic(s_fidoconfig * config)
       }
       else
         close(k);
+    }
+    /* Check for absence of passthrough token in autoCreateDefaults */
+    if(config->links[i]->areafix.autoCreateDefaults)
+    {
+      if(strstr(strlwr(config->links[i]->areafix.autoCreateDefaults), passthrough))
+      {
+        printf("ERROR: areafixAutoCreateDefaults for");
+        printAddr((&config->links[i]->hisAka));
+        printf("contains 'passthrough' keyword\n");
+        rc++;
+      }
+    }
+    if(config->links[i]->filefix.autoCreateDefaults)
+    {
+      if(strstr(strlwr(config->links[i]->filefix.autoCreateDefaults), passthrough))
+      {
+        printf("ERROR: filefixAutoCreateDefaults for");
+        printAddr((&config->links[i]->hisAka));
+        printf("contains 'passthrough' keyword\n");
+        rc++;
+      }
     }
   }
 

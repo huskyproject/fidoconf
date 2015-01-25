@@ -1125,13 +1125,16 @@ This statement can only be repeated for different links.
 @findex *AutoCreateDefaults
 @table @asis
 @item Syntax:
-@code{autoCreateDefaults <string>}
+@code{*autoCreateDefaults <string>}
 @item Example:
-@code{areafixAutoCreateDefaults -$m 200 -dupecheck move}
+@code{areafixAutoCreateDefaults -$m 200 -dupecheck move}@*
+@code{filefixAutoCreateDefaults -p 90}
 @end table
 
-Set defaults to autocreated areas. To create PASSTHROUGH areas you
-can add "passthrough" to @code{AutoCreateDefaults}.
+Set default options for autocreated echo or file areas. Please do not put
+any paths or @code{passthrough} keyword here, use @code{MsgBaseDir} or 
+@code{FileAreaBaseDir} for that globally or @code{LinkMsgBaseDir} and 
+@code{LinkFileBaseDir} for specific links.
 
 This statement can only be repeated for different links.
 
