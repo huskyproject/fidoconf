@@ -1136,6 +1136,11 @@ any paths or @code{passthrough} keyword here, use @code{MsgBaseDir} or
 @code{FileAreaBaseDir} for that globally or @code{LinkMsgBaseDir} and 
 @code{LinkFileBaseDir} for specific links.
 
+When an echo (or fileecho) is created, @code{EchoArea} (or @code{FileArea}) is written
+to the area declaration first, then areaname, then path to the area file or
+@code{passthrough}, then address of the uplink which creates the area and after
+that the options from @code{AutoCreateDefaults}.
+
 This statement can only be repeated for different links.
 
 @node ForwardRequests, *FwdDenyFile, *AutoCreateDefaults, link keywords
