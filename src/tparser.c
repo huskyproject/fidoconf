@@ -1524,7 +1524,6 @@ int checkLogic(s_fidoconfig * config)
           printAddr(area->useAka);
           printf
               (" used in this echo! Echo loop or seen-by lock is possible.\n");
-          rc++;
         }
       }
     }
