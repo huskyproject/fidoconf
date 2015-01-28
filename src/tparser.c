@@ -48,6 +48,7 @@
 
 #define DLLIMPORT
 #include <huskylib/huskyext.h>
+#include <huskylib/strext.h>
 #include <smapi/msgapi.h>
 
 
@@ -1434,7 +1435,7 @@ int checkLogic(s_fidoconfig * config)
     /* Check for absence of passthrough token in autoCreateDefaults */
     if(config->links[i]->areafix.autoCreateDefaults)
     {
-      if(strstr(strlwr(config->links[i]->areafix.autoCreateDefaults), passthrough))
+      if(strstr(strLower(config->links[i]->areafix.autoCreateDefaults), passthrough))
       {
         printf("ERROR: areafixAutoCreateDefaults for");
         printAddr((&config->links[i]->hisAka));
@@ -1444,7 +1445,7 @@ int checkLogic(s_fidoconfig * config)
     }
     if(config->links[i]->filefix.autoCreateDefaults)
     {
-      if(strstr(strlwr(config->links[i]->filefix.autoCreateDefaults), passthrough))
+      if(strstr(strLower(config->links[i]->filefix.autoCreateDefaults), passthrough))
       {
         printf("ERROR: filefixAutoCreateDefaults for");
         printAddr((&config->links[i]->hisAka));
