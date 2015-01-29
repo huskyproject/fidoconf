@@ -25,6 +25,8 @@ Copyright @copyright{} 1998-2007 Husky Development Team
 
 @end titlepage
 
+@contents
+
 @c @ifinfo
 
 @dircategory Fidonet Software
@@ -33,7 +35,7 @@ Copyright @copyright{} 1998-2007 Husky Development Team
 @end direntry
 
 @node Top, design goals, (dir), (dir)
-@top fidoconfig
+@top
 
 This document describes the use of fidoconfig to make fido work on your
 favorite platform.
