@@ -65,7 +65,7 @@ ourAka 2:2432/645
 Password xxxxxxxxx
 EchoMailFlavour Crash
 AutoAreaCreate on
-AutoAreaCreateDefaults -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 AutoFileCreate on
 forwardRequests on
 Packer zip
@@ -77,7 +77,7 @@ password xxxxxxxx
 EchoMailFlavour Crash
 AutoAreaCreate on
 AutoFileCreate on
-AutoAreaCreateDefaults -a 44:4932/110 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 44:4932/110 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 Packer zip
 
 Link Carsten Ellermann
@@ -85,7 +85,7 @@ Aka 2:2432/215
 ourAka 2:2432/645
 password xxxxxxx
 autoAreaCreate on
-AutoAreaCreateDefaults -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 autoFileCreate on
 
 Link Matthias Tichy
@@ -93,7 +93,7 @@ Aka 2:2432/646
 ourAka 2:2432/645
 Password xxxxxxxx
 autoAreaCreate on
-AutoAreaCreateDefaults -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 forwardPkts on
 
 Link Matthias Tichy
@@ -101,7 +101,7 @@ Aka 21:499/980
 ourAka 21:499/976
 Password xxxxxxx
 autoAreaCreate on
-AutoAreaCreateDefaults -a 21:499/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 21:499/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 forwardPkts on
 
 Link Matthias Tichy
@@ -109,7 +109,7 @@ Aka 49:199/980
 ourAka 49:199/976
 Password xxxxxxxx
 autoAreaCreate on
-AutoAreaCreateDefaults -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 49:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 forwardPkts on
 
 Link Matthias Tichy
@@ -117,7 +117,7 @@ Aka 54:490/980
 ourAka 54:490/976
 Password xxxxxxx
 autoAreaCreate on
-AutoAreaCreateDefaults -a 54:490/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 54:490/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 forwardPkts on
 
 Link Matthias Tichy
@@ -125,7 +125,7 @@ Aka 64:199/980
 ourAka 64:199/976
 Password xxxxxxxx
 autoAreaCreate on
-AutoAreaCreateDefaults -a 64:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 64:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 forwardPkts on
 
 Link Matthias Tichy
@@ -133,7 +133,7 @@ Aka 530:199/980
 ourAka 530:199/976
 Password xxxxxxxx
 autoAreaCreate on
-AutoAreaCreateDefaults -a 530:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 530:199/976 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 forwardPkts on
 
 Link Matthias Born
@@ -169,7 +169,7 @@ password xxxxxxxxxxx
 packer zip
 EchoMailFlavour crash
 autoAreaCreate on
-AutoAreaCreateDefaults -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11
+areafixAutoCreateDefaults -a 2:2432/645 -b Squish -p 14 -dupeCheck move -dupeHistory 11
 
 ; +++ FREEPNT-MARKE +++
 
