@@ -125,7 +125,8 @@ typedef struct link_robot {
     unsigned int noRules;   /* don't send rules on subscribe */
     unsigned int autoCreate;/*  0 if not allowed for autoareacreate (was: autoAreaCreate) */
     char *autoCreateFile;  /*  file where autocreated areas are written to (was: autoAreaCreateFile) */
-    char *autoCreateDefaults;/*  add default string for autocreated area here (was: autoAreaCreateDefaults) */
+    char *autoCreateDefaults; /* add default string for autocreated area here (was: autoAreaCreateDefaults) */
+	unsigned int autoSubscribe; /* 0 if the link is not autosubscribed to an autocreated (file)echo */
     unsigned int forwardRequests; /*  0 if not allowed forward requests */
     char *name;       /* remote robot (was: RemoteRobotName) */
     unsigned int forwardPriority; /*  Priority when requests area from uplinks (was: forwardAreaPriority) */

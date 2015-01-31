@@ -300,7 +300,8 @@ enum {
     ID_DAILYBUNDLES,
     ID_REPORTREQUESTER,
     ID_RESCANLIMIT,
-    ID_LOGDATEFORMAT
+    ID_LOGDATEFORMAT,
+	ID_AUTOSUBSCRIBE
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -355,6 +356,7 @@ token_t parseline_tokens[] =
     { "autofilecreatesubdirs", ID_AUTOFILECREATESUBDIRS },
     { "autopassive", ID_AUTOPASSIVE },
     { "autopause", ID_AUTOPAUSE },
+	{ "autosubscribe", ID_AUTOSUBSCRIBE },
     { "availlist", ID_AVAILLIST },
     { "badarea", ID_BADAREA },
     { "badfilesdir", ID_BADFILESDIR },

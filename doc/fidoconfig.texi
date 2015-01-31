@@ -821,7 +821,8 @@ to which appropriate setting is applied or omitted to apply to all robots.
 * *AutoCreate::                 right to auto create areas on your system
 * *AutoCreateFile::             file where autocreated areas by this links are going
 * *AutoCreateDefaults::         set defaults to autocreated areas
-* ForwardRequests::             allow forward requests to this link
+* *AutoSubscribe::              automatically subscribe the link to autocreated areas
+* *ForwardRequests::            allow forward requests to this link
 * *FwdDenyFile::                file with area list for denyed requests
 * *FwdDenyMask::                mask list for denyed requests
 * *DenyFwdReqAccess::           deny access to forward requests
@@ -1125,7 +1126,7 @@ so these autocreated areas will be founded in subsequent tosser-runs.}
 
 This statement can only be repeated for different links.
 
-@node *AutoCreateDefaults, ForwardRequests, *AutoCreateFile, link keywords
+@node *AutoCreateDefaults, *AutoSubscribe, *AutoCreateFile, link keywords
 @subsection *AutoCreateDefaults
 @findex *AutoCreateDefaults
 @table @asis
@@ -1151,12 +1152,29 @@ override the options from the current @ref{EchoAreaDefaults} or
 
 This statement can only be repeated for different links.
 
-@node ForwardRequests, *FwdDenyFile, *AutoCreateDefaults, link keywords
-@subsection ForwardRequests
-@findex ForwardRequests
+@node *AutoSubscribe, *ForwardRequests, *AutoCreateDefaults, link keywords
+@subsection *AutoSubscribe
+@findex *AutoSubscribe
 @table @asis
 @item Syntax:
-@code{forwardRequests <bool>}
+@code{*AutoSubscribe <bool>}
+@item Example:
+@code{filefixAutoSubscribe on}
+@end table
+
+Automatically subscribe the link to all autocreated areas. On default it
+is off for all links. The value of @code{AutoSubscribe} does not influence
+already existing areas. If you want to subscribe a link to all existing
+areas in a group, use @ref{EchoAreaDefaults} or @ref{fileAreaDefaults,,,htick}.
+
+This statement can only be repeated for different links.
+
+@node *ForwardRequests, *FwdDenyFile, *AutoSubscribe, link keywords
+@subsection *ForwardRequests
+@findex *ForwardRequests
+@table @asis
+@item Syntax:
+@code{*forwardRequests <bool>}
 @item Example:
 @code{forwardRequests on}
 @end table
@@ -1171,7 +1189,7 @@ This statement can only be repeated for different links.
 
 @xref{LinkGrp}.
 
-@node *FwdDenyFile, *FwdDenyMask, ForwardRequests, link keywords
+@node *FwdDenyFile, *FwdDenyMask, *ForwardRequests, link keywords
 @subsection *FwdDenyFile
 @findex *FwdDenyFile
 @table @asis

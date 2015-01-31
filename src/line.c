@@ -4065,7 +4065,18 @@ int parseLine(char *line, s_fidoconfig *config)
                 rc = 1;
             }
             break;
-        case ID_DENYFWDREQACCESS:
+        case ID_AUTOSUBSCRIBE:
+            if( (clink = getDescrLink(config)) != NULL ) {
+                s = getRestOfLine();
+                if (link_robot & 1)
+                    rc = parseBool (s, &clink->areafix.autoSubscribe);
+                if (link_robot & 2)
+                    rc = parseBool (s, &clink->filefix.autoSubscribe);
+            } else {
+                rc = 1;
+            }
+            break;
+		case ID_DENYFWDREQACCESS:
             if( (clink = getDescrLink(config)) != NULL ) {
               s = getRestOfLine();
               if (link_robot & 1)

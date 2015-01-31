@@ -1020,6 +1020,10 @@ int printLink(ps_link link)
   if(link->areafix.autoCreateDefaults)
     printf("areafixAutoCreateDefaults: %s\n",
            link->areafix.autoCreateDefaults);
+  printf("Automatically subscribing this link to an autocreated echo is %s\n",
+         (link->areafix.autoSubscribe) ? "on" : "off");
+  printf("Automatically subscribing this link to an autocreated fileecho is %s\n",
+         (link->filefix.autoSubscribe) ? "on" : "off");
 
   printf("delNotReceivedTIC: %s\n", link->delNotReceivedTIC ? "on" : "off");
   printf("FileFixFSC87Subset %s\n",
