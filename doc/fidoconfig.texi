@@ -1629,7 +1629,9 @@ Remove specified seen-bys (done before -sbadd). Can be combined with -sbkeepAll.
 @item -sbkeep(<addr2D>,...)
 Keep specified seen-bys when zone-gating.
 @item -sbkeepAll
-Keep all seen-bys when zone-gating (prevails -sbkeep).
+Keep all seen-bys when zone-gating (prevails over -sbkeep).
+@item -nosbkeepAll
+Disable -sbkeepAll if enabled for example by @code{EchoAreaDefaults}.
 @item -tooOld <number of days>
 Move incoming echomail older than the given number of days to BadMail (0 = disabled).
 A value >= 90 is recommended! A too low value might cause severe trouble.
