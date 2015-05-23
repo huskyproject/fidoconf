@@ -22,6 +22,7 @@ Group: Libraries/FTN/Development
 Summary: Development files for %{name}
 
 %description devel
+Development files for configuration library of the Husky Project software.
 %summary
 
 %prep
@@ -45,8 +46,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %{_bindir}/*
-%{_libdir}/*.so
-%{_libdir}/*.so.*
 
 %files devel
 %{_includedir}/%{name}/*
