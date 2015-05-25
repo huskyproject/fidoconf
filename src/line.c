@@ -1261,28 +1261,6 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;
         }
     }
-    else if (strcmp(iOption, "fperm")==0) {
-        token = strtok(NULL, " \t");
-        if (token==NULL) {
-            prErr("Missing permission parameter!");
-            nfree(iOption);
-            return 1;
-        }
-        else
-        {
-            nfree(iOption);
-            return parseNumber(token, 8, &(area->fperm));
-        }
-    }
-    else if (strcmp(iOption, "fowner")==0) {
-        token = strtok(NULL, " \t");
-        if (token==NULL)
-            prErr("Missing ownership parameter!");
-        else {
-            nfree(iOption);
-            return parseOwner(token, &(area->uid), &(area->gid));
-        }
-    }
     else if (strncmp(iOption, "sbadd(", 6)==0) {
         if( area->areaType == ECHOAREA ) {
             parseSeenBy2D(iOption,&(area->sbadd),&(area->sbaddCount));
