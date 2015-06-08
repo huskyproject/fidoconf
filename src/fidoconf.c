@@ -419,7 +419,7 @@ void processPermissions(s_fidoconfig *config)
 {
     if      (theApp.module == M_HPT || theApp.module == M_TPARSER)
         processAreaPermissions(config, config->echoAreas, config->echoAreaCount);
-    else if (theApp.module == M_HTICK || theApp.module == M_TPARSER)
+    if (theApp.module == M_HTICK || theApp.module == M_TPARSER)
         processAreaPermissions(config, config->fileAreas, config->fileAreaCount);
 }
 
