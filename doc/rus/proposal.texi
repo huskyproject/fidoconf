@@ -78,8 +78,7 @@ export FIDOCONFIG
 может быть установлено в "1", "0", "yes", "no", "on", "off", а также без
 параметров (это означает "on").
 @item <addr>
-адресная строка вида zone:net/node[.point][@@domain]
-@item
+адресная строка вида zone:net/node[.point][@@domain]@*
 пример: @code{2:5000/117}
 @item <file>
 имя файла. путь может быть опущен.
@@ -154,9 +153,9 @@ Name Power Station under `uname -mrs`
 @end example
 
 Список доступных команд:
-@table @asis
+@example
 set, if, if not, else, elseif, ifdef, ifndef, endif.
-@end table
+@end example
 
 Вы можете сравнивать с шаблоном, используя =~ и !~ вместо == и !=:
 @example
