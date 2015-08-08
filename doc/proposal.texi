@@ -78,8 +78,7 @@ text string, optionally can be quoted.
 may be set to "1", "0", "yes", "no", "on", "off", and also without
 parameters (it means "on").
 @item <addr>
-address string like zone:net/node[.point][@@domain]
-@item
+address string like zone:net/node[.point][@@domain]@*
 example: @code{2:5000/117}
 @item <file>
 file name. path can be omitted.
@@ -154,9 +153,9 @@ Name Power Station under `uname -mrs`
 @end example
 
 List of the additional commands:
-@table @asis
+@example
 set, if, if not, else, elseif, ifdef, ifndef, endif.
-@end table
+@end example
 
 You can compare with a pattern by using =~ and !~ instead of == and !=:
 @example

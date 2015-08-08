@@ -192,7 +192,7 @@ found error in config please correct your config file and try again.
 
 @table @asis
 @item Syntax:
-@command{tparser [-h|@minus{-help}] [-Dvar=value] [-E] [-P] [/path/to/config/file]}
+@command{tparser [-h|@minus{}-help] [-Dvar=value] [-E] [-P] [/path/to/config/file]}
 @item Example:
 @example
 @command{tparser -Dmodule=hpt | less}
@@ -205,7 +205,7 @@ config settings. It will grumble on every Keyword it does not know. It will
 stop after the first error (not warning) to give you the ability to change
 your config.
 
-@subsection Options
+@section Options
 
 @table @asis
 @item -Dvar=value
@@ -213,7 +213,7 @@ Set the config variable @code{var} to @code{value}.
 @item -E
 Dumps config into stdout (all config variables expanded).
 @item -h
-@itemx @minus{-help}
+@itemx @minus{}-help
 Display usage information.
 @item -P
 Try to create non-existing directories.
