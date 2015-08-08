@@ -108,7 +108,7 @@ fconf2aquaed ~/aquaed/aquaed.cfg
 
 @table @asis
 @item Синтаксис:
-@command{tparser [-h|@minus{-help}] [-Dvar=value] [-E] [-P] [/path/to/config/file]}
+@command{tparser [-h|@minus{}-help] [-Dvar=value] [-E] [-P] [/path/to/config/file]}
 @item Пример:
 @example
 @command{tparser -Dmodule=hpt | less}
@@ -121,7 +121,7 @@ tparser (как и любая программа fidoconfig) выведет сообщение об ошибке, если вы
 он не знает. Он остановится после первой же ошибки (не предупреждения), чтобы
 дать вам возможность изменить конфиг.
 
-@subsection Options
+@section Options
 
 @table @asis
 @item -Dvar=value
@@ -129,7 +129,7 @@ tparser (как и любая программа fidoconfig) выведет сообщение об ошибке, если вы
 @item -E
 Вывести конфиг на stdout (раскрываются все переменные).
 @item -h
-@itemx @minus{-help}
+@itemx @minus{}-help
 Вывести информацию по использованию.
 @item -P
 Попытаться создать еще не существующие директории.

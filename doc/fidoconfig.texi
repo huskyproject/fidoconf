@@ -6,12 +6,12 @@
 @setchapternewpage odd
 @c %**end of header
 
-@ifinfo
+@copying
 This file documents fidoconfig.
 
-Copyright 1998-2007 Husky Development Team
+Copyright 1998-2015 Husky Development Team
 
-@end ifinfo
+@end copying
 
 @titlepage
 @title FidoConfig Manual
@@ -25,8 +25,6 @@ Copyright @copyright{} 1998-2007 Husky Development Team
 
 @end titlepage
 
-@contents
-
 @c @ifinfo
 
 @dircategory Fidonet Software
@@ -35,7 +33,7 @@ Copyright @copyright{} 1998-2007 Husky Development Team
 @end direntry
 
 @node Top, design goals, (dir), (dir)
-@top
+@top fidoconfig
 
 This document describes the use of fidoconfig to make fido work on your
 favorite platform.
@@ -821,8 +819,7 @@ to which appropriate setting is applied or omitted to apply to all robots.
 * *AutoCreate::                 right to auto create areas on your system
 * *AutoCreateFile::             file where autocreated areas by this links are going
 * *AutoCreateDefaults::         set defaults to autocreated areas
-* *AutoSubscribe::              automatically subscribe the link to autocreated areas
-* *ForwardRequests::            allow forward requests to this link
+* ForwardRequests::             allow forward requests to this link
 * *FwdDenyFile::                file with area list for denyed requests
 * *FwdDenyMask::                mask list for denyed requests
 * *DenyFwdReqAccess::           deny access to forward requests
@@ -836,7 +833,7 @@ to which appropriate setting is applied or omitted to apply to all robots.
 * Import::                      rules for echomail import
 * OptGrp::                      groups for export/import/mandatory
 * AccessGrp::                   groups for echomail access
-* LinkGrp::                     add this group to autoCreateDefaults
+* LinkGrp::                     add this group to autoareacreatedefaults
 * Mandatory::                   disable unsubscribing from all echoareas
 * Manual::                      disable subscribing to all echoareas
 * Level::                       definition of link access level
@@ -1090,18 +1087,15 @@ This statement can only be repeated for different links.
 @code{areafixAutoCreate on}
 @end table
 
-This statement gives a link the permission to create echoareas on your system just
-by sending messages in them and fileareas by sending files in the areas.
-
+This statement gives a link the permission to create areas on your system just
+by sending in them.
 The echoareas are created using the @code{areafixAutoCreateDefaults} contents:
 @example
-   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaddr> -b Squish <areafixAutoCreateDefaults> <linkAddr>
+   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaddr> -b Squish <linkAddr> <autoAreaCreateDefaults>
 @end example
 
 Default message base type is Squish. But you can set "-b Jam" or "-b
-Msg" in @code{areafixAutoCreateDefaults}.
-
-Similar rules apply to creating fileareas.
+Msg" in @code{areafixAutoCreateDefaults}
 
 This statement can only be repeated for different links.
 
@@ -1126,7 +1120,7 @@ so these autocreated areas will be founded in subsequent tosser-runs.}
 
 This statement can only be repeated for different links.
 
-@node *AutoCreateDefaults, *AutoSubscribe, *AutoCreateFile, link keywords
+@node *AutoCreateDefaults, ForwardRequests, *AutoCreateFile, link keywords
 @subsection *AutoCreateDefaults
 @findex *AutoCreateDefaults
 @table @asis
@@ -1142,39 +1136,19 @@ any paths or @code{passthrough} keyword here, use @code{MsgBaseDir} or
 @code{FileAreaBaseDir} for that globally or @code{LinkMsgBaseDir} and 
 @code{LinkFileBaseDir} for specific links.
 
-When an echo (or fileecho) is created, @code{EchoArea} (or @code{FileArea})
-keyword is written to the area declaration first, then areaname, then path 
-to the area file (area directory for fileecho) or @code{passthrough} keyword,
-then the options from @code{AutoCreateDefaults} and after that the address 
-of the link creating the area. The options from @code{AutoCreateDefaults} 
-override the options from the current @ref{EchoAreaDefaults} or
-@ref{fileAreaDefaults,,,htick}.
+When an echo (or fileecho) is created, @code{EchoArea} (or @code{FileArea}) is written
+to the area declaration first, then areaname, then path to the area file or
+@code{passthrough}, then address of the uplink which creates the area and after
+that the options from @code{AutoCreateDefaults}.
 
 This statement can only be repeated for different links.
 
-@node *AutoSubscribe, *ForwardRequests, *AutoCreateDefaults, link keywords
-@subsection *AutoSubscribe
-@findex *AutoSubscribe
+@node ForwardRequests, *FwdDenyFile, *AutoCreateDefaults, link keywords
+@subsection ForwardRequests
+@findex ForwardRequests
 @table @asis
 @item Syntax:
-@code{*AutoSubscribe <bool>}
-@item Example:
-@code{filefixAutoSubscribe on}
-@end table
-
-Automatically subscribe the link to all autocreated areas. On default it
-is off for all links. The value of @code{AutoSubscribe} does not influence
-already existing areas. If you want to subscribe a link to all existing
-areas in a group, use @ref{EchoAreaDefaults} or @ref{fileAreaDefaults,,,htick}.
-
-This statement can only be repeated for different links.
-
-@node *ForwardRequests, *FwdDenyFile, *AutoSubscribe, link keywords
-@subsection *ForwardRequests
-@findex *ForwardRequests
-@table @asis
-@item Syntax:
-@code{*forwardRequests <bool>}
+@code{forwardRequests <bool>}
 @item Example:
 @code{forwardRequests on}
 @end table
@@ -1189,7 +1163,7 @@ This statement can only be repeated for different links.
 
 @xref{LinkGrp}.
 
-@node *FwdDenyFile, *FwdDenyMask, *ForwardRequests, link keywords
+@node *FwdDenyFile, *FwdDenyMask, ForwardRequests, link keywords
 @subsection *FwdDenyFile
 @findex *FwdDenyFile
 @table @asis
@@ -1409,12 +1383,12 @@ This statement can only be repeated for different links.
 Specifies a group to use for areas auto-created from this link. Also link
 can delete echo areas in his @code{LinkGrp} group.
 
-In this example:
+In this exmaple:
 
 1) string @code{Fido} will be added to a new area record unless
-@code{areaixAutoCreateDefaults} defines an implicit group;
+@code{AutoAreaCreateDefaults} defines implicit group;
 
-2) links that have no access to the @code{Fido} group can't forward requests
+2) links that have no access to group @code{Fido} can't forward requests
 to uplink with @code{LinkGrp Fido};
 
 3) this link can delete echo areas with @code{-g Fido} group.
@@ -1629,9 +1603,7 @@ Remove specified seen-bys (done before -sbadd). Can be combined with -sbkeepAll.
 @item -sbkeep(<addr2D>,...)
 Keep specified seen-bys when zone-gating.
 @item -sbkeepAll
-Keep all seen-bys when zone-gating (prevails over -sbkeep).
-@item -nosbkeepAll
-Disable -sbkeepAll if enabled for example by @code{EchoAreaDefaults}.
+Keep all seen-bys when zone-gating (prevails -sbkeep).
 @item -tooOld <number of days>
 Move incoming echomail older than the given number of days to BadMail (0 = disabled).
 A value >= 90 is recommended! A too low value might cause severe trouble.
@@ -1641,7 +1613,7 @@ Default read-only: set link read-only at subscribing
 Default write-only: set link write-only at subscribing
 @end table
 
-(*) - these tokens to be removed from @code{areafixAutoCreateDefaults} when
+(*) - these tokens to be removed from @code{AutoAreaCreateDefaults} when
 creating passthrough areas.
 
 LinkOptions:
@@ -1990,14 +1962,14 @@ This statement can be repeated.
 @findex CreateAddUplink
 @table @asis
 @item Syntax:
-@code{createAddUplink [<bool>]}
+@code{createAddUplink <bool>}
 @item Example:
 @code{createAddUplink}
 @end table
 
 If enabled, the link from which an area is auto-created is marked as
-the default uplink for this area. It is turned off by default. Please note
-that you cannot use autoCreateDefaults for that.
+the default uplink for this area. By default, turned off. Note that you
+can set similar behaviour via autoAreaCreateDefaults for the link.
 
 This statement cannot be repeated.
 
@@ -2347,10 +2319,8 @@ dead. Each line of this file is a mask of echotag.
 
 Example:
 @table @asis
-@item
 @item RU.LIST.CITYCAT.*
 @item SU.KASCHENKO.LOCAL
-@item
 @end table
 
 This statement cannot be repeated.
@@ -2576,7 +2546,7 @@ found error in config please correct your config file and try again.
 
 @table @asis
 @item Syntax:
-@command{tparser [-h|@minus{-help}] [-Dvar=value] [-E] [-P] [/path/to/config/file]}
+@command{tparser [-h|@minus{}-help] [-Dvar=value] [-E] [-P] [/path/to/config/file]}
 @item Example:
 @example
 @command{tparser -Dmodule=hpt | less}
@@ -2589,7 +2559,7 @@ config settings. It will grumble on every Keyword it does not know. It will
 stop after the first error (not warning) to give you the ability to change
 your config.
 
-@subsection Options
+@section Options
 
 @table @asis
 @item -Dvar=value
@@ -2597,7 +2567,7 @@ Set the config variable @code{var} to @code{value}.
 @item -E
 Dumps config into stdout (all config variables expanded).
 @item -h
-@itemx @minus{-help}
+@itemx @minus{}-help
 Display usage information.
 @item -P
 Try to create non-existing directories.
