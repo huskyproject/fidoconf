@@ -1893,7 +1893,7 @@ static int dumpcfg(char *fileName)
   }
 
   close_conf();
-  nfree(fileName);
+  /* nfree(fileName); */
   return 0;
 }
 
