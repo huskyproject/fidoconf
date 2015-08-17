@@ -25,6 +25,8 @@ Copyright @copyright{} 1998-2007 Husky Development Team
 
 @end titlepage
 
+@contents
+
 @c @ifinfo
 
 @dircategory Fidonet Software
@@ -819,7 +821,8 @@ to which appropriate setting is applied or omitted to apply to all robots.
 * *AutoCreate::                 right to auto create areas on your system
 * *AutoCreateFile::             file where autocreated areas by this links are going
 * *AutoCreateDefaults::         set defaults to autocreated areas
-* ForwardRequests::             allow forward requests to this link
+* *AutoSubscribe::              automatically subscribe the link to autocreated areas
+* *ForwardRequests::            allow forward requests to this link
 * *FwdDenyFile::                file with area list for denyed requests
 * *FwdDenyMask::                mask list for denyed requests
 * *DenyFwdReqAccess::           deny access to forward requests
@@ -833,7 +836,7 @@ to which appropriate setting is applied or omitted to apply to all robots.
 * Import::                      rules for echomail import
 * OptGrp::                      groups for export/import/mandatory
 * AccessGrp::                   groups for echomail access
-* LinkGrp::                     add this group to autoareacreatedefaults
+* LinkGrp::                     add this group to autoCreateDefaults
 * Mandatory::                   disable unsubscribing from all echoareas
 * Manual::                      disable subscribing to all echoareas
 * Level::                       definition of link access level
@@ -1087,15 +1090,18 @@ This statement can only be repeated for different links.
 @code{areafixAutoCreate on}
 @end table
 
-This statement gives a link the permission to create areas on your system just
-by sending in them.
+This statement gives a link the permission to create echoareas on your system just
+by sending messages in them and fileareas by sending files in the areas.
+
 The echoareas are created using the @code{areafixAutoCreateDefaults} contents:
 @example
-   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaddr> -b Squish <linkAddr> <autoAreaCreateDefaults>
+   EchoArea <areaName> <msgBaseDir><areaName> -a <mypktaddr> -b Squish <areafixAutoCreateDefaults> <linkAddr>
 @end example
 
 Default message base type is Squish. But you can set "-b Jam" or "-b
-Msg" in @code{areafixAutoCreateDefaults}
+Msg" in @code{areafixAutoCreateDefaults}.
+
+Similar rules apply to creating fileareas.
 
 This statement can only be repeated for different links.
 
@@ -1120,7 +1126,7 @@ so these autocreated areas will be founded in subsequent tosser-runs.}
 
 This statement can only be repeated for different links.
 
-@node *AutoCreateDefaults, ForwardRequests, *AutoCreateFile, link keywords
+@node *AutoCreateDefaults, *AutoSubscribe, *AutoCreateFile, link keywords
 @subsection *AutoCreateDefaults
 @findex *AutoCreateDefaults
 @table @asis
@@ -1136,19 +1142,39 @@ any paths or @code{passthrough} keyword here, use @code{MsgBaseDir} or
 @code{FileAreaBaseDir} for that globally or @code{LinkMsgBaseDir} and 
 @code{LinkFileBaseDir} for specific links.
 
-When an echo (or fileecho) is created, @code{EchoArea} (or @code{FileArea}) is written
-to the area declaration first, then areaname, then path to the area file or
-@code{passthrough}, then address of the uplink which creates the area and after
-that the options from @code{AutoCreateDefaults}.
+When an echo (or fileecho) is created, @code{EchoArea} (or @code{FileArea})
+keyword is written to the area declaration first, then areaname, then path 
+to the area file (area directory for fileecho) or @code{passthrough} keyword,
+then the options from @code{AutoCreateDefaults} and after that the address 
+of the link creating the area. The options from @code{AutoCreateDefaults} 
+override the options from the current @ref{EchoAreaDefaults} or
+@ref{fileAreaDefaults,,,htick}.
 
 This statement can only be repeated for different links.
 
-@node ForwardRequests, *FwdDenyFile, *AutoCreateDefaults, link keywords
-@subsection ForwardRequests
-@findex ForwardRequests
+@node *AutoSubscribe, *ForwardRequests, *AutoCreateDefaults, link keywords
+@subsection *AutoSubscribe
+@findex *AutoSubscribe
 @table @asis
 @item Syntax:
-@code{forwardRequests <bool>}
+@code{*AutoSubscribe <bool>}
+@item Example:
+@code{filefixAutoSubscribe on}
+@end table
+
+Automatically subscribe the link to all autocreated areas. On default it
+is off for all links. The value of @code{AutoSubscribe} does not influence
+already existing areas. If you want to subscribe a link to all existing
+areas in a group, use @ref{EchoAreaDefaults} or @ref{fileAreaDefaults,,,htick}.
+
+This statement can only be repeated for different links.
+
+@node *ForwardRequests, *FwdDenyFile, *AutoSubscribe, link keywords
+@subsection *ForwardRequests
+@findex *ForwardRequests
+@table @asis
+@item Syntax:
+@code{*forwardRequests <bool>}
 @item Example:
 @code{forwardRequests on}
 @end table
@@ -1163,7 +1189,7 @@ This statement can only be repeated for different links.
 
 @xref{LinkGrp}.
 
-@node *FwdDenyFile, *FwdDenyMask, ForwardRequests, link keywords
+@node *FwdDenyFile, *FwdDenyMask, *ForwardRequests, link keywords
 @subsection *FwdDenyFile
 @findex *FwdDenyFile
 @table @asis
@@ -1383,12 +1409,12 @@ This statement can only be repeated for different links.
 Specifies a group to use for areas auto-created from this link. Also link
 can delete echo areas in his @code{LinkGrp} group.
 
-In this exmaple:
+In this example:
 
 1) string @code{Fido} will be added to a new area record unless
-@code{AutoAreaCreateDefaults} defines implicit group;
+@code{areaixAutoCreateDefaults} defines an implicit group;
 
-2) links that have no access to group @code{Fido} can't forward requests
+2) links that have no access to the @code{Fido} group can't forward requests
 to uplink with @code{LinkGrp Fido};
 
 3) this link can delete echo areas with @code{-g Fido} group.
@@ -1603,7 +1629,9 @@ Remove specified seen-bys (done before -sbadd). Can be combined with -sbkeepAll.
 @item -sbkeep(<addr2D>,...)
 Keep specified seen-bys when zone-gating.
 @item -sbkeepAll
-Keep all seen-bys when zone-gating (prevails -sbkeep).
+Keep all seen-bys when zone-gating (prevails over -sbkeep).
+@item -nosbkeepAll
+Disable -sbkeepAll if enabled for example by @code{EchoAreaDefaults}.
 @item -tooOld <number of days>
 Move incoming echomail older than the given number of days to BadMail (0 = disabled).
 A value >= 90 is recommended! A too low value might cause severe trouble.
@@ -1613,7 +1641,7 @@ Default read-only: set link read-only at subscribing
 Default write-only: set link write-only at subscribing
 @end table
 
-(*) - these tokens to be removed from @code{AutoAreaCreateDefaults} when
+(*) - these tokens to be removed from @code{areafixAutoCreateDefaults} when
 creating passthrough areas.
 
 LinkOptions:
@@ -1962,14 +1990,14 @@ This statement can be repeated.
 @findex CreateAddUplink
 @table @asis
 @item Syntax:
-@code{createAddUplink <bool>}
+@code{createAddUplink [<bool>]}
 @item Example:
 @code{createAddUplink}
 @end table
 
 If enabled, the link from which an area is auto-created is marked as
-the default uplink for this area. By default, turned off. Note that you
-can set similar behaviour via autoAreaCreateDefaults for the link.
+the default uplink for this area. It is turned off by default. Please note
+that you cannot use autoCreateDefaults for that.
 
 This statement cannot be repeated.
 
