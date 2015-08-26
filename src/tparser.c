@@ -377,8 +377,6 @@ const char *testAddr(ps_addr addr)
 {
   char *c;
 
-  printf("\n");
-
   if(!addr->zone && !addr->net && !addr->node)
   {
     return "Error: Invalid (zero) address\n";
