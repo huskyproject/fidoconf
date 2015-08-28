@@ -275,7 +275,7 @@ char **copyGroups(char **grps, int numGroups)
 
 /* 
  * Sic! All resources are freed including the link structure itself!
- * Never free it second time.
+ * Never free it for the second time.
  * Never use this function on static/automatic structures.
  */
 void freeLink (s_link *link)
@@ -524,7 +524,7 @@ int needUseFileBoxForLinkAka(ps_fidoconfig config, s_link *link, hs_addr *aka)
     if (fexist(bsyFile)) {
 	link->useFileBox = 2;
     } else {
-	/*  link is not busy, use outrbound */
+	/*  link is not busy, use outbound */
 	link->useFileBox = 1;
     }
 
@@ -559,8 +559,8 @@ char *makeFileBoxName (ps_fidoconfig config, s_link *link)
 }
 
 
-/*  Change file sufix (add if not present).
-    inc = 1 - increment suffix of file if new file exist;
+/*  Change file suffix (add if not present).
+    inc = 1 - increment file suffix if new file exists;
           rename file; return new file name or NULL; set errno
     inc = 0 - do not increment suffix, do not rename file, return new suffix only
     if 1st or 2nd parameter is NULL return NULL and set errno to EINVAL
@@ -618,7 +618,7 @@ char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
         }
         return newFileName;
     } else {
-        w_log(LL_ERR, "Could not change suffix for %s. File already there and the 255 files after", fileName);
+        w_log(LL_ERR, "Could not change suffix for %s. File is already there and the 255 files after it", fileName);
         nfree(newFileName);
         errno = EEXIST;
         return NULL;
@@ -632,9 +632,9 @@ Function: makeUniqueDosFileName
 OVERVIEW:
 
 The following function is used to create "unique" 8.3 filenames.  This is
-a major concerning when creating fidonet PKT files.  If you use this
+a major concern when creating fidonet PKT files.  If you use this
 function to create PKT filenames, and your node only runs programs that use
-the same revision of the fidoconfig library, it will be guranteed that your
+the same revision of the fidoconfig library, it will be guaranteed that your
 program will emit unique PKT filenames throughout the whole epoch (!), and
 in almost all cases you can also be sure that your packets will not have
 name clashes with packets from other nodes that run fidoconfig programs
@@ -646,8 +646,8 @@ CALLING:
 
 The function takes a directory name as argument (which is prepended to the
 generated file name, but has no further meaning), an extension (which again
-is appended to the gernated file name, but has no furhter meaning), and a
-fidoconfig structure.  The fidoconfig sturcture is used to create a basic
+is appended to the generated file name, but has no furhter meaning), and a
+fidoconfig structure.  The fidoconfig structure is used to create a basic
 offset number that distinguishes your node/point from another node/point.
 
 DETAILS:
@@ -664,7 +664,7 @@ The function guarantees to create
     programs that use that use the function run at the same time on your
     system, it will emit unique filenames during the whole epoch (!).
     That is, a Fidonet editor should NOT use this function (because a
-    editor usually runs parallel to the tossertask), while the tosser,
+    editor usually runs parallel to the tosser task), while the tosser,
     router, ticker, ... may safely use it as those programs usually run
     serialized.
   - If the primary AKA in the fidoconfig changes, the file names will
@@ -684,7 +684,7 @@ The alogrithm for creating pkt file names works as follows:
    done so that two systems which both run hpt create somewhat different
    PKT file name. The offset number is computed as follows:
 
-      We imagine the node numbe decomposed in its digits:
+      We imagine the node number decomposed in its digits:
          node  = node1000 * 1000 + node100 * 100 + node10 *10 + node1
       analoguous for the net number:
          net   = net1000 * 1000 + net100 * 100 + net10 * 10 + net1
@@ -724,7 +724,7 @@ The alogrithm for creating pkt file names works as follows:
 
  - Step 6: On subsequent calls of this routine, the counter value is
       increased by one. If it becomes greater than 35 it is wrapped to zero.
-      If all counter values have been used up (i.E. after the increasement
+      If all counter values have been used up (i.e. after incrementing
       and possibly wrapping the counter value is again the initial value),
       the base packet number is increased by one.
 
@@ -755,12 +755,12 @@ The result is:
     node will usually have different file names, and different nodes of the
     same hubs will usually have very different file names over a period
     of at least one day, and usually much more. There is no exact guarantee
-    that always two different nodes create different file names within this
+    that two different nodes always create different file names within this
     period, but the chances are high. (Note that any decent tosser should
     not have any problem with receving arcmail bundles from two different
     nodes that contain pkt files with the same name; however, Fastecho
     and probably others do have this problem unless the sysop installs
-    special scripts to circument it, and this is why we do the whole shit
+    special scripts to circumvent it, and this is why we do the whole shit
     of sender specific offset numbers ...)
 
   - Remark: This code requires sizeof(unsinged long) >= 4. This is true
@@ -981,7 +981,7 @@ s_robot *getRobot(ps_fidoconfig config, char *name, int create)
 
 s_message *remove_kludges(s_message *msg)
 {
-    /*  remove kluges from message text
+    /*  remove kludges from message text
         msg->text to reallocated
     */
     char *token=NULL, *textBuff = NULL;

@@ -99,7 +99,7 @@ int testConfig(s_fidoconfig * config)
   }
   if(!config->localInbound)
   {
-    printf("Warning:  localInbound not defined. The statement \"localInbound\" don't required but it is recommended.\n");
+    printf("Warning:  localInbound not defined. The statement \"localInbound\" is not required but recommended.\n");
   }
   if(!config->tempInbound)
   {
@@ -131,7 +131,7 @@ int testConfig(s_fidoconfig * config)
   }
   else if(config->dupeArea.fileName == NULL)
   {
-    printf("DupeArea can not be passthrough!\n");
+    printf("DupeArea cannot be passthrough!\n");
     rc = 1;
   }
   if(config->badArea.areaName == NULL)
@@ -141,7 +141,7 @@ int testConfig(s_fidoconfig * config)
   }
   else if(config->badArea.fileName == NULL)
   {
-    printf("BadArea can not be passthrough!\n");
+    printf("BadArea cannot be passthrough!\n");
     rc = 1;
   }
 
@@ -165,12 +165,12 @@ int testpath(const char *s, const char *t1, const char *t2, const char *t3)
     "|",
     NULL
   };
-  /* list of reasons correspondings previous */
+  /* list of reasons corresponding to the previous list */
   static char *reasons[] = { "relative path",
     "relative path",
-    "output redirect chars not allowed in path name",
-    "input redirect chars not allowed in path name",
-    "in/out pipe char not allowed in path name",
+    "'redirect to' symbol is not allowed in a path name",
+    "'redirect from' symbol is not allowed in a path name",
+    "pipe symbol is not allowed in a path name",
     NULL
   };
 
@@ -197,7 +197,7 @@ int testpath(const char *s, const char *t1, const char *t2, const char *t3)
   return rc;
 }
 
-/* check to plain file name accuracy */
+/* check for correctness of a plain file name */
 int testplainfile(const char *s, const char *t1, const char *t2,
                   const char *t3)
 {
@@ -213,7 +213,7 @@ int testplainfile(const char *s, const char *t1, const char *t2,
   return 0;
 }
 
-/* check to file names and paths accuracy. Return zero if success. */
+/* check for correctness of file names and paths. Return zero if success. */
 int testPathsAndFiles()
 {
   int rc = 0;
@@ -260,7 +260,7 @@ int testPathsAndFiles()
   /* extension = file name suffix test as file name */
   rc += testplainfile(config->tossingExt, "tossingExt", NULL, NULL);
 
-  /* checks area pathes */
+  /* checks area paths */
   rc += testpath(config->dupeArea.fileName, "Dupearea filename", NULL, NULL);
   rc += testpath(config->badArea.fileName, "Badarea filename", NULL, NULL);
 
@@ -501,7 +501,7 @@ void printArea(s_area area)
   if(area.nopack)
   {
     printf
-        ("Purge never (option \"-nopack\") (ignoring: max (-$m): %u msgs\tpurge (-p): %u days)\tdupeHistory %u\n",
+        ("Never purge (option \"-nopack\") (ignoring: max (-$m): %u msgs\tpurge (-p): %u days)\tdupeHistory %u\n",
          area.max, area.purge, area.dupeHistory);
   }
   else
@@ -953,13 +953,13 @@ int printLink(ps_link link)
   }
 
   if((link->Pause & ECHOAREA) == ECHOAREA)
-    printf("Link in paused for echoes, no export\n");
+    printf("Link is paused for echoes, no export\n");
 
   if((link->Pause & FILEAREA) == FILEAREA)
-    printf("Link in paused for fileEchoes, no export\n");
+    printf("Link is paused for fileEchoes, no export\n");
 
   if(link->autoPause)
-    printf("AutoPause over %u days\n", link->autoPause);
+    printf("AutoPause after %u days\n", link->autoPause);
   if(link->numOptGrp > 0)
   {
     printf("OptGrp       ");
@@ -1209,7 +1209,7 @@ int printLink(ps_link link)
       break;
     default:
       printf
-          ("Warning: linkBundleNameStyle is UNKNOWN! Update tparser please!\n");
+          ("Warning: linkBundleNameStyle is UNKNOWN! Update tparser, please!\n");
       break;
   }
   printf("arcNetmail %s\n", (link->arcNetmail) ? "on" : "off");
@@ -1346,7 +1346,7 @@ int checkLogic(s_fidoconfig * config)
       if(config->robot[j]->queueFile != NULL &&
          stricmp(config->robot[i]->queueFile, config->robot[j]->queueFile) == 0)
       {
-        printf("Error: robots %s and %s use the same queueFile %s, should not!\n",
+        printf("Error: robots %s and %s use the same queueFile %s, but they should not!\n",
            config->robot[i]->name, config->robot[j]->name, config->robot[i]->queueFile);
         rc++;
       }
@@ -1656,11 +1656,11 @@ int checkLogic(s_fidoconfig * config)
         if ( (aroute->id==id_route || config->route[i].id==id_route || aroute->id==config->route[i].id)
            && (stricmp(aroute->pattern,config->route[i].pattern)==0) ) {
           if (aroute->id==config->route[i].id) {
-            printf( "Warning! Duplicated route%s%s %s via ",
+            printf( "Warning! Duplicate route%s%s %s via ",
                     aroute->id==id_routeMail?"mail":"",
                     aroute->id==id_routeFile?"file":"", aroute->pattern);
           } else {
-            printf( "Warning! Duplicated route%s%s and route%s%s %s via ",
+            printf( "Warning! Duplicate route%s%s and route%s%s %s via ",
                     aroute->id==id_routeMail?"mail":"",
                     aroute->id==id_routeFile?"file":"",
                     config->route[i].id==id_routeMail?"mail":"",
@@ -1899,7 +1899,13 @@ void usage()
 {
   printf("\tParses Fidoconfig, checks your Fidoconfig for errors and gives ");
   printf("you some\n\thints to solve the problems.\n\n");
-  printf("run: tparser [-Dvar=value] [-E] [-P] [/path/to/config/file]\n");
+  printf("run: tparser [-h|--help] [-Dvar=value] [-E] [-P] [/path/to/config/file]\n");
+  printf("\tOptions:\n");
+  printf("-h\tDisplay this help\n");
+  printf("--help\tDisplay this help\n");
+  printf("-Dvar=value\tSet the config variable 'var' to 'value'\n");
+  printf("-E\tDump config to stdout\n");
+  printf("-P\tTry to create non-existing directories\n");
   exit(0);
 }
 

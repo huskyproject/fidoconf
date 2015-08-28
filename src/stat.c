@@ -189,9 +189,9 @@ void upd_stat(char *file)
         return; 
     }
 #ifdef STAT_DEBUG
-    msg("Current statistic below");
+    msg("Current statistics below");
     debug_out(NULL);
-    msg("Cumulative statistic below");
+    msg("Cumulative statistics below");
 #endif
     /* read old base: hpt.sta */
     oldf = file;

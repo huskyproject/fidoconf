@@ -58,7 +58,7 @@
 
 #define setcond for (i=0, condition=1; i<=iflevel; condition=ifstack[i++].state && condition);
 
-#define DEFAULT_MODULE " " /* Default value if variable [module] is not sefined. This is needs for prevent warning about undefined [module] */
+#define DEFAULT_MODULE " " /* Default value if variable [module] is not defined. This is necessary to prevent warning about undefined [module] */
 
 static char *curconfname=NULL;
 static long curconfpos=0;
@@ -342,7 +342,7 @@ static short boolexpr(char *str)
         break;
   }
   if (*p1==0)
-  { fprintf(stderr, "Bad if expression in config %s, line %d: '%s'\n",
+  { fprintf(stderr, "Bad 'if' expression in config %s, line %d: '%s'\n",
             curconfname, actualLineNr, str);
     wasError = 1;
     return ret;
@@ -420,7 +420,7 @@ char *configline(void)
     if (strncasecmp(str, "elseif ", 7)==0 || strncasecmp(str, "elif ", 5) == 0)
     {
       if ((iflevel==-1) || ifstack[iflevel].inelse)
-      { fprintf(stderr, "Misplaces elseif in config %s line %d ignored!\n",
+      { fprintf(stderr, "Misplaced elseif in config %s line %d ignored!\n",
                 curconfname, actualLineNr);
         wasError = 1;
         continue;
@@ -436,7 +436,7 @@ char *configline(void)
     if (strncasecmp(str, "else", 4)==0)
     {
       if ((iflevel==-1) || ifstack[iflevel].inelse)
-      { fprintf(stderr, "Misplaces else in config %s line %d ignored!\n",
+      { fprintf(stderr, "Misplaced else in config %s line %d ignored!\n",
                 curconfname, actualLineNr);
         wasError = 1;
         continue;
@@ -518,11 +518,11 @@ char *configline(void)
     {
       for (p=str+11; isspace(*p); p++);
       if (!*p)
-      { printf("\"%s\", line %d: There is a comment character missing after CommentChar!\n", curconfname, actualLineNr);
+      { printf("\"%s\", line %d: a comment character after CommentChar is missing!\n", curconfname, actualLineNr);
         continue;
       }
       if (!strchr(TRUE_COMMENT, *p))
-      { printf("\"%s\", line %d: CommentChar - '%c' is not valid comment characters!\n", curconfname, actualLineNr, *p);
+      { printf("\"%s\", line %d: CommentChar - '%c' is not a valid comment character!\n", curconfname, actualLineNr, *p);
       } else
       { char buf2[2]="\0";
         buf2[0]=CommentChar;
@@ -549,7 +549,7 @@ void checkIncludeLogic(ps_fidoconfig config)
         }
         /*  if not found include file - return error */
         if (i==cfgNamesCount) {
-            printf("areafix autoCreateFile %s has never been included in config!\n",
+            printf("areafixAutoCreateFile %s has never been included in config!\n",
                 config->links[j]->areafix.autoCreateFile);
             exit(EX_CONFIG);
         }
@@ -562,7 +562,7 @@ void checkIncludeLogic(ps_fidoconfig config)
         }
         /*  if not found include file - return error */
         if (i==cfgNamesCount) {
-            printf("filefix autoCreateFile %s has never been included in config!\n",
+            printf("filefixAutoCreateFile %s has never been included in config!\n",
                 config->links[j]->filefix.autoCreateFile);
             exit(EX_CONFIG);
         }
@@ -572,7 +572,7 @@ void checkIncludeLogic(ps_fidoconfig config)
         for ( j = i+1; j < cfgNamesCount;  j++ )
             if (cmpfnames(cfgNames[i],cfgNames[j])==0)
             {
-                printf("File %s is included in config more then one time!\n",cfgNames[i]);
+                printf("File %s is included in config more than once!\n",cfgNames[i]);
                 exit(EX_CONFIG);
             }
 

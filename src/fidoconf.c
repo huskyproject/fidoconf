@@ -625,7 +625,7 @@ void freeSaveTic(s_savetic *savetic) {
         nfree(savetic->pathName);
 }
 
-/* Dispose fidoconfig structure: free memory.
+/* Dispose of fidoconfig structure: free memory.
  */
 void disposeConfig(s_fidoconfig *config)
 {

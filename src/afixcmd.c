@@ -329,11 +329,11 @@ int Changepause(char *confName, s_link *link, int opt, int type)
             opt ? "autopause" : "areafix", aka2str(link->hisAka));
     } else if(link->Pause == ECHOAREA) {
         if(InsertCfgLine(confName, "Pause Earea", strbeg, strend)) 
-            w_log('8', "%s: system %s set passive only for echos",
+            w_log('8', "%s: system %s set passive only for echoes",
             opt ? "autopause" : "areafix", aka2str(link->hisAka));
     } else {
         if(InsertCfgLine(confName, "Pause Farea", strbeg, strend)) 
-            w_log('8', "%s: system %s set passive only for file echos",
+            w_log('8', "%s: system %s set passive only for file echoes",
             opt ? "autopause" : "areafix", aka2str(link->hisAka));
     }
     nfree(confName);

@@ -1545,7 +1545,7 @@ purge after n days: used by purging utilities like sqpack (*); default value is 
 @item -$m <integer>
 leave max n messages after purge in area (*); default value is 0;
 @item -noPack
-do not purge or pack area (overwrites -p & -$m) (*)
+do not purge or pack area (overrides -p & -$m) (*)
 @item -pack
 enable purge or pack area (*) if echoareadefaults set @code{-noPack};
 @item -killRead
