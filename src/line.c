@@ -924,6 +924,40 @@ int parseAreaOption( s_fidoconfig *config, char *option, s_area *area)
             return 1;     /*  error */
         }
     }
+    else if (strcmp(iOption, "toonew")==0) {
+        if( area->areaType == ECHOAREA ) {
+            token = strtok(NULL, " \t");
+            if (token == NULL) {
+                prErr("A number after %s in areaOptions is missing!",iOption);
+                nfree(iOption);
+                return 1;
+            }
+            for (i=0; i<strlen(token); i++) {
+                if (isdigit(token[i]) == 0) break;
+            }
+            if (i != strlen(token)) {
+                prErr("The number after %s in areaOptions is wrong!",iOption);
+                nfree(iOption);
+                return 1;
+            }
+            il = strtol(token, &error, 0);
+            if ((error != NULL) && (*error != '\0')) {
+                prErr("The number after %s in areaOptions is wrong!",iOption);
+                nfree(iOption);
+                return 1;     /*  error occured; */
+            }
+            if (il<0) {
+                prErr("The number after %s in areaOptions is wrong (negative values not allowed)!",iOption);
+                nfree(iOption);
+                return 1;     /*  error occured; */
+            }
+            area->tooNew = (unsigned) il ;
+        }else{
+            prErr("Option '%s' is allowed for echoareas only!",iOption);
+            nfree(iOption);
+            return 1;     /*  error */
+        }
+    }
     else if (strcmp(iOption, "tinysb")==0) {
 
         if( area->areaType == ECHOAREA )  {

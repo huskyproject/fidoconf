@@ -599,6 +599,11 @@ void printArea(s_area area)
   if(area.tooOld == 0)
     printf(" (disabled)");
   printf("\n");
+  /* tooOld */
+  printf("tooNew: %u days", area.tooNew);
+  if(area.tooNew == 0)
+    printf(" (disabled)");
+  printf("\n");
 /* val: scan */
   printf("ScanMode: ");
   if(area.scanMode == smNever)

@@ -279,6 +279,8 @@ typedef struct area {
 
    unsigned int tooOld;       /* move incoming mail older than x days to BadArea */
                               /* 0 - disabled */
+   unsigned int tooNew;       /* move incoming mail newer than x days to Bad Area */
+                              /* 0 - disabled */
 
    char *group;                      /*  used by reader (and areafix soon) */
 
