@@ -1634,7 +1634,10 @@ Keep all seen-bys when zone-gating (prevails over -sbkeep).
 Disable -sbkeepAll if enabled for example by @code{EchoAreaDefaults}.
 @item -tooOld <number of days>
 Move incoming echomail older than the given number of days to BadMail (0 = disabled).
-A value >= 90 is recommended! A too low value might cause severe trouble.
+A value >= 90 is recommended! A value too low will filter legitimate traffic.
+@item -tooNew <number of days>
+Move incoming echomail newer than the given number of days to BadMail (0 = disabled).
+A value >= 30 is recommended! A value too low will filter legitimate traffic.
 @item -r
 Default read-only: set link read-only at subscribing
 @item -w
