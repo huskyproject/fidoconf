@@ -1,4 +1,4 @@
-%define reldate 20150903
+%define reldate 20160316
 %define reltype C
 # may be one of: C (current), R (release), S (stable)
 
@@ -17,12 +17,12 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-root
 %description
 Common FTN configuration library for the Husky Project software.
 
-%package devel
-Group: Libraries/FTN/Development
-Summary: Development files for %{name}
+%package utils
+Group: Libraries/FTN
+Summary: Utilities for %{name}
 
-%description devel
-Development files for configuration library of the Husky Project software.
+%description utils
+Utilities for configuration library of the Husky Project software.
 %summary
 
 %prep
@@ -44,9 +44,9 @@ rm -rf %{buildroot}
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root)
-%{_bindir}/*
-
-%files devel
 %{_includedir}/%{name}/*
 %{_libdir}/*.a
+
+%files utils
+%defattr(-,root,root)
+%{_bindir}/*
