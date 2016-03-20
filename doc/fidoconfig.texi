@@ -1082,12 +1082,13 @@ This statement can only be repeated for different links.
 
 @node *AutoCreate, *AutoCreateFile, packer, link keywords
 @subsection *AutoCreate
-@findex *AreaCreate
+@findex *AutoCreate
 @table @asis
 @item Syntax:
-@code{autocreate <bool>}
+@code{<robot name>autocreate <bool>}
 @item Example:
-@code{areafixAutoCreate on}
+@code{areafixAutoCreate on}@*
+@code{filefixAutoCreate on}
 @end table
 
 This statement gives a link the permission to create echoareas on your system just
@@ -1110,9 +1111,10 @@ This statement can only be repeated for different links.
 @findex *AutoCreateFile
 @table @asis
 @item Syntax:
-@code{autoCreateFile <file>}
+@code{<robot name>autoCreateFile <file>}
 @item Example:
-@code{areafixAutoCreateFile /etc/fido/areas.matthias}
+@code{areafixAutoCreateFile /etc/fido/areas.matthias}@*
+@code{filefixAutoCreateFile /etc/fido/fareas}
 @end table
 
 This statement defines where autocreated areas by this link are going to.
@@ -1131,7 +1133,7 @@ This statement can only be repeated for different links.
 @findex *AutoCreateDefaults
 @table @asis
 @item Syntax:
-@code{*autoCreateDefaults <string>}
+@code{<robot name>autoCreateDefaults <string>}
 @item Example:
 @code{areafixAutoCreateDefaults -$m 200 -dupecheck move}@*
 @code{filefixAutoCreateDefaults -p 90}
@@ -1157,8 +1159,9 @@ This statement can only be repeated for different links.
 @findex *AutoSubscribe
 @table @asis
 @item Syntax:
-@code{*AutoSubscribe <bool>}
+@code{<robot name>AutoSubscribe <bool>}
 @item Example:
+@code{areafixAutoSubscribe on}@*
 @code{filefixAutoSubscribe on}
 @end table
 
@@ -1174,14 +1177,15 @@ This statement can only be repeated for different links.
 @findex *ForwardRequests
 @table @asis
 @item Syntax:
-@code{*forwardRequests <bool>}
+@code{<robot name>forwardRequests <bool>}
 @item Example:
-@code{forwardRequests on}
+@code{areafixforwardRequests on}@*
+@code{filefixforwardRequests on}
 @end table
 
-By default "forwardRequests off". "On" allow forward requests to this
-link from other links. If no @code{forwardRequestFile} or
-@code{forwardRequestMask} defined, then forwardRequests unconditional.
+By default "forwardRequests" are off. "On" allows forward requests to this
+link from other links. If neither @code{forwardRequestFile} nor
+@code{forwardRequestMask} are defined, then requests will be forwarded unconditionally.
 
 @code{LinkGrp} can deny access to some links...
 
@@ -1194,9 +1198,10 @@ This statement can only be repeated for different links.
 @findex *FwdDenyFile
 @table @asis
 @item Syntax:
-@code{FwdDenyFile <file>}
+@code{<robot name>FwdDenyFile <file>}
 @item Example:
-@code{areafixFwdDenyFile /etc/fido/denyfwdafix}
+@code{areafixFwdDenyFile /etc/fido/denyfwdafix}@*
+@code{filefixFwdDenyFile /etc/fido/denyfwdffix}
 @end table
 
 Don't forward requests for areas from this file.
@@ -1209,12 +1214,13 @@ This statement can only be repeated for different links.
 @findex *FwdDenyMask
 @table @asis
 @item Syntax:
-@code{FwdDenyMask <string>[,<string> ...]}
+@code{<robot name>FwdDenyMask <string>[,<string> ...]}
 @item Example:
-@code{areafixFwdDenyMask TYT.*, *FLAME*}
+@code{areafixFwdDenyMask TYT.*, *FLAME*}@*
+@code{filefixFwdDenyMask RAIL*}
 @end table
 
-Don't forward this requests.
+Don't forward the requests matching the masks.
 
 This statement can only be repeated for different links.
 
@@ -1223,12 +1229,13 @@ This statement can only be repeated for different links.
 @findex *DenyFwdReqAccess
 @table @asis
 @item Syntax:
-@code{denyFwdReqAccess <bool>}
+@code{<robot name>denyFwdReqAccess <bool>}
 @item Example:
-@code{areafixDenyFwdReqAccess}
+@code{areafixDenyFwdReqAccess}@*
+@code{filefixDenyFwdReqAccess}
 @end table
 
-Don't allow forward requests from this link (via * robot) to your
+Don't allow forward requests from this link (via @verb{|<robot name>|}) to your
 links.
 
 This statement can only be repeated for different links.
@@ -1238,12 +1245,13 @@ This statement can only be repeated for different links.
 @findex *DenyUncondFwdReqAccess
 @table @asis
 @item Syntax:
-@code{denyUncondFwdReqAccess <bool>}
+@code{<robot name>denyUncondFwdReqAccess <bool>}
 @item Example:
-@code{areafixDenyUncondFwdReqAccess}
+@code{areafixDenyUncondFwdReqAccess}@*
+@code{filefixDenyUncondFwdReqAccess}
 @end table
 
-Don't allow unconditional forward requests from this link (via * robot)
+Don't allow unconditional forward requests from this link (via @verb{|<robot name>|})
 to your links.
 
 This statement can only be repeated for different links.
@@ -1253,15 +1261,16 @@ This statement can only be repeated for different links.
 @findex *FwdFile
 @table @asis
 @item Syntax:
-@code{FwdFile <file>}
+@code{<robot name>FwdFile <file>}
 @item Example:
-@code{FwdFile /etc/fido/fidonet.na}
+@code{areafixFwdFile /etc/fido/echo777.lst}@*
+@code{filefixFwdFile /etc/fido/fecho777.lst}
 @end table
 
-File for forward requests (also for available areas and descriptions).
-If file contains area descriptions they will be used when
-autocreating areas.
-If not defined then forward requests unconditional.
+The file contains a list of areas for which forward requests 
+to the link are possible. If the file contains area descriptions 
+they will be used when autocreating areas. If not defined then 
+forward requests will be unconditional.
 
 This statement can only be repeated for different links.
 
@@ -1270,15 +1279,16 @@ This statement can only be repeated for different links.
 @findex *FwdMask
 @table @asis
 @item Syntax:
-@code{FwdMask <string>[,<string> ...]}
+@code{<robot name>FwdMask <string>[,<string> ...]}
 @item Example:
-@code{*FwdMask nsk.*}
+@code{areafixFwdMask nsk.*}@*
+@code{filefixFwdMask book*}
 @end table
 
-If area nsk.* (nsk.test for example) will be requested by downlink and
-forwardrequests to uplink are allowed, then it is created and request
-goes to uplink. If area doesn't covered by mask list, then checks the
-next link for forwardRrequests.
+If area nsk.* (nsk.test for example) will be requested by a downlink and
+forward requests to the uplink are allowed, then it is created and request
+goes to uplink. If the area doesn't match to any mask in the list, then the
+next link is checked for a possibility of the forward request.
 
 This statement can only be repeated for different links.
 
@@ -1287,13 +1297,15 @@ This statement can only be repeated for different links.
 @findex *FwdPriority
 @table @asis
 @item Syntax:
-@code{FwdPriority <integer>}
+@code{<robot name>FwdPriority <integer>}
 @item Example:
-@code{areafixFwdPriority 1}
+@code{areafixFwdPriority 1}@*
+@code{filefixFwdPriority 5}
 @end table
 
-By default forward requests processing for links in order as they
-defined in config. But you can set priority for some links... "1" is the
+By default the robot (areafix or filefix) checks every link sequentially in the order
+the links are defined in config whether the request can be forwarded to the link. 
+But you can set a priority for some links... "1" is the 
 first link to forward requests, "2" is the second, etc.
 
 This statement can only be repeated for different links.
