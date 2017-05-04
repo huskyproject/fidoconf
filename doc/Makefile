@@ -13,7 +13,6 @@ all: html info dvi
 
 ifdef HTMLDIR
 html: fidoconfig.html fidoconfig.ru.html
-	-wget -O fastecho2fidoconfig.html "http://sourceforge.net/apps/mediawiki/husky/index.php?title=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0_fecfg2fconf&printable=yes"
 else
 html:
 	@echo
