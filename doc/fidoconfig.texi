@@ -1470,13 +1470,17 @@ This statement can only be repeated for different links.
 @findex Level
 @table @asis
 @item Syntax:
-@code{level <integer>}
+@code{level <non-negative integer>}
 @item Example:
 @code{level 200}
 @end table
 
-Access level. Used to control read/write access to areas.
-By default "level 0".
+An access level of a link to areas. By default it is "level 0". 
+Used to control the link's read/write access to areas. The value has no meaning 
+by itself but only in relation to echo or file echo options -lr and -lw. 
+@xref{EchoArea}. If, for example, you set @code{Level 35} for a link then 
+the link will have read access to all areas with @code{-lr} equal or less than @code{35} 
+and write access to all areas with @code{-lw} equal or less than @code{35}.
 
 This statement can only be repeated for different links.
 
@@ -1539,11 +1543,10 @@ Options:
 @table @asis
 @item -pass
 define area as passthrough even if msgbase type or filename is defined.
-@item -lr <integer>
-required level for read access (see also @code{Level} in link options);
-@code{integer} can't be negative;
-@item -lw <integer>
-required level for write access; @code{integer} can't be negative;
+@item -lr <non-negative integer>
+required level for a link to have read access to the area (@xref{Level} for an explanation);
+@item -lw <non-negative integer>
+required level for a link to have write access to the area (@xref{Level} for an explanation);
 @item -mandatory
 forbid to unsubscribe from this echo;
 @item -noMandatory
