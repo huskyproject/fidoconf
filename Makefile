@@ -5,7 +5,7 @@ else ifdef RPM_BUILD_ROOT
 # RPM build requires all files to be in the source directory
 include huskymak.cfg
 else
-include ../huskymak.cfg
+include ./huskymak.cfg
 endif
 
 ifndef ISOPT
