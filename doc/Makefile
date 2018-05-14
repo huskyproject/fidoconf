@@ -6,7 +6,7 @@ else ifdef RPM_BUILD_ROOT
 # For RPM build is require all files in one directory branch
 include ../huskymak.cfg
 else
-include ../../huskymak.cfg
+include ./../huskymak.cfg
 endif
 
 all: html info dvi
