@@ -49,7 +49,7 @@ Instruction to build fidoconfig
 
   $ mkdir build
   $ cd build
-  $ cmake ..
+  $ cmake .. -DCFGDIR=/path/to/config/dir
   $ cmake --build .
   $ make install
 
