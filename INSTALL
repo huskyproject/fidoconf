@@ -45,6 +45,17 @@ Instruction to build fidoconfig
    windows (MS Visual C/C++):
         d:\husky\fidoconfig>nmake -f makefile.mvc
 
+2.1. Compile with cmake:
+
+  $ mkdir build
+  $ cd build
+  $ cmake ..
+  $ cmake --build .
+  $ make install
+
+  make distrib rpm,deb,tgz:
+    cpack -G RPM, cpack -G DEB, cpack -G TGZ
+
 3. (For UNIXes only) Ensure /usr/local/lib/ is in /etc/ld.so.conf
 
 4. (For UNIXes only) Execute ldconfig as root
