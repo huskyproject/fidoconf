@@ -25,7 +25,8 @@ if (MSVC)
   endif(CMAKE_BUILD_TYPE MATCHES Debug)
 else ()
   include_directories("fidoconf")
-  ADD_DEFINITIONS(-Wall -DUNIX -DCFGDIR="/etc/ftn")
+  set(CFGDIR "/etc/ftn" CACHE STRING "CFGDIR")
+  ADD_DEFINITIONS(-Wall -DUNIX -DCFGDIR="${CFGDIR}")
 endif (MSVC)
 
 find_library(husky_LIB NAMES husky PATHS "${CMAKE_FIND_ROOT_PATH}")
@@ -38,6 +39,9 @@ message("Prefix            : ${CMAKE_INSTALL_PREFIX} (run \"cmake . -DCMAKE_INST
 message("libhusky          : ${husky_LIB}")
 message("libsmapi          : ${smapi_LIB}")
 message("Build type        : ${CMAKE_CONFIGURATION_TYPES}")
+if (NOT MSVC)
+  message("Config Dir        : ${CFGDIR}")
+endif (NOT MSVC)
 message("-------------------------")
 
 SET(fidoconf_SOURCES 
