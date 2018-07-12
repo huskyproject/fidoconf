@@ -1,6 +1,6 @@
 # FIDOCONFIG LIBRARY
 [![Build Status](https://travis-ci.org/huskyproject/fidoconf.svg?branch=master)](https://travis-ci.org/huskyproject/fidoconf)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/rmxqn7rmveb5am4i/branch/master?svg=true)](https://ci.appveyor.com/project/dukelsky/fidoconf/branch/master)
 
 Warning: see "LAST CHANGES" section in this file!
 
