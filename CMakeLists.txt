@@ -3,6 +3,7 @@ PROJECT(fidoconf C)
 set(fidoconf_VERSION 1.9.0)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+option(BUILD_SHARED_LIBS "Build shared libs" ON)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
   ADD_DEFINITIONS(-g -DDEBUG -D_DEBUG)
@@ -14,9 +15,12 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 
 
 if (MSVC)
+  if (BUILD_SHARED_LIBS)
+    ADD_DEFINITIONS(-D_DLL -D_MAKE_DLL)
+  endif()
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../out/lib")
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../out/bin")
-  ADD_DEFINITIONS(-DWIN32 -D_WINDOWS -D_DLL -D_CONSOLE -D_MAKE_DLL -D_CRT_SECURE_NO_WARNINGS)
+  ADD_DEFINITIONS(-DWIN32 -D_WINDOWS -D_CONSOLE -D_CRT_SECURE_NO_WARNINGS)
   include_directories("${CMAKE_CURRENT_SOURCE_DIR};${CMAKE_CURRENT_SOURCE_DIR}/fidoconf;${CMAKE_CURRENT_SOURCE_DIR}/../huskylib;${CMAKE_CURRENT_SOURCE_DIR}/../smapi")
   if(CMAKE_BUILD_TYPE MATCHES Debug)
     list( APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../out/lib/Debug" )
@@ -38,6 +42,7 @@ message("Compiler          : ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}"
 message("Prefix            : ${CMAKE_INSTALL_PREFIX} (run \"cmake . -DCMAKE_INSTALL_PREFIX:PATH=/other\" for other prefix)")
 message("libhusky          : ${husky_LIB}")
 message("libsmapi          : ${smapi_LIB}")
+message("Build shared      : ${BUILD_SHARED_LIBS}")
 message("Build type        : ${CMAKE_CONFIGURATION_TYPES}")
 if (NOT MSVC)
   message("Config Dir        : ${CFGDIR}")
@@ -85,7 +90,7 @@ SET(fidoconf_HEADERS
   fidoconf/version.h
 )
 
-ADD_LIBRARY(fidoconfig SHARED ${fidoconf_SOURCES})
+ADD_LIBRARY(fidoconfig ${fidoconf_SOURCES})
 ADD_EXECUTABLE(fc2binkd src/fc2binkd.c)
 ADD_EXECUTABLE(tparser src/tparser.c)
 ADD_EXECUTABLE(linked src/linked.c)
@@ -101,6 +106,7 @@ if (NOT MSVC)
   INSTALL(TARGETS fidoconfig fc2binkd tparser linked fc2ged
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
     PUBLIC_HEADER DESTINATION include/fidoconf
   )
   set(CPACK_GENERATOR ${CPACK_GENERATOR} TGZ)
