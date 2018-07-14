@@ -1,34 +1,59 @@
 language: c
 
-os:
-  - linux
-  - osx
 branches:
   only:
     - master
-compiler:
-  - gcc
-  - clang
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      sudo: false
+      language: c
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-8
+      env:
+        - MATRIX_EVAL="CC=gcc-8" CF=-DBUILD_SHARED_LIBS=OFF
+    - os: linux
+      sudo: false
+      language: c
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-8
+      env:
+        - MATRIX_EVAL="CC=gcc-8" CF=-DBUILD_SHARED_LIBS=ON
+    - os: osx
+      sudo: false
+      language: c
+      env:
+        - MATRIX_EVAL="CC=clang" CF=-DBUILD_SHARED_LIBS=ON
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y rpm; fi
   - git clone https://github.com/huskyproject/huskylib ~/build/huskyproject/huskylib
   - git clone https://github.com/huskyproject/smapi ~/build/huskyproject/smapi
 script:
+  - eval "${MATRIX_EVAL}"
   - cd  ~/build/huskyproject/huskylib
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. "${CF}"
   - cmake --build .
   - sudo make install
   - cd  ~/build/huskyproject/smapi
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. "${CF}"
   - cmake --build .
   - sudo make install
   - cd  $TRAVIS_BUILD_DIR
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. "${CF}"
   - cmake --build .
   - cpack
