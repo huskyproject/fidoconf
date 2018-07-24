@@ -9,7 +9,7 @@
 @copying
 This file documents fidoconfig.
 
-Copyright 1998-2015 Husky Development Team
+Copyright 1998-2018 Husky Development Team
 
 @end copying
 
@@ -21,7 +21,7 @@ Copyright 1998-2015 Husky Development Team
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2007 Husky Development Team
+Copyright @copyright{} 1998-2018 Husky Development Team
 
 @end titlepage
 
@@ -650,7 +650,7 @@ This statement cannot be repeated.
 @code{logEchoToScreen}
 @end table
 
-Enable or disable log messages screen output. See also @xref{ScreenLogLevels}.
+Enable or disable log messages screen output. See also @ref{ScreenLogLevels}.
 
 This statement cannot be repeated.
 
