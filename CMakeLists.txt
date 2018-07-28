@@ -103,6 +103,28 @@ target_link_libraries(fc2binkd fidoconfig ${husky_LIB} ${smapi_LIB})
 target_link_libraries(fc2ged fidoconfig ${husky_LIB} ${smapi_LIB})
 target_link_libraries(tparser fidoconfig ${husky_LIB} ${smapi_LIB})
 if (NOT MSVC)
+  include(GNUInstallDirs)
+  install(FILES "man/fconf2.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
+  install(FILES "man/linked.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
+  install(FILES "man/tparser.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
+  find_program(MAKEINFO
+    NAMES makeinfo
+    DOC "makeinfo tool"
+  )
+  if (MAKEINFO)
+    add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/fidoconfig.html
+      COMMAND makeinfo --force --html --no-split -o ${PROJECT_BINARY_DIR}/fidoconfig.html ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi
+      COMMENT "Creating documentation from ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi"
+    )
+    add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/fidoconfig.info
+      COMMAND makeinfo --force --no-split -o ${PROJECT_BINARY_DIR}/fidoconfig.info ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi
+      COMMENT "Creating documentation from ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi"
+    )
+    add_custom_target(docs DEPENDS ${PROJECT_BINARY_DIR}/fidoconfig.html ${PROJECT_BINARY_DIR}/fidoconfig.info)
+    install(FILES ${PROJECT_BINARY_DIR}/fidoconfig.html DESTINATION ${CMAKE_INSTALL_DOCDIR})
+    install(FILES ${PROJECT_BINARY_DIR}/fidoconfig.info DESTINATION ${CMAKE_INSTALL_INFODIR})
+    add_dependencies(fidoconfig docs)
+  endif()
   INSTALL(TARGETS fidoconfig fc2binkd tparser linked fc2ged
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
