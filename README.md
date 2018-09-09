@@ -1,6 +1,7 @@
 # FIDOCONFIG LIBRARY
 [![Build Status](https://travis-ci.org/huskyproject/fidoconf.svg?branch=master)](https://travis-ci.org/huskyproject/fidoconf)
 [![Build status](https://ci.appveyor.com/api/projects/status/rmxqn7rmveb5am4i/branch/master?svg=true)](https://ci.appveyor.com/project/dukelsky/fidoconf/branch/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c3df1b7e10c4ebfae005e60cf533fd5)](https://www.codacy.com/app/dukelsky/fidoconf?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=huskyproject/fidoconf&amp;utm_campaign=Badge_Grade)
 
 Warning: see "LAST CHANGES" section in this file!
 
