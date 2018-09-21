@@ -7,7 +7,7 @@ image:
 environment:
   matrix:
   - generator: Visual Studio 15 2017
-    cf: -DBUILD_SHARED_LIBS=OFF
+    cf: -DBUILD_SHARED_LIBS=OFF -T v141_xp
   - generator: Visual Studio 15 2017
     cf: -DBUILD_SHARED_LIBS=ON
   - generator: Visual Studio 15 2017 Win64
@@ -19,6 +19,6 @@ install:
   - cmd: git clone https://github.com/huskyproject/smapi  C:\projects\smapi
 build_script:
   - cmd: 
-      cd C:\projects\huskylib && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" "%CF%" && cmake --build . -- /P:Configuration=Release &&
-      cd C:\projects\smapi && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" "%CF%" && cmake --build . -- /P:Configuration=Release &&
-      cd C:\projects\fidoconf && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" "%CF%" && cmake --build . -- /P:Configuration=Release
+      cd C:\projects\huskylib && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" %CF% && cmake --build . -- /P:Configuration=Release &&
+      cd C:\projects\smapi && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" %CF% && cmake --build . -- /P:Configuration=Release &&
+      cd C:\projects\fidoconf && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" %CF% && cmake --build . -- /P:Configuration=Release

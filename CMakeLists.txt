@@ -17,6 +17,18 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 if (MSVC)
   if (BUILD_SHARED_LIBS)
     ADD_DEFINITIONS(-D_DLL -D_MAKE_DLL)
+  else()
+    set(CompilerFlags
+      CMAKE_CXX_FLAGS
+      CMAKE_CXX_FLAGS_DEBUG
+      CMAKE_CXX_FLAGS_RELEASE
+      CMAKE_C_FLAGS
+      CMAKE_C_FLAGS_DEBUG
+      CMAKE_C_FLAGS_RELEASE
+    )
+    foreach(CompilerFlag ${CompilerFlags})
+      string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+    endforeach()
   endif()
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../out/lib")
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../out/bin")
