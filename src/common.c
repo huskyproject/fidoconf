@@ -567,11 +567,13 @@ char *makeFileBoxName (ps_fidoconfig config, s_link *link)
 */
 char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
 
-    int  i;
+    int  i, rc;
     char buff[3];
     char *beginOfSuffix;
     char *newFileName=NULL;
     size_t  length;
+
+    struct stat file_stat;
 
     if(!(fileName && newSuffix)){
       w_log( LL_ERR, "changeFileSuffix() illegal call: %s parameter is NULL",
@@ -600,13 +602,29 @@ char *changeFileSuffix(char *fileName, char *newSuffix, int inc) {
     }
 
     beginOfSuffix = newFileName+length+1; /*last 2 chars*/
-    for (i=1; fexist(newFileName) && (i<255); i++) {
+    for (i=0; i <= 0xFF; i++)
+    {
 #ifdef HAS_snprintf
         snprintf(buff, sizeof(buff), "%02x", i);
 #else
         sprintf(buff, "%02x", i);
 #endif
         strnzcpy(beginOfSuffix, buff, 2);
+        rc = stat(newFileName, &file_stat);
+        if (0 == rc)
+        {
+            if (!S_ISREG(file_stat.st_mode))	/* not a file; skip it */
+                continue;
+            if (file_stat.st_size == 0)
+            {
+                 rc = unlink(newFileName);	/* delete empty file */
+                 break;
+            }
+            if (fexist(newFileName))	/* legacy check; may be redundant */
+                continue;
+        }
+        else if (errno != ENOENT)
+            continue;
     }
 
     w_log(LL_DEBUGF, __FILE__ ":%u: old: '%s' new: '%s'",__LINE__, fileName, newFileName);
