@@ -1689,7 +1689,7 @@ implementation limit.
 @findex EchoAreaDefaults
 @table @asis
 @item Syntax:
-@code{EchoAreaDefaults [passthrough] [-b <msgbase>] [Options] [linkAKAs] [linkOptions]}
+@code{EchoAreaDefaults [passthrough | -b <msgbase>] [Options] [linkAKAs] [linkOptions]}
 @item Example:
 @code{EchoAreaDefaults -b Squish -a 2:280/1507 -g F -dupeCheck move -dupehistory 11 -p 14 2:280/1126}
 @end table
@@ -1697,7 +1697,7 @@ implementation limit.
 With this keyword you can specify settings that will be set for the
 @code{EchoArea} and @code{LocalArea} definitions that follow. It makes
 the echoarea definitions shorter. All echoarea settings can be used
-@strong{except} the areaname and path.
+@strong{except} the areaname and message base path.
 
 When you specify a different value in an echoarea definition, it
 overrules the default setting.
