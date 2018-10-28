@@ -1706,12 +1706,14 @@ With the default from the example above, an echoarea definition could be:
 
 @example
 EchoArea fidosoft.husky /var/spool/fido/msgb/fidosoft.husky -d "husky
-develpment" 2:280/6207
+development" 2:280/6207
+@end example
 
 This will internally be expanded to:
 
+@example
 EchoArea fidosoft.husky /var/spool/fido/msgb/fidosoft.husky -d "husky
-develpment" -b Squish -a 2:280/1507 -g F -dupeCheck move -dupehistory 11
+development" -b Squish -a 2:280/1507 -g F -dupeCheck move -dupehistory 11
 -p 14 2:280/1126 2:280/6207
 @end example
 
@@ -1719,9 +1721,11 @@ Another example:
 
 @example
 EchoArea evolution /var/spool/fido/msgb/evolution -d "about fantasies" -p 100
+@end example
 
 that will be expanded to:
 
+@example
 EchoArea evolution /var/spool/fido/msgb/evolution -d "about fantasies"
 -b Squish -a 2:280/1507 -g F -dupeCheck move -dupehistory 11 -p 100
 2:280/1126
