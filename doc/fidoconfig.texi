@@ -1523,22 +1523,22 @@ development" 2:2433/1245 -def}
 
 This statement specifies the echoareas.
 @table @asis
-@item name:
+@item @strong{name}:
 area-tag
-@item file:
+@item @strong{file}:
 filename(s) for this area without extension;
 should be the area-tag (as far as possible). if file == Passthrough then
 [-b <msgbase>] is skipped and msgarea is set as an passthrough area.
-@item msgbase:
+@item @strong{msgbase}:
 @code{Msg} is standard (OPUS *.msg-base). Write @code{Squish} for an
 Squish-msgbase and @code{Jam} for Jam-msgbase.
-@item linkAKA:
+@item @strong{linkAKA}:
 aka's of up- and down links (full 4D address).
 you can use masks like: "*:*/*" - all downlinks from you config.
 This links are auto-mandatory. Always use slash in mask!
 @end table
 
-Options:
+@strong{Options}:
 
 @table @asis
 @item -pass
@@ -1662,7 +1662,7 @@ Default write-only: set link write-only at subscribing
 (*) - these tokens to be removed from @code{areafixAutoCreateDefaults} when
 creating passthrough areas.
 
-LinkOptions:
+@strong{LinkOptions}:
 @table @asis
 @item -def
 default-uplink (used for area deletion, @xref{AdvancedAreafix,,,hpt,hpt}.)
@@ -1689,7 +1689,7 @@ implementation limit.
 @findex EchoAreaDefaults
 @table @asis
 @item Syntax:
-@code{EchoAreaDefaults [-b <msgbase>] [Options]}
+@code{EchoAreaDefaults [passthrough] [-b <msgbase>] [Options] [linkAKAs] [linkOptions]}
 @item Example:
 @code{EchoAreaDefaults -b Squish -a 2:280/1507 -g F -dupeCheck move -dupehistory 11 -p 14 2:280/1126}
 @end table
