@@ -2296,11 +2296,16 @@ int parseRoute(char *token, s_fidoconfig *config, s_route **route,
     option = strtok(NULL, " \t");
   }
   /* set flavour if it isn't specified in the statement */
-  if (actualRoute->flavour == flUndef) {
-    if (actualRoute->target == NULL) {
+  /* and routeVia is not 'nopack' */
+  if (actualRoute->flavour == flUndef && actualRoute->routeVia != nopack)
+  {
+    if (actualRoute->target == NULL)
+    {
       prErr("You must either specify flavour or use defined link as target");
       rc = 2;
-    } else actualRoute->flavour = actualRoute->target->netMailFlavour;
+    }
+    else
+      actualRoute->flavour = actualRoute->target->netMailFlavour;
   }
 
   return rc;

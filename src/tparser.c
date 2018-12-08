@@ -2505,7 +2505,8 @@ int main(int argc, char **argv)
             break;
         }
       }
-      printf("(flavour: %s)\n", cvtFlavour(config->route[i].flavour));
+      if(config->route[i].routeVia != nopack)
+        printf("(flavour: %s)\n", cvtFlavour(config->route[i].flavour));
     }
 
     if(hpt == 0)
