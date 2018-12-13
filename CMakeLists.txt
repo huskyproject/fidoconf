@@ -114,11 +114,18 @@ target_link_libraries(linked fidoconfig ${husky_LIB} ${smapi_LIB})
 target_link_libraries(fc2binkd fidoconfig ${husky_LIB} ${smapi_LIB})
 target_link_libraries(fc2ged fidoconfig ${husky_LIB} ${smapi_LIB})
 target_link_libraries(tparser fidoconfig ${husky_LIB} ${smapi_LIB})
-if (NOT MSVC)
+
   include(GNUInstallDirs)
   install(FILES "man/fconf2.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
   install(FILES "man/linked.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
   install(FILES "man/tparser.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
+  INSTALL(TARGETS fidoconfig fc2binkd tparser linked fc2ged
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    PUBLIC_HEADER DESTINATION include/fidoconf
+  )
+if (NOT MSVC)
   find_program(MAKEINFO
     NAMES makeinfo
     DOC "makeinfo tool"
@@ -137,13 +144,9 @@ if (NOT MSVC)
     install(FILES ${PROJECT_BINARY_DIR}/fidoconfig.info DESTINATION ${CMAKE_INSTALL_INFODIR})
     add_dependencies(fidoconfig docs)
   endif()
-  INSTALL(TARGETS fidoconfig fc2binkd tparser linked fc2ged
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    PUBLIC_HEADER DESTINATION include/fidoconf
-  )
   set(CPACK_GENERATOR ${CPACK_GENERATOR} TGZ)
+else(NOT MSVC)
+  set(CPACK_GENERATOR ${CPACK_GENERATOR} 7Z)
 endif (NOT MSVC)
 
 set (CPACK_PACKAGE_VERSION_MAJOR "1")

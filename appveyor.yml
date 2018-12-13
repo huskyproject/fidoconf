@@ -2,23 +2,40 @@ version: '{build}'
 branches:
   only:
     - master
+    - /^fidoconf-.*/
 image:
   - Visual Studio 2017
 environment:
   matrix:
   - generator: Visual Studio 15 2017
     cf: -DBUILD_SHARED_LIBS=OFF -T v141_xp
+    pf: "msvc2017"
   - generator: Visual Studio 15 2017
     cf: -DBUILD_SHARED_LIBS=ON
+    pf: "msvc2017"
   - generator: Visual Studio 15 2017 Win64
     cf: -DBUILD_SHARED_LIBS=OFF
+    pf: "msvc2017"
   - generator: Visual Studio 15 2017 Win64
     cf: -DBUILD_SHARED_LIBS=ON
+    pf: "msvc2017"
 install:
   - cmd: git clone https://github.com/huskyproject/huskylib  C:\projects\huskylib
   - cmd: git clone https://github.com/huskyproject/smapi  C:\projects\smapi
 build_script:
-  - cmd: 
+  - cmd:
       cd C:\projects\huskylib && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" %CF% && cmake --build . -- /P:Configuration=Release &&
       cd C:\projects\smapi && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" %CF% && cmake --build . -- /P:Configuration=Release &&
       cd C:\projects\fidoconf && mkdir build && cd build && cmake --version &&  cmake .. -G "%GENERATOR%" %CF% && cmake --build . -- /P:Configuration=Release
+  - if ["%CF%"]==["-DBUILD_SHARED_LIBS=OFF"] (cpack)
+  - if ["%CF%"]==["-DBUILD_SHARED_LIBS=OFF -T v141_xp"] (cpack)
+  - ps:  gci *.7z | %{ rename-item –path $_.Fullname –Newname ( $_.basename +"-"+$Env:pf+$_.extension) }
+artifacts:
+  - path: build\*.7z
+    name: dist
+deploy:
+  provider: GitHub
+  artifact: dist
+  auth_token: $(GITHUB_OAUTH_TOKEN)
+  on:
+    appveyor_repo_tag: true
