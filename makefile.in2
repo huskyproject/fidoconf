@@ -2,7 +2,7 @@
 # (legacy makefile, no dynlibs, no huskymak support)
 # this file is only a include file included by other files.
 
-CC   = gcc
+#CC   = gcc
 EXENAMEFLAG = -o
 AR   = ar
 AR_R = rs
