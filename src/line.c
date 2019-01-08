@@ -2360,106 +2360,136 @@ int parsePack(char *line, s_fidoconfig *config) {
    }
 }
 
-int parseUnpack(char *line, s_fidoconfig *config) {
-
+int parseUnpack(char *line, s_fidoconfig *config)
+{
     char   *p, *c;
     char   *error;
     s_unpack *unpack;
     unsigned char  code;
     int    i;
 
-    if (line == NULL) {
-       prErr("A parameter after %s is missing!", actualKeyword);
-       return 1;
+    if (line == NULL)
+    {
+        prErr("A parameter after %s is missing!", actualKeyword);
+        return 1;
     }
 
     /*  ToDo: Create replacement for strtok which handles "str" */
 
-    for (p = line; ((*p == ' ') || (*p == '\t')) && (*p != '\0'); p++);
+    /* Skip white spaces */
+    for (p = line; (*p == ' ') || (*p == '\t'); p++);
 
-    if (p != '\0') {
-       if (*p == '\"')
-          for (c = ++p; (*c != '\"') && (*c != '\0'); c++);
-       else
-          for (c = p; (*c != ' ') && (*c != '\t') && (*c != '\0'); c++);
-       if (*c != '\0') {
-          *c++ = '\0';
-          stripLeadingChars(c, " \t");
-       };
-    } else
-       c = NULL;
+    if (*p != '\0')
+    {
+        if (*p == '\"')
+        {
+            /* skip till next double qoute */
+            for (c = ++p; (*c != '\"') && (*c != '\0'); c++);
+        }
+        else
+        {
+            /* skip till next white space */
+            for (c = p; (*c != ' ') && (*c != '\t') && (*c != '\0'); c++);
+        }
 
-    if ((p != NULL) && (c != NULL)) {
+        if (*c != '\0')
+        {
+            *c++ = '\0';
+            stripLeadingChars(c, " \t");
+        }
+    } 
+    else
+        c = NULL;
 
-       /*  add new pack statement */
-       config->unpackCount++;
-       config->unpack = srealloc(config->unpack, config->unpackCount * sizeof(s_unpack));
+    if ((p != NULL) && (c != NULL))
+    {
+        /*  add new unpack statement */
+        config->unpackCount++;
+        config->unpack = srealloc(config->unpack, config->unpackCount * sizeof(s_unpack));
 
-       /*  fill new pack statement */
-       unpack = &(config->unpack[config->unpackCount-1]);
-       unpack->call   = (char *) smalloc(strlen(p)+1);
-       strcpy(unpack->call, p);
+        /*  fill new unpack statement */
+        unpack = &(config->unpack[config->unpackCount-1]);
+        unpack->call   = (char *) smalloc(strlen(p)+1);
 
-       if( strncasecmp(unpack->call,ZIPINTERNAL,strlen(ZIPINTERNAL)) )
-       {
-           if (strstr(unpack->call, "$a")==NULL) {
-               prErr("$a missing in unpack statement %s!", actualLine);
-               return 2;
-           }
-       }
+        if( fc_stristr(c, ZIPINTERNAL) == NULL ) 
+        {
+            /* zipInternal is not used */
+            strcpy(unpack->call, p);
+            if (strstr(unpack->call, "$a")==NULL)
+            {
+                prErr("$a missing in unpack statement %s!", actualLine);
+                return 2;
+            }
+        }
+        else
+        {
+            /* zipInternal is used */
+            strcpy(unpack->call, ZIPINTERNAL);
+            /* skip till next white space */
+            for (p = c; (*p != ' ') && (*p != '\t') && (*p != '\0'); p++);
+            stripLeadingChars(p, " \t");
+            c = p;
+        }
+        p = strtok(c, " \t");    /* p contains offset now */
+        c = strtok(NULL, " \t"); /* c contains match code now */
 
-       p = strtok(c, " \t"); /*  p is containing offset now */
-       c = strtok(NULL, " \t"); /*  t is containing match code now */
+        if ((p == NULL) || (c == NULL))
+        {
+            prErr("offset or match code missing in unpack statement %s!", actualLine);
+            return 1;
+        }
 
-       if ((p == NULL) || (c == NULL)) {
-           prErr("offset or match code missing in unpack statement %s!", actualLine);
-           return 1;
-       };
+        unpack->offset = (unsigned) strtol(p, &error, 0);
 
-       unpack->offset = (unsigned) strtol(p, &error, 0);
+        if ((error != NULL) && (*error != '\0'))
+        {
+            prErr("The number is wrong for offset in unpack!");
+            return 1;     /*  error occured; */
+        }
 
-       if ((error != NULL) && (*error != '\0')) {
-          prErr("The number is wrong for offset in unpack!");
-          return 1;     /*  error occured; */
-       }
+        unpack->matchCode = (unsigned char *) smalloc(strlen(c) / 2 + 1);
+        unpack->mask      = (unsigned char *) smalloc(strlen(c) / 2 + 1);
 
-       unpack->matchCode = (unsigned char *) smalloc(strlen(c) / 2 + 1);
-       unpack->mask      = (unsigned char *) smalloc(strlen(c) / 2 + 1);
+        /*  parse matchcode statement */
+        /*  this looks a little curvy, I know. Remember, I programmed this at 23:52 :) */
+        for (i = 0, error = NULL; c[i] != '\0' && error == NULL; i++)
+        {
+            code = (unsigned char) toupper(c[i]);
+            /*  if code equals to '?' set the corresponding bits  of  mask[] to 0 */
+            unpack->mask[i / 2] = i % 2  == 0 ? (code != '?' ? 0xF0 : 0) :
+                                                unpack->mask[i / 2] | (code != '?' ? 0xF : 0);
 
-       /*  parse matchcode statement */
-       /*  this looks a little curvy, I know. Remember, I programmed this at 23:52 :) */
-       for (i = 0, error = NULL; c[i] != '\0' && error == NULL; i++) {
-          code = (unsigned char) toupper(c[i]);
-          /*  if code equals to '?' set the corresponding bits  of  mask[] to 0 */
-          unpack->mask[i / 2] = i % 2  == 0 ? (code != '?' ? 0xF0 : 0) :
-                                unpack->mask[i / 2] | (code != '?' ? 0xF : 0);
+            /*  find the numeric representation of hex code */
+            /*  if this is a '?' code equals to 0 */
+            code = (isdigit(code) ? code - '0' :
+                    (isxdigit(code) ? code - 'A' + 10 :
+                     (code == '?' ? 0 : (error = c + i, 0xFF))));
+            unpack->matchCode[i / 2] = i % 2 == 0 ? code << 4 : unpack->matchCode[i / 2] | code;
+        }
 
-          /*  find the numeric representation of hex code */
-          /*  if this is a '?' code equals to 0 */
-          code = (isdigit(code) ? code - '0' :
-                 (isxdigit(code) ? code - 'A' + 10 :
-                 (code == '?' ? 0 : (error = c + i, 0xFF))));
-          unpack->matchCode[i / 2] = i % 2 == 0 ? code << 4 : unpack->matchCode[i / 2] | code;
-       }
+        if (error)
+        {
+            prErr("matchCode can\'t contain %c in unpack statement %s!", *error, actualLine);
+            return 1;
+        }
 
-       if (error) {
-          prErr("matchCode can\'t contain %c in unpack statement %s!", *error, actualLine);
-	            return 1;
-       };
+        if (i % 2 != 0)
+        {
+            prErr("matchCode must be byte-aligned in unpack statement %s!", actualLine);
+            return 1;
+        }
 
-       if (i % 2 != 0)  {
-          prErr("matchCode must be byte-aligned in unpack statement %s!", actualLine);
-          return 1;
-       };
+        unpack->codeSize = i / 2;
 
-       unpack->codeSize = i / 2;
-
-       return 0;
-    } else {
-       prErr("A parameter after %s is missing!", actualKeyword);
-       return 1;
+        return 0;
+    }
+    else
+    {
+        prErr("A parameter after %s is missing!", actualKeyword);
+        return 1;
     }
 }
+
 #if 0
 static int f_accessable(char *token)
 {
