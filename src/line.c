@@ -2410,26 +2410,18 @@ int parseUnpack(char *line, s_fidoconfig *config)
         /*  fill new unpack statement */
         unpack = &(config->unpack[config->unpackCount-1]);
         unpack->call   = (char *) smalloc(strlen(p)+1);
+        strcpy(unpack->call, p);
 
-        if( fc_stristr(c, ZIPINTERNAL) == NULL ) 
+        if( strncasecmp(unpack->call,ZIPINTERNAL,strlen(ZIPINTERNAL)) ) 
         {
             /* zipInternal is not used */
-            strcpy(unpack->call, p);
             if (strstr(unpack->call, "$a")==NULL)
             {
                 prErr("$a missing in unpack statement %s!", actualLine);
                 return 2;
             }
         }
-        else
-        {
-            /* zipInternal is used */
-            strcpy(unpack->call, ZIPINTERNAL);
-            /* skip till next white space */
-            for (p = c; (*p != ' ') && (*p != '\t') && (*p != '\0'); p++);
-            stripLeadingChars(p, " \t");
-            c = p;
-        }
+
         p = strtok(c, " \t");    /* p contains offset now */
         c = strtok(NULL, " \t"); /* c contains match code now */
 
