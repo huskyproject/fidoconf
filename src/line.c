@@ -249,6 +249,12 @@ void printLinkError(void)
   exit(EX_CONFIG);
 }
 
+void printAddrError(void)
+{
+  prErr("The main address must be defined before any areas!");
+  exit(EX_CONFIG);
+}
+
 s_link *getDescrLink(s_fidoconfig *config)
 {
    if (config->describeLinkDefaults) { /*  describing defaults for links */
@@ -1803,6 +1809,11 @@ int parseEchoArea(char *token, s_fidoconfig *config)
 {
     int rc;
     s_area *area;
+
+    if (config->addr == NULL)
+    {
+        printAddrError();
+    }
     if (token == NULL) {
         prErr("Parameters after %s are missing!", actualKeyword);
         return 1;
@@ -1820,6 +1831,11 @@ int parseNetMailArea(char *token, s_fidoconfig *config)
 {
     int rc;
     s_area *area;
+
+    if (config->addr == NULL)
+    {
+        printAddrError();
+    }
     if (token == NULL) {
         prErr("Parameters after %s are missing!", actualKeyword);
         return 1;
@@ -1838,6 +1854,10 @@ int parseFileArea(char *token, s_fidoconfig *config)
     int rc;
     s_area *area;
 
+    if (config->addr == NULL)
+    {
+        printAddrError();
+    }
     if (token == NULL) {
         prErr("Parameters after %s are missing!", actualKeyword);
         return 1;
