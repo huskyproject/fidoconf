@@ -3,6 +3,8 @@ PROJECT(fidoconf C)
 set(fidoconf_VERSION 1.9.0)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+include(GNUInstallDirs)
+
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
@@ -121,8 +123,8 @@ target_link_libraries(tparser fidoconfig ${husky_LIB} ${smapi_LIB})
   install(FILES "man/tparser.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
   INSTALL(TARGETS fidoconfig fc2binkd tparser linked fc2ged
     RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION include/fidoconf
   )
 if (NOT MSVC)
