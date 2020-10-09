@@ -1,121 +1,181 @@
+%define ver_major 1
+%define ver_minor 9
 %define reldate 20191205
 %define reltype C
 # may be one of: C (current), R (release), S (stable)
 
-%if %_vendor == "alt"
-%define pkg_group Networking/FTN
-%define mnt_mail gremlin@altlinux.org
-%else
+# release number for Release: header
+%define relnum 3
+
+# on default static library is made but using 'rpmbuild --without static'
+# produces a dynamic library
+%bcond_without static
+
+# if you use 'rpmbuild --with debug' then debug binary is produced
+%bcond_with debug
+
+# for generic build; will override for some distributions
+%define vendor_prefix %nil
+%define vendor_suffix %nil
 %define pkg_group Libraries/FTN
-%define mnt_mail 2:5020/545
+
+# for CentOS, Fedora and RHEL
+%if %_vendor == "redhat"
+%define vendor_suffix %dist
 %endif
 
-Name: fidoconf
-Version: 1.9.%{reldate}%{reltype}
-Release: %{_vendor}1
+# for ALT Linux
+%if %_vendor == "alt"
+%define vendor_prefix %_vendor
+%define pkg_group Networking/FTN
+%endif
+
+%define main_name fidoconf
+%if %{with static}
+Name: %main_name-static
+%else
+Name: %main_name
+%endif
+Version: %ver_major.%ver_minor.%reldate%reltype
+Release: %{vendor_prefix}%relnum%{vendor_suffix}
+%if %_vendor != "redhat"
 Group: %pkg_group
-Summary: Common configuration library for the Husky Project applications
-URL: https://github.com/huskyproject/%name
+%endif
+%if %{with static}
+Summary: Common configuration static library for the Husky Project applications
+%else
+Summary: Common configuration dynamic library for the Husky Project applications
+%endif
+URL: https://github.com/huskyproject/%main_name/archive/v%ver_major.%ver_minor.%reldate.tar.gz
 License: GPL
-Source: %{name}.tar.xz
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
-BuildRequires: huskylib-devel-libs-shared huskylib-devel-libs-static
-BuildRequires: smapi-devel-libs-shared smapi-devel-libs-static
-BuildRequires: glibc-devel-static
+Source: %main_name-%ver_major.%ver_minor.%reldate.tar.gz
+%if %{with static}
+BuildRequires: huskylib-static huskylib-devel
+BuildRequires: smapi-static smapi-devel
+%else
+BuildRequires: huskylib huskylib-devel
+BuildRequires: smapi smapi-devel
+Requires: huskylib smapi
+%endif
 
 %description
 %summary
 
 
-
-%package devel
+%package -n %main_name-devel
+%if %_vendor != "redhat"
 Group: %pkg_group
-Summary: Development headers for %name
+%endif
+Summary: Development headers for %main_name
 BuildArch: noarch
-Requires: %name-devel-libs = %version-%release
-
-%description devel
+%description -n %main_name-devel
 %summary
 
 
-%package devel-libs-shared
-Summary: Shared development libraries for %name
-Group: %pkg_group
-Requires: %name-devel = %version-%release
-Requires: %name = %version-%release
-Provides: %name-devel-libs = %version-%release
-
-%description devel-libs-shared
-%summary
-
-
-%package devel-libs-static
-Summary: Static development libraries for %name
-Group: %pkg_group
-Requires: %name-devel = %version-%release
-Provides: %name-devel-libs = %version-%release
-
-%description devel-libs-static
-%summary
-
-%package utils
+%if %{with static}
+%define utilities %main_name-utils-static
+%else
+%define utilities %main_name-utils
+%endif
+%package -n %utilities
 Summary: Optional utilities for %name
-Group: %pkg_group
+%if ! %{with static}
 Requires: %name = %version-%release
-%description utils
+%endif
+Provides: %utilities = %version-%release
+%description -n %utilities
 %summary
 
-%package tparser
-Summary: Configuration files parser for %name
-Group: %pkg_group
+
+%if %{with static}
+%define parser tparser-static
+%else
+%define parser tparser
+%endif
+%package -n %parser
+Summary: A utility for parsing and checking Husky Project configuration files
+%if ! %{with static}
 Requires: %name = %version-%release
-%description tparser
+%endif
+%description -n %parser
 %summary
 
 
 %prep
-%setup -q -n %{name}
-date '+char cvs_date[]="%%F";' > cvsdate.h
+%setup -q -n %main_name-%ver_major.%ver_minor.%reldate
 
 
 %build
-%make DYNLIBS=1
-%make
+# parallel build appears to be broken in CentOS, Fedora and RHEL
+%if %_vendor == "redhat"
+    %if %{with static}
+        %if %{with debug}
+            make DEBUG:=1
+        %else
+            make
+        %endif
+    %else
+        %if %{with debug}
+            make DYNLIBS:=1 DEBUG:=1
+        %else
+            make DYNLIBS:=1
+        %endif
+    %endif
+%else
+    %if %{with static}
+        %if %{with debug}
+            %make DEBUG:=1
+        %else
+            %make
+        %endif
+    %else
+        %if %{with debug}
+            %make DYNLIBS:=1 DEBUG:=1
+        %else
+            %make DYNLIBS:=1
+        %endif
+    %endif
+%endif
+echo Install-name1:%_rpmdir/%_arch/%name-%version-%release.%_arch.rpm > /dev/null
+echo Install-name2:%_rpmdir/noarch/%main_name-devel-%version-%release.noarch.rpm > /dev/null
 
-
-%install
-rm -rf -- %buildroot
+# macro 'install' is omitted for debug build because it strips the library
+%if ! %{with debug}
+    %install
+%endif
 umask 022
-make DESTDIR=%buildroot DYNLIBS=1 install
-make DESTDIR=%buildroot install
+%if %{with static}
+    make DESTDIR=%buildroot install
+%else
+    make DESTDIR=%buildroot DYNLIBS=1 install
+%endif
 chmod -R a+rX,u+w,go-w %buildroot
 
-
+%if %_vendor != "redhat"
 %clean
 rm -rf -- %buildroot
+%endif
 
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root)
-%_libdir/*.so.*
+%if %{with static}
+    %_libdir/*.a
+%else
+    %exclude %_libdir/*.a
+    %_libdir/*.so.*
+    %_libdir/*.so
+%endif
 
-%files devel
-%dir %_includedir/%name
-%_includedir/%name/*
+%files -n %main_name-devel
+%dir %_includedir/%main_name
+%_includedir/%main_name/*
 
-%files devel-libs-shared
-%_libdir/*.so
-
-%files devel-libs-static
-%_libdir/*.a
-
-%files utils
+%files -n %utilities
 %_bindir/*
 %exclude %_bindir/tparser
 
-%files tparser
+%files -n %parser
 %_bindir/tparser
-
-%changelog
-* Mon Mar 11 2019 Gremlin from Kremlin <%{mnt_mail}> 1.9.20190311C-%{_vendor}1
-- rewrite .spec from scratch, split to subpackages
