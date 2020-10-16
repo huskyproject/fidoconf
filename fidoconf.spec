@@ -59,7 +59,7 @@ Summary: Common configuration static library for the Husky Project applications
 Summary: Common configuration dynamic library for the Husky Project applications
 %endif
 URL: https://github.com/huskyproject/%main_name/archive/v%ver_major.%ver_minor.%reldate.tar.gz
-License: GPL
+License: LGPLv2
 Source: %main_name-%ver_major.%ver_minor.%reldate.tar.gz
 %if %{with static}
 BuildRequires: huskylib-static huskylib-static-devel
