@@ -1,11 +1,11 @@
-%define ver_major 1
-%define ver_minor 9
-%define reldate 20201009
-%define reltype C
+%global ver_major 1
+%global ver_minor 9
+%global reldate 20201016
+%global reltype C
 # may be one of: C (current), R (release), S (stable)
 
 # release number for Release: header
-%define relnum 3
+%global relnum 3
 
 # on default static library is made but using 'rpmbuild --without static'
 # produces a dynamic library
@@ -15,22 +15,22 @@
 %bcond_with debug
 
 # for generic build; will override for some distributions
-%define vendor_prefix %nil
-%define vendor_suffix %nil
-%define pkg_group Libraries/FTN
+%global vendor_prefix %nil
+%global vendor_suffix %nil
+%global pkg_group Libraries/FTN
 
 # for CentOS, Fedora and RHEL
 %if %_vendor == "redhat"
-%define vendor_suffix %dist
+%global vendor_suffix %dist
 %endif
 
 # for ALT Linux
 %if %_vendor == "alt"
-%define vendor_prefix %_vendor
-%define pkg_group Networking/FTN
+%global vendor_prefix %_vendor
+%global pkg_group Networking/FTN
 %endif
 
-%define main_name fidoconf
+%global main_name fidoconf
 %if %{with static}
 Name: %main_name-static
 %else
@@ -73,9 +73,9 @@ BuildArch: noarch
 
 
 %if %{with static}
-%define utilities %main_name-utils-static
+%global utilities %main_name-utils-static
 %else
-%define utilities %main_name-utils
+%global utilities %main_name-utils
 %endif
 %package -n %utilities
 Summary: Optional utilities for %name
@@ -88,9 +88,9 @@ Provides: %utilities = %version-%release
 
 
 %if %{with static}
-%define parser tparser-static
+%global parser tparser-static
 %else
-%define parser tparser
+%global parser tparser
 %endif
 %package -n %parser
 Summary: A utility for parsing and checking Husky Project configuration files
