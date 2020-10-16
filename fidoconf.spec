@@ -33,13 +33,13 @@
 
 # for CentOS, Fedora and RHEL
 %if %_vendor == "redhat"
-%global vendor_suffix %dist
+    %global vendor_suffix %dist
 %endif
 
 # for ALT Linux
 %if %_vendor == "alt"
-%global vendor_prefix %_vendor
-%global pkg_group Networking/FTN
+    %global vendor_prefix %_vendor
+    %global pkg_group Networking/FTN
 %endif
 
 %global main_name fidoconf
@@ -104,9 +104,9 @@ Provides: %utilities = %version-%release
 
 
 %if %{with static}
-%global parser tparser-static
+    %global parser tparser-static
 %else
-%global parser tparser
+    %global parser tparser
 %endif
 %package -n %parser
 Summary: A utility for parsing and checking Husky Project configuration files
