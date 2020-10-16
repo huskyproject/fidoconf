@@ -107,6 +107,9 @@ Provides: %name-utils = %version-%release
     %global parser tparser
 %endif
 %package -n %parser
+%if %_vendor != "redhat"
+Group: %pkg_group
+%endif
 Summary: A utility for parsing and checking Husky Project configuration files
 %if ! %{with static}
 Requires: %name = %version-%release
