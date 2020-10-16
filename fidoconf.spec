@@ -24,6 +24,8 @@
     %bcond_with debug
 %endif
 
+%global debug_package %nil
+
 # for generic build; will override for some distributions
 %global vendor_prefix %nil
 %global vendor_suffix %nil
