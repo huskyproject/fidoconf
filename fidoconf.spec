@@ -88,18 +88,16 @@ Requires: %name = %version-%release
 %summary
 
 
-%if %{with static}
-%global utilities %main_name-utils-static
-%else
-%global utilities %main_name-utils
+%package utils
+%if %_vendor != "redhat"
+Group: %pkg_group
 %endif
-%package -n %utilities
 Summary: Optional utilities for %name
 %if ! %{with static}
 Requires: %name = %version-%release
 %endif
-Provides: %utilities = %version-%release
-%description -n %utilities
+Provides: %name-utils = %version-%release
+%description utils
 %summary
 
 
@@ -177,7 +175,7 @@ rm -rf -- %buildroot
     %_libdir/*.so
 %endif
 
-%files -n %utilities
+%files utils
 %_bindir/*
 %exclude %_bindir/tparser
 
