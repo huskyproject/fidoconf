@@ -142,10 +142,11 @@ echo Install-name1:%_rpmdir/%_arch/%name-%version-%release.%_arch.rpm > /dev/nul
     echo Install-name2:%_rpmdir/%_arch/%name-devel-%version-%release.%_arch.rpm > /dev/null
 %endif
 
-# macro 'install' is omitted for debug build because it strips the library
-%if ! %{with debug}
-    %install
+%if %{with debug}
+    %global __os_install_post %nil
 %endif
+
+%install
 umask 022
 %if %{with static}
     make DESTDIR=%buildroot install
