@@ -63,13 +63,17 @@ Requires: huskylib smapi
 %summary
 
 
-%package -n %main_name-devel
+%package devel
 %if %_vendor != "redhat"
 Group: %pkg_group
 %endif
 Summary: Development headers for %main_name
+%if %{with static}
 BuildArch: noarch
-%description -n %main_name-devel
+%else
+Requires: %name = %version-%release
+%endif
+%description devel
 %summary
 
 
@@ -138,7 +142,11 @@ Requires: %name = %version-%release
     %endif
 %endif
 echo Install-name1:%_rpmdir/%_arch/%name-%version-%release.%_arch.rpm > /dev/null
-echo Install-name2:%_rpmdir/noarch/%main_name-devel-%version-%release.noarch.rpm > /dev/null
+%if %{with static}
+    echo Install-name2:%_rpmdir/noarch/%name-devel-%version-%release.noarch.rpm > /dev/null
+%else
+    echo Install-name2:%_rpmdir/%_arch/%name-devel-%version-%release.%_arch.rpm > /dev/null
+%endif
 
 # macro 'install' is omitted for debug build because it strips the library
 %if ! %{with debug}
@@ -168,12 +176,14 @@ rm -rf -- %buildroot
     %exclude %_libdir/*.a
     %_libdir/*.%ver_major.%ver_minor.%ver_patch
     %_libdir/*.%ver_major.%ver_minor
-    %_libdir/*.so
 %endif
 
-%files -n %main_name-devel
+%files devel
 %dir %_includedir/%main_name
 %_includedir/%main_name/*
+%if ! %{with static}
+    %_libdir/*.so
+%endif
 
 %files -n %utilities
 %_bindir/*
