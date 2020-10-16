@@ -165,9 +165,6 @@ chmod -R a+rX,u+w,go-w %buildroot
 rm -rf -- %buildroot
 %endif
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
 %files
 %defattr(-,root,root)
 %if %{with static}
