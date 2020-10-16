@@ -122,34 +122,17 @@ Requires: %name = %version-%release
 
 
 %build
-# parallel build appears to be broken in CentOS, Fedora and RHEL
-%if %_vendor == "redhat"
-    %if %{with static}
-        %if %{with debug}
-            make DEBUG:=1
-        %else
-            make
-        %endif
+%if %{with static}
+    %if %{with debug}
+        %make_build DEBUG:=1
     %else
-        %if %{with debug}
-            make DYNLIBS:=1 DEBUG:=1
-        %else
-            make DYNLIBS:=1
-        %endif
+        %make_build
     %endif
 %else
-    %if %{with static}
-        %if %{with debug}
-            %make DEBUG:=1
-        %else
-            %make
-        %endif
+    %if %{with debug}
+        %make_build DYNLIBS:=1 DEBUG:=1
     %else
-        %if %{with debug}
-            %make DYNLIBS:=1 DEBUG:=1
-        %else
-            %make DYNLIBS:=1
-        %endif
+        %make_build DYNLIBS:=1
     %endif
 %endif
 echo Install-name1:%_rpmdir/%_arch/%name-%version-%release.%_arch.rpm > /dev/null
