@@ -59,12 +59,14 @@ dos:
  
 - Run CMake to configure the build tree.
    ```sh
-      $ cmake -H. -Bbuild -DBUILD_SHARED_LIBS=OFF
+      $ cmake -H. -Bbuild -DCFGDIR=~/fido/etc/husky -DBUILD_SHARED_LIBS=OFF
    ```
+  Here you may set CFGDIR, that is, the directory containing Husky config,
+  as you like.
   This will prepare for building a static library. If you want to build
   a dynamic library, then you have to run
    ```sh
-      $ cmake -H. -Bbuild
+      $ cmake -H. -Bbuild -DCFGDIR=~/fido/etc/husky
    ```
   Be shure to build all Husky projects the same way, either statically or
   dynamically.
