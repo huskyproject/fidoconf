@@ -2,7 +2,7 @@
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
  * Copyright (C) 1998-1999
- *  
+ *
  * Matthias Tichy
  *
  * Fido:     2:2433/1245 2:2433/1247 2:2432/605.14
@@ -48,157 +48,229 @@
 
 #endif
 
-int writeArea(FILE *f, s_area *area, char type) {
+int writeArea(FILE * f, s_area * area, char type)
+{
+    if(area->group == NULL)
+    {
+        area->group = "0";
+    }
 
-   if (area->group == NULL) area->group = "0";
+    fprintf(f, "areadef %s \"%s\" %s ", area->areaName, area->areaName, area->group);
 
-   fprintf(f, "areadef %s \"%s\" %s ", area->areaName, area->areaName, area->group);
+    switch(type)
+    {
+        case 0:
+            fprintf(f, "local ");
+            break;
 
-   switch (type) {
-      case 0: fprintf(f, "local ");
-              break;
-      case 1: fprintf(f, "net ");
-              break;
-      case 2: fprintf(f, "local ");
-              break;
-   }
+        case 1:
+            fprintf(f, "net ");
+            break;
 
-   if (area->msgbType == MSGTYPE_SQUISH) fprintf(f, "Squish ");
-   else fprintf(f, "Opus ");
+        case 2:
+            fprintf(f, "local ");
+            break;
+    }
 
-   fprintf(f, "%s ", area->fileName);
+    if(area->msgbType == MSGTYPE_SQUISH)
+    {
+        fprintf(f, "Squish ");
+    }
+    else
+    {
+        fprintf(f, "Opus ");
+    }
 
-   fprintf(f, "%u:%u/%u.%u", area->useAka->zone, area->useAka->net, area->useAka->node, area->useAka->point);
-   
-   fprintf(f, "\n");
-
-   return 0;
-}
-
-int generateAquaedConfig(s_fidoconfig *config, char *fileName, char *includeFile,int options) {
-   FILE *f;
-   unsigned int  i;
-   s_area *area;
-
-   f = fopen(fileName, "w");
-   if (f!= NULL) {
-
-      if (includeFile != NULL) fprintf(f, "include %s\n\n", includeFile);
-
-    if (!(options & AREASONLY)) {
-		fprintf(f, "username %s\n\n", config->sysop);
-	  	if (config->echotosslog != NULL) fprintf(f, "squishechotoss %s\n", config->echotosslog);
-                                           
-		for (i=0; i<config->addrCount; i++)
-			fprintf(f, "Address %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
-		fprintf(f, "\n");
-	  }
-    if (!(options & NETMAIL)) {
-      for (i=0; i<config->netMailAreaCount; i++) {
-         writeArea(f, &(config->netMailAreas[i]), 1);
-      }
-	}
-    if (!(options & DUPE)){
-		writeArea(f, &(config->dupeArea), 1);
-	}
-    if (!(options & BAD)) {
-		writeArea(f, &(config->badArea), 1);
-	}
-    if (!(options & ECHOMAIL)) { 
-		for (i=0; i<config->echoAreaCount; i++) {
-         area = &(config->echoAreas[i]);
-         if (area->msgbType != MSGTYPE_PASSTHROUGH)
-             writeArea(f, area, 0);
-		}
-	}
-	if (!(options & LOCAL)) {
-		for (i=0; i<config->localAreaCount; i++) {
-         area = &(config->localAreas[i]);
-         if (area->msgbType != MSGTYPE_PASSTHROUGH)
-             writeArea(f, area, 2);
-		}
-	}
+    fprintf(f, "%s ", area->fileName);
+    fprintf(f,
+            "%u:%u/%u.%u",
+            area->useAka->zone,
+            area->useAka->net,
+            area->useAka->node,
+            area->useAka->point);
+    fprintf(f, "\n");
     return 0;
-   } else printf("Could not write %s\n", fileName);
+} /* writeArea */
 
-   return 1;
-}
+int generateAquaedConfig(s_fidoconfig * config, char * fileName, char * includeFile, int options)
+{
+    FILE * f;
+    unsigned int i;
+    s_area * area;
 
-int parseOptions(char *line){
-int options=0;
-char chr=0;
+    f = fopen(fileName, "w");
 
-if (sstrcmp(line,"-a")==0) chr='a';
-else  (chr=line[2]);
+    if(f != NULL)
+    {
+        if(includeFile != NULL)
+        {
+            fprintf(f, "include %s\n\n", includeFile);
+        }
 
- switch (chr){
+        if(!(options & AREASONLY))
+        {
+            fprintf(f, "username %s\n\n", config->sysop);
 
-	case 'a':	{
-					options^=AREASONLY;
-					break;
-	}
-	case 'n':	{
-					options^=NETMAIL;
-					break;
-	}
-	case 'e':	{
-					options^=ECHOMAIL;
-					break;
-	}
+            if(config->echotosslog != NULL)
+            {
+                fprintf(f, "squishechotoss %s\n", config->echotosslog);
+            }
 
-	case 'l':	{
-					options^=LOCAL;
-					break;
-	}
-	case 'd':	{
-					options^=DUPE;
-					break;
-	}
-	case 'b':	{
-					options^=BAD;
-					break;
-	}
+            for(i = 0; i < config->addrCount; i++)
+            {
+                fprintf(f,
+                        "Address %u:%u/%u.%u\n",
+                        config->addr[i].zone,
+                        config->addr[i].net,
+                        config->addr[i].node,
+                        config->addr[i].point);
+            }
+            fprintf(f, "\n");
+        }
 
- }
-return options;
-}
+        if(!(options & NETMAIL))
+        {
+            for(i = 0; i < config->netMailAreaCount; i++)
+            {
+                writeArea(f, &(config->netMailAreas[i]), 1);
+            }
+        }
 
-int main (int argc, char *argv[]) {
-   s_fidoconfig *config;
-   int options=0;
-   int cont=1;
+        if(!(options & DUPE))
+        {
+            writeArea(f, &(config->dupeArea), 1);
+        }
 
-   { char *temp;
-     printf("%s\n", temp=GenVersionStr( "fconf2aquaed", FC_VER_MAJOR,
-			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
-     nfree(temp);
-   }
+        if(!(options & BAD))
+        {
+            writeArea(f, &(config->badArea), 1);
+        }
 
-   while ((cont<argc)&&(*argv[cont]=='-')){
-	options|=parseOptions(argv[cont]);	
-	cont++;
-   }
-   if (!(cont<argc)){
-      printf("\nUsage:\n");
-      printf("fconf2aquaed [-a][-sn][-se][-sl][-sb][-sd] <aqauedConfigFileName> [<default.cfg>]\n");
-      printf("   (you may include config defaults from default.cfg)\n");
-      printf("   (-a exports areas only)\n");
-	  printf("   (-sn skip netmail areas)\n");
-	  printf("   (-se skip echomail areas)\n");
-	  printf("   (-sl skip local areas, and so on...)\n");
-      printf("\nExample:\n");
-      printf("   fconf2aquaed ~/aquaed/aquaed.cfg\n\n");
-      return 1;
-   }
+        if(!(options & ECHOMAIL))
+        {
+            for(i = 0; i < config->echoAreaCount; i++)
+            {
+                area = &(config->echoAreas[i]);
 
-   printf("Generating Config-file %s\n", argv[cont]);
+                if(area->msgbType != MSGTYPE_PASSTHROUGH)
+                {
+                    writeArea(f, area, 0);
+                }
+            }
+        }
 
-   config = readConfig(NULL);
-   if (config!= NULL) {
-      generateAquaedConfig(config, argv[cont], argv[cont+1],options);
-      disposeConfig(config);
-      return 0;
-   }
+        if(!(options & LOCAL))
+        {
+            for(i = 0; i < config->localAreaCount; i++)
+            {
+                area = &(config->localAreas[i]);
 
-   return 1;
-}
+                if(area->msgbType != MSGTYPE_PASSTHROUGH)
+                {
+                    writeArea(f, area, 2);
+                }
+            }
+        }
+
+        return 0;
+    }
+    else
+    {
+        printf("Could not write %s\n", fileName);
+    }
+
+    return 1;
+} /* generateAquaedConfig */
+
+int parseOptions(char * line)
+{
+    int options = 0;
+    char chr    = 0;
+
+    if(sstrcmp(line, "-a") == 0)
+    {
+        chr = 'a';
+    }
+    else
+    {
+        (chr = line[2]);
+    }
+
+    switch(chr)
+    {
+        case 'a':
+            options ^= AREASONLY;
+            break;
+
+        case 'n':
+            options ^= NETMAIL;
+            break;
+
+        case 'e':
+            options ^= ECHOMAIL;
+            break;
+
+        case 'l':
+            options ^= LOCAL;
+            break;
+
+        case 'd':
+            options ^= DUPE;
+            break;
+
+        case 'b':
+            options ^= BAD;
+            break;
+    }
+    return options;
+} /* parseOptions */
+
+int main(int argc, char * argv[])
+{
+    s_fidoconfig * config;
+    int options = 0;
+    int cont    = 1;
+
+    {
+        char * temp;
+        printf("%s\n",
+               temp =
+                   GenVersionStr("fconf2aquaed", FC_VER_MAJOR, FC_VER_MINOR, FC_VER_PATCH,
+                                 FC_VER_BRANCH,
+                                 cvs_date));
+        nfree(temp);
+    }
+
+    while((cont < argc) && (*argv[cont] == '-'))
+    {
+        options |= parseOptions(argv[cont]);
+        cont++;
+    }
+
+    if(!(cont < argc))
+    {
+        printf("\nUsage:\n");
+        printf(
+            "fconf2aquaed [-a][-sn][-se][-sl][-sb][-sd] <aqauedConfigFileName> [<default.cfg>]\n");
+        printf("   (you may include config defaults from default.cfg)\n");
+        printf("   (-a exports areas only)\n");
+        printf("   (-sn skip netmail areas)\n");
+        printf("   (-se skip echomail areas)\n");
+        printf("   (-sl skip local areas, and so on...)\n");
+        printf("\nExample:\n");
+        printf("   fconf2aquaed ~/aquaed/aquaed.cfg\n\n");
+        return 1;
+    }
+
+    printf("Generating Config-file %s\n", argv[cont]);
+    config = readConfig(NULL);
+
+    if(config != NULL)
+    {
+        generateAquaedConfig(config, argv[cont], argv[cont + 1], options);
+        disposeConfig(config);
+        return 0;
+    }
+
+    return 1;
+} /* main */

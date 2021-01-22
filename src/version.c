@@ -29,7 +29,6 @@
  */
 #include <string.h>
 #include <huskylib/huskylib.h>
-
 /* export functions from DLL */
 #define DLLEXPORT
 #include <huskylib/huskyext.h>
@@ -39,28 +38,39 @@
 #define __VERSION__C__
 
 #include "version.h"
-
 /* Check version of fidoconfig library
  * return zero if test failed; non-zero if passed
  * test cvs need for DLL version only, using #include <fidoconf/cvsdate.h>
  */
-HUSKYEXT int CheckFidoconfigVersion( int need_major, int need_minor,
-                      int need_patch, branch_t need_branch, const char *cvs )
-{ /* We don't need check pathlevel: see huskybse/develop-docs/ */
-
-static
+HUSKYEXT int CheckFidoconfigVersion(int need_major,
+                                    int need_minor,
+                                    int need_patch,
+                                    branch_t need_branch,
+                                    const char * cvs)
+{
+    /* We don't need check pathlevel: see huskybse/develop-docs/ */
+    static
 #include "../cvsdate.h"   /* char cvs_date[]=datestring; */
 
-  if( need_major==FC_VER_MAJOR && need_minor==FC_VER_MINOR ) {
-    if(need_branch==BRANCH_CURRENT) {
-      if(need_patch) fprintf(stderr, "Fidoconfig: strange, current patch level can't be non-zero\n");
-      return (FC_VER_BRANCH==BRANCH_CURRENT) && !(cvs && strcmp(cvs,cvs_date));
-    }
-    else return FC_VER_BRANCH!=BRANCH_CURRENT;
-  }
-  return 0;
-}
+    if(need_major == FC_VER_MAJOR && need_minor == FC_VER_MINOR)
+    {
+        if(need_branch == BRANCH_CURRENT)
+        {
+            if(need_patch)
+            {
+                fprintf(stderr, "Fidoconfig: strange, current patch level can't be non-zero\n");
+            }
 
+            return (FC_VER_BRANCH == BRANCH_CURRENT) && !(cvs && strcmp(cvs, cvs_date));
+        }
+        else
+        {
+            return FC_VER_BRANCH != BRANCH_CURRENT;
+        }
+    }
+
+    return 0;
+}
 
 #ifdef TEST_VERSION_C
 
@@ -68,33 +78,29 @@ static
 #include <stdlib.h>
 #include "../cvsdate.h"
 
-int main(){
-  char *versionStr;
+int main()
+{
+    char * versionStr;
 
-  versionStr = GenVersionStr( "fidoconfig", 1, 3, 0, BRANCH_RELEASE, cvs_date);
-  printf( "RELEASE: %s\n\n", versionStr );
-  nfree(versionStr);
-
-  versionStr = GenVersionStr( "fidoconfig", 1, 2, 1, BRANCH_RELEASE, cvs_date);
-  printf( "RELEASE: %s\n\n", versionStr );
-  nfree(versionStr);
-
-  versionStr = GenVersionStr( "fidoconfig", 1, 2, 6, BRANCH_CURRENT, cvs_date);
-  printf( "CURRENT: %s\n\n", versionStr );
-  nfree(versionStr);
-
-  versionStr = GenVersionStr( "fidoconfig", 1, 3, 0, BRANCH_CURRENT, cvs_date);
-  printf( "CURRENT: %s\n\n", versionStr );
-  nfree(versionStr);
-
-  versionStr = GenVersionStr( "fidoconfig", 1, 3, 4, BRANCH_STABLE, cvs_date);
-  printf( "STABLE: %s\n\n", versionStr );
-  nfree(versionStr);
-
-  versionStr = GenVersionStr( "fidoconfig", 1, 4, 0, BRANCH_STABLE, cvs_date);
-  printf( "STABLE: %s\n\n", versionStr );
-  nfree(versionStr);
-
-  return 0;
+    versionStr = GenVersionStr("fidoconfig", 1, 3, 0, BRANCH_RELEASE, cvs_date);
+    printf("RELEASE: %s\n\n", versionStr);
+    nfree(versionStr);
+    versionStr = GenVersionStr("fidoconfig", 1, 2, 1, BRANCH_RELEASE, cvs_date);
+    printf("RELEASE: %s\n\n", versionStr);
+    nfree(versionStr);
+    versionStr = GenVersionStr("fidoconfig", 1, 2, 6, BRANCH_CURRENT, cvs_date);
+    printf("CURRENT: %s\n\n", versionStr);
+    nfree(versionStr);
+    versionStr = GenVersionStr("fidoconfig", 1, 3, 0, BRANCH_CURRENT, cvs_date);
+    printf("CURRENT: %s\n\n", versionStr);
+    nfree(versionStr);
+    versionStr = GenVersionStr("fidoconfig", 1, 3, 4, BRANCH_STABLE, cvs_date);
+    printf("STABLE: %s\n\n", versionStr);
+    nfree(versionStr);
+    versionStr = GenVersionStr("fidoconfig", 1, 4, 0, BRANCH_STABLE, cvs_date);
+    printf("STABLE: %s\n\n", versionStr);
+    nfree(versionStr);
+    return 0;
 }
-#endif
+
+#endif /* ifdef TEST_VERSION_C */

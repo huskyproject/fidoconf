@@ -26,28 +26,25 @@
  *****************************************************************************
  * $Id$
  */
-#ifndef	_GRPTREE_H
-#define	_GRPTREE_H
+#ifndef _GRPTREE_H
+#define _GRPTREE_H
 
 #include "fidoconf.h"
 #include <huskylib/huskylib.h>
-
 /* if returns 1 - All Ok                                           */
 /* if returns 0 - we have duplicate definition for area in config  */
-
-typedef struct {
-    char *name;
-    char *patternList;
-    s_area *area;
+typedef struct
+{
+    char *   name;
+    char *   patternList;
+    s_area * area;
 } grp_t;
-
-HUSKYEXT tree *groupTree;
-
+HUSKYEXT tree * groupTree;
 HUSKYEXT void initGroupTree();
-HUSKYEXT int addPatternToGrpTree(char *grpname, char *patternList);
-HUSKYEXT grp_t *findGroupForArea(char *areaName);
-HUSKYEXT grp_t *findGroupByName(char *groupName);
+HUSKYEXT int addPatternToGrpTree(char * grpname, char * patternList);
+HUSKYEXT grp_t * findGroupForArea(char * areaName);
+HUSKYEXT grp_t * findGroupByName(char * groupName);
 HUSKYEXT void freeGrpTree();
 
 
-#endif 
+#endif

@@ -27,78 +27,72 @@
  *****************************************************************************
  * $Id$
  */
-#ifndef	_AFIXCMN_FLAG_
-#define	_AFIXCMN_FLAG_
-
+#ifndef _AFIXCMN_FLAG_
+#define _AFIXCMN_FLAG_
 /* huskylib: compiler-specific declarations */
 #include <huskylib/compiler.h>
-
 /* huskylib: HUSKYEXT declaration */
 #include <huskylib/huskyext.h>
-
 /* smapi */
 #include <smapi/msgapi.h>
-
 /* fidoconfig */
 #include "fidoconf.h"
-
 /*--- afixcmn.c ---*/
-
 /* Return string contents message kludges: AREA, @INTL, FMPT, TOPT, MSGID, TID */
-HUSKYEXT   char* createKludges    (ps_fidoconfig config, const char *area,
-                                    const hs_addr *ourAka,
-                                    const hs_addr *destAka,
-                                    const char* versionStr);
+HUSKYEXT char * createKludges(ps_fidoconfig config,
+                              const char * area,
+                              const hs_addr * ourAka,
+                              const hs_addr * destAka,
+                              const char * versionStr);
 
 /* Compose message into structure s_message & return it */
-HUSKYEXT   s_message* makeMessage (hs_addr *origAddr, hs_addr *destAddr,
-			                        char *fromName, char *toName,
-                                    char *subject,
-                                    int netmail, long attrs);
+HUSKYEXT s_message * makeMessage(hs_addr * origAddr,
+                                 hs_addr * destAddr,
+                                 char * fromName,
+                                 char * toName,
+                                 char * subject,
+                                 int netmail,
+                                 long attrs);
 
 /* Free memory allocated for s_message structure */
-HUSKYEXT   void       freeMsgBuffers(s_message *msg);
+HUSKYEXT void freeMsgBuffers(s_message * msg);
 
 /* Compose XMSG structure (used by smapi) */
-HUSKYEXT   XMSG createXMSG        (ps_fidoconfig config,
-                                    s_message *msg, const s_pktHeader *header,
-                                    dword forceattr, char* tossDir);
+HUSKYEXT XMSG createXMSG(ps_fidoconfig config,
+                         s_message * msg,
+                         const s_pktHeader * header,
+                         dword forceattr,
+                         char * tossDir);
 
 /*--- afixcmd.c ---*/
-
 /* find token of "ftoken" position for link "link"
     IN : ftoken,link
          fftoken     -- position should be after this token
     OUT: confName,start,end
-*/
-HUSKYEXT   int FindTokenPos4Link(char **confName, char* ftoken, char *fftoken, s_link *link, long* start, long*end);
-
-HUSKYEXT   int InsertCfgLine(char *confName, char* cfgLine, long strbeg, long strend);
+ */
+HUSKYEXT int FindTokenPos4Link(char ** confName,
+                               char * ftoken,
+                               char * fftoken,
+                               s_link * link,
+                               long * start,
+                               long * end);
+HUSKYEXT int InsertCfgLine(char * confName, char * cfgLine, long strbeg, long strend);
 
 /* Change pause status (off|echo|feacho|on) */
-HUSKYEXT   int Changepause(char *confName, s_link *link, int opt, int type);
+HUSKYEXT int Changepause(char * confName, s_link * link, int opt, int type);
 
 /* Remove link address from area string */
-HUSKYEXT   int DelLinkFromString(char *line, hs_addr linkAddr);
-
-HUSKYEXT   int testAddr(char *addr, hs_addr hisAka);
-
-HUSKYEXT   int IsAreaAvailable(char *areaName, char *fileName, char **desc, int retd);
-
-HUSKYEXT   void RemoveLink(s_link*, s_area*);
-
-HUSKYEXT   void Addlink(s_fidoconfig*, s_link*, s_area*);
+HUSKYEXT int DelLinkFromString(char * line, hs_addr linkAddr);
+HUSKYEXT int testAddr(char * addr, hs_addr hisAka);
+HUSKYEXT int IsAreaAvailable(char * areaName, char * fileName, char ** desc, int retd);
+HUSKYEXT void RemoveLink(s_link *, s_area *);
+HUSKYEXT void Addlink(s_fidoconfig *, s_link *, s_area *);
 
 /* ---------------- areafix checking stuff --------------*/
+HUSKYEXT int mandatoryCheck(s_area *, s_link *);
+HUSKYEXT int manualCheck(s_area *, s_link *);
+HUSKYEXT int subscribeCheck(s_area *, s_link *);
+HUSKYEXT int subscribeAreaCheck(s_area *, char *, s_link *);
+HUSKYEXT int limitCheck(s_link * link);
 
-HUSKYEXT   int mandatoryCheck(s_area*, s_link*);
-
-HUSKYEXT   int manualCheck(s_area*, s_link*);
-
-HUSKYEXT   int subscribeCheck(s_area*, s_link*);
-
-HUSKYEXT   int subscribeAreaCheck(s_area*, char*, s_link*);
-
-HUSKYEXT   int limitCheck(s_link *link);
-
-#endif
+#endif // ifndef _AFIXCMN_FLAG_

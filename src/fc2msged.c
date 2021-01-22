@@ -2,7 +2,7 @@
  * FIDOCONFIG --- library for fidonet configs
  ******************************************************************************
  * Copyright (C) 1998-1999
- *  
+ *
  * Matthias Tichy
  *
  * Fido:     2:2433/1245 2:2433/1247 2:2432/605.14
@@ -48,177 +48,251 @@
 
 #endif
 
-void usage(){
-  printf("\nUsage:\n");
-  printf("   fconf2msged  [-a][-sn][-se][-sl][-sb][-sd] <msgedConfigFileName>\n");
-  printf("   (-a exports areas only)\n");
-  printf("   (-sn skip netmail areas)\n");
-  printf("   (-se skip echomail areas)\n");
-  printf("   (-sl skip local areas, and so on...)\n");
-  printf("   (-h  print this message and exit)\n");
-  printf("\nExample:\n");
-  printf("   fconf2msged ~/.msged\n\n");
+void usage()
+{
+    printf("\nUsage:\n");
+    printf("   fconf2msged  [-a][-sn][-se][-sl][-sb][-sd] <msgedConfigFileName>\n");
+    printf("   (-a exports areas only)\n");
+    printf("   (-sn skip netmail areas)\n");
+    printf("   (-se skip echomail areas)\n");
+    printf("   (-sl skip local areas, and so on...)\n");
+    printf("   (-h  print this message and exit)\n");
+    printf("\nExample:\n");
+    printf("   fconf2msged ~/.msged\n\n");
 }
 
-int writeArea(FILE *f, s_area *area, char netMail) {
-   switch (area->msgbType) {
-      
-      case (MSGTYPE_SQUISH): fprintf(f, "Squish ");
-                             break;
-      
-      case (MSGTYPE_SDM):    fprintf(f, "Fido ");
-                             break;
+int writeArea(FILE * f, s_area * area, char netMail)
+{
+    switch(area->msgbType)
+    {
+        case (MSGTYPE_SQUISH):
+            fprintf(f, "Squish ");
+            break;
 
-      case (MSGTYPE_JAM):    fprintf(f, "Jam ");
-                             break;
-   }
+        case (MSGTYPE_SDM):
+            fprintf(f, "Fido ");
+            break;
 
-   if (netMail == 1) fprintf(f, "mp");
-   else fprintf(f, "e");
-   fprintf(f, "8u ");
+        case (MSGTYPE_JAM):
+            fprintf(f, "Jam ");
+            break;
+    }
 
-   fprintf(f, "\"%s\" %s %s ", area->areaName, area->fileName, (netMail!=1) ? area->areaName : "");
+    if(netMail == 1)
+    {
+        fprintf(f, "mp");
+    }
+    else
+    {
+        fprintf(f, "e");
+    }
 
-   fprintf(f, "%u:%u/%u.%u", area->useAka->zone, area->useAka->net, area->useAka->node, area->useAka->point);
-   
-   fprintf(f, "\n");
+    fprintf(f, "8u ");
+    fprintf(f,
+            "\"%s\" %s %s ",
+            area->areaName,
+            area->fileName,
+            (netMail != 1) ? area->areaName : "");
+    fprintf(f,
+            "%u:%u/%u.%u",
+            area->useAka->zone,
+            area->useAka->net,
+            area->useAka->node,
+            area->useAka->point);
+    fprintf(f, "\n");
+    return 0;
+} /* writeArea */
 
-   return 0;
-}
+int generateMsgEdConfig(s_fidoconfig * config, char * fileName, int options)
+{
+    FILE * f;
+    unsigned int i;
+    s_area * area;
 
-int generateMsgEdConfig(s_fidoconfig *config, char *fileName, int options) {
-   FILE *f;
-   unsigned int  i;
-   s_area *area;
+    f = fopen(fileName, "w");
 
-   f = fopen(fileName, "w");
-   if (f!= NULL) {
-    if (!(options & AREASONLY)) {
+    if(f != NULL)
+    {
+        if(!(options & AREASONLY))
+        {
+            fprintf(f, "Name \"%s\"\n\n", config->sysop);
 
-      fprintf(f, "Name \"%s\"\n\n", config->sysop);
-      
-      for (i=0; i<config->addrCount; i++)
-         fprintf(f, "Address %u:%u/%u.%u\n", config->addr[i].zone, config->addr[i].net, config->addr[i].node, config->addr[i].point);
-      
-      if (config->echotosslog != NULL) fprintf(f, "tossLog %s\n", config->echotosslog);
-      if (config->nodelistDir != NULL && config->fidoUserList != NULL)
-      {
-          fprintf(f, "Userlist %s%s\n",
-                  config->nodelistDir, config->fidoUserList);
-      }
+            for(i = 0; i < config->addrCount; i++)
+            {
+                fprintf(f,
+                        "Address %u:%u/%u.%u\n",
+                        config->addr[i].zone,
+                        config->addr[i].net,
+                        config->addr[i].node,
+                        config->addr[i].point);
+            }
 
-      fprintf(f, "\n");
-	}
-   if (!(options & NETMAIL)) {
-      for (i=0; i<config->netMailAreaCount; i++) {
-         writeArea(f, &(config->netMailAreas[i]), 1);
-      }
-   }
-   if (!(options & DUPE)) {
-	    writeArea(f, &(config->dupeArea), 0);
-   }
-   if (!(options & BAD)) {
-		writeArea(f, &(config->badArea), 0);
-   }
-   if (!(options & LOCAL)) {
-		for (i=0; i<config->localAreaCount; i++) {
-         area = &(config->localAreas[i]);
-         if (area->msgbType != MSGTYPE_PASSTHROUGH)
-             writeArea(f, area, 0);
-		}
-   }
-   if (!(options & ECHOMAIL)) {      
-      for (i=0; i<config->echoAreaCount; i++) {
-         area = &(config->echoAreas[i]);
-         if (area->msgbType != MSGTYPE_PASSTHROUGH)
-             writeArea(f, area, 0);
-      }
-   }    
-   return 0;
-   } else printf("Could not write %s\n", fileName);
+            if(config->echotosslog != NULL)
+            {
+                fprintf(f, "tossLog %s\n", config->echotosslog);
+            }
 
-   return 1;
-}
+            if(config->nodelistDir != NULL && config->fidoUserList != NULL)
+            {
+                fprintf(f, "Userlist %s%s\n", config->nodelistDir, config->fidoUserList);
+            }
 
-int parseOptions(char *line){
-int options=0;
-char chr=0;
+            fprintf(f, "\n");
+        }
 
- if(line[0]!='-'){
-	fprintf(stderr,"This is not option: \"%s\", exit\n",line);
-	exit(1);
- }
- if (line[2]==0) chr=line[1];
- else if (line[1]=='s' && line[3]=='\0') chr=line[2];
- else chr=' '; /* unknown option indication */
+        if(!(options & NETMAIL))
+        {
+            for(i = 0; i < config->netMailAreaCount; i++)
+            {
+                writeArea(f, &(config->netMailAreas[i]), 1);
+            }
+        }
 
- switch (chr){
+        if(!(options & DUPE))
+        {
+            writeArea(f, &(config->dupeArea), 0);
+        }
 
-	case 'a':	{
-					options^=AREASONLY;
-					break;
-	}
-	case 'n':	{
-					options^=NETMAIL;
-					break;
-	}
-	case 'e':	{
-					options^=ECHOMAIL;
-					break;
-	}
+        if(!(options & BAD))
+        {
+            writeArea(f, &(config->badArea), 0);
+        }
 
-	case 'l':	{
-					options^=LOCAL;
-					break;
-	}
-	case 'd':	{
-					options^=DUPE;
-					break;
-	}
-	case 'b':	{
-					options^=BAD;
-					break;
-	}
-	case 'H':
-	case 'h':	usage();
-			exit(0);
-	default:
-	    fprintf(stderr,"Unknown option \"%s\", exit\n",line);
-	    exit(1);
+        if(!(options & LOCAL))
+        {
+            for(i = 0; i < config->localAreaCount; i++)
+            {
+                area = &(config->localAreas[i]);
 
- }
-return options;
-}
+                if(area->msgbType != MSGTYPE_PASSTHROUGH)
+                {
+                    writeArea(f, area, 0);
+                }
+            }
+        }
 
+        if(!(options & ECHOMAIL))
+        {
+            for(i = 0; i < config->echoAreaCount; i++)
+            {
+                area = &(config->echoAreas[i]);
 
-int main (int argc, char *argv[]) {
-   s_fidoconfig *config;
-   int options=0;
-   int cont=1;
+                if(area->msgbType != MSGTYPE_PASSTHROUGH)
+                {
+                    writeArea(f, area, 0);
+                }
+            }
+        }
 
-   { char *temp;
-     printf("%s\n", temp=GenVersionStr( "fconf2msged", FC_VER_MAJOR,
-			FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH, cvs_date ));
-     nfree(temp);
-   }
+        return 0;
+    }
+    else
+    {
+        printf("Could not write %s\n", fileName);
+    }
 
-   while ((cont<argc)&&(*argv[cont]=='-')){
-	options|=parseOptions(argv[cont]);	
-	cont++;
-   }
-   if (!(cont<argc)){
-      usage();
-      return 1;
-   }
+    return 1;
+} /* generateMsgEdConfig */
 
-   printf("Generating Config-file %s\n", argv[cont]);
+int parseOptions(char * line)
+{
+    int options = 0;
+    char chr    = 0;
 
-   config = readConfig(cont+1<argc?argv[cont+1]:NULL);
-   if (config!= NULL) {
-      generateMsgEdConfig(config, argv[cont], options);
-      disposeConfig(config);
-      return 0;
-   }
+    if(line[0] != '-')
+    {
+        fprintf(stderr, "This is not option: \"%s\", exit\n", line);
+        exit(1);
+    }
 
-   return 1;
-}
+    if(line[2] == 0)
+    {
+        chr = line[1];
+    }
+    else if(line[1] == 's' && line[3] == '\0')
+    {
+        chr = line[2];
+    }
+    else
+    {
+        chr = ' '; /* unknown option indication */
+    }
+
+    switch(chr)
+    {
+        case 'a':
+            options ^= AREASONLY;
+            break;
+
+        case 'n':
+            options ^= NETMAIL;
+            break;
+
+        case 'e':
+            options ^= ECHOMAIL;
+            break;
+
+        case 'l':
+            options ^= LOCAL;
+            break;
+
+        case 'd':
+            options ^= DUPE;
+            break;
+
+        case 'b':
+            options ^= BAD;
+            break;
+
+        case 'H':
+        case 'h':
+            usage();
+            exit(0);
+
+        default:
+            fprintf(stderr, "Unknown option \"%s\", exit\n", line);
+            exit(1);
+    } /* switch */
+    return options;
+} /* parseOptions */
+
+int main(int argc, char * argv[])
+{
+    s_fidoconfig * config;
+    int options = 0;
+    int cont    = 1;
+
+    {
+        char * temp;
+        printf("%s\n",
+               temp =
+                   GenVersionStr("fconf2msged", FC_VER_MAJOR, FC_VER_MINOR, FC_VER_PATCH,
+                                 FC_VER_BRANCH,
+                                 cvs_date));
+        nfree(temp);
+    }
+
+    while((cont < argc) && (*argv[cont] == '-'))
+    {
+        options |= parseOptions(argv[cont]);
+        cont++;
+    }
+
+    if(!(cont < argc))
+    {
+        usage();
+        return 1;
+    }
+
+    printf("Generating Config-file %s\n", argv[cont]);
+    config = readConfig(cont + 1 < argc ? argv[cont + 1] : NULL);
+
+    if(config != NULL)
+    {
+        generateMsgEdConfig(config, argv[cont], options);
+        disposeConfig(config);
+        return 0;
+    }
+
+    return 1;
+} /* main */

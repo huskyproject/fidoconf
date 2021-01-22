@@ -36,30 +36,30 @@ extern "C" {
 #endif
 
 #include "fidoconf.h"
-
 /* values for 5th parameter of GenVersionStr() */
 /* typedef enum { */
 /*        BRANCH_CURRENT=1, BRANCH_STABLE=2, BRANCH_RELEASE=3 */
 /* }branch_t; */
-
 /* this is version number of FidoConfig */
 #define FC_VER_MAJOR 1
 #define FC_VER_MINOR 9
 #define FC_VER_PATCH 0
 #define FC_VER_BRANCH BRANCH_CURRENT
-
 /* Check version of fidoconfig library
  * return zero if test failed; non-zero if passed
  * test cvs need for DLL version only, using #include <fidoconf/cvsdate.h>
-  const char *fidoconfdate(){
-  static
-  #include "../fidoconf/cvsdate.h"
-  return cvs_date;
-  }
-  CheckFidoconfigVersion( ..., fidoconfdate());
+   const char *fidoconfdate(){
+   static
+ #include "../fidoconf/cvsdate.h"
+   return cvs_date;
+   }
+   CheckFidoconfigVersion( ..., fidoconfdate());
  */
-HUSKYEXT int CheckFidoconfigVersion( int need_major, int need_minor,
-                      int need_patch, branch_t need_branch, const char *cvs );
+HUSKYEXT int CheckFidoconfigVersion(int need_major,
+                                    int need_minor,
+                                    int need_patch,
+                                    branch_t need_branch,
+                                    const char * cvs);
 
 #ifdef __cplusplus
 }

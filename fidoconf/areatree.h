@@ -26,18 +26,16 @@
  *****************************************************************************
  * $Id$
  */
-#ifndef	_AREA_TREE_FLAG
-#define	_AREA_TREE_FLAG
+#ifndef _AREA_TREE_FLAG
+#define _AREA_TREE_FLAG
 
 #include "fidoconf.h"
-
 /* if returns 1 - All Ok                                           */
 /* if returns 0 - we have duplicate definition for area in config  */
-HUSKYEXT   int      RebuildEchoAreaTree(ps_fidoconfig config);
-            void     FreeAreaTree();
-            ps_area  FindAreaInTree(char* areaName);
+HUSKYEXT int RebuildEchoAreaTree(ps_fidoconfig config);
+void FreeAreaTree();
+ps_area FindAreaInTree(char * areaName);
+HUSKYEXT int RebuildFileAreaTree(ps_fidoconfig config);
+ps_area FindFileAreaInTree(char * areaName);
 
-HUSKYEXT   int      RebuildFileAreaTree(ps_fidoconfig config);
-            ps_area  FindFileAreaInTree(char* areaName);
-
-#endif 
+#endif

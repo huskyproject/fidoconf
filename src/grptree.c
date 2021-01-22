@@ -33,7 +33,6 @@
 #ifdef HAS_STRINGS_H
 #   include <strings.h>
 #endif /* HAS_STRINGS_H */
-
 /* export functions from DLL */
 #define DLLEXPORT
 #include <huskylib/huskyext.h>
@@ -41,64 +40,84 @@
 #include "common.h"
 #include "grptree.h"
 
-tree *groupTree = NULL;
-
-int grp_compareEntries_Add(char *p_g1, char *p_g2)
+tree * groupTree = NULL;
+int grp_compareEntries_Add(char * p_g1, char * p_g2)
 {
-
     unused(p_g1);
     unused(p_g2);
-    
     return 1; /* we build a list instead of btree. */
 }
 
-int grp_compareEntries_Search(char *areaName, char *grptree_item)
+int grp_compareEntries_Search(char * areaName, char * grptree_item)
 {
-    grp_t *g = (grp_t *)grptree_item;
-    char *pattern;
-    char *plist_tmp;
-    char *plist;
-    int  found = 0;
+    grp_t * g = (grp_t *)grptree_item;
+    char * pattern;
+    char * plist_tmp;
+    char * plist;
+    int found = 0;
 
-    if (!areaName || !grptree_item) return 1;
+    if(!areaName || !grptree_item)
+    {
+        return 1;
+    }
 
     plist_tmp = sstrdup(g->patternList);
-    plist = plist_tmp;
+    plist     = plist_tmp;
+    pattern   = strtok(plist, " \t,");
 
-    pattern = strtok(plist, " \t,");
-    if (pattern) {
-        if ((found = patimat(areaName, pattern)) == 0)
+    if(pattern)
+    {
+        if((found = patimat(areaName, pattern)) == 0)
+        {
             while((pattern = strtok(NULL, " \t,")) != NULL)
-                if ((found = patimat(areaName, pattern)) != 0)
+            {
+                if((found = patimat(areaName, pattern)) != 0)
+                {
                     break;
+                }
+            }
+        }
     }
+
     nfree(plist_tmp);
-
     return !found;
-}
+} /* grp_compareEntries_Search */
 
-int grp_compareEntries_SearchByName(char *groupName, char *grptree_item)
+int grp_compareEntries_SearchByName(char * groupName, char * grptree_item)
 {
-    grp_t *g = (grp_t *)grptree_item;
+    grp_t * g = (grp_t *)grptree_item;
 
-    if (!groupName || !grptree_item) return 1;
-
-    if (stricmp(groupName, g->name))
+    if(!groupName || !grptree_item)
+    {
         return 1;
+    }
+
+    if(stricmp(groupName, g->name))
+    {
+        return 1;
+    }
     else
+    {
         return 0;
+    }
 }
 
-int grp_deleteEntry(char *p_g) {
-    grp_t *g = (grp_t *) p_g;
-    if (!g) return 1;
+int grp_deleteEntry(char * p_g)
+{
+    grp_t * g = (grp_t *)p_g;
+
+    if(!g)
+    {
+        return 1;
+    }
+
     nfree(g->name);
     nfree(g->patternList);
     nfree(g->area);
     return 1;
 }
 
-int  addGrpToTree(grp_t *grp)
+int addGrpToTree(grp_t * grp)
 {
     return tree_add(&groupTree, grp_compareEntries_Add, (char *)grp, grp_deleteEntry);
 }
@@ -109,26 +128,29 @@ void freeGrpTree()
 }
 
 /* adds patterns to new group (returns 1) or to existing group (returns 0) */
-int addPatternToGrpTree(char *grpname, char *patternList)
+int addPatternToGrpTree(char * grpname, char * patternList)
 {
-    grp_t *g;
+    grp_t * g;
 
-    if ((g = findGroupByName(grpname)) == NULL) {
-        g = (grp_t *) scalloc(sizeof(grp_t), 1);
-        g->name = (char *) sstrdup(grpname);
-        g->patternList = (char *) sstrdup(patternList);
-        g->area = scalloc(sizeof(s_area), 1);
+    if((g = findGroupByName(grpname)) == NULL)
+    {
+        g              = (grp_t *)scalloc(sizeof(grp_t), 1);
+        g->name        = (char *)sstrdup(grpname);
+        g->patternList = (char *)sstrdup(patternList);
+        g->area        = scalloc(sizeof(s_area), 1);
         addGrpToTree(g);
         return 1;
-    } else {
+    }
+    else
+    {
         xstrscat(&(g->patternList), " ", patternList, NULLP);
         return 0;
     }
 }
 
 /*
-int addPatternListToGrpTree(char *grpname, char *plist)
-{
+   int addPatternListToGrpTree(char *grpname, char *plist)
+   {
     char *pattern;
     char *plist_tmp;
 
@@ -145,29 +167,36 @@ int addPatternListToGrpTree(char *grpname, char *plist)
     }
     nfree(plist_tmp);
     return 1;
-}
-*/
-
+   }
+ */
 void initGroupTree()
 {
     tree_init(&groupTree, 0);
 }
 
-grp_t *findGroupForArea(char *areaName)
+grp_t * findGroupForArea(char * areaName)
 {
-    if (!areaName) return 0;
-    return (grp_t *) tree_srch(&groupTree, grp_compareEntries_Search, areaName);
+    if(!areaName)
+    {
+        return 0;
+    }
+
+    return (grp_t *)tree_srch(&groupTree, grp_compareEntries_Search, areaName);
 }
 
-grp_t *findGroupByName(char *groupName)
+grp_t * findGroupByName(char * groupName)
 {
-    if (!groupName) return 0;
-    return (grp_t *) tree_srch(&groupTree, grp_compareEntries_SearchByName, groupName);
+    if(!groupName)
+    {
+        return 0;
+    }
+
+    return (grp_t *)tree_srch(&groupTree, grp_compareEntries_SearchByName, groupName);
 }
 
 /* DEBUG
-main(int argc, char **argv)
-{
+   main(int argc, char **argv)
+   {
     grp_t *t;
     initGroupTree();
     addPatternToGrpTree("SU", "su.* xsu.*");
@@ -178,5 +207,5 @@ main(int argc, char **argv)
     else
         printf("not found\n");
     freeGrpTree();
-}
-*/
+   }
+ */
