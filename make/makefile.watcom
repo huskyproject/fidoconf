@@ -107,7 +107,7 @@ $(BIN10): $(SRC10) $(TARGET)
 	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN10) $(SRC10) $(TARGET) $(LIBS)
 
 .IGNORE
-clean:
+clean: .SYMBOLIC
 	rm $(OBJS)
 	rm $(TARGET)
 	rm $(BINS)
