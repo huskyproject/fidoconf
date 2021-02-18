@@ -1,0 +1,113 @@
+#
+#  Fidoconf makefile for Open Watcom 2.0.
+#
+#  Use Watcom Make:
+#
+#  wmake -f makefile.watcom NT=1
+#
+#    or
+#
+#  wmake -f makefile.watcom OS2=1
+#
+
+!ifdef __LINUX__
+SEP=/
+!else
+SEP=\
+!endif
+
+CC=wcl386
+WLIB=wlib -q -b
+
+SRC_DIR=..$(SEP)src
+INC=-I..$(SEP)..$(SEP)huskylib -I..$(SEP)fidoconf -I..$(SEP)..$(SEP)smapi
+
+CFLAGS=-zq -bt=nt -l=nt
+TARGET=fconfwcw.lib
+LIBS=..$(SEP)..$(SEP)huskylib$(SEP)make$(SEP)huskywcw.lib
+
+!ifdef OS2
+CFLAGS=-zq -bt=os2v2 -l=os2v2
+TARGET=fconfwco.lib
+LIBS=..$(SEP)..$(SEP)huskylib$(SEP)make$(SEP)huskywco.lib
+!endif
+
+BIN1=fconf2msged.exe
+SRC1=$(SRC_DIR)$(SEP)fc2msged.c
+
+BIN2=fconf2golded.exe
+SRC2=$(SRC_DIR)$(SEP)fc2ged.c
+
+BIN3=fconf2aquaed.exe
+SRC3=$(SRC_DIR)$(SEP)fc2aed.c
+
+BIN4=fconf2fidogate.exe
+SRC4=$(SRC_DIR)$(SEP)fc2fgate.c
+
+BIN5=fconf2squish.exe
+SRC5=$(SRC_DIR)$(SEP)fc2sq.c
+
+BIN6=fconf2tornado.exe
+SRC6=$(SRC_DIR)$(SEP)fc2tor.c $(SRC_DIR)$(SEP)fc2tor_g.c
+
+BIN7=fconf2binkd.exe
+SRC7=$(SRC_DIR)$(SEP)fc2binkd.c
+
+BIN8=fecfg2fconf.exe
+SRC8=$(SRC_DIR)$(SEP)fecfg2fc.c $(SRC_DIR)$(SEP)fecfg146.c
+
+BIN9=tparser.exe
+SRC9=$(SRC_DIR)$(SEP)tparser.c
+
+BIN10=linked.exe
+SRC10=$(SRC_DIR)$(SEP)linked.c
+
+BINS=$(BIN1) $(BIN2) $(BIN3) $(BIN4) $(BIN5) $(BIN6) $(BIN7) $(BIN8) $(BIN9) $(BIN10)
+
+OBJS=afixcmd.obj afixcmn.obj arealist.obj areatree.obj stat.obj cfg.obj &
+  common.obj fidoconf.obj findtok.obj grptree.obj line.obj version.obj
+
+{$(SRC_DIR)}.c.obj:
+	@%erase $(TARGET)
+	$(CC) $(CFLAGS) $INC -fo=$@ -c $<
+
+all: $(TARGET) $(BINS)
+
+$(TARGET): $(OBJS)
+	$(WLIB) $(TARGET) $(OBJS)
+
+$(BIN1): $(SRC1) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN1) $(SRC1) $(TARGET) $(LIBS)
+
+$(BIN2): $(SRC2) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN2) $(SRC2) $(TARGET) $(LIBS)
+
+$(BIN3): $(SRC3) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN3) $(SRC3) $(TARGET) $(LIBS)
+
+$(BIN4): $(SRC4) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN4) $(SRC4) $(TARGET) $(LIBS)
+
+$(BIN5): $(SRC5) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN5) $(SRC5) $(TARGET) $(LIBS)
+
+$(BIN6): $(SRC6) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN6) $(SRC6) $(TARGET) $(LIBS)
+
+$(BIN7): $(SRC7) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN7) $(SRC7) $(TARGET) $(LIBS)
+
+$(BIN8): $(SRC8) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN8) $(SRC8) $(TARGET) $(LIBS)
+
+$(BIN9): $(SRC9) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN9) $(SRC9) $(TARGET) $(LIBS)
+
+$(BIN10): $(SRC10) $(TARGET)
+	$(CC) $(CFLAGS) $(INC) -Fe=$(BIN10) $(SRC10) $(TARGET) $(LIBS)
+
+.IGNORE
+clean: .SYMBOLIC
+	rm $(OBJS)
+	rm $(TARGET)
+	rm $(BINS)

@@ -687,12 +687,12 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config,
     else
     {
 #ifdef HAS_getpid
-        FILE * fdd;
+        FILE * fp;
 
-        if((fdd = fdopen(fd, "w+")))
+        if((fp = fdopen(fd, "w+")))
         {
-            fprintf(fd, "%u", getpid());
-            fclose(fdd);
+            fprintf(fp, "%u", getpid());
+            fclose(fp);
         }
 
 #else
