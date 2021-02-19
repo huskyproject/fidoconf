@@ -68,7 +68,7 @@ OBJS=afixcmd.obj afixcmn.obj arealist.obj areatree.obj stat.obj cfg.obj &
 
 {$(SRC_DIR)}.c.obj:
 	@%erase $(TARGET)
-	$(CC) $(CFLAGS) $INC -fo=$@ -c $<
+	$(CC) $(CFLAGS) $(INC) -fo=$@ -c $<
 
 all: $(TARGET) $(BINS)
 
