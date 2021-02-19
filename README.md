@@ -53,6 +53,7 @@ makefile.wcd   fconfwcd.lib          WATCOM C/C++ 10.x for 16-bit DOS
 makefile.wco   fconfwco.lib          WATCOM C/C++ 10.x for 32-bit OS/2
 makefile.wcw   fconfwcw.lib          WATCOM C/C++ 10.x for 32-bit Windows
 makefile.wcx   fconfwcx.lib          WATCOM C/C++ 10.x for 32-bit DOS
+makefile.watcom smapiwco.lib         Open WATCOM 2.0
 ```
 Note that the Linux, BSD and other unix-like makefiles must be in UNIX text
 file format (linefeeds only; no carriage returns). Other must be in DOS text
@@ -97,13 +98,13 @@ This russian text is describing undocumented changes.
 robot default\|areafix\|filefix\|<что-то другое>
 
 helpfile <имя файла>
-        
+
 robotorigin <ориджин для данного робота> и т.п.
 ```
 последовательность играет роль - default копируется тем роботам, которые
 описаны после него (но не до него!). hpt использует имя робота "areafix", htick
 \- "filefix". обратите внимание - имя может быть произвольным (на будущее)
-        
+
 2. некоторые токены из секций link переименованы и допускают префиксы
 это значит, что, к примеру, "areafixecholimit" определяет граничное
 число эх, которые может подписать данный линк у areafix'а, а "echolimit" (без
@@ -235,9 +236,9 @@ subj умеет отсылать правила файлэх. точнее, до
 22 Jan 05 14:34, Max Chernogor wrote to val khokhlov:
 
  MC> ForwardRequestTimeout
- 
+
  MC> IdlePassthruTimeout
- 
+
  MC> KilledRequestTimeout
 
 сорри, забыл указать. эти токены описываются в секции robot
@@ -246,12 +247,12 @@ tearline - пока что нет. перенесу.
 
   Good luck!
              val
-  
+
 -*- System uptime: 2 days, 5 hours, 43 minutes, 36 seconds
  * 0rigin: I noore uu alasseo (2:550/180)
 
  . Sermon - No Place [From Death To Death/1997]
- 
+
 ... даже если вас съели, то у вас есть два выхода ...
 
 -+- [СПбГЭТУ гр. 0461] --- [death&black metal] --- [Ленинградская область] ---

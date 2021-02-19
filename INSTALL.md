@@ -9,6 +9,7 @@ husky-common (huskybse) package FIRST!
   - [Compiling and installing with the standard Makefile and huskymak.cfg](#compiling-and-installing-with-the-standard-makefile-and-huskymakcfg)
   - [Compiling with the Legacy Makefiles](#compiling-with-the-legacy-makefiles)
   - [Compiling and installing using Cmake](#compiling-and-installing-using-cmake)
+  - [Compile using Open Watcom 2.0](#compile-using-open-watcom-20)
 - [Afterbuild actions](#afterbuild-actions)
 
 ## Prebuild
@@ -85,6 +86,23 @@ dos:
    ```sh
       $ cmake --build build --target install
    ```
+
+## Compile using Open Watcom 2.0
+
+This fork allows cross-compilation from Linux to Windows NT & OS/2 using Open Watcom 2.0:
+```console
+$ cd make
+```
+Windows NT build:
+```console
+$ wmake -f makefile.watcom NT=1
+```
+OS/2 build:
+```console
+$ wmake -f makefile.watcom OS2=1
+```
+Where 'wmake' is Open Watcom 2.0's WMAKE.
+
 ## Afterbuild actions
 
 - (For UNIXes only) Ensure /usr/local/lib/ is in /etc/ld.so.conf
