@@ -13,24 +13,6 @@ parsing and manipulating config file.
 For details see docs/fidoconfig.*
 
 
-## OPEN WATCOM 2.0 FORK
-
-This fork allows cross-compilation from Linux to Windows NT & OS/2 using Open Watcom 2.0:
-```console
-$ git clone https://github.com/zoomosis/fidoconf
-$ cd fidoconf/make
-```
-Windows NT build:
-```console
-$ wmake -f makefile.watcom NT=1
-```
-OS/2 build:
-```console
-$ wmake -f makefile.watcom OS2=1
-```
-Where 'wmake' is Open Watcom 2.0's WMAKE.
-
-
 ## SUPPORTED COMPILERS
 -------------------
 
@@ -71,6 +53,7 @@ makefile.wcd   fconfwcd.lib          WATCOM C/C++ 10.x for 16-bit DOS
 makefile.wco   fconfwco.lib          WATCOM C/C++ 10.x for 32-bit OS/2
 makefile.wcw   fconfwcw.lib          WATCOM C/C++ 10.x for 32-bit Windows
 makefile.wcx   fconfwcx.lib          WATCOM C/C++ 10.x for 32-bit DOS
+makefile.watcom smapiwco.lib         Open WATCOM 2.0
 ```
 Note that the Linux, BSD and other unix-like makefiles must be in UNIX text
 file format (linefeeds only; no carriage returns). Other must be in DOS text
