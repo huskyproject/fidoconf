@@ -517,7 +517,7 @@ int DelLinkFromString(char * line, hs_addr linkAddr)
         }
     }
 
-    if(rc == 0) /* beg points to begin of unsubscribed address */
+    if(rc == 0) /* beg points to the beginning of an unsubscribed address */
     {
         end = beg;
 
@@ -528,10 +528,10 @@ int DelLinkFromString(char * line, hs_addr linkAddr)
 
         while(*beg && !isdigit(*beg))
         {
-            beg++;                           /* find for next link */
+            beg++;                           /* search for the next link */
         }
 
-        if(beg && *beg)
+        if(*beg)
         {
             memmove(end, beg, strlen(beg) + 1);
         }
