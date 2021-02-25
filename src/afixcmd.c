@@ -571,7 +571,7 @@ int IsAreaAvailable(char * areaName, char * fileName, char ** desc, int retd)
             running = line;
             token   = strseparate(&running, " \t\r\n");
 
-            if(token && areaName && stricmp(token, areaName) == 0)
+            if(token && stricmp(token, areaName) == 0)
             {
                 /*  return description if needed */
                 if(retd)
