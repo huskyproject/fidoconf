@@ -446,7 +446,7 @@ void freeLink(s_link * link)
         nfree(link->bbsPwd);
     }
 
-    if(link->sessionPwd != link->sessionPwd)
+    if(link->sessionPwd != link->defaultPwd)
     {
         nfree(link->sessionPwd);
     }
