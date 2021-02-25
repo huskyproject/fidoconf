@@ -9,6 +9,8 @@
 #
 #  wmake -f makefile.watcom OS2=1
 #
+#  Set DEBUG=1 to enable debugging.
+#
 
 CC=wcl386
 WLIB=wlib -q -b
@@ -29,6 +31,10 @@ LIBS=../../huskylib/make/huskywcw.lib
 CFLAGS=-zq -bt=os2v2 -l=os2v2
 TARGET=fconfwco.lib
 LIBS=../../huskylib/make/huskywco.lib
+!endif
+
+!ifdef DEBUG
+CFLAGS+= -d2
 !endif
 
 BIN1=fconf2msged.exe
