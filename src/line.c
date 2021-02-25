@@ -3329,7 +3329,7 @@ int parseUnpack(char * line, s_fidoconfig * config)
         c = NULL;
     }
 
-    if((p != NULL) && (c != NULL))
+    if(c != NULL)
     {
         /*  add new unpack statement */
         config->unpackCount++;
