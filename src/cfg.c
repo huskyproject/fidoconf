@@ -413,7 +413,7 @@ char * vars_expand(char * line)
 
     if(curlen != dest - parsed)
     {
-        parsed = srealloc(parsed, (unsigned)(dest - parsed));
+        parsed = srealloc(parsed, (size_t)(dest - parsed));
     }
 
     nfree(line);
