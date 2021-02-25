@@ -1089,6 +1089,8 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
     }
     else if(strcmp(iOption, "lr") == 0)
     {
+        size_t tokenLen;
+
         token = strtok(NULL, " \t");
 
         if(token == NULL)
@@ -1098,7 +1100,8 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
             return 1;
         }
 
-        for(i = 0; i < strlen(token); i++)
+        tokenLen = strlen(token);
+        for(i = 0; i < tokenLen; i++)
         {
             if(isdigit(token[i]) == 0)
             {
@@ -1106,7 +1109,7 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
             }
         }
 
-        if(i != strlen(token))
+        if(i != tokenLen)
         {
             prErr("The number after -lr in areaOptions is wrong!");
             nfree(iOption);
@@ -1139,6 +1142,8 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
     }
     else if(strcmp(iOption, "lw") == 0)
     {
+        size_t tokenLen;
+
         token = strtok(NULL, " \t");
 
         if(token == NULL)
@@ -1148,7 +1153,8 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
             return 1;
         }
 
-        for(i = 0; i < strlen(token); i++)
+        tokenLen = strlen(token);
+        for(i = 0; i < tokenLen; i++)
         {
             if(isdigit(token[i]) == 0)
             {
@@ -1156,7 +1162,7 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
             }
         }
 
-        if(i != strlen(token))
+        if(i != tokenLen)
         {
             prErr("The number after -lw in areaOptions is wrong!");
             nfree(iOption);
@@ -1191,6 +1197,8 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
     {
         if(area->areaType == ECHOAREA)
         {
+            size_t tokenLen;
+
             token = strtok(NULL, " \t");
 
             if(token == NULL)
@@ -1200,7 +1208,8 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
                 return 1;
             }
 
-            for(i = 0; i < strlen(token); i++)
+            tokenLen = strlen(token);
+            for(i = 0; i < tokenLen; i++)
             {
                 if(isdigit(token[i]) == 0)
                 {
@@ -1208,7 +1217,7 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
                 }
             }
 
-            if(i != strlen(token))
+            if(i != tokenLen)
             {
                 prErr("The number after %s in areaOptions is wrong!", iOption);
                 nfree(iOption);
@@ -1245,6 +1254,8 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
     {
         if(area->areaType == ECHOAREA)
         {
+            size_t tokenLen;
+
             token = strtok(NULL, " \t");
 
             if(token == NULL)
@@ -1254,7 +1265,8 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
                 return 1;
             }
 
-            for(i = 0; i < strlen(token); i++)
+            tokenLen = strlen(token);
+            for(i = 0; i < tokenLen; i++)
             {
                 if(isdigit(token[i]) == 0)
                 {
@@ -1262,7 +1274,7 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
                 }
             }
 
-            if(i != strlen(token))
+            if(i != tokenLen)
             {
                 prErr("The number after %s in areaOptions is wrong!", iOption);
                 nfree(iOption);
