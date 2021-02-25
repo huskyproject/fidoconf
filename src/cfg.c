@@ -296,10 +296,10 @@ char * vars_expand(char * line)
 
 #if defined (__UNIX__) || (defined (__OS2__) && defined (__EMX__))
 
-    if(strpbrk(line, "[`") == NULL)
+    if(line == NULL || strpbrk(line, "[`") == NULL)
 #else
 
-    if(strchr(line, '[') == NULL)
+    if(line == NULL || strchr(line, '[') == NULL)
 #endif
     {
         return line;
