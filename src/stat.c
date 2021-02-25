@@ -609,6 +609,7 @@ stat_echo * read_echo(FILE * F)
 
     if(old->tag == NULL)
     {
+        free_echo(old);
         msg("Out of memory");
         do_stat = 0;
         return NULL;
@@ -618,8 +619,8 @@ stat_echo * read_echo(FILE * F)
 
     if(tst < 1)
     {
-        msg("Read error, advstat database is broken");
         free_echo(old);
+        msg("Read error, advstat database is broken");
         do_stat = 0;
         return NULL;
     }
@@ -631,8 +632,8 @@ stat_echo * read_echo(FILE * F)
 
         if(l == NULL)
         {
-            msg("Out of memory");
             free_echo(old);
+            msg("Out of memory");
             do_stat = 0;
             return NULL;
         }
@@ -651,8 +652,8 @@ stat_echo * read_echo(FILE * F)
 
         if(tst < 1)
         {
-            msg("Read error, advstat database is broken");
             free_echo(old);
+            msg("Read error, advstat database is broken");
             do_stat = 0;
             return NULL;
         }
