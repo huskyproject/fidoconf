@@ -149,6 +149,7 @@ void put_stat(s_area * echo, hs_addr * link, st_type type, INT32 len)
     stat_echo * cur = statecho, * prev = NULL, * me = NULL;
     chain_link * curl, * prevl;
     int res;
+    INT16 areaNameLen;
 
     if(!echo || !link)
     {
@@ -162,6 +163,7 @@ void put_stat(s_area * echo, hs_addr * link, st_type type, INT32 len)
     }
 
     /* find pos and insert echo */
+    areaNameLen = (INT16)sstrlen(echo->areaName);
     while((res = (cur != NULL) ? sstricmp(echo->areaName, cur->tag) : -1) != 0)
     {
         if(res < 0)
@@ -175,7 +177,7 @@ void put_stat(s_area * echo, hs_addr * link, st_type type, INT32 len)
                 return;
             }
 
-            me->tag_len = (INT16)sstrlen(echo->areaName);
+            me->tag_len = areaNameLen;
             if(me->tag_len)
             {
                 me->tag = strdup(echo->areaName);
