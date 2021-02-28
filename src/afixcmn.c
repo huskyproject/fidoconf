@@ -344,7 +344,7 @@ XMSG createXMSG(ps_fidoconfig config,
 
     msgHeader.orig = msg->origAddr;
     msgHeader.dest = msg->destAddr;
-    strcpy((char *)msgHeader.__ftsc_date, (char *)msg->datetime);
+    strncpy((char *)msgHeader.__ftsc_date, (char *)msg->datetime, FTSC_DATE_SIZE);
     ASCII_Date_To_Binary((char *)msg->datetime, (union stamp_combo *)&(msgHeader.date_written));
     currentTime = time(NULL);
     date        = localtime(&currentTime);
