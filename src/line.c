@@ -4172,7 +4172,7 @@ int parseCarbonDelete(char * token, s_fidoconfig * config)
             break;
         }
 
-        if(!cb->rule & CC_AND) /* OR */
+        if((!cb->rule) & CC_AND) /* OR */
         {
             cb->move = CC_delete;
         }
@@ -4239,7 +4239,7 @@ int parseCarbonExtern(char * token, s_fidoconfig * config)
             break;
         }
 
-        if(!cb->rule & CC_AND) /* OR */
+        if((!cb->rule) & CC_AND) /* OR */
         {
             fc_copyString(token, &(cb->areaName));
             cb->extspawn = 1;
