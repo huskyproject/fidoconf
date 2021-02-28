@@ -124,7 +124,7 @@ char * readLine(FILE * f)
             }
             else /*  other characters */
             {
-                line[i] = ch;
+                line[i] = (char)ch;
                 i++;
             }
         }
@@ -231,7 +231,7 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
 {
     char * envFidoConfig = getenv(envVar);
     char * osSpecificName;
-    int i;
+    size_t i;
     FILE * f = NULL;
     char * ret;
 
@@ -263,14 +263,9 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
         }
 
         /* try osSpecificName */
-        osSpecificName = (char *)smalloc(strlen(osSpecificPrefix) + strlen(configName) + 2); /*
-                                                                                                
-                                                                                                +1
-                                                                                                -
-                                                                                                for
-                                                                                                training
-                                                                                                delimiter
-                                                                                                */
+        osSpecificName = (char *)smalloc(strlen(osSpecificPrefix) + strlen(configName) + 2); 
+            /* +1 - for trailing delimiter */
+
         strcpy(osSpecificName, osSpecificPrefix);
         i = strlen(osSpecificName);
 

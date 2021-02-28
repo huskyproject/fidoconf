@@ -175,7 +175,8 @@ void put_stat(s_area * echo, hs_addr * link, st_type type, INT32 len)
                 return;
             }
 
-            if((me->tag_len = sstrlen(echo->areaName)))
+            me->tag_len = (INT16)sstrlen(echo->areaName);
+            if(me->tag_len)
             {
                 me->tag = strdup(echo->areaName);
             }
@@ -216,10 +217,10 @@ void put_stat(s_area * echo, hs_addr * link, st_type type, INT32 len)
     {
         if(res < 0)
         {
-            chain_link * me;
-            me = calloc(1, sizeof(*me));
+            chain_link * pcl;
+            pcl = calloc(1, sizeof(*pcl));
 
-            if(me == NULL)
+            if(pcl == NULL)
             {
                 msg("Out of memory");
                 do_stat = 0;
@@ -227,24 +228,24 @@ void put_stat(s_area * echo, hs_addr * link, st_type type, INT32 len)
             }
 
             cur->links++;
-            me->link.addr.zone  = link->zone;
-            me->link.addr.net   = link->net;
-            me->link.addr.node  = link->node;
-            me->link.addr.point = link->point;
-            me->link.in         = me->link.out = me->link.bad = me->link.dupe = 0;
-            me->link.inb        = me->link.outb = 0;
+            pcl->link.addr.zone  = link->zone;
+            pcl->link.addr.net   = link->net;
+            pcl->link.addr.node  = link->node;
+            pcl->link.addr.point = link->point;
+            pcl->link.in         = pcl->link.out = pcl->link.bad = pcl->link.dupe = 0;
+            pcl->link.inb        = pcl->link.outb = 0;
 
             if(prevl != NULL)
             {
-                prevl->next = me;
+                prevl->next = pcl;
             }
             else
             {
-                cur->chain = me;
+                cur->chain = pcl;
             }
 
-            me->next = curl;
-            curl     = me;
+            pcl->next = curl;
+            curl     = pcl;
             break;
         }
         else
@@ -324,7 +325,7 @@ void upd_stat(char * file)
 
     if(OLD != NULL)
     {
-        int rc = fread(&ohdr, sizeof(ohdr), 1, OLD);
+        size_t rc = fread(&ohdr, sizeof(ohdr), 1, OLD);
 
         if(rc < 1)
         {
@@ -524,7 +525,7 @@ void upd_stat(char * file)
 int write_echo(FILE * F, stat_echo * e)
 {
     chain_link * cl;
-    int tst;
+    size_t tst;
     short real_links = 0;
 
     if(!e || !e->links)
@@ -577,7 +578,8 @@ stat_echo * read_echo(FILE * F)
     stat_echo * old;
     chain_link * l, * prev = NULL;
     short ol, ot;
-    int i, tst;
+    int i;
+    size_t tst;
 
     tst = fread(&ol, sizeof(ol), 1, F);
 

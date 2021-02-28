@@ -173,7 +173,8 @@ void prErr(char * string, ...)
 char * getDescription(void)
 {
     char * descBuf = NULL, * token;
-    int quoted = 0, length;
+    int quoted = 0;
+    size_t length;
 
     while((token = strtok(NULL, " \t")) != NULL)
     {
@@ -302,8 +303,6 @@ ps_anndef getDescrAnnDef(s_fidoconfig * config)
         prErr("You must define a AnnAreaTag first before you use %s!", actualKeyword);
         exit(EX_CONFIG);
     }
-
-    return NULL;
 }
 
 int parseAddress(char * token, s_fidoconfig * config)
@@ -2020,7 +2019,7 @@ int parseArea(s_fidoconfig * config, char * token, s_area * area, int useDefs)
 {
     char * tok, addr[24], * ptr;
     unsigned int rc = 0, i, j;
-    int toklen;
+    size_t toklen;
     grp_t * group;
     e_pauses aType = area->areaType;
 
@@ -3564,7 +3563,7 @@ int parseLoglevels(char * line, char ** loglevels)
     {
         if(ll[i])
         {
-            *(p++) = i;
+            *(p++) = (char)i;
         }
     }
 
@@ -3572,7 +3571,7 @@ int parseLoglevels(char * line, char ** loglevels)
     {
         if(ll[i])
         {
-            *(p++) = i;
+            *(p++) = (char)i;
         }
     }
 
@@ -3580,7 +3579,7 @@ int parseLoglevels(char * line, char ** loglevels)
     {
         if(ll[i])
         {
-            *(p++) = i;
+            *(p++) = (char)i;
         }
     }
     *p         = '\0';
@@ -5311,7 +5310,7 @@ int parseGroupDesc(s_fidoconfig * config, char * line)
         return 1;
     }
 
-    l = strlen(s) - 1;
+    l = (short)(strlen(s) - 1);
 
     while(l > 0 && (s[l] == ' ' || s[l] == '\t'))
     {

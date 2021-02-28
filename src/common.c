@@ -376,7 +376,8 @@ void freeGroups(char ** grps, int numGroups)
 char ** copyGroups(char ** grps, int numGroups)
 {
     char ** dst;
-    int i, len = 0;
+    int i;
+    size_t len = 0;
 
     if(grps == NULL || numGroups == 0)
     {
@@ -866,7 +867,7 @@ char * changeFileSuffix(char * fileName, char * newSuffix, int inc)
 
     length = beginOfSuffix - fileName;    /* length "name." */
 
-    i           = strlen(newSuffix);
+    i           = (int)strlen(newSuffix);
     newFileName = (char *)scalloc(1, (size_t)(length + i + (i > 3 ? 1 : 4 - i)));
     strncpy(newFileName, fileName, length);
 

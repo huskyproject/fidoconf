@@ -286,7 +286,7 @@ static char * _configline(void)
 
 char * vars_expand(char * line)
 {
-    int curlen;
+    size_t curlen;
     char * parsed, * src, * dest, * p, * p1, * newparsed;
 
 #if defined (__UNIX__) || (defined (__OS2__) && defined (__EMX__))
@@ -310,7 +310,7 @@ char * vars_expand(char * line)
 
     for(src = line; *src; src++)
     {
-        if(dest - parsed >= curlen - 2)
+        if((size_t)(dest - parsed) >= curlen - 2)
         {
             size_t offset = (size_t)(dest - parsed);
             /* we need this to fake around boundary checking */
@@ -379,7 +379,8 @@ char * vars_expand(char * line)
                     src++;
                     *p = '\0';
 
-                    if((p1 = getvar(src)))
+                    p1 = getvar(src);
+                    if(p1)
                     {
                         if(sstrlen(p1) > sstrlen(src) + 2)
                         {
@@ -411,7 +412,7 @@ char * vars_expand(char * line)
     }
     *dest++ = '\0';
 
-    if(curlen != dest - parsed)
+    if(curlen != (size_t)(dest - parsed))
     {
         parsed = srealloc(parsed, (size_t)(dest - parsed));
     }

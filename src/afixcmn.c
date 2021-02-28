@@ -250,7 +250,7 @@ XMSG createXMSG(ps_fidoconfig config,
                 xscatprintf(&token, "\001Replace destaddr %s", aka2str(config->remaps[i].oldaddr));
                 xscatprintf(&token, " with %s", aka2str(msg->destAddr));
                 xscatprintf(&token, " by %s", aka2str(config->addr[0]));
-                msg->textLength = strlen(token);
+                msg->textLength = (hINT32)strlen(token);
                 nfree(msg->text);
                 msg->text = token;
                 token     = p = NULL;
@@ -305,7 +305,7 @@ XMSG createXMSG(ps_fidoconfig config,
 
         while(token != NULL)
         {
-            int l = strlen(token) - 1;
+            int l = (int)strlen(token) - 1;
 
             while(l >= 0 && token[l] != '\\' && token[l] != '/' && token[l] != ':')
             {

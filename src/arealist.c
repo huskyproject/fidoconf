@@ -133,7 +133,7 @@ int addAreaListItem(ps_arealist al,
 
     if(desc)
     {
-        l = strlen(desc);
+        l = (int)strlen(desc);
         al->areas[al->count].desc = smalloc(l + 3);
 
         if('"' == desc[0] && '"' == desc[l - 1])
@@ -319,7 +319,7 @@ static char * addline(char * text, char * line, int * pos, int * tlen)
         return text;
     }
 
-    ll = strlen(line);
+    ll = (int)strlen(line);
 
     if(*pos + ll + 1 > *tlen)
     {
@@ -506,8 +506,8 @@ HUSKYEXT char * formatAreaList(ps_arealist al, int maxlen, char * activechars, i
             continue;
         }
 
-        clen += strlen(al->areas[i].tag);
-        wlen  = strlen(al->areas[i].desc);
+        clen += (int)strlen(al->areas[i].tag);
+        wlen  = (int)strlen(al->areas[i].desc);
 
         if(clen + 5 + wlen <= maxlen)
         {
@@ -533,7 +533,7 @@ HUSKYEXT char * formatAreaList(ps_arealist al, int maxlen, char * activechars, i
 
             if(p && (p - al->areas[i].desc) + clen + 5 <= maxlen)
             {
-                wlen         = p - al->areas[i].desc;
+                wlen         = (int)(p - al->areas[i].desc);
                 *p           = '\x00';
                 text[tpos++] = ' ';
                 text[tpos]   = '\x00';
@@ -553,7 +553,7 @@ HUSKYEXT char * formatAreaList(ps_arealist al, int maxlen, char * activechars, i
                     return NULL;
                 }
 
-                wlen         = strlen(p + 1);
+                wlen         = (int)strlen(p + 1);
                 text[tpos++] = '\r';
                 text[tpos]   = '\x00';
 
