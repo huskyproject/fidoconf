@@ -195,7 +195,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;..\fidoconf;..\..\smapi;..\..\huskylib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;..\fidoconf;..\..\huskylib;..\..\smapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DEBUG;WIN64;_WINDOWS;_DLL;_CONSOLE;_MAKE_DLL;HAS_STDINT_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>
       </MinimalRebuild>
