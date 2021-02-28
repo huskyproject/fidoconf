@@ -476,29 +476,26 @@ const char * testAddr(ps_addr addr)
         return "Warning: network host can't have points";
     }
 
-    if(addr->domain)
+    for(c = addr->domain; *c; c++)
     {
-        for(c = addr->domain; *c; c++)
+        if(!isalnum(*c))
         {
-            if(!isalnum(*c))
+            if(*c == '.')
             {
-                if(*c == '.')
-                {
-                    return "Warning: FTN domain should not contain '.' char";
-                }
-                else
-                {
-                    char * msg =
-                        "Warning: FTN domain should contain alphanumeric characters only but ' ' is not";
-                    char * p = strchr(msg, '\'') + 1;
+                return "Warning: FTN domain should not contain '.' char";
+            }
+            else
+            {
+                char * msg =
+                    "Warning: FTN domain should contain alphanumeric characters only but ' ' is not";
+                char * p = strchr(msg, '\'') + 1;
 
-                    if(p)
-                    {
-                        *p = *c;
-                    }
-
-                    return msg;
+                if(p)
+                {
+                    *p = *c;
                 }
+
+                return msg;
             }
         }
     }

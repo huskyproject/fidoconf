@@ -146,7 +146,7 @@ char * sysAddress2str(SysAddress sysaddr)
 {
     static char aka[24 + sizeof(sysaddr.domain)];
 
-    if(sysaddr.main.point && sysaddr.domain && sysaddr.domain[0])
+    if(sysaddr.main.point && sysaddr.domain[0])
     {
         sprintf(aka,
                 "%d:%d/%d.%d@%s",
@@ -156,7 +156,7 @@ char * sysAddress2str(SysAddress sysaddr)
                 sysaddr.main.point,
                 sysaddr.domain);
     }
-    else if(sysaddr.main.point && (sysaddr.domain == NULL || sysaddr.domain[0]))
+    else if(sysaddr.main.point && sysaddr.domain[0] == '\0')
     {
         sprintf(aka,
                 "%d:%d/%d.%d",
@@ -165,7 +165,7 @@ char * sysAddress2str(SysAddress sysaddr)
                 sysaddr.main.node,
                 sysaddr.main.point);
     }
-    else if(sysaddr.main.point == 0 && sysaddr.domain && sysaddr.domain[0])
+    else if(sysaddr.main.point == 0 && sysaddr.domain[0])
     {
         sprintf(aka,
                 "%d:%d/%d@%s",
@@ -442,7 +442,7 @@ void print_areas()
                     fprintf(f_hpt, " -g %d", area[i]->info.group - 25);
                 }
 
-                if(area[i]->desc && *area[i]->desc)
+                if(*area[i]->desc)
                 {
                     fprintf(f_hpt, "\t-d \"%s\"\t", area[i]->desc);
                 }
@@ -527,9 +527,9 @@ void print_areas()
             }
             else
             {
-                if(area[i]->name && *area[i]->name)
+                if(*area[i]->name)
                 {
-                    if(area[i]->desc && *area[i]->desc)
+                    if(*area[i]->desc)
                     {
                         fprintf(f_hpt,
                                 "# !!! # area \"%s\" (\"%s\") stored in HUDSON messagebase, doesn't support by Husky\n",
@@ -610,12 +610,12 @@ void print_links()
             fprintf(f_hpt, "endif\n");
         }
 
-        if(node[i]->password && node[i]->password[0])
+        if(node[i]->password[0])
         {
             fprintf(f_hpt, "PktPwd                   %s\n", strLower(node[i]->password));
         }
 
-        if(node[i]->areafixpw && node[i]->areafixpw[0])
+        if(node[i]->areafixpw[0])
         {
             fprintf(f_hpt, "AreafixPWD               %s\n", strLower(node[i]->areafixpw));
         }
@@ -1084,47 +1084,47 @@ int main(int argc, char ** argv)
     } /* endfor */
     fprintf(f_hpt, "\n");
 
-    if(config.UnprotInBound && *config.UnprotInBound)
+    if(*config.UnprotInBound)
     {
         fprintf(f_hpt, "Inbound                  %s\n", config.UnprotInBound);
     }
 
-    if(config.InBound && *config.InBound)
+    if(*config.InBound)
     {
         fprintf(f_hpt, "ProtInbound              %s\n", config.InBound);
     }
 
-    if(config.TempInBound && *config.TempInBound)
+    if(*config.TempInBound)
     {
         fprintf(f_hpt, "TempInbound              %s\n", config.TempInBound);
     }
 
-    if(config.OutBound && *config.OutBound)
+    if(*config.OutBound)
     {
         fprintf(f_hpt, "Outbound                 %s\n", config.OutBound);
     }
 
-    if(config.TempPath && *config.TempPath)
+    if(*config.TempPath)
     {
         fprintf(f_hpt, "TempOutbound             %s\n", config.TempPath);
     }
 
-    if(config.SwapPath && *config.SwapPath)
+    if(*config.SwapPath)
     {
         fprintf(f_hpt, "TempDir                  %s\n", config.SwapPath);
     }
 
-    if(config.SemaphorePath && *config.SemaphorePath)
+    if(*config.SemaphorePath)
     {
         fprintf(f_hpt, "busyFileDir              %s\n", config.SemaphorePath);
     }
 
-    if(config.LocalInBound && *config.LocalInBound)
+    if(*config.LocalInBound)
     {
         fprintf(f_hpt, "LocalInBound             %s\n", config.LocalInBound);
     }
 
-    if(config.RulesPrefix && *config.RulesPrefix)
+    if(*config.RulesPrefix)
     {
         fprintf(f_hpt,
                 "%sRulesDir                 %s\n",
@@ -1163,17 +1163,17 @@ int main(int argc, char ** argv)
     fprintf(f_hpt, "LogEchoToScreen          %s\n", config.graphics ? "on" : "off");
     fprintf(f_hpt, "\n");
 
-    if(config.ExtAfter && *config.ExtAfter)
+    if(*config.ExtAfter)
     {
         fprintf(f_hpt, "AfterUnpack              %s\n", config.ExtAfter);
     }
 
-    if(config.ExtBefore && *config.ExtBefore)
+    if(*config.ExtBefore)
     {
         fprintf(f_hpt, "BeforePack               %s\n", config.ExtBefore);
     }
 
-    if(config.AreaFixHelp && *config.AreaFixHelp)
+    if(*config.AreaFixHelp)
     {
         fprintf(f_hpt, "AreaFixHelp              %s\n", config.AreaFixHelp);
     }
@@ -1219,7 +1219,7 @@ int main(int argc, char ** argv)
         fprintf(f_hpt, "if \"[OS]\"!=\"OS/2\"\n");
         print_unpackers(unpackers, unpackers_count);
 
-        if(config.Unpacker && config.Unpacker[0])
+        if(config.Unpacker[0])
         {
             fprintf(f_hpt,
                     " # Default unpacker\n Unpack  \"%-30s $a $f $p\" 0 ??\n",
@@ -1242,7 +1242,7 @@ int main(int argc, char ** argv)
         fprintf(f_hpt, "## Unpackers (OS/2)\n\n");
         fprintf(f_hpt, "if \"[OS]\"==\"OS/2\"\n");
 
-        if(config.Unpacker2 && config.Unpacker2[0])
+        if(config.Unpacker2[0])
         {
             fprintf(f_hpt,
                     " # Default unpacker\n Unpack  \"%-30s $a $f $p\" 0 ??\n",
