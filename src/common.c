@@ -624,7 +624,7 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config,
 
     /*  separate bundles */
     if(config->separateBundles &&
-       (bundleNameStyle != eAmiga || (bundleNameStyle == eAmiga && link->packerDef == NULL)))
+       (bundleNameStyle != eAmiga || link->packerDef == NULL))
     {
         xstrcat(&sepDir, link->bsyFile);
 
