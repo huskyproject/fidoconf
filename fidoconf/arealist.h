@@ -35,7 +35,7 @@ HUSKYEXT int addAreaListItem(ps_arealist al,
                              char * desc,
                              char * grp);
 HUSKYEXT void sortAreaList(ps_arealist al);
-HUSKYEXT void sortAreaListNoDupes(unsigned int halcnt, ps_arealist * hal, int nodupes);
+HUSKYEXT int sortAreaListNoDupes(unsigned int halcnt, ps_arealist * hal, int nodupes);
 HUSKYEXT char * formatAreaList(ps_arealist al, int maxlen, char * activechars, int grps);
 
 #endif // ifndef _AREALIST_H

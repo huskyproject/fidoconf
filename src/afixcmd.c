@@ -133,7 +133,7 @@ int FindTokenPos4Link(char ** confName,
         }
         token = strseparate(&line, " \t");
 
-        if(!token || testAddr(token, link->hisAka) == 0)
+        if(!token || testAddr(token, &link->hisAka) == 0)
         {
             nfree(cfgline);
             continue;
@@ -465,7 +465,7 @@ int Changepause(char * confName, s_link * link, int opt, int type)
     return 1;
 } /* Changepause */
 
-int testAddr(char * addr, hs_addr hisAka)
+int testAddr(char * addr, const hs_addr * pHisAka)
 {
     hs_addr aka =
     {
@@ -474,7 +474,7 @@ int testAddr(char * addr, hs_addr hisAka)
 
     parseFtnAddrZS(addr, &aka);
 
-    if(addrComp(aka, hisAka) == 0)
+    if(addrComp(aka, *pHisAka) == 0)
     {
         return 1;
     }

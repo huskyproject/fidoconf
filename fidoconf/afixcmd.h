@@ -82,8 +82,8 @@ HUSKYEXT int InsertCfgLine(char * confName, char * cfgLine, long strbeg, long st
 HUSKYEXT int Changepause(char * confName, s_link * link, int opt, int type);
 
 /* Remove link address from area string */
-HUSKYEXT int DelLinkFromString(char * line, hs_addr linkAddr);
-HUSKYEXT int testAddr(char * addr, hs_addr hisAka);
+HUSKYEXT int DelLinkFromString(char * line, const hs_addr * plinkAddr);
+HUSKYEXT int testAddr(char * addr, const hs_addr * pHisAka);
 HUSKYEXT int IsAreaAvailable(char * areaName, char * fileName, char ** desc, int retd);
 HUSKYEXT void RemoveLink(s_link *, s_area *);
 HUSKYEXT void Addlink(s_fidoconfig *, s_link *, s_area *);
