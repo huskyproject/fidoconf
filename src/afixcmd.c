@@ -273,7 +273,7 @@ int InsertCfgLine(char * confName, char * cfgLine, long strbeg, long strend)
         return 0;
     }
 
-    endpos  = ftell(f_conf);
+    endpos  = (long)ftell(f_conf);
     curpos  = strend;
     cfglen  = endpos - curpos;
     newname = (char *)smalloc(strlen(confName) + 5);

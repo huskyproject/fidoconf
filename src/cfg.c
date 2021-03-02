@@ -272,7 +272,7 @@ static char * _configline(void)
 {
     char * line;
 
-    curconfpos = ftell(hcfg);
+    curconfpos = (long)ftell(hcfg);
     line       = readLine(hcfg);
 
     if(line == NULL)
@@ -886,7 +886,7 @@ long getCurConfPos()
 
 long get_hcfgPos()
 {
-    return ftell(hcfg);
+    return (long)ftell(hcfg);
 }
 
 FILE * get_hcfg()
