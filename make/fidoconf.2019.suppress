@@ -47,4 +47,68 @@
     <CodeCurrent>417106776</CodeCurrent>
     <CodeNext>621071246</CodeNext>
   </fidoconf>
+  <fidoconf>
+    <FileName>arealist.c</FileName>
+    <ErrorCode>V1051</ErrorCode>
+    <Message>Consider checking for misprints. It's possible that the 'al-&gt;areas[al-&gt;count].desc' should be checked here.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2592697588</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>stat.c</FileName>
+    <ErrorCode>V814</ErrorCode>
+    <Message>Decreased performance. The 'strlen' function was called multiple times inside the body of a loop.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3615571813</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>line.c</FileName>
+    <ErrorCode>V564</ErrorCode>
+    <Message>The '&amp;' operator is applied to bool type value. You've probably forgotten to include parentheses or intended to use the '&amp;&amp;' operator.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2737648715</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>version.c</FileName>
+    <ErrorCode>V501</ErrorCode>
+    <Message>There are identical sub-expressions to the left and to the right of the '==' operator: BRANCH_CURRENT == BRANCH_CURRENT</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3478262315</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>version.c</FileName>
+    <ErrorCode>V501</ErrorCode>
+    <Message>There are identical sub-expressions to the left and to the right of the '!=' operator: BRANCH_CURRENT != BRANCH_CURRENT</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>983488919</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>fidoconf.h</FileName>
+    <ErrorCode>V802</ErrorCode>
+    <Message>On _-bit platform, structure size can be reduced from _ to _ bytes by rearranging the fields according to their sizes in decreasing order.</Message>
+    <CodePrev>24231785</CodePrev>
+    <CodeCurrent>123</CodeCurrent>
+    <CodeNext>38335</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>afixcmn.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Fourth argument has memsize type.</Message>
+    <CodePrev>24831631</CodePrev>
+    <CodeCurrent>2945006398</CodeCurrent>
+    <CodeNext>2000781235</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>fidoconf.h</FileName>
+    <ErrorCode>V802</ErrorCode>
+    <Message>On _-bit platform, structure size can be reduced from _ to _ bytes by rearranging the fields according to their sizes in decreasing order.</Message>
+    <CodePrev>12115905</CodePrev>
+    <CodeCurrent>123</CodeCurrent>
+    <CodeNext>5907763</CodeNext>
+  </fidoconf>
 </NewDataSet>
