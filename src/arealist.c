@@ -223,7 +223,7 @@ static int compare_arealistitems_and_desc(const void * a, const void * b)
  */
 }
 
-HUSKYEXT void sortAreaListNoDupes(unsigned int halcnt, ps_arealist * hal, int nodupes)
+HUSKYEXT int sortAreaListNoDupes(unsigned int halcnt, ps_arealist * hal, int nodupes)
 {
     int i, j;
     unsigned int k;
@@ -233,20 +233,20 @@ HUSKYEXT void sortAreaListNoDupes(unsigned int halcnt, ps_arealist * hal, int no
 
     if(!hal)
     {
-        return;
+        return 0;
     }
 
     al = hal[halcnt - 1];
 
     if(!(al && al->count && al->areas))
     {
-        return;
+        return 1;
     }
 
     if(!nodupes)
     {
         sortAreaList(al);
-        return;
+        return 1;
     }
 
     qsort(al->areas, al->count, sizeof(s_arealistitem), compare_arealistitems_and_desc);
@@ -298,11 +298,21 @@ HUSKYEXT void sortAreaListNoDupes(unsigned int halcnt, ps_arealist * hal, int no
 
     if(j != (al->maxcount))
     {
-        al->areas    = realloc(al->areas, j * sizeof(s_arealistitem));
+        ps_arealistitem tmp;
+
+        tmp = realloc(al->areas, j * sizeof(s_arealistitem));
+        if(tmp == NULL)
+        {
+            nfree(al->areas);
+            w_log(LL_CRIT, __FILE__ "::sortAreaListNoDupes() No memory!");
+            return 0;
+        }
+        al->areas = tmp;
         al->maxcount = j;
     }
 
     al->count = j;
+    return 1;
 } /* sortAreaListNoDupes */
 
 static char * addline(char * text, char * line, int * pos, int * tlen)
@@ -323,12 +333,17 @@ static char * addline(char * text, char * line, int * pos, int * tlen)
 
     if(*pos + ll + 1 > *tlen)
     {
+        char * tmp;
+        
         *tlen += 1024;
 
-        if(NULL == (text = realloc(text, *tlen)))
+        tmp = realloc(text, *tlen);
+        if(NULL == tmp)
         {
+            nfree(text);
             return NULL;
         }
+        text = tmp;
     }
 
     strcpy(&text[*pos], line);
@@ -347,12 +362,17 @@ static char * addchars(char * text, char c, int count, int * pos, int * tlen)
 
     if(*pos + count + 1 > *tlen)
     {
+        char * tmp;
+
         *tlen += count + 1024;
 
-        if(NULL == (text = realloc(text, *tlen)))
+        tmp = realloc(text, *tlen);
+        if(NULL == tmp)
         {
+            nfree(text);
             return NULL;
         }
+        text = tmp;
     }
 
     for(i = *pos; i < *pos + count; i++)
@@ -429,10 +449,14 @@ HUSKYEXT char * formatAreaList(ps_arealist al, int maxlen, char * activechars, i
 
         if(tpos >= tlen)
         {
+            char * tmp;
+
             tlen += (maxlen + 5) * 32;
 
-            if(NULL == (text = realloc(text, tlen)))
+            tmp = realloc(text, tlen);
+            if(NULL == tmp)
             {
+                nfree(text);
                 return NULL;
             }
         }
