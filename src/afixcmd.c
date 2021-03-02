@@ -482,7 +482,7 @@ int testAddr(char * addr, const hs_addr * pHisAka)
     return 0;
 }
 
-int DelLinkFromString(char * line, hs_addr linkAddr)
+int DelLinkFromString(char * line, const hs_addr * plinkAddr)
 {
     int rc     = 1;
     char * end = NULL;
@@ -505,7 +505,7 @@ int DelLinkFromString(char * line, hs_addr linkAddr)
             beg++;                          /* skip spaces */
         }
 
-        if(*beg && isdigit(*beg) && testAddr(beg, linkAddr))
+        if(*beg && isdigit(*beg) && testAddr(beg, plinkAddr))
         {
             rc = 0;
             break;
