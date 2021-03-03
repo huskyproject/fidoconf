@@ -159,4 +159,44 @@
     <CodeCurrent>9297197</CodeCurrent>
     <CodeNext>125</CodeNext>
   </fidoconf>
+  <fidoconf>
+    <FileName>common.c</FileName>
+    <ErrorCode>V560</ErrorCode>
+    <Message>A part of conditional expression is always true: bundleNameStyle != eAmiga.</Message>
+    <CodePrev>1418228511</CodePrev>
+    <CodeCurrent>3551224877</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>common.c</FileName>
+    <ErrorCode>V560</ErrorCode>
+    <Message>A part of conditional expression is always true: bundleNameStyle != eAmiga.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2682875470</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>common.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Third argument has memsize type.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3601015938</CodeCurrent>
+    <CodeNext>0</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>common.c</FileName>
+    <ErrorCode>V118</ErrorCode>
+    <Message>malloc() function accepts a dangerous expression in the capacity of an argument.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3952409294</CodeCurrent>
+    <CodeNext>2107</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>common.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Fourth argument has memsize type.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3009702867</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </fidoconf>
 </NewDataSet>
