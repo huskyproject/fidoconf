@@ -143,4 +143,20 @@
     <CodeCurrent>1708882457</CodeCurrent>
     <CodeNext>153797</CodeNext>
   </fidoconf>
+  <fidoconf>
+    <FileName>cfg.c</FileName>
+    <ErrorCode>V707</ErrorCode>
+    <Message>Giving short names to global variables is considered to be bad practice. It is suggested to rename 'sp' variable.</Message>
+    <CodePrev>95518579</CodePrev>
+    <CodeCurrent>3066053703</CodeCurrent>
+    <CodeNext>1815147816</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>cfg.c</FileName>
+    <ErrorCode>V1004</ErrorCode>
+    <Message>The 'dest' pointer was used unsafely after it was verified against nullptr. Check lines: _, _.</Message>
+    <CodePrev>6127917</CodePrev>
+    <CodeCurrent>9297197</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </fidoconf>
 </NewDataSet>
