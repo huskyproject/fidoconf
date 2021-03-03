@@ -302,14 +302,14 @@ e_flavour str2flv(char * flv)
     return -1;
 } /* str2flv */
 
-int addrComp(const hs_addr a1, const hs_addr a2)
+int addrComp(const hs_addr * const p_a1, const hs_addr * const p_a2)
 {
     int rc = 0;
 
-    rc  = a1.zone != a2.zone;
-    rc += a1.net != a2.net;
-    rc += a1.node != a2.node;
-    rc += a1.point != a2.point;
+    rc  = (*p_a1).zone != (*p_a2).zone;
+    rc += (*p_a1).net != (*p_a2).net;
+    rc += (*p_a1).node != (*p_a2).node;
+    rc += (*p_a1).point != (*p_a2).point;
     return rc;
 }
 

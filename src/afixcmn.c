@@ -220,7 +220,7 @@ XMSG createXMSG(ps_fidoconfig config,
                 stricmp(config->remaps[i].toname,
                         msg->toUserName) == 0) &&
                (config->remaps[i].oldaddr.zone == 0 ||
-                addrComp(config->remaps[i].oldaddr, msg->destAddr) == 0))
+                addrComp(&(config->remaps[i].oldaddr), &(msg->destAddr)) == 0))
             {
                 w_log(LL_NETMAIL,
                       "Remap destination %u:%u/%u.%u to %s",

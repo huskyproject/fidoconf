@@ -474,7 +474,7 @@ int testAddr(char * addr, const hs_addr * pHisAka)
 
     parseFtnAddrZS(addr, &aka);
 
-    if(addrComp(aka, *pHisAka) == 0)
+    if(addrComp(&aka, pHisAka) == 0)
     {
         return 1;
     }

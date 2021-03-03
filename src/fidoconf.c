@@ -1093,7 +1093,7 @@ s_link * getLinkFromAddr(s_fidoconfig * config, hs_addr aka)
 
     for(i = 0; i < config->linkCount; i++)
     {
-        if(addrComp(aka, config->links[i]->hisAka) == 0)
+        if(addrComp(&aka, &(config->links[i]->hisAka)) == 0)
         {
             return config->links[i];
         }
@@ -1117,9 +1117,8 @@ s_link * getLinkForArea(const s_fidoconfig * config, char * addr, s_area * area)
             continue;
         }
 
-        if(addrComp(aka,
-                    config->links[i]->hisAka) == 0 &&
-           addrComp(*area->useAka, *(config->links[i]->ourAka)) == 0)
+        if(addrComp(&aka, &(config->links[i]->hisAka)) == 0 &&
+           addrComp(area->useAka, config->links[i]->ourAka) == 0)
         {
             return config->links[i];
         }
@@ -1128,7 +1127,7 @@ s_link * getLinkForArea(const s_fidoconfig * config, char * addr, s_area * area)
     /*  backward compatibility */
     for(i = 0; i < config->linkCount; i++)
     {
-        if(addrComp(aka, config->links[i]->hisAka) == 0)
+        if(addrComp(&aka, &(config->links[i]->hisAka)) == 0)
         {
             return config->links[i];
         }
@@ -1146,7 +1145,7 @@ hs_addr * getAddr(const s_fidoconfig * config, char * addr)
 
     for(i = 0; i < config->addrCount; i++)
     {
-        if(addrComp(aka, config->addr[i]) == 0)
+        if(addrComp(&aka, &(config->addr[i])) == 0)
         {
             return &(config->addr[i]);
         }
@@ -1160,7 +1159,7 @@ int existAddr(s_fidoconfig * config, hs_addr aka)
 
     for(i = 0; i < config->addrCount; i++)
     {
-        if(addrComp(aka, config->addr[i]) == 0)
+        if(addrComp(&aka, &(config->addr[i])) == 0)
         {
             return 1;
         }
@@ -1249,7 +1248,7 @@ int isOurAka(ps_fidoconfig config, hs_addr link)
 
     for(i = 0; i < config->addrCount; i++)
     {
-        if(addrComp(link, config->addr[i]) == 0)
+        if(addrComp(&link, &(config->addr[i])) == 0)
         {
             return 1;
         }
@@ -1263,7 +1262,7 @@ int isAreaLink(hs_addr link, s_area * area)
 
     for(i = 0; i < area->downlinkCount; i++)
     {
-        if(addrComp(link, area->downlinks[i]->link->hisAka) == 0)
+        if(addrComp(&link, &(area->downlinks[i]->link->hisAka)) == 0)
         {
             return i; /*  return index of link */
         }

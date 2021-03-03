@@ -97,12 +97,12 @@ HUSKYEXT e_flavour str2flv(char * flv);
    Input:  Flavour name
    Output: Flavour value
  */
-HUSKYEXT int addrComp(const hs_addr a1, const hs_addr a2);
+HUSKYEXT int addrComp(const hs_addr * const p_a1, const hs_addr * const p_a2);
 
 /*DOC
    Input:  two addresses
    Output: 0, or !0
-   FZ:     0 ist returned if the two addresses are the same, !0 else
+   FZ:     0 is returned if the two addresses are the same, !0 else
  */
 HUSKYEXT char * makeUniqueDosFileName(const char * dir, const char * ext, s_fidoconfig * config);
 

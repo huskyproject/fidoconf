@@ -1948,7 +1948,7 @@ int checkLogic(s_fidoconfig * config)
         /* Check links duplication */
         for(j = i + 1; j < config->linkCount; j++)
         {
-            if(addrComp(config->links[i]->hisAka, config->links[j]->hisAka) == 0)
+            if(addrComp(&(config->links[i]->hisAka), &(config->links[j]->hisAka)) == 0)
             {
                 if(strcmp(config->links[i]->name, config->links[j]->name) != 0)
                 {
@@ -2094,7 +2094,7 @@ int checkLogic(s_fidoconfig * config)
             {
                 ps_link link = area->downlinks[j]->link;
 
-                if((link->hisAka.point == 0) && addrComp(link->hisAka, areaboss))
+                if((link->hisAka.point == 0) && addrComp(&(link->hisAka), &areaboss))
                 {
                     printf("WARNING: echoarea %s is subscribed to ", areaName);
                     printAddr(&(link->hisAka));
@@ -2285,7 +2285,7 @@ int checkLogic(s_fidoconfig * config)
 
                     if(config->route[i].target != aroute->target &&
                        (!config->route[i].target || !aroute->target ||
-                        addrComp(config->route[i].target->hisAka, aroute->target->hisAka)))
+                        addrComp(&(config->route[i].target->hisAka), &(aroute->target->hisAka))))
                     {
                         printf("different links (targets): ");
                         printRouteTarget(*aroute);
