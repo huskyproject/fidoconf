@@ -2114,7 +2114,7 @@ int parseArea(s_fidoconfig * config, char * token, s_area * area, int useDefs)
             {
                 rc +=
                     parseAreaLink(config, area,
-                                  aka2str(((config->EchoAreaDefault).downlinks[i]->link->hisAka)));
+                                  aka2str(&(config->EchoAreaDefault).downlinks[i]->link->hisAka));
             }
         }
         else if(area->areaType == FILEAREA)
@@ -2123,7 +2123,7 @@ int parseArea(s_fidoconfig * config, char * token, s_area * area, int useDefs)
             {
                 rc +=
                     parseAreaLink(config, area,
-                                  aka2str(((config->FileAreaDefault).downlinks[i]->link->hisAka)));
+                                  aka2str(&(config->FileAreaDefault).downlinks[i]->link->hisAka));
             }
         }
     }
@@ -2254,7 +2254,7 @@ int parseArea(s_fidoconfig * config, char * token, s_area * area, int useDefs)
 
                 for(i = 0; i < config->linkCount; i++)
                 {
-                    strcpy(addr, aka2str(config->links[i]->hisAka));
+                    strcpy(addr, aka2str(&config->links[i]->hisAka));
 
                     if(patmat(addr, tok))
                     {
@@ -2417,7 +2417,7 @@ int parseAreaDefault(s_fidoconfig * config, char * token, s_area * adef, int cle
             {
                 for(i = 0; i < config->linkCount; i++)
                 {
-                    sprintf(addr, "%s", aka2str(config->links[i]->hisAka));
+                    sprintf(addr, "%s", aka2str(&config->links[i]->hisAka));
 
                     if(patmat(addr, tok))
                     {

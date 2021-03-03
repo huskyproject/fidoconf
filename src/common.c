@@ -313,17 +313,18 @@ int addrComp(const hs_addr * const p_a1, const hs_addr * const p_a2)
     return rc;
 }
 
-char * aka2str(const hs_addr aka)
+char * aka2str(const hs_addr * const p_aka)
 {
     static char straka[SIZE_aka2str];
 
-    if(aka.point)
+    if(p_aka->point)
     {
-        sprintf(straka, "%u:%u/%u.%u", aka.zone, aka.net, aka.node, aka.point);
+        sprintf(straka, "%u:%u/%u.%u", p_aka->zone, p_aka->net, p_aka->node,
+                p_aka->point);
     }
     else
     {
-        sprintf(straka, "%u:%u/%u", aka.zone, aka.net, aka.node);
+        sprintf(straka, "%u:%u/%u", p_aka->zone, p_aka->net, p_aka->node);
     }
 
     return straka;
@@ -671,7 +672,7 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config,
             w_log('7',
                   "cannot create *.bsy file \"%s\" for %s (errno %d)\n",
                   link->bsyFile,
-                  aka2str(*aka),
+                  aka2str(aka),
                   (int)save_errno);
             nRet  = -1;
             errno = save_errno;
@@ -679,7 +680,7 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config,
         else
 #endif
         {
-            w_log('7', "link %s is busy.", aka2str(*aka));
+            w_log('7', "link %s is busy.", aka2str(aka));
             nfree(link->floFile);
             nfree(link->bsyFile);
             nRet = 1;

@@ -471,7 +471,7 @@ void processAreaPermissions(s_fidoconfig * config, ps_area areas, unsigned areaC
                         for(nalink = 0, dlink = aptr->downlinks; nalink < aptr->downlinkCount;
                             nalink++, dlink++)
                         {
-                            if(patmat(aka2str((*dlink)->link->hisAka),
+                            if(patmat(aka2str(&(*dlink)->link->hisAka),
                                       config->readOnly[i].addrMask))
                             {
                                 (*dlink)->import = 0;
@@ -492,7 +492,7 @@ void processAreaPermissions(s_fidoconfig * config, ps_area areas, unsigned areaC
                         for(nalink = 0, dlink = aptr->downlinks; nalink < aptr->downlinkCount;
                             nalink++, dlink++)
                         {
-                            if(patmat(aka2str((*dlink)->link->hisAka),
+                            if(patmat(aka2str(&(*dlink)->link->hisAka),
                                       config->readOnly[i].addrMask))
                             {
                                 (*dlink)->import = 1;
@@ -517,7 +517,7 @@ void processAreaPermissions(s_fidoconfig * config, ps_area areas, unsigned areaC
                         for(nalink = 0, dlink = aptr->downlinks; nalink < aptr->downlinkCount;
                             nalink++, dlink++)
                         {
-                            if(patmat(aka2str((*dlink)->link->hisAka),
+                            if(patmat(aka2str(&(*dlink)->link->hisAka),
                                       config->writeOnly[i].addrMask))
                             {
                                 (*dlink)->aexport = 0;
@@ -538,7 +538,7 @@ void processAreaPermissions(s_fidoconfig * config, ps_area areas, unsigned areaC
                         for(nalink = 0, dlink = aptr->downlinks; nalink < aptr->downlinkCount;
                             nalink++, dlink++)
                         {
-                            if(patmat(aka2str((*dlink)->link->hisAka),
+                            if(patmat(aka2str(&(*dlink)->link->hisAka),
                                       config->writeOnly[i].addrMask))
                             {
                                 (*dlink)->aexport = 1;
@@ -596,9 +596,9 @@ void stripPktPwd(s_fidoconfig * config)
 
             config->links[i]->pktPwd[8] = '\0';
 /*         printf("WARNING: pktPwd too long! Truncated to 8 chars
-   (%s)\n",aka2str(config->links[i]->hisAka));
+   (%s)\n",aka2str(&config->links[i]->hisAka));
          fprintf(stderr,"pktPwd too long! Truncated to 8 chars
-            (%s)\n",aka2str(config->links[i]->hisAka));
+            (%s)\n",aka2str(&config->links[i]->hisAka));
  */
         }
     }
@@ -711,7 +711,7 @@ void setConfigDefaults(s_fidoconfig * config)
                 clink->ourAka = &(config->addr[i]);
                 xscatprintf(&(clink->name),
                             "Our virtual link for aka: %s",
-                            aka2str(config->addr[i]));
+                            aka2str(&config->addr[i]));
                 xscatprintf(&(clink->defaultPwd), "%X", strcrc32(clink->name, 0xFFFFFFFFL));
                 clink->pktPwd      = clink->defaultPwd;
                 clink->ticPwd      = clink->defaultPwd;

@@ -228,7 +228,7 @@ XMSG createXMSG(ps_fidoconfig config,
                       msg->destAddr.net,
                       msg->destAddr.node,
                       msg->destAddr.point,
-                      aka2str(config->remaps[i].newaddr));
+                      aka2str(&config->remaps[i].newaddr));
                 msg->destAddr = config->remaps[i].newaddr;
 
                 /* synchronize 'INTL' kludge with new dest address */
@@ -239,17 +239,17 @@ XMSG createXMSG(ps_fidoconfig config,
                     if(strlen(running) > 5 && !memcmp(running, "\001INTL ", 6))
                     {
                         /*replace INTL to new*/
-                        xstrscat(&token, "\001INTL ", aka2str(msg->destAddr), NULLP);
-                        xscatprintf(&token, " %s\r", aka2str(msg->origAddr));
+                        xstrscat(&token, "\001INTL ", aka2str(&msg->destAddr), NULLP);
+                        xscatprintf(&token, " %s\r", aka2str(&msg->origAddr));
                     }
                     else       /* copy kludge or line */
                     {
                         xscatprintf(&token, "%s\r", running);
                     }
                 }
-                xscatprintf(&token, "\001Replace destaddr %s", aka2str(config->remaps[i].oldaddr));
-                xscatprintf(&token, " with %s", aka2str(msg->destAddr));
-                xscatprintf(&token, " by %s", aka2str(config->addr[0]));
+                xscatprintf(&token, "\001Replace destaddr %s", aka2str(&config->remaps[i].oldaddr));
+                xscatprintf(&token, " with %s", aka2str(&msg->destAddr));
+                xscatprintf(&token, " by %s", aka2str(&config->addr[0]));
                 msg->textLength = (hINT32)strlen(token);
                 nfree(msg->text);
                 msg->text = token;

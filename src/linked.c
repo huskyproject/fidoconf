@@ -107,7 +107,7 @@ int linked(s_link * link)
             {
                 printf("\n%s areas on %s:\n\n",
                        ((link->Pause & ECHOAREA) == ECHOAREA) ? "Passive" : "Active",
-                       aka2str(link->hisAka));
+                       aka2str(&link->hisAka));
             }
 
             printf("  %s\n", cfg->echoAreas[i].areaName);
@@ -121,7 +121,7 @@ int linked(s_link * link)
     }
     else
     {
-        printf("%s not linked to any area\n", aka2str(link->hisAka));
+        printf("%s not linked to any area\n", aka2str(&link->hisAka));
     }
 
     return 0;

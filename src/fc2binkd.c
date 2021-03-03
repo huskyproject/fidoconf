@@ -164,7 +164,7 @@ int writePasswords(s_fidoconfig * config, char * ofname)
     {
         fprintf(ofd,
                 "%s %s\n",
-                aka2str(config->links[ll]->hisAka),
+                aka2str(&config->links[ll]->hisAka),
                 config->links[ll]->sessionPwd ? config->links[ll]->sessionPwd : (config->links[ll]
                                                                                  ->
                                                                                  defaultPwd ?
@@ -215,7 +215,7 @@ int writeBinkdConfig(s_fidoconfig * config, const char * ofname)
 
     for(ll = config->addrCount; ll--; )
     {
-        fprintf(ofd, " %s", aka2str(config->addr[ll]));
+        fprintf(ofd, " %s", aka2str(&config->addr[ll]));
     }
     fprintf(ofd, "\n\n# Your FTN domains:\ndomain fidonet ");
     printPath(config->outbound, ofd);
@@ -258,8 +258,7 @@ int writeBinkdConfig(s_fidoconfig * config, const char * ofname)
     {
         fprintf(ofd,
                 "Node %s * %s %c %s\n",
-                aka2str(
-                    config->links[ll]->hisAka),
+                aka2str(&config->links[ll]->hisAka),
                 config->links[ll]->sessionPwd ? config->links[ll]->sessionPwd : (config->links[ll]
                                                                                  ->
                                                                                  defaultPwd ?

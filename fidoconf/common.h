@@ -168,7 +168,7 @@ HUSKYEXT char * changeFileSuffix(char * fileName, char * newSuffix, int inc);
 
 /*  this function returns the string representation of an address. */
 /*  it returns a static array!!! */
-HUSKYEXT char * aka2str(const hs_addr aka);
+HUSKYEXT char * aka2str(const hs_addr * const p_aka);
 
 /* This function returns the string representation of an 5D address.
  * Return malloc()'ed string!

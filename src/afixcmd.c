@@ -429,7 +429,7 @@ int Changepause(char * confName, s_link * link, int opt, int type)
     {
         if(InsertCfgLine(confName, "Pause off", strbeg, strend))
         {
-            w_log('8', "areafix: system %s set active", aka2str(link->hisAka));
+            w_log('8', "areafix: system %s set active", aka2str(&link->hisAka));
         }
     }
     else if(link->Pause == (ECHOAREA | FILEAREA))
@@ -437,7 +437,7 @@ int Changepause(char * confName, s_link * link, int opt, int type)
         if(InsertCfgLine(confName, "Pause on", strbeg, strend))
         {
             w_log('8', "%s: system %s set passive", opt ? "autopause" : "areafix",
-                  aka2str(link->hisAka));
+                  aka2str(&link->hisAka));
         }
     }
     else if(link->Pause == ECHOAREA)
@@ -447,7 +447,7 @@ int Changepause(char * confName, s_link * link, int opt, int type)
             w_log('8',
                   "%s: system %s set passive only for echoes",
                   opt ? "autopause" : "areafix",
-                  aka2str(link->hisAka));
+                  aka2str(&link->hisAka));
         }
     }
     else
@@ -457,7 +457,7 @@ int Changepause(char * confName, s_link * link, int opt, int type)
             w_log('8',
                   "%s: system %s set passive only for file echoes",
                   opt ? "autopause" : "areafix",
-                  aka2str(link->hisAka));
+                  aka2str(&link->hisAka));
         }
     }
 
@@ -640,7 +640,7 @@ void Addlink(s_fidoconfig * config, s_link * link, s_area * area)
                 {
                     if(patimat(area->areaName,
                                config->readOnly[i].areaMask) &&
-                       patmat(aka2str(link->hisAka), config->readOnly[i].addrMask))
+                       patmat(aka2str(&link->hisAka), config->readOnly[i].addrMask))
                     {
                         arealink->import = 0;
                     }
@@ -652,7 +652,7 @@ void Addlink(s_fidoconfig * config, s_link * link, s_area * area)
 
                     if(patimat(area->areaName,
                                ExclMask) &&
-                       patmat(aka2str(link->hisAka), config->readOnly[i].addrMask))
+                       patmat(aka2str(&link->hisAka), config->readOnly[i].addrMask))
                     {
                         arealink->import = 1;
                     }
@@ -668,7 +668,7 @@ void Addlink(s_fidoconfig * config, s_link * link, s_area * area)
                 {
                     if(patimat(area->areaName,
                                config->writeOnly[i].areaMask) &&
-                       patmat(aka2str(link->hisAka), config->writeOnly[i].addrMask))
+                       patmat(aka2str(&link->hisAka), config->writeOnly[i].addrMask))
                     {
                         arealink->aexport = 0;
                     }
@@ -680,7 +680,7 @@ void Addlink(s_fidoconfig * config, s_link * link, s_area * area)
 
                     if(patimat(area->areaName,
                                ExclMask) &&
-                       patmat(aka2str(link->hisAka), config->writeOnly[i].addrMask))
+                       patmat(aka2str(&link->hisAka), config->writeOnly[i].addrMask))
                     {
                         arealink->aexport = 1;
                     }

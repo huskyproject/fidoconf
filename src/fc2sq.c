@@ -114,11 +114,11 @@ int writeArea(FILE * f, s_area * area, char type)
         fprintf(f, " -$m%u", area->max);
     }
 
-    fprintf(f, " -p%s", aka2str(*area->useAka));
+    fprintf(f, " -p%s", aka2str(area->useAka));
 
     for(i = 0; i < area->downlinkCount; i++)
     {
-        fprintf(f, " %s", aka2str(area->downlinks[i]->link->hisAka));
+        fprintf(f, " %s", aka2str(&area->downlinks[i]->link->hisAka));
     }
     fprintf(f, "\n");
     return 0;
