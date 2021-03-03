@@ -111,4 +111,36 @@
     <CodeCurrent>123</CodeCurrent>
     <CodeNext>5907763</CodeNext>
   </fidoconf>
+  <fidoconf>
+    <FileName>afixcmd.c</FileName>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression '(cfgline = configline()) == NULL' is always false.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2152388225</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>common.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Fourth argument has memsize type.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3074623087</CodeCurrent>
+    <CodeNext>11135</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>common.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Fourth argument has memsize type.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3503631958</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>common.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Fourth argument has memsize type.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>1708882457</CodeCurrent>
+    <CodeNext>153797</CodeNext>
+  </fidoconf>
 </NewDataSet>
