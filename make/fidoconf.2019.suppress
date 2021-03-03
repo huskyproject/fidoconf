@@ -199,4 +199,12 @@
     <CodeCurrent>3009702867</CodeCurrent>
     <CodeNext>125</CodeNext>
   </fidoconf>
+  <fidoconf>
+    <FileName>afixcmn.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Fourth argument has memsize type.</Message>
+    <CodePrev>24831631</CodePrev>
+    <CodeCurrent>1307940998</CodeCurrent>
+    <CodeNext>4006171265</CodeNext>
+  </fidoconf>
 </NewDataSet>
