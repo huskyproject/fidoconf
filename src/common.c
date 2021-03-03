@@ -661,7 +661,7 @@ int NCreateOutboundFileNameAka(ps_fidoconfig config,
     nfree(name);
 
     /*  maybe we have session with this link? */
-    if((fd = open(link->bsyFile, O_CREAT | O_RDWR | O_EXCL, S_IREAD | S_IWRITE)) < 0)
+    if((fd = open(link->bsyFile, O_CREAT | O_RDWR | O_EXCL, S_IRUSR | S_IWUSR)) < 0)
     {
 #if !defined (__WATCOMC__)
         int save_errno = errno;
