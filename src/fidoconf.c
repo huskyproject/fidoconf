@@ -273,11 +273,14 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
         strcpy(osSpecificName, osSpecificPrefix);
         i = strlen(osSpecificName);
 
+        /* Here i == 0 because osSpecificPrefix is empty,
+           so the conditional below is always false
         if(i && osSpecificName[i - 1] != '/' && osSpecificName[i - 1] != '\\')
         {
             osSpecificName[i]     = PATH_DELIM;
             osSpecificName[i + 1] = '\0';
         }
+        */
 
         strcat(osSpecificName, configName);
         f = fopen(osSpecificName, "r");
