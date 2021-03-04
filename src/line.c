@@ -4868,6 +4868,7 @@ int parseFilelist(char * line, s_fidoconfig * config)
     s_filelist * curFl;
     char * flType = NULL;
     unsigned int numCopied;
+    ps_filelist tmp;
 
     if(line == NULL)
     {
@@ -4877,7 +4878,15 @@ int parseFilelist(char * line, s_fidoconfig * config)
 
     /*  add new template */
     config->filelistCount++;
-    config->filelists = realloc(config->filelists, config->filelistCount * sizeof(s_filelist));
+    tmp = realloc(config->filelists, config->filelistCount * sizeof(s_filelist));
+    if(tmp == NULL)
+    {
+        nfree(config->filelists);
+        prErr("No memory!");
+        return 1;
+    }
+    config->filelists = tmp;
+
     curFl             = &config->filelists[config->filelistCount - 1];
     memset(curFl, 0, sizeof(s_filelist));
     /*  parse type */
