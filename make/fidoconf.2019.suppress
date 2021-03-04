@@ -207,4 +207,36 @@
     <CodeCurrent>1307940998</CodeCurrent>
     <CodeNext>4006171265</CodeNext>
   </fidoconf>
+  <fidoconf>
+    <FileName>stat.c</FileName>
+    <ErrorCode>V802</ErrorCode>
+    <Message>On _-bit platform, structure size can be reduced from _ to _ bytes by rearranging the fields according to their sizes in decreasing order.</Message>
+    <CodePrev>387694123</CodePrev>
+    <CodeCurrent>123</CodeCurrent>
+    <CodeNext>200248187</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>grptree.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Fourth argument has memsize type.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2944992567</CodeCurrent>
+    <CodeNext>11235</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>line.c</FileName>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'xstrscat' with variable number of arguments. Fourth argument has memsize type.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1578982918</CodeCurrent>
+    <CodeNext>0</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>line.c</FileName>
+    <ErrorCode>V519</ErrorCode>
+    <Message>The 'tok' variable is assigned values twice successively. Perhaps this is a mistake. Check lines: _, _.</Message>
+    <CodePrev>381858241</CodePrev>
+    <CodeCurrent>190964161</CodeCurrent>
+    <CodeNext>0</CodeNext>
+  </fidoconf>
 </NewDataSet>
