@@ -3950,7 +3950,6 @@ int parseLocalArea(char * token, s_fidoconfig * config)
         srealloc(config->localAreas, sizeof(s_area) * (config->localAreaCount + 1));
     area           = &(config->localAreas[config->localAreaCount]);
     area->areaType = ECHOAREA;
-    area->areaType = ECHOAREA;
     rc             = parseArea(config, token, area, 0);
     config->localAreaCount++;
     return rc;
