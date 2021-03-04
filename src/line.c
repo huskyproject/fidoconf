@@ -4867,7 +4867,7 @@ int parseFilelist(char * line, s_fidoconfig * config)
     char * lineTmp;
     s_filelist * curFl;
     char * flType = NULL;
-    unsigned int numCopied;
+    size_t numCopied;
     ps_filelist tmp;
 
     if(line == NULL)
