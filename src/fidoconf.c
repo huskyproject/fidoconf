@@ -648,11 +648,6 @@ void setConfigDefaults(s_fidoconfig * config)
         xstrcat(&config->sysop, "SysOp");
     }
 
-    if(config->advisoryLock == 0)
-    {
-        config->advisoryLock = 0;
-    }
-
     if(RebuildEchoAreaTree(config) == 0 || RebuildFileAreaTree(config) == 0)
     {
         printf("Please correct above error(s) first!\n");
