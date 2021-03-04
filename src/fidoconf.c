@@ -421,6 +421,8 @@ int carbonNames2Addr(s_fidoconfig * config)
         {
             if(config->badArea.areaName)
             {
+                size_t badAreaNameLen = sstrlen(config->badArea.areaName);
+
                 printf("Could not find area \"%s\" for carbon copy. Use BadArea\n",
                        (cb->areaName) ? cb->areaName : "");
                 cb->area = &(config->badArea);
@@ -435,7 +437,7 @@ int carbonNames2Addr(s_fidoconfig * config)
                     i = 0;
                 }
 
-                cb->areaName = (char *)smalloc(sstrlen(config->badArea.areaName) + i + 1);
+                cb->areaName = (char *)smalloc(badAreaNameLen + i + 1);
 
                 if(i)
                 {
