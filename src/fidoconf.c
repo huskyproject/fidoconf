@@ -265,6 +265,10 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
         /* try osSpecificName */
         osSpecificName = (char *)smalloc(strlen(osSpecificPrefix) + strlen(configName) + 2); 
             /* +1 - for trailing delimiter */
+        if(osSpecificName == NULL)
+        {
+            return NULL;
+        }
 
         strcpy(osSpecificName, osSpecificPrefix);
         i = strlen(osSpecificName);
