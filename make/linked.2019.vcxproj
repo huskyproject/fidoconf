@@ -106,7 +106,7 @@
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
-      <ProgramDataBaseFileName>$(IntDir)vc142.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
@@ -120,7 +120,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>fidoconf.lib;huskylib.lib;Kernel32.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>huskylib.lib;fidoconf.lib;Kernel32.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\nd_r\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -152,7 +152,7 @@
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
-      <ProgramDataBaseFileName>$(IntDir)vc142.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -204,7 +204,7 @@
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
-      <ProgramDataBaseFileName>$(IntDir)vc142.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -217,7 +217,7 @@
       <Culture>0x0419</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>fidoconf.lib;huskylib.lib;Kernel32.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>huskylib.lib;fidoconf.lib;Kernel32.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\nd_r\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -251,7 +251,7 @@
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
-      <ProgramDataBaseFileName>$(IntDir)vc142.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
       <WarningLevel>Level4</WarningLevel>

@@ -104,7 +104,7 @@
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
-      <ProgramDataBaseFileName>$(IntDir)vc142.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -123,7 +123,7 @@
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\nd_r\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -148,7 +148,7 @@
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
-      <ProgramDataBaseFileName>$(IntDir)vc142.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -196,7 +196,7 @@
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
-      <ProgramDataBaseFileName>$(IntDir)vc142.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -213,7 +213,7 @@
       <OutputFile>$(OutDir)fconf2binkd.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\nd_r\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -243,7 +243,7 @@
       </PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
-      <ProgramDataBaseFileName>$(IntDir)vc142.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
