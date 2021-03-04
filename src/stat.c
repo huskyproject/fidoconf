@@ -183,6 +183,7 @@ void put_stat(s_area * echo, hs_addr * link, st_type type, INT32 len)
                 me->tag = strdup(echo->areaName);
                 if(me->tag == NULL)
                 {
+                    nfree(me);
                     msg("Out of memory");
                     do_stat = 0;
                     return;
