@@ -4734,7 +4734,7 @@ int parseLinkWithILogType(char * line, e_linkWithImportLog * value)
         return 1;
     }
 
-    if(*value)
+    if(*value != lwiNo)
     {
         prErr("LinkWithImportLog redefinition");
         return 2;
@@ -4776,7 +4776,7 @@ int parseKludgeAreaNetmailType(char * line, e_kludgeAreaNetmail * value)
         return 1;
     }
 
-    if(*value)
+    if(*value != kanKill)
     {
         prErr("kludgeAreaNetmail redefinition");
         return 2;
