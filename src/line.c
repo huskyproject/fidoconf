@@ -991,7 +991,6 @@ int parseAreaOption(s_fidoconfig * config, char * option, s_area * area)
             }
 
             nfree(iToken);
-            iToken = NULL;
         }
         else
         {
