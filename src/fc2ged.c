@@ -36,6 +36,7 @@
 #define BAD 0x20
 
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -64,6 +65,11 @@ int writeArea(FILE * f, s_area * area, char type)
     if(area->group == NULL)
     {
         area->group = malloc(2);
+        if (area->group == NULL)
+        {
+            fprintf(stderr, "No memory!\n");
+            exit(2);
+        }
         strcpy(area->group, "0");
     }
 
