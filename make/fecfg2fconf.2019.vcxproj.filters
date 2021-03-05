@@ -11,7 +11,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\fc2binkd.c">
+    <ClCompile Include="..\src\fecfg2fc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
