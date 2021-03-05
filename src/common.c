@@ -319,12 +319,12 @@ char * aka2str(const hs_addr * const p_aka)
 
     if(p_aka->point)
     {
-        sprintf(straka, "%u:%u/%u.%u", p_aka->zone, p_aka->net, p_aka->node,
-                p_aka->point);
+        sprintf(straka, "%u:%u/%u.%u", (word)p_aka->zone, (word)p_aka->net, (word)p_aka->node,
+                                       (word)p_aka->point);
     }
     else
     {
-        sprintf(straka, "%u:%u/%u", p_aka->zone, p_aka->net, p_aka->node);
+        sprintf(straka, "%u:%u/%u", (word)p_aka->zone, (word)p_aka->net, (word)p_aka->node);
     }
 
     return straka;
