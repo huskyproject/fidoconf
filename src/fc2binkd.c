@@ -219,7 +219,7 @@ int writeBinkdConfig(s_fidoconfig * config, const char * ofname)
     }
     fprintf(ofd, "\n\n# Your FTN domains:\ndomain fidonet ");
     printPath(config->outbound, ofd);
-    fprintf(ofd, " %u\n\n", config->addr->zone);
+    fprintf(ofd, " %u\n\n", (word)config->addr->zone);
     fprintf(ofd, "# Path and name for the logfile\nlog ");
     printPath(config->logFileDir, ofd);
     fprintf(ofd, BINKDLOG "\n");
