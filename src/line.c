@@ -5425,7 +5425,7 @@ int parseListEcho(char * line, e_listEchoMode * value)
         return 1;
     }
 
-    if(*value)
+    if(*value != lemUndef)
     {
         prErr("%s redefinition", actualKeyword);
         return 2;
