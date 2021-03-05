@@ -1088,7 +1088,6 @@ void disposeConfig(s_fidoconfig * config)
     nfree(config->notValidFNChars);
     free_vars();
     nfree(config);
-    config = NULL;
 } /* disposeConfig */
 
 s_link * getLink(s_fidoconfig * config, char * addr)
