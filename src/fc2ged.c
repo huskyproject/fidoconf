@@ -103,10 +103,10 @@ int writeArea(FILE * f, s_area * area, char type)
     fprintf(f, "%s ", area->fileName);
     fprintf(f,
             "%u:%u/%u.%u",
-            area->useAka->zone,
-            area->useAka->net,
-            area->useAka->node,
-            area->useAka->point);
+            (word)area->useAka->zone,
+            (word)area->useAka->net,
+            (word)area->useAka->node,
+            (word)area->useAka->point);
     fprintf(f, "\n");
     return 0;
 } /* writeArea */
@@ -162,10 +162,10 @@ int generateGoldEdConfig(s_fidoconfig * config, char * fileName, int options)
             {
                 fprintf(f,
                         "Address %u:%u/%u.%u\n",
-                        config->addr[i].zone,
-                        config->addr[i].net,
-                        config->addr[i].node,
-                        config->addr[i].point);
+                        (word)config->addr[i].zone,
+                        (word)config->addr[i].net,
+                        (word)config->addr[i].node,
+                        (word)config->addr[i].point);
             }
             fprintf(f, "\n");
         }
