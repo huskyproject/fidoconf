@@ -295,6 +295,11 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
                     i = strlen(envFidoConfig) -
                         strlen(strrchr(envFidoConfig, PATH_DELIM)) + strlen(configName) + 1;
                     osSpecificName = smalloc(i + 1);
+                    if(osSpecificName == NULL)
+                    {
+                        return NULL;
+                    }
+
                     strncpy(osSpecificName, envFidoConfig, i);
                     strcpy(strrchr(osSpecificName, PATH_DELIM) + 1, configName);
                     f = fopen(osSpecificName, "r");
