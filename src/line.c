@@ -5370,7 +5370,7 @@ int parseGroupDesc(s_fidoconfig * config, char * line)
                 break;
             }
 
-            if(*s != '\\' || (*s == '\\' && *(s + 1) == '\0'))
+            if(*s != '\\' || *(s + 1) == '\0')
             {
                 d[l++] = *s;
             }
