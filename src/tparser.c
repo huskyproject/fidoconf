@@ -77,76 +77,76 @@ static s_fidoconfig * config;
 /* Warnings do not influence the exit code             */
 /*******************************************************/
 /* Test for required tokens */
-int testConfig(s_fidoconfig * config)
+int testConfig(s_fidoconfig * tconfig)
 {
     int rc = 0;
 
     printf("\n");
 
-    if(!config->tempDir)
+    if(!tconfig->tempDir)
     {
         printf("Warning:  TempDir not defined!\n");
     }
 
-    if(!config->protInbound)
+    if(!tconfig->protInbound)
     {
         printf("Warning:  ProtInbound not defined!\n");
     }
 
-    if(!config->inbound)
+    if(!tconfig->inbound)
     {
         printf("Warning:  Inbound not defined!\n");
     }
 
-    if(!config->localInbound)
+    if(!tconfig->localInbound)
     {
         printf(
             "Warning:  localInbound not defined. The statement \"localInbound\" is not required but recommended.\n");
     }
 
-    if(!config->tempInbound)
+    if(!tconfig->tempInbound)
     {
         printf("Warning:  TempInbound not defined!\n");
     }
 
-    if(!config->outbound)
+    if(!tconfig->outbound)
     {
         printf("Warning:  Outbound not defined!\n");
     }
 
-    if(!config->tempOutbound)
+    if(!tconfig->tempOutbound)
     {
         printf("Warning:  TempOutbound not defined!\n");
     }
 
-    if(!config->nodelistDir)
+    if(!tconfig->nodelistDir)
     {
         printf("Warning:  NodelistDir not defined!\n");
     }
 
-    if(config->netMailAreaCount == 0)
+    if(tconfig->netMailAreaCount == 0)
     {
         printf("You must define at least one NetmailArea!\n");
         rc = 1;
     }
 
-    if(config->dupeArea.areaName == NULL)
+    if(tconfig->dupeArea.areaName == NULL)
     {
         printf("You must define DupeArea!\n");
         rc = 1;
     }
-    else if(config->dupeArea.fileName == NULL)
+    else if(tconfig->dupeArea.fileName == NULL)
     {
         printf("DupeArea cannot be passthrough!\n");
         rc = 1;
     }
 
-    if(config->badArea.areaName == NULL)
+    if(tconfig->badArea.areaName == NULL)
     {
         printf("You must define BadArea!\n");
         rc = 1;
     }
-    else if(config->badArea.fileName == NULL)
+    else if(tconfig->badArea.fileName == NULL)
     {
         printf("BadArea cannot be passthrough!\n");
         rc = 1;
@@ -1494,14 +1494,14 @@ int printLink(ps_link link)
 
     if(link->numAccessGrp)
     {
-        unsigned int i;
+        unsigned int j;
         printf("AccessGrp ");
 
-        for(i = 0; i < link->numAccessGrp; i++)
+        for(j = 0; j < link->numAccessGrp; j++)
         {
-            if(i > 0)
+            if(j > 0)
             {
-                printf(", %s", link->AccessGrp[i]);
+                printf(", %s", link->AccessGrp[j]);
             }
             else
             {
@@ -1898,7 +1898,7 @@ void printRouteTarget(s_route aroute)
 }
 
 /*  Some dumb checks ;-) */
-int checkLogic(s_fidoconfig * config)
+int checkLogic(s_fidoconfig * lconfig)
 {
     register unsigned i, j, m;
     register int k, rc = 0;
@@ -1908,58 +1908,58 @@ int checkLogic(s_fidoconfig * config)
     register char * areaName;
     char * passthrough = "passthrough";
 
-    robotsarea_ok = config->robotsArea ? 0 : 1;
+    robotsarea_ok = lconfig->robotsArea ? 0 : 1;
 
     /* Robots should not access same queueFile */
-    for(i = 0; i < config->robotCount; i++)
+    for(i = 0; i < lconfig->robotCount; i++)
     {
-        if(config->robot[i]->queueFile == NULL)
+        if(lconfig->robot[i]->queueFile == NULL)
         {
             continue;
         }
 
-        for(j = i + 1; j < config->robotCount; j++)
+        for(j = i + 1; j < lconfig->robotCount; j++)
         {
-            if(config->robot[j]->queueFile != NULL &&
-               stricmp(config->robot[i]->queueFile, config->robot[j]->queueFile) == 0)
+            if(lconfig->robot[j]->queueFile != NULL &&
+               stricmp(lconfig->robot[i]->queueFile, lconfig->robot[j]->queueFile) == 0)
             {
                 printf("Error: robots %s and %s use the same queueFile %s, but they should not!\n",
-                       config->robot[i]->name,
-                       config->robot[j]->name,
-                       config->robot[i]->queueFile);
+                       lconfig->robot[i]->name,
+                       lconfig->robot[j]->name,
+                       lconfig->robot[i]->queueFile);
                 rc++;
             }
         }
     }
 
-    for(i = 0; i + 1 < config->linkCount; i++)
+    for(i = 0; i + 1 < lconfig->linkCount; i++)
     {
         /* Check link address */
-        const char * addrerror = testAddr(&(config->links[i]->hisAka));
+        const char * addrerror = testAddr(&(lconfig->links[i]->hisAka));
 
         if(addrerror)
         {
-            printf("Link %s", config->links[i]->name);
-            printAddr(&(config->links[i]->hisAka));
+            printf("Link %s", lconfig->links[i]->name);
+            printAddr(&(lconfig->links[i]->hisAka));
             printf(":\n %s\n", addrerror);
             rc++;
         }
 
         /* Check links duplication */
-        for(j = i + 1; j < config->linkCount; j++)
+        for(j = i + 1; j < lconfig->linkCount; j++)
         {
-            if(addrComp(&(config->links[i]->hisAka), &(config->links[j]->hisAka)) == 0)
+            if(addrComp(&(lconfig->links[i]->hisAka), &(lconfig->links[j]->hisAka)) == 0)
             {
-                if(strcmp(config->links[i]->name, config->links[j]->name) != 0)
+                if(strcmp(lconfig->links[i]->name, lconfig->links[j]->name) != 0)
                 {
-                    printf("Warning: duplicate definition of link %s ", config->links[i]->name);
-                    printAddr(&(config->links[i]->hisAka));
+                    printf("Warning: duplicate definition of link %s ", lconfig->links[i]->name);
+                    printAddr(&(lconfig->links[i]->hisAka));
                     printf("\n");
                     continue;
                 }
 
                 printf("ERROR: duplication of link ");
-                printAddr(&(config->links[i]->hisAka));
+                printAddr(&(lconfig->links[i]->hisAka));
                 printf("\n");
                 printf("remove it, or change the name!\n");
                 exit(-1);
@@ -1967,16 +1967,16 @@ int checkLogic(s_fidoconfig * config)
         }
 
         /* Check file permissions */
-        if(config->links[i]->areafix.autoCreateFile)
+        if(lconfig->links[i]->areafix.autoCreateFile)
         {
-            k = open(config->links[i]->areafix.autoCreateFile, O_RDWR | O_APPEND);
+            k = open(lconfig->links[i]->areafix.autoCreateFile, O_RDWR | O_APPEND);
 
             if(k < 0)
             {
                 printf("ERROR: link ");
-                printAddr(&(config->links[i]->hisAka));
+                printAddr(&(lconfig->links[i]->hisAka));
                 printf(" areafixAutoCreateFile '%s': %s\n",
-                       config->links[i]->areafix.autoCreateFile,
+                       lconfig->links[i]->areafix.autoCreateFile,
                        strerror(errno));
                 exit(-1);
             }
@@ -1986,16 +1986,16 @@ int checkLogic(s_fidoconfig * config)
             }
         }
 
-        if(config->links[i]->filefix.autoCreateFile)
+        if(lconfig->links[i]->filefix.autoCreateFile)
         {
-            k = open(config->links[i]->filefix.autoCreateFile, O_RDWR | O_APPEND);
+            k = open(lconfig->links[i]->filefix.autoCreateFile, O_RDWR | O_APPEND);
 
             if(k < 0)
             {
                 printf("ERROR: link ");
-                printAddr((&config->links[i]->hisAka));
+                printAddr((&lconfig->links[i]->hisAka));
                 printf(" filefixAutoCreateFile '%s': %s\n",
-                       config->links[i]->filefix.autoCreateFile,
+                       lconfig->links[i]->filefix.autoCreateFile,
                        strerror(errno));
                 exit(-1);
             }
@@ -2006,61 +2006,61 @@ int checkLogic(s_fidoconfig * config)
         }
 
         /* Check for absence of passthrough token in autoCreateDefaults */
-        if(config->links[i]->areafix.autoCreateDefaults)
+        if(lconfig->links[i]->areafix.autoCreateDefaults)
         {
-            if(strstr(strLower(config->links[i]->areafix.autoCreateDefaults), passthrough))
+            if(strstr(strLower(lconfig->links[i]->areafix.autoCreateDefaults), passthrough))
             {
                 printf("ERROR: areafixAutoCreateDefaults for");
-                printAddr((&config->links[i]->hisAka));
+                printAddr((&lconfig->links[i]->hisAka));
                 printf("contains 'passthrough' keyword\n");
                 rc++;
             }
         }
 
-        if(config->links[i]->filefix.autoCreateDefaults)
+        if(lconfig->links[i]->filefix.autoCreateDefaults)
         {
-            if(strstr(strLower(config->links[i]->filefix.autoCreateDefaults), passthrough))
+            if(strstr(strLower(lconfig->links[i]->filefix.autoCreateDefaults), passthrough))
             {
                 printf("ERROR: filefixAutoCreateDefaults for");
-                printAddr((&config->links[i]->hisAka));
+                printAddr((&lconfig->links[i]->hisAka));
                 printf("contains 'passthrough' keyword\n");
                 rc++;
             }
         }
     }
 
-    for(i = 0; i < config->echoAreaCount; i++)
+    for(i = 0; i < lconfig->echoAreaCount; i++)
     {
-        area     = &(config->echoAreas[i]);
+        area     = &(lconfig->echoAreas[i]);
         areaName = area->areaName;
 
-        if(config->robotsArea && sstricmp(config->robotsArea, areaName) == 0)
+        if(lconfig->robotsArea && sstricmp(lconfig->robotsArea, areaName) == 0)
         {
             robotsarea_ok = 1;
         }
 
         /*    j=i+1 */
-        for(j = i + 1; j < config->echoAreaCount; j++)
+        for(j = i + 1; j < lconfig->echoAreaCount; j++)
         {
-            if(stricmp(config->echoAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->echoAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of echoarea %s\n", areaName);
                 exit(-1);
             }
         }
 
-        for(j = 0; j < config->localAreaCount; j++)
+        for(j = 0; j < lconfig->localAreaCount; j++)
         {
-            if(stricmp(config->localAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->localAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of echoarea %s\n", areaName);
                 exit(-1);
             }
         }
 
-        for(j = 0; j < config->netMailAreaCount; j++)
+        for(j = 0; j < lconfig->netMailAreaCount; j++)
         {
-            if(stricmp(config->netMailAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->netMailAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of echoarea %s\n", areaName);
                 exit(-1);
@@ -2092,12 +2092,12 @@ int checkLogic(s_fidoconfig * config)
 
             for(j = 0; j < area->downlinkCount; j++)
             {
-                ps_link link = area->downlinks[j]->link;
+                ps_link link1 = area->downlinks[j]->link;
 
-                if((link->hisAka.point == 0) && addrComp(&(link->hisAka), &areaboss))
+                if((link1->hisAka.point == 0) && addrComp(&(link1->hisAka), &areaboss))
                 {
                     printf("WARNING: echoarea %s is subscribed to ", areaName);
-                    printAddr(&(link->hisAka));
+                    printAddr(&(link1->hisAka));
                     printf(". This node is not boss-node of your AKA ");
                     printAddr(area->useAka);
                     printf(" used in this echo! Echo loop or seen-by lock is possible.\n");
@@ -2106,19 +2106,19 @@ int checkLogic(s_fidoconfig * config)
         }
     }
 
-    for(i = 0; i < config->localAreaCount; i++)
+    for(i = 0; i < lconfig->localAreaCount; i++)
     {
-        area     = &(config->localAreas[i]);
-        areaName = config->localAreas[i].areaName;
+        area     = &(lconfig->localAreas[i]);
+        areaName = lconfig->localAreas[i].areaName;
 
-        if(config->robotsArea && sstricmp(config->robotsArea, areaName) == 0)
+        if(lconfig->robotsArea && sstricmp(lconfig->robotsArea, areaName) == 0)
         {
             robotsarea_ok = 1;
         }
 
-        for(j = 0; j < config->echoAreaCount; j++)
+        for(j = 0; j < lconfig->echoAreaCount; j++)
         {
-            if(stricmp(config->echoAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->echoAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of local area %s\n", areaName);
                 exit(-1);
@@ -2126,18 +2126,18 @@ int checkLogic(s_fidoconfig * config)
         }
 
         /*    j=i+1 */
-        for(j = i + 1; j < config->localAreaCount; j++)
+        for(j = i + 1; j < lconfig->localAreaCount; j++)
         {
-            if(stricmp(config->localAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->localAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of local area %s\n", areaName);
                 exit(-1);
             }
         }
 
-        for(j = 0; j < config->netMailAreaCount; j++)
+        for(j = 0; j < lconfig->netMailAreaCount; j++)
         {
-            if(stricmp(config->netMailAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->netMailAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of local area %s\n", areaName);
                 exit(-1);
@@ -2162,28 +2162,28 @@ int checkLogic(s_fidoconfig * config)
         }
     }
 
-    for(i = 0; i < config->netMailAreaCount; i++)
+    for(i = 0; i < lconfig->netMailAreaCount; i++)
     {
-        area     = &(config->netMailAreas[i]);
-        areaName = config->netMailAreas[i].areaName;
+        area     = &(lconfig->netMailAreas[i]);
+        areaName = lconfig->netMailAreas[i].areaName;
 
-        if(config->robotsArea && sstricmp(config->robotsArea, areaName) == 0)
+        if(lconfig->robotsArea && sstricmp(lconfig->robotsArea, areaName) == 0)
         {
             robotsarea_ok = 1;
         }
 
-        for(j = 0; j < config->echoAreaCount; j++)
+        for(j = 0; j < lconfig->echoAreaCount; j++)
         {
-            if(stricmp(config->echoAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->echoAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of netmail area %s\n", areaName);
                 exit(-1);
             }
         }
 
-        for(j = 0; j < config->localAreaCount; j++)
+        for(j = 0; j < lconfig->localAreaCount; j++)
         {
-            if(stricmp(config->localAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->localAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of netmail area %s\n", areaName);
                 exit(-1);
@@ -2191,9 +2191,9 @@ int checkLogic(s_fidoconfig * config)
         }
 
         /*    j=i+1 */
-        for(j = i + 1; j < config->netMailAreaCount; j++)
+        for(j = i + 1; j < lconfig->netMailAreaCount; j++)
         {
-            if(stricmp(config->netMailAreas[j].areaName, areaName) == 0)
+            if(stricmp(lconfig->netMailAreas[j].areaName, areaName) == 0)
             {
                 printf("ERROR: duplication of netmail area %s\n", areaName);
                 exit(-1);
@@ -2225,15 +2225,15 @@ int checkLogic(s_fidoconfig * config)
     }/* Check Remap rules */
 
     {
-        int c;
+        unsigned int c;
 
-        for(c = 0; c < config->remapCount; c++)
+        for(c = 0; c < lconfig->remapCount; c++)
         {
             const char * testresult = NULL;
 
-            if(config->remaps[c].oldaddr.zone > 0)
+            if(lconfig->remaps[c].oldaddr.zone > 0)
             {
-                testresult = testAddr(&(config->remaps[c].oldaddr));
+                testresult = testAddr(&(lconfig->remaps[c].oldaddr));
             }
 
             if(testresult)
@@ -2242,7 +2242,7 @@ int checkLogic(s_fidoconfig * config)
                 rc++;
             }
 
-            testresult = testAddr(&(config->remaps[c].newaddr));
+            testresult = testAddr(&(lconfig->remaps[c].newaddr));
 
             if(testresult)
             {
@@ -2254,19 +2254,19 @@ int checkLogic(s_fidoconfig * config)
     /* Check Routing rules */
     {
         ps_route aroute;
-        int c, i;
+        unsigned int c, l;
 
-        for(c = 0; c < config->routeCount; c++)
+        for(c = 0; c < lconfig->routeCount; c++)
         {
-            aroute = &(config->route[c]);
+            aroute = &(lconfig->route[c]);
 
-            for(i = c + 1; i < config->routeCount; i++)
+            for(l = c + 1; l < lconfig->routeCount; l++)
             {
-                if((aroute->id == id_route || config->route[i].id == id_route ||
-                    aroute->id == config->route[i].id) &&
-                   (stricmp(aroute->pattern, config->route[i].pattern) == 0))
+                if((aroute->id == id_route || lconfig->route[l].id == id_route ||
+                    aroute->id == lconfig->route[l].id) &&
+                   (stricmp(aroute->pattern, lconfig->route[l].pattern) == 0))
                 {
-                    if(aroute->id == config->route[i].id)
+                    if(aroute->id == lconfig->route[l].id)
                     {
                         printf("Warning! Duplicate route%s%s %s via ",
                                aroute->id == id_routeMail ? "mail" : "",
@@ -2278,19 +2278,19 @@ int checkLogic(s_fidoconfig * config)
                         printf("Warning! Duplicate route%s%s and route%s%s %s via ",
                                aroute->id == id_routeMail ? "mail" : "",
                                aroute->id == id_routeFile ? "file" : "",
-                               config->route[i].id == id_routeMail ? "mail" : "",
-                               config->route[i].id == id_routeFile ? "file" : "",
+                               lconfig->route[l].id == id_routeMail ? "mail" : "",
+                               lconfig->route[l].id == id_routeFile ? "file" : "",
                                aroute->pattern);
                     }
 
-                    if(config->route[i].target != aroute->target &&
-                       (!config->route[i].target || !aroute->target ||
-                        addrComp(&(config->route[i].target->hisAka), &(aroute->target->hisAka))))
+                    if(lconfig->route[l].target != aroute->target &&
+                       (!lconfig->route[l].target || !aroute->target ||
+                        addrComp(&(lconfig->route[l].target->hisAka), &(aroute->target->hisAka))))
                     {
                         printf("different links (targets): ");
                         printRouteTarget(*aroute);
                         printf(" and ");
-                        printRouteTarget(config->route[i]);
+                        printRouteTarget(lconfig->route[l]);
                     }
                     else
                     {
@@ -2305,21 +2305,21 @@ int checkLogic(s_fidoconfig * config)
     return rc;
 } /* checkLogic */
 
-void printCarbons(s_fidoconfig * config)
+void printCarbons(s_fidoconfig * pconfig)
 {
     unsigned i;
     s_carbon * cb;
     char * crbKey = "", * nspc, * cbaName, * tempc = NULL;
 
     printf("\n=== CarbonCopy ===\n");
-    printf("CarbonAndQuit %s\n", (config->carbonAndQuit) ? "on" : "off");
-    printf("CarbonKeepSb %s\n", (config->carbonKeepSb) ? "on" : "off");
-    printf("CarbonOut %s\n", (config->carbonOut) ? "on" : "off");
-    printf("ExcludePassthroughCarbon %s\n", (config->exclPassCC) ? "on" : "off");
+    printf("CarbonAndQuit %s\n", (pconfig->carbonAndQuit) ? "on" : "off");
+    printf("CarbonKeepSb %s\n", (pconfig->carbonKeepSb) ? "on" : "off");
+    printf("CarbonOut %s\n", (pconfig->carbonOut) ? "on" : "off");
+    printf("ExcludePassthroughCarbon %s\n", (pconfig->exclPassCC) ? "on" : "off");
     printf("Exclude \" * Forward from area \" string: %s\n\n",
-           (config->carbonExcludeFwdFrom) ? "on" : "off");
+           (pconfig->carbonExcludeFwdFrom) ? "on" : "off");
 
-    for(i = 0, cb = &(config->carbons[0]); i < config->carbonCount; i++, cb++)
+    for(i = 0, cb = &(pconfig->carbons[0]); i < pconfig->carbonCount; i++, cb++)
     {
         if(cb->rule & CC_NOT)
         {
@@ -2459,28 +2459,28 @@ void printCarbons(s_fidoconfig * config)
     }
 } /* printCarbons */
 
-void printRemaps(s_fidoconfig * config)
+void printRemaps(s_fidoconfig * rconfig)
 {
     unsigned i;
 
-    printf("\n=== Remap config ===\n");
+    printf("\n=== Remap rconfig ===\n");
 
-    for(i = 0; i < config->remapCount; i++)
+    for(i = 0; i < rconfig->remapCount; i++)
     {
         printf("ToName: \"%s\" and ToAddress:",
-               sstrlen(config->remaps[i].toname) ? config->remaps[i].toname : "<any name>");
+               sstrlen(rconfig->remaps[i].toname) ? rconfig->remaps[i].toname : "<any name>");
 
-        if(config->remaps[i].oldaddr.zone == 0)
+        if(rconfig->remaps[i].oldaddr.zone == 0)
         {
             printf(" <any address> ");
         }
         else
         {
-            printAddr(&(config->remaps[i].oldaddr));
+            printAddr(&(rconfig->remaps[i].oldaddr));
         }
 
         printf("=>");
-        printAddr(&(config->remaps[i].newaddr));
+        printAddr(&(rconfig->remaps[i].newaddr));
         putchar('\n');
     }
 }
