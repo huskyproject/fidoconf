@@ -868,6 +868,12 @@ int parseFEconfig()
                 sysaddr =
                     (SysAddress *)calloc((header.offset / FE_SYS_ADDRESS_SIZE),
                                          sizeof(SysAddress));
+                if(sysaddr == NULL)
+                {
+                    fclose(f_cfg);
+                    fprintf(stderr, "No memory!\n");
+                    exit(5);
+                }
 
                 for(i = 0; i < header.offset / FE_SYS_ADDRESS_SIZE; i++)
                 {
@@ -877,6 +883,12 @@ int parseFEconfig()
 
             case EH_PACKERS:
                 packers = (Packers *)calloc(header.offset / FE_PACKERS_SIZE, sizeof(Packers));
+                if(packers == NULL)
+                {
+                    fclose(f_cfg);
+                    fprintf(stderr, "No memory!\n");
+                    exit(5);
+                }
 
                 for(i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
                 {
@@ -887,6 +899,12 @@ int parseFEconfig()
 
             case EH_PACKERS2:
                 packers2 = (Packers *)calloc(header.offset / FE_PACKERS_SIZE, sizeof(Packers));
+                if(packers2 == NULL)
+                {
+                    fclose(f_cfg);
+                    fprintf(stderr, "No memory!\n");
+                    exit(5);
+                }
 
                 for(i = 0; i < header.offset / FE_PACKERS_SIZE; i++)
                 {
@@ -898,6 +916,12 @@ int parseFEconfig()
             case EH_UNPACKERS:
                 unpackers = (Unpackers *)calloc(header.offset / FE_UNPACKERS_SIZE,
                                                 sizeof(Unpackers));
+                if(unpackers == NULL)
+                {
+                    fclose(f_cfg);
+                    fprintf(stderr, "No memory!\n");
+                    exit(5);
+                }
 
                 for(i = 0; i < header.offset / FE_UNPACKERS_SIZE; i++)
                 {
@@ -909,6 +933,12 @@ int parseFEconfig()
             case EH_UNPACKERS2:
                 unpackers2 =
                     (Unpackers *)calloc(header.offset / FE_UNPACKERS_SIZE, sizeof(Unpackers));
+                if(unpackers2 == NULL)
+                {
+                    fclose(f_cfg);
+                    fprintf(stderr, "No memory!\n");
+                    exit(5);
+                }
 
                 for(i = 0; i < header.offset / FE_UNPACKERS_SIZE; i++)
                 {
@@ -919,6 +949,12 @@ int parseFEconfig()
 
             case EH_GRPDEFAULTS:
                 groupdef = (GroupDefaults **)calloc(config.GDCnt, sizeof(GroupDefaults *));
+                if(groupdef == NULL)
+                {
+                    fclose(f_cfg);
+                    fprintf(stderr, "No memory!\n");
+                    exit(5);
+                }
 
                 for(i = 0; i < config.GDCnt; i++)
                 {
@@ -931,6 +967,12 @@ int parseFEconfig()
             case EH_AREAFIX: /* 0x000d */
                 frequest = (ForwardAreaFix *)calloc(header.offset / FE_FORWARD_AREAFIX_SIZE,
                                                     sizeof(ForwardAreaFix));
+                if(frequest == NULL)
+                {
+                    fclose(f_cfg);
+                    fprintf(stderr, "No memory!\n");
+                    exit(5);
+                }
 
                 for(i = 0; i < header.offset / FE_FORWARD_AREAFIX_SIZE; i++)
                 {
@@ -957,19 +999,43 @@ int parseFEconfig()
     } /* endwhile */
     fseek(f_cfg, FE_CONFIG_SIZE + config.offset, SEEK_SET);
     node = (Node **)calloc(config.NodeCnt, sizeof(Node *));
+    if(node == NULL)
+    {
+        fclose(f_cfg);
+        fprintf(stderr, "No memory!\n");
+        exit(5);
+    }
 
     for(i = 0; i < config.NodeCnt; i++)
     {
         node[i] = (Node *)malloc(sizeof(Node));
+        if(node[i] == NULL)
+        {
+            fclose(f_cfg);
+            fprintf(stderr, "No memory!\n");
+            exit(5);
+        }
         rc      = read_fe_node(node[i], f_cfg, config.NodeRecSize);
         assert(!rc);
     } /* endfor */
     fseek(f_cfg, FE_CONFIG_SIZE + config.offset + (config.NodeRecSize * config.NodeCnt), SEEK_SET);
     area = (Area **)calloc(config.AreaCnt, sizeof(Area *));
+    if(area == NULL)
+    {
+        fclose(f_cfg);
+        fprintf(stderr, "No memory!\n");
+        exit(5);
+    }
 
     for(i = 0; i < config.AreaCnt; i++)
     {
         area[i] = (Area *)malloc(sizeof(Area));
+        if(area[i] == NULL)
+        {
+            fclose(f_cfg);
+            fprintf(stderr, "No memory!\n");
+            exit(5);
+        }
         read_fe_area(area[i], f_cfg);
     } /* endfor */
     return 0;
