@@ -443,6 +443,10 @@ int carbonNames2Addr(s_fidoconfig * config)
                 }
 
                 cb->areaName = (char *)smalloc(badAreaNameLen + i + 1);
+                if(cb->areaName == NULL)
+                {
+                    return 0;
+                }
 
                 if(i)
                 {
