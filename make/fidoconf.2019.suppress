@@ -239,4 +239,28 @@
     <CodeCurrent>190964161</CodeCurrent>
     <CodeNext>0</CodeNext>
   </fidoconf>
+  <fidoconf>
+    <FileName>line.c</FileName>
+    <ErrorCode>V1037</ErrorCode>
+    <Message>Two or more case-branches perform the same actions. Check lines: _, _</Message>
+    <CodePrev>36102342</CodePrev>
+    <CodeCurrent>923760458</CodeCurrent>
+    <CodeNext>2337</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>stat.c</FileName>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'cur == NULL' is always false.</Message>
+    <CodePrev>775729905</CodePrev>
+    <CodeCurrent>361769</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>stat.c</FileName>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'curl == NULL' is always false.</Message>
+    <CodePrev>194831</CodePrev>
+    <CodeCurrent>732457</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
 </NewDataSet>
