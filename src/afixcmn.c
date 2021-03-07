@@ -193,7 +193,6 @@ XMSG createXMSG(ps_fidoconfig config,
                 dword forceattr,
                 char * tossDir)
 {
-    char ** outbounds[4];
     XMSG msgHeader;
     struct tm * date;
     time_t currentTime;
@@ -201,11 +200,7 @@ XMSG createXMSG(ps_fidoconfig config,
     unsigned int i;
     char * newSubj = NULL, * token = NULL, * running = NULL, * p = NULL;
 
-    /* init outbounds */
-    outbounds[0] = &tossDir;
-    outbounds[1] = &config->protInbound;
-    outbounds[2] = &config->inbound;
-    outbounds[3] = NULL;
+    unused(tossDir);
     /*  clear msgheader */
     memset(&msgHeader, '\0', sizeof(XMSG));
     /*  attributes of netmail must be fixed */
