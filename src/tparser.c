@@ -218,9 +218,9 @@ int testplainfile(const char * s, const char * t1, const char * t2, const char *
         printf("ERROR: %s%s%s%s%s can't contain %c\n",
                t1,
                (t2 ? " " : ""),
-               t2,
+               (t2 ? t2 : ""),
                (t3 ? " " : ""),
-               t3,
+               (t3 ? t3 : ""),
                *p);
         return -1;
     }
