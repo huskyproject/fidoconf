@@ -3678,6 +3678,7 @@ int parseAttr(char * token, char ** attrs, long * bitattr)
     *bitattr = 0;
     parsed   = parseAttrString(token, attrs, bitattr, &p);
     assert(parsed >= 0); /* Should be */
+    unused(parsed);
 
     if(*p != '\0')
     {
