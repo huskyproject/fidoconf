@@ -342,7 +342,7 @@ int parseAddress(char * token, s_fidoconfig * config)
 int parseRemap(char * token, s_fidoconfig * config)
 {
     char * param1, * param2, * param3;
-    int r = 0, r2, r3;
+    int r = 0, r2 = 0, r3;
     s_remap remap;
 
     if(token == NULL)
@@ -356,7 +356,7 @@ int parseRemap(char * token, s_fidoconfig * config)
 
     if(param1 == NULL)
     {
-        prErr("Missing Name or * (1st field) after %s!", actualKeyword);
+        prErr("Name or * (1st field) after %s is missing!", actualKeyword);
         return 1;
     }
 
@@ -369,40 +369,50 @@ int parseRemap(char * token, s_fidoconfig * config)
 
     if(param2 == NULL)
     {
-        prErr("Address or * (2nd field) after %s is missing!", actualKeyword);
+        prErr("OldAddress or * (2nd field) after %s is missing!", actualKeyword);
         return 1;
     }
 
-    param3 = strtok(NULL, " \t");
+    param3 = strtok(NULL, ",\t");
 
     if(param3 == NULL)
     {
-        prErr("Address (3rd field) after %s is missing!", actualKeyword);
+        prErr("NewAddress (3rd field) after %s is missing!", actualKeyword);
         return 1;
     }
 
-    if(strcmp(param2, "*") != 0)
+    if(strcmp(param2, "*") == 0)
+    {
+        if(param1 == NULL)
+        {
+            prErr("One of the two first parameters of %s must not be \"*\"", actualKeyword);
+            r = 1;
+        }
+    }
+    else
     {
         r2 = parseFtnAddrZS(param2, &(remap.oldaddr));
     }
 
-    r3 = parseFtnAddrZS(param3, &(remap.newaddr));
-
-    if(param1 == NULL && remap.oldaddr.zone == 0)
+    if(r2 & FTNADDR_ERROR)
     {
-        prErr("One of the two first Parameters must not be \"*\"");
+        prErr("Invalid address in the 2nd parameter of %s (%s)",
+              actualKeyword, param2);
         r = 1;
     }
 
+    r3 = parseFtnAddrZS(param3, &(remap.newaddr));
+
     if(r3 & FTNADDR_ERROR)
     {
-        prErr("Invalid address in the 3rd Parameter (\"param3\")");
+        prErr("Invalid address in the 3rd parameter of %s (%s)",
+              actualKeyword, param3);
         r = 1;
     }
 
     if(r == 0)   /* All OK, allocate memory and store data */
     {
-        if(param1)  /*  Name for rerouting if not "*" */
+        if(param1)  /*  Name for rerouting is not "*" */
         {
             remap.toname = sstrdup(param1);
         }
