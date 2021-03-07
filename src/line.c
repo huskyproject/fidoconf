@@ -6551,14 +6551,11 @@ int parseLine(char * line, s_fidoconfig * config)
                 break;
 
             case ID_CARBONEXTERN:
-                rc = parseCarbonExtern(getRestOfLine(), config);
-                break;
-
             case ID_NETMAILEXTERN:
                 rc = parseCarbonExtern(getRestOfLine(), config);
                 break;
 
-            case ID_CARBONDELETE:
+             case ID_CARBONDELETE:
                 rc = parseCarbonDelete(getRestOfLine(), config);
                 break;
 
