@@ -723,27 +723,23 @@ int parseOwner(char * token, unsigned int * uid, unsigned int * gid)
     if(p)
     {
         *p    = '\0';
-        name  = token;
         group = p + 1;
     }
     else
     {
-        name  = token;
         group = NULL;
     }
+    name = token;
 
-    if(name != NULL)
+    pw = getpwnam(name);
+
+    if(*name && pw == NULL)
     {
-        pw = getpwnam(name);
-
-        if(*name && pw == NULL)
-        {
-            prErr("User name %s is unknown to OS !", name);
-            return 1;
-        }
-
-        *uid = pw ? pw->pw_uid : (unsigned int)-1;
+        prErr("User name %s is unknown to OS !", name);
+        return 1;
     }
+
+    *uid = pw ? pw->pw_uid : (unsigned int)-1;
 
     if(group != NULL)
     {
