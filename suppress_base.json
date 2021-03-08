@@ -1,0 +1,629 @@
+{
+    "version": 1,
+    "warnings": [
+        {
+            "CodeCurrent": 3580841186,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V526",
+            "FileName": "afixcmd.c",
+            "Message": "The 'strcasecmp' function returns _ if corresponding strings are equal. Consider examining the condition for mistakes."
+        },
+        {
+            "CodeCurrent": 2152388225,
+            "CodeNext": 123,
+            "CodePrev": 123,
+            "ErrorCode": "V547",
+            "FileName": "afixcmd.c",
+            "Message": "Expression '(cfgline = configline()) == NULL' is always false."
+        },
+        {
+            "CodeCurrent": 2152388225,
+            "CodeNext": 123,
+            "CodePrev": 123,
+            "ErrorCode": "V547",
+            "FileName": "afixcmd.c",
+            "Message": "Expression '(cfgline = configline()) == NULL' is always false."
+        },
+        {
+            "CodeCurrent": 2152388225,
+            "CodeNext": 123,
+            "CodePrev": 123,
+            "ErrorCode": "V547",
+            "FileName": "afixcmd.c",
+            "Message": "Expression '(cfgline = configline()) == NULL' is always false."
+        },
+        {
+            "CodeCurrent": 2707637813,
+            "CodeNext": 123,
+            "CodePrev": 123,
+            "ErrorCode": "V522",
+            "FileName": "afixcmd.c",
+            "Message": "There might be dereferencing of a potential null pointer 'areas'."
+        },
+        {
+            "CodeCurrent": 1944446817,
+            "CodeNext": 3162106025,
+            "CodePrev": 158873233,
+            "ErrorCode": "V1042",
+            "FileName": "afixcmd.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 594230303,
+            "CodeNext": 332857385,
+            "CodePrev": 2294265304,
+            "ErrorCode": "V1027",
+            "FileName": "afixcmn.c",
+            "Message": "Pointer to an object of the '_stamp' class is cast to unrelated 'stamp_combo' class."
+        },
+        {
+            "CodeCurrent": 1944446817,
+            "CodeNext": 3162106025,
+            "CodePrev": 158873233,
+            "ErrorCode": "V1042",
+            "FileName": "afixcmn.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 2603969868,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V1051",
+            "FileName": "arealist.c",
+            "Message": "Consider checking for misprints. It's possible that the 'al->areas[al->count].desc' should be checked here."
+        },
+        {
+            "CodeCurrent": 2092755107,
+            "CodeNext": 768558191,
+            "CodePrev": 175257233,
+            "ErrorCode": "V1042",
+            "FileName": "arealist.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 1944446817,
+            "CodeNext": 3162106025,
+            "CodePrev": 158873233,
+            "ErrorCode": "V1042",
+            "FileName": "areatree.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 3066053703,
+            "CodeNext": 1815147816,
+            "CodePrev": 95518579,
+            "ErrorCode": "V707",
+            "FileName": "cfg.c",
+            "Message": "Giving short names to global variables is considered to be bad practice. It is suggested to rename 'sp' variable."
+        },
+        {
+            "CodeCurrent": 9297045,
+            "CodeNext": 125,
+            "CodePrev": 6127765,
+            "ErrorCode": "V1004",
+            "FileName": "cfg.c",
+            "Message": "The 'dest' pointer was used unsafely after it was verified against nullptr. Check lines: _, _."
+        },
+        {
+            "CodeCurrent": 125,
+            "CodeNext": 0,
+            "CodePrev": 17733,
+            "ErrorCode": "V796",
+            "FileName": "cfg.c",
+            "Message": "It is possible that 'break' statement is missing in switch statement."
+        },
+        {
+            "CodeCurrent": 685277,
+            "CodeNext": 5063,
+            "CodePrev": 64220573,
+            "ErrorCode": "V769",
+            "FileName": "cfg.c",
+            "Message": "The 'p' pointer in the 'p - line' expression could be nullptr. In such case, resulting value will be senseless and it should not be used."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "cfg.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 3551224898,
+            "CodeNext": 123,
+            "CodePrev": 1418228511,
+            "ErrorCode": "V560",
+            "FileName": "common.c",
+            "Message": "A part of conditional expression is always true: bundleNameStyle != eAmiga."
+        },
+        {
+            "CodeCurrent": 2682875470,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V560",
+            "FileName": "common.c",
+            "Message": "A part of conditional expression is always true: bundleNameStyle != eAmiga."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "common.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "fc2binkd.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "fc2ged.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 918894795,
+            "CodeNext": 1091839135,
+            "CodePrev": 811655243,
+            "ErrorCode": "V575",
+            "FileName": "fidoconf.c",
+            "Message": "The potential null pointer is passed into 'strlen' function. Inspect the first argument."
+        },
+        {
+            "CodeCurrent": 2481536551,
+            "CodeNext": 1262555666,
+            "CodePrev": 293056123,
+            "ErrorCode": "V769",
+            "FileName": "fidoconf.c",
+            "Message": "The 'strrchr(osSpecificName, '/')' pointer in the 'strrchr(osSpecificName, '/') + _' expression could be nullptr. In such case, resulting value will be senseless and it should not be used."
+        },
+        {
+            "CodeCurrent": 739205,
+            "CodeNext": 740027,
+            "CodePrev": 2649502538,
+            "ErrorCode": "V1004",
+            "FileName": "fidoconf.c",
+            "Message": "The 'cb->areaName' pointer was used unsafely after it was verified against nullptr. Check lines: _, _."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "fidoconf.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 1889305436,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V526",
+            "FileName": "grptree.c",
+            "Message": "The 'strcasecmp' function returns _ if corresponding strings are equal. Consider examining the condition for mistakes."
+        },
+        {
+            "CodeCurrent": 1944446817,
+            "CodeNext": 3162106025,
+            "CodePrev": 158873233,
+            "ErrorCode": "V1042",
+            "FileName": "grptree.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 190964161,
+            "CodeNext": 0,
+            "CodePrev": 381858241,
+            "ErrorCode": "V519",
+            "FileName": "line.c",
+            "Message": "The 'tok' variable is assigned values twice successively. Perhaps this is a mistake. Check lines: _, _."
+        },
+        {
+            "CodeCurrent": 1137671666,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V526",
+            "FileName": "line.c",
+            "Message": "The 'strncasecmp' function returns _ if corresponding strings are equal. Consider examining the condition for mistakes."
+        },
+        {
+            "CodeCurrent": 2512092662,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V526",
+            "FileName": "line.c",
+            "Message": "The 'strncasecmp' function returns _ if corresponding strings are equal. Consider examining the condition for mistakes."
+        },
+        {
+            "CodeCurrent": 3802718911,
+            "CodeNext": 125,
+            "CodePrev": 4147939409,
+            "ErrorCode": "V576",
+            "FileName": "line.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'sscanf' function. It's dangerous to use string specifier without width specification. Buffer overflow is possible."
+        },
+        {
+            "CodeCurrent": 23487401,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V522",
+            "FileName": "line.c",
+            "Message": "There might be dereferencing of a potential null pointer 'link'."
+        },
+        {
+            "CodeCurrent": 379298171,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V522",
+            "FileName": "line.c",
+            "Message": "There might be dereferencing of a potential null pointer 'cAnnDef'."
+        },
+        {
+            "CodeCurrent": 6369,
+            "CodeNext": 0,
+            "CodePrev": 8536,
+            "ErrorCode": "V796",
+            "FileName": "line.c",
+            "Message": "It is possible that 'break' statement is missing in switch statement."
+        },
+        {
+            "CodeCurrent": 6369,
+            "CodeNext": 0,
+            "CodePrev": 8492,
+            "ErrorCode": "V796",
+            "FileName": "line.c",
+            "Message": "It is possible that 'break' statement is missing in switch statement."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "line.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 1944446817,
+            "CodeNext": 3162106025,
+            "CodePrev": 158873233,
+            "ErrorCode": "V1042",
+            "FileName": "linked.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 579195,
+            "CodeNext": 125,
+            "CodePrev": 24387,
+            "ErrorCode": "V1004",
+            "FileName": "stat.c",
+            "Message": "The 'cur' pointer was used unsafely after it was verified against nullptr. Check lines: _, _."
+        },
+        {
+            "CodeCurrent": 361769,
+            "CodeNext": 123,
+            "CodePrev": 775729905,
+            "ErrorCode": "V547",
+            "FileName": "stat.c",
+            "Message": "Expression 'cur == NULL' is always false."
+        },
+        {
+            "CodeCurrent": 2392699,
+            "CodeNext": 125,
+            "CodePrev": 90643,
+            "ErrorCode": "V1004",
+            "FileName": "stat.c",
+            "Message": "The 'curl' pointer was used unsafely after it was verified against nullptr. Check lines: _, _."
+        },
+        {
+            "CodeCurrent": 732457,
+            "CodeNext": 123,
+            "CodePrev": 194831,
+            "ErrorCode": "V547",
+            "FileName": "stat.c",
+            "Message": "Expression 'curl == NULL' is always false."
+        },
+        {
+            "CodeCurrent": 2092755107,
+            "CodeNext": 768558191,
+            "CodePrev": 175257233,
+            "ErrorCode": "V1042",
+            "FileName": "stat.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 4248479491,
+            "CodeNext": 123,
+            "CodePrev": 44185796,
+            "ErrorCode": "V526",
+            "FileName": "tparser.c",
+            "Message": "The 'strncmp' function returns _ if corresponding strings are equal. Consider examining the condition for mistakes."
+        },
+        {
+            "CodeCurrent": 2161837425,
+            "CodeNext": 0,
+            "CodePrev": 4073539430,
+            "ErrorCode": "V769",
+            "FileName": "tparser.c",
+            "Message": "The 'strchr(msg, '\\'')' pointer in the 'strchr(msg, '\\'') + _' expression could be nullptr. In such case, resulting value will be senseless and it should not be used."
+        },
+        {
+            "CodeCurrent": 1710442652,
+            "CodeNext": 2717598638,
+            "CodePrev": 1752907345,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The SIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 2717598638,
+            "CodeNext": 0,
+            "CodePrev": 1710442652,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The SIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1305017166,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1305017166,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 2378713932,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 2378713932,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 4222063036,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 4222063036,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1179683180,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1179683180,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1710442652,
+            "CodeNext": 2717598638,
+            "CodePrev": 370449,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The SIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 2717598638,
+            "CodeNext": 0,
+            "CodePrev": 1710442652,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The SIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 492101055,
+            "CodeNext": 1273,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The SIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 492099775,
+            "CodeNext": 1273,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The SIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 2071175542,
+            "CodeNext": 123,
+            "CodePrev": 123,
+            "ErrorCode": "V526",
+            "FileName": "tparser.c",
+            "Message": "The 'strcasecmp' function returns _ if corresponding strings are equal. Consider examining the condition for mistakes."
+        },
+        {
+            "CodeCurrent": 2631909174,
+            "CodeNext": 74333318,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 2631909174,
+            "CodeNext": 74333318,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 2631909174,
+            "CodeNext": 74333318,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the fourth actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 2631909174,
+            "CodeNext": 74333318,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the fifth actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 3550213826,
+            "CodeNext": 74333318,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 3550213826,
+            "CodeNext": 74333318,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 3550213826,
+            "CodeNext": 74333318,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the fourth actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 3550213826,
+            "CodeNext": 74333318,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the fifth actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 4034293196,
+            "CodeNext": 125,
+            "CodePrev": 1766393520,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The SIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 299941281,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 299941281,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 513028613,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 513028613,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'printf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1700195568,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "tparser.c",
+            "Message": "Incorrect format. Consider checking the second actual argument of the 'printf' function. The SIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "tparser.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 3478262315,
+            "CodeNext": 125,
+            "CodePrev": 0,
+            "ErrorCode": "V501",
+            "FileName": "version.c",
+            "Message": "There are identical sub-expressions to the left and to the right of the '==' operator: BRANCH_CURRENT == BRANCH_CURRENT"
+        },
+        {
+            "CodeCurrent": 3478262315,
+            "CodeNext": 125,
+            "CodePrev": 0,
+            "ErrorCode": "V526",
+            "FileName": "version.c",
+            "Message": "The 'strcmp' function returns _ if corresponding strings are equal. Consider examining the condition for mistakes."
+        },
+        {
+            "CodeCurrent": 983488919,
+            "CodeNext": 125,
+            "CodePrev": 123,
+            "ErrorCode": "V501",
+            "FileName": "version.c",
+            "Message": "There are identical sub-expressions to the left and to the right of the '!=' operator: BRANCH_CURRENT != BRANCH_CURRENT"
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "version.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        }
+    ]
+}
