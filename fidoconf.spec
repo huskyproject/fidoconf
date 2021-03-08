@@ -1,12 +1,12 @@
 %global ver_major 1
 %global ver_minor 9
 %global ver_patch 0
-%global reldate 20210225
+%global reldate 20210308
 %global reltype C
 # may be one of: C (current), R (release), S (stable)
 
 # release number for Release: header
-%global relnum 2
+%global relnum 1
 
 # on default static library is made but using 'rpmbuild --without static'
 # produces a dynamic library
