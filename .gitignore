@@ -23,3 +23,5 @@ fidoconf-runtime.*
 libfidoconf1.*
 fidoconfig.html
 *.vcxproj.user
+build/
+strace_out
