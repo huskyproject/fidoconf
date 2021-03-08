@@ -5713,7 +5713,12 @@ int parseLine(char * line, s_fidoconfig * config)
 
                 if((clink = getDescrLink(config)) != NULL)
                 {
-                    parseFtnAddrZS(getRestOfLine(), &clink->hisAka);
+                    char * restOfLine = getRestOfLine();
+                    if(parseFtnAddrZS(restOfLine, &clink->hisAka) & FTNADDR_ERROR)
+                    {
+                        prErr("Address %s is incorrect!", restOfLine);
+                        rc = 1;
+                    }
                 }
                 else
                 {
