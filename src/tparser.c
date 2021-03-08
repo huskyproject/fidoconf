@@ -439,36 +439,30 @@ const char * testAddr(ps_addr addr)
         return "Error: Invalid (zero) address\n";
     }
 
-    if(!addr->zone || addr->zone < -1 /*|| addr->zone > 32767 */)
+    if(addr->zone < 1)
     {
-        return "Error: FTN zone must be 16-bit positive number (32767 max) or -1";
+        return "Error: FTN zone must be a positive integer (max 32767)";
     }
 
-    if(!addr->net || addr->net < -1 /*|| addr->net > 32767 */)
+    if(addr->net < 1)
     {
-        return "Error: FTN network number must be 16-bit positive number (32767 max) or -1";
+        return "Error: FTN network number must be a positive integer (max 32767)";
     }
 
-    if(addr->node < -1 /*|| addr->node > 32767 */)
+    if(addr->node < -1)
     {
-        return "Error: FTN node number must be 16-bit positive number (32767 max), zero or -1";
+        return "Error: FTN node number must be a positive integer (max 32767), zero or -1";
     }
 
-    if(addr->point < -1 /*|| addr->point > 32767 */)
+    if(addr->point < -1)
     {
-        return "Error: FTN point number must be 16-bit positive number (32767 max), zero or -1";
+        return "Error: FTN point number must be a positive integer (max 32767), zero or -1";
     }
 
-    if((addr->net == -1) || (addr->node == -1) || (addr->point == -1))
+    if((addr->node == -1) && (addr->point == -1))
     {
-        if((addr->net != -1) || (addr->node != -1) || (addr->point && (addr->point != -1)))
-        {
-            static char s[] =
-                "Error: -1 in address may only be used for node or point requests and should be       :-1/-1 or       :-1/-1.-1";
-            sprintf(s + 78, "%i:-1/1 or ", addr->zone);
-            sprintf(s + strlen(s), "%i:-1/-1.-1", addr->zone);
-            return s;
-        }
+            return
+                "Error: -1 in address may only be used for a node or a point request\nbut the node and the point number cannot be both -1";
     }
 
     if(!addr->node && addr->point)
