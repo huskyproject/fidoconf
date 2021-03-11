@@ -63,7 +63,7 @@ if (NOT MSVC)
 endif (NOT MSVC)
 message("-------------------------")
 
-SET(fidoconf_SOURCES 
+SET(fidoconf_SOURCES
   src/afixcmd.c
   src/afixcmn.c
   src/arealist.c
@@ -135,11 +135,11 @@ if (NOT MSVC)
   if (MAKEINFO)
     add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/fidoconfig.html
       COMMAND makeinfo --force --html --no-split -o ${PROJECT_BINARY_DIR}/fidoconfig.html ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi
-      COMMENT "Creating documentation from ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi"
+      COMMENT "Creating fidoconfig.html from ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi"
     )
     add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/fidoconfig.info
       COMMAND makeinfo --force --no-split -o ${PROJECT_BINARY_DIR}/fidoconfig.info ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi
-      COMMENT "Creating documentation from ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi"
+      COMMENT "Creating fidoconfig.info from ${CMAKE_CURRENT_SOURCE_DIR}/doc/fidoconfig.texi"
     )
     add_custom_target(docs DEPENDS ${PROJECT_BINARY_DIR}/fidoconfig.html ${PROJECT_BINARY_DIR}/fidoconfig.info)
     install(FILES ${PROJECT_BINARY_DIR}/fidoconfig.html DESTINATION ${CMAKE_INSTALL_DOCDIR})
