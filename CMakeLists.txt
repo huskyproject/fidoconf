@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 2.8...3.19)
 PROJECT(fidoconf C)
 set(fidoconf_VERSION 1.9.0)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -63,7 +63,7 @@ if (NOT MSVC)
 endif (NOT MSVC)
 message("-------------------------")
 
-SET(fidoconf_SOURCES 
+SET(fidoconf_SOURCES
   src/afixcmd.c
   src/afixcmn.c
   src/arealist.c
