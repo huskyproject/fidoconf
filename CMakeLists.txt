@@ -63,7 +63,7 @@ if (NOT MSVC)
 endif (NOT MSVC)
 message("-------------------------")
 
-SET(fidoconf_SOURCES 
+SET(fidoconf_SOURCES
   src/afixcmd.c
   src/afixcmn.c
   src/arealist.c
@@ -105,23 +105,33 @@ SET(fidoconf_HEADERS
 )
 
 ADD_LIBRARY(fidoconfig ${fidoconf_SOURCES})
-ADD_EXECUTABLE(fc2binkd src/fc2binkd.c)
+ADD_EXECUTABLE(fconf2binkd src/fc2binkd.c)
+ADD_EXECUTABLE(fconf2golded src/fc2ged.c)
+ADD_EXECUTABLE(fconf2aquaed src/fc2aed.c)
+ADD_EXECUTABLE(fconf2fidogate src/fc2fgate.c)
+ADD_EXECUTABLE(fconf2msged src/fc2msged.c)
+ADD_EXECUTABLE(fconf2squish src/fc2sq.c)
+ADD_EXECUTABLE(fconf2tornado src/fc2tor.c src/fc2tor_g.c)
 ADD_EXECUTABLE(tparser src/tparser.c)
 ADD_EXECUTABLE(linked src/linked.c)
-ADD_EXECUTABLE(fc2ged src/fc2ged.c)
 set_target_properties(fidoconfig PROPERTIES VERSION ${fidoconf_VERSION})
 set_target_properties(fidoconfig PROPERTIES PUBLIC_HEADER "${fidoconf_HEADERS}")
 target_link_libraries(fidoconfig ${husky_LIB} ${smapi_LIB})
 target_link_libraries(linked fidoconfig ${husky_LIB} ${smapi_LIB})
-target_link_libraries(fc2binkd fidoconfig ${husky_LIB} ${smapi_LIB})
-target_link_libraries(fc2ged fidoconfig ${husky_LIB} ${smapi_LIB})
+target_link_libraries(fconf2binkd fidoconfig ${husky_LIB} ${smapi_LIB})
+target_link_libraries(fconf2golded fidoconfig ${husky_LIB} ${smapi_LIB})
+target_link_libraries(fconf2aquaed fidoconfig ${husky_LIB} ${smapi_LIB})
+target_link_libraries(fconf2fidogate fidoconfig ${husky_LIB} ${smapi_LIB})
+target_link_libraries(fconf2msged fidoconfig ${husky_LIB} ${smapi_LIB})
+target_link_libraries(fconf2squish fidoconfig ${husky_LIB} ${smapi_LIB})
+target_link_libraries(fconf2tornado fidoconfig ${husky_LIB} ${smapi_LIB})
 target_link_libraries(tparser fidoconfig ${husky_LIB} ${smapi_LIB})
 
   include(GNUInstallDirs)
   install(FILES "man/fconf2.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
   install(FILES "man/linked.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
   install(FILES "man/tparser.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
-  INSTALL(TARGETS fidoconfig fc2binkd tparser linked fc2ged
+  INSTALL(TARGETS fidoconfig fconf2binkd fconf2golded fconf2aquaed fconf2fidogate fconf2msged fconf2squish fconf2tornado tparser linked
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
