@@ -19,6 +19,9 @@
 #include <stdlib.h>
 
 #include "fecfg146.h"
+
+#define nfree(a) { if (a != NULL) { free(a); a = NULL; } }
+
 /*
  *  get_dword
  *
@@ -64,7 +67,7 @@ int read_fe_config(CONFIG * c, FILE * fp)
 
     if(fread(buffer, FE_CONFIG_SIZE, 1, fp) != 1)
     {
-        free(buffer);
+        nfree(buffer);
         return -1;
     }
 
@@ -230,7 +233,7 @@ int read_fe_config(CONFIG * c, FILE * fp)
     c->offset        = get_dword(pbuf);
     pbuf            += 4;
     assert(pbuf - buffer == FE_CONFIG_SIZE);
-    free(buffer);
+    nfree(buffer);
     return 0;
 } /* read_fe_config */
 
@@ -480,7 +483,7 @@ void free_fe_node(Node * n)
 {
     if(n != NULL && n->areas != NULL)
     {
-        free(n->areas);
+        nfree(n->areas);
     }
 }
 
@@ -562,7 +565,7 @@ void free_fe_groupdefaults(GroupDefaults * g)
 {
     if(g != NULL && g->nodes != NULL)
     {
-        free(g->nodes);
+        nfree(g->nodes);
     }
 }
 
