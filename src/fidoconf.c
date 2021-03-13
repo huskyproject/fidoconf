@@ -230,6 +230,7 @@ void initConfig(s_fidoconfig * config)
 char * getConfigFileNameForProgram(char * envVar, char * configName)
 {
     char * envFidoConfig = getenv(envVar);
+    char * envHome;
     char * osSpecificName;
     size_t i;
     FILE * f = NULL;
@@ -262,15 +263,52 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
             return NULL;
         }
 
-        /* try osSpecificName */
-        osSpecificName = (char *)smalloc(strlen(osSpecificPrefix) + strlen(configName) + 2); 
-            /* +1 - for trailing delimiter */
-        if(osSpecificName == NULL)
+        if(strlen(osSpecificPrefix) > 2 && osSpecificPrefix[0] == '~' &&
+           osSpecificPrefix[1] == PATH_DELIM)
         {
-            return NULL;
+            envHome = getenv("HOME");
+
+            if(envHome == NULL)
+            {
+                /* +1 for possible delimiter before configName and +1 for 0x0 at the end*/
+                osSpecificName =
+                    (char *)smalloc(strlen(osSpecificPrefix) + strlen(configName) + 2);
+
+                if(osSpecificName == NULL)
+                {
+                    return NULL;
+                }
+
+                strcpy(osSpecificName, osSpecificPrefix);
+            }
+            else
+            {
+                /* strip the leading '~' */
+                osSpecificPrefix++;
+                osSpecificName = (char *)smalloc(strlen(envHome) +
+                                                 strlen(osSpecificPrefix) +
+                                                 strlen(configName) + 2);
+                if(osSpecificName == NULL)
+                {
+                    return NULL;
+                }
+
+                strcpy(osSpecificName, envHome);
+                strcat(osSpecificName, osSpecificPrefix);
+            }
+        }
+        else
+        {
+            osSpecificName = (char *)smalloc(strlen(osSpecificPrefix) +
+                                             strlen(configName) + 2);
+            if(osSpecificName == NULL)
+            {
+                return NULL;
+            }
+
+            strcpy(osSpecificName, osSpecificPrefix);
         }
 
-        strcpy(osSpecificName, osSpecificPrefix);
         i = strlen(osSpecificName);
 
         if(i && osSpecificName[i - 1] != '/' && osSpecificName[i - 1] != '\\')
@@ -290,8 +328,10 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
                 {
                     nfree(osSpecificName);
                     i = strlen(envFidoConfig) -
-                        strlen(strrchr(envFidoConfig, PATH_DELIM)) + strlen(configName) + 1;
+                        strlen(strrchr(envFidoConfig, PATH_DELIM)) +
+                        strlen(configName) + 1;
                     osSpecificName = smalloc(i + 1);
+
                     if(osSpecificName == NULL)
                     {
                         return NULL;
@@ -424,7 +464,6 @@ int carbonNames2Addr(s_fidoconfig * config)
             if(config->badArea.areaName)
             {
                 size_t badAreaNameLen = sstrlen(config->badArea.areaName);
-
                 printf("Could not find area \"%s\" for carbon copy. Use BadArea\n",
                        (cb->areaName) ? cb->areaName : "");
                 cb->area = &(config->badArea);
@@ -440,6 +479,7 @@ int carbonNames2Addr(s_fidoconfig * config)
                 }
 
                 cb->areaName = (char *)smalloc(badAreaNameLen + i + 1);
+
                 if(cb->areaName == NULL)
                 {
                     return 0;
@@ -719,8 +759,7 @@ void setConfigDefaults(s_fidoconfig * config)
                 clink->FileFixFSC87Subset = 1;
                 memcpy(&(clink->hisAka), &(config->addr[i]), sizeof(hs_addr));
                 clink->ourAka = &(config->addr[i]);
-                xscatprintf(&(clink->name),
-                            "Our virtual link for aka: %s",
+                xscatprintf(&(clink->name), "Our virtual link for aka: %s",
                             aka2str(&config->addr[i]));
                 xscatprintf(&(clink->defaultPwd), "%X", strcrc32(clink->name, 0xFFFFFFFFL));
                 clink->pktPwd      = clink->defaultPwd;
@@ -1126,7 +1165,8 @@ s_link * getLinkForArea(const s_fidoconfig * config, char * addr, s_area * area)
             continue;
         }
 
-        if(addrComp(&aka, &(config->links[i]->hisAka)) == 0 &&
+        if(addrComp(&aka,
+                    &(config->links[i]->hisAka)) == 0 &&
            addrComp(area->useAka, config->links[i]->ourAka) == 0)
         {
             return config->links[i];
