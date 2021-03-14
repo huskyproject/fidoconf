@@ -97,6 +97,7 @@ int readDefaultConfig(char * cfg_file, char * def_file)
     {
         if((f2 = fopen(cfg_file, "wt")) == NULL)
         {
+            fclose(f1);
             perror("Can't create dest. file!");
             return -2;
         }
