@@ -624,6 +624,286 @@
             "ErrorCode": "V1042",
             "FileName": "version.c",
             "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 2151125736,
+            "CodeNext": 332857385,
+            "CodePrev": 3151924594,
+            "ErrorCode": "V1027",
+            "FileName": "afixcmn.c",
+            "Message": "Pointer to an object of the '_stamp' class is cast to unrelated 'stamp_combo' class."
+        },
+        {
+            "CodeCurrent": 19752497,
+            "CodeNext": 2337,
+            "CodePrev": 2296,
+            "ErrorCode": "V1037",
+            "FileName": "fc2aed.c",
+            "Message": "Two or more case-branches perform the same actions. Check lines: _, _"
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 359700,
+            "CodePrev": 3565922071,
+            "ErrorCode": "V576",
+            "FileName": "fc2aed.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 359700,
+            "CodePrev": 3565922071,
+            "ErrorCode": "V576",
+            "FileName": "fc2aed.c",
+            "Message": "Incorrect format. Consider checking the fourth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 359700,
+            "CodePrev": 3565922071,
+            "ErrorCode": "V576",
+            "FileName": "fc2aed.c",
+            "Message": "Incorrect format. Consider checking the fifth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 359700,
+            "CodePrev": 3565922071,
+            "ErrorCode": "V576",
+            "FileName": "fc2aed.c",
+            "Message": "Incorrect format. Consider checking the sixth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 76314304,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "fc2aed.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 76314304,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "fc2aed.c",
+            "Message": "Incorrect format. Consider checking the fourth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 76314304,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "fc2aed.c",
+            "Message": "Incorrect format. Consider checking the fifth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 76314304,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "fc2aed.c",
+            "Message": "Incorrect format. Consider checking the sixth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "fc2aed.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "fc2fgate.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 359700,
+            "CodePrev": 611695926,
+            "ErrorCode": "V576",
+            "FileName": "fc2msged.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 359700,
+            "CodePrev": 611695926,
+            "ErrorCode": "V576",
+            "FileName": "fc2msged.c",
+            "Message": "Incorrect format. Consider checking the fourth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 359700,
+            "CodePrev": 611695926,
+            "ErrorCode": "V576",
+            "FileName": "fc2msged.c",
+            "Message": "Incorrect format. Consider checking the fifth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 359700,
+            "CodePrev": 611695926,
+            "ErrorCode": "V576",
+            "FileName": "fc2msged.c",
+            "Message": "Incorrect format. Consider checking the sixth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 76314304,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "fc2msged.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 76314304,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "fc2msged.c",
+            "Message": "Incorrect format. Consider checking the fourth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 76314304,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "fc2msged.c",
+            "Message": "Incorrect format. Consider checking the fifth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 76314304,
+            "CodePrev": 123,
+            "ErrorCode": "V576",
+            "FileName": "fc2msged.c",
+            "Message": "Incorrect format. Consider checking the sixth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "fc2msged.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 1548179676,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V526",
+            "FileName": "fc2sq.c",
+            "Message": "The 'strcmp' function returns _ if corresponding strings are equal. Consider examining the condition for mistakes."
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "fc2sq.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 1036809920,
+            "CodePrev": 125,
+            "ErrorCode": "V576",
+            "FileName": "fc2tor.c",
+            "Message": "Incorrect format. Consider checking the third actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 1036809920,
+            "CodePrev": 125,
+            "ErrorCode": "V576",
+            "FileName": "fc2tor.c",
+            "Message": "Incorrect format. Consider checking the fourth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 1036809920,
+            "CodePrev": 125,
+            "ErrorCode": "V576",
+            "FileName": "fc2tor.c",
+            "Message": "Incorrect format. Consider checking the fifth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 38576,
+            "CodeNext": 1036809920,
+            "CodePrev": 125,
+            "ErrorCode": "V576",
+            "FileName": "fc2tor.c",
+            "Message": "Incorrect format. Consider checking the sixth actual argument of the 'fprintf' function. The UNSIGNED integer type argument is expected."
+        },
+        {
+            "CodeCurrent": 158042097,
+            "CodeNext": 2337,
+            "CodePrev": 2296,
+            "ErrorCode": "V1037",
+            "FileName": "fc2tor.c",
+            "Message": "Two or more case-branches perform the same actions. Check lines: _, _"
+        },
+        {
+            "CodeCurrent": 1028704567,
+            "CodeNext": 42,
+            "CodePrev": 1725059867,
+            "ErrorCode": "V1042",
+            "FileName": "fc2tor.c",
+            "Message": "This file is marked with copyleft license, which requires you to open the derived source code."
+        },
+        {
+            "CodeCurrent": 171733,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V522",
+            "FileName": "fc2tor_g.c",
+            "Message": "There might be dereferencing of a potential null pointer 'temp'."
+        },
+        {
+            "CodeCurrent": 334442402,
+            "CodeNext": 323515075,
+            "CodePrev": 0,
+            "ErrorCode": "V560",
+            "FileName": "fidoconf.c",
+            "Message": "A part of conditional expression is always true: strlen(osSpecificPrefix) > _."
+        },
+        {
+            "CodeCurrent": 334442402,
+            "CodeNext": 323515075,
+            "CodePrev": 0,
+            "ErrorCode": "V560",
+            "FileName": "fidoconf.c",
+            "Message": "A part of conditional expression is always false: osSpecificPrefix[_] == '~'."
+        },
+        {
+            "CodeCurrent": 323515075,
+            "CodeNext": 123,
+            "CodePrev": 334442402,
+            "ErrorCode": "V560",
+            "FileName": "fidoconf.c",
+            "Message": "A part of conditional expression is always false: osSpecificPrefix[_] == '/'."
+        },
+        {
+            "CodeCurrent": 1458041417,
+            "CodeNext": 123,
+            "CodePrev": 0,
+            "ErrorCode": "V560",
+            "FileName": "fidoconf.c",
+            "Message": "A part of conditional expression is always true: i."
+        },
+        {
+            "CodeCurrent": 2919289240,
+            "CodeNext": 97581265,
+            "CodePrev": 811655243,
+            "ErrorCode": "V575",
+            "FileName": "fidoconf.c",
+            "Message": "The potential null pointer is passed into 'strlen' function. Inspect the first argument."
         }
     ]
 }
