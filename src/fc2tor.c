@@ -578,7 +578,7 @@ int main(int argc, char * argv[])
 
     printf("Generating Config-file %s\n", argv[cont]);
     config = readConfig(NULL);
-    config = readConfig(NULL);
+    /* config = readConfig(NULL); maybe to read config once is enough? */
 
     if(config != NULL)
     {
