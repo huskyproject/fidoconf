@@ -263,4 +263,28 @@
     <CodeCurrent>732457</CodeCurrent>
     <CodeNext>123</CodeNext>
   </fidoconf>
+  <fidoconf>
+    <FileName>fidoconf.c</FileName>
+    <ErrorCode>V560</ErrorCode>
+    <Message>A part of conditional expression is always false: strlen(osSpecificPrefix) &gt; _.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3287236772</CodeCurrent>
+    <CodeNext>324268739</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>fidoconf.c</FileName>
+    <ErrorCode>V560</ErrorCode>
+    <Message>A part of conditional expression is always false: osSpecificPrefix[_] == '~'.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3287236772</CodeCurrent>
+    <CodeNext>324268739</CodeNext>
+  </fidoconf>
+  <fidoconf>
+    <FileName>fidoconf.c</FileName>
+    <ErrorCode>V560</ErrorCode>
+    <Message>A part of conditional expression is always false: i.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>1458019825</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </fidoconf>
 </NewDataSet>
