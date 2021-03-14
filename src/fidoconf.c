@@ -274,11 +274,6 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
                 osSpecificName =
                     (char *)smalloc(strlen(osSpecificPrefix) + strlen(configName) + 2);
 
-                if(osSpecificName == NULL)
-                {
-                    return NULL;
-                }
-
                 strcpy(osSpecificName, osSpecificPrefix);
             }
             else
@@ -288,10 +283,6 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
                 osSpecificName = (char *)smalloc(strlen(envHome) +
                                                  strlen(osSpecificPrefix) +
                                                  strlen(configName) + 2);
-                if(osSpecificName == NULL)
-                {
-                    return NULL;
-                }
 
                 strcpy(osSpecificName, envHome);
                 strcat(osSpecificName, osSpecificPrefix);
@@ -301,10 +292,6 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
         {
             osSpecificName = (char *)smalloc(strlen(osSpecificPrefix) +
                                              strlen(configName) + 2);
-            if(osSpecificName == NULL)
-            {
-                return NULL;
-            }
 
             strcpy(osSpecificName, osSpecificPrefix);
         }
@@ -331,12 +318,6 @@ char * getConfigFileNameForProgram(char * envVar, char * configName)
                         strlen(strrchr(envFidoConfig, PATH_DELIM)) +
                         strlen(configName) + 1;
                     osSpecificName = smalloc(i + 1);
-
-                    if(osSpecificName == NULL)
-                    {
-                        return NULL;
-                    }
-
                     strncpy(osSpecificName, envFidoConfig, i);
                     strcpy(strrchr(osSpecificName, PATH_DELIM) + 1, configName);
                     f = fopen(osSpecificName, "r");
@@ -479,11 +460,6 @@ int carbonNames2Addr(s_fidoconfig * config)
                 }
 
                 cb->areaName = (char *)smalloc(badAreaNameLen + i + 1);
-
-                if(cb->areaName == NULL)
-                {
-                    return 0;
-                }
 
                 if(i)
                 {
