@@ -515,15 +515,7 @@ char * configline(void)
             char ** tmp;
 
             /*  save parsed config name */
-            tmp = srealloc(cfgNames, sizeof(char *) * (cfgNamesCount + 1));
-            if(tmp == NULL)
-            {
-                nfree(cfgNames);
-                fprintf(stderr, "configline(): No memory!\n");
-                wasError = 1;
-                return NULL;
-            }
-            cfgNames = tmp;
+            cfgNames = srealloc(cfgNames, sizeof(char *) * (cfgNamesCount + 1));
             cfgNames[cfgNamesCount] = NULL;
             xstrcat(&cfgNames[cfgNamesCount], curconfname);
             cfgNamesCount++;
