@@ -124,7 +124,7 @@ int areCrossGroupSets(char * grp1, char * grp2, char * delms)
         }
     }
 
-    if((!grp1 || !*grp1) && (!grp1 || !*grp1))
+    if(!grp1 || !*grp1)
     {
         return 1;
     }
