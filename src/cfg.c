@@ -512,8 +512,6 @@ char * configline(void)
 
         if(str == NULL)
         {
-            char ** tmp;
-
             /*  save parsed config name */
             cfgNames = srealloc(cfgNames, sizeof(char *) * (cfgNamesCount + 1));
             cfgNames[cfgNamesCount] = NULL;
