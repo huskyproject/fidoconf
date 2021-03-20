@@ -92,8 +92,9 @@
 #include "grptree.h"
 
 int fc_trycreate = 0; /* Try to create nonexistant directories (defined in line.c) */
-char * actualKeyword, * actualLine;
-int actualLineNr;
+char * actualKeyword = NULL;
+char * actualLine = NULL;
+int actualLineNr = 0;
 char wasError    = 0;
 char CommentChar = '#';
 int _carbonrule  = CC_AND;
