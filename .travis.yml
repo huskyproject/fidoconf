@@ -43,7 +43,7 @@ script:
   - cmake --build .
   - sudo make install
   - cd  $TRAVIS_BUILD_DIR
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pvs-studio-analyzer credentials $PVS_USERNAME $PVS_KEY -o $TRAVIS_BUILD_DIR/PVS-Studio.lic; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pvs-studio-analyzer credentials -o $TRAVIS_BUILD_DIR/PVS-Studio.lic $PVS_USERNAME $PVS_KEY; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake . -Bbuild "${CF}" -DCMAKE_EXPORT_COMPILE_COMMANDS=On -DCPACK_DEBIAN_PACKAGE_MAINTAINER=travis-ci; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pvs-studio-analyzer trace -- cmake --build build; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pvs-studio-analyzer analyze -l $TRAVIS_BUILD_DIR/PVS-Studio.lic -s ./suppress_base.json -o build/pvs.log; fi
