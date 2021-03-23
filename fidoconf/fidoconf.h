@@ -747,11 +747,11 @@ HUSKYEXT char * stripComment(char * line);
  */
 void checkIncludeLogic(ps_fidoconfig config);
 void free_vars(void);
-HUSKYEXT const char * getCurConfName();
-HUSKYEXT long getCurConfPos();
-HUSKYEXT long get_hcfgPos();
-HUSKYEXT FILE * get_hcfg();
-HUSKYEXT const char * cfgEol();
+HUSKYEXT const char * getCurConfName(void);
+HUSKYEXT long getCurConfPos(void);
+HUSKYEXT long get_hcfgPos(void);
+HUSKYEXT FILE * get_hcfg(void);
+HUSKYEXT const char * cfgEol(void);
 
 /**
  * This method can be used to get a program-specifically config-filename, in the same

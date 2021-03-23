@@ -164,7 +164,7 @@ int RebuildFileAreaTree(ps_fidoconfig config)
     return 1;
 }
 
-void FreeAreaTree()
+void FreeAreaTree(void)
 {
     tree_mung(&echoAreaTree, fc_deleteEntry);
     tree_mung(&fileAreaTree, fc_deleteEntry);

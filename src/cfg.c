@@ -864,22 +864,22 @@ void checkIncludeLogic(ps_fidoconfig config)
     }
 } /* checkIncludeLogic */
 
-const char * getCurConfName()
+const char * getCurConfName(void)
 {
     return curconfname;
 }
 
-long getCurConfPos()
+long getCurConfPos(void)
 {
     return curconfpos;
 }
 
-long get_hcfgPos()
+long get_hcfgPos(void)
 {
     return (long)ftell(hcfg);
 }
 
-FILE * get_hcfg()
+FILE * get_hcfg(void)
 {
     return hcfg;
 }

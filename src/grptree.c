@@ -122,7 +122,7 @@ int addGrpToTree(grp_t * grp)
     return tree_add(&groupTree, grp_compareEntries_Add, (char *)grp, grp_deleteEntry);
 }
 
-void freeGrpTree()
+void freeGrpTree(void)
 {
     tree_mung(&groupTree, grp_deleteEntry);
 }
@@ -169,7 +169,7 @@ int addPatternToGrpTree(char * grpname, char * patternList)
     return 1;
    }
  */
-void initGroupTree()
+void initGroupTree(void)
 {
     tree_init(&groupTree, 0);
 }

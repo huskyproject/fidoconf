@@ -52,7 +52,8 @@ GroupDefaults ** groupdef = NULL;
 Node ** node;
 ForwardAreaFix * frequest = NULL;
 FILE * f_cfg = NULL, * f_hpt = NULL;
-char parseFEgroup(register unsigned short FEgroup)
+
+static char parseFEgroup(register unsigned short FEgroup)
 {
     if(FEgroup <= 25) /* Letters */
     {
@@ -72,7 +73,7 @@ char parseFEgroup(register unsigned short FEgroup)
 
 /*  convert FastEcho-GroupBitmap to GroupString for fidoconfig */
 /*  warning: returns pointer to static array! */
-char * grp2str(dword bitmap)
+static char * grp2str(dword bitmap)
 {
     static char buff[66];
     char * curr, * ptr, key, ch, tmp;
@@ -125,7 +126,7 @@ char * grp2str(dword bitmap)
     return buff;
 } /* grp2str */
 
-char * FEaka2str(FEAddress addr)
+static char * FEaka2str(FEAddress addr)
 {
     static char aka[24];
 
@@ -142,7 +143,7 @@ char * FEaka2str(FEAddress addr)
 }
 
 /* return string: zone:net/node.point@domain */
-char * sysAddress2str(SysAddress sysaddr)
+static char * sysAddress2str(SysAddress sysaddr)
 {
     static char aka[24 + sizeof(sysaddr.domain)];
 
@@ -182,7 +183,7 @@ char * sysAddress2str(SysAddress sysaddr)
     return aka;
 }
 
-void Usage(const char * program)
+static void Usage(const char * program)
 {
     char * temp;
 
@@ -196,7 +197,7 @@ void Usage(const char * program)
            OS_independed_basename(program));
 }
 
-void print_packers(Packers * packers, int packers_count)
+static void print_packers(Packers * packers, int packers_count)
 {
     int i;
 
@@ -209,7 +210,7 @@ void print_packers(Packers * packers, int packers_count)
     }
 }
 
-void print_unpackers(Unpackers * unpackers, int unpackers_count)
+static void print_unpackers(Unpackers * unpackers, int unpackers_count)
 {
     int i;
 
@@ -303,7 +304,7 @@ void print_unpackers(Unpackers * unpackers, int unpackers_count)
     }
 } /* print_unpackers */
 
-void print_carbon()
+static void print_carbon(void)
 {
     int i, c;
 
@@ -345,7 +346,7 @@ void print_carbon()
     } /* endfor */
 } /* print_carbon */
 
-void print_areas()
+static void print_areas(void)
 {
     int i, ii, c;
     unsigned int a[] =
@@ -549,7 +550,7 @@ void print_areas()
 } /* print_areas */
 
 /* Match domain for link's zone */
-char * check_sys_zone(FEAddress * a)
+static char * check_sys_zone(FEAddress * a)
 {
     int i;
 
@@ -567,7 +568,7 @@ char * check_sys_zone(FEAddress * a)
 }
 
 /* output all links configuration */
-void print_links()
+static void print_links(void)
 {
     int i, c;
     char * tmp;
@@ -851,7 +852,7 @@ void print_links()
     } /* endfor */
 } /* print_links */
 
-int parseFEconfig()
+static int parseFEconfig(void)
 {
     unsigned int c, i;
     int rc;
@@ -1041,7 +1042,7 @@ int parseFEconfig()
     return 0;
 } /* parseFEconfig */
 
-void disposeFEconfig()
+static void disposeFEconfig(void)
 {
     int i;
 

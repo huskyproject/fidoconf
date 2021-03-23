@@ -48,7 +48,7 @@
 
 #endif
 
-void usage()
+static void usage(void)
 {
     printf("\nUsage:\n");
     printf("   fconf2msged  [-a][-sn][-se][-sl][-sb][-sd] <msgedConfigFileName>\n");
@@ -61,7 +61,7 @@ void usage()
     printf("   fconf2msged ~/.msged\n\n");
 }
 
-int writeArea(FILE * f, s_area * area, char netMail)
+static int writeArea(FILE * f, s_area * area, char netMail)
 {
     switch(area->msgbType)
     {
@@ -103,7 +103,7 @@ int writeArea(FILE * f, s_area * area, char netMail)
     return 0;
 } /* writeArea */
 
-int generateMsgEdConfig(s_fidoconfig * config, char * fileName, int options)
+static int generateMsgEdConfig(s_fidoconfig * config, char * fileName, int options)
 {
     FILE * f;
     unsigned int i;
@@ -194,7 +194,7 @@ int generateMsgEdConfig(s_fidoconfig * config, char * fileName, int options)
     return 1;
 } /* generateMsgEdConfig */
 
-int parseOptions(char * line)
+static int parseOptions(char * line)
 {
     int options = 0;
     char chr    = 0;
