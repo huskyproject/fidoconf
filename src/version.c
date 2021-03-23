@@ -78,7 +78,7 @@ HUSKYEXT int CheckFidoconfigVersion(int need_major,
 #include <stdlib.h>
 #include "../cvsdate.h"
 
-int main()
+int main(void)
 {
     char * versionStr;
 

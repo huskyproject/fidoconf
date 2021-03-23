@@ -33,7 +33,7 @@
 /* if returns 1 - All Ok                                           */
 /* if returns 0 - we have duplicate definition for area in config  */
 HUSKYEXT int RebuildEchoAreaTree(ps_fidoconfig config);
-void FreeAreaTree();
+void FreeAreaTree(void);
 ps_area FindAreaInTree(char * areaName);
 HUSKYEXT int RebuildFileAreaTree(ps_fidoconfig config);
 ps_area FindFileAreaInTree(char * areaName);

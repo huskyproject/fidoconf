@@ -72,12 +72,14 @@
 #endif
 
 static s_fidoconfig * config;
+
 /*******************************************************/
 /* Every config error increases tparser exit code by 1 */
 /* Warnings do not influence the exit code             */
 /*******************************************************/
 /* Test for required tokens */
-int testConfig(s_fidoconfig * tconfig)
+
+static int testConfig(s_fidoconfig * tconfig)
 {
     int rc = 0;
 
@@ -161,7 +163,7 @@ int testConfig(s_fidoconfig * tconfig)
 } /* testConfig */
 
 /* check to path accuracy */
-int testpath(const char * s, const char * t1, const char * t2, const char * t3)
+static int testpath(const char * s, const char * t1, const char * t2, const char * t3)
 {
     unsigned c;
     int rc = 0;
@@ -208,7 +210,7 @@ int testpath(const char * s, const char * t1, const char * t2, const char * t3)
 } /* testpath */
 
 /* check for correctness of a plain file name */
-int testplainfile(const char * s, const char * t1, const char * t2, const char * t3)
+static int testplainfile(const char * s, const char * t1, const char * t2, const char * t3)
 {
     static char invalidc[] = ":/\\><|";
     register char * p;
@@ -229,7 +231,7 @@ int testplainfile(const char * s, const char * t1, const char * t2, const char *
 }
 
 /* check for correctness of file names and paths. Return zero if success. */
-int testPathsAndFiles()
+static int testPathsAndFiles(void)
 {
     int rc = 0;
     register unsigned int i;
@@ -430,7 +432,7 @@ int testPathsAndFiles()
     return rc;
 } /* testPathsAndFiles */
 
-const char * testAddr(ps_addr addr)
+static const char * testAddr(ps_addr addr)
 {
     char * c;
 
@@ -497,7 +499,7 @@ const char * testAddr(ps_addr addr)
     return NULL;
 } /* testAddr */
 
-void printAddr(ps_addr addr)
+static void printAddr(ps_addr addr)
 {
     if(addr)
     {
@@ -531,7 +533,7 @@ void printAddr(ps_addr addr)
     }
 } /* printAddr */
 
-void printArea(s_area area)
+static void printArea(s_area area)
 {
     unsigned i;
 
@@ -937,7 +939,7 @@ void printArea(s_area area)
     printf("-------\n");
 } /* printArea */
 
-int printAreaGroup(char * group)
+static int printAreaGroup(char * group)
 {
     grp_t * g = (grp_t *)group;
 
@@ -951,7 +953,7 @@ int printAreaGroup(char * group)
     return 1;
 }
 
-void printFileArea(s_area area)
+static void printFileArea(s_area area)
 {
     unsigned i;
 
@@ -1142,7 +1144,7 @@ void printFileArea(s_area area)
     printf("-------\n");
 } /* printFileArea */
 
-void printBbsArea(s_bbsarea area)
+static void printBbsArea(s_bbsarea area)
 {
     printf("%s \n", area.areaName);
     printf("Description: %s\n", area.description);
@@ -1151,7 +1153,7 @@ void printBbsArea(s_bbsarea area)
     printf("-------\n");
 }
 
-void printFilelist(s_filelist * fl)
+static void printFilelist(s_filelist * fl)
 {
     switch(fl->flType)
     {
@@ -1229,7 +1231,7 @@ static char * cvtFlavour(e_flavour flavour)
     }
 } /* cvtFlavour */
 
-int printLink(ps_link link)
+static int printLink(ps_link link)
 {
     unsigned int i, rc = 0;
 
@@ -1768,7 +1770,7 @@ int printLink(ps_link link)
     return rc;
 } /* printLink */
 
-int printRobot(ps_robot robot)
+static int printRobot(ps_robot robot)
 {
     printf("Robot %s\n", robot->name);
 
@@ -1851,7 +1853,7 @@ int printRobot(ps_robot robot)
 } /* printRobot */
 
 /* Attention! Return value is static string */
-const char * routeViaStr(e_routing routeVia)
+static const char * routeViaStr(e_routing routeVia)
 {
     switch(routeVia)
     {
@@ -1879,7 +1881,7 @@ const char * routeViaStr(e_routing routeVia)
     return "UNKNOWN(error?)";
 } /* routeViaStr */
 
-void printRouteTarget(s_route aroute)
+static void printRouteTarget(s_route aroute)
 {
     if(aroute.target)
     {
@@ -1892,7 +1894,7 @@ void printRouteTarget(s_route aroute)
 }
 
 /*  Some dumb checks ;-) */
-int checkLogic(s_fidoconfig * lconfig)
+static int checkLogic(s_fidoconfig * lconfig)
 {
     register unsigned i, j, m;
     register int k, rc = 0;
@@ -2299,7 +2301,7 @@ int checkLogic(s_fidoconfig * lconfig)
     return rc;
 } /* checkLogic */
 
-void printCarbons(s_fidoconfig * pconfig)
+static void printCarbons(s_fidoconfig * pconfig)
 {
     unsigned i;
     s_carbon * cb;
@@ -2453,7 +2455,7 @@ void printCarbons(s_fidoconfig * pconfig)
     }
 } /* printCarbons */
 
-void printRemaps(s_fidoconfig * rconfig)
+static void printRemaps(s_fidoconfig * rconfig)
 {
     unsigned i;
 
@@ -2479,7 +2481,7 @@ void printRemaps(s_fidoconfig * rconfig)
     }
 }
 
-void printSeqOutrun(unsigned long seqOutrun)
+static void printSeqOutrun(unsigned long seqOutrun)
 {
     if(seqOutrun % (365l * 24 * 60 * 60) == 0)
     {
@@ -2507,7 +2509,7 @@ void printSeqOutrun(unsigned long seqOutrun)
     }
 } /* printSeqOutrun */
 
-char * printListEcho(e_listEchoMode mode)
+static char * printListEcho(e_listEchoMode mode)
 {
     switch(mode)
     {
@@ -2574,7 +2576,7 @@ static int dumpcfg(char * fileName)
     return 0;
 } /* dumpcfg */
 
-void usage()
+static void usage(void)
 {
     printf("\tParses Fidoconfig, checks your Fidoconfig for errors and gives ");
     printf("you some\n\thints to solve the problems.\n\n");

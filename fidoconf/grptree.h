@@ -40,11 +40,11 @@ typedef struct
     s_area * area;
 } grp_t;
 HUSKYEXT tree * groupTree;
-HUSKYEXT void initGroupTree();
+HUSKYEXT void initGroupTree(void);
 HUSKYEXT int addPatternToGrpTree(char * grpname, char * patternList);
 HUSKYEXT grp_t * findGroupForArea(char * areaName);
 HUSKYEXT grp_t * findGroupByName(char * groupName);
-HUSKYEXT void freeGrpTree();
+HUSKYEXT void freeGrpTree(void);
 
 
 #endif

@@ -52,7 +52,8 @@
 #endif
 
 char * fidoconfig = NULL;
-void usage()
+
+static void usage(void)
 {
     printf(
         "Usage: fconf2golded [options] <GoldedConfigFileName> [GoldedDefaultConfigFileName]\n" "Options:\n" "\t  -a\t- exports areas only\n" "\t  -cFidoconfig - specify a Husky config file <Fidoconfig>\n" "\t  -h\t- print usage information (this text)\n" "\t  -H\t- print usage information (this text)\n" "\t  -sb\t- skip badmail areas\n" "\t  -sd\t- skip dupes areas\n" "\t  -se\t- skip echomail areas\n" "\t  -sl\t- skip local areas\n"
@@ -60,7 +61,7 @@ void usage()
     exit(1);
 }
 
-int writeArea(FILE * f, s_area * area, char type)
+static int writeArea(FILE * f, s_area * area, char type)
 {
     if(area->group == NULL)
     {
@@ -117,7 +118,7 @@ int writeArea(FILE * f, s_area * area, char type)
     return 0;
 } /* writeArea */
 
-int readDefaultConfig(char * cfg_file, char * def_file)
+static int readDefaultConfig(char * cfg_file, char * def_file)
 {
     FILE * f1, * f2;
     char buffer[2048];
@@ -150,7 +151,7 @@ int readDefaultConfig(char * cfg_file, char * def_file)
     return 0;
 } /* readDefaultConfig */
 
-int generateGoldEdConfig(s_fidoconfig * config, char * fileName, int options)
+static int generateGoldEdConfig(s_fidoconfig * config, char * fileName, int options)
 {
     FILE * f;
     unsigned int i;
@@ -226,7 +227,7 @@ int generateGoldEdConfig(s_fidoconfig * config, char * fileName, int options)
     return 1;
 } /* generateGoldEdConfig */
 
-int parseOptions(char * line)
+static int parseOptions(char * line)
 {
     int options = 0;
     char chr    = 0;

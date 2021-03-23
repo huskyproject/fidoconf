@@ -63,7 +63,8 @@ sApp theApp      =
 {
     0, NULL
 };
-const char * cfgEol()
+
+const char * cfgEol(void)
 {
     return wasCR ? "\r\n" : "\n";
 }
