@@ -858,15 +858,15 @@ char * changeFileSuffix(char * fileName, char * newSuffix, int inc)
     if(beginOfSuffix == NULL ||
        beginOfSuffix < strrchr(fileName, '\\') || beginOfSuffix < strrchr(fileName, '/'))
     {
-        beginOfSuffix = fileName + strlen(fileName) + 1; /* point char not found in filename,
+        beginOfSuffix = fileName + strlen(fileName) + 1; /* dot char not found in filename,
                                                             pointed to end of string */
     }
     else
     {
-        beginOfSuffix++;  /* pointed after point in 'name.suf' */
+        beginOfSuffix++;  /* pointed after dot in 'name.suf' */
     }
 
-    length = beginOfSuffix - fileName;    /* length "name." */
+    length = beginOfSuffix - fileName;    /* length of "name." */
 
     i           = (int)strlen(newSuffix);
     newFileName = (char *)scalloc(1, (size_t)(length + i + (i > 3 ? 1 : 4 - i)));
@@ -887,14 +887,14 @@ char * changeFileSuffix(char * fileName, char * newSuffix, int inc)
 
     beginOfSuffix = newFileName + length + 1; /*last 2 chars*/
 
-    for(i = 1; fexist(newFileName) && (i < 255); i++)
+    for(i = 0; fexist(newFileName) && (i < 255); i++)
     {
 #ifdef HAS_snprintf
         snprintf(buff, sizeof(buff), "%02x", i);
 #else
         sprintf(buff, "%02x", i);
 #endif
-        strnzcpy(beginOfSuffix, buff, 2);
+        strnzcpy(beginOfSuffix, buff, 3);
     }
     w_log(LL_DEBUGF, __FILE__ ":%u: old: '%s' new: '%s'", __LINE__, fileName, newFileName);
 
