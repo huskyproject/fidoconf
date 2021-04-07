@@ -473,7 +473,7 @@ typedef struct fidoconfig
     unsigned int linkCount;
     ps_link *    links;
     char *       inbound, * outbound, * protInbound, * listInbound, * localInbound,
-         * tempInbound;
+         * tempInbound, * badInbound;
     char *               logFileDir, * dupeHistoryDir, * nodelistDir, * msgBaseDir;
     char *               magic, * tempOutbound, * ticOutbound;
     char *               tempDir; /* Common temporary files directory */
@@ -570,9 +570,8 @@ typedef struct fidoconfig
     e_nameCase           createAreasCase;
     e_nameCase           areasFileNameCase;
     char *               tossingExt;
-
 #if defined (__NT__)
-    unsigned int setConsoleTitle; /* change console title */
+    unsigned int         setConsoleTitle; /* change console title */
 #endif
 
     ps_addr               addToSeen;

@@ -5574,6 +5574,10 @@ int parseLine(char * line, s_fidoconfig * config)
                 rc = parsePath(getRestOfLine(), &(config->tempInbound), NULL);
                 break;
 
+            case ID_BADINBOUND:
+                rc = parsePath(getRestOfLine(), &(config->badInbound), NULL);
+                break;
+
             case ID_OUTBOUND:
                 rc = parsePath(getRestOfLine(), &(config->outbound), NULL);
                 break;
@@ -6943,7 +6947,6 @@ int parseLine(char * line, s_fidoconfig * config)
                 break;
 
             case ID_TOSSINGEXT:
-
                 if((temp = getRestOfLine()) != NULL)
                 {
                     rc = fc_copyString(temp, &(config->tossingExt));
@@ -6952,7 +6955,6 @@ int parseLine(char * line, s_fidoconfig * config)
                 {
                     config->tossingExt = NULL;
                 }
-
                 break;
 
 #if defined (__NT__)

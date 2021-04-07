@@ -157,14 +157,24 @@ HUSKYEXT int needUseFileBoxForLinkAka(ps_fidoconfig config, s_link * link, hs_ad
 HUSKYEXT char * makeFileBoxName(ps_fidoconfig config, s_link * link);
 HUSKYEXT char * makeFileBoxNameAka(ps_fidoconfig config, s_link * link, hs_addr * aka);
 
+enum suffixRenameMode
+{
+    NO_FILE_RENAMING,
+    RENAME_FILE
+};
+typedef enum suffixRenameMode e_suffixRenameMode;
+
 /* will be moved to huskylib */
-/*  Change file sufix (add if not present).
-    inc = 1 - increment suffix of file if new file exist;
-          rename file; return new file name or NULL; set errno
-    inc = 0 - do not increment suffix, do not rename file, return new suffix only
-    if 1st or 2nd parameter is NULL return NULL and set errno to EINVAL
+/*  Change file suffix (add if not present).
+    ren = NO_FILE_RENAMING - increment the suffix, do not rename the file,
+          return the new suffix only.
+    ren = RENAME_FILE - increment file suffix if the new file exists;
+          rename the file; return the new file name in case of success
+          or NULL in case of a failure; set errno in case of the failure.
+    If the 2nd or the 3rd parameter is NULL, return NULL and set errno to EINVAL.
  */
-HUSKYEXT char * changeFileSuffix(char * fileName, char * newSuffix, int inc);
+HUSKYEXT char * changeFileSuffix(const ps_fidoconfig config, char * fileName,
+                                 char * newSuffix, e_suffixRenameMode ren);
 
 /*  this function returns the string representation of an address. */
 /*  it returns a static array!!! */

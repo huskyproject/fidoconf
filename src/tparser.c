@@ -95,6 +95,11 @@ static int testConfig(s_fidoconfig * tconfig)
         printf("Warning:  ProtInbound not defined!\n");
     }
 
+    if (!tconfig->badInbound)
+    {
+        printf("Warning:  badInbound not defined! Defining \"badInbound\" is required.\n");
+    }
+
     if(!tconfig->inbound)
     {
         printf("Warning:  Inbound not defined!\n");
@@ -242,6 +247,7 @@ static int testPathsAndFiles(void)
     rc += testpath(config->listInbound, "listInbound", NULL, NULL);
     rc += testpath(config->localInbound, "localInbound", NULL, NULL);
     rc += testpath(config->tempInbound, "tempInbound", NULL, NULL);
+    rc += testpath(config->badInbound, "badInbound", NULL, NULL);
     rc += testpath(config->logFileDir, "logFileDir", NULL, NULL);
     rc += testpath(config->dupeHistoryDir, "dupeHistoryDir", NULL, NULL);
     rc += testpath(config->nodelistDir, "nodelistDir", NULL, NULL);
@@ -276,6 +282,7 @@ static int testPathsAndFiles(void)
 
     /* extension = file name suffix test as file name */
     rc += testplainfile(config->tossingExt, "tossingExt", NULL, NULL);
+
     /* checks area paths */
     rc += testpath(config->dupeArea.fileName, "Dupearea filename", NULL, NULL);
     rc += testpath(config->badArea.fileName, "Badarea filename", NULL, NULL);
@@ -2794,6 +2801,11 @@ int main(int argc, char ** argv)
         if(config->listInbound != NULL)
         {
             printf("ListInbound:     %s\n", config->listInbound);
+        }
+
+        if (config->badInbound != NULL)
+        {
+            printf("BadInbound:      %s\n", config->badInbound);
         }
 
         if(config->ticOutbound != NULL)

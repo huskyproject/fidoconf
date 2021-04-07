@@ -78,6 +78,7 @@
 #include "fidoconf.h"
 #include "common.h"
 
+#define OK 0
 
 static char * attrStr[] =
 {
@@ -831,12 +832,15 @@ char * makeFileBoxName(ps_fidoconfig config, s_link * link)
 }
 
 /*  Change file suffix (add if not present).
-    inc = 1 - increment file suffix if new file exists;
-          rename file; return new file name or NULL; set errno
-    inc = 0 - do not increment suffix, do not rename file, return new suffix only
-    if 1st or 2nd parameter is NULL return NULL and set errno to EINVAL
+    ren = NO_FILE_RENAMING - increment the suffix, do not rename the file,
+          return the new suffix only.
+    ren = RENAME_FILE - increment file suffix if the new file exists;
+          rename the file; return the new file name in case of success
+          or NULL in case of a failure; set errno in case of the failure.
+    If the 1st or the 2nd parameter is NULL, return NULL and set errno to EINVAL.
  */
-char * changeFileSuffix(char * fileName, char * newSuffix, int inc)
+char * changeFileSuffix(const ps_fidoconfig config, char * fileName,
+                        char * newSuffix, e_suffixRenameMode ren)
 {
     int i;
     char buff[3];
@@ -879,7 +883,7 @@ char * changeFileSuffix(char * fileName, char * newSuffix, int inc)
 
     strcat(newFileName, newSuffix);
 
-    if(inc == 0)
+    if(config->badInbound == NULL && ren == NO_FILE_RENAMING)
     {
         w_log(LL_DEBUGF, __FILE__ ":%u: old: '%s' new: '%s'", __LINE__, fileName, newFileName);
         return newFileName;
@@ -887,7 +891,7 @@ char * changeFileSuffix(char * fileName, char * newSuffix, int inc)
 
     beginOfSuffix = newFileName + length + 1; /*last 2 chars*/
 
-    for(i = 0; fexist(newFileName) && (i < 255); i++)
+    for(i = 0; fexist(newFileName) && (i < 256); i++)
     {
 #ifdef HAS_snprintf
         snprintf(buff, sizeof(buff), "%02x", i);
@@ -900,7 +904,7 @@ char * changeFileSuffix(char * fileName, char * newSuffix, int inc)
 
     if(!fexist(newFileName))
     {
-        if(rename(fileName, newFileName))  /* -1 = error */
+        if(ren == RENAME_FILE && rename(fileName, newFileName) != OK)
         {
             w_log(LL_ERR, "Could not rename '%s' to '%s': %s", fileName, newFileName,
                   strerror(errno));
@@ -913,7 +917,7 @@ char * changeFileSuffix(char * fileName, char * newSuffix, int inc)
     else
     {
         w_log(LL_ERR,
-              "Could not change suffix for %s. File is already there and the 255 files after it",
+              "Cannot not change suffix for %s. All allowed suffixes are already used",
               fileName);
         nfree(newFileName);
         errno = EEXIST;
