@@ -930,7 +930,7 @@ char * changeFileSuffix(const s_fidoconfig * const config, char * fileName,
     else
     {
         w_log(LL_ERR,
-              "Cannot not change suffix for %s. All allowed suffixes are already used",
+              "Cannot change suffix for %s. All allowed suffixes are already used",
               fileName);
         nfree(newFileName);
         errno = EEXIST;
