@@ -164,17 +164,28 @@ enum suffixRenameMode
 };
 typedef enum suffixRenameMode e_suffixRenameMode;
 
-/* will be moved to huskylib */
-/*  Change file suffix (add if not present).
-    ren = NO_FILE_RENAMING - increment the suffix, do not rename the file,
-          return the new suffix only.
-    ren = RENAME_FILE - increment file suffix if the new file exists;
-          rename the file; return the new file name in case of success
-          or NULL in case of a failure; set errno in case of the failure.
-    If the 2nd or the 3rd parameter is NULL, return NULL and set errno to EINVAL.
+/*  Change file suffix (add if not present). The function changes the filename
+    extension only, it never changes its basename or its path. If the filename
+    with the changed extension is occupied, the last two characters of the
+    filename extension are replaced with a two-digit hexadecimal number. For
+    the first time, it is "00". If the name is again occupied, the number
+    is incremented up to "ff".
+
+    Return value:
+    changeFileSuffix() returns the changed filename. If the second or the third
+    parameter is NULL, return NULL and set errno to EINVAL. If all 257 possible
+    suffixes are occupied, return NULL and set errno to EEXIST.
+
+    Parameters:
+    config - the Husky configuration;
+    filename - the filename to change; if the file should be renamed, then
+               "filename" should be the path;
+    newSuffix - a three-character string of the new filename extension;
+    ren = NO_FILE_RENAMING - change the suffix, do not rename the file;
+    ren = RENAME_FILE - change the file suffix and rename the file.
  */
-HUSKYEXT char * changeFileSuffix(const ps_fidoconfig config, char * fileName,
-                                 char * newSuffix, e_suffixRenameMode ren);
+HUSKYEXT char * changeFileSuffix(const s_fidoconfig * const config, char * fileName,
+                                 const char * const newSuffix, e_suffixRenameMode ren);
 
 /*  this function returns the string representation of an address. */
 /*  it returns a static array!!! */
