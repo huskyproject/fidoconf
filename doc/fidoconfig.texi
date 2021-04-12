@@ -394,7 +394,7 @@ your own system.
 
 This statement cannot be repeated.
 
-@node ProtInbound, LockFile, LocalInbound, path log keywords
+@node ProtInbound, BadInbound, LocalInbound, path log keywords
 @subsection ProtInbound
 @findex ProtInbound
 @table @asis
@@ -411,6 +411,49 @@ before.
 
 This statement cannot be repeated.
 
+@node BadInbound, LockFile, ProtInbound, path log keywords
+@subsection BadInbound
+@findex BadInbound
+@table @asis
+@item Syntax:
+@code{badinbound <path>}
+@item Example:
+@code{badinbound /var/spool/fido/in.bad}
+@end table
+
+This statement specifies where bad bundles and packets should be stored. If it
+is specified, bad bundles and packets are moved to BadInbound, otherwise, they
+are left in the inbound they have arrived. Anyway, the filename extension of
+the bad bundle or bad packet is renamed to one of the following five
+extensions. 
+
+1. In case of a password error (a packet with a wrong password or a packet
+without a password came from the link for whom an empty password is not
+allowed), or a bundle came to insecure inbound, the filename extension is
+renamed to @code{.sec}.
+2. If the arrived bundle cannot be opened, the filename extension is
+renamed to @code{.acs}.
+3. If the arrived packet (either a standalone one or extracted from the
+bundle) has a wrong format and cannot be read, or an unpacker for the
+arrived bundle cannot be found, the filename extension is renamed to
+@code{.bad}.
+4. If the packet is addressed not to us but to one of our links and @code{ForwardPkts}
+is @code{off} for the link, or the packet is to our link with @code{ForwardPkts}
+set to @code{secure} but it has come to insecure inbound, or the packet is
+addressed not to us or our link, then the filename extension is renamed to
+@code{.ntu}.
+5. If the message bad area cannot be opened or a message cannot be written,
+then the filename extension is renamed to @code{.err}.
+
+If the filename with the changed extension is occupied, the last two characters
+of the filename extension are replaced with a two-digit hexadecimal number. For
+the first time, it is @code{00}. If the name is again occupied, the number is
+incremented up to @code{ff}. If all allowed filename extensions are already
+occupied, the file is silently deleted in order not to give a possibility of
+creating a denial of service.
+
+This statement cannot be repeated.
+
 @node LockFile, AdvisoryLock, ProtInbound, path log keywords
 @subsection LockFile
 @findex LockFile
@@ -422,7 +465,7 @@ This statement cannot be repeated.
 @end table
 
 Another session of @value{HPT} will be terminated if the @code{LockFile}
-is exists (default setting).
+exists (default setting).
 
 This statement cannot be repeated.
 
