@@ -1,33 +1,23 @@
+os: linux
+dist: xenial
 language: c
 
-matrix:
-  fast_finish: true
+jobs:
   include:
-    - os: linux
       env:
       - MATRIX_EVAL="CC=gcc" CF=-DBUILD_SHARED_LIBS=OFF ARCH="x86_64"
-    - os: linux
-      env:
       - MATRIX_EVAL="CC=gcc" CF=-DBUILD_SHARED_LIBS=ON ARCH="x86_64"
-    - os: linux
-      env:
       - MATRIX_EVAL="CC='gcc -m32'" CF="-DBUILD_SHARED_LIBS=OFF -DCMAKE_LIBRARY_PATH=/usr/lib32"
         PACKAGES="gcc-multilib lib32z1-dev" ARCH="i686"
-    - os: osx
-      env:
-      - MATRIX_EVAL="CC=clang" CF=-DBUILD_SHARED_LIBS=OFF ARCH="x86_64"
-    - os: osx
-      env:
-      - MATRIX_EVAL="CC='clang -arch i686'" CF=-DBUILD_SHARED_LIBS=OFF ARCH="i686"
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y rpm; fi
+  - sudo apt-get install -y rpm
   - git clone https://github.com/huskyproject/huskylib.git ~/build/huskyproject/huskylib
   - git clone https://github.com/huskyproject/smapi.git ~/build/huskyproject/smapi
   - if [ -n "$PACKAGES" ]; then travis_retry sudo apt-get install --no-install-recommends
     --no-upgrade -qq $PACKAGES; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add - ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; sudo apt-get install -y pvs-studio; fi
+  - wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add -
+  - sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
+  - sudo apt-get update; sudo apt-get install -y pvs-studio
 script:
   - eval "${MATRIX_EVAL}"
   - cd  ~/build/huskyproject/huskylib
@@ -43,26 +33,21 @@ script:
   - cmake --build .
   - sudo make install
   - cd  $TRAVIS_BUILD_DIR
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pvs-studio-analyzer credentials -o $TRAVIS_BUILD_DIR/PVS-Studio.lic $PVS_USERNAME $PVS_KEY; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake . -Bbuild "${CF}" -DCMAKE_EXPORT_COMPILE_COMMANDS=On -DCPACK_DEBIAN_PACKAGE_MAINTAINER=travis-ci; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pvs-studio-analyzer trace -- cmake --build build; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pvs-studio-analyzer analyze -l $TRAVIS_BUILD_DIR/PVS-Studio.lic -s ./suppress_base.json -o build/pvs.log; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then plog-converter -a 'GA:1,2;64:1,2;OP:1,2' -t tasklist -o build/pvs.tasks build/pvs.log; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cat build/pvs.tasks; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ! grep -vP '\serr\s+Help:' build/pvs.tasks | grep -P '\serr\s'; fi
-  - if [[ "$TRAVIS_OS_NAME" != "linux" ]]; then mkdir build; fi
-  - if [[ "$TRAVIS_OS_NAME" != "linux" ]]; then cmake . -Bbuild "${CF}"; fi
-  - if [[ "$TRAVIS_OS_NAME" != "linux" ]]; then cmake --build build; fi
+  - if [[ -n "$PVS_USERNAME" ]]; then pvs-studio-analyzer credentials -o $TRAVIS_BUILD_DIR/PVS-Studio.lic $PVS_USERNAME $PVS_KEY; fi
+  - if [[ -n "$PVS_USERNAME" ]]; then cmake . -Bbuild "${CF}" -DCMAKE_EXPORT_COMPILE_COMMANDS=On -DCPACK_DEBIAN_PACKAGE_MAINTAINER=travis-ci; fi
+  - if [[ -z "$PVS_USERNAME" ]]; then cmake . -Bbuild "${CF}" -DCPACK_DEBIAN_PACKAGE_MAINTAINER=travis-ci; fi
+  - if [[ -n "$PVS_USERNAME" ]]; then pvs-studio-analyzer trace -- cmake --build build; else cmake --build build; fi
+  - if [[ -n "$PVS_USERNAME" ]]; then pvs-studio-analyzer analyze -l $TRAVIS_BUILD_DIR/PVS-Studio.lic -s $TRAVIS_BUILD_DIR/suppress_base.json -o build/pvs.log; fi
+  - if [[ -n "$PVS_USERNAME" ]]; then plog-converter -a 'GA:1,2;64:1,2;OP:1,2' -t tasklist -o build/pvs.tasks build/pvs.log; fi
+  - if [[ -n "$PVS_USERNAME" ]]; then cat build/pvs.tasks; fi
+  - if [[ -n "$PVS_USERNAME" ]]; then ! grep -vP '\serr\s+Help:' build/pvs.tasks | grep -P '\serr\s'; fi
   - cd build
   - cpack
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cpack -G RPM; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cpack -G DEB; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then for file in *.rpm; do mv $file
-    $(basename $file .rpm).${ARCH}.rpm; done; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then for file in *.deb; do mv $file
-    $(basename $file .deb).${ARCH}.deb; done; fi
-  - for file in *.tar.gz; do mv $file $(basename $file .tar.gz).${ARCH}.tar.gz;
-    done
+  - cpack -G RPM
+  - cpack -G DEB
+  - for file in *.rpm; do mv $file $(basename $file .rpm).${ARCH}.rpm; done
+  - for file in *.deb; do mv $file $(basename $file .deb).${ARCH}.deb; done
+  - for file in *.tar.gz; do mv $file $(basename $file .tar.gz).${ARCH}.tar.gz; done
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
