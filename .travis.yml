@@ -4,11 +4,20 @@ language: c
 
 jobs:
   include:
+    - os: linux
+      language: c
       env:
-      - MATRIX_EVAL="CC=gcc" CF=-DBUILD_SHARED_LIBS=OFF ARCH="x86_64"
-      - MATRIX_EVAL="CC=gcc" CF=-DBUILD_SHARED_LIBS=ON ARCH="x86_64"
-      - MATRIX_EVAL="CC='gcc -m32'" CF="-DBUILD_SHARED_LIBS=OFF -DCMAKE_LIBRARY_PATH=/usr/lib32"
-        PACKAGES="gcc-multilib lib32z1-dev" ARCH="i686"
+        - MATRIX_EVAL="CC=gcc" CF=-DBUILD_SHARED_LIBS=OFF ARCH="x86_64"
+    - os: linux
+      language: c
+      env:
+        - MATRIX_EVAL="CC=gcc" CF=-DBUILD_SHARED_LIBS=ON ARCH="x86_64"
+    - os: linux
+      language: c
+      env:
+        - MATRIX_EVAL="CC='gcc -m32'" CF="-DBUILD_SHARED_LIBS=OFF -DCMAKE_LIBRARY_PATH=/usr/lib32"
+          PACKAGES="gcc-multilib lib32z1-dev" ARCH="i686"
+
 before_install:
   - sudo apt-get install -y rpm
   - git clone https://github.com/huskyproject/huskylib.git ~/build/huskyproject/huskylib
@@ -18,15 +27,24 @@ before_install:
   - wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add -
   - sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
   - sudo apt-get update; sudo apt-get install -y pvs-studio
+
 script:
+  - echo TRAVIS_BRANCH=$TRAVIS_BRANCH
+  - echo TRAVIS_TAG=$TRAVIS_TAG
+  - if [[ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" && "$TRAVIS_BRANCH" != "master" ]]; then CURR_BRANCH="$TRAVIS_BRANCH"; fi
+  - echo CURR_BRANCH=$CURR_BRANCH
   - eval "${MATRIX_EVAL}"
   - cd  ~/build/huskyproject/huskylib
+  - if [[ -n "$CURR_BRANCH" ]]; then git checkout "$CURR_BRANCH"; true; fi
+  - git branch
   - mkdir build
   - cd build
   - cmake .. ${CF}
   - cmake --build .
   - sudo make install
   - cd  ~/build/huskyproject/smapi
+  - if [[ -n "$CURR_BRANCH" ]]; then git checkout "$CURR_BRANCH"; true; fi
+  - git branch
   - mkdir build
   - cd build
   - cmake .. ${CF}
@@ -48,6 +66,7 @@ script:
   - for file in *.rpm; do mv $file $(basename $file .rpm).${ARCH}.rpm; done
   - for file in *.deb; do mv $file $(basename $file .deb).${ARCH}.deb; done
   - for file in *.tar.gz; do mv $file $(basename $file .tar.gz).${ARCH}.tar.gz; done
+
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
