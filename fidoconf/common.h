@@ -172,9 +172,11 @@ typedef enum suffixRenameMode e_suffixRenameMode;
     is incremented up to "ff".
 
     Return value:
-    changeFileSuffix() returns the changed filename. If the second or the third
-    parameter is NULL, return NULL and set errno to EINVAL. If all 257 possible
-    suffixes are occupied, return NULL and set errno to EEXIST.
+    changeFileSuffix() returns the changed filename allocated in a new buffer,
+    so the caller is responsible for calling free() for this memory. If the
+    second or the third parameter is NULL, return NULL and set errno to
+    EINVAL. If all 257 possible suffixes are occupied, return NULL and set
+    errno to EEXIST.
 
     Parameters:
     config - the Husky configuration;
