@@ -428,7 +428,7 @@ the bad bundle or bad packet is renamed to one of the following five
 extensions. 
 
 1. In case of a password error (a packet with a wrong password or a packet
-without a password came from the link for whom an empty password is not
+without a password came from the link for which an empty password is not
 allowed), or a bundle came to insecure inbound, the filename extension is
 renamed to @code{.sec}.
 2. If the arrived bundle cannot be opened, the filename extension is
