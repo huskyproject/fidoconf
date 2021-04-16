@@ -853,7 +853,8 @@ char * makeFileBoxName(ps_fidoconfig config, s_link * link)
     ren = NO_FILE_RENAMING - change the suffix, do not rename the file;
     ren = RENAME_FILE - change the file suffix and rename the file.
  */
-char * changeFileSuffix(const s_fidoconfig * const config, char * fileName,
+char * changeFileSuffix(const s_fidoconfig * const config,
+                        const char * const fileName,
                         const char * const newSuffix, e_suffixRenameMode ren)
 {
     int i;
@@ -876,15 +877,16 @@ char * changeFileSuffix(const s_fidoconfig * const config, char * fileName,
     if(beginOfSuffix == NULL ||
        beginOfSuffix < strrchr(fileName, '\\') || beginOfSuffix < strrchr(fileName, '/'))
     {
-        beginOfSuffix = fileName + strlen(fileName) + 1; /* dot char not found in filename,
-                                                            pointed to end of string */
+        /* a dot char is not found in the filename, 
+           the pointer points to the end of the string */
+        beginOfSuffix = (char *)fileName + strlen(fileName) + 1;
     }
     else
     {
-        beginOfSuffix++;  /* pointed after dot in 'name.suf' */
+        beginOfSuffix++; /* points after the dot in a 'name.suf' */
     }
 
-    length = beginOfSuffix - fileName;    /* length of "name." */
+    length = beginOfSuffix - fileName;  /* length of the "name." */
 
     i           = (int)strlen(newSuffix);
     newFileName = (char *)scalloc(1, (size_t)(length + i + (i > 3 ? 1 : 4 - i)));

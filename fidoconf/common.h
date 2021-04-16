@@ -186,8 +186,10 @@ typedef enum suffixRenameMode e_suffixRenameMode;
     ren = NO_FILE_RENAMING - change the suffix, do not rename the file;
     ren = RENAME_FILE - change the file suffix and rename the file.
  */
-HUSKYEXT char * changeFileSuffix(const s_fidoconfig * const config, char * fileName,
-                                 const char * const newSuffix, e_suffixRenameMode ren);
+HUSKYEXT char * changeFileSuffix(const s_fidoconfig * const config,
+                                 const char * const fileName,
+                                 const char * const newSuffix,
+                                 e_suffixRenameMode ren);
 
 /*  this function returns the string representation of an address. */
 /*  it returns a static array!!! */
