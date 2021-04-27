@@ -850,7 +850,8 @@ char * makeFileBoxName(ps_fidoconfig config, s_link * link)
     filename - the filename to change; if the file should be renamed, then
                "filename" should be the path;
     newSuffix - a three-character string of the new filename extension;
-    ren = NO_FILE_RENAMING - change the suffix, do not rename the file;
+    ren = NO_FILE_RENAMING - change the suffix in the returned filename,
+                             but do not rename the file;
     ren = RENAME_FILE - change the file suffix and rename the file.
  */
 char * changeFileSuffix(const s_fidoconfig * const config,
@@ -875,9 +876,10 @@ char * changeFileSuffix(const s_fidoconfig * const config,
     beginOfSuffix = strrchr(fileName, '.');
 
     if(beginOfSuffix == NULL ||
-       beginOfSuffix < strrchr(fileName, '\\') || beginOfSuffix < strrchr(fileName, '/'))
+       beginOfSuffix < strrchr(fileName, '\\') ||
+       beginOfSuffix < strrchr(fileName,  '/'))
     {
-        /* a dot char is not found in the filename, 
+        /* a dot char is not found in the filename,
            the pointer points to the end of the string */
         beginOfSuffix = (char *)fileName + strlen(fileName) + 1;
     }
