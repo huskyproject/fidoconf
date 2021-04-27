@@ -95,11 +95,6 @@ static int testConfig(s_fidoconfig * tconfig)
         printf("Warning:  ProtInbound not defined!\n");
     }
 
-    if (!tconfig->badInbound)
-    {
-        printf("Warning:  badInbound not defined! Defining \"badInbound\" is required.\n");
-    }
-
     if(!tconfig->inbound)
     {
         printf("Warning:  Inbound not defined!\n");
