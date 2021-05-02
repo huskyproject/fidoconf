@@ -671,6 +671,16 @@ void setConfigDefaults(s_fidoconfig * config)
         xstrcat(&config->sysop, "SysOp");
     }
 
+    if(config->name == NULL)
+    {
+        config->name = sstrdup("");
+    }
+
+    if (config->origin == NULL)
+    {
+        config->origin = sstrdup("");
+    }
+
     if(RebuildEchoAreaTree(config) == 0 || RebuildFileAreaTree(config) == 0)
     {
         printf("Please correct above error(s) first!\n");
