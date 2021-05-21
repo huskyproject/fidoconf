@@ -2920,6 +2920,7 @@ int parseNodelist(char * token, s_fidoconfig * config)
     strcpy(config->nodelists[config->nodelistCount].nodelistName, token);
     config->nodelists[config->nodelistCount].format         = fts5000;
     config->nodelists[config->nodelistCount].delAppliedDiff = 0;
+    config->nodelists[config->nodelistCount].dailynodelist = 0;
     config->nodelistCount++;
     return 0;
 }
@@ -6867,6 +6868,13 @@ int parseLine(char * line, s_fidoconfig * config)
                     rc = 1;
                 }
 
+                break;
+
+            case ID_DAILYNODELIST:
+                rc =
+                    parseBool(getRestOfLine(),
+                              (unsigned int *)&(config->nodelists[config->nodelistCount -
+                                                                  1].dailynodelist));
                 break;
 
             case ID_DEFAULTZONE:

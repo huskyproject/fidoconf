@@ -81,7 +81,7 @@ enum
     ID_NETMAILFLAVOUR, ID_FLAVOUR, ID_RECODEMSGBASE, ID_CREATEADDUPLINK, ID_SENDNOTIFYMESSAGES,
     ID_AUTOAREAPAUSE, ID_ALLOWREMOTECONTROL, ID_UNSUBSCRIBEONAREADELETE, ID_DENYRESCAN,
     ID_RESCANGRP, ID_DAILYBUNDLES, ID_REPORTREQUESTER, ID_RESCANLIMIT, ID_LOGDATEFORMAT,
-    ID_AUTOSUBSCRIBE
+    ID_AUTOSUBSCRIBE, ID_DAILYNODELIST
 };
 
 /* The following list must be sorted alphabetically, and keywords must be all
@@ -244,6 +244,8 @@ token_t parseline_tokens[] =
      ID_CREATEFWDNONPASS                                                           },
     {"dailybundles",
      ID_DAILYBUNDLES                                                             },
+    {"dailynodelist",
+     ID_DAILYNODELIST                                                            },
     {"defarcmailsize",
      ID_DEFARCMAILSIZE                                                           },
     {"defaultzone",
