@@ -373,7 +373,7 @@ typedef struct nodelist
     unsigned int defaultZone;
     int          delAppliedDiff;
     int          format;
-    int          dailynodelist;      /* on or off, deault off */
+    int          dailynodelist;      /* on or off, default off */
 } s_nodelist, *ps_nodelist;
 typedef enum typeDupeCheck
 {
