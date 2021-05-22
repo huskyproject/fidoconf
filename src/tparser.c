@@ -3457,6 +3457,9 @@ int main(int argc, char ** argv)
                     printf("Full Nodelist Update File %s\n", config->nodelists[i].fullUpdateStem);
                 }
 
+                printf("Dailynodelist: %s\n",
+                       (config->nodelists[i].dailynodelist) ? "on" : "off");
+
                 if(config->nodelists[i].defaultZone != 0)
                 {
                     printf("Zone Number %d\n", config->nodelists[i].defaultZone);
