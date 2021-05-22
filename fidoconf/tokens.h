@@ -167,7 +167,7 @@ token_t parseline_tokens[] =
     {"createdirs",              ID_CREATEDIRS},
     {"createfwdnonpass",        ID_CREATEFWDNONPASS},
     {"dailybundles",            ID_DAILYBUNDLES},
-    {"dailynodelist",           ID_DAILYNODELIST}
+    {"dailynodelist",           ID_DAILYNODELIST},
     {"defarcmailsize",          ID_DEFARCMAILSIZE},
     {"defaultzone",             ID_DEFAULTZONE},
     {"delapplieddiff",          ID_DELAPPLIEDDIFF},
