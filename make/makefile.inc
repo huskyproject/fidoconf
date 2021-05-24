@@ -26,7 +26,7 @@ H_DIR	= ../fidoconf/
 
 # Header files
 HEADERS = $(H)afixcmd.h $(H)arealist.h $(H)areatree.h $(H)stat.h $(H)common.h \
-          $(H)grptree.h $(H)fidoconf.h $(H)fidoconf.pas $(H)findtok.h $(H)version.h
+          $(H)grptree.h $(H)fidoconf.h $(H)findtok.h $(H)version.h
 
 # Object files: library
 OBJS	= $(O)afixcmd$(_OBJ) $(O)afixcmn$(_OBJ) $(O)arealist$(_OBJ) \
@@ -48,7 +48,7 @@ FEOBJ	= $(O)fecfg146$(_OBJ) $(O)fecfg2fc$(_OBJ)
 PRGOBJS = $(TPAROBJ) $(LINKOBJ) $(AEDOBJ) $(BINKOBJ) $(FGATEOBJ) $(GEDOBJ) $(MSGEDOBJ) $(SQOBJ) $(TOROBJ) $(FEOBJ)
 
 # Binary files(s) to bild from sources
-PROGRAMS  = $(TPARSER) $(LINKED) $(LINKED) $(FC2AED) $(FC2BINKD) $(FC2FGATE) $(FC2GED) $(FC2MSGED) $(FC2SQ) $(FC2TOR) $(FECFG2FC)
+PROGRAMS  = $(TPARSER) $(LINKED) $(FC2AED) $(FC2BINKD) $(FC2FGATE) $(FC2GED) $(FC2MSGED) $(FC2SQ) $(FC2TOR) $(FECFG2FC)
 
 # Usually compose from LIBPREFIX, LIBSUFFIX and LIB.
 TARGETLIB = $(L)$(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
