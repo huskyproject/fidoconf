@@ -357,7 +357,7 @@ just hatch a new nodelist every few weeks. In this case, you need the
 @code{Dailynodelist on} or@code{Dailynodelist off}
 @end table
 
-If you set @code{Dailynodelist} to @code{on}, NLTools do a fullupdate of the nodelist on a daily basis, instead to check if the new nodelist is 7 days newer. You have to set fullupdate and dailynodelist statements and not the diffupdate statement for the daily nodelist processing.
+If you set @code{Dailynodelist} to @code{on}, NLTools do a full update of the nodelist on a daily basis, instead of checking if the new nodelist is 7 days newer. You have to set @code{FullUpdate} and @code{Dailynodelist} statements and not the @code{DiffUpdate} statement for the daily nodelist processing.
 Default is @code{off}
 
 This token can be repeated.
