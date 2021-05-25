@@ -1054,7 +1054,7 @@ development" 2:2433/1245 -def}
 Эта секция содержит только список ключевых слов. Читайте документацию на HPT.
 
 @example
-@include ../keywords.hpt
+@include doc/keywords.hpt
 @end example
 
 
@@ -1063,7 +1063,7 @@ development" 2:2433/1245 -def}
 Эта секция содержит только список ключевых слов. Читайте документацию на HTick.
 
 @example
-@include ../keywords.htick
+@include doc/keywords.htick
 @end example
 
 
@@ -1313,7 +1313,7 @@ NLTools может удалять ноддиффы после их применения, если вы установите значение
 Эта секция содержит только список ключевых слов. Читайте документацию на BsoPack.
 
 @example
-@include ../keywords.bp
+@include doc/keywords.bp
 @end example
 
 @node herp, Example, BSOpack, config file
@@ -1347,5 +1347,5 @@ herp, в частности @file{herpidx}, также используют часть конфигурации
 @node Example,  , herp, config file
 @section Пример работающего конфига
 @example
-@include ../config
+@include doc/config
 @end example

@@ -1,7 +1,7 @@
 %global ver_major 1
 %global ver_minor 9
 %global ver_patch 0
-%global reldate 20210502
+%global reldate 20210525
 %global reltype C
 # may be one of: C (current), R (release), S (stable)
 
@@ -60,7 +60,7 @@ Summary: Common configuration dynamic library for the Husky Project applications
 URL: https://github.com/huskyproject/%main_name/archive/v%ver_major.%ver_minor.%reldate.tar.gz
 License: LGPLv2
 Source: %main_name-%ver_major.%ver_minor.%reldate.tar.gz
-BuildRequires: gcc
+BuildRequires: gcc texinfo
 %if %{with static}
 BuildRequires: huskylib-static huskylib-static-devel
 BuildRequires: smapi-static smapi-static-devel
@@ -167,6 +167,8 @@ chmod -R a+rX,u+w,go-w %buildroot
     %_libdir/*.%ver_major.%ver_minor.%ver_patch
     %_libdir/*.%ver_major.%ver_minor
 %endif
+%_mandir/man1/*.1.gz
+%_infodir/*.info.gz
 
 %files devel
 %dir %_includedir/%main_name
