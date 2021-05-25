@@ -251,6 +251,7 @@ This section contains keyword-list only. Read HTick Manual for more info.
 * defaultzone::                 specifying a zone number for a nodelist
 * nodelistformat::              is it a nodelist or a pointlist?
 * delapplieddiff::              delete applied nodediff
+* dailynodelist::               specifying that the nodelist is a daily nodelist
 @end menu
 
 @node nodelistdir, fidouserlist, NLTools, NLTools
@@ -331,8 +332,7 @@ nodelist updater will unpack the difference file (if it is archived, of
 course, unpacked diffs are also supported), apply the diff to the
 corresponding nodelist, and delete the temporary unpacked diff again.
 
-
-@node fullupdate, defaultzone, diffupdate, NLTools
+@node fullupdate, dailynodelist, diffupdate, NLTools
 @subsection fullupdate
 @table @asis
 @item Syntax:
@@ -348,7 +348,21 @@ be found. Some othernets do not (regularly) distribute a nodediff file, but
 just hatch a new nodelist every few weeks. In this case, you need the
 @code{FullUpdate} statement.
 
-@node defaultzone, nodelistformat, fullupdate, NLTools
+@node dailynodelist, defaultzone, fullupdate, NLTools
+@subsection dailynodelist
+@table @asis
+@item Syntax:
+@code{Dailynodelist <bool>}
+@item Example:
+@code{Dailynodelist on} or@code{Dailynodelist off}
+@end table
+
+If you set @code{Dailynodelist} to @code{on}, NLTools do a full update of the nodelist on a daily basis, instead of checking if the new nodelist is 7 days newer. You have to set @code{FullUpdate} and @code{Dailynodelist} statements and not the @code{DiffUpdate} statement for the daily nodelist processing.
+Default is @code{off}
+
+This token can be repeated.
+
+@node defaultzone, nodelistformat, dailynodelist, NLTools
 @subsection defaultzone
 @table @asis
 @item Syntax:
