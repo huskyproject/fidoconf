@@ -43,10 +43,6 @@ ifdef DIRSEP
 CDEFS+= -DPATH_DELIM=\'$(DIRSEP)\'
 endif
 
-ifeq ($(OSTYPE), UNIX)
-  LIBPREFIX=lib
-endif
-
 # filename settings
 ifeq ($(SHORTNAMES), 1)
   CDEFS = $(CDEFS) -DSHORTNAMES
@@ -67,6 +63,7 @@ else
 include make/fn_long.inc
 endif
 include make/makefile.inc
+MAIN_MAKEFILE = 1
 include makefile.in2
 TARGETLIB = $(LIBPREFIX)$(LIBNAME)$(LIBSUFFIX)$(_LIB)
 TARGETDLL = $(DLLPREFIX)$(LIBNAME)$(DLLSUFFIX)$(_DLL)
@@ -74,18 +71,15 @@ LIBS=-lhusky
 
 progs: commonprogs
 
+include man/makefile.inc
+
 ifeq ($(DYNLIBS), 1)
   TARGET = $(TARGETDLL)
-  all: commonlibs $(TARGETDLL).$(VER)
-	$(MAKE) progs
-	(cd doc && $(MAKE) all)
+  all: commonlibs $(TARGETDLL).$(VER) allman
 else
   TARGET = $(TARGETLIB)
-  all: commonlibs
-	$(MAKE) progs
-	(cd doc && $(MAKE) all)
+  all: commonlibs allman
 endif
-
 
 ifeq (~$(MKSHARED)~, ~ld~)
 $(TARGETDLL).$(VER): $(LOBJS)
@@ -93,20 +87,32 @@ $(TARGETDLL).$(VER): $(LOBJS)
 else
 $(TARGETDLL).$(VER): $(LOBJS)
 	$(CC) $(LFLAGS) -shared -Wl,-soname,$(TARGETDLL).$(VERH) \
-	-o $(TARGETDLL).$(VER) $(LOBJS) $(LIBS)
+    -o $(TARGETDLL).$(VER) $(LOBJS) $(LIBS)
 endif
 	$(LN) $(LNOPT) $(TARGETDLL).$(VER) $(TARGETDLL).$(VERH) ;\
-	$(LN) $(LNOPT) $(TARGETDLL).$(VER) $(TARGETDLL)
+    $(LN) $(LNOPT) $(TARGETDLL).$(VER) $(TARGETDLL)
 
+gen-doc:
+	-(cd doc; $(MAKE) all)
+
+clean-doc:
+	-(cd doc; $(MAKE) clean)
+
+distclean-doc:
+	-(cd doc; $(MAKE) distclean)
+
+install-doc:
+	-(cd doc; $(MAKE) install)
+
+uninstall-doc:
+	-(cd doc; $(MAKE) uninstall)
 
 clean: commonclean
 	-$(RM) $(RMOPT) $(TARGETDLL).$(VERH)
 	-$(RM) $(RMOPT) $(TARGETDLL)
-	(cd doc && $(MAKE) clean)
 
-distclean: commondistclean
+distclean: commondistclean distclean-man
 	-$(RM) $(RMOPT) $(TARGETDLL)*
-	(cd doc && $(MAKE) distclean)
 
 
 ifeq ($(DYNLIBS), 1)
@@ -128,7 +134,7 @@ instdyn: commonlibs
 endif
 
 
-install: commonlibs progs instdyn
+install: commonlibs progs instdyn install-man
 	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(BINDIR)
 	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(INCDIR)/fidoconf
 	-$(MKDIR) $(MKDIROPT) $(DESTDIR)$(LIBDIR)
@@ -142,21 +148,12 @@ endif
 	$(INSTALL) $(ISOPT) util/fconf2areasbbs.pl $(DESTDIR)$(BINDIR)
 	cd fidoconf ; $(INSTALL) $(IIOPT) $(HEADERS) $(DESTDIR)$(INCDIR)/fidoconf
 	$(INSTALL) $(ISLOPT) $(TARGETLIB) $(DESTDIR)$(LIBDIR)
-	(cd doc && $(MAKE) install)
-	@echo
-	@echo "*** For install man pages run 'gmake install-man' (unixes only)"
-	@echo
 
-install-man:
-	(cd man && $(MAKE) install)
-
-uninstall:
+uninstall: uninstall-man
 	-cd $(DESTDIR)$(BINDIR) ;\
-	-$(RM) $(RMOPT) $(PROGRAMS) linked$(_EXE) tparser$(_EXE) linkedto \
+	$(RM) $(RMOPT) $(PROGRAMS) linked$(_EXE) tparser$(_EXE) linkedto \
 	fconf2na.pl fconf2areasbbs.pl sq2fc.pl
 	-cd $(DESTDIR)$(INCDIR)/fidoconf ;\
-	-$(RM) $(RMOPT) $(HEADERS)
+	$(RM) $(RMOPT) $(HEADERS)
 	-$(RM) $(RMOPT) $(DESTDIR)$(LIBDIR)/$(TARGETLIB)
 	-$(RM) $(RMOPT) $(DESTDIR)$(LIBDIR)/$(TARGETDLL)*
-	-(cd doc && $(MAKE) uninstall)
-	-(cd man && $(MAKE) uninstall)

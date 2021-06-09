@@ -17,52 +17,112 @@ husky-common (huskybse) package FIRST!
 - Put the fidoconf package in the directory where the other packages of fido
   husky reside:
    
-  - unix, beos, possible cygwin:
+  - unix, beos, possibly cygwin:
       ```text
-      /usr/src/packages/        -> huskybse/
+      $HOME/husky/              -> huskybse/
                                 -> huskylib/
                                 -> smapi/
                                 -> fidoconfig/
+                                -> areafix/
                                 -> hpt/
                                 -> htick/
-                                ...some other
+                                ...some other subprojects
       ```
    - windows, dos, os/2 & etc:
       ```text
          d:\husky\              -> huskylib\
                                 -> smapi\
                                 -> fidoconf\
+                                -> areafix\
                                 -> hpt\
                                 -> htick\
-                                ...some other
+                                ...some other subprojects
       ```
+This can be done by cloning the git repository from GitHub:
+```
+    git clone https://github.com/huskyproject/fidoconf.git
+```
+Or you may download the source code archive from
+```
+    https://github.com/huskyproject/fidoconf/releases/latest
+```
+
 ## Build 
 
 ### Compiling and installing with the standard Makefile and huskymak.cfg
 
-require huskymak.cfg (see huskybse), unixes only:
-```sh
-   $ make
-   $ make install
+You should prepare `huskymak.cfg` (see `huskybse`) and run (this method is for
+unixes only):
 ```
+   $ make
+   $ sudo make install
+```
+This will also install man pages.
+
+After you have installed the compiled files you do not need their copies in
+the `fidoconf` directory any more. So you may delete them by running
+```
+    $ make distclean
+```
+To uninstall everything that was installed run
+```
+    $ sudo make uninstall
+```
+This will not delete the files of compiled code from the directory of the
+`fidoconf` subproject if you did not run `make distclean`.
+
+#### Compiling and installing documentation
+
+You may compile and install fidoconfig manual in the following formats:
+`info`, `html`, `pdf`, `plain text`, `dvi`. This should be done separately from
+compiling and installing the code.
+
+To install the manual in `info` format you have to define `INFODIR` variable in
+your `huskymak.cfg`:
+```
+    INFODIR=$(PREFIX)/share/info
+```
+To compile the manual in `html`, `plain text`, `dvi`, `pdf` formats you have to
+define the corresponding variables in your `huskymak.cfg`.
+```
+    HTMLDIR=$(PREFIX)/share/doc/husky
+    TXTDIR=$(PREFIX)/share/doc/husky
+    DVIDIR=$(PREFIX)/share/doc/husky
+    PDFDIR=$(PREFIX)/share/doc/husky
+```
+To compile and install the documentation run
+```
+    $ make gen-doc
+    $ sudo make install-doc
+```
+After you have installed the compiled documentation files you do not need their
+copies in the `fidoconf` directory any more. So you may delete them by running
+```
+    $ make distclean-doc
+```
+To uninstall all installed documentation run
+```
+    $ sudo make uninstall-doc
+```
+
 ### Compiling with the Legacy Makefiles
 
 unix:
 ```sh
    $ make -f makefile.lnx
-   $ make -f makefile.lnx install
+   $ sudo make -f makefile.lnx install
 ```
 dos:
 ```sh
    d:\husky\fidoconf>make -f makefile.djg
 ```
- ### Compiling and installing using Cmake
+### Compiling and installing using Cmake
  
 - Run CMake to configure the build tree.
    ```sh
       $ cmake -H. -Bbuild -DCFGDIR=~/fido/etc/husky -DBUILD_SHARED_LIBS=OFF
    ```
-  Here you may set CFGDIR, that is, the directory containing Husky config,
+  Here you may set `CFGDIR`, that is, the directory containing Husky config,
   as you like.
   This will prepare for building a static library. If you want to build
   a dynamic library, then you have to run

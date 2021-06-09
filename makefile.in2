@@ -35,11 +35,15 @@ LIBFIDOCONFIG = $(LIBPREFIX)$(FIDOCONFIG)
 LINKSMAPI = ../huskylib/$(LIBPREFIX)husky$(UNIXID)$(LIB) ../smapi/$(LIBPREFIX)smapi$(UNIXID)$(LIB)
 LINKFIDOCONFIG = ./$(LIBPREFIX)$(FIDOCONFIG)$(LIB)
 
+ifneq ($(MAIN_MAKEFILE), 1)
 default: all
+endif
 
 include makefile.inc
 
+ifneq ($(MAIN_MAKEFILE), 1)
 all: commonlibs commonprogs
+endif
 
 clean: commonclean
 

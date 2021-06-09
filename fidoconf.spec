@@ -1,7 +1,7 @@
 %global ver_major 1
 %global ver_minor 9
 %global ver_patch 0
-%global reldate 20210525
+%global reldate 20210609
 %global reltype C
 # may be one of: C (current), R (release), S (stable)
 
@@ -21,6 +21,14 @@
     %def_without debug
 %else
     %bcond_with debug
+%endif
+
+# if you use 'rpmbuild --with doc', then fidoconf-doc package is produced
+# with fidoconf.info, fidoconf.html, fidoconf.txt, fidoconf.pdf
+%if "%_vendor" == "alt"
+    %def_without doc
+%else
+    %bcond_with doc
 %endif
 
 %global debug_package %nil
@@ -60,14 +68,13 @@ Summary: Common configuration dynamic library for the Husky Project applications
 URL: https://github.com/huskyproject/%main_name/archive/v%ver_major.%ver_minor.%reldate.tar.gz
 License: LGPLv2
 Source: %main_name-%ver_major.%ver_minor.%reldate.tar.gz
-BuildRequires: gcc texinfo
+BuildRequires: gcc
 %if %{with static}
-BuildRequires: huskylib-static huskylib-static-devel
-BuildRequires: smapi-static smapi-static-devel
+BuildRequires: huskylib-static-devel
+BuildRequires: smapi-static-devel
 %else
-BuildRequires: huskylib huskylib-devel
-BuildRequires: smapi smapi-devel
-Requires: huskylib smapi
+BuildRequires: huskylib-devel
+BuildRequires: smapi-devel
 %endif
 
 %description
@@ -101,6 +108,24 @@ Provides: %name-utils = %version-%release
 %summary
 
 
+%if %{with doc}
+%package doc
+BuildArch: noarch
+%if "%_vendor" != "redhat"
+Group: %pkg_group
+%endif
+Summary: Documentation for %main_name
+%if "%_vendor" == "redhat"
+BuildRequires: texinfo texinfo-tex
+%else
+BuildRequires: texinfo texi2html texi2dvi
+%endif
+Provides: %main_name-doc = %version-%release
+%description doc
+%summary
+%endif
+
+
 %if %{with static}
     %global parser tparser-static
 %else
@@ -114,6 +139,7 @@ Summary: A utility for parsing and checking Husky Project configuration files
 %if ! %{with static}
 Requires: %name = %version-%release
 %endif
+Provides: tparser = %version-%release
 %description -n %parser
 %summary
 
@@ -123,17 +149,33 @@ Requires: %name = %version-%release
 
 
 %build
-%if %{with static}
-    %if %{with debug}
-        %make_build DEBUG:=1
+%if %{with doc}
+    %if %{with static}
+        %if %{with debug}
+            %make_build DEBUG:=1 all gen-doc
+        %else
+            %make_build all gen-doc
+        %endif
     %else
-        %make_build
+        %if %{with debug}
+            %make_build DYNLIBS:=1 DEBUG:=1 all gen-doc
+        %else
+            %make_build DYNLIBS:=1 all gen-doc
+        %endif
     %endif
 %else
-    %if %{with debug}
-        %make_build DYNLIBS:=1 DEBUG:=1
+    %if %{with static}
+        %if %{with debug}
+            %make_build DEBUG:=1 all
+        %else
+            %make_build all
+        %endif
     %else
-        %make_build DYNLIBS:=1
+        %if %{with debug}
+            %make_build DYNLIBS:=1 DEBUG:=1 all
+        %else
+            %make_build DYNLIBS:=1 all
+        %endif
     %endif
 %endif
 
@@ -143,17 +185,33 @@ Requires: %name = %version-%release
 
 %install
 umask 022
-%if %{with static}
-    %if %{with debug}
-        %make_install DEBUG=1
+%if %{with doc}
+    %if %{with static}
+        %if %{with debug}
+            %make_install DEBUG=1 all install-doc
+        %else
+            %make_install all install-doc
+        %endif
     %else
-        %make_install
+        %if %{with debug}
+            %make_install DYNLIBS=1 DEBUG=1 all install-doc
+        %else
+            %make_install DYNLIBS=1 all install-doc
+        %endif
     %endif
 %else
-    %if %{with debug}
-        %make_install DYNLIBS=1 DEBUG=1
+    %if %{with static}
+        %if %{with debug}
+            %make_install DEBUG=1 all
+        %else
+            %make_install all
+        %endif
     %else
-        %make_install DYNLIBS=1
+        %if %{with debug}
+            %make_install DYNLIBS=1 DEBUG=1 all
+        %else
+            %make_install DYNLIBS=1 all
+        %endif
     %endif
 %endif
 chmod -R a+rX,u+w,go-w %buildroot
@@ -168,7 +226,6 @@ chmod -R a+rX,u+w,go-w %buildroot
     %_libdir/*.%ver_major.%ver_minor
 %endif
 %_mandir/man1/*.1.gz
-%_infodir/*.info.gz
 
 %files devel
 %dir %_includedir/%main_name
@@ -180,6 +237,14 @@ chmod -R a+rX,u+w,go-w %buildroot
 %files utils
 %_bindir/*
 %exclude %_bindir/tparser
+
+%if %{with doc}
+%files doc
+%_infodir/*.info.gz
+%_docdir/husky/*.html
+%_docdir/husky/*.txt
+%_docdir/husky/*.pdf
+%endif
 
 %files -n %parser
 %_bindir/tparser
