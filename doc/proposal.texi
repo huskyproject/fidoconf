@@ -53,18 +53,21 @@ All symbols are @strong{not} case-sensitive.
 
 @{<whiteSpace>@} at the start of the line will be ignored.
 
-All keywords are evaluated as occurring, the first matching
-keyword found is valid. If there are more then one keywords of the
-same type allowed, the @strong{last} line matching the situation is
-valid. Another words: second definition overwrites the previous one.
-If no match is found, a default value will be used.
+All keywords are evaluated as they appear, the first matching keyword
+found applies. If more than one keyword of the same type is allowed,
+the @strong{last} line applies. In other words, the subsequent
+definition replaces the previous one. If no match is found, a default
+value will be used.
 
 "#" at the start of a line or <whiteSpace>#<whiteSpace> within the
-line starts a comment. The comment ends with the line. Comment char "#" can
-be overwritten by @code{commentChar} token.
+line starts a comment. The comment ends with the line. The comment char 
+"#" can be changed by @code{commentChar} token.
+
+If a line ends with a backslash with a preceding space, the next line is
+its continuation and they make one line with the backslash removed.
 
 If the first word in a line is an undefined keyword, program exits
-with error message.
+with an error message.
 
 Each keyword has to start a new line.
 

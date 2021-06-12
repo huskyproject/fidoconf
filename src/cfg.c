@@ -270,18 +270,55 @@ void close_conf(void)
 
 static char * _configline(void)
 {
-    char * line;
+    size_t len, longlen;
+    bool   partly_read = true;
+    bool   first_part  = true;
+    char * line, * longline = NULL;
 
-    curconfpos = (long)ftell(hcfg);
-    line       = readLine(hcfg);
-
-    if(line == NULL)
+    while(partly_read)
     {
-        return NULL;
+        curconfpos = (long)ftell(hcfg);
+        if(!first_part)
+        {
+            nfree(line);
+        }
+        line       = readLine(hcfg);
+
+        if(line == NULL && first_part)
+        {
+            return NULL;
+        }
+
+        actualLineNr++;
+        len = strlen(line);
+        longlen = first_part ? 0 : strlen(longline);
+        if(len >= 2 && *(line + len - 1) == '\\' && *(line + len - 2) == ' ')
+        {
+            *(line + len - 1) = '\0';
+            longline = srealloc(longline, longlen + len);
+            if(first_part)
+            {
+                *longline = '\0';
+            }
+            strcat(longline, line);
+            first_part = false;
+        }
+        else
+        {
+            partly_read = false;
+            if(!first_part)
+            {
+                longline = srealloc(longline, longlen + len + 1);
+                strcat(longline, line);
+            }
+            else
+            {
+                longline = line;
+            }
+        }
     }
 
-    actualLineNr++;
-    return line;
+    return longline;
 }
 
 char * vars_expand(char * line)
