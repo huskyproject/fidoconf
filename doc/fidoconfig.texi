@@ -1544,9 +1544,9 @@ This links are auto-mandatory. Always use slash in mask!
 @item -pass
 define area as passthrough even if msgbase type or filename is defined.
 @item -lr <non-negative integer>
-required level for a link to have read access to the area (@xref{Level} for an explanation);
+required level for a link to have read access to the area (for an explanation @xref{Level}.);
 @item -lw <non-negative integer>
-required level for a link to have write access to the area (@xref{Level} for an explanation);
+required level for a link to have write access to the area (for an explanation @xref{Level}.);
 @item -mandatory
 forbid to unsubscribe from this echo;
 @item -noMandatory
