@@ -64,7 +64,21 @@ line starts a comment. The comment ends with the line. The comment char
 "#" can be changed by @code{commentChar} token.
 
 If a line ends with a backslash with a preceding space, the next line is
-its continuation and they make one line with the backslash removed.
+its continuation and they make one line with the backslash removed. This
+functionality was added for one reason: to be able to use short
+continuation lines in the configuration example in the documentation, so
+that the lines do not end up being truncated after exporting the text to
+pdf. So the configuration example with line continuations from the
+documentation can be used in real life. But this feature is not intended
+for regular use. After any change to the line with continuation, all the
+continuations will be appended to the first part of the line, forming a
+line without continuations. For example, if areafix adds a new node to an
+@code{Echoarea} line that uses one continuation after " \" (that is, this
+@code{Echoarea} is located on two physical lines), then the two physical
+lines will be merged into one and there will be no continuation after " \".
+The string will become long and will not contain a backslash. Therefore,
+you should not use the line continuation feature to make the config
+prettier.
 
 If the first word in a line is an undefined keyword, program exits
 with an error message.
