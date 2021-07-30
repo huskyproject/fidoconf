@@ -76,7 +76,7 @@ line without continuations. For example, if areafix adds a new node to an
 @code{Echoarea} line that uses one continuation after " \" (that is, this
 @code{Echoarea} is located on two physical lines), then the two physical
 lines will be merged into one and there will be no continuation after " \".
-The string will become long and will not contain a backslash. Therefore,
+The line will become long and will not contain a backslash. Therefore,
 you should not use the line continuation feature to make the config
 prettier.
 
