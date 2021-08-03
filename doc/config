@@ -67,11 +67,15 @@ areafixpwd pAs5w0rD
 #route direct 2:9999/99 2:9999/*
 route direct 2:5020/9999 *
 
-netmailarea NETMAIL       /home/username/fido/msgbase/netmail       -b squish
-badarea     BAD           /home/username/fido/msgbase/bad           -b squish
-dupearea    DUPE          /home/username/fido/msgbase/dupe          -b squish
-localarea   PERSONAL.MAIL /home/username/fido/msgbase/personal.mail -b squish
+netmailarea NETMAIL /home/username/fido/msgbase/netmail -b squish
+badarea     BAD     /home/username/fido/msgbase/bad     -b squish
+dupearea    DUPE    /home/username/fido/msgbase/dupe    -b squish
+localarea   PERSONAL.MAIL /home/username/fido/msgbase/personal.mail \
+    -b squish
 
 # Areas definition
-#echoarea ECHO.AREA.READ /home/username/fido/msgbase/echo.area.read -b squish -dupecheck del -dupehistory 14 -a 2:5020/9999.99 2:5020/9999
-#echoarea ECHO.AREA.PASS passthrough -dupecheck del -dupehistory 14 -a 2:5020/9999.99 2:5020/9999
+#echoarea ECHO.AREA.READ /home/username/fido/msgbase/echo.area.read \
+    -b squish -dupecheck del -dupehistory 14 -a 2:5020/9999.99 \
+    2:5020/9999
+#echoarea ECHO.AREA.PASS passthrough -dupecheck del -dupehistory 14 \
+    -a 2:5020/9999.99 2:5020/9999
