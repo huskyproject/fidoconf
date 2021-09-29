@@ -31,7 +31,7 @@ Copyright @copyright{} 1998-2018 Husky Development Team
 
 @dircategory Fidonet Software
 @direntry
-* Fidoconfig: (fidoconfig).     The format of the husky common config file.
+* Fidoconfig: (fidoconfig).     The format of the Husky common config file.
 @end direntry
 
 @node Top, design goals, (dir), (dir)

@@ -24,4 +24,6 @@ libfidoconf1.*
 fidoconfig.html
 *.vcxproj.user
 build/
+Build/
 strace_out
+cvsdate.h
