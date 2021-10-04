@@ -367,6 +367,7 @@ endif
 
 
 # Depend
+ifeq ($(MAKECMDGOALS),depend)
 fidoconf_depend: $(fidoconf_DEPS) ;
 
 # Build a dependency makefile for every source file
@@ -379,6 +380,7 @@ $(fidoconf_DEPS): $(fidoconf_DEPDIR)%$(_DEP): $(fidoconf_SRCDIR)%.c | \
 
 $(fidoconf_DEPDIR): | $(fidoconf_BUILDDIR) do_not_run_depend_as_root
 	[ -d $@ ] || $(MKDIR) $(MKDIROPT) $@
+endif
 
 $(fidoconf_BUILDDIR):
 	[ -d $@ ] || $(MKDIR) $(MKDIROPT) $@
