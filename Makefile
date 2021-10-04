@@ -282,7 +282,7 @@ ifdef MAN1DIR
     $(fidoconf_MAN1ALS): $(DESTDIR)$(MAN1DIR)$(DIRSEP)fconf2.1.gz | \
         $(DESTDIR)$(MAN1DIR)
 	-cd $(DESTDIR)$(MAN1DIR); \
-	for f in $(ALSGZ); do $(LN) $(LNOPT) fconf2.1.gz $$f; done >& /dev/null
+	for f in $(ALSGZ); do $(LN) $(LNOPT) fconf2.1.gz $$f; done
     endif
 else
     fidoconf_install_man: ;
