@@ -107,7 +107,7 @@ fidoconf_TARGET_OBJ = $(fidoconf_OBJDIR)$(fidoconf_TARGET)
 fidoconf_TARGET_BLD = $(fidoconf_BUILDDIR)$(fidoconf_TARGET)
 fidoconf_TARGET_DST = $(LIBDIR_DST)$(fidoconf_TARGET)
 
-fidoconf_LIBS := $(huskylib_BUILDDIR)$(huskylib_TARGET) $(smapi_BUILDDIR)$(smapi_TARGET)
+fidoconf_LIBS := $(smapi_TARGET_BLD) $(huskylib_TARGET_BLD)
 
 fidoconf_CDEFS := $(CDEFS) -DCFGDIR=\"$(CFGDIR)\" \
                   -I$(fidoconf_ROOTDIR)$(fidoconf_H_DIR)\
@@ -159,10 +159,11 @@ ifdef RANLIB
 endif
 
 # Build the dynamic library
-$(fidoconf_OBJDIR)$(fidoconf_TARGETDLL).$(fidoconf_VER): $(fidoconf_OBJS) | do_not_run_make_as_root
+$(fidoconf_OBJDIR)$(fidoconf_TARGETDLL).$(fidoconf_VER): \
+    $(fidoconf_OBJS) $(fidoconf_LIBS) | do_not_run_make_as_root
 ifeq (~$(MKSHARED)~,~ld~)
 	$(LD) $(LFLAGS) \
-	-o $@ $(fidoconf_OBJS)
+	-o $@ $^
 else
 	$(CC) $(LFLAGS) -shared -Wl,-soname,$(fidoconf_TARGETDLL).$(fidoconf_VERH) \
 	-o $@ $(fidoconf_OBJS)
