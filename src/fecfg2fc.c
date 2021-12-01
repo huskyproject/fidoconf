@@ -189,8 +189,8 @@ static void Usage(const char * program)
 
     printf("%s\n",
            temp =
-               GenVersionStr("fecfg2fconf", FC_VER_MAJOR, FC_VER_MINOR, FC_VER_PATCH,
-                             FC_VER_BRANCH,
+               GenVersionStr("fecfg2fconf", fidoconf_VER_MAJOR, fidoconf_VER_MINOR,
+                             fidoconf_VER_PATCH, fidoconf_VER_BRANCH,
                              cvs_date));
     nfree(temp);
     printf("\nUsage:\n" "\t%s [path]fastecho.cfg [output file]\n",

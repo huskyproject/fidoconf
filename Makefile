@@ -6,9 +6,9 @@
 #
 
 # Version
-fidoconf_g1:=$(GREP) -Po 'define\s+FC_VER_MAJOR\s+\K\d+'
-fidoconf_g2:=$(GREP) -Po 'define\s+FC_VER_MINOR\s+\K\d+'
-fidoconf_g3:=$(GREP) -Po 'define\s+FC_VER_PATCH\s+\K\d+'
+fidoconf_g1:=$(GREP) -Po 'define\s+fidoconf_VER_MAJOR\s+\K\d+'
+fidoconf_g2:=$(GREP) -Po 'define\s+fidoconf_VER_MINOR\s+\K\d+'
+fidoconf_g3:=$(GREP) -Po 'define\s+fidoconf_VER_PATCH\s+\K\d+'
 fidoconf_g4:=$(GREP) -Po 'char\s+cvs_date\[\]\s*=\s*"\K\d+-\d+-\d+'
 fidoconf_VERMAJOR := $(shell $(fidoconf_g1) $(fidoconf_ROOTDIR)$(fidoconf_H_DIR)version.h)
 fidoconf_VERMINOR := $(shell $(fidoconf_g2) $(fidoconf_ROOTDIR)$(fidoconf_H_DIR)version.h)

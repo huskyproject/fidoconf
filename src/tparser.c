@@ -2602,7 +2602,8 @@ int main(int argc, char ** argv)
     SetAppModule(M_TPARSER);
     printf("%s\n",
            module =
-               GenVersionStr("tparser", FC_VER_MAJOR, FC_VER_MINOR, FC_VER_PATCH, FC_VER_BRANCH,
+               GenVersionStr("tparser", fidoconf_VER_MAJOR, fidoconf_VER_MINOR,
+                             fidoconf_VER_PATCH, fidoconf_VER_BRANCH,
                              cvs_date));
     nfree(module);              /* used as a temporary variable */
 

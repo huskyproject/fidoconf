@@ -73,8 +73,8 @@ void printversion(FILE * fd)
 
     fprintf(fd, "%s\n\n",
             temp =
-                GenVersionStr("fconf2binkd", FC_VER_MAJOR, FC_VER_MINOR, FC_VER_PATCH,
-                              FC_VER_BRANCH,
+                GenVersionStr("fconf2binkd", fidoconf_VER_MAJOR, fidoconf_VER_MINOR,
+                              fidoconf_VER_PATCH, fidoconf_VER_BRANCH,
                               cvs_date));
     nfree(temp);
 }

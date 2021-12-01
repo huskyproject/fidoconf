@@ -52,7 +52,7 @@ HUSKYEXT int CheckFidoconfigVersion(int need_major,
     static
 #include "../cvsdate.h"   /* char cvs_date[]=datestring; */
 
-    if(need_major == FC_VER_MAJOR && need_minor == FC_VER_MINOR)
+    if(need_major == fidoconf_VER_MAJOR && need_minor == fidoconf_VER_MINOR)
     {
         if(need_branch == BRANCH_CURRENT)
         {
@@ -61,11 +61,11 @@ HUSKYEXT int CheckFidoconfigVersion(int need_major,
                 fprintf(stderr, "Fidoconfig: strange, current patch level can't be non-zero\n");
             }
 
-            return (FC_VER_BRANCH == BRANCH_CURRENT) && !(cvs && strcmp(cvs, cvs_date));
+            return (fidoconf_VER_BRANCH == BRANCH_CURRENT) && !(cvs && strcmp(cvs, cvs_date));
         }
         else
         {
-            return FC_VER_BRANCH != BRANCH_CURRENT;
+            return fidoconf_VER_BRANCH != BRANCH_CURRENT;
         }
     }
 

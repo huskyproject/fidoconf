@@ -309,8 +309,8 @@ int main(int argc, char * argv[])
         char * temp;
         printf("%s\n",
                temp =
-                   GenVersionStr("fconf2golded", FC_VER_MAJOR, FC_VER_MINOR, FC_VER_PATCH,
-                                 FC_VER_BRANCH,
+                   GenVersionStr("fconf2golded", fidoconf_VER_MAJOR, fidoconf_VER_MINOR,
+                                 fidoconf_VER_PATCH, fidoconf_VER_BRANCH,
                                  cvs_date));
         nfree(temp);
     }
