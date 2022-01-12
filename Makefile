@@ -5,19 +5,6 @@
 # Requires: husky enviroment
 #
 
-# Version
-fidoconf_g1:=$(GREP) -Po 'define\s+fidoconf_VER_MAJOR\s+\K\d+'
-fidoconf_g2:=$(GREP) -Po 'define\s+fidoconf_VER_MINOR\s+\K\d+'
-fidoconf_g3:=$(GREP) -Po 'define\s+fidoconf_VER_PATCH\s+\K\d+'
-fidoconf_g4:=$(GREP) -Po 'char\s+cvs_date\[\]\s*=\s*"\K\d+-\d+-\d+'
-fidoconf_VERMAJOR := $(shell $(fidoconf_g1) $(fidoconf_ROOTDIR)$(fidoconf_H_DIR)version.h)
-fidoconf_VERMINOR := $(shell $(fidoconf_g2) $(fidoconf_ROOTDIR)$(fidoconf_H_DIR)version.h)
-fidoconf_VERPATCH := $(shell $(fidoconf_g3) $(fidoconf_ROOTDIR)$(fidoconf_H_DIR)version.h)
-fidoconf_VERH     := $(fidoconf_VERMAJOR).$(fidoconf_VERMINOR)
-fidoconf_cvsdate  := $(shell $(fidoconf_g4) $(fidoconf_ROOTDIR)cvsdate.h)
-fidoconf_reldate  := $(subst -,,$(fidoconf_cvsdate))
-fidoconf_VER      := $(fidoconf_VERH).$(fidoconf_reldate)
-
 ifdef MAN1DIR
     fidoconf_MAN1PAGES := tparser.1
 
