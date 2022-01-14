@@ -107,7 +107,7 @@ ifdef DIRSEP
 CDEFS+= -DPATH_DELIM=\'$(DIRSEP)\'
 endif
 
-.PHONY: fidoconf_all fidoconf_install fidoconf_install-dynlib fidoconf_uninstall \
+.PHONY: fidoconf_build fidoconf_install fidoconf_install-dynlib fidoconf_uninstall \
         fidoconf_clean fidoconf_distclean fidoconf_depend \
         fidoconf_doc fidoconf_doc_install fidoconf_doc_clean \
         fidoconf_doc_distclean fidoconf_doc_uninstall
@@ -116,10 +116,10 @@ endif
 
 ifeq ($(OSTYPE), UNIX)
 ifdef MAN1DIR
-fidoconf_all: $(fidoconf_TARGET_BLD) $(fidoconf_PROGS_BLD) \
+fidoconf_build: $(fidoconf_TARGET_BLD) $(fidoconf_PROGS_BLD) \
               $(fidoconf_MAN1BLD) fidoconf_doc
 else
-fidoconf_all: $(fidoconf_TARGET_BLD) $(fidoconf_PROGS_BLD) fidoconf_doc
+fidoconf_build: $(fidoconf_TARGET_BLD) $(fidoconf_PROGS_BLD) fidoconf_doc
 endif
 endif
 
