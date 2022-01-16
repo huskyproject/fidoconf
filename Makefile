@@ -326,7 +326,8 @@ fidoconf_rm_DEPS:
 	-$(RM) $(RMOPT) $(fidoconf_DEPDIR)*
 
 fidoconf_main_distclean: fidoconf_clean ;
-	-$(RM) $(RMOPT) $(fidoconf_TARGET_BLD)
+	-$(RM) $(RMOPT) $(fidoconf_BUILDDIR)$(fidoconf_TARGETLIB)
+	-$(RM) $(RMOPT) $(fidoconf_BUILDDIR)$(fidoconf_TARGETDLL)*
 	-$(RM) $(RMOPT) $(fidoconf_PROGS_BLD)
 ifeq ($(OSTYPE), UNIX)
     ifdef MAN1DIR
