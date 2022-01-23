@@ -98,11 +98,17 @@ $(fidoconf_BUILDDIR)fidoconfig.txt: $(fidoconf_TEXI) $(fidoconf_PROP)
 $(fidoconf_BUILDDIR)fidoconfig.ru.txt: $(fidoconf_RUS_TEXI) $(fidoconf_RUS_PROP)
 	-LC_ALL=C $(MAKEINFO) $(MIPTEXT) $(MINOSPLIT) "$<" $(MIOUT) "$@"
 
-$(fidoconf_BUILDDIR)fidoconfig.dvi: $(fidoconf_TEXI) $(fidoconf_PROP)
-	-$(TEXI2DVI) "$<"
+$(fidoconf_BUILDDIR)fidoconfig.dvi: $(fidoconf_DOCDIR_BLD)fidoconfig.dvi
+	$(LN) $(LNHOPT) "$<" $(fidoconf_BUILDDIR)
 
-$(fidoconf_BUILDDIR)fidoconfig.ru.dvi: $(fidoconf_RUS_TEXI) $(fidoconf_RUS_PROP)
-	-LC_ALL=C $(TEXI2DVI) "$<" $(MIOUT) "$@"
+$(fidoconf_DOCDIR_BLD)fidoconfig.dvi: $(fidoconf_TEXI) $(fidoconf_PROP)
+	-cd $(fidoconf_DOCDIR_BLD); $(TEXI2DVI) ../../../"$<"
+
+$(fidoconf_BUILDDIR)fidoconfig.ru.dvi: $(fidoconf_DOCDIR_BLD)fidoconfig.ru.dvi
+	$(LN) $(LNHOPT) "$<" $(fidoconf_BUILDDIR)
+
+$(fidoconf_DOCDIR_BLD)fidoconfig.ru.dvi: $(fidoconf_RUS_TEXI) $(fidoconf_RUS_PROP)
+	-cd $(fidoconf_DOCDIR_BLD); LC_ALL=C $(TEXI2DVI) ../../../"$<"
 
 $(fidoconf_BUILDDIR)fidoconfig.pdf: $(fidoconf_DOCDIR_BLD)fidoconfig.pdf
 	$(LN) $(LNHOPT) "$<" $(fidoconf_BUILDDIR)
@@ -230,6 +236,7 @@ fidoconf_clean_DOC:
 	-$(RM) $(RMOPT) $(fidoconf_DOCDIR_BLD)fidoconfig.pg
 	-$(RM) $(RMOPT) $(fidoconf_DOCDIR_BLD)fidoconfig.cps
 	-$(RM) $(RMOPT) $(fidoconf_DOCDIR_BLD)*.log
+	-$(RM) $(RMOPT) $(fidoconf_DOCDIR_BLD)fidoconfig.dvi
 	-$(RM) $(RMOPT) $(fidoconf_DOCDIR_BLD)fidoconfig.pdf
 	-$(RM) $(RMOPT) $(fidoconf_TEXBLD)
 
