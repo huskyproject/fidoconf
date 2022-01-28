@@ -100,12 +100,9 @@ fidoconf_CDEFS := $(CDEFS) -DCFGDIR=\"$(CFGDIR)\" \
                   -I$(fidoconf_ROOTDIR)$(fidoconf_H_DIR)\
                   -I$(huskylib_ROOTDIR) -I$(smapi_ROOTDIR)
 ifdef CFGNAME
-CDEFS+= -DCFGNAME=\"$(CFGNAME)\"
+    fidoconf_CDEFS+= -DCFGNAME=\"$(CFGNAME)\"
 endif
 
-ifdef DIRSEP
-CDEFS+= -DPATH_DELIM=\'$(DIRSEP)\'
-endif
 
 .PHONY: fidoconf_build fidoconf_install fidoconf_install-dynlib fidoconf_uninstall \
         fidoconf_clean fidoconf_distclean fidoconf_depend \
