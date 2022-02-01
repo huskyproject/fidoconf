@@ -85,7 +85,11 @@ fidoconf_TARGETLIB := $(L)$(LIBPREFIX)$(fidoconf_LIBNAME)$(LIBSUFFIX)$(_LIB)
 fidoconf_TARGETDLL := $(B)$(DLLPREFIX)$(fidoconf_LIBNAME)$(DLLSUFFIX)$(_DLL)
 
 ifeq ($(DYNLIBS), 1)
-    fidoconf_TARGET = $(fidoconf_TARGETDLL).$(fidoconf_VER)
+    ifeq ($(findstring Windows,$(OS)),)
+        fidoconf_TARGET = $(fidoconf_TARGETDLL).$(fidoconf_VER)
+    else
+        fidoconf_TARGET = $(fidoconf_TARGETDLL)
+    endif
 else
     fidoconf_TARGET = $(fidoconf_TARGETLIB)
 endif
@@ -143,14 +147,14 @@ ifdef RANLIB
 endif
 
 # Build the dynamic library
-$(fidoconf_OBJDIR)$(fidoconf_TARGETDLL).$(fidoconf_VER): \
+ifeq ($(DYNLIBS),1)
+$(fidoconf_OBJDIR)$(fidoconf_TARGET): \
     $(fidoconf_OBJS) $(fidoconf_LIBS) | do_not_run_make_as_root
-ifeq (~$(MKSHARED)~,~ld~)
-	$(LD) $(LFLAGS) \
-	-o $@ $^
-else
-	$(CC) $(LFLAGS) -shared -Wl,-soname,$(fidoconf_TARGETDLL).$(fidoconf_VERH) \
-	-o $@ $(fidoconf_OBJS)
+    ifeq ($(findstring gcc,$(MKSHARED)),)
+		$(LD) $(LFLAGS) -o $@ $^
+    else
+		$(CC) $(LFLAGS) -shared -Wl,-soname,$(fidoconf_TARGET) -o $@ $^
+    endif
 endif
 
 # Compile .c files
