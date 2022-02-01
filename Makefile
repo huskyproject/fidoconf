@@ -361,7 +361,7 @@ $(fidoconf_DEPS): $(fidoconf_DEPDIR)%$(_DEP): $(fidoconf_SRCDIR)%.c | \
     $(fidoconf_DEPDIR)
 	@set -e; rm -f $@; \
 	$(CC) -MM $(CFLAGS) $(fidoconf_CDEFS) $< > $@.$$$$; \
-	sed 's,\($*\)$(_OBJ)[ :]*,$(fidoconf_OBJDIR)\1$(_OBJ) $@ : ,g' < $@.$$$$ > $@; \
+	sed 's,\($*\)$(__OBJ)[ :]*,$(fidoconf_OBJDIR)\1$(_OBJ) $@ : ,g' < $@.$$$$ > $@; \
 	rm -f $@.$$$$
 
 $(fidoconf_DEPDIR): | $(fidoconf_BUILDDIR) do_not_run_depend_as_root
