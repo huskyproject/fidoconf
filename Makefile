@@ -150,7 +150,7 @@ endif
 ifeq ($(DYNLIBS),1)
 $(fidoconf_OBJDIR)$(fidoconf_TARGET): \
     $(fidoconf_OBJS) $(fidoconf_LIBS) | do_not_run_make_as_root
-    ifeq ($(findstring gcc,$(MKSHARED)),)
+    ifeq ($(filter gcc clang,$(MKSHARED)),)
 		$(LD) $(LFLAGS) -o $@ $^
     else
 		$(CC) $(LFLAGS) -shared -Wl,-soname,$(fidoconf_TARGET) -o $@ $^
