@@ -47,17 +47,11 @@ fidoconf_PROG_OBJFILES += $(LINKOBJ) $(AEDOBJ) $(BINKOBJ) $(FGATEOBJ) \
                           $(GEDOBJ) $(MSGEDOBJ) $(SQOBJ) $(TOROBJ) $(FEOBJ)
 endif
 
-fidoconf_ALL_OBJFILES := $(fidoconf_PROG_OBJFILES) $(fidoconf_OBJFILES)
-fidoconf_ALL_SRC := $(wildcard $(fidoconf_SRCDIR)*.c)
-
 # Prepend directory
 fidoconf_OBJS := $(addprefix $(fidoconf_OBJDIR),$(fidoconf_OBJFILES))
 fidoconf_PROG_OBJS := $(addprefix $(fidoconf_OBJDIR),$(fidoconf_PROG_OBJFILES))
 fidoconf_TOROBJ := $(addprefix $(fidoconf_OBJDIR),$(TOROBJ))
 fidoconf_FEOBJ := $(addprefix $(fidoconf_OBJDIR),$(FEOBJ))
-fidoconf_ALL_OBJS := $(addprefix $(fidoconf_OBJDIR), $(notdir $(fidoconf_ALL_SRC:.c=$(_OBJ))))
-
-fidoconf_DEPS := $(addprefix $(fidoconf_DEPDIR),$(notdir $(fidoconf_ALL_SRC:.c=$(_DEP))))
 
 # Executable file(s) to build from sources
 TPARSER = $(B)tparser$(_EXE)
@@ -354,23 +348,3 @@ ifdef MAN1DIR
     endif
 	-$(RM) $(RMOPT) $(fidoconf_MAN1DST)
 endif
-
-
-# Depend
-ifeq ($(MAKECMDGOALS),depend)
-fidoconf_depend: $(fidoconf_DEPS) ;
-
-# Build a dependency makefile for every source file
-$(fidoconf_DEPS): $(fidoconf_DEPDIR)%$(_DEP): $(fidoconf_SRCDIR)%.c | \
-    $(fidoconf_DEPDIR)
-	@set -e; rm -f $@; \
-	$(CC) -MM $(CFLAGS) $(fidoconf_CDEFS) $< > $@.$$$$; \
-	sed 's,\($*\)$(__OBJ)[ :]*,$(fidoconf_OBJDIR)\1$(_OBJ) $@ : ,g' < $@.$$$$ > $@; \
-	rm -f $@.$$$$
-
-$(fidoconf_DEPDIR): | $(fidoconf_BUILDDIR) do_not_run_depend_as_root
-	[ -d $@ ] || $(MKDIR) $(MKDIROPT) $@
-endif
-
-$(fidoconf_BUILDDIR):
-	[ -d $@ ] || $(MKDIR) $(MKDIROPT) $@
