@@ -1514,7 +1514,7 @@ This statement can only be repeated for different links.
 @findex EchoArea
 @table @asis
 @item Syntax:
-@code{EchoArea <name> <file> [-b <msgbase>] [Options] [linkAKAs] [linkOptions]}
+@code{EchoArea <name> <file> [-b <msgbase>] [Options] [linkAKA [linkOptions]]...}
 @item Example:
 @code{EchoArea linux.develop.ger /var/spool/fido/msgb/linux.develop.ger
 -b Squish -a 2:2433/1247 -g A -dupeCheck move -dupehistory 11 -d "Linux
