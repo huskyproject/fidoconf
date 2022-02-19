@@ -1535,7 +1535,9 @@ Squish-msgbase and @code{Jam} for Jam-msgbase.
 @item @strong{linkAKA}:
 aka's of up- and down links (full 4D address).
 you can use masks like: "*:*/*" - all downlinks from you config.
-This links are auto-mandatory. Always use slash in mask!
+These links are auto-mandatory. Always use slash in mask!
+@item @strong{linkOptions}:
+Each linkOption refers only to one specific link, after which it is written.
 @end table
 
 @strong{Options}:
