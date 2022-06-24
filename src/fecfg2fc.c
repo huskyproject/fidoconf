@@ -732,7 +732,7 @@ static void print_links(void)
 
         if(node[i]->flags.mgr_status != NetNormal || node[i]->flags.mgr_direct)
         {
-            fprintf(f_hpt, "AreafixReportsAttr       pvt,loc,npd");
+            fprintf(f_hpt, "AreafixReportsAttr       pvt,loc");
 
             if(!(config.AreaFixFlags & KEEPRECEIPT))
             {
@@ -1338,11 +1338,11 @@ int main(int argc, char ** argv)
 
     if(config.AreaFixFlags & KEEPRECEIPT)
     {
-        fprintf(f_hpt, "AreafixReportsAttr       pvt,loc,npd\n");
+        fprintf(f_hpt, "AreafixReportsAttr       pvt,loc\n");
     }
     else
     {
-        fprintf(f_hpt, "AreafixReportsAttr       pvt,loc,npd,k/s\n");
+        fprintf(f_hpt, "AreafixReportsAttr       pvt,loc,k/s\n");
     }
 
 /*   if( config. && *config. )

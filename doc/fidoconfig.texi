@@ -2314,10 +2314,9 @@ Valid attributes are:
 @item dir
 @item imm
 @item cfm
-@item npd
 @end table
 
-Default is "pvt loc k/s npd".
+Default is "pvt loc k/s".
 
 If this statement is used inside Link or LinkDefaults section, it sets
 attributes for this particular link. Otherwise it defines attributes used
