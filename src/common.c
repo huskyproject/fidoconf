@@ -1256,6 +1256,7 @@ s_robot * getRobot(ps_fidoconfig config, char * name, int create)
             r->idlePassthruTimeout   = 4;
             r->killedRequestTimeout  = 3;
             r->reportsAttr           = MSGPRIVATE | MSGKILL | MSGLOCAL;
+#            r->reportsFlags          = sstrdup("NPD");
         }
         else
         {
