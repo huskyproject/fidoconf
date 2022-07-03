@@ -86,7 +86,7 @@ static char * attrStr[] =
 };
 static char * eattr[] =
 {
-    "KFS", "TFS", "DIR", "IMM", "CFM"
+    "KFS", "TFS", "DIR", "IMM", "CFM", "NPD"
 };
 int parseAttrString(char * str, char ** flags, long * bitattr, char ** end)
 {
@@ -1256,7 +1256,7 @@ s_robot * getRobot(ps_fidoconfig config, char * name, int create)
             r->idlePassthruTimeout   = 4;
             r->killedRequestTimeout  = 3;
             r->reportsAttr           = MSGPRIVATE | MSGKILL | MSGLOCAL;
-#            r->reportsFlags          = sstrdup("NPD");
+            r->reportsFlags          = sstrdup("NPD");
         }
         else
         {
