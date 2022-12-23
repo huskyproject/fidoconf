@@ -66,7 +66,7 @@ dos:
    ```sh
       $ cmake -H. -Bbuild -DCFGDIR=~/fido/etc/husky
    ```
-  Be shure to build all Husky projects the same way, either statically or
+  Be sure to build all Husky projects the same way, either statically or
   dynamically.
 - Afterwards, generated files can be used to compile the project.
    ```sh
