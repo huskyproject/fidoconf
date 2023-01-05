@@ -76,7 +76,7 @@ HUSKYEXT int FindTokenPos4Link(char ** confName,
                                s_link * link,
                                long * start,
                                long * end);
-HUSKYEXT int InsertCfgLine(char * confName, char * cfgLine, long strbeg, long strend);
+HUSKYEXT int InsertCfgLine(const char * confName, char * cfgLine, long strbeg, long strend);
 
 /* Change pause status (off|echo|feacho|on) */
 HUSKYEXT int Changepause(char * confName, s_link * link, int opt, int type);
@@ -84,7 +84,7 @@ HUSKYEXT int Changepause(char * confName, s_link * link, int opt, int type);
 /* Remove link address from area string */
 HUSKYEXT int DelLinkFromString(char * line, const hs_addr * plinkAddr);
 HUSKYEXT int testAddr(char * addr, const hs_addr * pHisAka);
-HUSKYEXT int IsAreaAvailable(char * areaName, char * fileName, char ** desc, int retd);
+HUSKYEXT int IsAreaAvailable(const char * areaName, const char * fileName, char ** desc, int retd);
 HUSKYEXT void RemoveLink(s_link *, s_area *);
 HUSKYEXT void Addlink(s_fidoconfig *, s_link *, s_area *);
 

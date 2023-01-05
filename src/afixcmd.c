@@ -241,7 +241,7 @@ int FindTokenPos4Link(char ** confName,
     return 0;
 } /* FindTokenPos4Link */
 
-int InsertCfgLine(char * confName, char * cfgLine, long strbeg, long strend)
+int InsertCfgLine(const char * confName, char * cfgLine, long strbeg, long strend)
 {
     char * line = NULL, * newname = NULL, * p;
     FILE * f_conf, * f_newconf;
@@ -461,7 +461,7 @@ int Changepause(char * confName, s_link * link, int opt, int type)
         }
     }
 
-    nfree(confName);
+    nfree((void *)confName);
     return 1;
 } /* Changepause */
 
@@ -546,7 +546,7 @@ int DelLinkFromString(char * line, const hs_addr * plinkAddr)
     return rc;
 } /* DelLinkFromString */
 
-int IsAreaAvailable(char * areaName, char * fileName, char ** desc, int retd)
+int IsAreaAvailable(const char * areaName, const char * fileName, char ** desc, int retd)
 {
     FILE * f;
     char * line, * token, * running;
