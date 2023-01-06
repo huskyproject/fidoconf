@@ -461,7 +461,7 @@ int Changepause(char * confName, s_link * link, int opt, int type)
         }
     }
 
-    nfree((void *)confName);
+    nfree(confName);
     return 1;
 } /* Changepause */
 
