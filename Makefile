@@ -98,14 +98,16 @@ fidoconf_CDEFS := $(CDEFS) -DCFGDIR=\"$(CFGDIR)\" \
                   -I$(fidoconf_ROOTDIR)$(fidoconf_H_DIR)\
                   -I$(huskylib_ROOTDIR) -I$(smapi_ROOTDIR)
 ifdef CFGNAME
-    fidoconf_CDEFS+= -DCFGNAME=\"$(CFGNAME)\"
+    fidoconf_CDEFS+=  -DCFGNAME=\"$(CFGNAME)\"
 endif
 
+fidoconf_CDEFS_file     := $(fidoconf_DEPDIR)CDEFS.txt
+fidoconf_CDEFS_file_new := $(fidoconf_DEPDIR)CDEFS_new.txt
 
 .PHONY: fidoconf_build fidoconf_install fidoconf_install-dynlib fidoconf_uninstall \
         fidoconf_clean fidoconf_distclean fidoconf_depend \
         fidoconf_doc fidoconf_doc_install fidoconf_doc_clean \
-        fidoconf_doc_distclean fidoconf_doc_uninstall
+        fidoconf_doc_distclean fidoconf_doc_uninstall fidoconf_check_cdefs
 
 
 
@@ -152,12 +154,21 @@ $(fidoconf_OBJDIR)$(fidoconf_TARGET): \
 endif
 
 # Compile .c files
-$(fidoconf_ALL_OBJS): $(fidoconf_OBJDIR)%$(_OBJ): $(fidoconf_SRCDIR)%.c | \
-    $(fidoconf_OBJDIR) do_not_run_make_as_root
+$(fidoconf_ALL_OBJS): $(fidoconf_OBJDIR)%$(_OBJ): $(fidoconf_SRCDIR)%.c $(fidoconf_CDEFS_file) | \
+    $(fidoconf_OBJDIR) fidoconf_check_cdefs do_not_run_make_as_root
 	$(CC) $(CFLAGS) $(fidoconf_CDEFS) -o $(fidoconf_OBJDIR)$*$(_OBJ) $(fidoconf_SRCDIR)$*.c
 
 $(fidoconf_OBJDIR): | $(fidoconf_BUILDDIR) do_not_run_make_as_root
 	[ -d $(fidoconf_OBJDIR) ] || $(MKDIR) $(MKDIROPT) $@
+
+fidoconf_check_cdefs: $(fidoconf_CDEFS_file)
+	@printf %s "$(fidoconf_CDEFS)" > $(fidoconf_CDEFS_file_new); \
+	if ! diff -Zq $(fidoconf_CDEFS_file) $(fidoconf_CDEFS_file_new) > /dev/null; \
+	then mv -f $(fidoconf_CDEFS_file_new) $(fidoconf_CDEFS_file); \
+	echo -e "\n### Config name and/or path has changed. Please run the same command again ###\n"; fi
+
+$(fidoconf_CDEFS_file):
+	@[ -f $(fidoconf_CDEFS_file) ] || printf %s "$(fidoconf_CDEFS)" > $@
 
 # Build fidoconf utilities
 ifeq ($(FIDOCONF_UTIL), 1)
