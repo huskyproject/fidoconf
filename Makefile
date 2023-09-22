@@ -163,7 +163,7 @@ $(fidoconf_OBJDIR): | $(fidoconf_BUILDDIR) do_not_run_make_as_root
 
 fidoconf_check_cdefs: $(fidoconf_CDEFS_file)
 	@printf %s "$(fidoconf_CDEFS)" > $(fidoconf_CDEFS_file_new); \
-	if ! diff -Zq $(fidoconf_CDEFS_file) $(fidoconf_CDEFS_file_new) > /dev/null; \
+	if ! diff -q $(fidoconf_CDEFS_file) $(fidoconf_CDEFS_file_new) > /dev/null; \
 	then mv -f $(fidoconf_CDEFS_file_new) $(fidoconf_CDEFS_file); \
 	echo -e "\n### Config name and/or path has changed. Please run the same command again ###\n"; fi
 
