@@ -16,7 +16,7 @@ else
 endif
 
 ifdef INFODIR
-    fidoconf_info: $(fidoconf_BUILDDIR)fidoconfig.info.gz
+    fidoconf_info: $(fidoconf_BUILDDIR)fidoconfig.info$(_COMPR)
 else
     fidoconf_info: ;
 endif
@@ -75,15 +75,18 @@ fidoconf_DOCDIR_BLD=$(fidoconf_BUILDDIR)doc$(DIRSEP)
 fidoconf_TEXBLD=$(addprefix $(fidoconf_DOCDIR_BLD),$(notdir $(fidoconf_TEXSRC)))
 
 ifdef INFODIR
+    ifdef COMPRESS
+        $(fidoconf_BUILDDIR)fidoconfig.info$(_COMPR): $(fidoconf_BUILDDIR)fidoconfig.info
+			$(COMPRESS) -c $(fidoconf_BUILDDIR)fidoconfig.info > $@
+			$(RM) $(RMOPT) $(fidoconf_BUILDDIR)fidoconfig.info
+    endif
     ifneq ($(RUINFO), 1)
-        $(fidoconf_BUILDDIR)fidoconfig.info.gz: $(fidoconf_TEXI) $(fidoconf_PROP)
+        $(fidoconf_BUILDDIR)fidoconfig.info: $(fidoconf_TEXI) $(fidoconf_PROP)
 		-$(MAKEINFO) $(MINOSPLIT) "$<" $(MIOUT) $(fidoconf_BUILDDIR)fidoconfig.info
     else 
-        $(fidoconf_BUILDDIR)fidoconfig.info.gz: $(fidoconf_RUS_TEXI) $(fidoconf_RUS_PROP)
+        $(fidoconf_BUILDDIR)fidoconfig.info: $(fidoconf_RUS_TEXI) $(fidoconf_RUS_PROP)
 		-LC_ALL=C $(MAKEINFO) $(MINOSPLIT) "$<" $(MIOUT) $(fidoconf_BUILDDIR)fidoconfig.info
     endif
-	gzip -c $(fidoconf_BUILDDIR)fidoconfig.info > $@
-	$(RM) $(RMOPT) $(fidoconf_BUILDDIR)fidoconfig.info
 endif
 
 $(fidoconf_BUILDDIR)fidoconfig.html: $(fidoconf_TEXI) $(fidoconf_PROP)
@@ -262,7 +265,7 @@ endif
 ifdef INFODIR
 # See "all_info_uninstall" in the root Makefile
     fidoconf_info_uninstall: all_info_uninstall
-		-$(RM) $(RMOPT) $(INFODIR_DST)fidoconfig.info.gz
+		-$(RM) $(RMOPT) $(INFODIR_DST)fidoconfig.info$(COMPR)
 else
     fidoconf_info_uninstall: ;
 endif

@@ -13,12 +13,12 @@ ifdef MAN1DIR
         FCONF2ALIASES = fconf2aquaed.1 fconf2areasbbs.pl.1 fconf2binkd.1 \
                 fconf2dir.1 fconf2fidogate.1 fconf2golded.1 fconf2msged.1 \
                 fconf2na.pl.1 fconf2squish.1 fconf2tornado.1 fecfg2fconf.1
-        ALSGZ := $(foreach man,$(FCONF2ALIASES),$(man).gz)
-        fidoconf_MAN1ALS := $(foreach man,$(FCONF2ALIASES),$(DESTDIR)$(MAN1DIR)$(DIRSEP)$(man).gz)
+        ALSGZ := $(foreach man,$(FCONF2ALIASES),$(man)$(_COMPR))
+        fidoconf_MAN1ALS := $(foreach man,$(FCONF2ALIASES),$(DESTDIR)$(MAN1DIR)$(DIRSEP)$(man)$(_COMPR))
     endif
 
-    fidoconf_MAN1BLD := $(foreach man,$(fidoconf_MAN1PAGES),$(fidoconf_BUILDDIR)$(man).gz)
-    fidoconf_MAN1DST := $(foreach man,$(fidoconf_MAN1PAGES),$(DESTDIR)$(MAN1DIR)$(DIRSEP)$(man).gz)
+    fidoconf_MAN1BLD := $(foreach man,$(fidoconf_MAN1PAGES),$(fidoconf_BUILDDIR)$(man)$(_COMPR))
+    fidoconf_MAN1DST := $(foreach man,$(fidoconf_MAN1PAGES),$(DESTDIR)$(MAN1DIR)$(DIRSEP)$(man)$(_COMPR))
 endif
 
 
@@ -216,9 +216,15 @@ $(fidoconf_BUILDDIR)$(TPARSER): $(fidoconf_OBJDIR)$(TPAROBJ) \
 
 # Build man pages
 ifdef MAN1DIR
-    $(fidoconf_MAN1BLD): $(fidoconf_BUILDDIR)%.gz: $(fidoconf_MANDIR)% | \
+ifdef COMPRESS
+    $(fidoconf_MAN1BLD): $(fidoconf_BUILDDIR)%$(_COMPR): $(fidoconf_MANDIR)% | \
         do_not_run_make_as_root
-		gzip -c $(fidoconf_MANDIR)$* > $(fidoconf_BUILDDIR)$*.gz
+		$(COMPRESS) -c $(fidoconf_MANDIR)$* > $(fidoconf_BUILDDIR)$*$(_COMPR)
+else
+    $(fidoconf_MAN1BLD): $(fidoconf_BUILDDIR)%: $(fidoconf_MANDIR)% | \
+        do_not_run_make_as_root
+		$(CP) $(CPOPT) $(fidoconf_MANDIR)$* $(fidoconf_BUILDDIR)$*
+endif
 else
     $(fidoconf_MAN1BLD): ;
 endif
@@ -273,10 +279,10 @@ ifdef MAN1DIR
 	$(TOUCH) $(DESTDIR)$(MAN1DIR)$(DIRSEP)$*
 
     ifeq ($(FIDOCONF_UTIL), 1)
-    $(fidoconf_MAN1ALS): $(DESTDIR)$(MAN1DIR)$(DIRSEP)fconf2.1.gz | \
+    $(fidoconf_MAN1ALS): $(DESTDIR)$(MAN1DIR)$(DIRSEP)fconf2.1$(_COMPR) | \
         $(DESTDIR)$(MAN1DIR)
 	-cd $(DESTDIR)$(MAN1DIR); \
-	for f in $(ALSGZ); do $(LN) $(LNOPT) fconf2.1.gz $$f; done
+	for f in $(ALSGZ); do $(LN) $(LNOPT) fconf2.1$(_COMPR) $$f; done
     endif
 else
     fidoconf_install_man: ;
