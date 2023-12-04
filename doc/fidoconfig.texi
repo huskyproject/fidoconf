@@ -1424,7 +1424,7 @@ can delete echo areas in his @code{LinkGrp} group.
 In this example:
 
 1) string @code{Fido} will be added to a new area record unless
-@code{areaixAutoCreateDefaults} defines an implicit group;
+@code{areafixAutoCreateDefaults} defines an implicit group;
 
 2) links that have no access to the @code{Fido} group can't forward requests
 to uplink with @code{LinkGrp Fido};
