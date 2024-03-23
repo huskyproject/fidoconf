@@ -1558,11 +1558,11 @@ disallow remote subscribe (only manual connect);
 @item -noManual
 allow remote subscribe (using netmail to areafix) if echoareadefaults set @code{-manual};
 @item -p <integer>
-purge after n days: used by purging utilities like sqpack (*); default value is 0;
+purge after n days: used by purging utilities like sqpack (*); default value is 0; -p overrides -noPack if it is mentioned later;
 @item -$m <integer>
-leave max n messages after purge in area (*); default value is 0;
+leave max n messages after purge in area (*); default value is 0; -$m overrides -noPack if it is mentioned later;
 @item -noPack
-do not purge or pack area (overrides -p & -$m) (*)
+do not purge or pack area (overrides -p & -$m if it is mentioned later) (*)
 @item -pack
 enable purge or pack area (*) if echoareadefaults set @code{-noPack};
 @item -killRead
