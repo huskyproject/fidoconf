@@ -570,7 +570,7 @@ The log levels are following:
 @item V - reserved
 @item W - reserved
 @item X - Filenames construction
-@item Y - Link messagebase pass (some phase in hptlink & etc)
+@item Y - Link messagebase pass (some phase in hptlink etc)
 @item Z - debug messages: source lines (functions control points).
 @item a-z - debug messages
 @end table
@@ -1543,141 +1543,141 @@ Each linkOption refers only to one specific link, after which it is written.
 @strong{Options}:
 
 @table @asis
-@item -pass
-define area as passthrough even if msgbase type or filename is defined.
-@item -lr <non-negative integer>
+@item @b{-pass}
+define area as passthrough even if msgbase type or filename is defined;
+@item @b{-lr} <non-negative integer>
 required level for a link to have read access to the area (for an explanation @xref{Level}.);
-@item -lw <non-negative integer>
+@item @b{-lw} <non-negative integer>
 required level for a link to have write access to the area (for an explanation @xref{Level}.);
-@item -mandatory
+@item @b{-mandatory}
 forbid to unsubscribe from this echo;
-@item -noMandatory
-enable unsubscribe from this echo if echoareadefaults set @code{-mandatory};
-@item -manual
+@item @b{-noMandatory}
+enable unsubscribe from this echo if @b{-mandatory} was set previously;
+@item @b{-manual}
 disallow remote subscribe (only manual connect);
-@item -noManual
-allow remote subscribe (using netmail to areafix) if echoareadefaults set @code{-manual};
-@item -p <integer>
-purge after n days: used by purging utilities like sqpack (*); default value is 0; -p overrides -noPack if it is mentioned later;
-@item -$m <integer>
-leave max n messages after purge in area (*); default value is 0; -$m overrides -noPack if it is mentioned later;
-@item -noPack
-do not purge or pack area (overrides -p & -$m if it is mentioned later) (*)
-@item -pack
-enable purge or pack area (*) if echoareadefaults set @code{-noPack};
-@item -killRead
-kill read msgs in area on purging (*)
-@item -noKillRead
-disable kill read msgs in area on purging (*) if echoareadefaults set @code{-killRead};
-@item -keepUnread
-keep unread msgs in area on purging (*)
-@item -nokeepUnread
-do not keep unread msgs in area on purging (*) if echoareadefaults set @code{-keepUnread};
-@item -kill
-kill messagebase of area when setting it to passthrough
-@item -nokill
-do not kill messagebase when setting area to passthrough if echoareadefaults set @code{-kill};
-@item -a <addr>
-aka to use (first address from config if not defined)
-@item -b <msgbase type>
+@item @b{-noManual}
+allow remote subscription (using netmail to areafix) if @b{-manual} was set previously;
+@item @b{-p} <integer>
+purge after n days: used by purging utilities like sqpack (*); default value is 0; @b{-p} overrides @b{-noPack} if @b{-p} is mentioned later than @b{-noPack};
+@item @b{-$m} <integer>
+leave max <integer> messages after purging the area (*); default value is 0; @b{-$m} overrides @b{-noPack} if @b{-$m} is mentioned later than @b{-noPack};
+@item @b{-noPack}
+do not purge or pack area (overrides @b{-p} & @b{-$m} if @b{-noPack} is mentioned later than either @b{-p} or @b{-$m}) (*);
+@item @b{-pack}
+enable purge or pack area (*) if @b{-noPack} was set previously;
+@item @b{-killRead}
+on purging kill the messages in the area that have been read (*)
+@item @b{-noKillRead}
+disable killing the read messages in the area on purging (*) if @b{-killRead} was set previously;
+@item @b{-keepUnread}
+on purging keep unread messages in the area (*);
+@item @b{-nokeepUnread}
+do not keep unread msgs in area on purging (*) if @b{-keepUnread} was set previously;
+@item @b{-kill}
+kill messagebase of the area when setting it to passthrough;
+@item @b{-nokill}
+do not kill the area messagebase when setting the area to passthrough if @b{-kill} was set previously;
+@item @b{-a} <addr>
+aka to use (the first address from config if <addr> is not defined);
+@item @b{-b} <msgbase type>
 type of msgbase (Msg, Squish, Jam) (*)
-@item -g <group>
+@item @b{-g} <group>
 group for this echoarea
-@item -keepsb
+@item @b{-keepsb}
 keep seen-by kludges (used in CarbonCopy)
-@item -nokeepsb
-do not keep seen-by kludges (used in CarbonCopy) if echoareadefaults set @code{-keepsb};
-@item -tinysb
-no seen-by kludges stores in message base (*)
-@item -notinysb
-seen-by kludges stores in message base (*) if echoareadefaults set @code{-tinysb};
-@item -killsb
-no seen-by & path kludges stores in message base (*)
-@item -nokillsb
-seen-by & path kludges stores in message base (*) if echoareadefaults set @code{-killsb};
-@item -dosfile
-file name of area is in dos style (8+3). Please be aware of the fact that
-this will currently automatically disable the autoAreaCreateSubdirs feature.
-@item -nodosfile
-file name of area is in long filename style if echoareadefaults set @code{-dosfile};
-@item -hide
-hide area in areafix reports (%list & etc.);
-@item -nohide
-show area in areafix reports (%list & etc.) if disabled in echoareadefaults;
-@item -d "Description for the area between double quote (like this)"
-describe area (for areafix reports & etc.);
-@item -nopause
+@item @b{-nokeepsb}
+do not keep seen-by kludges (used in CarbonCopy) if @b{-keepsb} was set previously;
+@item @b{-tinysb}
+do not store seen-by kludges in the message base (*)
+@item @b{-notinysb}
+store seen-by kludges in the message base (*) if @b{-tinysb} was set previously;
+@item @b{-killsb}
+do not store seen-by & path kludges in the message base (*);
+@item @b{-nokillsb}
+store seen-by & path kludges in the message base (*) if @b{-killsb} was set previously;
+@item @b{-dosfile}
+the area filename is in the DOS style (8+3). Please be aware of the fact that
+this will currently automatically disable the @ref{autoAreaCreateSubdirs,,,hpt,hpt} feature;
+@item @b{-nodosfile}
+the area uses long filename style if @b{-dosfile} was set previously;
+@item @b{-hide}
+hide the area in areafix reports (%list etc.);
+@item @b{-nohide}
+show the area in areafix reports (%list etc.) if it was hidden by @b{-hide} previously;
+@item @b{-d} "Description of the area in double quotes (like this)"
+describe the area (for areafix reports etc.);
+@item @b{-nopause}
 %PAUSE has no effect to this area;
-@item -pause
-%PAUSE has effect to this area if disabled in echoareadefaults;
-@item -paused
-Area is paused (unsubscribed at uplink). This flag is automatically set and
-cleared by hpt if ,@xref{AutoAreaPause}, enabled.
-@item -noautoareapause
-Do not automatically pause area even if ,@xref{AutoAreaPause}, is enabled.
-@item -autoareapause
-Automatically pause area (if ,@xref{AutoAreaPause}, is enabled).
-@item -ccoff
+@item @b{-pause}
+%PAUSE operates in this area if disabled by @b{-nopause} previously;
+@item @b{-paused}
+The area is paused (unsubscribed at uplink). This flag is automatically set and
+cleared by hpt if @ref{AutoAreaPause} is enabled;
+@item @b{-noautoareapause}
+Do not automatically pause area even if @ref{AutoAreaPause} is enabled;
+@item @b{-autoareapause}
+Automatically pause area if @ref{AutoAreaPause} is enabled;
+@item @b{-ccoff}
 disables carbonCopies for this area;
-@item -noccoff or -ccon
-enables carbonCopies for this area if disabled in echoareadefaults;
-@item -DupeCheck off|move|del
-toss dupes, move dupes to @code{DupeArea} or delete dupes.
-@item -DupeHistory <unsignedInteger>
+@item @b{-noccoff} or @b{-ccon}
+enables carbonCopies for this area if it was disabled previously;
+@item @b{-DupeCheck} off|move|del
+toss dupes, move dupes to @b{DupeArea} or delete dupes;
+@item @b{-DupeHistory} <unsignedInteger>
 size of dupecheck history file in days for all dupe base types
-except @code{CommonDupeBase}, 7 days if not defined 
+except @b{CommonDupeBase}, 7 days if not defined 
 (@xref{AreasMaxDupeAge,,,hpt,hpt}.);
-@item -nolink
+@item @b{-nolink}
 disables reply-linking for this area (*);
-@item -link
-enables reply-linking for this area (*) if disabled in echoareadefaults;
-@item -scan listed|manual|never
-conditions to scan area: if listed in echotoss file or "-a" option; if run with "-a" option; or never
-@item -debug
-write debug info about this area to areaname.dbg (or common.dbg if "-dosfile" is used)
-@item -nodebug
-disable debug output if defined in echoareadefaults;
-@item -sbadd(<addr2D>,...)
+@item @b{-link}
+enables reply-linking for this area (*) if it was disabled by @b{-nolink} previously;
+@item @b{-scan} listed|manual|never
+conditions to scan area: if listed in echotoss file or "-a" option; if run with "-a" option; or never;
+@item @b{-debug}
+write debug info about this area to areaname.dbg (or common.dbg if @b{-dosfile} is used);
+@item @b{-nodebug}
+disable debug output if @b{-debug} was defined previously;
+@item @b{-sbadd}(<addr2D>,...)
 add seen-by(s) at tossing time;
-@item -sbign(<addr2D>,...)
-ignore seen-by(s) and toss mail to link(s).
-@item -sbstrip(<addr2D>,...)
-Remove specified seen-bys (done before -sbadd). Can be combined with -sbkeepAll.
-@item -sbkeep(<addr2D>,...)
+@item @b{-sbign}(<addr2D>,...)
+ignore seen-by(s) and toss mail to link(s);
+@item @b{-sbstrip}(<addr2D>,...)
+Remove specified seen-bys (done before @b{-sbadd}). Can be combined with @b{-sbkeepAll};
+@item @b{-sbkeep}(<addr2D>,...)
 Keep specified seen-bys when zone-gating.
-@item -sbkeepAll
-Keep all seen-bys when zone-gating (prevails over -sbkeep).
-@item -nosbkeepAll
-Disable -sbkeepAll if enabled for example by @code{EchoAreaDefaults}.
-@item -tooOld <number of days>
+@item @b{-sbkeepAll}
+Keep all seen-bys when zone-gating (prevails over @b{-sbkeep});
+@item @b{-nosbkeepAll}
+Disable @b{-sbkeepAll} if enabled for example by @ref{EchoAreaDefaults};
+@item @b{-tooOld} <number of days>
 Move incoming echomail older than the given number of days to BadMail (0 = disabled).
-A value >= 90 is recommended! A value too low will filter legitimate traffic.
-@item -tooNew <number of days>
+A value >= 90 is recommended! A value too low will filter legitimate traffic;
+@item @b{-tooNew} <number of days>
 Move incoming echomail newer than the given number of days to BadMail (0 = disabled).
-A value >= 30 is recommended! A value too low will filter legitimate traffic.
-@item -r
-Default read-only: set link read-only at subscribing
-@item -w
-Default write-only: set link write-only at subscribing
+A value >= 30 is recommended! A value too low will filter legitimate traffic;
+@item @b{-r}
+Default read-only: set links read-only at subscribing;
+@item @b{-w}
+Default write-only: set links write-only at subscribing.
 @end table
 
-(*) - these tokens to be removed from @code{areafixAutoCreateDefaults} when
+(*) - these tokens should be removed from @b{areafixAutoCreateDefaults} when
 creating passthrough areas.
 
 @strong{LinkOptions}:
 @table @asis
-@item -def
-default-uplink (used for area deletion, @xref{AdvancedAreafix,,,hpt,hpt}.)
-@item -r
+@item @b{-def}
+default uplink (used for deleting the area, @xref{AdvancedAreafix,,,hpt,hpt}.)
+@item @b{-r}
 this link is read only
-@item -w
+@item @b{-w}
 this link is write only
-@item -mn
+@item @b{-mn}
 this link is mandatory subscribed,
 you may also set: "<aka> -r -mn" or "<aka> -w -mn" and so on...
 
-Link Options -r -w are left for backward compatibility. We strongly recommend to
-use tokens ReadOnly & WriteOnly for setting permissions on arealinks.
+The link options @b{-r} @b{-w} are deprecated. They are left for backward compatibility. We strongly recommend to
+use tokens @ref{ReadOnly} & @ref{WriteOnly} for setting permissions of area links.
 @end table
 
 This statement can be repeated.
@@ -1961,11 +1961,11 @@ This statement cannot be repeated.
 @code{ReadOnly 2:5021/19.* tver.sysop*}
 @end table
 
-This statement set one or many links to writeonly for specified area masks.
-If you write node address do it *without* trailing .0!
+This statement sets one or many links matching the <addressMask> to read only for the specified <areaMask>.
+If you write a node address, do it *without* trailing .0!
 
-If areaMask begins with '!' symbol it means that links won't be set
-readonly for areas that match areaMask
+If the <areaMask> begins with symbol '!', it means that the links won't be set
+readonly for the areas that match the <areaMask>.
 
 @example
     ReadOnly 2:5021/19.* tver.sysop*
@@ -1991,8 +1991,8 @@ This statement can be repeated.
 @code{WriteOnly 2:5021/19.* NobodyReadArea}
 @end table
 
-This statement set one or many links to writeonly for specified area masks.
-If you write node address do it *without* trailing .0!
+This statement set one or many links matching the <addressMask> to write only for the specified <areaMask>.
+If you write a node address, do it *without* trailing .0!
 
 This statement can be repeated.
 
@@ -2454,17 +2454,17 @@ This statement cannot be repeated.
 
 default: off (disabled)
 
-Enables or disables area pause algorythm. If area is passthrough
-and there is only uplink alive (link with "-def" flag set) while other links
-are paused, unsubscribe message will be sent to uplink and "-paused" flag
-will be set to area. If another link subscribes to the area, or one of already
+Enables or disables area pause algorithm. If area is passthrough
+and there is only uplink alive (link with @code{-def} flag set) while other links
+are paused, unsubscribe message will be sent to uplink and @code{-paused} flag
+will be set to the area. If another link subscribes to the area, or one of already
 paused links resumes his subscription, area will be subscribed at uplink again
-and "-paused" flag cleared. Note, that links cannot send messages to paused
-area, they will be moved to badmail. If enabled, algorythm also works if link
-is paused by AutoPassive.
+and the @code{-paused} flag cleared. Note, that links cannot send messages to a paused
+area, they will be moved to badmail. If enabled, the algorithm also works if link
+is paused by @ref{AutoPassive,,,hpt,hpt}.
 
-You may disable or enable algorythm for a particular area by setting one of
-"-noautoareapause" or "-autoareapause" flags.
+You may disable or enable the algorithm for a particular area by setting one of
+@code{-noautoareapause} or @code{-autoareapause} flags.
 
 This statement cannot be repeated.
 

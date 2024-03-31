@@ -51,7 +51,7 @@ file(s) must be writeable.
 
 All symbols are @strong{not} case-sensitive.
 
-@{<whiteSpace>@} at the start of the line will be ignored.
+<whiteSpace> at the start of a line will be ignored.
 
 All keywords are evaluated as they appear, the first matching keyword
 found applies. If more than one keyword of the same type is allowed,
@@ -61,7 +61,7 @@ value will be used.
 
 "#" at the start of a line or <whiteSpace>#<whiteSpace> within the
 line starts a comment. The comment ends with the line. The comment char 
-"#" can be changed by @code{commentChar} token.
+"#" can be changed by @b{commentChar} token.
 
 If a line ends with a backslash with a preceding space, the next line is
 its continuation and they make one line with the backslash removed. This
@@ -73,8 +73,8 @@ documentation can be used in real life. But this feature is not intended
 for regular use. After any change to the line with continuation, all the
 continuations will be appended to the first part of the line, forming a
 line without continuations. For example, if areafix adds a new node to an
-@code{Echoarea} line that uses one continuation after " \" (that is, this
-@code{Echoarea} is located on two physical lines), then the two physical
+@b{Echoarea} line that uses one continuation after " \" (that is, this
+@b{Echoarea} is located on two physical lines), then the two physical
 lines will be merged into one and there will be no continuation after " \".
 The line will become long and will not contain a backslash. Therefore,
 you should not use the line continuation feature to make the config
